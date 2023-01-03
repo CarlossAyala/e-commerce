@@ -33,6 +33,12 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: uuidv4(),
+        name: 'Descuentos',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
 
