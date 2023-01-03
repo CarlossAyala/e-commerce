@@ -27,6 +27,12 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: uuidv4(),
+        name: 'Recargos',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
 
