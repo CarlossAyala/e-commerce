@@ -15,7 +15,8 @@
     "seed:generate": "sequelize-cli seed:generate --name",
     "seed:up": "sequelize-cli db:seed:all",
     "seed:undo": "sequelize-cli db:seed:undo",
-    "seed:undo:all": "sequelize-cli db:seed:undo:all"
+    "seed:undo:all": "sequelize-cli db:seed:undo:all",
+    "commit": "cz"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",
@@ -34,12 +35,19 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "passport-jwt": "^4.0.0",
-    "sequelize": "^6.25.8"
+    "sequelize": "^6.25.8",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.23.1",
     "nodemon": "^2.0.20",
     "sequelize-cli": "^6.5.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
