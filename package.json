@@ -1,0 +1,45 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "scripts": {
+    "start": "node ./src",
+    "dev": "nodemon ./src",
+    "migrate:generate": "sequelize-cli migration:generate --name",
+    "migrate:up": "sequelize-cli db:migrate",
+    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "migrate:undo:all": "sequelize-cli db:migrate:undo:all",
+    "seed:generate": "sequelize-cli seed:generate --name",
+    "seed:up": "sequelize-cli db:seed:all",
+    "seed:undo": "sequelize-cli db:seed:undo",
+    "seed:undo:all": "sequelize-cli db:seed:undo:all"
+  },
+  "dependencies": {
+    "@hapi/boom": "^10.0.0",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "express-jwt": "^8.2.1",
+    "helmet": "^6.0.0",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.6.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "passport-jwt": "^4.0.0",
+    "sequelize": "^6.25.8"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "eslint": "^8.23.1",
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.5.2"
+  }
+}

@@ -1,0 +1,8 @@
+const path = require('path');
+
+module.exports = {
+  config: './src/database/mysql/config.js',
+  'models-path': './src/database/mysql/models',
+  'seeders-path': './src/database/mysql/seeders',
+  'migrations-path': './src/database/mysql/migrations',
+};

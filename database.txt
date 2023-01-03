@@ -1,0 +1,357 @@
+// SEGURIDAD
+
+// owner-employees-customer-seller
+// AGENTE DE ENVIOS- incoming...
+Table roles {
+  id int [pk]
+  name varchar
+  description varchar
+}
+// mas para empleados
+Table scopes {
+  id int [pk]
+  name varchar
+  description varchar
+}
+Table permissions{
+  id int [pk]
+  fk_employee int [ref: > users.id]
+  fk_scopes int [ref: > scopes.id]
+  fk_author int [ref: > users.id]
+}
+
+// USUARIOS
+
+Table users {
+  id int [pk]
+  name varchar
+  last_name varchar
+  // birthday date
+  email varchar
+  password varchar
+}
+Table addresses {
+  id int [pk]
+  contact_name varchar
+  contact_phone varchar
+  zip_code int
+  province varchar
+  city varchar
+  street varchar // Calle/Avenida
+  street_number varchar
+  apartment_number varchar
+  street_one varchar
+  street_two varchar
+  aditional varchar
+  fk_user int [ref: > users.id]
+}
+
+// CARDS
+
+// Visa, Mastercard, American Express
+Table card_entities {
+  id int [pk]
+  name varchar
+  number varchar // first 4 numbers
+}
+// debit/credit/prepaid/gift
+Table card_types {
+  id int [pk]
+  name varchar
+  number varchar // second 4 numbers
+}
+Table card_statuses {
+  id int [pk]
+  name varchar
+  description varchar
+}
+Table cards {
+  id int [pk]
+  card_number varchar [unique]
+  cvu varchar [unique]
+  cvv varchar
+  expiration_date date
+  holder_name varchar
+  is_primary boolean // Tarjeta del E-Commerce
+  balance decimal
+  fk_entity int [ref: > card_entities.id]
+  fk_type int [ref: > card_types.id]
+  fk_status int [ref: > card_statuses.id]
+  fk_user int [ref: > users.id]
+}
+
+// Solo sirve para registrar tarjetas
+// como en una compra/transferencias/retiros/recargas
+Table card_registers {
+  id int [pk]
+  number int
+  entity varchar
+  type varchar
+}
+
+// WALLETS
+
+// Pending|Confirmed|Failed
+Table wallet_statuses {
+  id int [pk]
+  name varchar
+  description varchar
+}
+
+Table wallet_transfers {
+  id int [pk]
+  amount decimal
+  description varchar
+  fk_status int [ref: > wallet_statuses.id]
+  fk_card_sender int [ref: > card_registers.id]
+  fk_card_receiver int [ref: > card_registers.id]
+  fk_user int [ref: > users.id]
+}
+
+Table wallet_withdrawals {
+  id int [pk]
+  amount decimal
+  description varchar
+  fk_card int [ref: > card_registers.id]
+  fk_user int [ref: > users.id]
+}
+
+// CATEGORIAS
+
+Table departments {
+  id int [pk]
+  name varchar
+  available boolean
+}
+Table localities {
+  id int [pk]
+  name int
+  available boolean
+  fk_department int [ref: > departments.id]
+}
+Table districts {
+  id int [pk]
+  name varchar
+  available boolean
+  fk_locality int [ref: > localities.id]
+}
+
+// PRODUCTOS
+
+// nuevo|usado|reacondicionado
+Table product_conditions {
+  id int [pk]
+  name varchar
+  description varchar
+}
+Table products {
+  id int [pk]
+  name varchar
+  stock int
+  sold int
+  price double
+  available boolean // frozen|available
+  fk_locality int [ref: > localities.id]
+  fk_district int [ref: > districts.id]
+  fk_condition int [ref: > product_conditions.id]
+  fk_seller int [ref: > users.id]
+}
+
+// TRANSACCIONES Y RECARGOS
+
+// compra, venta, devoluciones, transferencias
+// depósitos, retiros
+Table movement_types {
+  id int [pk]
+  name varchar
+  description varchar
+}
+
+// impuestos, tarifas, descuentos, cargos por cancelación
+// cargos por reembolso, cargos por retraso
+Table charge_categories {
+  id int [pk]
+  name varchar
+  description varchar
+}
+Table charges {
+  id int [pk]
+  name varchar
+  description varchar
+  type ENUM('fixed', 'rate', 'mix')
+  rate double
+  amount double
+  active boolean
+  fk_charge_category int [ref: > charge_categories.id]
+}
+
+Table movement_charges {
+  fk_movement int [ref: > movement_types.id]
+  fk_charge int [ref: > charges.id]
+}
+
+Table transactions {
+  id int [pk]
+  initial_amount double
+  final_amount double
+  fk_type int [ref: > movement_types.id]
+  fk_user int [ref: > users.id]
+}
+Table transaction_charges {
+  amount double
+  fk_transaction int [ref: > transactions.id]
+  fk_charge int [ref: > charges.id]
+}
+ 
+// PEDIDOS DE COMPRAS
+
+// Realizado|Procesando|Enviado
+// Entregado|Cancelado|Devuelto
+Table order_states {
+  id int [pk]
+  name varchar
+  description varchar
+}
+Table purchase_orders {
+  id int [pk]
+  total double
+  fk_status int [ref: > order_states.id]
+  fk_customer int [ref: > users.id]
+  fk_card_payment int [ref: > card_registers.id]
+}
+// orders:products (M:N)
+Table order_items { 
+  id int [pk]
+  name varchar
+  quantity int
+  price double
+  fk_order int [ref: > purchase_orders.id]
+  fk_product int [ref: > products.id]
+}
+Table order_addresses {
+  id int [pk]
+  contact_name varchar
+  contact_phone varchar
+  zip_code int
+  province varchar
+  city varchar
+  street varchar // Calle/Avenida
+  street_number varchar
+  apartment_number varchar
+  street_one varchar
+  street_two varchar
+  aditional varchar
+  fk_order int [ref: - purchase_orders.id]
+}
+
+// DEVOLUCIONES
+
+Table return_statuses {
+  id int [pk]
+  name varchar
+  description varchar
+}
+Table product_returns {
+  id int [pk]
+  requested datetime
+  approved datetime
+  received datetime
+  amount double
+  fk_order int [ref: - purchase_orders.id]
+  fk_status int [ref: > return_statuses.id]
+  fk_customer int [ref: > users.id]
+}
+
+Table return_item_statuses {
+  id int [pk]
+  name varchar
+  description varchar
+}
+Table return_items {
+  id int [pk]
+  total double
+  quantity int
+  reason varchar
+  fk_order_item int [ref: - order_items.id]
+  fk_order_return int [ref: - product_returns.id]
+  fk_status int [ref: > return_item_statuses.id]
+}
+
+// REGISTRO DE VENTAS
+
+Table sales {
+  id int [pk]
+  quantity int
+  price decimal
+  total decimal
+  fk_product int [ref: > products.id]
+}
+
+// CARRITO
+
+// Añadir la posibilidad de compartir carritos
+// de compra
+Table shopping_carts {
+  id int [pk]
+  total double
+  fk_customer int [ref: - users.id]
+}
+Table cart_items {
+  id int [pk]
+  quantity int
+  price double
+  total decimal
+  fk_cart int [ref: > shopping_carts.id]
+  fk_product int [ref: > products.id]
+}
+
+// REVIEWS
+
+Table reviews {
+  id int [pk]
+  title varchar
+  comment varchar
+  rating int
+  likes int
+  dislikes int
+  fk_product int [ref: > products.id]
+  fk_customer int [ref: - users.id]
+}
+
+//PREGUNTAS Y RESPUESTAS
+
+// answered|queue|rejected|duplicate
+Table questions_status {
+  id int [pk]
+  name varchar
+  description varchar
+}
+Table questions {
+  id int [pk]
+  comment varchar
+  fk_customer int [ref: > users.id]
+  fk_product int [ref: > products.id]
+  fk_status int [ref: > questions_status.id]
+  fk_answer int [ref: - answers.id]
+}
+Table answers {
+  id int [pk]
+  comment varchar [default: null]
+  fk_seller int [ref: > users.id]
+}
+
+// SELLER
+
+Table business_sellers {
+  id int [pk]
+  official boolean
+  profile varchar
+  fk_user int [ref: - users.id]
+}
+
+// E-Commerce
+
+Table wallet_shop {
+  id int [pk]
+  balance decimal
+}

@@ -1,0 +1,514 @@
+{
+  "reviews": [
+    {
+      "id": 153961111,
+      "type": "REVIEW",
+      "variant": "",
+      "rating": 5,
+      "title": {
+        "text": "excelente",
+        "class_name": "ui-review-view__comments__review-comment__title"
+      },
+      "comment": {
+        "content": {
+          "text": "Anda muy bien, android es una garantía, trae las apps necesarias y las que no se pueden instalar. Hay que buscarle la vuelta con los colores oscuros porque se ve todo negro. Dejo un dato que le puede servir a alguien, cuando se actualizó el android se enloqueció y empezó a joder, se veía como trabado o ralentizada la reproducción, empezó a dar problemas para conectarse a internet, estuve a punto de devolverlo, pero lo solucioné con una opción reiniciar sistema (no confundir con restaurar a fábrica), con eso santo remedio y empezó a andar joya.",
+          "class_name": "ui-review-view__comments__review-comment",
+          "max_characters": 150,
+          "see_more": "Leer más",
+          "see_less": "Leer menos"
+        },
+        "time": {
+          "text": "06 sep. 2022",
+          "class_name": "ui-review-view__comments__review-comment__date"
+        },
+        "date": "06 sep. 2022",
+        "country": "",
+        "menu_options": {
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 153961111
+            },
+            "path": "/reviews/points/clic"
+          },
+          "items": [
+            {
+              "text": "Denunciar",
+              "url": "/noindex/denounce/?item_id=MLA1142536163&element_id=153961111&element_type=REV",
+              "track": {
+                "event_data": {
+                  "catalog_product_id": "MLA19469208",
+                  "review_id": 153961111,
+                  "type": "denounce"
+                },
+                "path": "/reviews/actions"
+              },
+              "icon_id": "REPORT",
+              "class_name": "ui-review-view__comments__review-comment"
+            }
+          ]
+        },
+        "denounce": {
+          "text": "Denunciar",
+          "url": "/noindex/denounce/?item_id=MLA1142536163&element_id=153961111&element_type=REV",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 153961111,
+              "type": "denounce"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon_id": "REPORT",
+          "class_name": "ui-review-view__comments__review-comment"
+        }
+      },
+      "actions": [
+        {
+          "id": "LIKE",
+          "type": "LIKE",
+          "text": "Es útil",
+          "value": 33,
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 153961111,
+              "type": "like"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        },
+        {
+          "id": "DISLIKE",
+          "type": "DISLIKE",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 153961111,
+              "type": "dislike"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        }
+      ]
+    },
+    {
+      "id": 307655891,
+      "type": "REVIEW",
+      "variant": "",
+      "rating": 2,
+      "title": {
+        "text": "malo",
+        "class_name": "ui-review-view__comments__review-comment__title"
+      },
+      "comment": {
+        "content": {
+          "text": "Teniendo en cuenta la marca, esperaba un producto de mayor calidad y muy buena prestación, me defraudó aunque llegué a acostumbrarme por el solo hecho de ver a diario, imagenes lavadas otras recargadas de color mas el negro a pesar de estar casi 2 horas tratando de configurar la enorme cantidad de opciones que tiene, pero algo muy poco de conformidad tengo, el manual no es un manual solo indicaciones y garantía del producto, no se puede ocultar canales de tv incluidos en la grilla. Lo hice quedar por el precio que compemsa.",
+          "class_name": "ui-review-view__comments__review-comment",
+          "max_characters": 150,
+          "see_more": "Leer más",
+          "see_less": "Leer menos"
+        },
+        "time": {
+          "text": "25 nov. 2022",
+          "class_name": "ui-review-view__comments__review-comment__date"
+        },
+        "date": "25 nov. 2022",
+        "country": "",
+        "menu_options": {
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 307655891
+            },
+            "path": "/reviews/points/clic"
+          },
+          "items": [
+            {
+              "text": "Denunciar",
+              "url": "/noindex/denounce/?item_id=MLA1207436535&element_id=307655891&element_type=REV",
+              "track": {
+                "event_data": {
+                  "catalog_product_id": "MLA19469208",
+                  "review_id": 307655891,
+                  "type": "denounce"
+                },
+                "path": "/reviews/actions"
+              },
+              "icon_id": "REPORT",
+              "class_name": "ui-review-view__comments__review-comment"
+            }
+          ]
+        },
+        "denounce": {
+          "text": "Denunciar",
+          "url": "/noindex/denounce/?item_id=MLA1207436535&element_id=307655891&element_type=REV",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 307655891,
+              "type": "denounce"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon_id": "REPORT",
+          "class_name": "ui-review-view__comments__review-comment"
+        }
+      },
+      "actions": [
+        {
+          "id": "LIKE",
+          "type": "LIKE",
+          "text": "Es útil",
+          "value": 0,
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 307655891,
+              "type": "like"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        },
+        {
+          "id": "DISLIKE",
+          "type": "DISLIKE",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 307655891,
+              "type": "dislike"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        }
+      ]
+    },
+    {
+      "id": 301803173,
+      "type": "REVIEW",
+      "variant": "",
+      "rating": 4,
+      "title": {
+        "text": "muy bueno",
+        "class_name": "ui-review-view__comments__review-comment__title"
+      },
+      "comment": {
+        "content": {
+          "text": "Excelente producto, único detalle el sonido, no tiene para regular, se escucha reee agudo y molesta a los oídos. Ojalá dure años el tv led smartv. Tenía un tcl 32 android desde hace 3 años y parece como nuevo, como éstos durán x ahí nomas decidí renovarlo x éste, ojala salga bueno como el tcl. Al ser android tiene muchas app, se actualizo dos veces. El control es más grande q el tv jeje muy bueno.",
+          "class_name": "ui-review-view__comments__review-comment",
+          "max_characters": 150,
+          "see_more": "Leer más",
+          "see_less": "Leer menos"
+        },
+        "time": {
+          "text": "01 oct. 2022",
+          "class_name": "ui-review-view__comments__review-comment__date"
+        },
+        "date": "01 oct. 2022",
+        "country": "",
+        "menu_options": {
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 301803173
+            },
+            "path": "/reviews/points/clic"
+          },
+          "items": [
+            {
+              "text": "Denunciar",
+              "url": "/noindex/denounce/?item_id=MLA1169292893&element_id=301803173&element_type=REV",
+              "track": {
+                "event_data": {
+                  "catalog_product_id": "MLA19469208",
+                  "review_id": 301803173,
+                  "type": "denounce"
+                },
+                "path": "/reviews/actions"
+              },
+              "icon_id": "REPORT",
+              "class_name": "ui-review-view__comments__review-comment"
+            }
+          ]
+        },
+        "denounce": {
+          "text": "Denunciar",
+          "url": "/noindex/denounce/?item_id=MLA1169292893&element_id=301803173&element_type=REV",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 301803173,
+              "type": "denounce"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon_id": "REPORT",
+          "class_name": "ui-review-view__comments__review-comment"
+        }
+      },
+      "actions": [
+        {
+          "id": "LIKE",
+          "type": "LIKE",
+          "text": "Es útil",
+          "value": 2,
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 301803173,
+              "type": "like"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        },
+        {
+          "id": "DISLIKE",
+          "type": "DISLIKE",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 301803173,
+              "type": "dislike"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        }
+      ]
+    },
+    {
+      "id": 306184603,
+      "type": "REVIEW",
+      "variant": "",
+      "rating": 4,
+      "title": {
+        "text": "muy bueno",
+        "class_name": "ui-review-view__comments__review-comment__title"
+      },
+      "comment": {
+        "content": {
+          "text": "Positivo: muy buena definición de imagen. Buena velocidad de respuesta en la interfaz del menu. Gran variedad de aplicaciones, no he tenido problema en instalar aplicaciones y funcionan correctamente.\nNegativo: el sonido es muy pobre, se escucha demasiado bajo aunque cambies la configuración del sonido.\nSi lo vas a usar sobre una mesa, las patas son de mala calidad, te recomiendo tratar con cuidado y aprietar lo mas posible las patas al tele sino quedan sueltas.",
+          "class_name": "ui-review-view__comments__review-comment",
+          "max_characters": 150,
+          "see_more": "Leer más",
+          "see_less": "Leer menos"
+        },
+        "time": {
+          "text": "15 nov. 2022",
+          "class_name": "ui-review-view__comments__review-comment__date"
+        },
+        "date": "15 nov. 2022",
+        "country": "",
+        "menu_options": {
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 306184603
+            },
+            "path": "/reviews/points/clic"
+          },
+          "items": [
+            {
+              "text": "Denunciar",
+              "url": "/noindex/denounce/?item_id=MLA1169292893&element_id=306184603&element_type=REV",
+              "track": {
+                "event_data": {
+                  "catalog_product_id": "MLA19469208",
+                  "review_id": 306184603,
+                  "type": "denounce"
+                },
+                "path": "/reviews/actions"
+              },
+              "icon_id": "REPORT",
+              "class_name": "ui-review-view__comments__review-comment"
+            }
+          ]
+        },
+        "denounce": {
+          "text": "Denunciar",
+          "url": "/noindex/denounce/?item_id=MLA1169292893&element_id=306184603&element_type=REV",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 306184603,
+              "type": "denounce"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon_id": "REPORT",
+          "class_name": "ui-review-view__comments__review-comment"
+        }
+      },
+      "actions": [
+        {
+          "id": "LIKE",
+          "type": "LIKE",
+          "text": "Es útil",
+          "value": 0,
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 306184603,
+              "type": "like"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        },
+        {
+          "id": "DISLIKE",
+          "type": "DISLIKE",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 306184603,
+              "type": "dislike"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        }
+      ]
+    },
+    {
+      "id": 302286349,
+      "type": "REVIEW",
+      "variant": "",
+      "rating": 5,
+      "title": {
+        "text": "excelente",
+        "class_name": "ui-review-view__comments__review-comment__title"
+      },
+      "comment": {
+        "content": {
+          "text": "No suelo comentar las compras pero después leo las reseñas antes de comprar por eso decidí escribir esta vez. Tenía un philips y estaba muy descontentaasí que compré este modelo android por las reseñas, sin mucha expectativa y pensando que lo devolvería antes de los 30 días. Ohhh sorpresa la instalación es muy fácil, la imagen muy buena, me bajé varias apps muy facilmente, el sistema android tiene muchas ventajas. Lo recomiendo sin dudarlo!!!.",
+          "class_name": "ui-review-view__comments__review-comment",
+          "max_characters": 150,
+          "see_more": "Leer más",
+          "see_less": "Leer menos"
+        },
+        "time": {
+          "text": "06 oct. 2022",
+          "class_name": "ui-review-view__comments__review-comment__date"
+        },
+        "date": "06 oct. 2022",
+        "country": "",
+        "menu_options": {
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 302286349
+            },
+            "path": "/reviews/points/clic"
+          },
+          "items": [
+            {
+              "text": "Denunciar",
+              "url": "/noindex/denounce/?item_id=MLA1147914362&element_id=302286349&element_type=REV",
+              "track": {
+                "event_data": {
+                  "catalog_product_id": "MLA19469208",
+                  "review_id": 302286349,
+                  "type": "denounce"
+                },
+                "path": "/reviews/actions"
+              },
+              "icon_id": "REPORT",
+              "class_name": "ui-review-view__comments__review-comment"
+            }
+          ]
+        },
+        "denounce": {
+          "text": "Denunciar",
+          "url": "/noindex/denounce/?item_id=MLA1147914362&element_id=302286349&element_type=REV",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 302286349,
+              "type": "denounce"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon_id": "REPORT",
+          "class_name": "ui-review-view__comments__review-comment"
+        }
+      },
+      "actions": [
+        {
+          "id": "LIKE",
+          "type": "LIKE",
+          "text": "Es útil",
+          "value": 2,
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 302286349,
+              "type": "like"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        },
+        {
+          "id": "DISLIKE",
+          "type": "DISLIKE",
+          "track": {
+            "event_data": {
+              "catalog_product_id": "MLA19469208",
+              "review_id": 302286349,
+              "type": "dislike"
+            },
+            "path": "/reviews/actions"
+          },
+          "icon": {
+            "empty_icon": "ThumbUpOutlined",
+            "full_icon": "ThumbUpFillled"
+          },
+          "selected": false
+        }
+      ]
+    }
+  ]
+}
