@@ -123,22 +123,12 @@ CREATE TABLE wallets (
 
 ## DEVOLUCIONES
 
-### Table return_statuses
+### Table return_request_statuses
 
 id | name            | description
 ---|-----------------|-----------------------------------------------------
 1  | Iniciado        | La solicitud de devolución ha sido enviada por el cliente
 2  | En Curso        | La solicitud de devolución está siendo revisada por el equipo de atención al cliente
-3  | Rechazado       | La solicitud de devolución ha sido rechazada por el equipo de atención al cliente
-4  | Pendiente       | La devolución está pendiente de ser procesada una vez que el producto sea recibido
-5  | Procesando      | El producto ha sido recibido y se está procesando la devolución
-6  | Finalizado      | La devolución ha sido procesada y se ha realizado el reembolso al cliente
-
-### Table return_item_statuses
-
-| id | name | description |
-| -- | ---- | ----------- |
-| 1 | Pendiente | El producto aún no ha sido recibido por el vendedor |
-| 2 | Recibido | El producto ha sido recibido por el vendedor y se está procesando su devolución |
-| 3 | Aprobado | La devolución del producto ha sido aprobada y se ha realizado el reembolso al cliente |
-| 4 | Rechazado | La devolución del producto ha sido rechazada por el vendedor |
+3  | Aprobado        | La devolución del producto ha sido aprobada y se ha realizado el reembolso al cliente |
+4  | Rechazado       | La solicitud de devolución ha sido rechazada por el equipo de atención al cliente
+5  | Cancelado       | La solicitud de devolución ha sido cancelada por el cliente  
