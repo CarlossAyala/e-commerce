@@ -33,6 +33,8 @@ const PurchaseOrder = require('./purchase-order.model');
 const OrderItem = require('./order-item.model');
 const OrderAddress = require('./order-address.model');
 
+const ReturnRequestStatus = require('./return-request-status.model');
+
 const Sale = require('./sale.model');
 
 const ShoppingCart = require('./shopping-cart.model');
@@ -87,6 +89,8 @@ module.exports = {
   PurchaseOrder,
   OrderItem,
   OrderAddress,
+
+  ReturnRequestStatus,
 
   Sale,
 
