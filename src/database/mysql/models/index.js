@@ -6,6 +6,7 @@ const ScopeType = require('./scope-type.model');
 const Scope = require('./scope.model');
 const UserScope = require('./user-scope.model');
 const Permission = require('./permission.model');
+const UserRolePermission = require('./user-role-permission.model');
 
 const Card = require('./card.model');
 
@@ -71,6 +72,7 @@ module.exports = {
   Scope,
   UserScope,
   Permission,
+  UserRolePermission,
 
   Card,
 
