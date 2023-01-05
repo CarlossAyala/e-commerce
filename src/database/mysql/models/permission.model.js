@@ -1,8 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql');
-// const { User, Scope } = require('./');
-const User = require('./user.model');
-const Scope = require('./scope.model');
 
 const modelName = 'Permission';
 const tableName = 'permissions';
@@ -17,22 +14,8 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  fkUser: {
-    type: DataTypes.UUID,
-    field: 'fk_user',
-    references: {
-      model: User.model,
-      key: 'id',
-    },
-  },
-  fkScope: {
-    type: DataTypes.UUID,
-    field: 'fk_scope',
-    references: {
-      model: Scope.model,
-      key: 'id',
-    },
-  },
+  name: DataTypes.STRING(50),
+  description: DataTypes.STRING,
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
