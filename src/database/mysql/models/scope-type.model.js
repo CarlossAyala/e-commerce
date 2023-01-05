@@ -16,6 +16,10 @@ const modelSchema = {
   },
   name: DataTypes.STRING(50),
   description: DataTypes.STRING,
+  type: {
+    type: DataTypes.ENUM,
+    values: ['owner', 'seller'],
+  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
