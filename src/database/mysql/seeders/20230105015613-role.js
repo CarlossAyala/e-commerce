@@ -41,15 +41,8 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        name: 'E-Commerce Employee',
-        description: 'Empleado del propio E-Commerce.',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Seller Employee',
-        description: 'Empleado de un Seller.',
+        name: 'Employee',
+        description: 'Empleado del E-Commerce o de un Seller.',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
