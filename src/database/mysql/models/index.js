@@ -3,6 +3,7 @@
 const User = require('./user.model');
 const Address = require('./address.model');
 
+const Role = require('./role.model');
 // const Permission = require('./permission.model');
 
 const Card = require('./card.model');
@@ -63,6 +64,8 @@ Category.model.hasMany(Category.model, {
 module.exports = {
   User,
   Address,
+
+  Role,
 
   Card,
 
