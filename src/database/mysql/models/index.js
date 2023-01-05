@@ -4,6 +4,7 @@ const User = require('./user.model');
 const Address = require('./address.model');
 
 const Role = require('./role.model');
+const ScopeType = require('./scope-type.model');
 // const Permission = require('./permission.model');
 
 const Card = require('./card.model');
@@ -66,6 +67,7 @@ module.exports = {
   Address,
 
   Role,
+  ScopeType,
 
   Card,
 
