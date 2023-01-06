@@ -13,7 +13,7 @@ module.exports = {
         name: 'Security System Manager',
         description:
           'Persona encargada de gestionar los Roles, Scopes y Permisos del E-Commerce.',
-        type: system,
+        made_for: system,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -22,7 +22,7 @@ module.exports = {
         name: 'Security Store Manager',
         description:
           'Persona encargada de gestionar los Roles, Scopes y Permisos de una Tienda.',
-        type: system,
+        made_for: system,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -31,7 +31,7 @@ module.exports = {
         name: 'Category Manager',
         description:
           'Persona encargada de gestionar las categorías del E-Commerce.',
-        type: system,
+        made_for: system,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -40,7 +40,7 @@ module.exports = {
         name: 'Brand Verification Manager',
         description:
           'Persona encargada de verificar si una Tienda del E-Commerce es Oficial.',
-        type: system,
+        made_for: system,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -49,7 +49,7 @@ module.exports = {
         name: 'Product Manager',
         description:
           'Persona encargada de gestionar los productos de una tienda.',
-        type: store,
+        made_for: store,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -58,7 +58,7 @@ module.exports = {
         name: 'Returns Manager',
         description:
           'Persona encargada de gestionar los pedidos de devolución de productos de una tienda.',
-        type: store,
+        made_for: store,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -67,7 +67,7 @@ module.exports = {
         name: 'Product Questions Manager',
         description:
           'Persona encargada de gestionar las preguntas y respuestas sobre los productos de una tienda.',
-        type: store,
+        made_for: store,
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -76,7 +76,7 @@ module.exports = {
         name: 'Product Review Manager',
         description:
           'Persona encargada de analizar las reseñas de los productos de una tienda.',
-        type: store,
+        made_for: store,
         created_at: new Date(),
         updated_at: new Date(),
       },
