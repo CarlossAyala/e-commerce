@@ -9,7 +9,7 @@ const modelOptions = {
 };
 const enums = {
   ecommerce: 'e-commerce',
-  seller: 'shop',
+  shop: 'shop',
   mix: 'mix',
 };
 
