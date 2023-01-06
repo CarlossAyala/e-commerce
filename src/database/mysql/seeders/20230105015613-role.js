@@ -17,6 +17,13 @@ module.exports = {
     await queryInterface.bulkInsert(Role.tableName, [
       {
         id: uuidv4(),
+        name: 'Owner',
+        description: 'Usuario dueño del E-Commerce con acceso de total.',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
         name: 'Seller',
         description:
           'Usuarios que pueden publicar productos en la tienda en línea.',
@@ -28,14 +35,6 @@ module.exports = {
         name: 'Customer',
         description:
           'Usuarios que pueden comprar productos en la tienda en línea.',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Owner',
-        description:
-          'Usuario dueño del E-Commerce con acceso de administrador.',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
