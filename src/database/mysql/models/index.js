@@ -63,13 +63,14 @@ Category.model.hasMany(Category.model, {
 });
 
 module.exports = {
+  Role,
+  Scope,
+  Permission,
+
   User,
   Address,
 
-  Role,
-  Scope,
   UserScope,
-  Permission,
   UserRolePermission,
 
   Card,
