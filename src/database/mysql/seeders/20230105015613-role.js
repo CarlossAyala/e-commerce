@@ -18,15 +18,7 @@ module.exports = {
       {
         id: uuidv4(),
         name: 'Owner',
-        description: 'Usuario dueño del E-Commerce con acceso de total.',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Seller',
-        description:
-          'Usuarios que pueden publicar productos en la tienda en línea.',
+        description: 'Usuario dueño del E-Commerce/Shop con acceso de total.',
         created_at: new Date(),
         updated_at: new Date(),
       },
