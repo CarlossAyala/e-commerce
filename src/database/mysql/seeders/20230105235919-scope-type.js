@@ -19,14 +19,6 @@ module.exports = {
     await queryInterface.bulkInsert(ScopeType.tableName, [
       {
         id: uuidv4(),
-        name: 'Owner',
-        description: 'Persona propietaria del E-Commerce.',
-        type: ecommerce,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: uuidv4(),
         name: 'Security Manager',
         description:
           'Persona encargada de gestionar los Roles, Scopes y Permisos del E-Commerce.',
