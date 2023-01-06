@@ -23,8 +23,8 @@ module.exports = {
         description:
           'Persona encargada de gestionar los Roles, Scopes y Permisos del E-Commerce.',
         type: ecommerce,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
@@ -32,8 +32,8 @@ module.exports = {
         description:
           'Persona encargada de gestionar las categorías del E-Commerce.',
         type: ecommerce,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
@@ -41,8 +41,8 @@ module.exports = {
         description:
           'Persona encargada de verificar si una tienda del E-Commerce es una Tienda Oficial.',
         type: ecommerce,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
@@ -50,8 +50,8 @@ module.exports = {
         description:
           'Persona encargada de gestionar los productos de una tienda.',
         type: seller,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
@@ -59,8 +59,8 @@ module.exports = {
         description:
           'Persona encargada de gestionar los pedidos de devolución de productos de una tienda.',
         type: seller,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
@@ -68,8 +68,8 @@ module.exports = {
         description:
           'Persona encargada de gestionar las preguntas y respuestas sobre los productos de una tienda.',
         type: seller,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
@@ -77,8 +77,8 @@ module.exports = {
         description:
           'Persona encargada de analizar las reseñas de los productos de una tienda.',
         type: seller,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ]);
   },

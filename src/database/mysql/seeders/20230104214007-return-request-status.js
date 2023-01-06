@@ -20,40 +20,40 @@ module.exports = {
         name: 'Iniciado',
         description:
           'La solicitud de devolución ha sido enviada por el cliente.',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
         name: 'En curso',
         description:
           'La solicitud de devolución está siendo revisada por el vendedor.',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
         name: 'Aprobado',
         description:
           'La devolución del producto ha sido aprobada y se ha realizado el reembolso al cliente.',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
         name: 'Rechazado',
         description:
           'La solicitud de devolución ha sido rechazada por el vendedor.',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuidv4(),
         name: 'Cancelado',
         description:
           'La solicitud de devolución ha sido cancelada por el cliente.',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ]);
   },
