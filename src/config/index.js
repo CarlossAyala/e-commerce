@@ -20,6 +20,12 @@ const config = {
     host: process.env.MYSQL_HOST,
   },
   jwt_secret: process.env.JWT_SECRET,
+  admin: {
+    name: process.env.ADMIN_NAME,
+    lastName: process.env.ADMIN_LASTNAME,
+    email: process.env.ADMIN_EMAIL,
+    password: process.env.ADMIN_PASSWORD,
+  },
 };
 
 module.exports = config;
