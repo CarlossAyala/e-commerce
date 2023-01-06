@@ -8,6 +8,11 @@ const modelOptions = {
   tableName,
   timestamps: true,
 };
+const enums = {
+  fixed: 'fixed',
+  rate: 'rate',
+  mix: 'mix',
+};
 
 const modelSchema = {
   id: {
@@ -19,7 +24,7 @@ const modelSchema = {
   description: DataTypes.STRING,
   type: {
     type: DataTypes.ENUM,
-    values: ['fixed', 'rate', 'mix'],
+    values: Object.values(enums),
   },
   rate: DataTypes.DECIMAL(3, 2),
   amount: DataTypes.DECIMAL(10, 2),
@@ -51,4 +56,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };
