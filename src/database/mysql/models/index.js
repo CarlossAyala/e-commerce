@@ -2,7 +2,6 @@ const User = require('./user.model');
 const Address = require('./address.model');
 
 const Role = require('./role.model');
-const ScopeType = require('./scope-type.model');
 const Scope = require('./scope.model');
 const UserScope = require('./user-scope.model');
 const Permission = require('./permission.model');
@@ -68,7 +67,6 @@ module.exports = {
   Address,
 
   Role,
-  ScopeType,
   Scope,
   UserScope,
   Permission,
