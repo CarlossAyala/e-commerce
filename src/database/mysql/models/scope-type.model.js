@@ -10,6 +10,7 @@ const modelOptions = {
 const enums = {
   ecommerce: 'e-commerce',
   seller: 'seller',
+  mix: 'mix',
 };
 
 const modelSchema = {
