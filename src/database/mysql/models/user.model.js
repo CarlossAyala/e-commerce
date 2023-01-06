@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
+const Role = require('./role.model');
 
 const modelName = 'User';
 const tableName = 'users';
@@ -33,6 +34,14 @@ const modelSchema = {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  fkRole: {
+    type: DataTypes.UUID,
+    field: 'fk_role',
+    references: {
+      model: Role.model,
+      key: 'id',
+    },
   },
   createdAt: {
     type: DataTypes.DATE,
