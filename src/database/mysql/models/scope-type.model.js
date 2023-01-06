@@ -7,6 +7,10 @@ const modelOptions = {
   tableName,
   timestamps: true,
 };
+const enums = {
+  ecommerce: 'e-commerce',
+  seller: 'seller',
+};
 
 const modelSchema = {
   id: {
@@ -18,7 +22,7 @@ const modelSchema = {
   description: DataTypes.STRING,
   type: {
     type: DataTypes.ENUM,
-    values: ['owner', 'seller'],
+    values: Object.values(enums),
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -39,4 +43,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

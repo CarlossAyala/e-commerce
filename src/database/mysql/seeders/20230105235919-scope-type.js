@@ -3,6 +3,8 @@
 const { v4: uuidv4 } = require('uuid');
 const { ScopeType } = require('../models');
 
+const { ecommerce, seller } = ScopeType.enums;
+
 module.exports = {
   async up(queryInterface) {
     /**
@@ -20,7 +22,7 @@ module.exports = {
         name: 'Category Manager',
         description:
           'Persona encargada de gestionar las categorías del E-Commerce.',
-        type: 'e-commerce',
+        type: ecommerce,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -29,7 +31,7 @@ module.exports = {
         name: 'Brand Verification Manager',
         description:
           'Persona encargada de verificar si una tienda del E-Commerce es una Tienda Oficial.',
-        type: 'e-commerce',
+        type: ecommerce,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -38,7 +40,7 @@ module.exports = {
         name: 'Product Manager',
         description:
           'Persona encargada de gestionar los productos de una tienda.',
-        type: 'seller',
+        type: seller,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -47,7 +49,7 @@ module.exports = {
         name: 'Returns Manager',
         description:
           'Persona encargada de gestionar los pedidos de devolución de productos de una tienda.',
-        type: 'seller',
+        type: seller,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -56,7 +58,7 @@ module.exports = {
         name: 'Product Questions Manager',
         description:
           'Persona encargada de gestionar las preguntas y respuestas sobre los productos de una tienda.',
-        type: 'seller',
+        type: seller,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -65,7 +67,7 @@ module.exports = {
         name: 'Product Review Manager',
         description:
           'Persona encargada de analizar las reseñas de los productos de una tienda.',
-        type: 'seller',
+        type: seller,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
