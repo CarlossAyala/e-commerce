@@ -1,13 +1,16 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
-const ScopeType = require('./scope-type.model');
-const Role = require('./role.model');
 
 const modelName = 'Scope';
 const tableName = 'scopes';
 const modelOptions = {
   tableName,
   timestamps: true,
+};
+const enums = {
+  system: 'system',
+  store: 'store',
+  mix: 'mix',
 };
 
 const modelSchema = {
@@ -16,21 +19,12 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  fkType: {
-    type: DataTypes.UUID,
-    field: 'fk_type',
-    references: {
-      model: ScopeType.model,
-      key: 'id',
-    },
-  },
-  fkRole: {
-    type: DataTypes.UUID,
-    field: 'fk_role',
-    references: {
-      model: Role.model,
-      key: 'id',
-    },
+  name: DataTypes.STRING(50),
+  description: DataTypes.STRING,
+  madeFor: {
+    type: DataTypes.ENUM,
+    field: 'made_for',
+    values: Object.values(enums),
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -51,4 +45,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

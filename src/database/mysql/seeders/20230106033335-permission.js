@@ -43,6 +43,13 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       },
+      {
+        id: uuidv4(),
+        name: 'All',
+        description: 'Permiso para todo.',
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
       // More incoming, like download, print
     ]);
   },
