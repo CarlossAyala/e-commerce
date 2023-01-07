@@ -41,10 +41,13 @@ const generateNSellers = async (n = 1, role = {}) => {
 const createRandomBusiness = (userId) => {
   const name = faker.helpers.unique(faker.company.name);
 
+  const withImage = 640;
+  const heightImage = 480;
+
   return {
     id: uuidv4(),
     name,
-    profile: faker.image.business(640, 480),
+    profile: faker.image.business(withImage, heightImage),
     official: faker.datatype.boolean(),
     fk_user: userId,
     created_at: new Date(),
