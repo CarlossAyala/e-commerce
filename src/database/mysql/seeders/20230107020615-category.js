@@ -5,7 +5,6 @@ const { faker } = require('@faker-js/faker/locale/es_MX');
 const { Category } = require('../models');
 
 const createRandomCategory = (parentId = null) => {
-  // https://fakerjs.dev/api/helpers.html#unique
   const name = faker.helpers.unique(faker.commerce.department);
 
   return {
@@ -45,9 +44,8 @@ module.exports = {
     }
 
     /* 
-      subCategories are a array of arrays, so we need to flat them for
-      bulkInsert method.
-      subCategories before flat: 
+      subCategories are a array of arrays, so we need to flat them for bulkInsert method.
+      subCategories before flat:
       [ 
         [{}, {}, {}],
         [{}, {}, {}],
