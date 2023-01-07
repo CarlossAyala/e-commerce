@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
 const Category = require('./category.model');
-const ProductCondition = require('./product-condition.model');
 const User = require('./user.model');
 
 const modelName = 'Product';
@@ -9,6 +8,13 @@ const tableName = 'products';
 const modelOptions = {
   tableName,
   timestamps: true,
+};
+const enums = {
+  condition: {
+    new: 'new',
+    used: 'used',
+    reconditioned: 'reconditioned',
+  },
 };
 
 const modelSchema = {
@@ -31,19 +37,15 @@ const modelSchema = {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
+  condition: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums.condition),
+  },
   fkCategory: {
     type: DataTypes.UUID,
     field: 'fk_category',
     references: {
       model: Category.model,
-      key: 'id',
-    },
-  },
-  fkCondition: {
-    type: DataTypes.UUID,
-    field: 'fk_condition',
-    references: {
-      model: ProductCondition.model,
       key: 'id',
     },
   },
@@ -74,4 +76,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

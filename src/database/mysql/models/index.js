@@ -17,7 +17,6 @@ const WalletWithdrawal = require('./wallet-withdrawal.model');
 
 const Category = require('./category.model');
 
-const ProductCondition = require('./product-condition.model');
 const Product = require('./product.model');
 
 const MovementType = require('./movement-type.model');
@@ -83,7 +82,6 @@ module.exports = {
 
   Category,
 
-  ProductCondition,
   Product,
 
   MovementType,
