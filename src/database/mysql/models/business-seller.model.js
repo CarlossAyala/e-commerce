@@ -15,6 +15,7 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
+  name: DataTypes.STRING(50),
   profile: DataTypes.STRING,
   official: {
     type: DataTypes.BOOLEAN,
