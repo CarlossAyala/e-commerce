@@ -26,6 +26,9 @@ const config = {
     email: process.env.ADMIN_EMAIL,
     password: process.env.ADMIN_PASSWORD,
   },
+  seller: {
+    password: process.env.SELLER_PASSWORD,
+  },
 };
 
 module.exports = config;
