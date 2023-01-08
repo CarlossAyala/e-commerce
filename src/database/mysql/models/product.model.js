@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
 const Category = require('./category.model');
-const User = require('./user.model');
+const BusinessSeller = require('./business-seller.model');
 
 const modelName = 'Product';
 const tableName = 'products';
@@ -24,6 +24,7 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   name: DataTypes.STRING,
+  description: DataTypes.STRING,
   stock: {
     type: DataTypes.INTEGER.UNSIGNED,
     defaultValue: 0,
@@ -49,11 +50,11 @@ const modelSchema = {
       key: 'id',
     },
   },
-  fkSeller: {
+  fkBusiness: {
     type: DataTypes.UUID,
-    field: 'fk_seller',
+    field: 'fk_business',
     references: {
-      model: User.model,
+      model: BusinessSeller.model,
       key: 'id',
     },
   },

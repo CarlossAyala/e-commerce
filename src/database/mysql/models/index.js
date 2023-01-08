@@ -1,6 +1,8 @@
 const User = require('./user.model');
 const Address = require('./address.model');
 
+const BusinessSeller = require('./business-seller.model');
+
 const Role = require('./role.model');
 const Scope = require('./scope.model');
 const UserScope = require('./user-scope.model');
@@ -49,8 +51,6 @@ const QuestionStatus = require('./question-status.model');
 const Question = require('./question.model');
 const Answer = require('./answer.model');
 
-const BusinessSeller = require('./business-seller.model');
-
 const WalletShop = require('./wallet-shop.model');
 
 // Association
@@ -68,6 +68,8 @@ module.exports = {
 
   User,
   Address,
+
+  BusinessSeller,
 
   UserScope,
   UserRolePermission,
@@ -113,8 +115,6 @@ module.exports = {
   QuestionStatus,
   Answer,
   Question,
-
-  BusinessSeller,
 
   WalletShop,
 };
