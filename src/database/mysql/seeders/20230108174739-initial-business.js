@@ -32,7 +32,7 @@ module.exports = {
       });
 
       // Capture users with Seller Role
-      const sellers = User.model.findAll({
+      const sellers = await User.model.findAll({
         where: {
           fk_role: sellerRole.id,
         },
@@ -41,7 +41,7 @@ module.exports = {
       // Generate business for each seller, one per seller
       const businesses = [];
       for (const seller of sellers) {
-        const business = createRandomBusiness(seller.id);
+        const business = createRandomBusiness(seller.dataValues.id);
         businesses.push(business);
       }
 
