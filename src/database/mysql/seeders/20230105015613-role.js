@@ -16,7 +16,7 @@ module.exports = {
       {
         id: uuidv4(),
         name: 'Seller',
-        description: 'Usuario dueño de una tienda con acceso total.',
+        description: 'Usuario dueño de una Tienda con acceso total.',
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -37,7 +37,7 @@ module.exports = {
       {
         id: uuidv4(),
         name: 'Employee Store',
-        description: 'Empleado del E-Commerce.',
+        description: 'Empleado de una Tienda.',
         created_at: new Date(),
         updated_at: new Date(),
       },
