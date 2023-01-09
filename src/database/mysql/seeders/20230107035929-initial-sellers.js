@@ -31,7 +31,7 @@ const createRandomSeller = async (roleId) => {
 const generateNSellers = async (n = 1, role = {}) => {
   const sellers = [];
   for (let i = 1; i <= n; i++) {
-    const seller = await createRandomSeller(role?.id);
+    const seller = await createRandomSeller(role.id);
     sellers.push(seller);
   }
 

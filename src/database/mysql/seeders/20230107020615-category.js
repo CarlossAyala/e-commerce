@@ -20,7 +20,7 @@ const createRandomCategory = (parentId = null) => {
 const generateNCategories = (n = 1, parentCategory = {}) => {
   const categories = [];
   for (let i = 1; i <= n; i++) {
-    const category = createRandomCategory(parentCategory?.id);
+    const category = createRandomCategory(parentCategory.id);
     categories.push(category);
   }
 

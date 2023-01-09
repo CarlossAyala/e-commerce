@@ -69,8 +69,8 @@ module.exports = {
         const randomCategory = faker.helpers.arrayElement(categories);
         const product = generateNProducts(
           NUM_PRODUCT_PER_BUSINESS,
-          randomCategory.dataValues,
-          business.dataValues
+          randomCategory,
+          business
         );
         products.push(product);
       }

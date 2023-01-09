@@ -41,7 +41,7 @@ module.exports = {
       // Generate business for each seller, one per seller
       const businesses = [];
       for (const seller of sellers) {
-        const business = createRandomBusiness(seller.dataValues.id);
+        const business = createRandomBusiness(seller.id);
         businesses.push(business);
       }
 
