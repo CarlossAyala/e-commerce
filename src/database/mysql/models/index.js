@@ -1,7 +1,7 @@
 const User = require('./user.model');
 const Address = require('./address.model');
 
-const BusinessSeller = require('./business-seller.model');
+const Business = require('./business.model');
 
 const Role = require('./role.model');
 const Scope = require('./scope.model');
@@ -69,7 +69,7 @@ module.exports = {
   User,
   Address,
 
-  BusinessSeller,
+  Business,
 
   UserScope,
   UserRolePermission,

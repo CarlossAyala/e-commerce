@@ -2,7 +2,7 @@
 
 const { v4: uuidv4 } = require('uuid');
 const { faker } = require('@faker-js/faker/locale/es_MX');
-const { User, Role, BusinessSeller } = require('../models');
+const { User, Role, Business } = require('../models');
 
 const createRandomBusiness = (userId) => {
   const name = faker.helpers.unique(faker.company.name);
@@ -46,13 +46,13 @@ module.exports = {
       }
 
       // Create businesses
-      await queryInterface.bulkInsert(BusinessSeller.tableName, businesses);
+      await queryInterface.bulkInsert(Business.tableName, businesses);
     } catch (error) {
       console.error(error);
     }
   },
 
   async down(queryInterface) {
-    await queryInterface.bulkDelete(BusinessSeller.tableName, null, {});
+    await queryInterface.bulkDelete(Business.tableName, null, {});
   },
 };

@@ -2,7 +2,7 @@
 
 const { v4: uuidv4 } = require('uuid');
 const { faker } = require('@faker-js/faker/locale/es_MX');
-const { BusinessSeller, Product, Category } = require('../models');
+const { Business, Product, Category } = require('../models');
 
 const createRandomProduct = (categoryId, businessId) => {
   const priceOptions = {
@@ -58,7 +58,7 @@ module.exports = {
       const NUM_PRODUCT_PER_BUSINESS = 5;
 
       // Get business
-      const businesses = await BusinessSeller.model.findAll();
+      const businesses = await Business.model.findAll();
 
       // Get Categories
       const categories = await Category.model.findAll();

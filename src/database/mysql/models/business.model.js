@@ -2,8 +2,8 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../index');
 const User = require('./user.model');
 
-const modelName = 'BusinessSeller';
-const tableName = 'business_sellers';
+const modelName = 'Business';
+const tableName = 'businesses';
 const modelOptions = {
   tableName,
   timestamps: true,

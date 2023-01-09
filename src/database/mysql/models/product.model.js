@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
 const Category = require('./category.model');
-const BusinessSeller = require('./business-seller.model');
+const Business = require('./business.model');
 
 const modelName = 'Product';
 const tableName = 'products';
@@ -54,7 +54,7 @@ const modelSchema = {
     type: DataTypes.UUID,
     field: 'fk_business',
     references: {
-      model: BusinessSeller.model,
+      model: Business.model,
       key: 'id',
     },
   },
