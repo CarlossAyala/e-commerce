@@ -5,8 +5,9 @@ const Business = require('./business.model');
 
 const Role = require('./role.model');
 const Scope = require('./scope.model');
-const UserScope = require('./user-scope.model');
 const Permission = require('./permission.model');
+const UserRole = require('./user-role.model');
+const UserScope = require('./user-scope.model');
 const UserRolePermission = require('./user-role-permission.model');
 
 const Card = require('./card.model');
@@ -62,17 +63,18 @@ Category.model.hasMany(Category.model, {
 });
 
 module.exports = {
+  User,
+  Address,
+
   Role,
   Scope,
   Permission,
 
-  User,
-  Address,
-
-  Business,
-
   UserScope,
   UserRolePermission,
+  UserRole,
+
+  Business,
 
   Card,
 

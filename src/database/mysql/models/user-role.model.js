@@ -1,8 +1,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
+const User = require('./user.model');
+const Role = require('./role.model');
 
-const modelName = 'User';
-const tableName = 'users';
+const modelName = 'UserRole';
+const tableName = 'users_roles';
 const modelOptions = {
   tableName,
   timestamps: true,
@@ -14,25 +16,21 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  name: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    validate: {
-      notNull: true,
-      notEmpty: true,
+  fkUser: {
+    type: DataTypes.UUID,
+    field: 'fk_user',
+    references: {
+      model: User.model,
+      key: 'id',
     },
   },
-  lastName: {
-    type: DataTypes.STRING(50),
-    field: 'last_name',
-  },
-  email: {
-    type: DataTypes.STRING,
-    unique: true,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  fkRole: {
+    type: DataTypes.UUID,
+    field: 'fk_role',
+    references: {
+      model: Role.model,
+      key: 'id',
+    },
   },
   createdAt: {
     type: DataTypes.DATE,
