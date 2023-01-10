@@ -1,13 +1,13 @@
 'use strict';
 
 const config = require('../../../config');
-const Encrypter = require('../../../utils/encrypter');
-const { User, Role } = require('../models');
+const BulkGenerator = require('../../../utils/database/bulk-insert');
+const { User, Role, UserRole } = require('../models');
 
 const { name, lastName, email, password } = config.admin;
 
 module.exports = {
-  async up() {
+  async up(queryInterface) {
     try {
       // Get Role for Owner
       const ownerRole = await Role.model.findOne({
@@ -16,25 +16,40 @@ module.exports = {
         },
       });
 
-      // Create Owner User
-      await User.model.create({
-        name,
-        lastName,
-        email,
-        password: await Encrypter.encrypt(password),
-        fkRole: ownerRole.id,
-      });
+      // Generate a User
+      const user = await BulkGenerator.user(name, lastName, email, password);
+
+      // Generate Owner Role to the User
+      const ownerUser = BulkGenerator.userRole(user, ownerRole);
+
+      // Create User
+      await queryInterface.bulkInsert(User.tableName, [user]);
+
+      // Create User with Owner role
+      await queryInterface.bulkInsert(UserRole.tableName, [ownerUser]);
     } catch (error) {
       console.log(error);
     }
   },
 
-  async down() {
+  async down(queryInterface) {
     try {
-      await User.model.destroy({
+      const role = await Role.model.findOne({
+        where: {
+          name: 'Owner',
+        },
+      });
+      const user = await User.model.findOne({
         where: {
           email,
         },
+      });
+      await queryInterface.bulkDelete(UserRole.tableName, {
+        fk_user: user.id,
+        fk_role: role.id,
+      });
+      await queryInterface.bulkDelete(User.tableName, {
+        email,
       });
     } catch (error) {
       console.log(error);
