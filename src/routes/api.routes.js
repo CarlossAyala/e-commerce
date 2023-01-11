@@ -7,6 +7,7 @@ const userRoutes = require('../core/user/user.routes');
 const addressRoutes = require('../core/address/address.routes');
 const cardRoutes = require('../core/card/card.routes');
 const categoryRoutes = require('../core/category/category.routes');
+// const roleRoutes = require('../core/role/role.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -20,6 +21,7 @@ function router(app) {
   routes.use('/address', addressRoutes);
   routes.use('/card', cardRoutes);
   routes.use('/category', categoryRoutes);
+  // routes.use('/role', roleRoutes);
 }
 
 module.exports = router;
