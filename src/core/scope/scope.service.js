@@ -1,31 +1,25 @@
 const { Scope } = require('../../database/mysql/models');
 
 class ScopeService {
-  async create({ name }) {
+  create({ name, description, madeFor }) {
     return Scope.model.create({
       name,
+      description,
+      madeFor,
     });
   }
 
-  async getOne(id) {
-    return await Scope.model.findByPk(id);
+  getOne(id) {
+    return Scope.model.findByPk(id);
   }
 
-  async findByName({ scopeName: name }) {
-    return await Scope.model.findOne({
-      where: {
-        name,
-      },
-    });
+  getAll() {
+    return Scope.model.findAll();
   }
 
-  async getAll() {
-    return await Scope.model.findAll();
-  }
-
-  async update(id, { name }) {
-    return await Scope.model.update(
-      { name },
+  update(id, { name, description, madeFor }) {
+    return Scope.model.update(
+      { name, description, madeFor },
       {
         where: {
           id,
@@ -34,10 +28,18 @@ class ScopeService {
     );
   }
 
-  async remove(id) {
-    return await Scope.model.destroy({
+  remove(id) {
+    return Scope.model.destroy({
       where: {
         id,
+      },
+    });
+  }
+
+  findByName(name) {
+    return Scope.model.findOne({
+      where: {
+        name,
       },
     });
   }

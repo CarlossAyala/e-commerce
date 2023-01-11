@@ -6,47 +6,42 @@ const scopeSchema = require('./scope.schema');
 const scopeMiddleware = require('./scope.middleware');
 const scopeController = require('./scope.controller');
 
-// CREATE
+// Get All
+router.get('/', apiMiddleware.validateJWT, scopeController.getAll);
+
+// Get One
+router.get(
+  '/:id',
+  apiMiddleware.validateJWT,
+  validatorHandler(scopeSchema.resourceId, 'params'),
+  scopeMiddleware.scopeExist,
+  scopeController.getOne
+);
+
+// Create
 router.post(
   '/',
   apiMiddleware.validateJWT,
   validatorHandler(scopeSchema.create, 'body'),
-  scopeMiddleware.userAuthorization,
   scopeController.create
 );
 
-// READ ALL
-router.get(
-  '/',
-  apiMiddleware.validateJWT,
-  scopeMiddleware.userAuthorization,
-  scopeController.getAll
-);
-// READ ONE
-router.get(
+// Update
+router.put(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(scopeSchema.scopeId, 'params'),
-  scopeMiddleware.userAuthorization,
-  scopeController.getOne
-);
-
-// UPDATE
-router.patch(
-  '/:id',
-  apiMiddleware.validateJWT,
-  validatorHandler(scopeSchema.scopeId, 'params'),
+  validatorHandler(scopeSchema.resourceId, 'params'),
   validatorHandler(scopeSchema.update, 'body'),
-  scopeMiddleware.userAuthorization,
+  scopeMiddleware.scopeExist,
   scopeController.update
 );
 
-// DELETE
+// Delete
 router.delete(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(scopeSchema.scopeId, 'params'),
-  scopeMiddleware.userAuthorization,
+  validatorHandler(scopeSchema.resourceId, 'params'),
+  scopeMiddleware.scopeExist,
   scopeController.remove
 );
 

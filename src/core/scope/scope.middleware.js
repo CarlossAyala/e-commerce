@@ -1,16 +1,14 @@
 const Boom = require('@hapi/boom');
-const UserService = require('../user/user.service');
+const ScopeService = require('./scope.service');
 
-const UserProvider = new UserService();
+const ScopeProvider = new ScopeService();
 
-const userAuthorization = async (req, res, next) => {
+const scopeExist = async (req, res, next) => {
   try {
-    // If the user exist
-    // const user = await UserProvider.getOne(req.auth.id);
-    // if (!user) return next(Boom.notFound('User not found'));
+    const scopeId = req.params.id;
+    const scope = await ScopeProvider.getOne(scopeId);
 
-    // If the user has authorization
-    // ...
+    if (!scope) return next(Boom.notFound('Scope not found'));
 
     next();
   } catch (error) {
@@ -19,5 +17,5 @@ const userAuthorization = async (req, res, next) => {
 };
 
 module.exports = {
-  userAuthorization,
+  scopeExist,
 };
