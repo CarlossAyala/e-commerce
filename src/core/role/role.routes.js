@@ -32,7 +32,7 @@ router.put(
   apiMiddleware.validateJWT,
   validatorHandler(roleSchema.resourceId, 'params'),
   validatorHandler(roleSchema.update, 'body'),
-  roleMiddleware.addressExist,
+  roleMiddleware.roleExist,
   roleController.update
 );
 
@@ -41,7 +41,7 @@ router.delete(
   '/:id',
   apiMiddleware.validateJWT,
   validatorHandler(roleSchema.resourceId, 'params'),
-  roleMiddleware.addressExist,
+  roleMiddleware.roleExist,
   roleController.remove
 );
 

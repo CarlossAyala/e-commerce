@@ -1,12 +1,12 @@
-const AddressService = require('./address.service');
+const RoleService = require('./role.service');
 
-const AddressProvider = new AddressService();
+const RoleProvider = new RoleService();
 
 const getOne = async (req, res, next) => {
   try {
-    const address = await AddressProvider.getOne(req.params.id);
+    const role = await RoleProvider.getOne(req.params.id);
 
-    res.status(200).json(address);
+    res.status(200).json(role);
   } catch (error) {
     next(error);
   }
@@ -14,11 +14,9 @@ const getOne = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const userId = req.auth.id;
+    const roles = await RoleProvider.getAll();
 
-    const addresses = await AddressProvider.getAll(userId);
-
-    res.status(200).json(addresses);
+    res.status(200).json(roles);
   } catch (error) {
     next(error);
   }
@@ -26,12 +24,7 @@ const getAll = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const newAddress = {
-      ...req.body,
-      fkUser: req.auth.id,
-    };
-
-    await AddressProvider.create(newAddress);
+    await RoleProvider.create(req.body);
 
     res.status(201).json({
       message: 'Created successfully',
@@ -43,7 +36,7 @@ const create = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    await AddressProvider.remove(req.params.id);
+    await RoleProvider.remove(req.params.id);
 
     res.status(200).end();
   } catch (error) {
@@ -53,9 +46,7 @@ const remove = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
-    await AddressProvider.update(id, req.body);
+    await RoleProvider.update(req.params.id, req.body);
 
     res.status(200).end();
   } catch (error) {

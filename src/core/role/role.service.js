@@ -1,22 +1,22 @@
 const { Role } = require('../../database/mysql/models');
 
 class RoleService {
-  static async create({ name, description }) {
+  async create({ name, description }) {
     return await Role.model.create({
       name,
       description,
     });
   }
 
-  static async getOne(id) {
+  async getOne(id) {
     return await Role.model.findByPk(id);
   }
 
-  static async getAll() {
+  async getAll() {
     return await Role.model.findAll();
   }
 
-  static async remove(id) {
+  async remove(id) {
     return Role.model.destroy({
       where: {
         id,
@@ -24,7 +24,7 @@ class RoleService {
     });
   }
 
-  static async update(id, { name, description }) {
+  async update(id, { name, description }) {
     return Role.model.update(
       {
         name,
@@ -36,10 +36,6 @@ class RoleService {
         },
       }
     );
-  }
-
-  static async getXRole(userId, role) {
-    return;
   }
 }
 
