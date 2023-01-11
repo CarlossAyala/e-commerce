@@ -2,7 +2,7 @@
 
 const { v4: uuidv4 } = require('uuid');
 const { faker } = require('@faker-js/faker/locale/es_MX');
-const { User, Role, Business } = require('../models');
+const { Role, Business, UserRole } = require('../models');
 
 const createRandomBusiness = (userId) => {
   const name = faker.helpers.unique(faker.company.name);
@@ -21,6 +21,17 @@ const createRandomBusiness = (userId) => {
   };
 };
 
+const generateBusinesses = (sellers) => {
+  const businesses = [];
+
+  for (const seller of sellers) {
+    const business = createRandomBusiness(seller.fkUser);
+    businesses.push(business);
+  }
+
+  return businesses;
+};
+
 module.exports = {
   async up(queryInterface) {
     try {
@@ -31,19 +42,15 @@ module.exports = {
         },
       });
 
-      // Capture users with Seller Role
-      const sellers = await User.model.findAll({
+      // Get users id with Seller Role
+      const sellers = await UserRole.model.findAll({
         where: {
-          fk_role: sellerRole.id,
+          fkRole: sellerRole.id,
         },
       });
 
       // Generate business for each seller, one per seller
-      const businesses = [];
-      for (const seller of sellers) {
-        const business = createRandomBusiness(seller.id);
-        businesses.push(business);
-      }
+      const businesses = generateBusinesses(sellers); 
 
       // Create businesses
       await queryInterface.bulkInsert(Business.tableName, businesses);
