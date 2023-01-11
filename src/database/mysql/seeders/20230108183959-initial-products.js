@@ -52,28 +52,34 @@ const generateNProducts = (n = 1, category = {}, business = {}) => {
   return products;
 };
 
+const generateProductsToBusiness = (businesses, categories) => {
+  const NUM_PRODUCT_PER_BUSINESS = 5;
+
+  const products = [];
+  for (const business of businesses) {
+    const randomCategory = faker.helpers.arrayElement(categories);
+    const product = generateNProducts(
+      NUM_PRODUCT_PER_BUSINESS,
+      randomCategory,
+      business
+    );
+    products.push(product);
+  }
+
+  return products;
+};
+
 module.exports = {
   async up(queryInterface) {
     try {
-      const NUM_PRODUCT_PER_BUSINESS = 5;
-
       // Get business
       const businesses = await Business.model.findAll();
 
       // Get Categories
       const categories = await Category.model.findAll();
 
-      // Generate products for each business
-      const products = [];
-      for (const business of businesses) {
-        const randomCategory = faker.helpers.arrayElement(categories);
-        const product = generateNProducts(
-          NUM_PRODUCT_PER_BUSINESS,
-          randomCategory,
-          business
-        );
-        products.push(product);
-      }
+      // Generate products to each business
+      const products = generateProductsToBusiness(businesses, categories);
 
       // Flat products because products are a array of arrays
       const flatProducts = products.flat();
