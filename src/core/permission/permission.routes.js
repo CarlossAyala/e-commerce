@@ -6,40 +6,42 @@ const permissionSchema = require('./permission.schema');
 const permissionMiddleware = require('./permission.middleware');
 const permissionController = require('./permission.controller');
 
-// CREATE
+// Get All
+router.get('/', apiMiddleware.validateJWT, permissionController.getAll);
+
+// Get One
+router.get(
+  '/:id',
+  apiMiddleware.validateJWT,
+  validatorHandler(permissionSchema.resourceId, 'params'),
+  permissionMiddleware.permissionExist,
+  permissionController.getOne
+);
+
+// Create
 router.post(
   '/',
   apiMiddleware.validateJWT,
   validatorHandler(permissionSchema.create, 'body'),
-  permissionMiddleware.userExist,
-  permissionMiddleware.userAuthorization,
-  permissionMiddleware.scopeExist,
-  permissionMiddleware.alreadyHasPermission,
   permissionController.create
 );
 
-// READ ALL
-router.get(
-  '/',
-  apiMiddleware.validateJWT,
-  permissionMiddleware.userAuthorization,
-  permissionController.getAll
-);
-// READ ONE
-router.get(
+// Update
+router.put(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(permissionSchema.scopeId, 'params'),
-  permissionMiddleware.userAuthorization,
-  permissionController.getOne
+  validatorHandler(permissionSchema.resourceId, 'params'),
+  validatorHandler(permissionSchema.update, 'body'),
+  permissionMiddleware.permissionExist,
+  permissionController.update
 );
 
 // DELETE
 router.delete(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(permissionSchema.scopeId, 'params'),
-  permissionMiddleware.userAuthorization,
+  validatorHandler(permissionSchema.resourceId, 'params'),
+  permissionMiddleware.permissionExist,
   permissionController.remove
 );
 

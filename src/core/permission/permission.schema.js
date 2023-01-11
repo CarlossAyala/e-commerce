@@ -4,23 +4,25 @@ const id = Joi.string().guid({
   version: 'uuidv4',
   separator: '-',
 });
-const scopeName = Joi.string();
+const name = Joi.string().max(50);
+const description = Joi.string().max(255);
+
+const resourceId = Joi.object({
+  id: id.required(),
+});
 
 const create = Joi.object({
-  scopeName: scopeName.required(),
-  userId: id.required(),
+  name: name.required(),
+  description: description.required(),
 });
 
-const getOne = Joi.object({
-  id: id.required(),
-});
-
-const remove = Joi.object({
-  id: id.required(),
+const update = Joi.object({
+  name,
+  description,
 });
 
 module.exports = {
+  resourceId,
   create,
-  getOne,
-  remove,
+  update,
 };

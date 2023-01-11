@@ -1,35 +1,12 @@
-const ScopeService = require('../scope/scope.service');
-const UserService = require('../user/user.service');
 const PermissionService = require('./permission.service');
 
-const ScopeProvider = new ScopeService();
 const PermissionProvider = new PermissionService();
-const UserProvider = new UserService();
-
-const create = async (req, res, next) => {
-  try {
-    const { userId } = req.body;
-    const user = await UserProvider.getOne(userId);
-    const scope = await ScopeProvider.findByName(req.body);
-
-    await PermissionProvider.create({
-      fk_user: user.dataValues.id,
-      fk_scope: scope.dataValues.id,
-    });
-
-    res.status(201).json({
-      message: 'Created successfully',
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
 const getOne = async (req, res, next) => {
   try {
-    const scope = await PermissionProvider.getOne(req.params.id);
+    const permission = await PermissionProvider.getOne(req.params.id);
 
-    res.status(200).json(scope);
+    res.status(200).json(permission);
   } catch (error) {
     next(error);
   }
@@ -37,9 +14,21 @@ const getOne = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const scopes = await PermissionProvider.getAll();
+    const permissions = await PermissionProvider.getAll();
 
-    res.status(200).json(scopes);
+    res.status(200).json(permissions);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const create = async (req, res, next) => {
+  try {
+    await PermissionProvider.create(req.body);
+
+    res.status(201).json({
+      message: 'Created successfully',
+    });
   } catch (error) {
     next(error);
   }
@@ -55,9 +44,20 @@ const remove = async (req, res, next) => {
   }
 };
 
+const update = async (req, res, next) => {
+  try {
+    await PermissionProvider.update(req.params.id, req.body);
+
+    res.status(200).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   getOne,
   getAll,
+  update,
   remove,
 };
