@@ -10,6 +10,9 @@ El sistema cuenta con diferentes `Roles`, como `Owners`, `Sellers`, `Customers` 
 
 - [Installation](#installation)
 - [Use](#use)
+  - [Environment Variables](#environment-variables)
+    - [Seller](#seller)
+  - [Seeders](#seeders)
 - [Security](#security)
   - [Roles](#roles)
   - [Scopes](#scopes)
@@ -20,6 +23,16 @@ El sistema cuenta con diferentes `Roles`, como `Owners`, `Sellers`, `Customers` 
 ## Installation
 
 ## Use
+
+### Environment Variables
+
+#### Seller
+
+- `SELLER_PASSWORD`: Sirve para las contraseñas de los `Sellers` de pruebas en los `Seeder` de `Initial Sellers`.
+
+### Seeders
+
+<!-- Crear una lista de los seeders y su propósito -->
 
 ## Security
 
