@@ -1,22 +1,22 @@
 const { Role } = require('../../database/mysql/models');
 
 class RoleService {
-  async create({ name, description }) {
-    return await Role.model.create({
+  create({ name, description }) {
+    return Role.model.create({
       name,
       description,
     });
   }
 
-  async getOne(id) {
-    return await Role.model.findByPk(id);
+  getOne(id) {
+    return Role.model.findByPk(id);
   }
 
-  async getAll() {
-    return await Role.model.findAll();
+  getAll() {
+    return Role.model.findAll();
   }
 
-  async remove(id) {
+  remove(id) {
     return Role.model.destroy({
       where: {
         id,
@@ -24,7 +24,7 @@ class RoleService {
     });
   }
 
-  async update(id, { name, description }) {
+  update(id, { name, description }) {
     return Role.model.update(
       {
         name,
