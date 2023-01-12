@@ -10,6 +10,7 @@ const roleRoutes = require('../core/role/role.routes');
 const scopeRoutes = require('../core/scope/scope.routes');
 const permissionRoutes = require('../core/permission/permission.routes');
 const userRoleRoutes = require('../core/user-role/user-role.routes');
+const userScopeRoutes = require('../core/user-scope/user-scope.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -27,6 +28,7 @@ function router(app) {
   routes.use('/scopes', scopeRoutes);
   routes.use('/permissions', permissionRoutes);
   routes.use('/users-roles', userRoleRoutes);
+  routes.use('/users-scopes', userScopeRoutes);
 }
 
 module.exports = router;
