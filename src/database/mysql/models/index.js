@@ -60,13 +60,13 @@ const WalletShop = require('./wallet-shop.model');
 // SECURITY
 User.model.belongsToMany(Role.model, {
   through: UserRole.model,
-  foreignKey: 'fk_user',
+  foreignKey: 'fkUser',
   as: 'roles',
   unique: false,
 });
 Role.model.belongsToMany(User.model, {
   through: UserRole.model,
-  foreignKey: 'fk_role',
+  foreignKey: 'fkRole',
   as: 'users',
   unique: false,
 });
