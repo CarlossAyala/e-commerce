@@ -14,14 +14,14 @@ function router(app) {
 
   app.use('/api/v1', routes);
 
-  routes.use('/account', accountRoutes);
-  routes.use('/user', userRoutes);
-  routes.use('/address', addressRoutes);
-  routes.use('/card', cardRoutes);
-  routes.use('/category', categoryRoutes);
-  routes.use('/role', roleRoutes);
-  routes.use('/scope', scopeRoutes);
-  routes.use('/permission', permissionRoutes);
+  routes.use('/accounts', accountRoutes);
+  routes.use('/users', userRoutes);
+  routes.use('/addresses', addressRoutes);
+  routes.use('/cards', cardRoutes);
+  routes.use('/categories', categoryRoutes);
+  routes.use('/roles', roleRoutes);
+  routes.use('/scopes', scopeRoutes);
+  routes.use('/permissions', permissionRoutes);
 }
 
 module.exports = router;
