@@ -11,6 +11,7 @@ const scopeRoutes = require('../core/scope/scope.routes');
 const permissionRoutes = require('../core/permission/permission.routes');
 const userRoleRoutes = require('../core/user-role/user-role.routes');
 const userScopeRoutes = require('../core/user-scope/user-scope.routes');
+const userScopePermissionRoutes = require('../core/user-scope-permission/user-scope-permission.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -29,6 +30,7 @@ function router(app) {
   routes.use('/permissions', permissionRoutes);
   routes.use('/users-roles', userRoleRoutes);
   routes.use('/users-scopes', userScopeRoutes);
+  routes.use('/users-scopes-permissions', userScopePermissionRoutes);
 }
 
 module.exports = router;
