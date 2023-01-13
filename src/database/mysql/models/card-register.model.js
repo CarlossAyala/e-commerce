@@ -16,7 +16,6 @@ const modelSchema = {
   },
   brand: DataTypes.STRING(50),
   number: DataTypes.STRING(16),
-  amount: DataTypes.DECIMAL(10, 2),
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
