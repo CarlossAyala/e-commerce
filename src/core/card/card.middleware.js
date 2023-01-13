@@ -3,11 +3,12 @@ const CardService = require('./card.service');
 
 const CardProvider = new CardService();
 
-const cardExist = async (req, res, next) => {
+const resourceExist = async (req, res, next) => {
   try {
-    const card = await CardProvider.getOne(req.params.id);
+    const resourceId = req.params.id;
+    const resource = await CardProvider.getOne(resourceId);
 
-    if (!card) return next(Boom.notFound('Card not found'));
+    if (!resource) return next(Boom.notFound('Card not found'));
 
     next();
   } catch (error) {
@@ -16,5 +17,5 @@ const cardExist = async (req, res, next) => {
 };
 
 module.exports = {
-  cardExist,
+  resourceExist,
 };

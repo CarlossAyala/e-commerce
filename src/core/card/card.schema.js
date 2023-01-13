@@ -22,7 +22,7 @@ const holder = Joi.string().min(3).max(255);
 const expiration = Joi.date().greater('now');
 const cvv = Joi.string().min(3).max(4);
 
-const cardId = Joi.object({
+const resourceId = Joi.object({
   id: id.required(),
 });
 
@@ -33,8 +33,15 @@ const create = Joi.object({
   expiration: expiration.required(),
   cvv: cvv.required(),
 });
+const update = Joi.object({
+  number,
+  holder,
+  expiration,
+  cvv,
+});
 
 module.exports = {
-  cardId,
+  resourceId,
   create,
+  update,
 };

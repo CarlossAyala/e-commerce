@@ -4,9 +4,9 @@ const CardProvider = new CardService();
 
 const getOne = async (req, res, next) => {
   try {
-    const card = await CardProvider.getOne(req.params.id);
+    const resoure = await CardProvider.getOne(req.params.id);
 
-    res.status(200).json(card);
+    res.status(200).json(resoure);
   } catch (error) {
     next(error);
   }
@@ -14,11 +14,9 @@ const getOne = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const userId = req.auth.id;
+    const resources = await CardProvider.getAll();
 
-    const cards = await CardProvider.getAll(userId);
-
-    res.status(200).json(cards);
+    res.status(200).json(resources);
   } catch (error) {
     next(error);
   }
@@ -26,12 +24,9 @@ const getAll = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const newCard = {
-      ...req.body,
-      fkUser: req.auth.id,
-    };
+    const fkUser = req.auth.id;
 
-    await CardProvider.create(newCard);
+    await CardProvider.create({ ...req.body, fkUser });
 
     res.status(201).json({
       message: 'Created successfully',
@@ -51,9 +46,20 @@ const remove = async (req, res, next) => {
   }
 };
 
+const update = async (req, res, next) => {
+  try {
+    await CardProvider.update(req.params.id, req.body);
+
+    res.status(200).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
+  create,
   getOne,
   getAll,
-  create,
+  update,
   remove,
 };

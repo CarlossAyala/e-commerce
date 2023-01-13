@@ -1,8 +1,8 @@
 const { Card } = require('../../database/mysql/models');
 
 class CardService {
-  async create({ brand, number, holder, expiration, cvv, fkUser }) {
-    return await Card.model.create({
+  create({ brand, number, holder, expiration, cvv, fkUser }) {
+    return Card.model.create({
       brand,
       number,
       holder,
@@ -12,12 +12,12 @@ class CardService {
     });
   }
 
-  async getOne(id) {
-    return await Card.model.findByPk(id);
+  getOne(id) {
+    return Card.model.findByPk(id);
   }
 
-  async getAll(id) {
-    return await Card.model.findAll({
+  getAll(id) {
+    return Card.model.findAll({
       where: {
         fkUser: id,
       },
@@ -27,7 +27,18 @@ class CardService {
     });
   }
 
-  async remove(id) {
+  update(id, { brand, number, holder, expiration, cvv }) {
+    return Card.model.update(
+      { brand, number, holder, expiration, cvv },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+  }
+
+  remove(id) {
     return Card.model.destroy({
       where: {
         id,
