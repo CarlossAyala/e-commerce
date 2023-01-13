@@ -9,7 +9,7 @@ const Permission = require('./permission.model');
 
 const UserRole = require('./user-role.model');
 const UserScope = require('./user-scope.model');
-const UserRolePermission = require('./user-role-permission.model');
+const UserScopePermission = require('./user-scope-permission.model');
 
 const Card = require('./card.model');
 
@@ -86,7 +86,7 @@ module.exports = {
   Permission,
   UserRole,
   UserScope,
-  UserRolePermission,
+  UserScopePermission,
 
   Business,
 

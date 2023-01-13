@@ -1,10 +1,10 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql/index');
+const sequelize = require('../index');
 const UserScope = require('./user-scope.model');
 const Permission = require('./permission.model');
 
-const modelName = 'UserRolePermission';
-const tableName = 'users_roles_permissions';
+const modelName = 'UserScopePermission';
+const tableName = 'user_scope_permissions';
 const modelOptions = {
   tableName,
   timestamps: true,
