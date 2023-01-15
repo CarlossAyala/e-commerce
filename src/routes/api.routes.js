@@ -5,11 +5,11 @@ const userRoutes = require('../core/user/user.routes');
 const addressRoutes = require('../core/address/address.routes');
 const cardRoutes = require('../core/card/card.routes');
 const categoryRoutes = require('../core/category/category.routes');
-
 const roleRoutes = require('../core/role/role.routes');
 const scopeRoutes = require('../core/scope/scope.routes');
 const permissionRoutes = require('../core/permission/permission.routes');
 const productRoutes = require('../core/product/product.routes');
+const employeeRoutes = require('../core/employee/employee.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -26,6 +26,7 @@ function router(app) {
   routes.use('/roles', roleRoutes);
   routes.use('/scopes', scopeRoutes);
   routes.use('/permissions', permissionRoutes);
+  routes.use('/employees', employeeRoutes);
 
   // Products
   routes.use('/products', productRoutes);
