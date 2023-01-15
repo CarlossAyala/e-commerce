@@ -6,7 +6,7 @@ const Business = require('./business.model');
 const Role = require('./role.model');
 const Scope = require('./scope.model');
 const Permission = require('./permission.model');
-
+const UserRole = require('./role.model');
 const Employee = require('./employee.model');
 
 const Card = require('./card.model');
@@ -70,7 +70,7 @@ module.exports = {
   Role,
   Scope,
   Permission,
-
+  UserRole,
   Employee,
 
   Business,
