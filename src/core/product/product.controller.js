@@ -26,6 +26,7 @@ const create = async (req, res, next) => {
   try {
     // TODO: Missing fkBusiness
     // First, create a table between business and employees
+    // Because we need to know if the user have role/scope-permissions
     await ProductProvider.create(req.body);
 
     res.status(201).json({

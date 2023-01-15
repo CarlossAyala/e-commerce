@@ -7,10 +7,6 @@ const Role = require('./role.model');
 const Scope = require('./scope.model');
 const Permission = require('./permission.model');
 
-const UserRole = require('./user-role.model');
-const UserScope = require('./user-scope.model');
-const UserScopePermission = require('./user-scope-permission.model');
-
 const Card = require('./card.model');
 
 const CardRegister = require('./card-register.model');
@@ -58,18 +54,6 @@ const WalletShop = require('./wallet-shop.model');
 // Association
 
 // SECURITY
-User.model.belongsToMany(Role.model, {
-  through: UserRole.model,
-  foreignKey: 'fkUser',
-  as: 'roles',
-  unique: false,
-});
-Role.model.belongsToMany(User.model, {
-  through: UserRole.model,
-  foreignKey: 'fkRole',
-  as: 'users',
-  unique: false,
-});
 
 // CATEGORIAS
 Category.model.hasMany(Category.model, {
@@ -84,9 +68,6 @@ module.exports = {
   Role,
   Scope,
   Permission,
-  UserRole,
-  UserScope,
-  UserScopePermission,
 
   Business,
 

@@ -9,9 +9,6 @@ const categoryRoutes = require('../core/category/category.routes');
 const roleRoutes = require('../core/role/role.routes');
 const scopeRoutes = require('../core/scope/scope.routes');
 const permissionRoutes = require('../core/permission/permission.routes');
-const userRoleRoutes = require('../core/user-role/user-role.routes');
-const userScopeRoutes = require('../core/user-scope/user-scope.routes');
-const userScopePermissionRoutes = require('../core/user-scope-permission/user-scope-permission.routes');
 const productRoutes = require('../core/product/product.routes');
 
 function router(app) {
@@ -29,9 +26,6 @@ function router(app) {
   routes.use('/roles', roleRoutes);
   routes.use('/scopes', scopeRoutes);
   routes.use('/permissions', permissionRoutes);
-  routes.use('/users-roles', userRoleRoutes);
-  routes.use('/users-scopes', userScopeRoutes);
-  routes.use('/users-scopes-permissions', userScopePermissionRoutes);
 
   // Products
   routes.use('/products', productRoutes);
