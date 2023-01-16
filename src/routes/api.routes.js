@@ -10,7 +10,8 @@ const scopeRoutes = require('../core/scope/scope.routes');
 const permissionRoutes = require('../core/permission/permission.routes');
 const productRoutes = require('../core/product/product.routes');
 const employeeRoutes = require('../core/employee/employee.routes');
-const movementTypeRoutes = require('../core/moviment-type/movement-type.routes');
+const movementTypeRoutes = require('../core/movement-type/movement-type.routes');
+const chargeCategoryRoutes = require('../core/charge-category/charge-category.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -34,6 +35,7 @@ function router(app) {
 
   // Transactions and recharges
   routes.use('/movement-types', movementTypeRoutes);
+  routes.use('/charge-categories', chargeCategoryRoutes);
 }
 
 module.exports = router;
