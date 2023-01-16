@@ -8,7 +8,7 @@ const resourceExist = async (req, res, next) => {
     const resourceId = req.params.id;
     const resource = await ChargeProvider.getOne(resourceId);
 
-    if (!resource) return next(Boom.notFound('Charge Category not found'));
+    if (!resource) return next(Boom.notFound('Charge not found'));
 
     next();
   } catch (error) {
