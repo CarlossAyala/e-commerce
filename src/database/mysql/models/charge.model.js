@@ -26,7 +26,7 @@ const modelSchema = {
     type: DataTypes.ENUM,
     values: Object.values(enums),
   },
-  rate: DataTypes.DECIMAL(3, 2),
+  rate: DataTypes.DECIMAL(3, 1),
   amount: DataTypes.DECIMAL(10, 2),
   active: DataTypes.BOOLEAN,
   fkChargeCategory: {
