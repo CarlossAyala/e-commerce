@@ -1,9 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
-// const { User, Product, QuestionStatus, Answer } = require('.');
 const User = require('./user.model');
 const Product = require('./product.model');
-const QuestionStatus = require('./question-status.model');
 const Answer = require('./answer.model');
 
 const modelName = 'Question';
@@ -12,6 +10,12 @@ const modelOptions = {
   tableName,
   timestamps: true,
 };
+const enums = {
+  answered: 'answered',
+  queue: 'queue',
+  rejected: 'rejected',
+  duplicate: 'duplicate',
+};
 
 const modelSchema = {
   id: {
@@ -19,14 +23,11 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  question: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      notNull: true,
-      notEmpty: true,
-    },
+  states: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums),
   },
+  question: DataTypes.STRING,
   fkCustomer: {
     type: DataTypes.UUID,
     field: 'fk_customer',
@@ -40,14 +41,6 @@ const modelSchema = {
     field: 'fk_product',
     references: {
       model: Product.model,
-      key: 'id',
-    },
-  },
-  fkStatus: {
-    type: DataTypes.UUID,
-    field: 'fk_status',
-    references: {
-      model: QuestionStatus.model,
       key: 'id',
     },
   },

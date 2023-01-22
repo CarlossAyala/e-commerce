@@ -45,7 +45,6 @@ const CartItem = require('./cart-item.model');
 
 const Review = require('./review.model');
 
-const QuestionStatus = require('./question-status.model');
 const Question = require('./question.model');
 const Answer = require('./answer.model');
 
@@ -109,7 +108,6 @@ module.exports = {
 
   Review,
 
-  QuestionStatus,
   Answer,
   Question,
 
