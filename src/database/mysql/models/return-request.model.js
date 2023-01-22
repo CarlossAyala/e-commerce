@@ -1,13 +1,19 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
 const OrderItem = require('./order-item.model');
-const ReturnRequestStatus = require('./return-request-status.model');
 
 const modelName = 'ReturnRequest';
 const tableName = 'return_requests';
 const modelOptions = {
   tableName,
   timestamps: true,
+};
+const enums = {
+  started: 'started',
+  progress: 'In progress',
+  approved: 'Approved',
+  rejected: 'Rejected',
+  cancelled: 'Cancelled',
 };
 
 const modelSchema = {
@@ -22,19 +28,15 @@ const modelSchema = {
   price: DataTypes.DECIMAL(10, 2),
   quantity: DataTypes.INTEGER,
   aditional: DataTypes.STRING,
+  states: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums),
+  },
   fkOrderItem: {
     type: DataTypes.UUID,
     field: 'fk_order_item',
     references: {
       model: OrderItem.model,
-      key: 'id',
-    },
-  },
-  fkStatus: {
-    type: DataTypes.UUID,
-    field: 'fk_status',
-    references: {
-      model: ReturnRequestStatus.model,
       key: 'id',
     },
   },
@@ -57,4 +59,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

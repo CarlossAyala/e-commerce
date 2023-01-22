@@ -35,7 +35,6 @@ const PurchaseOrder = require('./purchase-order.model');
 const OrderItem = require('./order-item.model');
 const OrderAddress = require('./order-address.model');
 
-const ReturnRequestStatus = require('./return-request-status.model');
 const ReturnRequest = require('./return-request.model');
 const ReturnProcess = require('./return-process.model');
 
@@ -100,7 +99,6 @@ module.exports = {
   OrderItem,
   OrderAddress,
 
-  ReturnRequestStatus,
   ReturnRequest,
   ReturnProcess,
 
