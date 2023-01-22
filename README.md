@@ -19,7 +19,6 @@ El sistema cuenta con diferentes `Roles`, como `Owners`, `Sellers`, `Customers` 
   - [Permissions](#permissions)
 - [Modules](#modules)
   - [Modules Administration](#modules-administration)
-- [Tasks](#tasks)
 
 ## Installation
 
@@ -98,14 +97,6 @@ Aquí una lista de los módulos disponibles:
 | `Charges Managment` | `Owner` | - | `Owner` |
 | `Movement Charges Managment` | `Owner` | - | `Owner` |
 | `Businesses` | `Seller` | - | `Seller` |
-
-## Tasks
-
-- [ ] Revisar implementación de Roles, Scopes y Permissions
-- [ ] Revisar implementación de la tabla Employees para que se puedan guardar los empleados del E-Commerce y Stores
-- [ ] Cambiar a un ENUM "order_states" en el modelo "purchase_orders"
-- [ ] Cambiar a un ENUM "return_request_statuses" en el model "return_requests"
-- [ ] Cambiar a un ENUM "questions_status" en el modelo "questions"
 
 <!-- ## Features -->
 <!-- ## Credits -->
