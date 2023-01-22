@@ -31,7 +31,6 @@ const TransactionCharge = require('./transaction-charge.model');
 
 const Transaction = require('./transaction.model');
 
-const OrderState = require('./order-state.model');
 const PurchaseOrder = require('./purchase-order.model');
 const OrderItem = require('./order-item.model');
 const OrderAddress = require('./order-address.model');
@@ -97,7 +96,6 @@ module.exports = {
   Transaction,
   TransactionCharge,
 
-  OrderState,
   PurchaseOrder,
   OrderItem,
   OrderAddress,
