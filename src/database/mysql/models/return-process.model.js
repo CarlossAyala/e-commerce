@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
 const ReturnRequest = require('./return-request.model');
-const OrderState = require('./order-state.model');
 
 const modelName = 'ReturnProcess';
 const tableName = 'return_processes';
@@ -14,6 +13,14 @@ const enums = {
     new: 'new',
     used: 'used',
     reconditioned: 'reconditioned',
+  },
+  states: {
+    realized: 'Realized',
+    processing: 'Processing',
+    sent: 'Sent',
+    delivered: 'Delivered',
+    cancelled: 'Cancelled',
+    returned: 'Returned',
   },
 };
 
@@ -33,19 +40,15 @@ const modelSchema = {
     type: DataTypes.ENUM,
     values: Object.values(enums.condition),
   },
+  states: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums.states),
+  },
   fkReturnRequest: {
     type: DataTypes.UUID,
     field: 'fk_return_request',
     references: {
       model: ReturnRequest.model,
-      key: 'id',
-    },
-  },
-  fkShippingStatus: {
-    type: DataTypes.UUID,
-    field: 'fk_shipping_status',
-    references: {
-      model: OrderState.model,
       key: 'id',
     },
   },

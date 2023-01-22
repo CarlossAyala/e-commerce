@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql');
 const User = require('./user.model');
-const OrderState = require('./order-state.model');
 const CardRegister = require('./card-register.model');
 
 const modelName = 'PurchaseOrder';
@@ -9,6 +8,14 @@ const tableName = 'purchase_orders';
 const modelOptions = {
   tableName,
   timestamps: true,
+};
+const enums = {
+  realized: 'Realized',
+  processing: 'Processing',
+  sent: 'Sent',
+  delivered: 'Delivered',
+  cancelled: 'Cancelled',
+  returned: 'Returned',
 };
 
 const modelSchema = {
@@ -18,13 +25,9 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   total: DataTypes.DECIMAL(10, 2),
-  fkStatus: {
-    type: DataTypes.UUID,
-    field: 'fk_status',
-    references: {
-      model: OrderState.model,
-      key: 'id',
-    },
+  states: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums),
   },
   fkCardPayment: {
     type: DataTypes.UUID,
