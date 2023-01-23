@@ -41,7 +41,7 @@ function router(app) {
   routes.use('/charges', chargeRoutes);
 
   // Shopping Cart
-  routes.use('cart-items', cartItemRoutes);
+  routes.use('/cart-items', cartItemRoutes);
 }
 
 module.exports = router;
