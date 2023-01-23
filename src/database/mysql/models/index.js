@@ -6,7 +6,7 @@ const Business = require('./business.model');
 const Role = require('./role.model');
 const Scope = require('./scope.model');
 const Permission = require('./permission.model');
-const UserRole = require('./role.model');
+const UserRole = require('./user-role.model');
 const Employee = require('./employee.model');
 
 const Card = require('./card.model');
@@ -59,17 +59,29 @@ Category.model.hasMany(Category.model, {
   foreignKey: 'parentId',
 });
 
+// CART SHOPPING
+User.model.belongsToMany(Product.model, {
+  through: CartItem.model,
+  foreignKey: 'customerId',
+  as: 'cart',
+});
+Product.model.belongsToMany(User.model, {
+  through: CartItem.model,
+  foreignKey: 'productId',
+  as: 'cart',
+});
+
 module.exports = {
   User,
   Address,
+
+  Business,
 
   Role,
   Scope,
   Permission,
   UserRole,
   Employee,
-
-  Business,
 
   Card,
 

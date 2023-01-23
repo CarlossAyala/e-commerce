@@ -17,17 +17,17 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   quantity: DataTypes.INTEGER,
-  fkCustomer: {
+  customerId: {
     type: DataTypes.UUID,
-    field: 'fk_customer',
+    field: 'customer_id',
     references: {
       model: User.model,
       key: 'id',
     },
   },
-  fkProduct: {
+  productId: {
     type: DataTypes.UUID,
-    field: 'fk_product',
+    field: 'product_id',
     references: {
       model: Product.model,
       key: 'id',

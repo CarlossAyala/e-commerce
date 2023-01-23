@@ -1,25 +1,32 @@
-const { CartItem } = require('../../database/mysql/models');
+const { CartItem, User, Product } = require('../../database/mysql/models');
 
 class CartItemService {
   getOne(id) {
     return CartItem.model.findByPk(id);
   }
 
-  addProduct({ quantity, fkCustomer, fkProduct }) {
+  addProduct({ quantity, customerId, productId }) {
     return CartItem.model.create({
       quantity,
-      fkCustomer,
-      fkProduct,
+      customerId,
+      productId,
     });
   }
 
   getCart(id) {
-    return CartItem.model.findAll({
+    return User.model.findAll({
       where: {
-        fkCustomer: id,
+        id,
       },
-      attributes: {
-        exclude: ['fkCustomer'],
+      attributes: ['id'],
+      include: {
+        model: Product.model,
+        as: 'cart',
+        through: {
+          as: 'details',
+          attributes: ['id', 'quantity'],
+        },
+        attributes: ['id', 'name', 'price', 'available'],
       },
     });
   }
@@ -46,7 +53,7 @@ class CartItemService {
   clearCart(id) {
     return CartItem.model.destroy({
       where: {
-        fkCustomer: id,
+        customerId: id,
       },
     });
   }

@@ -5,7 +5,7 @@ const id = Joi.string().guid({
   separator: '-',
 });
 
-const quantity = Joi.number().integer().positive().greater(0);
+const quantity = Joi.number().integer().greater(0);
 
 const resourceId = Joi.object({
   id: id.required(),
