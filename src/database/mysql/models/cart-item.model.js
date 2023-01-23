@@ -17,8 +17,6 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   quantity: DataTypes.INTEGER,
-  price: DataTypes.DECIMAL(10, 2),
-  total: DataTypes.DECIMAL(10, 2),
   fkCustomer: {
     type: DataTypes.UUID,
     field: 'fk_customer',

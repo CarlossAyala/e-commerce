@@ -13,6 +13,7 @@ const employeeRoutes = require('../core/employee/employee.routes');
 const movementTypeRoutes = require('../core/movement-type/movement-type.routes');
 const chargeCategoryRoutes = require('../core/charge-category/charge-category.routes');
 const chargeRoutes = require('../core/charge/charge.routes');
+const cartItemRoutes = require('../core/cart-item/cart-item.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -40,6 +41,7 @@ function router(app) {
   routes.use('/charges', chargeRoutes);
 
   // Shopping Cart
-  }
+  routes.use('cart-items', cartItemRoutes);
+}
 
 module.exports = router;
