@@ -38,6 +38,8 @@ function router(app) {
   routes.use('/movement-types', movementTypeRoutes);
   routes.use('/charge-categories', chargeCategoryRoutes);
   routes.use('/charges', chargeRoutes);
-}
+
+  // Shopping Cart
+  }
 
 module.exports = router;

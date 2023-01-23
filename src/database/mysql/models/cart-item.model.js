@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
-const ShoppingCart = require('./shopping-cart.model');
+const User = require('./user.model');
 const Product = require('./product.model');
 
 const modelName = 'CartItem';
@@ -19,11 +19,11 @@ const modelSchema = {
   quantity: DataTypes.INTEGER,
   price: DataTypes.DECIMAL(10, 2),
   total: DataTypes.DECIMAL(10, 2),
-  fkCart: {
+  fkCustomer: {
     type: DataTypes.UUID,
-    field: 'fk_cart',
+    field: 'fk_customer',
     references: {
-      model: ShoppingCart.model,
+      model: User.model,
       key: 'id',
     },
   },

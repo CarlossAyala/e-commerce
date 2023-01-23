@@ -40,7 +40,6 @@ const ReturnProcess = require('./return-process.model');
 
 const Sale = require('./sale.model');
 
-const ShoppingCart = require('./shopping-cart.model');
 const CartItem = require('./cart-item.model');
 
 const Review = require('./review.model');
@@ -103,7 +102,6 @@ module.exports = {
 
   Sale,
 
-  ShoppingCart,
   CartItem,
 
   Review,
