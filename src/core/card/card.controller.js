@@ -14,7 +14,8 @@ const getOne = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const resources = await CardProvider.getAll();
+    const userId = req.auth.id;
+    const resources = await CardProvider.getAll(userId);
 
     res.status(200).json(resources);
   } catch (error) {
