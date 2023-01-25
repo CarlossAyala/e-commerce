@@ -71,6 +71,25 @@ Product.model.belongsToMany(User.model, {
   as: 'cart',
 });
 
+// PURCHASE ORDER
+PurchaseOrder.model.hasMany(OrderItem.model, {
+  foreignKey: 'fkOrder',
+  as: 'products',
+});
+PurchaseOrder.model.hasOne(OrderAddress.model, {
+  foreignKey: 'fkOrder',
+  as: 'destination',
+});
+PurchaseOrder.model.belongsTo(CardRegister.model, {
+  foreignKey: 'fkCardPayment',
+  as: 'creditCard',
+});
+
+OrderItem.model.belongsTo(Product.model, {
+  foreignKey: 'fkProduct',
+  as: 'details',
+});
+
 module.exports = {
   User,
   Address,

@@ -15,6 +15,7 @@ const chargeCategoryRoutes = require('../core/charge-category/charge-category.ro
 const chargeRoutes = require('../core/charge/charge.routes');
 const cartItemRoutes = require('../core/cart-item/cart-item.routes');
 const buyRoutes = require('../core/buy/buy.routes');
+const purchaseOrderRoutes = require('../core/purchase-order/purchase-order.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -48,6 +49,9 @@ function router(app) {
 
   // Checkout's
   checkout.use('/buying', buyRoutes);
+
+  // Purchase Order
+  routes.use('/purchase-orders', purchaseOrderRoutes);
 }
 
 module.exports = router;
