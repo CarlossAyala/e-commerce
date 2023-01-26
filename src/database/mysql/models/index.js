@@ -33,10 +33,7 @@ const Transaction = require('./transaction.model');
 
 const PurchaseOrder = require('./purchase-order.model');
 const OrderItem = require('./order-item.model');
-const OrderAddress = require('./order-address.model');
-
-const ReturnRequest = require('./return-request.model');
-const ReturnProcess = require('./return-process.model');
+const AddressRegister = require('./address-register.model');
 
 const Sale = require('./sale.model');
 
@@ -76,8 +73,8 @@ PurchaseOrder.model.hasMany(OrderItem.model, {
   foreignKey: 'fkOrder',
   as: 'products',
 });
-PurchaseOrder.model.hasOne(OrderAddress.model, {
-  foreignKey: 'fkOrder',
+PurchaseOrder.model.belongsTo(AddressRegister.model, {
+  foreignKey: 'fkDestination',
   as: 'destination',
 });
 PurchaseOrder.model.belongsTo(CardRegister.model, {
@@ -104,7 +101,11 @@ module.exports = {
 
   Card,
 
+  PurchaseOrder,
+  OrderItem,
+
   CardRegister,
+  AddressRegister,
 
   WalletStatus,
   WalletTransfer,
@@ -123,13 +124,6 @@ module.exports = {
 
   Transaction,
   TransactionCharge,
-
-  PurchaseOrder,
-  OrderItem,
-  OrderAddress,
-
-  ReturnRequest,
-  ReturnProcess,
 
   Sale,
 
