@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql');
 const User = require('./user.model');
 const CardRegister = require('./card-register.model');
+const AddressRegister = require('./address-register.model');
 
 const modelName = 'PurchaseOrder';
 const tableName = 'purchase_orders';
@@ -34,6 +35,14 @@ const modelSchema = {
     field: 'fk_card_payment',
     references: {
       model: CardRegister.model,
+      key: 'id',
+    },
+  },
+  fkDestination: {
+    type: DataTypes.UUID,
+    field: 'fk_destination',
+    references: {
+      model: AddressRegister.model,
       key: 'id',
     },
   },

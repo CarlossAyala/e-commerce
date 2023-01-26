@@ -3,10 +3,10 @@ const {
   Product,
   Address,
   Card,
-  OrderAddress,
   OrderItem,
   PurchaseOrder,
   CardRegister,
+  AddressRegister,
   CartItem,
 } = require('../../database/mysql/models');
 
@@ -74,12 +74,20 @@ class BuyService {
     );
   }
 
-  createPurchaseOrder({ total, states, customerId, card }, transaction) {
+  registerDestination(destination, transaction) {
+    return AddressRegister.model.create(destination, { transaction });
+  }
+
+  createPurchaseOrder(
+    { total, states, customerId, registerCard, registerDestination },
+    transaction
+  ) {
     return PurchaseOrder.model.create(
       {
         total,
         states,
-        fkCardPayment: card.id,
+        fkCardPayment: registerCard.id,
+        fkDestination: registerDestination.id,
         fkCustomer: customerId,
       },
       { transaction }
@@ -103,16 +111,6 @@ class BuyService {
         { transaction }
       );
     }
-  }
-
-  createDestinationOrder(destination, purchaseOrder, transaction) {
-    return OrderAddress.model.create(
-      {
-        ...destination.dataValues,
-        fkOrder: purchaseOrder.id,
-      },
-      { transaction }
-    );
   }
 
   clearCartItems(customerId, transaction) {

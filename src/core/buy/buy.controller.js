@@ -33,7 +33,12 @@ const buy = async (req, res, next) => {
     // Transaction Implementation
     await sequelize.transaction(async (t) => {
       // Register Payment Method (credit card)
-      const card = await BuyProvider.registerCard(creditCart, t);
+      const registerCard = await BuyProvider.registerCard(creditCart, t);
+      // Register Destination
+      const registerDestination = await BuyProvider.registerDestination(
+        destination,
+        t
+      );
 
       // Create Purchase Order
       const states = PurchaseOrder.enums.realized;
@@ -42,16 +47,14 @@ const buy = async (req, res, next) => {
           total: totalCartItems,
           states,
           customerId,
-          card,
+          registerCard,
+          registerDestination,
         },
         t
       );
 
       // Create Order-Items
       await BuyProvider.createOrderItems(shoppingCart, purchaseOrder, t);
-
-      // Create Destination Order
-      await BuyProvider.createDestinationOrder(destination, purchaseOrder, t);
 
       // Clear Cart Items
       await BuyProvider.clearCartItems(customerId, t);
