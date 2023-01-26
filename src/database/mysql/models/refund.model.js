@@ -1,19 +1,19 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
-const OrderItem = require('./order-item.model');
+const User = require('./user.model');
+const Return = require('./return.model');
 
-const modelName = 'ReturnRequest';
-const tableName = 'return_requests';
+const modelName = 'Refund';
+const tableName = 'refunds';
 const modelOptions = {
   tableName,
   timestamps: true,
 };
 const enums = {
-  started: 'started',
-  progress: 'In progress',
-  approved: 'Approved',
-  rejected: 'Rejected',
-  cancelled: 'Cancelled',
+  status: {
+    pending: 'Pending',
+    completed: 'Completed',
+  },
 };
 
 const modelSchema = {
@@ -22,21 +22,29 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  opened: DataTypes.DATE,
-  closed: DataTypes.DATE,
-  total: DataTypes.DECIMAL(10, 2),
-  price: DataTypes.DECIMAL(10, 2),
-  quantity: DataTypes.INTEGER,
-  aditional: DataTypes.STRING,
-  states: {
-    type: DataTypes.ENUM,
-    values: Object.values(enums),
+  open: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
   },
-  fkOrderItem: {
+  close: DataTypes.DATE,
+  amount: DataTypes.DECIMAL(10, 2),
+  status: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums.status),
+  },
+  customerId: {
     type: DataTypes.UUID,
-    field: 'fk_order_item',
+    field: 'customer_id',
     references: {
-      model: OrderItem.model,
+      model: User.model,
+      key: 'id',
+    },
+  },
+  returnId: {
+    type: DataTypes.UUID,
+    field: 'return_id',
+    references: {
+      model: Return.model,
       key: 'id',
     },
   },

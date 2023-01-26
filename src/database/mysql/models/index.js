@@ -35,6 +35,12 @@ const PurchaseOrder = require('./purchase-order.model');
 const OrderItem = require('./order-item.model');
 const AddressRegister = require('./address-register.model');
 
+const Return = require('./return.model');
+
+const Refund = require('./refund.model');
+
+const Exchange = require('./exchange.model');
+
 const Sale = require('./sale.model');
 
 const CartItem = require('./cart-item.model');
@@ -93,19 +99,25 @@ module.exports = {
 
   Business,
 
+  Card,
+
+  CardRegister,
+  AddressRegister,
+
   Role,
   Scope,
   Permission,
   UserRole,
   Employee,
 
-  Card,
-
   PurchaseOrder,
   OrderItem,
 
-  CardRegister,
-  AddressRegister,
+  Return,
+
+  Refund,
+
+  Exchange,
 
   WalletStatus,
   WalletTransfer,
