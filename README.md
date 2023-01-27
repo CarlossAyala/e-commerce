@@ -9,6 +9,7 @@ El sistema cuenta con diferentes `Roles`, como `Owners`, `Sellers`, `Customers` 
 ## Tabla de contenido <!-- omit from toc -->
 
 - [Installation](#installation)
+- [Review](#review)
 - [Use](#use)
   - [Environment Variables](#environment-variables)
     - [Seller](#seller)
@@ -22,8 +23,12 @@ El sistema cuenta con diferentes `Roles`, como `Owners`, `Sellers`, `Customers` 
 
 ## Installation
 
-## Use
+## Review
 
+- Revisar la implementación de las `Questions` y `Answers`, ya que, por ahora, en lugar de estár asociado a un `Employee` de una `Store`, está asociada a un `User`, ya que todavía no está clara la implementación de `Employees`
+
+## Use
+  
 ### Environment Variables
 
 #### Seller
