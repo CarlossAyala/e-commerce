@@ -113,6 +113,8 @@ module.exports = {
   UserRole,
   Employee,
 
+  Product,
+
   PurchaseOrder,
   OrderItem,
 
@@ -127,8 +129,6 @@ module.exports = {
   WalletWithdrawal,
 
   Category,
-
-  Product,
 
   MovementType,
 

@@ -17,21 +17,27 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   title: DataTypes.STRING(50),
-  commet: DataTypes.STRING,
+  comment: DataTypes.STRING,
   rating: DataTypes.INTEGER,
-  like: DataTypes.INTEGER,
-  dislike: DataTypes.INTEGER,
-  fkUser: {
+  like: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  dislike: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  customerId: {
     type: DataTypes.UUID,
-    field: 'fk_user',
+    field: 'customer_id',
     references: {
       model: User.model,
       key: 'id',
     },
   },
-  fkProduct: {
+  productId: {
     type: DataTypes.UUID,
-    field: 'fk_product',
+    field: 'product_id',
     references: {
       model: Product.model,
       key: 'id',
