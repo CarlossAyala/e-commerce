@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
 const User = require('./user.model');
 const Product = require('./product.model');
-const Answer = require('./answer.model');
 
 const modelName = 'Question';
 const tableName = 'questions';
@@ -11,10 +10,12 @@ const modelOptions = {
   timestamps: true,
 };
 const enums = {
-  answered: 'answered',
-  queue: 'queue',
-  rejected: 'rejected',
-  duplicate: 'duplicate',
+  states: {
+    answered: 'answered',
+    queue: 'queue',
+    rejected: 'rejected',
+    duplicate: 'duplicate',
+  },
 };
 
 const modelSchema = {
@@ -23,32 +24,24 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
+  question: DataTypes.STRING,
   states: {
     type: DataTypes.ENUM,
-    values: Object.values(enums),
+    values: Object.values(enums.states),
   },
-  question: DataTypes.STRING,
-  fkCustomer: {
+  customerId: {
     type: DataTypes.UUID,
-    field: 'fk_customer',
+    field: 'customer_id',
     references: {
       model: User.model,
       key: 'id',
     },
   },
-  fkProduct: {
+  productId: {
     type: DataTypes.UUID,
-    field: 'fk_product',
+    field: 'product_id',
     references: {
       model: Product.model,
-      key: 'id',
-    },
-  },
-  fkAnswer: {
-    type: DataTypes.UUID,
-    field: 'fk_answer',
-    references: {
-      model: Answer.model,
       key: 'id',
     },
   },
@@ -71,4 +64,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

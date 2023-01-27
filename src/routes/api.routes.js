@@ -17,6 +17,7 @@ const cartItemRoutes = require('../core/cart-item/cart-item.routes');
 const buyRoutes = require('../core/buy/buy.routes');
 const purchaseOrderRoutes = require('../core/purchase-order/purchase-order.routes');
 const reviewRoutes = require('../core/review/review.routes');
+const questionRoutes = require('../core/question/question.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -56,6 +57,9 @@ function router(app) {
 
   // Review
   routes.use('/reviews', reviewRoutes);
+
+  // Questions and Answers
+  routes.use('/questions', questionRoutes);
 }
 
 module.exports = router;

@@ -96,6 +96,12 @@ OrderItem.model.belongsTo(Product.model, {
   as: 'details',
 });
 
+// QUESTIONS AND ANSWERS
+Question.model.hasOne(Answer.model, {
+  foreignKey: 'questionId',
+  as: 'answer',
+});
+
 module.exports = {
   User,
   Address,

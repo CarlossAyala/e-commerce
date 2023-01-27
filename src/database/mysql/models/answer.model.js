@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
 const User = require('./user.model');
+const Question = require('./question.model');
 
 const modelName = 'Answer';
 const tableName = 'answers';
@@ -16,11 +17,19 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   answer: DataTypes.STRING,
-  fkUser: {
+  employeeId: {
     type: DataTypes.UUID,
-    field: 'fk_user',
+    field: 'employee_id',
     references: {
       model: User.model,
+      key: 'id',
+    },
+  },
+  questionId: {
+    type: DataTypes.UUID,
+    field: 'question_id',
+    references: {
+      model: Question.model,
       key: 'id',
     },
   },
