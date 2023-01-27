@@ -18,6 +18,7 @@ const buyRoutes = require('../core/buy/buy.routes');
 const purchaseOrderRoutes = require('../core/purchase-order/purchase-order.routes');
 const reviewRoutes = require('../core/review/review.routes');
 const questionRoutes = require('../core/question/question.routes');
+const answerRoutes = require('../core/answer/answer.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -60,6 +61,7 @@ function router(app) {
 
   // Questions and Answers
   routes.use('/questions', questionRoutes);
+  routes.use('/answers', answerRoutes);
 }
 
 module.exports = router;
