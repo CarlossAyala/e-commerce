@@ -47,6 +47,9 @@ const CartItem = require('./cart-item.model');
 
 const Review = require('./review.model');
 
+const Like = require('./like.model');
+const Dislike = require('./dislike.model');
+
 const Question = require('./question.model');
 const Answer = require('./answer.model');
 
@@ -142,6 +145,9 @@ module.exports = {
   CartItem,
 
   Review,
+
+  Like,
+  Dislike,
 
   Answer,
   Question,
