@@ -25,7 +25,8 @@ El sistema cuenta con diferentes `Roles`, como `Owners`, `Sellers`, `Customers` 
 
 ## Review
 
-- Revisar la implementación de las `Questions` y `Answers`, ya que, por ahora, en lugar de estár asociado a un `Employee` de una `Store`, está asociada a un `User`, ya que todavía no está clara la implementación de `Employees`
+- Revisar la implementación de las `Questions` y `Answers`, ya que, por ahora, en lugar de estár asociado a un `Employee` de una `Store`, está asociada a un `User`, ya que todavía no está clara la implementación de `Employees`.
+- Employee podría, en lugar de crear la cuenta en su tabla, hacerla en `Users` y hacer referencia por una FK.
 
 ## Use
   
