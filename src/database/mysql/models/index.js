@@ -4,10 +4,8 @@ const Address = require('./address.model');
 const Business = require('./business.model');
 
 const Role = require('./role.model');
-const Scope = require('./scope.model');
-const Permission = require('./permission.model');
-const UserRole = require('./user-role.model');
 const Employee = require('./employee.model');
+const EmployeeRole = require('./employee-role.model');
 
 const Card = require('./card.model');
 
@@ -114,10 +112,8 @@ module.exports = {
   AddressRegister,
 
   Role,
-  Scope,
-  Permission,
-  UserRole,
   Employee,
+  EmployeeRole,
 
   Product,
 

@@ -1,8 +1,10 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql');
+const sequelize = require('../index');
+const Employee = require('./employee.model');
+const Role = require('./role.model');
 
-const modelName = 'Permission';
-const tableName = 'permissions';
+const modelName = 'EmployeeRole';
+const tableName = 'employees_roles';
 const modelOptions = {
   tableName,
   timestamps: true,
@@ -14,8 +16,22 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  name: DataTypes.STRING(50),
-  description: DataTypes.STRING,
+  employeeId: {
+    type: DataTypes.UUID,
+    field: 'employee_id',
+    references: {
+      model: Employee.model,
+      key: 'id',
+    },
+  },
+  roleId: {
+    type: DataTypes.UUID,
+    field: 'role_id',
+    references: {
+      model: Role.model,
+      key: 'id',
+    },
+  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,

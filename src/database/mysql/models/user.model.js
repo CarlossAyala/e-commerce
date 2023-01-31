@@ -14,16 +14,9 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  name: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    validate: {
-      notNull: true,
-      notEmpty: true,
-    },
-  },
+  name: DataTypes.STRING,
   lastName: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING,
     field: 'last_name',
   },
   email: {

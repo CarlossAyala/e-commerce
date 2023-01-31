@@ -1,14 +1,18 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
-const User = require('./user.model');
 const Business = require('./business.model');
-const Scope = require('./scope.model');
 
 const modelName = 'Employee';
 const tableName = 'employees';
 const modelOptions = {
   tableName,
   timestamps: true,
+};
+const enums = {
+  type: {
+    ecommerce: 'ecommerce',
+    store: 'store',
+  },
 };
 
 const modelSchema = {
@@ -17,27 +21,29 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  userId: {
-    type: DataTypes.UUID,
-    field: 'user_id',
-    references: {
-      model: User.model,
-      key: 'id',
-    },
+  name: DataTypes.STRING,
+  lastName: {
+    type: DataTypes.STRING,
+    field: 'last_name',
+  },
+  email: {
+    type: DataTypes.STRING,
+    unique: true,
+  },
+  password: DataTypes.STRING,
+  hireDate: {
+    type: DataTypes.STRING,
+    field: 'hire_date',
+  },
+  type: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums.type),
   },
   businessId: {
     type: DataTypes.UUID,
     field: 'business_id',
     references: {
       model: Business.model,
-      key: 'id',
-    },
-  },
-  scopeId: {
-    type: DataTypes.UUID,
-    field: 'scope_id',
-    references: {
-      model: Scope.model,
       key: 'id',
     },
   },
@@ -60,4 +66,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

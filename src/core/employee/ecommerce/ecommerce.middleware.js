@@ -1,12 +1,12 @@
 const Boom = require('@hapi/boom');
-const EmployeeService = require('./employee.service');
+const EcommerceService = require('./ecommerce.service');
 
-const EmployeeProvider = new EmployeeService();
+const EcommerceProvider = new EcommerceService();
 
 const resourceExist = async (req, res, next) => {
   try {
     const resourceId = req.params.id;
-    const resource = await EmployeeProvider.getOne(resourceId);
+    const resource = await EcommerceProvider.getOne(resourceId);
 
     if (!resource) return next(Boom.notFound('Employee not found'));
 
@@ -15,6 +15,8 @@ const resourceExist = async (req, res, next) => {
     next(error);
   }
 };
+
+// TODO: Check roles of user logged in
 
 module.exports = {
   resourceExist,
