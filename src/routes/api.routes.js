@@ -17,6 +17,7 @@ const purchaseOrderRoutes = require('../core/purchase-order/purchase-order.route
 const reviewRoutes = require('../core/review/review.routes');
 const questionRoutes = require('../core/question/question.routes');
 const answerRoutes = require('../core/answer/answer.routes');
+const employeeRoleRoutes = require('../core/employee-role/employee-role.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -34,7 +35,7 @@ function router(app) {
   // Security
   routes.use('/roles', roleRoutes);
   routes.use('/employees', employeeRoutes);
-  // TODO: Employee-Role
+  routes.use('/employees-roles', employeeRoleRoutes);
 
   // Products
   routes.use('/products', productRoutes);

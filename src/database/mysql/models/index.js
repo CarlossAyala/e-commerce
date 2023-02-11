@@ -115,6 +115,8 @@ module.exports = {
   Employee,
   EmployeeRole,
 
+  Category,
+
   Product,
 
   PurchaseOrder,
@@ -129,8 +131,6 @@ module.exports = {
   WalletStatus,
   WalletTransfer,
   WalletWithdrawal,
-
-  Category,
 
   MovementType,
 
@@ -151,8 +151,8 @@ module.exports = {
   Like,
   Dislike,
 
-  Answer,
   Question,
+  Answer,
 
   WalletShop,
 };

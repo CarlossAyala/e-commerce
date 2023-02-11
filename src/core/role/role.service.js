@@ -1,10 +1,11 @@
 const { Role } = require('../../database/mysql/models');
 
 class RoleService {
-  create({ name, description }) {
+  create({ name, description, madeFor }) {
     return Role.model.create({
       name,
       description,
+      madeFor,
     });
   }
 
@@ -24,11 +25,12 @@ class RoleService {
     });
   }
 
-  update(id, { name, description }) {
+  update(id, { name, description, madeFor }) {
     return Role.model.update(
       {
         name,
         description,
+        madeFor,
       },
       {
         where: {

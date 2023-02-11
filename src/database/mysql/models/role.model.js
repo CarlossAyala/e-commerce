@@ -7,6 +7,13 @@ const modelOptions = {
   tableName,
   timestamps: true,
 };
+const enums = {
+  madeFor: {
+    ecommerce: 'ecommerce',
+    store: 'store',
+    both: 'both',
+  },
+};
 
 const modelSchema = {
   id: {
@@ -16,6 +23,11 @@ const modelSchema = {
   },
   name: DataTypes.STRING(50),
   description: DataTypes.STRING,
+  madeFor: {
+    type: DataTypes.ENUM,
+    field: 'made_for',
+    values: Object.values(enums.madeFor),
+  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
@@ -35,4 +47,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

@@ -2,55 +2,45 @@
 
 const { v4: uuidv4 } = require('uuid');
 const { Role } = require('../models');
+const Roles = require('../../../constant/roles.constant');
+
+const { ecommerce, store, both } = Role.enums.madeFor;
+
+const ECOMMERCE_ROLES = Object.values(Roles.ecommerce);
+const STORE_ROLES = Object.values(Roles.store);
+const BOTH_ROLES = Object.values(Roles.both);
+
+function generateProperties(collections, madeFor) {
+  const collectionWithProperties = [];
+
+  for (const collection of collections) {
+    const newCollection = {
+      id: uuidv4(),
+      ...collection,
+      made_for: madeFor,
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+    collectionWithProperties.push(newCollection);
+  }
+
+  return collectionWithProperties;
+}
 
 module.exports = {
   async up(queryInterface) {
+    const ecommerceRoles = generateProperties(ECOMMERCE_ROLES, ecommerce);
+    const storeRoles = generateProperties(STORE_ROLES, store);
+    const bothRoles = generateProperties(BOTH_ROLES, both);
+
     await queryInterface.bulkInsert(Role.tableName, [
-      {
-        id: uuidv4(),
-        name: 'Owner',
-        description: 'Usuario dueño del E-Commerce con acceso total.',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Seller',
-        description: 'Usuario dueño de una Tienda con acceso total.',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Customer',
-        description: 'Usuario que utiliza el sistema E-Commerce.',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Employee System',
-        description: 'Empleado del E-Commerce.',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Employee Store',
-        description: 'Empleado de una Tienda.',
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
+      ...ecommerceRoles,
+      ...storeRoles,
+      ...bothRoles,
     ]);
   },
 
   async down(queryInterface) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
     await queryInterface.bulkDelete(Role.tableName, null, {});
   },
 };
