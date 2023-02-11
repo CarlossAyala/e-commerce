@@ -21,9 +21,9 @@ const modelSchema = {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  fkUser: {
+  userId: {
     type: DataTypes.UUID,
-    field: 'fk_user',
+    field: 'user_id',
     references: {
       model: User.model,
       key: 'id',
