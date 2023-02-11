@@ -3,11 +3,11 @@
 const { v4: uuidv4 } = require('uuid');
 const config = require('../../../config');
 const Encrypter = require('../../../utils/encrypter');
-const { User, Role, UserRole } = require('../models');
-
-const { name, lastName, email, password } = config.admin;
+const { User } = require('../models');
 
 const generateUser = async () => {
+  const { name, lastName, email, password } = config.admin;
+
   return {
     id: uuidv4(),
     name,
@@ -19,37 +19,14 @@ const generateUser = async () => {
   };
 };
 
-const generateUserRole = (user, role) => {
-  return {
-    id: uuidv4(),
-    fk_user: user.id,
-    fk_role: role.id,
-    created_at: new Date(),
-    updated_at: new Date(),
-  };
-};
-
 module.exports = {
   async up(queryInterface) {
     try {
-      // Get Role for Owner
-      const ownerRole = await Role.model.findOne({
-        where: {
-          name: 'Owner',
-        },
-      });
-
       // Generate a User
       const user = await generateUser();
 
-      // Generate Owner Role to the User
-      const ownerUser = generateUserRole(user, ownerRole);
-
       // Create User
       await queryInterface.bulkInsert(User.tableName, [user]);
-
-      // Create User with Owner role
-      await queryInterface.bulkInsert(UserRole.tableName, [ownerUser]);
     } catch (error) {
       console.log(error);
     }
