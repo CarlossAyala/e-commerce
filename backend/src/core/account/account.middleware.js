@@ -17,6 +17,21 @@ const accountExist = async (req, res, next) => {
   }
 };
 
+const userExist = async (req, res, next) => {
+  try {
+    const userId = req.auth.id;
+
+    const user = await UserProvider.getOne(userId);
+
+    if (user) return next(Boom.badRequest('User not found'));
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   accountExist,
+  userExist,
 };

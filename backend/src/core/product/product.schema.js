@@ -15,38 +15,26 @@ const sold = Joi.number().integer().positive().min(0);
 const price = Joi.number().min(1).precision(2);
 const available = Joi.boolean();
 const condition = Joi.string().valid(...conditionEnums);
-const fkCategory = id;
-const fkBusiness = id;
+const categoryId = id;
+const businessId = id;
 
-const resourceId = Joi.object({
+const uuidV4 = Joi.object({
   id: id.required(),
 });
 
-const create = Joi.object({
+const base = Joi.object({
   name: name.required(),
   description: description.required(),
   stock: stock.required(),
-  sold: sold.required(),
-  price: price.required(),
-  available: available.required(),
-  condition: condition.required(),
-  fkCategory: fkCategory.required(),
-  fkBusiness: fkBusiness.required(),
-});
-
-const update = Joi.object({
-  name,
-  description,
-  stock,
   sold,
-  price,
+  price: price.required(),
   available,
   condition,
-  fkCategory,
+  categoryId: categoryId.required(),
+  businessId: businessId.required(),
 });
 
 module.exports = {
-  resourceId,
-  create,
-  update,
+  uuidV4,
+  base,
 };

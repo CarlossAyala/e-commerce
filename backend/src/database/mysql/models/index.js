@@ -41,7 +41,8 @@ const Exchange = require('./exchange.model');
 
 const Sale = require('./sale.model');
 
-const CartItem = require('./cart-item.model');
+const Cart = require('./cart.model');
+const CartProduct = require('./cart-product.model');
 
 const Review = require('./review.model');
 
@@ -58,21 +59,41 @@ const WalletShop = require('./wallet-shop.model');
 // SECURITY
 
 // CATEGORIAS
+Category.model.belongsTo(Category.model, {
+  as: 'parent',
+  foreignKey: 'parentId',
+});
 Category.model.hasMany(Category.model, {
-  as: 'subCats',
+  as: 'children',
   foreignKey: 'parentId',
 });
 
-// CART SHOPPING
-User.model.belongsToMany(Product.model, {
-  through: CartItem.model,
+// USER AND CART
+User.model.hasOne(Cart.model, {
   foreignKey: 'customerId',
   as: 'cart',
 });
-Product.model.belongsToMany(User.model, {
-  through: CartItem.model,
+Cart.model.belongsTo(User.model, {
+  foreignKey: 'customerId',
+  as: 'customer',
+});
+
+// CART AND PRODUCT
+Cart.model.belongsToMany(Product.model, {
+  through: CartProduct.model,
+  foreignKey: 'cartId',
+  as: 'products',
+});
+Product.model.belongsToMany(Cart.model, {
+  through: CartProduct.model,
   foreignKey: 'productId',
   as: 'cart',
+});
+
+// CART-PRODUCT AND PRODUCT
+CartProduct.model.belongsTo(Product.model, {
+  foreignKey: 'productId',
+  as: 'product',
 });
 
 // PURCHASE ORDER
@@ -98,6 +119,26 @@ OrderItem.model.belongsTo(Product.model, {
 Question.model.hasOne(Answer.model, {
   foreignKey: 'questionId',
   as: 'answer',
+});
+
+// CATEGORIES AND PRODUCTS
+Category.model.hasMany(Product.model, {
+  foreignKey: 'categoryId',
+  as: 'products',
+});
+Product.model.belongsTo(Category.model, {
+  foreignKey: 'categoryId',
+  as: 'category',
+});
+
+// BUSINESSES AND PRODUCTS
+Business.model.hasMany(Product.model, {
+  foreignKey: 'businessId',
+  as: 'products',
+});
+Product.model.belongsTo(Business.model, {
+  foreignKey: 'businessId',
+  as: 'business',
 });
 
 module.exports = {
@@ -144,7 +185,8 @@ module.exports = {
 
   Sale,
 
-  CartItem,
+  Cart,
+  CartProduct,
 
   Review,
 

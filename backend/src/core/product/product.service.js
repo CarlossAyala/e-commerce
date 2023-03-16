@@ -9,8 +9,8 @@ class ProductService {
     price,
     available,
     condition,
-    fkCategory,
-    fkBusiness,
+    categoryId,
+    businessId,
   }) {
     return Product.model.create({
       name,
@@ -20,8 +20,8 @@ class ProductService {
       price,
       available,
       condition,
-      fkCategory,
-      fkBusiness,
+      categoryId,
+      businessId,
     });
   }
 
@@ -30,7 +30,9 @@ class ProductService {
   }
 
   getAll() {
-    return Product.model.findAll();
+    return Product.model.findAll({
+      limit: 20,
+    });
   }
 
   update(id, body) {
@@ -42,7 +44,7 @@ class ProductService {
       price,
       available,
       condition,
-      fkCategory,
+      categoryId,
     } = body;
     return Product.model.update(
       {
@@ -53,7 +55,7 @@ class ProductService {
         price,
         available,
         condition,
-        fkCategory,
+        categoryId,
       },
       {
         where: {

@@ -25,13 +25,11 @@ const getAll = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const fkUser = req.auth.id;
+    const userId = req.auth.id;
 
-    await CardProvider.create({ ...req.body, fkUser });
+    const resource = await CardProvider.create({ ...req.body, userId });
 
-    res.status(201).json({
-      message: 'Created successfully',
-    });
+    res.status(201).json(resource);
   } catch (error) {
     next(error);
   }
@@ -41,7 +39,9 @@ const remove = async (req, res, next) => {
   try {
     await CardProvider.remove(req.params.id);
 
-    res.status(200).end();
+    res.status(200).json({
+      message: 'Removed successfully',
+    });
   } catch (error) {
     next(error);
   }
@@ -51,7 +51,7 @@ const update = async (req, res, next) => {
   try {
     await CardProvider.update(req.params.id, req.body);
 
-    res.status(200).end();
+    res.status(200).json({ message: 'Updated successfully' });
   } catch (error) {
     next(error);
   }

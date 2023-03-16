@@ -1,34 +1,8 @@
 const { Address } = require('../../database/mysql/models');
 
 class AddressService {
-  async create({
-    contactName,
-    contactPhone,
-    zipCode,
-    province,
-    city,
-    street,
-    streetNumber,
-    apartmentNumber,
-    streetOne,
-    streetTwo,
-    aditional,
-    fkUser,
-  }) {
-    return await Address.model.create({
-      contactName,
-      contactPhone,
-      zipCode,
-      province,
-      city,
-      street,
-      streetNumber,
-      apartmentNumber,
-      streetOne,
-      streetTwo,
-      aditional,
-      fkUser,
-    });
+  async create(data) {
+    return await Address.model.create(data);
   }
 
   async getOne(id) {

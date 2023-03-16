@@ -1,14 +1,15 @@
 const router = require('express').Router();
 
+const apiMiddleware = require('../../middlewares/api');
 const validatorHandler = require('../../middlewares/api/validator.middleware');
 const accountSchemas = require('./account.schema');
 const accountMiddleware = require('./account.middleware');
 const accountController = require('./account.controller');
 
 router.post(
-  '/login',
-  validatorHandler(accountSchemas.loginSchema, 'body'),
-  accountController.login
+  '/signin',
+  validatorHandler(accountSchemas.signinSchema, 'body'),
+  accountController.signin
 );
 
 router.post(
@@ -17,6 +18,8 @@ router.post(
   accountMiddleware.accountExist,
   accountController.signup
 );
+
+router.get('/profile', apiMiddleware.validateJWT, accountController.profile);
 
 // TODO: Add these routes
 // router.get('/refresh', validateJWT, refreshToken);

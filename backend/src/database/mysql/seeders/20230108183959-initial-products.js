@@ -2,28 +2,34 @@
 
 const { v4: uuidv4 } = require('uuid');
 const { faker } = require('@faker-js/faker/locale/es_MX');
+const slugify = require('slugify');
 const { Business, Product, Category } = require('../models');
+
+const slugifyOptions = {
+  lower: true,
+  locale: 'la',
+};
 
 const createRandomProduct = (categoryId, businessId) => {
   const priceOptions = {
     min: 1,
-    max: 1_000_000,
+    max: 10_000,
     dec: 2,
     simbol: '',
+  };
+  const stockSoldOptions = {
+    max: 1_000,
+    min: 100,
+    precision: 1,
   };
   const productCondition = Object.values(Product.enums.condition);
 
   const name = faker.commerce.product();
   const description = faker.commerce.productDescription();
-  const stock = faker.datatype.number({
-    min: 1,
-  });
-  const price = faker.commerce.price(
-    priceOptions.min,
-    priceOptions.max,
-    priceOptions.dec,
-    priceOptions.simbol
-  );
+  const stock = faker.datatype.number(stockSoldOptions);
+  const sold = faker.datatype.number(stockSoldOptions);
+  const slug = slugify(name, slugifyOptions);
+  const price = +faker.commerce.price(...Object.values(priceOptions));
   const condition = faker.helpers.arrayElement(productCondition);
 
   return {
@@ -31,19 +37,21 @@ const createRandomProduct = (categoryId, businessId) => {
     name,
     description,
     stock,
-    sold: 0,
+    sold,
+    slug,
     price,
     available: true,
     condition,
-    fk_category: categoryId,
-    fk_business: businessId,
+    category_id: categoryId,
+    business_id: businessId,
     created_at: new Date(),
     updated_at: new Date(),
   };
 };
 
-const generateNProducts = (n = 1, category = {}, business = {}) => {
+const generateNProducts = (n = 1, category, business) => {
   const products = [];
+
   for (let i = 1; i <= n; i++) {
     const product = createRandomProduct(category.id, business.id);
     products.push(product);
@@ -52,18 +60,24 @@ const generateNProducts = (n = 1, category = {}, business = {}) => {
   return products;
 };
 
-const generateProductsToBusiness = (businesses, categories) => {
-  const NUM_PRODUCT_PER_BUSINESS = 5;
+const generateProductPerCategory = (categories, businesses) => {
+  const PRODUCTS_PER_CATEGORY = 100;
+  const limit = businesses.length - 1;
+  let i = 0;
 
   const products = [];
-  for (const business of businesses) {
-    const randomCategory = faker.helpers.arrayElement(categories);
+  for (const category of categories) {
+    const business = businesses.at(i);
     const product = generateNProducts(
-      NUM_PRODUCT_PER_BUSINESS,
-      randomCategory,
+      PRODUCTS_PER_CATEGORY,
+      category,
       business
     );
+
     products.push(product);
+
+    if (i === limit) i = 0;
+    else i++;
   }
 
   return products;
@@ -78,8 +92,8 @@ module.exports = {
       // Get Categories
       const categories = await Category.model.findAll();
 
-      // Generate products to each business
-      const products = generateProductsToBusiness(businesses, categories);
+      // Generate products to each category
+      const products = generateProductPerCategory(categories, businesses);
 
       // Flat products because products are a array of arrays
       const flatProducts = products.flat();

@@ -4,17 +4,29 @@ const config = require('../../../config');
 const Encrypter = require('../../../utils/encrypter');
 const { v4: uuidv4 } = require('uuid');
 const { faker } = require('@faker-js/faker/locale/es_MX');
+const slugify = require('slugify');
 const { User, Business } = require('../models');
 
+const slugifyOptions = {
+  lower: true,
+  locale: 'la',
+};
+const imageOptions = {
+  with: 640,
+  height: 480,
+  randomize: true,
+};
+
 const createRandomUsers = async () => {
+  const id = uuidv4();
   const userSex = faker.name.sex();
   const name = faker.name.firstName(userSex);
   const lastName = faker.name.lastName(userSex);
-  const email = faker.helpers.unique(faker.internet.email, [name, lastName]);
+  const email = `${name}.${id}@gmail.com`;
   const password = await Encrypter.encrypt(config.seller.password);
 
   return {
-    id: uuidv4(),
+    id,
     name,
     last_name: lastName,
     email,
@@ -35,16 +47,18 @@ const generateNUsers = async (n = 1) => {
 };
 
 const createRandomBusiness = (userId) => {
-  const name = faker.helpers.unique(faker.company.name);
-
-  const withImage = 640;
-  const heightImage = 480;
+  const id = uuidv4();
+  const name = faker.company.name();
+  const profile = faker.image.business(...Object.values(imageOptions));
+  const official = faker.datatype.boolean();
+  const slug = slugify(`${name}-${id}`, slugifyOptions);
 
   return {
-    id: uuidv4(),
+    id,
     name,
-    profile: faker.image.business(withImage, heightImage),
-    official: faker.datatype.boolean(),
+    profile,
+    official,
+    slug,
     user_id: userId,
     created_at: new Date(),
     updated_at: new Date(),
@@ -66,10 +80,10 @@ module.exports = {
   async up(queryInterface) {
     try {
       /*
-        - Generate  Store Owner Users
-        - Generate business for each one
+        - Generate Store Owner Users
+        - Generate one business for each one
       */
-      const NUM_OWNERS = 5;
+      const NUM_OWNERS = 100;
 
       const owners = await generateNUsers(NUM_OWNERS);
 

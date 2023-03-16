@@ -1,57 +1,56 @@
 const { Op } = require('sequelize');
-const { Category } = require('../../database/mysql/models');
+const sequelize = require('../../database/mysql');
+const { Category, Product, Business } = require('../../database/mysql/models');
 
 class CategoryService {
-  async create({ name, available, parentId }) {
-    return await Category.model.create({
+  create({ name, available, parentId }) {
+    return Category.model.create({
       name,
       available,
       parentId,
     });
   }
 
-  async getOne(id) {
-    return await Category.model.findByPk(id);
+  getOne(id) {
+    return Category.model.findByPk(id);
   }
 
-  async getAll() {
-    return await Category.model.findAll({
+  getOneExtended(id) {
+    return Category.model.findByPk(id, {
+      include: [
+        { model: Category.model, as: 'parent' },
+        { model: Category.model, as: 'children' },
+      ],
+    });
+  }
+
+  getSubCatByParentId(catId, subCat) {
+    return Category.model.findOne({
+      where: {
+        slug: subCat,
+        parentId: catId,
+      },
+    });
+  }
+
+  getAll() {
+    return Category.model.findAll({
       where: {
         parentId: {
           [Op.is]: null,
         },
       },
-      include: [
-        {
-          model: Category.model,
-          as: 'subCats',
-          attributes: {
-            exclude: ['parentId'],
-          },
-          include: [
-            {
-              model: Category.model,
-              as: 'subCats',
-              attributes: {
-                exclude: ['parentId'],
-              },
-              include: [
-                {
-                  model: Category.model,
-                  as: 'subCats',
-                  attributes: {
-                    exclude: ['parentId'],
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      include: {
+        model: Category.model,
+        as: 'children',
+      },
+      attributes: {
+        exclude: ['parentId'],
+      },
     });
   }
 
-  async remove(id) {
+  remove(id) {
     return Category.model.destroy({
       where: {
         id,
@@ -59,10 +58,124 @@ class CategoryService {
     });
   }
 
-  async update(id, body) {
+  update(id, body) {
     return Category.model.update(body, {
       where: {
         id,
+      },
+    });
+  }
+
+  getBestSellers(categoryId) {
+    return Product.model.findAll({
+      where: {
+        categoryId,
+      },
+      order: [['sold', 'DESC']],
+      limit: 5,
+    });
+  }
+
+  getBestCategories() {
+    return Product.model.findAll({
+      attributes: [
+        'categoryId',
+        [sequelize.fn('SUM', sequelize.col('sold')), 'n_ventas'],
+      ],
+      order: [['n_ventas', 'DESC']],
+      group: 'categoryId',
+      limit: 6,
+      include: {
+        model: Category.model,
+        as: 'category',
+      },
+    });
+  }
+
+  getBestSubCategories(categoryId) {
+    return Product.model.findAll({
+      attributes: [
+        'categoryId',
+        [sequelize.fn('SUM', sequelize.col('sold')), 'n_ventas'],
+      ],
+      order: [['n_ventas', 'DESC']],
+      group: 'categoryId',
+      limit: 6,
+      include: {
+        model: Category.model,
+        as: 'category',
+        where: {
+          parentId: categoryId,
+        },
+      },
+    });
+  }
+
+  getBestBrands(categoryId) {
+    return Product.model.findAll({
+      attributes: [
+        'categoryId',
+        'businessId',
+        [sequelize.fn('SUM', sequelize.col('sold')), 'n_ventas'],
+      ],
+      where: {
+        categoryId,
+      },
+      order: [['n_ventas', 'DESC']],
+      group: 'businessId',
+      limit: 5,
+      include: {
+        model: Business.model,
+        as: 'business',
+        attributes: {
+          exclude: ['userId'],
+        },
+      },
+    });
+  }
+
+  // News
+  getCatBySlug(slug) {
+    return Category.model.findOne({
+      where: {
+        slug,
+      },
+    });
+  }
+
+  getParentCatBySlug(slug) {
+    return Category.model.findOne({
+      where: {
+        slug,
+        parentId: {
+          [Op.is]: null,
+        },
+      },
+    });
+  }
+
+  getChildrenCatBySlug(slug) {
+    return Category.model.findOne({
+      where: {
+        slug,
+        parentId: {
+          [Op.not]: null,
+        },
+      },
+    });
+  }
+
+  getInfoParentCat(slug) {
+    return Category.model.findOne({
+      where: {
+        slug,
+        parentId: {
+          [Op.is]: null,
+        },
+      },
+      include: {
+        model: Category.model,
+        as: 'children',
       },
     });
   }

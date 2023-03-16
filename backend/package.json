@@ -38,6 +38,7 @@
     "mysql2": "^2.3.3",
     "passport-jwt": "^4.0.0",
     "sequelize": "^6.25.8",
+    "slugify": "^1.6.5",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

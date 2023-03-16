@@ -33,6 +33,7 @@ const modelSchema = {
     type: DataTypes.INTEGER.UNSIGNED,
     defaultValue: 0,
   },
+  slug: DataTypes.STRING,
   price: DataTypes.DECIMAL(10, 2),
   available: {
     type: DataTypes.BOOLEAN,
@@ -42,17 +43,17 @@ const modelSchema = {
     type: DataTypes.ENUM,
     values: Object.values(enums.condition),
   },
-  fkCategory: {
+  categoryId: {
     type: DataTypes.UUID,
-    field: 'fk_category',
+    field: 'category_id',
     references: {
       model: Category.model,
       key: 'id',
     },
   },
-  fkBusiness: {
+  businessId: {
     type: DataTypes.UUID,
-    field: 'fk_business',
+    field: 'business_id',
     references: {
       model: Business.model,
       key: 'id',

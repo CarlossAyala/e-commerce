@@ -10,12 +10,12 @@ const signupSchema = Joi.object({
   validatePassword: UserSchema.props.validatePassword,
 }).with('password', 'validatePassword');
 
-const loginSchema = Joi.object({
+const signinSchema = Joi.object({
   email: UserSchema.props.email.required(),
   password: UserSchema.props.password.required(),
 });
 
 module.exports = {
   signupSchema,
-  loginSchema,
+  signinSchema,
 };

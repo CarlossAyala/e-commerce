@@ -26,16 +26,12 @@ const getAll = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const newAddress = {
+    const resource = await AddressProvider.create({
       ...req.body,
       fkUser: req.auth.id,
-    };
-
-    await AddressProvider.create(newAddress);
-
-    res.status(201).json({
-      message: 'Created successfully',
     });
+
+    res.status(201).json(resource);
   } catch (error) {
     next(error);
   }
@@ -45,7 +41,9 @@ const remove = async (req, res, next) => {
   try {
     await AddressProvider.remove(req.params.id);
 
-    res.status(200).end();
+    res.status(200).json({
+      message: 'Successfully removed',
+    });
   } catch (error) {
     next(error);
   }
@@ -57,7 +55,9 @@ const update = async (req, res, next) => {
 
     await AddressProvider.update(id, req.body);
 
-    res.status(200).end();
+    res.status(200).json({
+      message: 'Successfully updated',
+    });
   } catch (error) {
     next(error);
   }

@@ -2,47 +2,46 @@ const router = require('express').Router();
 
 const apiMiddleware = require('../../middlewares/api');
 const validatorHandler = require('../../middlewares/api/validator.middleware');
-const productSchema = require('./product.schema');
-const productMiddleware = require('./product.middleware');
-const productController = require('./product.controller');
+const schema = require('./product.schema');
+const middleware = require('./product.middleware');
+const controller = require('./product.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, productController.getAll);
+router.get('/', apiMiddleware.validateJWT, controller.getAll);
 
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
-  validatorHandler(productSchema.resourceId, 'params'),
-  productMiddleware.resourceExist,
-  productController.getOne
+  validatorHandler(schema.uuidV4, 'params'),
+  middleware.resourceExist,
+  controller.getOne
 );
 
 // Create
 router.post(
   '/',
   apiMiddleware.validateJWT,
-  validatorHandler(productSchema.create, 'body'),
-  productController.create
+  validatorHandler(schema.base, 'body'),
+  controller.create
 );
 
 // Update
 router.patch(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(productSchema.resourceId, 'params'),
-  validatorHandler(productSchema.update, 'body'),
-  productMiddleware.resourceExist,
-  productController.update
+  validatorHandler(schema.uuidV4, 'params'),
+  validatorHandler(schema.base, 'body'),
+  middleware.resourceExist,
+  controller.update
 );
 
 // Delete
 router.delete(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(productSchema.resourceId, 'params'),
-  productMiddleware.resourceExist,
-  productController.remove
+  validatorHandler(schema.uuidV4, 'params'),
+  middleware.resourceExist,
+  controller.remove
 );
 
 module.exports = router;

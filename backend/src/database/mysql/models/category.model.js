@@ -15,6 +15,9 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   name: DataTypes.STRING(50),
+  description: DataTypes.STRING,
+  image: DataTypes.STRING,
+  slug: DataTypes.STRING,
   available: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,

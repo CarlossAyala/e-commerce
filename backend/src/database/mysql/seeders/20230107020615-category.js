@@ -1,15 +1,34 @@
 'use strict';
 
 const { v4: uuidv4 } = require('uuid');
+const slugify = require('slugify');
 const { faker } = require('@faker-js/faker/locale/es_MX');
 const { Category } = require('../models');
 
+const slugifyOptions = {
+  lower: true,
+  locale: 'la',
+};
+const imageOptions = {
+  with: 640,
+  height: 480,
+  randomize: true,
+};
+const NUM_LINES = 1;
+
 const createRandomCategory = (parentId = null) => {
-  const name = faker.helpers.unique(faker.commerce.department);
+  const id = uuidv4();
+  const name = faker.commerce.department();
+  const image = faker.image.abstract(...Object.values(imageOptions));
+  const description = faker.lorem.lines(NUM_LINES);
+  const slug = slugify(`${name}_${id}`, slugifyOptions);
 
   return {
-    id: uuidv4(),
+    id,
     name,
+    description,
+    image,
+    slug,
     available: true,
     parent_id: parentId,
     created_at: new Date(),
@@ -29,8 +48,8 @@ const generateNCategories = (n = 1, parentCategory = {}) => {
 
 module.exports = {
   async up(queryInterface) {
-    const NUM_MAIN_CATEGORIES = 3;
-    const NUM_SUB_CATEGORIES = 5;
+    const NUM_MAIN_CATEGORIES = 20;
+    const NUM_SUB_CATEGORIES = 10;
 
     // Generate mains Categories
     const categories = generateNCategories(NUM_MAIN_CATEGORIES);

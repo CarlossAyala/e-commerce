@@ -2,47 +2,47 @@ const router = require('express').Router();
 
 const apiMiddleware = require('../../middlewares/api');
 const validatorHandler = require('../../middlewares/api/validator.middleware');
-const addressSchema = require('./address.schema');
-const addressMiddleware = require('./address.middleware');
-const addressController = require('./address.controller');
+const schema = require('./address.schema');
+const middleware = require('./address.middleware');
+const controller = require('./address.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, addressController.getAll);
+router.get('/', apiMiddleware.validateJWT, controller.getAll);
 
 // Get One
 router.get(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(addressSchema.addressId, 'params'),
-  addressMiddleware.addressExist,
-  addressController.getOne
+  validatorHandler(schema.uuidV4, 'params'),
+  middleware.addressExist,
+  controller.getOne
 );
 
 // Create
 router.post(
   '/',
   apiMiddleware.validateJWT,
-  validatorHandler(addressSchema.create, 'body'),
-  addressController.create
+  validatorHandler(schema.base, 'body'),
+  controller.create
 );
 
 // Update
 router.put(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(addressSchema.addressId, 'params'),
-  validatorHandler(addressSchema.update, 'body'),
-  addressMiddleware.addressExist,
-  addressController.update
+  validatorHandler(schema.uuidV4, 'params'),
+  validatorHandler(schema.base, 'body'),
+  middleware.addressExist,
+  controller.update
 );
 
 // Delete
 router.delete(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(addressSchema.addressId, 'params'),
-  addressMiddleware.addressExist,
-  addressController.remove
+  validatorHandler(schema.uuidV4, 'params'),
+  middleware.addressExist,
+  controller.remove
 );
 
 module.exports = router;

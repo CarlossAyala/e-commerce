@@ -1,41 +1,35 @@
 const { Card } = require('../../database/mysql/models');
 
 class CardService {
-  create({ brand, number, holder, expiration, cvv, fkUser }) {
-    return Card.model.create({
-      brand,
-      number,
-      holder,
-      expiration,
-      cvv,
-      fkUser,
-    });
+  create(body) {
+    return Card.model.create(body);
   }
 
   getOne(id) {
-    return Card.model.findByPk(id);
+    return Card.model.findByPk(id, {
+      attributes: {
+        exclude: ['userId'],
+      },
+    });
   }
 
   getAll(id) {
     return Card.model.findAll({
       where: {
-        fkUser: id,
+        userId: id,
       },
       attributes: {
-        exclude: ['fkUser'],
+        exclude: ['userId'],
       },
     });
   }
 
-  update(id, { brand, number, holder, expiration, cvv }) {
-    return Card.model.update(
-      { brand, number, holder, expiration, cvv },
-      {
-        where: {
-          id,
-        },
-      }
-    );
+  update(id, body) {
+    return Card.model.update(body, {
+      where: {
+        id,
+      },
+    });
   }
 
   remove(id) {

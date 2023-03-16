@@ -24,7 +24,7 @@ const getAll = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    // TODO: Missing fkBusiness
+    // TODO: Missing businessId
     // First, create a table between business and employees
     // Because we need to know if the user have role/scope-permissions
     await ProductProvider.create(req.body);

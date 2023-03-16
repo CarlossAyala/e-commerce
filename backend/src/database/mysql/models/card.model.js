@@ -15,18 +15,18 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  brand: DataTypes.STRING(50),
+  name: DataTypes.STRING,
+  lastname: DataTypes.STRING,
   number: DataTypes.STRING(16),
-  holder: DataTypes.STRING,
   expiration: DataTypes.DATE,
-  cvv: DataTypes.STRING(3),
+  cvv: DataTypes.STRING(4),
   balance: {
     type: DataTypes.DECIMAL(10, 2),
-    defaultValue: 1_000_000,
+    defaultValue: 10_000,
   },
-  fkUser: {
+  userId: {
     type: DataTypes.UUID,
-    field: 'fk_user',
+    field: 'user_id',
     references: {
       model: User.model,
       key: 'id',

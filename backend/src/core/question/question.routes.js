@@ -2,56 +2,55 @@ const router = require('express').Router();
 
 const apiMiddleware = require('../../middlewares/api');
 const validatorHandler = require('../../middlewares/api/validator.middleware');
-const questionSchema = require('./question.schema');
-const questionMiddleware = require('./question.middleware');
-const questionController = require('./question.controller');
+const schema = require('./question.schema');
+const middleware = require('./question.middleware');
+const controller = require('./question.controller');
 
 // Get All
 router.get(
   '/product/:id',
-  apiMiddleware.validateJWT,
-  validatorHandler(questionSchema.resourceId, 'params'),
-  questionMiddleware.productExist,
-  questionController.getAll
+  validatorHandler(schema.resourceId, 'params'),
+  middleware.productExist,
+  controller.getAll
 );
 
 // Get One
 router.get(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(questionSchema.resourceId, 'params'),
-  questionMiddleware.resourceExist,
-  questionController.getOne
+  validatorHandler(schema.resourceId, 'params'),
+  middleware.resourceExist,
+  controller.getOne
 );
 
 // Create
 router.post(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(questionSchema.resourceId, 'params'),
-  validatorHandler(questionSchema.create, 'body'),
-  questionMiddleware.productExist,
-  questionController.create
+  validatorHandler(schema.resourceId, 'params'),
+  validatorHandler(schema.create, 'body'),
+  middleware.productExist,
+  controller.create
 );
 
 // Update
 router.patch(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(questionSchema.resourceId, 'params'),
-  validatorHandler(questionSchema.update, 'body'),
-  questionMiddleware.resourceExist,
-  questionMiddleware.questionHasAnswer,
-  questionController.update
+  validatorHandler(schema.resourceId, 'params'),
+  validatorHandler(schema.update, 'body'),
+  middleware.resourceExist,
+  middleware.questionHasAnswer,
+  controller.update
 );
 
 // Delete
 router.delete(
   '/:id',
   apiMiddleware.validateJWT,
-  validatorHandler(questionSchema.resourceId, 'params'),
-  questionMiddleware.resourceExist,
-  questionController.remove
+  validatorHandler(schema.resourceId, 'params'),
+  middleware.resourceExist,
+  controller.remove
 );
 
 module.exports = router;

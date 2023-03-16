@@ -4,23 +4,26 @@ const id = Joi.string().guid({
   version: 'uuidv4',
   separator: '-',
 });
+
+const name = Joi.string().min(2);
 const contactName = Joi.string().min(3).max(50);
-const contactPhone = Joi.string().trim().min(9);
-const zipCode = Joi.string().length(4);
+const contactPhone = Joi.string().min(9);
+const zipCode = Joi.string().min(1).max(4);
 const province = Joi.string().max(50);
 const city = Joi.string().max(50);
 const street = Joi.string().max(100);
 const streetNumber = Joi.string().max(4);
-const apartmentNumber = Joi.string().allow('').max(4);
-const streetOne = Joi.string().allow('').max(100);
-const streetTwo = Joi.string().allow('').max(100);
-const aditional = Joi.string().allow('').max(255);
+const apartmentNumber = Joi.string().max(4);
+const streetOne = Joi.string().max(100);
+const streetTwo = Joi.string().max(100);
+const aditional = Joi.string().max(255);
 
-const addressId = Joi.object({
+const uuidV4 = Joi.object({
   id: id.required(),
 });
 
-const create = Joi.object({
+const base = Joi.object({
+  name: name.required(),
   contactName: contactName.required(),
   contactPhone: contactPhone.required(),
   zipCode: zipCode.required(),
@@ -34,22 +37,7 @@ const create = Joi.object({
   aditional,
 });
 
-const update = Joi.object({
-  contactName,
-  contactPhone,
-  zipCode,
-  province,
-  city,
-  street,
-  streetNumber,
-  apartmentNumber,
-  streetOne,
-  streetTwo,
-  aditional,
-});
-
 module.exports = {
-  addressId,
-  create,
-  update,
+  uuidV4,
+  base,
 };

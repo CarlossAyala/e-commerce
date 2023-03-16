@@ -15,6 +15,7 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
+  name: DataTypes.STRING,
   contactName: {
     type: DataTypes.STRING(50),
     field: 'contact_name',

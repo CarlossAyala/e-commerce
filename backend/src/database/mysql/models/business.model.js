@@ -21,6 +21,7 @@ const modelSchema = {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  slug: DataTypes.STRING,
   userId: {
     type: DataTypes.UUID,
     field: 'user_id',
