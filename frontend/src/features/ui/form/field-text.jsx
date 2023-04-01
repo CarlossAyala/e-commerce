@@ -14,7 +14,7 @@ const FieldText = ({ label, opcional, hint, type = 'text', ...rest }) => {
           )}
         >
           <label
-            htmlFor={rest.id || rest.name}
+            htmlFor={rest.name || rest.id}
             className='font-normal dark:text-white'
           >
             {label}

@@ -57,7 +57,7 @@ const Header = () => {
               setOpen={setToggleCart}
               title='Shopping Cart'
             >
-              <CartSlider />
+              <CartSlider setOpen={setToggleCart} />
             </Slideover>
 
             {/* Icon User */}

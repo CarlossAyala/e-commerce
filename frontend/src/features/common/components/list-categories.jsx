@@ -5,14 +5,14 @@ const ListCategories = ({ title = 'Categorias', categories }) => {
   // console.log('Best Sub-Categories', value);
 
   return (
-    <div>
+    <section>
       <h3 className='text-lg font-medium text-gray-900'>{title}</h3>
       <div className='mt-3 grid gap-5 sm:grid-cols-2 md:grid-cols-3'>
         {value.map((category) => (
           <CategoryItem category={category} key={category.id} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

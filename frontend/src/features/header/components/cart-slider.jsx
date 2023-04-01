@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import * as Cart from '../../cart';
+import { CartItem, useCartContext } from '../../cart';
 
-const CartSlider = () => {
-  const [cart, handlers] = Cart.useContext();
+const CartSlider = ({ setOpen }) => {
+  const [cart, handlers] = useCartContext();
 
   const [vis, hid, both] = handlers.subTotals();
 
@@ -13,13 +13,13 @@ const CartSlider = () => {
         <ul role='list' className='divide-y divide-gray-200'>
           {cart?.length > 0 &&
             cart.map((item) => (
-              <Cart.Item item={item} handlers={handlers} key={item.id} />
+              <CartItem item={item} handlers={handlers} key={item.id} />
             ))}
         </ul>
       </div>
 
       {/* Footer Cart Sidebar */}
-      <div className='sticky bottom-0 mt-auto border-t-2 border-gray-200 bg-white px-4 py-4'>
+      <div className='mt-auto border-t border-gray-200 bg-white px-4 py-4'>
         <h2 className='text-lg text-gray-900'>Cart summary</h2>
 
         {/* Sub-total */}
@@ -43,7 +43,7 @@ const CartSlider = () => {
           </div>
           {hid.value ? (
             <div className='flex justify-between font-light text-gray-900'>
-              <p>Total w/ hiddens</p>
+              <p>Total + hiddens</p>
               <p>{both.format}</p>
             </div>
           ) : null}

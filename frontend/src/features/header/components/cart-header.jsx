@@ -1,9 +1,9 @@
-import * as Cart from '../../cart';
+import { useCartContext } from '../../cart';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
 const CartHeader = ({ onClick }) => {
-  const [, handlers] = Cart.useContext();
+  const [, handlers] = useCartContext();
 
   const items = handlers.totalItems();
 

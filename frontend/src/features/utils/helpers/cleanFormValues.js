@@ -1,6 +1,6 @@
 const cleanFormValues = (values) => {
   Object.keys(values).forEach((key) => {
-    if (values[key] === '' || values[key] === null) {
+    if (!values[key]) {
       delete values[key];
     }
   });

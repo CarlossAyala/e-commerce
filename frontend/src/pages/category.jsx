@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CategoriesAPI } from '../features/categories';
-import { BestBrands, ListCategories, ListProducts } from '../features/common';
+import BestSubCategeries from '../features/categories/components/best-sub-categeries';
+import { BestBrands, ListProducts } from '../features/common';
 import ListSubCategories from '../features/sub-categories/components/list-sub-categories';
 
 const Category = () => {
@@ -14,7 +15,7 @@ const Category = () => {
   const getAllInfo = async () => {
     try {
       const allInfo = await Promise.allSettled([
-        CategoriesAPI.getInfoParentCatBySlug(cat),
+        CategoriesAPI.getParentCatBySlug(cat),
         CategoriesAPI.getBestSellers(cat),
         CategoriesAPI.getBestSubCategories(cat),
         CategoriesAPI.getBestBrands(cat),
@@ -42,7 +43,7 @@ const Category = () => {
   // dentro de los últimos 30 días
 
   return (
-    <section className='mx-auto max-w-7xl space-y-5 p-4'>
+    <main className='mx-auto max-w-7xl space-y-5 p-4'>
       <div>
         <h3 className='text-lg font-medium uppercase leading-6 text-gray-900'>
           {category.value.name}
@@ -52,10 +53,10 @@ const Category = () => {
         </p>
       </div>
       <ListProducts products={bestSellers} />
-      <ListCategories title='Best Sub-Categories' categories={bestSubCats} />
+      <BestSubCategeries categories={bestSubCats.value} />
       <BestBrands brands={bestBrands} />
       <ListSubCategories category={category.value} />
-    </section>
+    </main>
   );
 };
 

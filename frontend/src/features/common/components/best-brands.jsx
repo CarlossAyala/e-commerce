@@ -5,14 +5,14 @@ const BestBrands = ({ brands }) => {
   // console.log('Best Brands', brands);
 
   return (
-    <div>
+    <section>
       <h2 className='text-lg font-medium text-gray-900'>Best Brands</h2>
       <div className='mt-3 flex flex-wrap justify-between gap-5'>
         {value.map((brand) => (
           <StoreItem brand={brand} key={brand.id} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

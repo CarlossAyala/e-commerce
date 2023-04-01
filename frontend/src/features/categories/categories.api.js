@@ -3,8 +3,8 @@ import { BASE_API, setupHeaders, RequestMethod } from '../utils/api/config.api';
 const ENDPOINT = 'categories';
 
 const CategoriesAPI = {
-  async getInfoParentCatBySlug(cat) {
-    const url = `${BASE_API}/${ENDPOINT}/info/${cat}`;
+  async getParentCatBySlug(cat) {
+    const url = `${BASE_API}/${ENDPOINT}/c/${cat}`;
 
     const method = RequestMethod.get;
     const headers = setupHeaders();
@@ -21,8 +21,8 @@ const CategoriesAPI = {
 
     return data;
   },
-  async getInfoChildrenCatBySlug(cat, subCat) {
-    const url = `${BASE_API}/${ENDPOINT}/info/${cat}/${subCat}`;
+  async getSubCatBySlug(cat) {
+    const url = `${BASE_API}/${ENDPOINT}/s/${cat}`;
 
     const method = RequestMethod.get;
     const headers = setupHeaders();
@@ -61,7 +61,7 @@ const CategoriesAPI = {
    * @param {string} slug - Category slug
    */
   async getBestSubCategories(slug) {
-    const url = `${BASE_API}/${ENDPOINT}/${slug}/best-sub-categories`;
+    const url = `${BASE_API}/${ENDPOINT}/best-sub-categories/${slug}`;
 
     const method = RequestMethod.get;
     const headers = setupHeaders();
@@ -82,7 +82,7 @@ const CategoriesAPI = {
    * @param {string} slug - Category slug
    */
   async getBestSellers(slug) {
-    const url = `${BASE_API}/${ENDPOINT}/${slug}/best-sellers`;
+    const url = `${BASE_API}/${ENDPOINT}/best-sellers/${slug}`;
 
     const method = RequestMethod.get;
     const headers = setupHeaders();
@@ -103,7 +103,7 @@ const CategoriesAPI = {
    * @param {string} slug - Category slug
    */
   async getBestBrands(slug) {
-    const url = `${BASE_API}/${ENDPOINT}/${slug}/best-brands`;
+    const url = `${BASE_API}/${ENDPOINT}/best-brands/${slug}`;
 
     const method = RequestMethod.get;
     const headers = setupHeaders();

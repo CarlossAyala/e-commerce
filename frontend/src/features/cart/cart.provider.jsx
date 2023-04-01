@@ -1,10 +1,10 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useAuth } from '../auth';
-import * as Cart from '.';
+import { API } from '.';
 import { Formater } from '../utils/helpers';
 
 const CartContext = createContext({});
-export const useCart = () => useContext(CartContext);
+export const useCartContext = () => useContext(CartContext);
 
 export const Provider = ({ children }) => {
   const [cart, setCart] = useState(null);
@@ -13,10 +13,8 @@ export const Provider = ({ children }) => {
 
   const getCart = async () => {
     try {
-      const data = await Cart.API.getItemsCart(jwt);
+      const data = await API.getItemsCart(jwt);
 
-      // Add Visible properties
-      Cart.Helper.addVisibleProperty(data);
       // console.log('Provider', data);
 
       setCart(data);
@@ -30,30 +28,43 @@ export const Provider = ({ children }) => {
     getCart();
   }, [user]);
 
-  const addItem = async () => {};
-  const removeItem = async () => {};
-  const updateItem = async (item, quantity) => {
+  const addItem = async (productId, quantity) => {
     try {
-      await Cart.API.updateItem(jwt, item.id, { quantity });
+      await API.addItem(jwt, productId, { quantity });
+
+      await getCart();
+
+      console.log('Product added successfully');
+    } catch (error) {
+      console.log('addItem', error);
+    }
+  };
+  const removeItem = async () => {};
+  const updateQuantity = async (itemId, quantity) => {
+    try {
+      await API.updateQuantity(jwt, itemId, { quantity });
       setCart((current) =>
-        current.map((c) => {
-          if (c.id === item.id) c.quantity = quantity;
-          return c;
+        current.map((itemCart) => {
+          if (itemCart.id === itemId) itemCart.quantity = quantity;
+          return itemCart;
         })
       );
     } catch (error) {
       console.log('Cart Provider', error);
     }
   };
-  const visibleToggle = ({ id, visible }) => {
-    setCart((curr) =>
-      curr.map((item) => {
-        if (item.id === id) {
-          item.visible = !visible;
-        }
-        return item;
-      })
-    );
+  const updateVisibility = async ({ id, visible }) => {
+    try {
+      await API.updateVisibility(jwt, id);
+      setCart((current) =>
+        current.map((item) => {
+          if (item.id === id) item.visible = !visible;
+          return item;
+        })
+      );
+    } catch (error) {
+      console.log('Cart Provider', error);
+    }
   };
   const clearCart = async () => {};
 
@@ -112,8 +123,8 @@ export const Provider = ({ children }) => {
       setCart,
       addItem,
       removeItem,
-      updateItem,
-      visibleToggle,
+      updateQuantity,
+      updateVisibility,
       clearCart,
       subTotals,
       totalProduct,

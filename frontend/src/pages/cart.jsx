@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import * as ShoppingCart from '../features/cart';
+import { CartItem, useCartContext } from '../features/cart';
 
 const Cart = () => {
-  const [items, handlers] = ShoppingCart.useContext();
+  const [items, handlers] = useCartContext();
 
   const [vis, hid, both] = handlers.subTotals();
 
@@ -21,11 +21,7 @@ const Cart = () => {
               >
                 {items?.length > 0 &&
                   items.map((item) => (
-                    <ShoppingCart.Item
-                      item={item}
-                      handlers={handlers}
-                      key={item.id}
-                    />
+                    <CartItem item={item} handlers={handlers} key={item.id} />
                   ))}
               </ul>
             </div>

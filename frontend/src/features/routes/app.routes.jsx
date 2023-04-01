@@ -10,6 +10,7 @@ import {
   Signup,
   SubCategory,
 } from '../../pages';
+import CategoryProducts from '../../pages/category-products';
 import { EditAddress, NewAddress, ViewAddress } from '../address';
 import * as Card from '../card';
 import { MainLayout } from '../ui';
@@ -22,6 +23,8 @@ import { MainLayout } from '../ui';
 // Invoice https://preline.co/examples/application-invoice.html
 // Tables https://preline.co/examples/application-tables.html
 // Estadisticas https://preline.co/examples/application-stats.html
+
+// PICTOGRAMS https://carbondesignsystem.com/guidelines/pictograms/library
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -53,8 +56,16 @@ const AppRoutes = () => {
           element: <Category />,
         },
         {
-          path: 'c/:cat/s/:sub',
+          path: 's/:sub',
           element: <SubCategory />,
+        },
+        {
+          path: 'c/:cat/products',
+          element: <CategoryProducts />,
+        },
+        {
+          path: 's/:cat/products',
+          element: <CategoryProducts />,
         },
         // PRODUCT
         {

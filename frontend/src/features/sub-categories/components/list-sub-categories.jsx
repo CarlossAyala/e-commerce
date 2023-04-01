@@ -2,7 +2,7 @@ import ItemSubCategory from './item-sub-category';
 
 const ListSubCategories = ({ category }) => {
   return (
-    <div>
+    <section>
       <h3 className='text-lg font-medium uppercase text-black'>
         {category.name}
       </h3>
@@ -12,7 +12,7 @@ const ListSubCategories = ({ category }) => {
             <ItemSubCategory category={subCategory} key={subCategory.id} />
           ))}
       </ul>
-    </div>
+    </section>
   );
 };
 

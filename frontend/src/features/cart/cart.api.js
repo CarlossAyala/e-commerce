@@ -49,8 +49,8 @@ const API = {
    * @param {string} id Item Cart
    * @param {object} quantity { quantity : number }
    */
-  async updateItem(jwt, id, quantity) {
-    const url = `${BASE_API}/${ROOT}/${id}`;
+  async updateQuantity(jwt, id, quantity) {
+    const url = `${BASE_API}/${ROOT}/quantity/${id}`;
     const method = RequestMethod.patch;
     const body = JSON.stringify(quantity);
     const headers = setupHeaders(jwt);
@@ -59,6 +59,27 @@ const API = {
       method,
       headers,
       body,
+    };
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message || response.statusText);
+
+    return data;
+  },
+  /**
+   * @param {string} jwt Customer
+   * @param {string} id Item Cart
+   */
+  async updateVisibility(jwt, id) {
+    const url = `${BASE_API}/${ROOT}/visible/${id}`;
+    const method = RequestMethod.patch;
+    const headers = setupHeaders(jwt);
+
+    const options = {
+      method,
+      headers,
     };
 
     const response = await fetch(url, options);
