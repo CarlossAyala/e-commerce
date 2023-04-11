@@ -47,14 +47,18 @@ const QueryParams = {
       : [];
   },
 
-  getBooleanParam(searchParams, name) {
-    const value = searchParams.get(name);
+  getBooleanParam(searchParams, name, defaultValue) {
+    let value = searchParams.get(name) || defaultValue;
+
+    if (value === 'true') value = 'true';
+    else value = 'false';
 
     return value === 'true';
   },
 
-  getNumberParam(searchParams, name) {
-    return searchParams.get(name);
+  getNumberParam(searchParams, name, defaultValue) {
+    const number = searchParams.get(name);
+    return number ? +number : defaultValue;
   },
 };
 

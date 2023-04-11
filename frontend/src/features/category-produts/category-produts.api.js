@@ -1,11 +1,15 @@
-import { BASE_API, setupHeaders, RequestMethod } from '../utils/api/config.api';
+import {
+  BASE_API,
+  setupHeaders,
+  REQUEST_METHOD,
+} from '../utils/api/config.api';
 
 const ROOT = 'categories';
 
 const CategoryProductAPI = {
   async getCategoryStores(cat) {
     const url = `${BASE_API}/${ROOT}/stores/${cat}`;
-    const method = RequestMethod.get;
+    const method = REQUEST_METHOD.GET;
     const headers = setupHeaders();
 
     const options = {
@@ -24,7 +28,7 @@ const CategoryProductAPI = {
     let url = `${BASE_API}/${ROOT}/products/${cat}`;
     if (query) url += `?${query}`;
 
-    const method = RequestMethod.get;
+    const method = REQUEST_METHOD.GET;
     const headers = setupHeaders();
 
     const options = {

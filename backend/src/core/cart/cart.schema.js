@@ -11,11 +11,11 @@ const uuidV4 = Joi.object({
   id: id.required(),
 });
 
-const base = Joi.object({
+const baseQuantity = Joi.object({
   quantity: quantity.required(),
 });
 
 module.exports = {
   uuidV4,
-  base,
+  baseQuantity,
 };

@@ -16,7 +16,7 @@ const NewAddress = () => {
     try {
       const response = await AddressAPI.create(jwt, cleanValues);
 
-      navigate(`/account/address/view/${response.id}`);
+      navigate(`/settings/address/view/${response.id}`);
     } catch (error) {
       console.log('New Address', error);
     }

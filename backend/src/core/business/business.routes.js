@@ -3,7 +3,7 @@ const router = require('express').Router();
 // const apiMiddleware = require('../../middlewares/api');
 // const validatorHandler = require('../../middlewares/api/validator.middleware');
 // const schema = require('./business.schema');
-// const middleware = require('./business.middleware');
+const middleware = require('./business.middleware');
 const controller = require('./business.controller');
 
 // // Get All
@@ -45,13 +45,32 @@ const controller = require('./business.controller');
 //   controller.remove
 // );
 
+// Get Brand by Product Id
+router.get('/id/:id', controller.getInfoBrand);
+
 // Get official stores
 router.get('/official-stores', controller.getOfficialStores);
 
 // Best Brands by All Time
 router.get('/best-brands', controller.getBestBrands);
 
-// Get Info Brand by Product Id
-router.get('/info/:id', controller.getInfoBrand);
+// Get Store by Slug
+router.get(
+  '/slug/:slug',
+  middleware.existBusinessBySlug,
+  controller.getBusinessBySlug
+);
+
+router.get(
+  '/categories/:slug',
+  middleware.existBusinessBySlug,
+  controller.getCategoriesStore
+);
+
+router.get(
+  '/products/:slug',
+  middleware.existBusinessBySlug,
+  controller.getProductsStore
+);
 
 module.exports = router;

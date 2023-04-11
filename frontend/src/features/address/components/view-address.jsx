@@ -86,7 +86,7 @@ const ViewAddress = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to={`/account/address/edit/${address.id}`}
+                            to={`/settings/address/edit/${address.id}`}
                             className={clsx(
                               active
                                 ? 'bg-violet-500 text-white'

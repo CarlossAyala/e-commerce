@@ -15,24 +15,6 @@ class CategoryService {
     return Category.model.findByPk(id);
   }
 
-  getOneExtended(id) {
-    return Category.model.findByPk(id, {
-      include: [
-        { model: Category.model, as: 'parent' },
-        { model: Category.model, as: 'children' },
-      ],
-    });
-  }
-
-  getSubCatByParentId(catId, subCat) {
-    return Category.model.findOne({
-      where: {
-        slug: subCat,
-        parentId: catId,
-      },
-    });
-  }
-
   getAll() {
     return Category.model.findAll({
       where: {
@@ -72,7 +54,7 @@ class CategoryService {
         categoryId,
       },
       order: [['sold', 'DESC']],
-      limit: 5,
+      limit: 10,
     });
   }
 
@@ -100,7 +82,7 @@ class CategoryService {
       ],
       order: [['n_ventas', 'DESC']],
       group: 'categoryId',
-      limit: 6,
+      limit: 10,
       include: {
         model: Category.model,
         as: 'category',
@@ -123,7 +105,7 @@ class CategoryService {
       },
       order: [['n_ventas', 'DESC']],
       group: 'businessId',
-      limit: 5,
+      limit: 10,
       include: {
         model: Business.model,
         as: 'business',
@@ -134,8 +116,7 @@ class CategoryService {
     });
   }
 
-  // News
-  getCatBySlug(slug) {
+  existCatBySlug(slug) {
     return Category.model.findOne({
       where: {
         slug,
@@ -143,39 +124,63 @@ class CategoryService {
     });
   }
 
-  getParentCatBySlug(slug) {
+  getCatBySlugSimple(slug) {
     return Category.model.findOne({
       where: {
         slug,
-        parentId: {
-          [Op.is]: null,
-        },
       },
     });
   }
 
-  getChildrenCatBySlug(slug) {
+  getCatBySlugExtend(slug) {
     return Category.model.findOne({
       where: {
         slug,
-        parentId: {
-          [Op.not]: null,
-        },
       },
+      include: [
+        {
+          model: Category.model,
+          as: 'parent',
+          include: {
+            model: Category.model,
+            as: 'children',
+          },
+        },
+        {
+          model: Category.model,
+          as: 'children',
+        },
+      ],
     });
   }
 
-  getInfoParentCat(slug) {
-    return Category.model.findOne({
+  getCategoryStores(categoryId) {
+    return Product.model.findAll({
+      attributes: ['categoryId', 'businessId'],
       where: {
-        slug,
-        parentId: {
-          [Op.is]: null,
-        },
+        categoryId,
       },
+      group: 'businessId',
       include: {
-        model: Category.model,
-        as: 'children',
+        model: Business.model,
+        as: 'business',
+        attributes: {
+          exclude: ['userId'],
+        },
+      },
+    });
+  }
+
+  getCategoryProducts(productClause, businessClause) {
+    return Product.model.findAndCountAll({
+      ...productClause,
+      include: {
+        model: Business.model,
+        as: 'business',
+        attributes: {
+          exclude: ['userId'],
+        },
+        ...businessClause,
       },
     });
   }

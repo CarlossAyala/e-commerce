@@ -12,7 +12,6 @@ const movementTypeRoutes = require('../core/movement-type/movement-type.routes')
 const chargeCategoryRoutes = require('../core/charge-category/charge-category.routes');
 const chargeRoutes = require('../core/charge/charge.routes');
 const cartRoutes = require('../core/cart/cart.routes');
-// const cartProductRoutes = require('../core/cart-product/cart-product.routes');
 const buyRoutes = require('../core/buy/buy.routes');
 const purchaseOrderRoutes = require('../core/purchase-order/purchase-order.routes');
 const reviewRoutes = require('../core/review/review.routes');
@@ -56,9 +55,6 @@ function router(app) {
 
   // Cart
   routes.use('/cart', cartRoutes);
-
-  // Cart-Product
-  // routes.use('/cart-product', cartProductRoutes);
 
   // Checkout's
   checkout.use('/buying', buyRoutes);

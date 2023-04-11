@@ -1,3 +1,4 @@
-import StoreItem from './components/store-item';
+import Stores from './components/stores';
+import StoresContainer from './components/stores-container';
 
-export { StoreItem };
+export { StoresContainer, Stores };

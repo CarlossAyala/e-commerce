@@ -40,7 +40,7 @@ const View = () => {
     try {
       await Card.API.remove(jwt, resource.id);
       console.log('Deleted!');
-      navigate('/account/card');
+      navigate('/settings/card');
     } catch (error) {
       console.log('Card handleDelete', error);
     }
@@ -90,7 +90,7 @@ const View = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to={`/account/card/edit/${resource.id}`}
+                            to={`/settings/card/edit/${resource.id}`}
                             className={clsx(
                               active
                                 ? 'bg-violet-500 text-white'

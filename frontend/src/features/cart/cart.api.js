@@ -1,11 +1,15 @@
-import { BASE_API, setupHeaders, RequestMethod } from '../utils/api/config.api';
+import {
+  BASE_API,
+  setupHeaders,
+  REQUEST_METHOD,
+} from '../utils/api/config.api';
 
 const ROOT = 'cart';
 
 const API = {
   async getItemsCart(jwt) {
     const url = `${BASE_API}/${ROOT}`;
-    const method = RequestMethod.get;
+    const method = REQUEST_METHOD.GET;
     const headers = setupHeaders(jwt);
 
     const options = {
@@ -27,7 +31,7 @@ const API = {
    */
   async addItem(jwt, id, quantity) {
     const url = `${BASE_API}/${ROOT}/${id}`;
-    const method = RequestMethod.post;
+    const method = REQUEST_METHOD.POST;
     const body = JSON.stringify(quantity);
     const headers = setupHeaders(jwt);
 
@@ -51,7 +55,7 @@ const API = {
    */
   async updateQuantity(jwt, id, quantity) {
     const url = `${BASE_API}/${ROOT}/quantity/${id}`;
-    const method = RequestMethod.patch;
+    const method = REQUEST_METHOD.PATCH;
     const body = JSON.stringify(quantity);
     const headers = setupHeaders(jwt);
 
@@ -74,7 +78,7 @@ const API = {
    */
   async updateVisibility(jwt, id) {
     const url = `${BASE_API}/${ROOT}/visible/${id}`;
-    const method = RequestMethod.patch;
+    const method = REQUEST_METHOD.PATCH;
     const headers = setupHeaders(jwt);
 
     const options = {
@@ -95,7 +99,7 @@ const API = {
    */
   async removeItem(jwt, id) {
     const url = `${BASE_API}/${ROOT}/${id}`;
-    const method = RequestMethod.remove;
+    const method = REQUEST_METHOD.REMOVE;
     const headers = setupHeaders(jwt);
 
     const options = {
@@ -115,7 +119,7 @@ const API = {
    */
   async clear(jwt) {
     const url = `${BASE_API}/${ROOT}/clear`;
-    const method = RequestMethod.remove;
+    const method = REQUEST_METHOD.REMOVE;
     const headers = setupHeaders(jwt);
 
     const options = {

@@ -36,9 +36,20 @@ class CartService {
     });
   }
 
-  updateItem(id, quantity) {
+  updateQuantity(id, quantity) {
     return CartProduct.model.update(
       { quantity },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+  }
+
+  updateVisible(id, visible) {
+    return CartProduct.model.update(
+      { visible },
       {
         where: {
           id,

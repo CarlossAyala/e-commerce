@@ -23,7 +23,7 @@ const addItem = async (req, res, next) => {
     if (existItem) {
       const itemId = existItem.dataValues.id;
 
-      await CartProvider.updateItem(itemId, quantity);
+      await CartProvider.updateQuantity(itemId, quantity);
 
       return res.status(200).json({
         message: 'Product Item updated successfully',
@@ -64,13 +64,29 @@ const removeItem = async (req, res, next) => {
   }
 };
 
-const updateItem = async (req, res, next) => {
+const updateQuantity = async (req, res, next) => {
   try {
     const quantity = req.body.quantity;
-    await CartProvider.updateItem(req.params.id, quantity);
+    await CartProvider.updateQuantity(req.params.id, quantity);
 
     res.status(200).json({
-      message: 'Product updated successfully',
+      message: 'Item updated successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateVisible = async (req, res, next) => {
+  try {
+    const item = await CartProvider.getOne(req.params.id);
+    await CartProvider.updateVisible(
+      item.dataValues.id,
+      !item.dataValues.visible
+    );
+
+    res.status(200).json({
+      message: 'Item updated successfully',
     });
   } catch (error) {
     next(error);
@@ -93,7 +109,8 @@ const clearCart = async (req, res, next) => {
 module.exports = {
   addItem,
   getCart,
-  updateItem,
+  updateQuantity,
+  updateVisible,
   removeItem,
   clearCart,
 };

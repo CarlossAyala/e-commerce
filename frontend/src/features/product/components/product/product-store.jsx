@@ -13,8 +13,10 @@ const ProductStore = ({ store }) => {
         </div>
         <div className='px-2'>
           <h3 className=''>{store.name}</h3>
-          {store.official && (
+          {store.official ? (
             <p className='text-sm text-gray-500'>Official Fak-Ommerce store</p>
+          ) : (
+            <p className='text-sm text-gray-500'>No official store</p>
           )}
         </div>
       </Link>

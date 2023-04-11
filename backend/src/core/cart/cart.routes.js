@@ -14,19 +14,28 @@ router.post(
   '/:id',
   apiMiddleware.validateJWT,
   validatorHandler(schema.uuidV4, 'params'),
-  validatorHandler(schema.base, 'body'),
+  validatorHandler(schema.baseQuantity, 'body'),
   middleware.productExist,
   controller.addItem
 );
 
-// Update Product
+// Update Quantity Product
 router.patch(
-  '/:id',
+  '/quantity/:id',
   apiMiddleware.validateJWT,
   validatorHandler(schema.uuidV4, 'params'),
-  validatorHandler(schema.base, 'body'),
+  validatorHandler(schema.baseQuantity, 'body'),
   middleware.resourceExist,
-  controller.updateItem
+  controller.updateQuantity
+);
+
+// Update Visible Product
+router.patch(
+  '/visible/:id',
+  apiMiddleware.validateJWT,
+  validatorHandler(schema.uuidV4, 'params'),
+  middleware.resourceExist,
+  controller.updateVisible
 );
 
 // Clear Cart

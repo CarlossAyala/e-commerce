@@ -60,12 +60,12 @@ const WalletShop = require('./wallet-shop.model');
 
 // CATEGORIAS
 Category.model.belongsTo(Category.model, {
-  as: 'parent',
   foreignKey: 'parentId',
+  as: 'parent',
 });
 Category.model.hasMany(Category.model, {
-  as: 'children',
   foreignKey: 'parentId',
+  as: 'children',
 });
 
 // USER AND CART

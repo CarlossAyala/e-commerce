@@ -9,63 +9,52 @@ const controller = require('./category.controller');
 // Get All
 router.get('/', controller.getAll);
 
+// Get Category by slug
+router.get(
+  '/c/:cat',
+  validatorHandler(schema.categorySlug, 'params'),
+  middleware.existCatBySlug,
+  controller.getCatBySlug
+);
+
 // Best Categories
 router.get('/best-categories', controller.getBestCategories);
 
-// Get Info Category by Slug
-router.get(
-  '/info/:cat',
-  validatorHandler(schema.catBySlug, 'params'),
-  middleware.existParentCatBySlug,
-  controller.getInfoParentCat
-);
-
-// Get Info Sub Category
-router.get(
-  '/info/:cat/:subCat',
-  validatorHandler(schema.subCatBySlug, 'params'),
-  middleware.existParentCatBySlug,
-  middleware.existChildrenCatBySlug,
-  controller.getInfoChildrenCat
-);
-
 // Best Sub Categories
 router.get(
-  '/:cat/best-sub-categories',
-  validatorHandler(schema.catBySlug, 'params'),
-  middleware.existParentCatBySlug,
+  '/best-sub-categories/:cat',
+  validatorHandler(schema.categorySlug, 'params'),
+  middleware.existCatBySlug,
   controller.getBestSubCategories
 );
 
 // Best Sellers
 router.get(
-  '/:cat/best-sellers',
-  validatorHandler(schema.catBySlug, 'params'),
+  '/best-sellers/:cat',
+  validatorHandler(schema.categorySlug, 'params'),
   middleware.existCatBySlug,
   controller.getBestSellers
 );
 
 // Best Brands by Category
 router.get(
-  '/:cat/best-brands',
-  validatorHandler(schema.catBySlug, 'params'),
+  '/best-brands/:cat',
+  validatorHandler(schema.categorySlug, 'params'),
   middleware.existCatBySlug,
   controller.getBestBrands
 );
 
-// MIDDLEWARE
-// existCatBySlug
-// existParentCatBySlug
-// existChildrenCatBySlug
+router.get(
+  '/stores/:cat',
+  middleware.existCatBySlug,
+  controller.getCategoryStores
+);
 
-// CONTROLLERS
-// getCatById
-// getSubCatById
-// getCatBySlug
-// getSubCatBySlug
-// getBestBrands
-// getBestSellers
-// getBestSubCategories
+router.get(
+  '/products/:cat',
+  middleware.existCatBySlug,
+  controller.getCategoryProducts
+);
 
 module.exports = router;
 

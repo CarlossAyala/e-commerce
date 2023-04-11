@@ -1,21 +1,38 @@
 const Joi = require('joi');
 
-const UserSchema = require('../user/user.schema');
+const UserSchema = require('../user/user.schema').fields;
 
-const signupSchema = Joi.object({
-  name: UserSchema.props.name.required(),
-  lastName: UserSchema.props.lastName.required(),
-  email: UserSchema.props.email.required(),
-  password: UserSchema.props.password.required(),
-  validatePassword: UserSchema.props.validatePassword,
-}).with('password', 'validatePassword');
+const signup = Joi.object({
+  name: UserSchema.name.required(),
+  lastName: UserSchema.lastName.required(),
+  email: UserSchema.email.required(),
+  password: UserSchema.password.required(),
+  validatePassword: UserSchema.validatePassword.required(),
+});
 
-const signinSchema = Joi.object({
-  email: UserSchema.props.email.required(),
-  password: UserSchema.props.password.required(),
+const signin = Joi.object({
+  email: UserSchema.email.required(),
+  password: UserSchema.password.required(),
+});
+
+const changeName = Joi.object({
+  name: UserSchema.name.required(),
+  lastName: UserSchema.lastName.required(),
+});
+
+const changePassword = Joi.object({
+  oldPassword: UserSchema.password.required(),
+  newPassword: UserSchema.password
+    .invalid(Joi.ref('oldPassword', { render: true }))
+    .required(),
+  passwordConfirmation: Joi.string()
+    .valid(Joi.ref('newPassword', { render: true }))
+    .required(),
 });
 
 module.exports = {
-  signupSchema,
-  signinSchema,
+  signup,
+  signin,
+  changeName,
+  changePassword,
 };

@@ -33,19 +33,13 @@ const update = Joi.object({
   parentId,
 });
 
-const catBySlug = Joi.object({
+const categorySlug = Joi.object({
   cat: slug.required(),
-});
-
-const subCatBySlug = Joi.object({
-  cat: slug.required(),
-  subCat: slug.required(),
 });
 
 module.exports = {
   categoryId,
   create,
   update,
-  catBySlug,
-  subCatBySlug,
+  categorySlug,
 };

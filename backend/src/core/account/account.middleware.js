@@ -23,7 +23,7 @@ const userExist = async (req, res, next) => {
 
     const user = await UserProvider.getOne(userId);
 
-    if (user) return next(Boom.badRequest('User not found'));
+    if (!user) return next(Boom.badRequest('User not found'));
 
     next();
   } catch (error) {

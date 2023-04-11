@@ -45,48 +45,9 @@ const remove = async (req, res, next) => {
   }
 };
 
-const updateFullname = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    await UserProvider.updateFullname(id, req.body);
-
-    res.status(200).end();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const updateEmail = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    await UserProvider.updateEmail(id, req.body);
-
-    res.status(200).end();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const changePassword = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    await UserProvider.changePassword(id, req.body);
-
-    res.status(200).end();
-  } catch (error) {
-    next(error);
-  }
-};
-
 module.exports = {
   getOne,
   getAll,
   create,
-  updateFullname,
-  updateEmail,
-  changePassword,
   remove,
 };

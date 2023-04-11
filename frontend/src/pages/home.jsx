@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { BestBrands, ListCategories } from '../features/common';
 import { HomeAPI } from '../features/home';
+import StoresContainer from '../features/stores/components/stores-container';
+import { CategoriesContainer } from '../features/category';
 
 const Home = () => {
   const [sections, setSections] = useState(null);
@@ -33,11 +34,20 @@ const Home = () => {
       <div>
         <h3 className='text-lg font-medium text-gray-900'>Home</h3>
       </div>
-      <BestBrands brands={bestStores} />
-      <ListCategories
-        title='Categorías populares'
-        categories={bestCategories}
-      />
+      <section>
+        <h2 className='text-lg font-medium text-gray-900'>Best Brands</h2>
+        <div className='mt-2'>
+          <StoresContainer stores={bestStores.value} />
+        </div>
+      </section>
+      <section>
+        <h2 className='text-lg font-medium text-gray-900'>
+          Categorías populares
+        </h2>
+        <div className='mt-2'>
+          <CategoriesContainer categories={bestCategories.value} />
+        </div>
+      </section>
       <div>
         <h3 className='text-lg font-medium text-gray-900'>Tu historial</h3>
       </div>

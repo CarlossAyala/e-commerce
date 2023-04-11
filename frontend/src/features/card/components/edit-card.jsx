@@ -33,7 +33,7 @@ const Edit = () => {
       await Card.API.update(jwt, id, cleanValues);
 
       console.log('Saved');
-      navigate(`/account/card/view/${id}`);
+      navigate(`/settings/card/view/${id}`);
     } catch (error) {
       console.log('New Card', error);
     }
@@ -76,7 +76,7 @@ const Edit = () => {
 
             <div className='mt-6 flex items-center justify-end gap-x-5'>
               <Link
-                to='/account/card'
+                to='/settings/card'
                 className='rounded-md px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
               >
                 Cancelar

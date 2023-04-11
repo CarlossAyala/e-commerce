@@ -17,6 +17,10 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   quantity: DataTypes.INTEGER,
+  visible: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
   cartId: {
     type: DataTypes.UUID,
     field: 'cart_id',

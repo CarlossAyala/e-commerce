@@ -1,4 +1,8 @@
-import { BASE_API, setupHeaders, RequestMethod } from '../utils/api/config.api';
+import {
+  BASE_API,
+  setupHeaders,
+  REQUEST_METHOD,
+} from '../utils/api/config.api';
 
 const ENDPOINT = 'products';
 
@@ -6,7 +10,7 @@ const ProductsAPI = {
   async getOne(id) {
     const url = `${BASE_API}/${ENDPOINT}/${id}`;
 
-    const method = RequestMethod.get;
+    const method = REQUEST_METHOD.GET;
     const headers = setupHeaders();
 
     const options = {
@@ -22,9 +26,9 @@ const ProductsAPI = {
     return data;
   },
   async getInfoStore(id) {
-    const url = `${BASE_API}/businesses/info/${id}`;
+    const url = `${BASE_API}/businesses/id/${id}`;
 
-    const method = RequestMethod.get;
+    const method = REQUEST_METHOD.GET;
     const headers = setupHeaders();
 
     const options = {
@@ -42,7 +46,7 @@ const ProductsAPI = {
   async getQAs(id) {
     const url = `${BASE_API}/questions/product/${id}`;
 
-    const method = RequestMethod.get;
+    const method = REQUEST_METHOD.GET;
     const headers = setupHeaders();
 
     const options = {

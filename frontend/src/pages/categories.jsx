@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { CategoriesAPI } from '../features/categories';
-import CategoryItem from '../features/categories/components/category-item';
+import { CategoryAPI } from '../features/category';
+import CategoryCard from '../features/category/components/category-card';
 
 const Categories = () => {
   const [categories, setCategories] = useState(null);
 
   const getCategories = async () => {
     try {
-      const info = await CategoriesAPI.getAll();
+      const info = await CategoryAPI.getAll();
 
       // console.log(info);
 
@@ -30,7 +30,7 @@ const Categories = () => {
       <div className='mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
         {categories?.length > 0 &&
           categories.map((category) => (
-            <CategoryItem category={category} key={category.id} />
+            <CategoryCard category={category} key={category.id} />
           ))}
       </div>
     </section>

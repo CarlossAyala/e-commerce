@@ -3,12 +3,12 @@ const VERSION = import.meta.env.VITE_API_VERSION;
 
 export const BASE_API = `${API_DOMAIN}/${VERSION}`;
 
-export const RequestMethod = {
-  get: 'GET',
-  post: 'POST',
-  put: 'PUT',
-  remove: 'DELETE',
-  patch: 'PATCH',
+export const REQUEST_METHOD = {
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  REMOVE: 'DELETE',
+  PATCH: 'PATCH',
 };
 
 export const setupHeaders = (token = null) => {

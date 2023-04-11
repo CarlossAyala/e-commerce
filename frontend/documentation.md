@@ -5,23 +5,30 @@
 A continuación, se mostraran las rutas:
 
 **`/categories`**
+
+Description
   
 Se listan todas las **`Parent Categories`**.
 
 **`/c/:cat`**
 
+Description
+
 Se listan las **`Parent Categories`** y **`Children Categories`**.
+
+URL
 
 | Param | Description |
 | --- | --- |
 | `cat` | Slug de la categoria |
 
+Details
+
 Si la categoría es una **`Parent Categories`**, se mostrarán los siguientes datos:
 
 - Portada y Descripción
 - Lo más vendido
-- Tienda XsTienda Y
-Tienda Z Las mejores **`Children Categories`**
+- Las mejores **`Children Categories`**
 - Todas las **`Children Categories`**
 
 Si la categoría es una **`Children Categories`**, se mostrarán los siguientes datos:
@@ -33,7 +40,11 @@ Si la categoría es una **`Children Categories`**, se mostrarán los siguientes 
 
 **`/c/:cat/products`**
   
+Description
+
 Se listan los productos de esa categoría, también contará con un filtro y una forma de ordenamiento.
+
+URL
 
 | Param | Description |
 | --- | --- |

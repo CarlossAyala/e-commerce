@@ -1,8 +1,10 @@
 const Boom = require('@hapi/boom');
 const JWT = require('../../utils/auth/JWT');
 const encrypter = require('../../utils/encrypter');
+const AccountService = require('./account.service');
 const UserService = require('../user/user.service');
 
+const AccountProvider = new AccountService();
 const UserProvider = new UserService();
 
 const signin = async (req, res, next) => {
@@ -61,10 +63,51 @@ const profile = async (req, res, next) => {
   }
 };
 
+const changeName = async (req, res, next) => {
+  try {
+    const { id } = req.auth;
+
+    await AccountProvider.changeName(id, req.body);
+
+    res.status(200).json({
+      message: 'Name changed successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const changePassword = async (req, res, next) => {
+  const { id } = req.auth;
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+    const user = await AccountProvider.getUserById(id);
+
+    // Compare passwords
+    const isEqual = await encrypter.isValidPasswordAsync(
+      oldPassword,
+      user.dataValues.password
+    );
+
+    if (!isEqual) return next(Boom.badRequest("Old password isn't valid"));
+
+    await AccountProvider.changePassword(id, newPassword);
+
+    res.status(200).json({
+      message: 'Password changed successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signin,
   signup,
   profile,
+  changeName,
+  changePassword,
 };
 
 // TODO: Create a route to create user root or admin

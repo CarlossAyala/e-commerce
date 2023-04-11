@@ -1,19 +1,20 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import {
-  Account,
   Address,
   Cart,
   Categories,
   Category,
   Home,
   Product,
+  Setting,
   Signup,
-  SubCategory,
 } from '../../pages';
 import CategoryProducts from '../../pages/category-products';
 import { EditAddress, NewAddress, ViewAddress } from '../address';
 import * as Card from '../card';
+import * as Account from '../account';
 import { MainLayout } from '../ui';
+import { Stores } from '../stores';
 
 // Provate Routes
 // <RequireAuth><Component /></RequireAuth>,
@@ -36,11 +37,6 @@ const AppRoutes = () => {
           index: true,
           element: <Home />,
         },
-        // ACCOUNT
-        {
-          path: 'account',
-          element: <Account />,
-        },
         // CART
         {
           path: 'cart',
@@ -56,54 +52,69 @@ const AppRoutes = () => {
           element: <Category />,
         },
         {
-          path: 's/:sub',
-          element: <SubCategory />,
-        },
-        {
           path: 'c/:cat/products',
           element: <CategoryProducts />,
         },
-        {
-          path: 's/:cat/products',
-          element: <CategoryProducts />,
-        },
-        // PRODUCT
+        // PRODUCTS
         {
           path: 'p/:id/:slug',
           element: <Product />,
         },
+        // STORES
+        {
+          path: 's/:slug',
+          element: <Stores />,
+        },
+        // SETTINGS
+        {
+          path: 'settings',
+          element: <Setting />,
+        },
+        // ACCOUNT
+        {
+          path: 'settings/account',
+          element: <Account.View />,
+        },
+        {
+          path: 'settings/change-name',
+          element: <Account.ChangeName />,
+        },
+        {
+          path: 'settings/change-password',
+          element: <Account.ChangePassword />,
+        },
         // ADDRESS
         {
-          path: 'account/address',
+          path: 'settings/address',
           element: <Address />,
         },
         {
-          path: 'account/address/new',
+          path: 'settings/address/new',
           element: <NewAddress />,
         },
         {
-          path: 'account/address/view/:id',
+          path: 'settings/address/view/:id',
           element: <ViewAddress />,
         },
         {
-          path: 'account/address/edit/:id',
+          path: 'settings/address/edit/:id',
           element: <EditAddress />,
         },
         // CARDS
         {
-          path: 'account/card',
+          path: 'settings/card',
           element: <Card.Home />,
         },
         {
-          path: 'account/card/new',
+          path: 'settings/card/new',
           element: <Card.New />,
         },
         {
-          path: 'account/card/view/:id',
+          path: 'settings/card/view/:id',
           element: <Card.View />,
         },
         {
-          path: 'account/card/edit/:id',
+          path: 'settings/card/edit/:id',
           element: <Card.Edit />,
         },
       ],
@@ -118,26 +129,7 @@ const AppRoutes = () => {
     },
   ]);
 
-  // ...homeRoutes, ...accountRoutes
-
   return <RouterProvider router={router} />;
 };
 
 export default AppRoutes;
-//       <Routes>
-//         <Route path='/' element={<Layout />}>
-//           <Route index element={<Home />} />
-//           <Route path='categories' element={<Categories />} />
-//           <Route path='c/:cat' element={<Category />} />
-//           <Route path='c/:cat/s/:subCat' element={<SubCategory />} />
-//           <Route path='p/:slug/:id' element={<Product />} />
-//           <Route path='best-sellers' element={<BestSellers />} />
-//           <Route path='stores' element={<div>All Stores</div>} />
-//           <Route path='stores/:slug/:id' element={<div>Store X</div>} />
-//           <Route path='official-stores' element={<OfficialStores />} />
-//           <Route path='addresses' element={<>Test</>} />
-//         </Route>
-//         <Route path='/signin' element={<Login />} />
-//         <Route path='/signup' element={<h1>Sign up</h1>} />
-//         <Route path='*' element={<NotFound />} />
-//       </Routes>

@@ -1,11 +1,15 @@
-import { BASE_API, setupHeaders, RequestMethod } from '../utils/api/config.api';
+import {
+  BASE_API,
+  setupHeaders,
+  REQUEST_METHOD,
+} from '../utils/api/config.api';
 
 const ROOT = 'addresses';
 
 const AddressAPI = {
   async getAll(jwt) {
     const url = `${BASE_API}/${ROOT}`;
-    const method = RequestMethod.get;
+    const method = REQUEST_METHOD.GET;
     const headers = setupHeaders(jwt);
 
     const options = {
@@ -22,7 +26,7 @@ const AddressAPI = {
   },
   async getOne(jwt, id) {
     const url = `${BASE_API}/${ROOT}/${id}`;
-    const method = RequestMethod.get;
+    const method = REQUEST_METHOD.GET;
     const headers = setupHeaders(jwt);
 
     const options = {
@@ -40,7 +44,7 @@ const AddressAPI = {
   async create(jwt, formValues) {
     const url = `${BASE_API}/${ROOT}`;
 
-    const method = RequestMethod.post;
+    const method = REQUEST_METHOD.POST;
     const body = JSON.stringify(formValues);
     const headers = setupHeaders(jwt);
 
@@ -60,7 +64,7 @@ const AddressAPI = {
   async update(jwt, id, formValues) {
     const url = `${BASE_API}/${ROOT}/${id}`;
 
-    const method = RequestMethod.put;
+    const method = REQUEST_METHOD.PUT;
     const body = JSON.stringify(formValues);
     const headers = setupHeaders(jwt);
 
@@ -80,7 +84,7 @@ const AddressAPI = {
   async remove(jwt, id) {
     const url = `${BASE_API}/${ROOT}/${id}`;
 
-    const method = RequestMethod.remove;
+    const method = REQUEST_METHOD.REMOVE;
     const headers = setupHeaders(jwt);
 
     const options = {

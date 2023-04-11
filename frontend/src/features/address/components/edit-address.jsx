@@ -33,7 +33,7 @@ const EditAddress = () => {
       await AddressAPI.update(jwt, id, cleanValues);
 
       console.log('Saved');
-      navigate(`/account/address/view/${id}`);
+      navigate(`/settings/address/view/${id}`);
     } catch (error) {
       console.log('New Address', error);
     }
@@ -106,7 +106,7 @@ const EditAddress = () => {
 
             <div className='mt-6 flex items-center justify-end gap-x-5'>
               <Link
-                to='/account/address'
+                to='/settings/address'
                 className='rounded-md px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
               >
                 Cancelar

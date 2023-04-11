@@ -2,29 +2,44 @@ const router = require('express').Router();
 
 const apiMiddleware = require('../../middlewares/api');
 const validatorHandler = require('../../middlewares/api/validator.middleware');
-const accountSchemas = require('./account.schema');
-const accountMiddleware = require('./account.middleware');
-const accountController = require('./account.controller');
+const schema = require('./account.schema');
+const middleware = require('./account.middleware');
+const controller = require('./account.controller');
 
 router.post(
   '/signin',
-  validatorHandler(accountSchemas.signinSchema, 'body'),
-  accountController.signin
+  validatorHandler(schema.signin, 'body'),
+  controller.signin
 );
 
 router.post(
   '/signup',
-  validatorHandler(accountSchemas.signupSchema, 'body'),
-  accountMiddleware.accountExist,
-  accountController.signup
+  validatorHandler(schema.signup, 'body'),
+  middleware.accountExist,
+  controller.signup
 );
 
-router.get('/profile', apiMiddleware.validateJWT, accountController.profile);
+router.get(
+  '/profile',
+  apiMiddleware.validateJWT,
+  middleware.userExist,
+  controller.profile
+);
 
-// TODO: Add these routes
-// router.get('/refresh', validateJWT, refreshToken);
-// router.get('/auth', (req, res, next) => {
-//   console.log('/auth');
-// });
+router.patch(
+  '/change-name',
+  apiMiddleware.validateJWT,
+  validatorHandler(schema.changeName, 'body'),
+  middleware.userExist,
+  controller.changeName
+);
+
+router.patch(
+  '/change-password',
+  apiMiddleware.validateJWT,
+  validatorHandler(schema.changePassword, 'body'),
+  middleware.userExist,
+  controller.changePassword
+);
 
 module.exports = router;

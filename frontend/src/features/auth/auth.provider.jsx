@@ -7,14 +7,14 @@ const useAuth = () => useContext(AuthContext);
 
 const ITEM_NAME_LS = 'jwt-ecommerce';
 
-const jwtInitialState = () => localStorage.getItem(ITEM_NAME_LS) || undefined;
-
 const AuthProvider = ({ children }) => {
-  const [jwt, setJwt] = useState(jwtInitialState);
-  const [user, setUser] = useState(undefined);
+  const [jwt, setJwt] = useState(
+    () => localStorage.getItem(ITEM_NAME_LS) || null
+  );
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!user) getProfile(jwt);
+    if (!user && jwt) getProfile(jwt);
   }, []);
 
   const signin = (data) => {
@@ -27,8 +27,8 @@ const AuthProvider = ({ children }) => {
   const signout = () => {
     localStorage.removeItem(ITEM_NAME_LS);
 
-    setJwt(undefined);
-    setUser(undefined);
+    setJwt(null);
+    setUser(null);
   };
 
   const getProfile = async (token) => {

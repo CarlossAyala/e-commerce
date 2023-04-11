@@ -1,5 +1,5 @@
 const sequelize = require('../../database/mysql');
-const { Business, Product } = require('../../database/mysql/models');
+const { Business, Product, Category } = require('../../database/mysql/models');
 
 class BusinessService {
   // create({ brand, number, holder, expiration, cvv, fkUser }) {
@@ -43,6 +43,22 @@ class BusinessService {
   //   });
   // }
 
+  getBusinessBySlug(slug) {
+    return Business.model.findOne({
+      where: {
+        slug,
+      },
+    });
+  }
+
+  existBusinessBySlug(slug) {
+    return Business.model.findOne({
+      where: {
+        slug,
+      },
+    });
+  }
+
   getOfficialStores() {
     return Business.model.findAll({
       where: {
@@ -78,6 +94,53 @@ class BusinessService {
         attributes: {
           exclude: ['userId'],
         },
+      },
+    });
+  }
+
+  getCategoriesStore(slug) {
+    // return Product.model.findAndCountAll({
+    //   attributes: ['categoryId', 'businessId'],
+    //   group: ['categoryId', 'businessId'],
+    //   include: [
+    //     {
+    //       model: Business.model,
+    //       as: 'business',
+    //       where: {
+    //         slug,
+    //       },
+    //     },
+    //     {
+    //       model: Category.model,
+    //       as: 'category',
+    //     },
+    //   ],
+    // });
+    return Category.model.findAll({
+      include: {
+        model: Product.model,
+        as: 'products',
+        group: 'categoryId',
+        attributes: [],
+        include: {
+          model: Business.model,
+          as: 'business',
+          where: {
+            slug,
+          },
+        },
+      },
+    });
+  }
+
+  getProductsByClauses(productClauses, categoryClauses) {
+    return Product.model.findAndCountAll({
+      ...productClauses,
+      include: {
+        model: Category.model,
+        as: 'category',
+        attributes: [],
+        ...categoryClauses,
       },
     });
   }

@@ -6,11 +6,11 @@ const id = Joi.string().guid({
   version: 'uuidv4',
   separator: '-',
 });
-const name = Joi.string().min(3).max(50);
-const lastName = Joi.string().min(3).max(50);
-const email = Joi.string().email().lowercase().trim();
-const password = Joi.string().min(8).max(100);
-const validatePassword = Joi.ref('password');
+const name = Joi.string().min(3).max(255);
+const lastName = Joi.string().min(3).max(255);
+const email = Joi.string().email();
+const password = Joi.string().min(8).max(255);
+const validatePassword = Joi.string().valid(Joi.ref('password'));
 // const roles = Joi.array().items(
 //   Joi.string().default(gues).valid(root, admin, gues, read, write)
 // );
@@ -39,8 +39,8 @@ const updateEmail = Joi.object({
 
 const changePassword = Joi.object({
   password: password.required(),
-  validatePassword,
-}).with('password', 'validatePassword');
+  validatePassword: validatePassword.required(),
+});
 
 module.exports = {
   userId,
@@ -48,7 +48,7 @@ module.exports = {
   updateEmail,
   // updatePhone,
   changePassword,
-  props: {
+  fields: {
     id,
     name,
     lastName,

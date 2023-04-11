@@ -1,3 +1,4 @@
+const BusinessQueryBuilder = require('./business.query-builder');
 const BusinessService = require('./business.service');
 
 const BusinessProvider = new BusinessService();
@@ -90,6 +91,61 @@ const getInfoBrand = async (req, res, next) => {
   }
 };
 
+const getCategoriesStore = async (req, res, next) => {
+  try {
+    const categories = await BusinessProvider.getCategoriesStore(
+      req.params.slug
+    );
+    // console.log(categories.count.length);
+    console.log(categories.length);
+
+    res.status(200).json(categories);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getProductsStore = async (req, res, next) => {
+  try {
+    const business = await BusinessProvider.getBusinessBySlug(req.params.slug);
+
+    const productClauses = new BusinessQueryBuilder(req.query)
+      .whereBusinessId(business.dataValues.id)
+      .isAvailable()
+      .conditions()
+      .withStock()
+      .priceRange()
+      .limitAndOffset()
+      .sort()
+      .build();
+    const categoryClauses = new BusinessQueryBuilder(req.query)
+      .inCategories()
+      .build();
+
+    const products = await BusinessProvider.getProductsByClauses(
+      productClauses,
+      categoryClauses
+    );
+
+    console.log('Products Clauses', productClauses);
+    console.log('Category Clauses', categoryClauses);
+
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getBusinessBySlug = async (req, res, next) => {
+  try {
+    const business = await BusinessProvider.getBusinessBySlug(req.params.slug);
+
+    res.status(200).json(business);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   // create,
   // getOne,
@@ -99,4 +155,7 @@ module.exports = {
   getOfficialStores,
   getBestBrands,
   getInfoBrand,
+  getCategoriesStore,
+  getProductsStore,
+  getBusinessBySlug,
 };

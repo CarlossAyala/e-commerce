@@ -49,35 +49,35 @@ const createRandomProduct = (categoryId, businessId) => {
   };
 };
 
-const generateNProducts = (n = 1, category, business) => {
+const generateNProducts = (n = 1, category, businesses) => {
+  const limit = businesses.length - 1;
+  let j = 0;
   const products = [];
 
   for (let i = 1; i <= n; i++) {
+    const business = businesses.at(i);
     const product = createRandomProduct(category.id, business.id);
     products.push(product);
+
+    if (j === limit) j = 0;
+    else j++;
   }
 
   return products;
 };
 
 const generateProductPerCategory = (categories, businesses) => {
-  const PRODUCTS_PER_CATEGORY = 100;
-  const limit = businesses.length - 1;
-  let i = 0;
+  const PRODUCTS_PER_CATEGORY = 50;
 
   const products = [];
   for (const category of categories) {
-    const business = businesses.at(i);
     const product = generateNProducts(
       PRODUCTS_PER_CATEGORY,
       category,
-      business
+      businesses
     );
 
     products.push(product);
-
-    if (i === limit) i = 0;
-    else i++;
   }
 
   return products;

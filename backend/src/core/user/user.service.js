@@ -13,13 +13,13 @@ class UserService {
     });
   }
 
-  async getOne(id) {
-    return await User.model.findByPk(id, {
+  getOne(id) {
+    return User.model.findByPk(id, {
       attributes: { exclude: ['password'] },
     });
   }
 
-  async remove(id) {
+  remove(id) {
     return User.model.destroy({
       where: {
         id,
@@ -27,43 +27,8 @@ class UserService {
     });
   }
 
-  async updateFullname(id, { firstName, lastName }) {
-    return await User.model.update(
-      { firstName, lastName },
-      {
-        where: {
-          id,
-        },
-      }
-    );
-  }
-
-  async updateEmail(id, { email }) {
-    return await User.model.update(
-      { email },
-      {
-        where: {
-          id,
-        },
-      }
-    );
-  }
-
-  async changePassword(id, { password }) {
-    const hash = await encrypter.encrypt(password);
-
-    return await User.model.update(
-      { password: hash },
-      {
-        where: {
-          id,
-        },
-      }
-    );
-  }
-
-  async findByEmail(email) {
-    return await User.model.findOne({ where: { email } });
+  findByEmail(email) {
+    return User.model.findOne({ where: { email } });
   }
 }
 

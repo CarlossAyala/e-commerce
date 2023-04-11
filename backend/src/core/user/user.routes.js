@@ -24,32 +24,4 @@ router.delete(
   userController.remove
 );
 
-// UPDATES
-router.put(
-  '/:id/fullname',
-  apiMiddleware.validateJWT,
-  validatorHandler(userSchema.userId, 'params'),
-  validatorHandler(userSchema.updateFullname, 'body'),
-  userMiddleware.userExist,
-  userController.updateFullname
-);
-
-router.patch(
-  '/:id/email',
-  apiMiddleware.validateJWT,
-  validatorHandler(userSchema.userId, 'params'),
-  validatorHandler(userSchema.updateEmail, 'body'),
-  userMiddleware.userExist,
-  userController.updateEmail
-);
-
-router.patch(
-  '/:id/change-password',
-  apiMiddleware.validateJWT,
-  validatorHandler(userSchema.userId, 'params'),
-  validatorHandler(userSchema.changePassword, 'body'),
-  userMiddleware.userExist,
-  userController.changePassword
-);
-
 module.exports = router;

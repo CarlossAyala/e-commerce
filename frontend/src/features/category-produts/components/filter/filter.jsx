@@ -62,7 +62,7 @@ const Filter = ({ params, setParams }) => {
     });
   };
 
-  const onSubmit = async (values) => {
+  const onSubmit = (values) => {
     // console.log('values', values);
     setParams((prev) => {
       QueryParams.setArrayParam(prev, NAME_PARAMS.STORES, values.stores);

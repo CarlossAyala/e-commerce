@@ -1,29 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CategoriesAPI } from '../features/categories';
-import BestSubCategeries from '../features/categories/components/best-sub-categeries';
-import { BestBrands, ListProducts } from '../features/common';
-import ListSubCategories from '../features/sub-categories/components/list-sub-categories';
+import { CategoryAPI, ListSubCategories } from '../features/category';
+import { BestSubCategeries } from '../features/category';
+import { StoresContainer } from '../features/stores';
+import ProductsContainer from '../features/product/components/products-container';
 
 const Category = () => {
-  const [allData, setAllData] = useState(null);
+  const [data, setData] = useState(null);
 
   const { cat } = useParams();
 
-  // TODO: Obtener primero la categoría y si existe, traer toda la info
-  // Sino, error page
   const getAllInfo = async () => {
     try {
-      const allInfo = await Promise.allSettled([
-        CategoriesAPI.getParentCatBySlug(cat),
-        CategoriesAPI.getBestSellers(cat),
-        CategoriesAPI.getBestSubCategories(cat),
-        CategoriesAPI.getBestBrands(cat),
+      const info = await Promise.allSettled([
+        CategoryAPI.getCategoryBySlug(cat),
+        CategoryAPI.getBestSellers(cat),
+        CategoryAPI.getBestSubCategories(cat),
+        CategoryAPI.getBestBrands(cat),
       ]);
 
-      console.log(allInfo);
+      console.log(info);
 
-      setAllData(allInfo);
+      setData(info);
     } catch (error) {
       console.log('Category', error);
     }
@@ -31,31 +29,34 @@ const Category = () => {
 
   useEffect(() => {
     getAllInfo();
-  }, []);
+  }, [cat]);
 
   // TODO: Skeleton Loader or something
-  if (!allData) return <div>Loading...</div>;
+  if (!data) return <div>Loading...</div>;
 
-  // bestSellers = Mejor Vendidos
-  const [category, bestSellers, bestSubCats, bestBrands] = allData;
+  const [{ value: category }, { value: bestSellers }, bestSubCats, bestBrands] =
+    data;
 
-  // TODO: Añadir la sección "Populares" que se ordenará con los productos vendidos
-  // dentro de los últimos 30 días
+  const isParentCategory = !category.parent;
 
   return (
     <main className='mx-auto max-w-7xl space-y-5 p-4'>
       <div>
         <h3 className='text-lg font-medium uppercase leading-6 text-gray-900'>
-          {category.value.name}
+          {category.name}
         </h3>
-        <p className='mt-1 text-sm text-gray-500'>
-          {category.value.description}
-        </p>
+        <p className='mt-1 text-sm text-gray-500'>{category.description}</p>
       </div>
-      <ListProducts products={bestSellers} />
-      <BestSubCategeries categories={bestSubCats.value} />
-      <BestBrands brands={bestBrands} />
-      <ListSubCategories category={category.value} />
+      <ProductsContainer products={bestSellers} />
+      {isParentCategory && <BestSubCategeries categories={bestSubCats.value} />}
+      <section>
+        <h2 className='text-lg font-medium text-gray-900'>Best Brands</h2>
+        <StoresContainer stores={bestBrands.value} />
+      </section>
+      <ListSubCategories
+        category={category}
+        isParentCategory={isParentCategory}
+      />
     </main>
   );
 };

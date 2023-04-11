@@ -1,15 +1,8 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
 
-const Slideover = ({
-  open,
-  setOpen,
-  title = 'Slider Panel',
-  size = 'md',
-  children,
-}) => {
+const Slideover = ({ open, setOpen, title = 'Slider Panel', children }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={setOpen}>
@@ -38,16 +31,7 @@ const Slideover = ({
                 leaveTo='translate-x-full'
               >
                 <Dialog.Panel className='pointer-events-auto relative w-screen max-w-md'>
-                  <div
-                    className={clsx(
-                      {
-                        'max-w-xs': size === 'xs',
-                        'max-w-sm': size === 'sm',
-                        'max-w-md': size === 'md',
-                      },
-                      'ml-auto h-full bg-white'
-                    )}
-                  >
+                  <div className='h-full w-full max-w-md bg-white'>
                     <div className='flex items-center justify-between border-b border-gray-200 px-4 py-3'>
                       <Dialog.Title className='text-lg leading-6 text-gray-900'>
                         {title}

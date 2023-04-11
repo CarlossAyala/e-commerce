@@ -3,12 +3,12 @@ import {
   ShoppingBagIcon,
   BookmarkIcon,
   ClockIcon,
-  UserCircleIcon,
   ListBulletIcon,
   TrophyIcon,
   CheckBadgeIcon,
   PlusIcon,
   ChevronRightIcon,
+  Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ const navigation = [
     { name: 'Mis compras', to: '/purchases/list', icon: ShoppingBagIcon },
     { name: 'Favoritos', to: '/bookmarks/list', icon: BookmarkIcon },
     { name: 'Historial', to: '/history', icon: ClockIcon },
-    { name: 'Mi cuenta', to: '/account', icon: UserCircleIcon },
+    { name: 'Settings', to: '/settings', icon: Cog6ToothIcon },
   ],
   [
     { name: 'Categorias', to: '/categories', icon: ListBulletIcon },
