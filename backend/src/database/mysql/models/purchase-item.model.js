@@ -1,12 +1,13 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql/index');
+const sequelize = require('../index');
+const PurchaseOrder = require('./purchase-order.model');
 const Product = require('./product.model');
 
-const modelName = 'Sale';
-const tableName = 'sales';
+const modelName = 'PurchaseItem';
+const tableName = 'purchase_item';
 const modelOptions = {
   tableName,
-  timestamps: true,
+  timestamps: false,
 };
 
 const modelSchema = {
@@ -15,26 +16,23 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  quantity: DataTypes.INTEGER,
+  quantity: DataTypes.INTEGER.UNSIGNED,
   price: DataTypes.DECIMAL(10, 2),
-  total: DataTypes.DECIMAL(10, 2),
-  fkProduct: {
+  purchaseId: {
     type: DataTypes.UUID,
-    field: 'fk_product',
+    field: 'purchase_id',
+    references: {
+      model: PurchaseOrder.model,
+      key: 'id',
+    },
+  },
+  productId: {
+    type: DataTypes.UUID,
+    field: 'product_id',
     references: {
       model: Product.model,
       key: 'id',
     },
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-    field: 'created_at',
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-    field: 'updated_at',
   },
 };
 

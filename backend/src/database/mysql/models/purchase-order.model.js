@@ -1,8 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql');
 const User = require('./user.model');
-const CardRegister = require('./card-register.model');
-const AddressRegister = require('./address-register.model');
+const Address = require('./address.model');
 
 const modelName = 'PurchaseOrder';
 const tableName = 'purchase_orders';
@@ -11,12 +10,14 @@ const modelOptions = {
   timestamps: true,
 };
 const enums = {
-  realized: 'Realized',
-  processing: 'Processing',
-  sent: 'Sent',
-  delivered: 'Delivered',
-  cancelled: 'Cancelled',
-  returned: 'Returned',
+  pending: 'pending',
+  process: 'in process',
+  shipped: 'shipped',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
+  return: 'return',
+  refunded: 'refunded',
+  completed: 'completed',
 };
 
 const modelSchema = {
@@ -26,29 +27,29 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   total: DataTypes.DECIMAL(10, 2),
-  states: {
+  state: {
     type: DataTypes.ENUM,
     values: Object.values(enums),
   },
-  fkCardPayment: {
+  cardEntity: {
+    type: DataTypes.STRING,
+    field: 'card_entity',
+  },
+  cardNumber: {
+    type: DataTypes.STRING(4),
+    field: 'card_number',
+  },
+  addressId: {
     type: DataTypes.UUID,
-    field: 'fk_card_payment',
+    field: 'address_id',
     references: {
-      model: CardRegister.model,
+      model: Address.model,
       key: 'id',
     },
   },
-  fkDestination: {
+  customerId: {
     type: DataTypes.UUID,
-    field: 'fk_destination',
-    references: {
-      model: AddressRegister.model,
-      key: 'id',
-    },
-  },
-  fkCustomer: {
-    type: DataTypes.UUID,
-    field: 'fk_customer',
+    field: 'customer_id',
     references: {
       model: User.model,
       key: 'id',

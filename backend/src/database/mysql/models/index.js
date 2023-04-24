@@ -9,12 +9,6 @@ const EmployeeRole = require('./employee-role.model');
 
 const Card = require('./card.model');
 
-const CardRegister = require('./card-register.model');
-
-const WalletStatus = require('./wallet-status.model');
-const WalletTransfer = require('./wallet-transfer.model');
-const WalletWithdrawal = require('./wallet-withdrawal.model');
-
 const Category = require('./category.model');
 
 const Product = require('./product.model');
@@ -23,27 +17,8 @@ const Bookmark = require('./bookmark.model');
 
 const History = require('./history.model');
 
-const MovementType = require('./movement-type.model');
-
-const ChargeCategory = require('./charge-category.model');
-const Charge = require('./charge.model');
-
-const MovementCharge = require('./movement-charge.model');
-const TransactionCharge = require('./transaction-charge.model');
-
-const Transaction = require('./transaction.model');
-
 const PurchaseOrder = require('./purchase-order.model');
-const OrderItem = require('./order-item.model');
-const AddressRegister = require('./address-register.model');
-
-const Return = require('./return.model');
-
-const Refund = require('./refund.model');
-
-const Exchange = require('./exchange.model');
-
-const Sale = require('./sale.model');
+const PurchaseItem = require('./purchase-item.model');
 
 const Cart = require('./cart.model');
 const CartProduct = require('./cart-product.model');
@@ -55,8 +30,6 @@ const Dislike = require('./dislike.model');
 
 const Question = require('./question.model');
 const Answer = require('./answer.model');
-
-const WalletShop = require('./wallet-shop.model');
 
 // Association
 
@@ -101,22 +74,14 @@ CartProduct.model.belongsTo(Product.model, {
 });
 
 // PURCHASE ORDER
-PurchaseOrder.model.hasMany(OrderItem.model, {
-  foreignKey: 'fkOrder',
+PurchaseOrder.model.hasMany(PurchaseItem.model, {
+  foreignKey: 'orderId',
   as: 'products',
 });
-PurchaseOrder.model.belongsTo(AddressRegister.model, {
-  foreignKey: 'fkDestination',
-  as: 'destination',
-});
-PurchaseOrder.model.belongsTo(CardRegister.model, {
-  foreignKey: 'fkCardPayment',
-  as: 'creditCard',
-});
 
-OrderItem.model.belongsTo(Product.model, {
-  foreignKey: 'fkProduct',
-  as: 'details',
+PurchaseItem.model.belongsTo(Product.model, {
+  foreignKey: 'productId',
+  as: 'product',
 });
 
 // QUESTIONS AND ANSWERS
@@ -176,9 +141,6 @@ module.exports = {
 
   Card,
 
-  CardRegister,
-  AddressRegister,
-
   Role,
   Employee,
   EmployeeRole,
@@ -192,29 +154,7 @@ module.exports = {
   History,
 
   PurchaseOrder,
-  OrderItem,
-
-  Return,
-
-  Refund,
-
-  Exchange,
-
-  WalletStatus,
-  WalletTransfer,
-  WalletWithdrawal,
-
-  MovementType,
-
-  ChargeCategory,
-  Charge,
-
-  MovementCharge,
-
-  Transaction,
-  TransactionCharge,
-
-  Sale,
+  PurchaseItem,
 
   Cart,
   CartProduct,
@@ -226,6 +166,4 @@ module.exports = {
 
   Question,
   Answer,
-
-  WalletShop,
 };

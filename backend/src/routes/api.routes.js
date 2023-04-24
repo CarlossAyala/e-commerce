@@ -8,9 +8,6 @@ const categoryRoutes = require('../core/category/category.routes');
 const roleRoutes = require('../core/role/role.routes');
 const productRoutes = require('../core/product/product.routes');
 const employeeRoutes = require('../core/employee/employee.routes');
-const movementTypeRoutes = require('../core/movement-type/movement-type.routes');
-const chargeCategoryRoutes = require('../core/charge-category/charge-category.routes');
-const chargeRoutes = require('../core/charge/charge.routes');
 const cartRoutes = require('../core/cart/cart.routes');
 const buyRoutes = require('../core/buy/buy.routes');
 const purchaseOrderRoutes = require('../core/purchase-order/purchase-order.routes');
@@ -51,11 +48,6 @@ function router(app) {
 
   // History
   routes.use('/history', historyRoutes);
-
-  // Transactions and recharges
-  routes.use('/movement-types', movementTypeRoutes);
-  routes.use('/charge-categories', chargeCategoryRoutes);
-  routes.use('/charges', chargeRoutes);
 
   // Cart
   routes.use('/cart', cartRoutes);
