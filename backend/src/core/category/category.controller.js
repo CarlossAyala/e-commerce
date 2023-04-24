@@ -106,7 +106,7 @@ const getBestBrands = async (req, res, next) => {
     const category = await CategoryProvider.getCatBySlugSimple(req.params.cat);
     const brands = await CategoryProvider.getBestBrands(category.dataValues.id);
 
-    const fixedBrands = brands.map((brand) => brand.business.dataValues);
+    const fixedBrands = brands.map((brand) => brand.store.dataValues);
 
     res.status(200).json(fixedBrands);
   } catch (error) {
@@ -143,18 +143,18 @@ const getCategoryProducts = async (req, res, next) => {
       .limitAndOffset()
       .sort()
       .build();
-    const queryBusiness = new CategoryQueryBuilder(req.query)
+    const queryStore = new CategoryQueryBuilder(req.query)
       .storeNames()
       .officialStores()
       .build();
 
     console.log('QUERY PARAM', req.query);
     console.log('Product', queryProduc);
-    console.log('Business', queryBusiness);
+    console.log('Business', queryStore);
 
     const products = await CategoryProvider.getCategoryProducts(
       queryProduc,
-      queryBusiness
+      queryStore
     );
 
     res.status(200).json(products);

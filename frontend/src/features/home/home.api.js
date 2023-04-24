@@ -6,7 +6,7 @@ import {
 
 const HomeAPI = {
   async getBestStores() {
-    const url = `${BASE_API}/businesses/best-brands`;
+    const url = `${BASE_API}/stores/best-brands`;
 
     const method = REQUEST_METHOD.GET;
     const headers = setupHeaders();

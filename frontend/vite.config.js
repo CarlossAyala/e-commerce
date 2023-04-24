@@ -8,4 +8,11 @@ export default defineConfig({
     open: true,
     hmr: true,
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        includePaths: ['node_modules'],
+      },
+    },
+  },
 });

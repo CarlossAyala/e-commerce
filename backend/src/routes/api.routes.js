@@ -18,8 +18,9 @@ const reviewRoutes = require('../core/review/review.routes');
 const questionRoutes = require('../core/question/question.routes');
 const answerRoutes = require('../core/answer/answer.routes');
 const employeeRoleRoutes = require('../core/employee-role/employee-role.routes');
-const bestSellerRoutes = require('../core/best-sellers/best-sellers.routes');
-const businessRoutes = require('../core/business/business.routes');
+const storesRoutes = require('../core/store/store.routes');
+const bookmarkRoutes = require('../core/bookmark/bookmark.routes');
+const historyRoutes = require('../core/history/history.routes');
 
 function router(app) {
   const routes = express.Router();
@@ -43,10 +44,13 @@ function router(app) {
   routes.use('/products', productRoutes);
 
   // Business
-  routes.use('/businesses', businessRoutes);
+  routes.use('/stores', storesRoutes);
 
-  // Categories and Products
-  routes.use('/best-sellers', bestSellerRoutes);
+  // Bookmarks
+  routes.use('/bookmarks', bookmarkRoutes);
+
+  // History
+  routes.use('/history', historyRoutes);
 
   // Transactions and recharges
   routes.use('/movement-types', movementTypeRoutes);

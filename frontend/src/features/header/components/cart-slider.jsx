@@ -1,20 +1,22 @@
 import { Link } from 'react-router-dom';
-import { CartItem, useCartContext } from '../../cart';
+import { CartItem, useGetCart } from '../../cart';
+import CartUtils from '../../cart/cart.utils';
 
 const CartSlider = ({ setOpen }) => {
-  const [cart, handlers] = useCartContext();
+  const { data: ItemsCart, isLoading, isError } = useGetCart();
 
-  const [vis, hid, both] = handlers.subTotals();
+  if (isLoading) return <h1>Loading...</h1>;
+  if (isError) return <h1>Error!</h1>;
+
+  const [vis, hid, both] = CartUtils.getSubTotal(ItemsCart);
 
   return (
     <div className='grid h-full grid-rows-[1fr_auto]'>
       {/* Main */}
       <div className='flex-1 overflow-y-auto'>
         <ul role='list' className='divide-y divide-gray-200'>
-          {cart?.length > 0 &&
-            cart.map((item) => (
-              <CartItem item={item} handlers={handlers} key={item.id} />
-            ))}
+          {ItemsCart.length > 0 &&
+            ItemsCart.map((item) => <CartItem item={item} key={item.id} />)}
         </ul>
       </div>
 

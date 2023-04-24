@@ -4,29 +4,29 @@ import {
   BookmarkIcon,
   ClockIcon,
   ListBulletIcon,
-  TrophyIcon,
-  CheckBadgeIcon,
   PlusIcon,
   ChevronRightIcon,
   Cog6ToothIcon,
+  BuildingStorefrontIcon,
+  ShoppingCartIcon,
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
 const navigation = [
   [
     { name: 'Inicio', to: '/', icon: HomeIcon },
-    { name: 'Mis compras', to: '/purchases/list', icon: ShoppingBagIcon },
-    { name: 'Favoritos', to: '/bookmarks/list', icon: BookmarkIcon },
+    { name: 'Mi Carrito', to: '/cart', icon: ShoppingCartIcon },
+    { name: 'Mis compras', to: '/purchases', icon: ShoppingBagIcon },
+    { name: 'Favoritos', to: '/bookmarks', icon: BookmarkIcon },
     { name: 'Historial', to: '/history', icon: ClockIcon },
     { name: 'Settings', to: '/settings', icon: Cog6ToothIcon },
   ],
   [
     { name: 'Categorias', to: '/categories', icon: ListBulletIcon },
-    { name: 'Más vendidos', to: '/best-sellers', icon: TrophyIcon },
     {
-      name: 'Tiendas oficiales',
-      to: '/official-stores',
-      icon: CheckBadgeIcon,
+      name: 'Tiendas',
+      to: '/stores',
+      icon: BuildingStorefrontIcon,
     },
   ],
   [

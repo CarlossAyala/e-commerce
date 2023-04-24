@@ -3,14 +3,14 @@
 const { v4: uuidv4 } = require('uuid');
 const { faker } = require('@faker-js/faker/locale/es_MX');
 const slugify = require('slugify');
-const { Business, Product, Category } = require('../models');
+const { Store, Product, Category } = require('../models');
 
 const slugifyOptions = {
   lower: true,
   locale: 'la',
 };
 
-const createRandomProduct = (categoryId, businessId) => {
+const createRandomProduct = (categoryId, storeId) => {
   const priceOptions = {
     min: 1,
     max: 10_000,
@@ -43,20 +43,20 @@ const createRandomProduct = (categoryId, businessId) => {
     available: true,
     condition,
     category_id: categoryId,
-    business_id: businessId,
+    store_id: storeId,
     created_at: new Date(),
     updated_at: new Date(),
   };
 };
 
-const generateNProducts = (n = 1, category, businesses) => {
-  const limit = businesses.length - 1;
+const generateNProducts = (n = 1, category, stores) => {
+  const limit = stores.length - 1;
   let j = 0;
   const products = [];
 
   for (let i = 1; i <= n; i++) {
-    const business = businesses.at(i);
-    const product = createRandomProduct(category.id, business.id);
+    const store = stores.at(i);
+    const product = createRandomProduct(category.id, store.id);
     products.push(product);
 
     if (j === limit) j = 0;
@@ -66,16 +66,12 @@ const generateNProducts = (n = 1, category, businesses) => {
   return products;
 };
 
-const generateProductPerCategory = (categories, businesses) => {
+const generateProductPerCategory = (categories, stores) => {
   const PRODUCTS_PER_CATEGORY = 50;
 
   const products = [];
   for (const category of categories) {
-    const product = generateNProducts(
-      PRODUCTS_PER_CATEGORY,
-      category,
-      businesses
-    );
+    const product = generateNProducts(PRODUCTS_PER_CATEGORY, category, stores);
 
     products.push(product);
   }
@@ -87,13 +83,13 @@ module.exports = {
   async up(queryInterface) {
     try {
       // Get business
-      const businesses = await Business.model.findAll();
+      const stores = await Store.model.findAll();
 
       // Get Categories
       const categories = await Category.model.findAll();
 
       // Generate products to each category
-      const products = generateProductPerCategory(categories, businesses);
+      const products = generateProductPerCategory(categories, stores);
 
       // Flat products because products are a array of arrays
       const flatProducts = products.flat();

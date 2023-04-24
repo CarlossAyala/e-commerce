@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const sequelize = require('../../database/mysql');
-const { Category, Product, Business } = require('../../database/mysql/models');
+const { Category, Product, Store } = require('../../database/mysql/models');
 
 class CategoryService {
   create({ name, available, parentId }) {
@@ -97,18 +97,18 @@ class CategoryService {
     return Product.model.findAll({
       attributes: [
         'categoryId',
-        'businessId',
+        'storeId',
         [sequelize.fn('SUM', sequelize.col('sold')), 'n_ventas'],
       ],
       where: {
         categoryId,
       },
       order: [['n_ventas', 'DESC']],
-      group: 'businessId',
+      group: 'storeId',
       limit: 10,
       include: {
-        model: Business.model,
-        as: 'business',
+        model: Store.model,
+        as: 'store',
         attributes: {
           exclude: ['userId'],
         },
@@ -156,14 +156,14 @@ class CategoryService {
 
   getCategoryStores(categoryId) {
     return Product.model.findAll({
-      attributes: ['categoryId', 'businessId'],
+      attributes: ['categoryId', 'storeId'],
       where: {
         categoryId,
       },
-      group: 'businessId',
+      group: 'storeId',
       include: {
-        model: Business.model,
-        as: 'business',
+        model: Store.model,
+        as: 'store',
         attributes: {
           exclude: ['userId'],
         },
@@ -171,16 +171,16 @@ class CategoryService {
     });
   }
 
-  getCategoryProducts(productClause, businessClause) {
+  getCategoryProducts(productClause, storeClause) {
     return Product.model.findAndCountAll({
       ...productClause,
       include: {
-        model: Business.model,
-        as: 'business',
+        model: Store.model,
+        as: 'store',
         attributes: {
           exclude: ['userId'],
         },
-        ...businessClause,
+        ...storeClause,
       },
     });
   }

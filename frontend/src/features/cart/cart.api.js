@@ -1,136 +1,96 @@
-import {
-  BASE_API,
-  setupHeaders,
-  REQUEST_METHOD,
-} from '../utils/api/config.api';
+import CustomerClient, { getToken } from '../api';
 
-const ROOT = 'cart';
+const ENDPOINT = 'cart';
 
 const API = {
-  async getItemsCart(jwt) {
-    const url = `${BASE_API}/${ROOT}`;
-    const method = REQUEST_METHOD.GET;
-    const headers = setupHeaders(jwt);
+  async getItemsCart() {
+    const token = getToken();
 
-    const options = {
-      method,
-      headers,
-    };
-
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await CustomerClient.request({
+      method: 'GET',
+      url: `/${ENDPOINT}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return data;
   },
-  /**
-   * @param {string} jwt Customer
-   * @param {string} id Product
-   * @param {object} quantity { quantity : number }
-   */
-  async addItem(jwt, id, quantity) {
-    const url = `${BASE_API}/${ROOT}/${id}`;
-    const method = REQUEST_METHOD.POST;
-    const body = JSON.stringify(quantity);
-    const headers = setupHeaders(jwt);
+  async addItem(id, quantity) {
+    const token = getToken();
 
-    const options = {
-      method,
-      headers,
-      body,
-    };
-
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await CustomerClient.request({
+      method: 'POST',
+      url: `/${ENDPOINT}/${id}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        quantity,
+      },
+    });
 
     return data;
   },
-  /**
-   * @param {string} jwt Customer
-   * @param {string} id Item Cart
-   * @param {object} quantity { quantity : number }
-   */
-  async updateQuantity(jwt, id, quantity) {
-    const url = `${BASE_API}/${ROOT}/quantity/${id}`;
-    const method = REQUEST_METHOD.PATCH;
-    const body = JSON.stringify(quantity);
-    const headers = setupHeaders(jwt);
+  async updateQuantity(cartItemId, quantity) {
+    const token = getToken();
 
-    const options = {
-      method,
-      headers,
-      body,
-    };
-
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await CustomerClient.request({
+      method: 'PATCH',
+      url: `/${ENDPOINT}/quantity/${cartItemId}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        quantity,
+      },
+    });
 
     return data;
   },
-  /**
-   * @param {string} jwt Customer
-   * @param {string} id Item Cart
-   */
-  async updateVisibility(jwt, id) {
-    const url = `${BASE_API}/${ROOT}/visible/${id}`;
-    const method = REQUEST_METHOD.PATCH;
-    const headers = setupHeaders(jwt);
+  async updateVisibility(cartItemId) {
+    const token = getToken();
 
-    const options = {
-      method,
-      headers,
-    };
-
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await CustomerClient.request({
+      method: 'PATCH',
+      url: `/${ENDPOINT}/visibility/${cartItemId}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return data;
   },
-  /**
-   * @param {string} jwt Customer
-   * @param {string} id Item Cart
-   */
-  async removeItem(jwt, id) {
-    const url = `${BASE_API}/${ROOT}/${id}`;
-    const method = REQUEST_METHOD.REMOVE;
-    const headers = setupHeaders(jwt);
+  async removeItem(cartItemId) {
+    const token = getToken();
 
-    const options = {
-      method,
-      headers,
-    };
-
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await CustomerClient.request({
+      method: 'DELETE',
+      url: `/${ENDPOINT}/${cartItemId}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return data;
   },
-  /**
-   * @param {string} jwt Customer
-   */
-  async clear(jwt) {
-    const url = `${BASE_API}/${ROOT}/clear`;
-    const method = REQUEST_METHOD.REMOVE;
-    const headers = setupHeaders(jwt);
+  async clear() {
+    const token = getToken();
 
-    const options = {
-      method,
-      headers,
-    };
+    const { data } = await CustomerClient.request({
+      method: 'DELETE',
+      url: `/${ENDPOINT}/clear`,
 
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return data;
   },

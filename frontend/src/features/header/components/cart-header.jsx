@@ -1,11 +1,12 @@
-import { useCartContext } from '../../cart';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import CartUtils from '../../cart/cart.utils';
+import { useGetCart } from '../../cart';
 
 const CartHeader = ({ onClick }) => {
-  const [, handlers] = useCartContext();
+  const { data: itemsCart } = useGetCart();
 
-  const items = handlers.totalItems();
+  const quantity = CartUtils.getItemsQuantity(itemsCart);
 
   return (
     <div className='flow-root'>
@@ -18,17 +19,17 @@ const CartHeader = ({ onClick }) => {
           className='h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500'
           aria-hidden='true'
         />
-        {items > 0 && (
+        {quantity > 0 && (
           <span
             className={clsx(
-              items > 99 && 'translate-x-2',
+              quantity > 99 && 'translate-x-2',
               'absolute top-0 right-0 flex -translate-y-1 items-center justify-center rounded bg-red-600 px-1 text-sm font-medium lining-nums text-white'
             )}
           >
-            {items < 100 ? items : '99+'}
+            {quantity < 100 ? quantity : '99+'}
           </span>
         )}
-        <span className='sr-only'>items in cart, view bag</span>
+        <span className='sr-only'>view cart</span>
       </button>
     </div>
   );

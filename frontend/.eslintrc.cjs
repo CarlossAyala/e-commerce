@@ -8,6 +8,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -16,7 +17,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['react', '@tanstack/query'],
   rules: {
     'react/prop-types': [0, {}],
   },

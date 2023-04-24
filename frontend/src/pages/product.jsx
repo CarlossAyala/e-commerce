@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductQA, Rating, Review } from '../features/product';
 import { API } from '../features/product';
+import { useAuth } from '../features/auth';
+import { useAddHistory } from '../features/history';
+// TODO: Refactor this shit
 import ProductName from '../features/product/components/product/product-name';
 import ProductImage from '../features/product/components/product/product-image';
 import ProductPrice from '../features/product/components/product/product-price';
@@ -14,6 +17,8 @@ const Product = () => {
   const [data, setData] = useState(null);
 
   const { id } = useParams();
+
+  const [jwt, user] = useAuth();
 
   const getAllInfo = async () => {
     try {
@@ -31,9 +36,15 @@ const Product = () => {
     }
   };
 
+  const addHistory = useAddHistory();
+
   useEffect(() => {
     getAllInfo();
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    if (jwt && user && id) addHistory.mutate(id);
+  }, [id]);
 
   if (!data) return <p>No data yet</p>;
 

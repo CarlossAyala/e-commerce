@@ -1,8 +1,25 @@
-const { Cart, Product, CartProduct } = require('../../database/mysql/models');
+const {
+  Cart,
+  Product,
+  CartProduct,
+  Bookmark,
+} = require('../../database/mysql/models');
 
 class CartService {
   getOne(id) {
     return CartProduct.model.findByPk(id);
+  }
+
+  getOneExtended(id) {
+    return CartProduct.model.findOne({
+      where: {
+        id,
+      },
+      include: {
+        model: Product.model,
+        as: 'product',
+      },
+    });
   }
 
   getCartByCustomerId(customerId) {
@@ -13,25 +30,19 @@ class CartService {
     });
   }
 
-  addItem(quantity, cartId, productId) {
-    return CartProduct.model.create({
-      quantity,
-      cartId,
-      productId,
-    });
-  }
-
   getProductsCart(cartId) {
     return CartProduct.model.findAll({
-      attributes: {
-        exclude: ['cartId', 'productId'],
-      },
       where: {
         cartId,
       },
       include: {
         model: Product.model,
         as: 'product',
+        include: {
+          model: Bookmark.model,
+          as: 'inBookmark',
+          required: false,
+        },
       },
     });
   }
@@ -74,11 +85,20 @@ class CartService {
     });
   }
 
-  existItem(cartId, productId) {
-    return CartProduct.model.findOne({
+  findOrCreateItem(cartId, productId, quantity) {
+    return CartProduct.model.findOrCreate({
       where: {
         cartId,
         productId,
+      },
+      include: {
+        model: Product.model,
+        as: 'product',
+      },
+      defaults: {
+        cartId,
+        productId,
+        quantity,
       },
     });
   }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CategoryAPI, ListSubCategories } from '../features/category';
 import { BestSubCategeries } from '../features/category';
-import { StoresContainer } from '../features/stores';
+import { StoresContainer } from '../features/store';
 import ProductsContainer from '../features/product/components/products-container';
 
 const Category = () => {

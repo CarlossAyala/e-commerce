@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { HomeAPI } from '../features/home';
-import StoresContainer from '../features/stores/components/stores-container';
+import StoresContainer from '../features/store/components/stores-container';
 import { CategoriesContainer } from '../features/category';
 
 const Home = () => {

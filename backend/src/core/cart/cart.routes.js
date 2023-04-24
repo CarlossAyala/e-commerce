@@ -31,7 +31,7 @@ router.patch(
 
 // Update Visible Product
 router.patch(
-  '/visible/:id',
+  '/visibility/:id',
   apiMiddleware.validateJWT,
   validatorHandler(schema.uuidV4, 'params'),
   middleware.resourceExist,

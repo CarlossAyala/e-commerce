@@ -1,27 +1,26 @@
 import ItemProfile from './item-profile';
 import ItemInfo from './item-info';
-import ItemQuantitySelector from './item-quantity-selector';
-import ItemVisibleController from './item-visible-controller';
+import QuantitySelector from './quantity-selector';
+import VisibleController from './visible-controller';
 import ItemBookmark from './item-bookmark';
 import ItemDelete from './item-delete';
 
-const CartItem = ({ item, handlers }) => {
+const CartItem = ({ item }) => {
   return (
     <li className='grid grid-rows-[1fr_auto] shadow-sm'>
       <div className='flex py-3 px-4'>
         <ItemProfile item={item} />
-
-        <ItemInfo item={item} handlers={handlers} />
+        <ItemInfo item={item} />
       </div>
 
       {/* Actions */}
       <div className='flex items-center justify-between border-t border-gray-200 py-3 px-4'>
-        <ItemQuantitySelector item={item} handlers={handlers} />
-        <ItemVisibleController item={item} handlers={handlers} />
+        <ItemDelete item={item} />
         <div className='flex items-center gap-x-2'>
-          <ItemBookmark />
-          <ItemDelete />
+          <VisibleController item={item} />
+          <ItemBookmark item={item} />
         </div>
+        <QuantitySelector item={item} />
       </div>
     </li>
   );

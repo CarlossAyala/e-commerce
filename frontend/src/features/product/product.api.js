@@ -26,7 +26,7 @@ const ProductsAPI = {
     return data;
   },
   async getInfoStore(id) {
-    const url = `${BASE_API}/businesses/id/${id}`;
+    const url = `${BASE_API}/stores/id/${id}`;
 
     const method = REQUEST_METHOD.GET;
     const headers = setupHeaders();
@@ -48,6 +48,24 @@ const ProductsAPI = {
 
     const method = REQUEST_METHOD.GET;
     const headers = setupHeaders();
+
+    const options = {
+      method,
+      headers,
+    };
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message || response.statusText);
+
+    return data;
+  },
+  async addToHistory(jwt, productId) {
+    const url = `${BASE_API}/history/${productId}`;
+
+    const method = REQUEST_METHOD.POST;
+    const headers = setupHeaders(jwt);
 
     const options = {
       method,

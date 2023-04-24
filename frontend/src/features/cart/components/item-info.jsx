@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Formater } from '../../utils/helpers';
+import CartUtils from '../cart.utils';
 
-const ItemInfo = ({ item, handlers }) => {
-  const total = handlers.totalProduct(item);
+const ItemInfo = ({ item }) => {
+  const price = +item.product.price;
+  const quantity = item.quantity;
+
+  const total = CartUtils.getTotalItem(price, quantity);
 
   return (
     <div className='ml-4 flex flex-1 flex-col'>

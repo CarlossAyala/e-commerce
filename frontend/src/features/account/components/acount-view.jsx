@@ -39,9 +39,21 @@ const View = () => {
           <div className='border-t border-gray-200'>
             <dl>
               <div className='p-4'>
-                <dt className='font-medium text-gray-800'>Full name</dt>
+                <dt className='font-medium text-gray-800'>Name</dt>
                 <div className='mt-1 flex items-center justify-between'>
-                  <dd className='text-gray-500'>{`${account?.name} ${account?.lastName}`}</dd>
+                  <dd className='text-gray-500'>{account?.name}</dd>
+                  <Link
+                    to='/settings/change-name'
+                    className='font-medium text-indigo-600 hover:text-indigo-500'
+                  >
+                    Update
+                  </Link>
+                </div>
+              </div>
+              <div className='p-4'>
+                <dt className='font-medium text-gray-800'>Last name</dt>
+                <div className='mt-1 flex items-center justify-between'>
+                  <dd className='text-gray-500'>{account?.lastName}</dd>
                   <Link
                     to='/settings/change-name'
                     className='font-medium text-indigo-600 hover:text-indigo-500'

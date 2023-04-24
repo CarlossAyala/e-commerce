@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
-const Business = require('./business.model');
+const Business = require('./store.model');
 
 const modelName = 'Employee';
 const tableName = 'employees';

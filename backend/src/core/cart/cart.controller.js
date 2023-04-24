@@ -13,28 +13,18 @@ const addItem = async (req, res, next) => {
     const cart = await CartProvider.getCartByCustomerId(customerId);
 
     // If product already exists then update quantity
-    const existItem = await CartProvider.existItem(
+    let [cartItem, created] = await CartProvider.findOrCreateItem(
       cart.dataValues.id,
-      productId
+      productId,
+      quantity
     );
 
-    console.log('test', existItem);
-
-    if (existItem) {
-      const itemId = existItem.dataValues.id;
-
-      await CartProvider.updateQuantity(itemId, quantity);
-
-      return res.status(200).json({
-        message: 'Product Item updated successfully',
-      });
+    if (created) {
+      await CartProvider.updateQuantity(cartItem.dataValues.id, quantity);
+      cartItem = await CartProvider.getOneExtended(cartItem.dataValues.id);
     }
 
-    await CartProvider.addItem(quantity, cart.dataValues.id, productId);
-
-    return res.status(201).json({
-      message: 'New Cart Item added successfully',
-    });
+    return res.status(200).json(cartItem);
   } catch (error) {
     next(error);
   }

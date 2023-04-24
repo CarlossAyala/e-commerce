@@ -24,7 +24,7 @@ const ListSubCategories = ({ category, isParentCategory }) => {
           to={`/c/${category.parent.slug}`}
           className={({ isActive }) =>
             clsx(
-              'block py-1 text-lg font-medium uppercase',
+              'block py-1 text-lg font-medium',
               isActive
                 ? 'font-medium uppercase text-indigo-500'
                 : 'text-gray-900'

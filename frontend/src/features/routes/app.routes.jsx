@@ -1,20 +1,23 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import {
   Address,
+  Bookmarks,
   Cart,
   Categories,
   Category,
+  History,
   Home,
   Product,
   Setting,
   Signup,
+  Stores,
+  Store,
 } from '../../pages';
 import CategoryProducts from '../../pages/category-products';
 import { EditAddress, NewAddress, ViewAddress } from '../address';
 import * as Card from '../card';
 import * as Account from '../account';
 import { MainLayout } from '../ui';
-import { Stores } from '../stores';
 
 // Provate Routes
 // <RequireAuth><Component /></RequireAuth>,
@@ -62,8 +65,22 @@ const AppRoutes = () => {
         },
         // STORES
         {
-          path: 's/:slug',
+          path: 'stores',
           element: <Stores />,
+        },
+        {
+          path: 's/:slug',
+          element: <Store />,
+        },
+        // FAVORITES
+        {
+          path: 'bookmarks',
+          element: <Bookmarks />,
+        },
+        // HISTORY
+        {
+          path: 'history',
+          element: <History />,
         },
         // SETTINGS
         {
