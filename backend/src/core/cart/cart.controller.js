@@ -19,7 +19,7 @@ const addItem = async (req, res, next) => {
       quantity
     );
 
-    if (created) {
+    if (!created) {
       await CartProvider.updateQuantity(cartItem.dataValues.id, quantity);
       cartItem = await CartProvider.getOneExtended(cartItem.dataValues.id);
     }

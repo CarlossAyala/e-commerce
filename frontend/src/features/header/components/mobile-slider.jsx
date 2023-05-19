@@ -4,11 +4,12 @@ import {
   BookmarkIcon,
   ClockIcon,
   ListBulletIcon,
-  PlusIcon,
-  ChevronRightIcon,
   Cog6ToothIcon,
   BuildingStorefrontIcon,
   ShoppingCartIcon,
+  ArrowLeftOnRectangleIcon,
+  UserPlusIcon,
+  UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
@@ -30,9 +31,10 @@ const navigation = [
     },
   ],
   [
-    { name: 'Sign in', to: '/signin', icon: ChevronRightIcon },
-    { name: 'Create account', to: '/signup', icon: PlusIcon },
+    { name: 'Sign in', to: '/signin', icon: UserCircleIcon },
+    { name: 'Create account', to: '/signup', icon: UserPlusIcon },
   ],
+  [{ name: 'Log out', to: '/logout', icon: ArrowLeftOnRectangleIcon }],
 ];
 const MobileSlider = ({ onClick }) => {
   return (

@@ -4,7 +4,9 @@ import CartUtils from '../../cart/cart.utils';
 import { useGetCart } from '../../cart';
 
 const CartHeader = ({ onClick }) => {
-  const { data: itemsCart } = useGetCart();
+  const { data: itemsCart, isLoading, isFetching } = useGetCart();
+
+  if (isLoading || isFetching) return null;
 
   const quantity = CartUtils.getItemsQuantity(itemsCart);
 

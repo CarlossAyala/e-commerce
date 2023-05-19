@@ -12,7 +12,7 @@ const newPassword = Yup.string()
     [Yup.ref('oldPassword')],
     'La nueva contraseña debe ser diferente a Old password'
   );
-const passwordConfirmation = Yup.string()
+const confirmPassword = Yup.string()
   .label('Confirm new password')
   .min(8)
   .max(255)
@@ -26,13 +26,13 @@ export const changeNameSchema = Yup.object({
 export const changePasswordSchema = Yup.object({
   oldPassword: oldPassword.required(),
   newPassword: newPassword.required(),
-  passwordConfirmation: passwordConfirmation.required(),
+  confirmPassword: confirmPassword.required(),
 });
 
 export const changePasswordInitial = {
   oldPassword: '',
   newPassword: '',
-  passwordConfirmation: '',
+  confirmPassword: '',
 };
 
 export const changeNameReinitialize = (data) => {

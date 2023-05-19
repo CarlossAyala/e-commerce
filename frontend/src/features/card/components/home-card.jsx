@@ -16,7 +16,7 @@ import { Formater } from '../../utils/helpers';
 const Home = () => {
   const [resources, setResources] = useState(null);
 
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
 
   const getInfoResources = async () => {
     try {

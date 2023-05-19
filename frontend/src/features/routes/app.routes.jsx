@@ -9,9 +9,11 @@ import {
   Home,
   Product,
   Setting,
-  Signup,
+  Signin,
   Stores,
   Store,
+  Logout,
+  Signup,
 } from '../../pages';
 import CategoryProducts from '../../pages/category-products';
 import { EditAddress, NewAddress, ViewAddress } from '../address';
@@ -138,11 +140,15 @@ const AppRoutes = () => {
     },
     {
       path: '/signin',
-      element: <Signup />,
+      element: <Signin />,
     },
     {
       path: '/signup',
-      element: <h1>Im Sign up</h1>,
+      element: <Signup />,
+    },
+    {
+      path: '/logout',
+      element: <Logout />,
     },
   ]);
 

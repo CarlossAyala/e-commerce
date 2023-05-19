@@ -16,7 +16,7 @@ const Address = () => {
   const [addresses, setAddresses] = useState(null);
 
   const navigate = useLocation();
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
 
   const init = async () => {
     try {

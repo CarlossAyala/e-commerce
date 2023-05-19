@@ -7,7 +7,7 @@ const signup = Joi.object({
   lastName: UserSchema.lastName.required(),
   email: UserSchema.email.required(),
   password: UserSchema.password.required(),
-  validatePassword: UserSchema.validatePassword.required(),
+  confirmPassword: UserSchema.validatePassword.required(),
 });
 
 const signin = Joi.object({
@@ -25,7 +25,7 @@ const changePassword = Joi.object({
   newPassword: UserSchema.password
     .invalid(Joi.ref('oldPassword', { render: true }))
     .required(),
-  passwordConfirmation: Joi.string()
+  confirmPassword: Joi.string()
     .valid(Joi.ref('newPassword', { render: true }))
     .required(),
 });

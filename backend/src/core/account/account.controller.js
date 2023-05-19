@@ -42,7 +42,8 @@ const signin = async (req, res, next) => {
 
 const signup = async (req, res, next) => {
   try {
-    await UserProvider.create(req.body);
+    const user = await UserProvider.create(req.body);
+    await AccountProvider.createCart(user.dataValues.id);
 
     res.status(201).json({
       message: 'Account created successfully',

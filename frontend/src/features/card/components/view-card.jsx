@@ -15,7 +15,7 @@ import { Formater } from '../../utils/helpers';
 const View = () => {
   const [resource, setResource] = useState(null);
 
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
 
   const { id } = useParams();
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ import { FieldText } from '../../ui/form';
 import * as Card from '..';
 
 const New = () => {
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (values) => {

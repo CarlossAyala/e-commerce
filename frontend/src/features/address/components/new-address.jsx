@@ -7,7 +7,7 @@ import AddressAPI from '../address.api';
 import { AddressFormik, AddressForm } from '..';
 
 const NewAddress = () => {
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (values) => {

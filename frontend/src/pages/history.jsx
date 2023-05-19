@@ -30,7 +30,7 @@ const format = (string_date) => {
   if (now.getFullYear() === date.getFullYear()) {
     return new Intl.DateTimeFormat('es-AR', {
       month: 'long',
-    }).format(now);
+    }).format(date);
   } else {
     return new Intl.DateTimeFormat('es-AR', {
       month: 'long',
@@ -86,6 +86,7 @@ const History = () => {
   // console.log(history);
 
   const agruped = history ? GroupBy.monthYear(history.rows, 'lastSeenAt') : [];
+  // console.log(agruped);
 
   return (
     <main className='mx-auto flex w-full max-w-7xl flex-col'>
@@ -151,6 +152,7 @@ const History = () => {
           {agruped &&
             agruped.length > 0 &&
             agruped.map((group) => {
+              // console.log(group);
               return (
                 <li key={group.group} className='pt-3 pb-5'>
                   <div>

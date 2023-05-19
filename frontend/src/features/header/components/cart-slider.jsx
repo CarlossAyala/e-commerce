@@ -3,10 +3,11 @@ import { CartItem, useGetCart } from '../../cart';
 import CartUtils from '../../cart/cart.utils';
 
 const CartSlider = ({ setOpen }) => {
-  const { data: ItemsCart, isLoading, isError } = useGetCart();
+  const { data: ItemsCart, isLoading, isFetching, isError } = useGetCart();
 
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>Error!</h1>;
+  if (isFetching) return <h1>Fetching...</h1>;
 
   const [vis, hid, both] = CartUtils.getSubTotal(ItemsCart);
 

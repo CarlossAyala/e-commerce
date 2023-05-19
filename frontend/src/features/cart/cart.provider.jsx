@@ -9,7 +9,7 @@ export const useCartContext = () => useContext(CartContext);
 export const Provider = ({ children }) => {
   const [cart, setCart] = useState(null);
 
-  const [user] = useAuth();
+  const { user } = useAuth();
 
   const getCart = async () => {
     try {

@@ -18,7 +18,7 @@ const Product = () => {
 
   const { id } = useParams();
 
-  const [jwt, user] = useAuth();
+  const { jwt, user } = useAuth();
 
   const getAllInfo = async () => {
     try {

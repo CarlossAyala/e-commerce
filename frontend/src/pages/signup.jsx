@@ -1,83 +1,110 @@
-import { useEffect } from 'react';
-import { Formik, Form, Field } from 'formik';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { loginInitialValues, loginSchema } from '../features/login';
-import { useAuth, AccountAPI } from '../features/auth';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../features/auth';
+import { Form, Formik } from 'formik';
+import { FieldText } from '../features/ui/form';
+import { initialValues, schema, useSignup } from '../features/signup';
 
 const Signup = () => {
-  const [jwt, , handlers] = useAuth();
+  const { jwt, user } = useAuth();
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { mutate } = useSignup();
 
-  const from = location.state?.from?.pathname || '/';
-
-  useEffect(() => {
-    if (jwt) handlers.getProfile(jwt, from);
-  }, []);
-
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = async (values) => {
     try {
-      const data = await AccountAPI.signin({ email, password });
-
-      // console.log('Login onSubmite', data);
-
-      handlers.signin(data);
-      navigate(from, { replace: true });
+      mutate(values);
     } catch (error) {
-      console.log(error);
+      console.log('Signup onSubmit', error);
     }
   };
 
+  if (jwt && user) return <Navigate to='/' replace={true} />;
+
   return (
-    <div className='flex h-screen flex-col items-center justify-center'>
-      <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
-        Login
-      </h2>
-      <Formik
-        initialValues={loginInitialValues}
-        validationSchema={loginSchema}
-        onSubmit={onSubmit}
-      >
-        {() => (
-          <Form className='mt-8 grid w-full max-w-sm gap-5'>
-            <div>
-              <label
-                htmlFor='email'
-                className='block text-base font-medium text-gray-700'
-              >
-                Email
-              </label>
-              <Field
-                name='email'
-                type='email'
-                placeholder='Email Address'
-                className='mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-base'
-              />
+    <div className='bg-white dark:bg-gray-900'>
+      <div className='flex h-screen items-center justify-center'>
+        <div className='mx-auto flex w-full max-w-md items-center px-6 lg:w-2/6'>
+          <div className='flex-1'>
+            <div className='text-center'>
+              <h1 className='text-3xl font-bold text-gray-900 dark:text-white'>
+                Sign up
+              </h1>
             </div>
-            <div>
-              <label
-                htmlFor='password'
-                className='block text-base font-medium text-gray-700'
+
+            <div className='mt-8'>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={schema}
+                onSubmit={onSubmit}
               >
-                Password
-              </label>
-              <Field
-                name='password'
-                type='password'
-                placeholder='Password'
-                className='mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-base'
-              />
+                {() => (
+                  <Form className='grid gap-3'>
+                    <div>
+                      <FieldText
+                        label='First name'
+                        name='name'
+                        placeholder='Your first name'
+                      />
+                    </div>
+                    <div>
+                      <FieldText
+                        name='lastName'
+                        label='Last name'
+                        placeholder='Your last name'
+                      />
+                    </div>
+                    <div>
+                      <FieldText
+                        label='Email'
+                        name='email'
+                        placeholder='Email'
+                        type='email'
+                      />
+                    </div>
+                    <div>
+                      <FieldText
+                        label='Password'
+                        name='password'
+                        placeholder='Password'
+                        type='password'
+                        autoComplete='new-password'
+                      />
+                    </div>
+                    <div>
+                      <FieldText
+                        label='Confirm password'
+                        name='confirmPassword'
+                        placeholder='Confirm password'
+                        autoComplete='new-password'
+                        type='password'
+                      />
+                    </div>
+
+                    <div className='mt-6'>
+                      <button
+                        type='submit'
+                        className='w-full transform rounded-lg bg-blue-500 px-4 py-2 tracking-wide text-white transition-colors duration-300 hover:bg-blue-400 focus:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50'
+                      >
+                        Sign up
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+
+              <p className='mt-6 text-center text-sm text-gray-400'>
+                Already have an account?{' '}
+                <Link
+                  to='/signin'
+                  className='text-blue-500 hover:underline focus:underline focus:outline-none'
+                >
+                  Sign in
+                </Link>
+                .
+              </p>
             </div>
-            <button
-              type='submit'
-              className='relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-            >
-              Submit
-            </button>
-          </Form>
-        )}
-      </Formik>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

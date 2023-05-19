@@ -1,4 +1,4 @@
-const { User } = require('../../database/mysql/models');
+const { User, Cart } = require('../../database/mysql/models');
 const encrypter = require('../../utils/encrypter');
 
 class AccountService {
@@ -15,6 +15,10 @@ class AccountService {
         },
       }
     );
+  }
+
+  createCart(customerId) {
+    return Cart.model.create({ customerId });
   }
 
   async changePassword(id, newPassword) {

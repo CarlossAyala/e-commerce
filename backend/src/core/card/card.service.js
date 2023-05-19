@@ -8,7 +8,7 @@ class CardService {
   getOne(id) {
     return Card.model.findByPk(id, {
       attributes: {
-        exclude: ['userId'],
+        exclude: ['customerId'],
       },
     });
   }
@@ -16,10 +16,10 @@ class CardService {
   getAll(id) {
     return Card.model.findAll({
       where: {
-        userId: id,
+        customerId: id,
       },
       attributes: {
-        exclude: ['userId'],
+        exclude: ['customerId'],
       },
     });
   }

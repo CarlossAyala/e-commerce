@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 const EditAddress = () => {
   const [address, setAddress] = useState(null);
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
 
   const { id } = useParams();
   const navigate = useNavigate();

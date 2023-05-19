@@ -15,7 +15,7 @@ import clsx from 'clsx';
 const ViewAddress = () => {
   const [address, setAddress] = useState(null);
 
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
 
   const { id } = useParams();
   const navigate = useNavigate();

@@ -18,17 +18,17 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
-  const [, user] = useAuth();
+  const { user } = useAuth();
 
   const hello = () => console.log('Hola');
   return (
     <div>
       {!user && (
         <div className='flex items-center justify-end bg-indigo-600 text-sm text-white lg:hidden'>
-          <Link to='signin' className='p-2 text-sm font-medium'>
+          <Link to='/signin' className='p-2 text-sm font-medium'>
             Sign in
           </Link>
-          <Link to='signup' className='p-2 text-sm font-medium'>
+          <Link to='/signup' className='p-2 text-sm font-medium'>
             Create account
           </Link>
         </div>
@@ -51,14 +51,18 @@ const Header = () => {
             />
 
             {/* Shopping Cart */}
-            <CartHeader onClick={() => setToggleCart(true)} />
-            <Slideover
-              open={toggleCart}
-              setOpen={setToggleCart}
-              title='Shopping Cart'
-            >
-              <CartSlider setOpen={setToggleCart} />
-            </Slideover>
+            {user && (
+              <>
+                <CartHeader onClick={() => setToggleCart(true)} />
+                <Slideover
+                  open={toggleCart}
+                  setOpen={setToggleCart}
+                  title='Shopping Cart'
+                >
+                  <CartSlider setOpen={setToggleCart} />
+                </Slideover>
+              </>
+            )}
 
             {/* Icon User */}
             {user && (

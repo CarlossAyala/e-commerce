@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!user && jwt) getProfile(jwt);
+    if (jwt) getProfile(jwt);
   }, []);
 
   const signin = (data) => {
@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const value = [jwt, user, { signin, signout, getProfile }];
+  const value = { jwt, user, signin, signout, getProfile };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

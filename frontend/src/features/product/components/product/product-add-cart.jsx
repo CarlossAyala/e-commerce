@@ -1,6 +1,5 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import { useCartContext } from '../../../cart/cart.provider';
 import clsx from 'clsx';
 import {
   useAddBookmark,
@@ -10,14 +9,14 @@ import {
 import { BookmarkSlashIcon as SolidBookmarkSlashIcon } from '@heroicons/react/24/solid';
 import { BookmarkIcon as OutlineBookmarkIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../../../auth';
+import { useAddToCart } from '../../../cart';
 
 const ProductAddCart = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
 
-  const [jwt, user] = useAuth();
+  const { jwt, user } = useAuth();
 
-  const [, handlers] = useCartContext();
-
+  const addToCart = useAddToCart();
   const { data: bookmark, isLoading } = useGetBookmark(product.id);
   const addBookmark = useAddBookmark();
   const removeBookmark = useRemoveBookmark();
@@ -62,7 +61,7 @@ const ProductAddCart = ({ product }) => {
       <button
         className='block h-full rounded-md bg-indigo-600 p-2 text-white'
         type='button'
-        onClick={() => handlers.addItem(product.id, quantity)}
+        onClick={() => addToCart.mutate({ productId: product.id, quantity })}
       >
         Add to cart
       </button>

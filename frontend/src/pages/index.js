@@ -1,5 +1,5 @@
 import Home from './home';
-import Signup from './signup';
+import Signin from './signin';
 import Categories from './categories';
 import Category from './category';
 import OfficialStores from './official-stores';
@@ -12,11 +12,13 @@ import History from './history';
 import Bookmarks from './bookmarks';
 import Stores from './stores';
 import Store from './store';
+import Logout from './logout';
+import Signup from './signup';
 
 export {
   Address,
   Home,
-  Signup,
+  Signin,
   Categories,
   Category,
   OfficialStores,
@@ -28,4 +30,6 @@ export {
   Bookmarks,
   Stores,
   Store,
+  Logout,
+  Signup,
 };

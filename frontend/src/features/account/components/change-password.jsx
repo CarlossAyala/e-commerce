@@ -6,7 +6,7 @@ import { Form, Formik } from 'formik';
 import { FieldText } from '../../ui/form';
 
 const ChangePassword = () => {
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
@@ -57,7 +57,7 @@ const ChangePassword = () => {
                 </div>
                 <div className='mt-4'>
                   <FieldText
-                    name='passwordConfirmation'
+                    name='confirmPassword'
                     label='Confirm new password'
                     placeholder='Confirm your new password'
                     type='password'

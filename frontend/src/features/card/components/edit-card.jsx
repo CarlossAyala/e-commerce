@@ -8,7 +8,7 @@ import * as Card from '..';
 
 const Edit = () => {
   const [resource, setResource] = useState(null);
-  const [jwt] = useAuth();
+  const { jwt } = useAuth();
 
   const { id } = useParams();
   const navigate = useNavigate();
