@@ -7,14 +7,13 @@ const modelName = 'Question';
 const tableName = 'questions';
 const modelOptions = {
   tableName,
-  timestamps: true,
+  timestamps: false,
 };
 const enums = {
   states: {
     answered: 'answered',
     queue: 'queue',
     rejected: 'rejected',
-    duplicate: 'duplicate',
   },
 };
 
@@ -49,11 +48,6 @@ const modelSchema = {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
     field: 'created_at',
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-    field: 'updated_at',
   },
 };
 

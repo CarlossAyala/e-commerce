@@ -11,9 +11,12 @@ const id = Joi.string().guid({
 const name = Joi.string();
 const description = Joi.string();
 const stock = Joi.number().integer().positive().min(0);
-const sold = Joi.number().integer().positive().min(0);
 const price = Joi.number().min(1).precision(2);
-const available = Joi.boolean();
+const available = Joi.boolean().when('stock', {
+  is: Joi.number().valid(0),
+  then: Joi.boolean().valid(false).required(),
+  otherwise: Joi.boolean().required(),
+});
 const condition = Joi.string().valid(...conditionEnums);
 const categoryId = id;
 const businessId = id;
@@ -26,7 +29,6 @@ const base = Joi.object({
   name: name.required(),
   description: description.required(),
   stock: stock.required(),
-  sold,
   price: price.required(),
   available,
   condition,
