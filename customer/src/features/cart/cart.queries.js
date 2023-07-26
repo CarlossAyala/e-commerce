@@ -1,107 +1,59 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import API from './cart.api';
-import { historyKeys } from '../history';
-import { bookmarkKeys } from '../bookmarks';
+import { getToken } from '../../api';
 
 export const cartKeys = {
   key: ['cart'],
 };
 
-export const useGetCart = () => {
+export const useGetCart = (queries) => {
+  const token = getToken();
+
   return useQuery({
     queryKey: cartKeys.key,
-    queryFn: () => API.getItemsCart(),
+    queryFn: () => API.getCart(queries),
+    enabled: !!token,
   });
 };
 
 export const useAddToCart = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: ({ productId, quantity = 1 }) => {
-      return API.addItem(productId, quantity);
-    },
+    mutationFn: ({ productId, quantity }) => API.addToCart(productId, quantity),
     onSuccess: () => {
-      console.log('Added to cart');
-
-      queryClient.invalidateQueries({
-        queryKey: cartKeys.key,
-      });
-      queryClient.invalidateQueries({
-        queryKey: historyKeys.key,
-      });
-      queryClient.invalidateQueries({
-        queryKey: bookmarkKeys.key,
-      });
+      queryClient.invalidateQueries(cartKeys.key);
     },
   });
 };
 
-export const useUpdateQuantity = () => {
+export const useRemoveFromCart = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ productId, quantity = 1 }) => {
-      return API.updateQuantity(productId, quantity);
-    },
+    mutationFn: (id) => API.removeFromCart(id),
     onSuccess: () => {
-      console.log('Product quantity updated');
-
-      queryClient.invalidateQueries({
-        queryKey: cartKeys.key,
-      });
-      queryClient.invalidateQueries({
-        queryKey: historyKeys.key,
-      });
-      queryClient.invalidateQueries({
-        queryKey: bookmarkKeys.key,
-      });
+      queryClient.invalidateQueries(cartKeys.key);
     },
   });
 };
 
-export const useUpdateVisibility = () => {
+export const useUpdateItemCart = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: (itemCartId) => {
-      return API.updateVisibility(itemCartId);
-    },
+    mutationFn: ({ id, quantity }) => API.updateItemCart(id, quantity),
     onSuccess: () => {
-      console.log('Product visibility updated');
-
-      queryClient.invalidateQueries({
-        queryKey: cartKeys.key,
-      });
-      queryClient.invalidateQueries({
-        queryKey: historyKeys.key,
-      });
-      queryClient.invalidateQueries({
-        queryKey: bookmarkKeys.key,
-      });
+      queryClient.invalidateQueries(cartKeys.key);
     },
   });
 };
 
-export const useRemoveItem = () => {
+export const useChangeVisibility = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: (itemCartId) => {
-      return API.removeItem(itemCartId);
-    },
+    mutationFn: (id) => API.changeVisibility(id),
     onSuccess: () => {
-      console.log('Product visibility updated');
-
-      queryClient.invalidateQueries({
-        queryKey: cartKeys.key,
-      });
-      queryClient.invalidateQueries({
-        queryKey: historyKeys.key,
-      });
-      queryClient.invalidateQueries({
-        queryKey: bookmarkKeys.key,
-      });
+      queryClient.invalidateQueries(cartKeys.key);
     },
   });
 };
+export const useClearCart = () => {};

@@ -6,13 +6,6 @@ const config = {
   port: process.env.PORT || 3007,
   saltRounds: Number(process.env.AUTH_SALT),
   pexels: process.env.API_KEY_PIXELS,
-  db: {
-    user: process.env.MONGO_USER,
-    password: process.env.MONGO_PASSWORD,
-    port: process.env.MONGO_PORT,
-    name: process.env.MONGO_DB_NAME,
-    uri: process.env.MONGO_URI,
-  },
   mysql: {
     database: process.env.MYSQL_DATABASE,
     user: process.env.MYSQL_USER,
@@ -28,6 +21,9 @@ const config = {
   },
   seller: {
     password: process.env.SELLER_PASSWORD,
+  },
+  stipe: {
+    sk_test: process.env.STRIPE_SK_TEST,
   },
 };
 

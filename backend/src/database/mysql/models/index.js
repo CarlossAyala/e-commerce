@@ -3,12 +3,6 @@ const Address = require('./address.model');
 
 const Store = require('./store.model');
 
-const Role = require('./role.model');
-const Employee = require('./employee.model');
-const EmployeeRole = require('./employee-role.model');
-
-const Card = require('./card.model');
-
 const Category = require('./category.model');
 
 const Product = require('./product.model');
@@ -17,8 +11,8 @@ const Bookmark = require('./bookmark.model');
 
 const History = require('./history.model');
 
-const PurchaseOrder = require('./purchase-order.model');
-const PurchaseItem = require('./purchase-item.model');
+const Order = require('./order.model');
+const OrderItem = require('./order-item.model');
 
 const Cart = require('./cart.model');
 const CartProduct = require('./cart-product.model');
@@ -74,12 +68,12 @@ CartProduct.model.belongsTo(Product.model, {
 });
 
 // PURCHASE ORDER
-PurchaseOrder.model.hasMany(PurchaseItem.model, {
+Order.model.hasMany(OrderItem.model, {
   foreignKey: 'orderId',
   as: 'products',
 });
 
-PurchaseItem.model.belongsTo(Product.model, {
+OrderItem.model.belongsTo(Product.model, {
   foreignKey: 'productId',
   as: 'product',
 });
@@ -88,6 +82,22 @@ PurchaseItem.model.belongsTo(Product.model, {
 Question.model.hasOne(Answer.model, {
   foreignKey: 'questionId',
   as: 'answer',
+});
+// QUESTIONS AND ANSWERS
+Question.model.belongsTo(User.model, {
+  foreignKey: 'customerId',
+  as: 'customer',
+});
+
+// QUESTIONS AND PRODUCTS
+Product.model.hasMany(Question.model, {
+  foreignKey: 'productId',
+  as: 'questions',
+});
+// QUESTIONS AND PRODUCTS
+Question.model.belongsTo(Product.model, {
+  foreignKey: 'productId',
+  as: 'product',
 });
 
 // CATEGORIES AND PRODUCTS
@@ -139,12 +149,6 @@ module.exports = {
 
   Store,
 
-  Card,
-
-  Role,
-  Employee,
-  EmployeeRole,
-
   Category,
 
   Product,
@@ -153,8 +157,8 @@ module.exports = {
 
   History,
 
-  PurchaseOrder,
-  PurchaseItem,
+  Order,
+  OrderItem,
 
   Cart,
   CartProduct,

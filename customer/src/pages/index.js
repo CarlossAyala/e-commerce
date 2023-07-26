@@ -1,35 +1,35 @@
-import Home from './home';
-import Signin from './signin';
-import Categories from './categories';
-import Category from './category';
-import OfficialStores from './official-stores';
-import Product from './product';
-import NotFound from './not-found';
-import Address from './address';
+import AddressEdit from './address-edit';
+import AddressList from './address-list';
+import AddressNew from './address-new';
+import AddressView from './address-view';
 import Cart from './cart';
-import Setting from './setting';
-import History from './history';
-import Bookmarks from './bookmarks';
-import Stores from './stores';
-import Store from './store';
-import Logout from './logout';
+import CheckoutPayment from './checkout-payment';
+import CheckoutReview from './checkout-review';
+import CheckoutShipping from './checkout-shipping';
+import CheckoutSuccess from './checkout-sucess';
+import Home from './home';
+import OrderList from './order-list';
+import OrderView from './order-view';
+import Product from './product';
+import ProductSearch from './product-search';
+import Signin from './signin';
 import Signup from './signup';
 
 export {
-  Address,
-  Home,
-  Signin,
-  Categories,
-  Category,
-  OfficialStores,
-  Product,
-  Setting,
-  NotFound,
+  AddressEdit,
+  AddressList,
+  AddressNew,
+  AddressView,
   Cart,
-  History,
-  Bookmarks,
-  Stores,
-  Store,
-  Logout,
+  CheckoutPayment,
+  CheckoutReview,
+  CheckoutShipping,
+  CheckoutSuccess,
+  Home,
+  OrderList,
+  OrderView,
+  Product,
+  ProductSearch,
+  Signin,
   Signup,
 };

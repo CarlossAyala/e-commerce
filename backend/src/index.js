@@ -5,10 +5,9 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
+const APIHub = require('./routes');
+
 const config = require('./config');
-const router = require('./routes/api.routes');
-// const connectAtlas = require('./database');
-// const connectdb = require('./database/mysql');
 const requestMethodValidator = require('./middlewares/api/request-method.middleware');
 const Catch404AndForward = require('./middlewares/api/final.middleware');
 const errorHandler = require('./middlewares/api/error.middleware');
@@ -29,7 +28,7 @@ app.use(requestMethodValidator);
 app.use(morgan('dev'));
 
 // Routes
-router(app);
+app.use(APIHub);
 
 // Catch 404 and Forward to Error handler
 app.use(Catch404AndForward);
@@ -40,6 +39,8 @@ app.use(errorHandler);
 // Main
 (async () => {
   try {
+    
+
     // databases settings
     // https://sequelize.org/docs/v6/core-concepts/model-basics/#synchronizing-all-models-at-once
     await sequelize.sync();

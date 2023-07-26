@@ -1,100 +1,301 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CartItem, useGetCart } from '../features/cart';
-import CartUtils from '../features/cart/cart.utils';
+import {
+  Button,
+  IconButton,
+  NumberInput,
+  SkeletonPlaceholder,
+  SkeletonText,
+} from '@carbon/react';
+import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
+import {
+  totalVisibles,
+  useChangeVisibility,
+  useGetCart,
+  useRemoveFromCart,
+  useUpdateItemCart,
+  totalHiddens,
+} from '../features/cart';
+import { priceFormater } from '../utils/formater';
+import {
+  BookmarkAdd,
+  BookmarkFilled,
+  Close,
+  View,
+  ViewOff,
+} from '@carbon/icons-react';
+import { useDebounce } from '../utils/hooks';
+import { useAddBookmark, useRemoveBookmark } from '../features/bookmark';
+import { useCheckout } from '../features/checkout';
+import { useCreatePaymentIntent } from '../features/strapi/payment-intent';
 
 const Cart = () => {
-  const { data: ItemsCart, isLoading, isError, isFetching } = useGetCart();
+  const navigate = useNavigate();
 
-  if (isLoading) return <h1>Loading...</h1>;
-  if (isError) return <h1>Error!</h1>;
-  if (isFetching) return <h1>Fetching</h1>;
+  const items = useGetCart();
+  // console.log('Products', items);
 
-  const [vis, hid, both] = CartUtils.getSubTotal(ItemsCart);
+  const totalVisible = totalVisibles(items.data);
+  const hiddens = totalHiddens(items.data);
+  const totalVisMoreHid = totalVisible + hiddens;
 
-  // console.log(ItemsCart);
+  // console.log('totalVisible', totalVisible);
+  // console.log('hiddens', hiddens);
+  // console.log('totalVisMoreHid', totalVisMoreHid);
+
+  const { setPaymentIntent } = useCheckout();
+  const createPaymentIntent = useCreatePaymentIntent();
+
+  const handleCheckout = async () => {
+    try {
+      const paymentIntent = await createPaymentIntent.mutateAsync();
+      console.log('Payment Intent Created!', paymentIntent);
+
+      setPaymentIntent(paymentIntent.id);
+      navigate('/checkout/shipping');
+    } catch (error) {
+      console.log('Cart handleCheckout', error);
+    }
+  };
 
   return (
-    <main className='mx-auto h-full w-full max-w-7xl'>
-      <h2 className='p-4 text-lg font-medium text-gray-900'>Shopping Cart</h2>
+    <main className='flex w-full flex-col bg-white'>
+      <section className='border-b border-gray-200 px-4 pb-4 pt-3'>
+        <h1 className='text-3xl leading-none'>My Cart</h1>
+      </section>
 
-      <div className='max-h-full overflow-y-auto'>
-        <ul
-          role='list'
-          className='grid divide-y divide-gray-100 border-t border-gray-200'
-        >
-          {ItemsCart.length > 0 &&
-            ItemsCart.map((item) => <CartItem item={item} key={item.id} />)}
-        </ul>
-      </div>
+      {items.isLoading && (
+        <section className='space-y-10 p-4'>
+          <CartItemSkeleton />
+          <CartItemSkeleton />
+          <CartItemSkeleton />
+          <CartItemSkeleton />
+        </section>
+      )}
 
-      {/* Footer */}
-      <div className='mt-auto border-t border-gray-200 bg-white px-4 py-4'>
-        <h2 className='text-lg text-gray-900'>Cart summary</h2>
-
-        {/* Sub-total */}
-        <div className='my-2 divide-y divide-gray-200'>
-          <div className='flex items-center justify-between py-1.5 text-base font-medium'>
-            <p className='text-sm text-slate-500/80'>Total visible</p>
-            <p className='font-medium text-gray-400 '>{vis.format}</p>
-          </div>
-          {hid.value ? (
-            <div className='flex items-center justify-between py-1.5 text-base font-medium'>
-              <p className='text-sm text-slate-500/80'>Total hidden</p>
-              <p className='font-medium text-gray-400 '>{hid.format}</p>
-            </div>
-          ) : null}
-        </div>
-        {/* Total */}
-        <div>
-          <div className='flex justify-between text-lg font-medium text-gray-900'>
-            <p>Total</p>
-            <p>{vis.format}</p>
-          </div>
-          {hid.value ? (
-            <div className='flex justify-between font-light text-gray-900'>
-              <p>Total w/ hiddens</p>
-              <p>{both.format}</p>
-            </div>
-          ) : null}
-        </div>
-        <div className='mt-4'>
-          <Link
-            to='#'
-            className='flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700'
-          >
-            Checkout
+      {items.isFetched && items.data?.length === 0 ? (
+        <section className='px-4 py-10'>
+          <p className='mb-1 text-base font-semibold leading-tight'>
+            Your cart is empty
+          </p>
+          <p className='mb-2 text-sm leading-tight tracking-wide text-gray-600'>
+            Start adding items to your cart
+          </p>
+          <Link to='/' className='text-lg'>
+            Explore now
           </Link>
-        </div>
-      </div>
+        </section>
+      ) : null}
+
+      {items.isFetched && items.data?.length > 0 ? (
+        <>
+          <section className='overflow-y-auto p-4'>
+            <ul className='space-y-10'>
+              {items.data.map((item) => (
+                <CartItem key={item.id} item={item} />
+              ))}
+            </ul>
+          </section>
+          <div className='sticky bottom-0 z-10 mt-auto w-full border-t border-gray-300 bg-white p-4'>
+            <div className='space-y-2'>
+              <div className='flex items-center justify-between'>
+                <span className='text-base leading-none text-gray-600'>
+                  Subtotal
+                </span>
+                <span className='text-xl font-semibold leading-none'>
+                  {priceFormater(totalVisible)}
+                </span>
+              </div>
+              {hiddens > 0 && (
+                <div className='flex items-center justify-between'>
+                  <span className='text-base leading-none text-gray-600'>
+                    Total + Hiddens
+                  </span>
+                  <span className='text-xl font-semibold leading-none'>
+                    {priceFormater(totalVisMoreHid)}
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className='mb-3 mt-0.5'>
+              <p className='text-sm text-gray-500'>
+                Shipping and taxes calculated at checkout.
+              </p>
+            </div>
+            <div className='flex w-full'>
+              <Button
+                onClick={handleCheckout}
+                style={{ width: '100%', maxWidth: '100%' }}
+              >
+                Checkout
+              </Button>
+            </div>
+          </div>
+        </>
+      ) : null}
     </main>
   );
 };
 
-export default Cart;
+const CartItemSkeleton = () => {
+  return (
+    <div className='flex'>
+      <div className='mr-2'>
+        <SkeletonPlaceholder />
+      </div>
+      <div className='flex flex-col justify-between'>
+        <div>
+          <div className='w-52'>
+            <SkeletonText />
+          </div>
+          <div className='w-16'>
+            <SkeletonText style={{ margin: '0' }} />
+          </div>
+        </div>
+        <div className='w-20'>
+          <SkeletonText style={{ margin: '0' }} />
+        </div>
+      </div>
+    </div>
+  );
+};
 
-{
-  /* <nav className='mt-6'>
-  <ul className='mt-2 space-y-3'>
-    {navigations.map((nav) => (
-      <li key={nav.label}>
-        <Link
-          className='group flex flex-col rounded-md border p-3 shadow'
-          to={nav.to}
-        >
-          <div className='flex items-center justify-between'>
-            <div>
-              <h3 className='text-gray-800 group-hover:text-blue-600'>
-                {nav.label}
+const CartItem = ({ item }) => {
+  const [quantity, setQuantity] = useState(item.quantity);
+
+  const debouncedQuantity = useDebounce(quantity);
+
+  const removeFromCart = useRemoveFromCart();
+  const updateQuantity = useUpdateItemCart();
+  const changeVisible = useChangeVisibility();
+
+  const addToBookmark = useAddBookmark();
+  const removeFromBookmark = useRemoveBookmark();
+
+  const changeVisibility = () => {
+    changeVisible.mutate(item.id);
+  };
+
+  useEffect(() => {
+    if (debouncedQuantity < 1) return;
+    if (debouncedQuantity > item.product.stock) return;
+    if (!item.product.available) return;
+
+    if (debouncedQuantity !== item.quantity) {
+      updateQuantity.mutate({
+        id: item.id,
+        quantity: debouncedQuantity,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedQuantity]);
+
+  return (
+    <li className={clsx(!item.visible && 'opacity-50')}>
+      <div className='flex w-full'>
+        <div className='h-20 w-20 shrink-0 overflow-hidden rounded'>
+          <img
+            src={
+              item.product.image ||
+              'https://http2.mlstatic.com/D_NQ_NP_773243-MLA42453247573_072020-V.webp'
+            }
+            alt={item.product.name}
+            className='h-full w-full object-cover'
+          />
+        </div>
+        <div className='ml-2 flex grow flex-col justify-between'>
+          <div>
+            <Link
+              to={`/product/${item.product.id}/${item.product.slug}`}
+              target='_blank'
+            >
+              <h3 className='mb-1 text-base font-semibold leading-tight'>
+                {item.product.name}
               </h3>
-              <p className='text-sm text-gray-500'>{nav.description}</p>
-            </div>
-            <div>
-              <ChevronRightIcon className='h-5 w-5 text-gray-500' />
+            </Link>
+            <div className='flex flex-wrap items-center divide-x divide-gray-300 text-sm leading-tight text-gray-500'>
+              <span className='pr-2'>
+                U.P: {priceFormater(item.product.price)}
+              </span>
+              <span className='pl-2'>Stock: {item.product.stock}</span>
             </div>
           </div>
-        </Link>
-      </li>
-    ))}
-  </ul>
-</nav>; */
-}
+          <p className='text-base font-semibold leading-tight text-gray-900'>
+            {priceFormater(item.product.price * item.quantity)}
+          </p>
+        </div>
+      </div>
+      <div className='mt-3 flex gap-x-2'>
+        <IconButton
+          label='Remove item from cart'
+          size='md'
+          kind='secondary'
+          onClick={() => removeFromCart.mutate(item.id)}
+        >
+          <Close size='20' />
+        </IconButton>
+        <NumberInput
+          id={`item-quantity-${item.product.id}`}
+          label='Quantity'
+          name='quantity'
+          hideLabel
+          invalid={quantity > item.product.stock || !item.product.available}
+          invalidText={
+            quantity > item.product.stock
+              ? 'Stock limit'
+              : !item.product.available
+              ? 'Product not available'
+              : quantity < 1 && 'Quantity must be greater than 0'
+          }
+          max={item.product.stock}
+          min={1}
+          step={1}
+          onChange={(_, { value }) => setQuantity(value)}
+          value={quantity}
+          size='md'
+        />
+        {item.visible ? (
+          <IconButton
+            onClick={() => changeVisibility()}
+            label='Visible On'
+            size='md'
+            kind='secondary'
+          >
+            <View size='20' />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={() => changeVisibility()}
+            label='Visible Off'
+            size='md'
+            kind='secondary'
+          >
+            <ViewOff size='20' />
+          </IconButton>
+        )}
+        {item.product.inBookmark ? (
+          <IconButton
+            size='md'
+            kind='secondary'
+            label='Remove from bookmark'
+            onClick={() => removeFromBookmark.mutate(item.product.id)}
+          >
+            <BookmarkFilled size='20' />
+          </IconButton>
+        ) : (
+          <IconButton
+            label='Add from bookmark'
+            size='md'
+            kind='secondary'
+            onClick={() => addToBookmark.mutate(item.product.id)}
+          >
+            <BookmarkAdd size='20' />
+          </IconButton>
+        )}
+      </div>
+    </li>
+  );
+};
+
+export default Cart;

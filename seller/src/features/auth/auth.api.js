@@ -1,4 +1,4 @@
-import SellerClient, { getToken } from '../../api';
+import { CustomerClient, getToken } from '../../api';
 
 const ENDPOINT = 'account';
 
@@ -6,7 +6,7 @@ const API = {
   async getProfile() {
     const token = getToken();
 
-    const { data } = await SellerClient.request({
+    const { data } = await CustomerClient.request({
       method: 'GET',
       url: `/${ENDPOINT}/profile`,
       headers: {

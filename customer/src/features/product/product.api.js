@@ -1,84 +1,80 @@
-import {
-  BASE_API,
-  setupHeaders,
-  REQUEST_METHOD,
-} from '../utils/api/config.api';
+import { SystemClient, getToken } from '../../api';
 
-const ENDPOINT = 'products';
+const PRODUCTS = 'products';
+const PUBLISH = 'publish';
+const QUESTIONS = 'questions';
 
-const ProductsAPI = {
-  async getOne(id) {
-    const url = `${BASE_API}/${ENDPOINT}/${id}`;
+const API = {
+  async getProduct(id) {
+    const url = `/${PRODUCTS}/${id}`;
 
-    const method = REQUEST_METHOD.GET;
-    const headers = setupHeaders();
-
-    const options = {
-      method,
-      headers,
-    };
-
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await SystemClient.request({
+      method: 'GET',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
     return data;
   },
-  async getInfoStore(id) {
-    const url = `${BASE_API}/stores/id/${id}`;
+  async getQAProduct(id) {
+    const url = `/${PRODUCTS}/${id}/QA`;
 
-    const method = REQUEST_METHOD.GET;
-    const headers = setupHeaders();
-
-    const options = {
-      method,
-      headers,
-    };
-
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await SystemClient.request({
+      method: 'GET',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
     return data;
   },
-  async getQAs(id) {
-    const url = `${BASE_API}/questions/product/${id}`;
+  async getCustomerQAProduct(id) {
+    const url = `/${PRODUCTS}/${id}/customerQA`;
+    const token = getToken();
 
-    const method = REQUEST_METHOD.GET;
-    const headers = setupHeaders();
-
-    const options = {
-      method,
-      headers,
-    };
-
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await SystemClient.request({
+      method: 'GET',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return data;
   },
-  async addToHistory(jwt, productId) {
-    const url = `${BASE_API}/history/${productId}`;
+  async sendQuestion(id, values) {
+    const url = `/${PRODUCTS}/${id}/${QUESTIONS}`;
+    const token = getToken();
 
-    const method = REQUEST_METHOD.POST;
-    const headers = setupHeaders(jwt);
+    const { data } = await SystemClient.request({
+      method: 'POST',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      data: values,
+    });
 
-    const options = {
-      method,
-      headers,
-    };
+    return data;
+  },
+  async searchProducts(query) {
+    const url = `/${PRODUCTS}/search${query ? `?${query}` : ''}`;
 
-    const response = await fetch(url, options);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message || response.statusText);
+    const { data } = await SystemClient.request({
+      method: 'GET',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
     return data;
   },
 };
 
-export default ProductsAPI;
+export default API;

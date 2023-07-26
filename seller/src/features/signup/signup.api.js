@@ -1,10 +1,10 @@
-import SellerClient from '../../api';
+import { SellerClient, CustomerClient } from '../../api';
 
 const ENDPOINT = 'account';
 
 const API = {
   async signup(values) {
-    const { data } = await SellerClient.request({
+    const { data } = await CustomerClient.request({
       method: 'POST',
       url: `/${ENDPOINT}/signup`,
       headers: {

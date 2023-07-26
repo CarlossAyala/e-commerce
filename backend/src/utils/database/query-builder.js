@@ -61,7 +61,7 @@ class QueryBuilder {
 
   whereLike(fieldName, value = '') {
     if (value) {
-      this._where[fieldName] = { [Op.iLike]: `%${value}%` };
+      this._where[fieldName] = { [Op.substring]: value };
     }
     return this;
   }

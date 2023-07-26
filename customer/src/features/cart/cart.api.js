@@ -1,14 +1,15 @@
-import CustomerClient, { getToken } from '../api';
+import { CustomerClient, getToken } from '../../api';
 
-const ENDPOINT = 'cart';
+const CART = 'cart';
 
 const API = {
-  async getItemsCart() {
+  async getCart(queries) {
+    const url = `/${CART}${queries ? `?${queries}` : ''}`;
     const token = getToken();
 
     const { data } = await CustomerClient.request({
       method: 'GET',
-      url: `/${ENDPOINT}`,
+      url,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -17,12 +18,13 @@ const API = {
 
     return data;
   },
-  async addItem(id, quantity) {
+  async addToCart(productId, quantity) {
+    const url = `/${CART}/product/${productId}`;
     const token = getToken();
 
     const { data } = await CustomerClient.request({
       method: 'POST',
-      url: `/${ENDPOINT}/${id}`,
+      url,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -34,43 +36,13 @@ const API = {
 
     return data;
   },
-  async updateQuantity(cartItemId, quantity) {
-    const token = getToken();
-
-    const { data } = await CustomerClient.request({
-      method: 'PATCH',
-      url: `/${ENDPOINT}/quantity/${cartItemId}`,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      data: {
-        quantity,
-      },
-    });
-
-    return data;
-  },
-  async updateVisibility(cartItemId) {
-    const token = getToken();
-
-    const { data } = await CustomerClient.request({
-      method: 'PATCH',
-      url: `/${ENDPOINT}/visibility/${cartItemId}`,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return data;
-  },
-  async removeItem(cartItemId) {
+  async removeFromCart(id) {
+    const url = `/${CART}/${id}`;
     const token = getToken();
 
     const { data } = await CustomerClient.request({
       method: 'DELETE',
-      url: `/${ENDPOINT}/${cartItemId}`,
+      url,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -79,13 +51,44 @@ const API = {
 
     return data;
   },
-  async clear() {
+  async updateItemCart(id, quantity) {
+    const url = `/${CART}/${id}`;
+    const token = getToken();
+
+    const { data } = await CustomerClient.request({
+      method: 'PATCH',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      data: { quantity },
+    });
+
+    return data;
+  },
+  async changeVisibility(id) {
+    const url = `/${CART}/${id}/visibility`;
+    const token = getToken();
+
+    const { data } = await CustomerClient.request({
+      method: 'PATCH',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data;
+  },
+  async clearCart() {
+    const url = `/${CART}/clear`;
     const token = getToken();
 
     const { data } = await CustomerClient.request({
       method: 'DELETE',
-      url: `/${ENDPOINT}/clear`,
-
+      url,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,

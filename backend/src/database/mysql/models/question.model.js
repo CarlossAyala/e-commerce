@@ -27,6 +27,7 @@ const modelSchema = {
   states: {
     type: DataTypes.ENUM,
     values: Object.values(enums.states),
+    defaultValue: enums.states.queue,
   },
   customerId: {
     type: DataTypes.UUID,

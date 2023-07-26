@@ -21,7 +21,7 @@ const modelSchema = {
   },
   email: {
     type: DataTypes.STRING,
-    unique: true,
+    unique: 'email',
   },
   password: {
     type: DataTypes.STRING,

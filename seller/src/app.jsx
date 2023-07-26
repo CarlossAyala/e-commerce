@@ -1,6 +1,18 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MainLayout } from './layout';
-import { Dashboard, PublishProduct, Signin, Signup } from './pages';
+import {
+  Dashboard,
+  ProductEdit,
+  ProductList,
+  ProductPublish,
+  ProductQuestions,
+  ProductsQuestions,
+  ProductView,
+  Signin,
+  Signup,
+  Store,
+  StoreCreate,
+} from './pages';
 import SellerProvider from './seller.provider';
 
 const router = createBrowserRouter([
@@ -13,8 +25,36 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: 'publish',
-        element: <PublishProduct />,
+        path: 'product/publish',
+        element: <ProductPublish />,
+      },
+      {
+        path: 'product/list',
+        element: <ProductList />,
+      },
+      {
+        path: 'product/view/:id',
+        element: <ProductView />,
+      },
+      {
+        path: 'product/edit/:id',
+        element: <ProductEdit />,
+      },
+      {
+        path: 'product/questions',
+        element: <ProductsQuestions />,
+      },
+      {
+        path: 'product/:id/questions',
+        element: <ProductQuestions />,
+      },
+      {
+        path: 'store',
+        element: <Store />,
+      },
+      {
+        path: 'store/create',
+        element: <StoreCreate />,
       },
     ],
   },

@@ -6,7 +6,7 @@ const modelName = 'Address';
 const tableName = 'addresses';
 const modelOptions = {
   tableName,
-  timestamps: true,
+  timestamps: false,
 };
 
 const modelSchema = {
@@ -15,42 +15,23 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  name: DataTypes.STRING,
-  contactName: {
-    type: DataTypes.STRING(50),
-    field: 'contact_name',
-  },
-  contactPhone: {
-    type: DataTypes.STRING(50),
-    field: 'contact_phone',
-  },
+  name: DataTypes.STRING(100),
+  phone: DataTypes.STRING(20),
   zipCode: {
-    type: DataTypes.STRING(4),
+    type: DataTypes.STRING(5),
     field: 'zip_code',
   },
   province: DataTypes.STRING(50),
   city: DataTypes.STRING(50),
   street: DataTypes.STRING(100),
-  streetNumber: {
-    type: DataTypes.STRING(4),
-    field: 'street_number',
-  },
   apartmentNumber: {
-    type: DataTypes.STRING(4),
+    type: DataTypes.STRING(5),
     field: 'apartment_number',
   },
-  streetOne: {
-    type: DataTypes.STRING(100),
-    field: 'street_one',
-  },
-  streetTwo: {
-    type: DataTypes.STRING(100),
-    field: 'street_two',
-  },
   aditional: DataTypes.STRING,
-  fkUser: {
+  customerId: {
     type: DataTypes.UUID,
-    field: 'fk_user',
+    field: 'customer_id',
     references: {
       model: User.model,
       key: 'id',
@@ -60,11 +41,6 @@ const modelSchema = {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
     field: 'created_at',
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-    field: 'updated_at',
   },
 };
 

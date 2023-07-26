@@ -16,6 +16,7 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   name: DataTypes.STRING,
+  description: DataTypes.STRING,
   profile: DataTypes.STRING,
   official: {
     type: DataTypes.BOOLEAN,

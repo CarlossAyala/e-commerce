@@ -6,6 +6,7 @@ export const authKeys = {
 };
 
 export const useGetProfile = () => {
+  
   return useMutation({
     mutationFn: () => API.getProfile(),
   });

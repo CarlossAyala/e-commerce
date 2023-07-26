@@ -1,4 +1,4 @@
-import CustomerClient from '../api';
+import { CustomerClient } from '../../api';
 
 const ENDPOINT = 'account';
 
