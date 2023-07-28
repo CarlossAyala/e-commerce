@@ -18,6 +18,7 @@ import {
   CheckoutSuccess,
   OrderView,
   OrderList,
+  History,
 } from './pages';
 
 const router = createBrowserRouter([
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
       {
         path: 'order/:id/view',
         element: <OrderView />,
+      },
+      {
+        path: 'history',
+        element: <History />,
       },
     ],
   },

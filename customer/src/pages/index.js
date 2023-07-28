@@ -7,6 +7,7 @@ import CheckoutPayment from './checkout-payment';
 import CheckoutReview from './checkout-review';
 import CheckoutShipping from './checkout-shipping';
 import CheckoutSuccess from './checkout-sucess';
+import History from './history';
 import Home from './home';
 import OrderList from './order-list';
 import OrderView from './order-view';
@@ -32,4 +33,5 @@ export {
   ProductSearch,
   Signin,
   Signup,
+  History,
 };

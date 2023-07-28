@@ -3,7 +3,10 @@ class GroupBy {
     return Array.from(
       arr.reduce((map, item) => {
         const firstLetter = item[key].at(0).toUpperCase();
-        const group = map.get(firstLetter) || { letter: firstLetter, items: [] };
+        const group = map.get(firstLetter) || {
+          letter: firstLetter,
+          items: [],
+        };
         group.items.push(item);
         map.set(firstLetter, group);
         return map;

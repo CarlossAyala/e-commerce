@@ -12,6 +12,11 @@ const modelOptions = {
 };
 
 const modelSchema = {
+  id: {
+    type: DataTypes.UUID,
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4,
+  },
   customerId: {
     type: DataTypes.UUID,
     field: 'customer_id',
@@ -34,6 +39,7 @@ const modelSchema = {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
     field: 'last_seen_at',
+    primaryKey: true,
   },
 };
 

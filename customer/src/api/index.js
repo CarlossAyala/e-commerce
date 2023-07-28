@@ -22,3 +22,6 @@ export const StrapiClient = axios.create({
 export const getToken = () => localStorage.getItem(TOKEN_LS);
 export const setToken = (token) => localStorage.setItem(TOKEN_LS, token);
 export const removeToken = () => localStorage.removeItem(TOKEN_LS);
+export const urlWithParams = (url, params) => {
+  return `${url}${params ? `?${params}` : ''}`;
+};

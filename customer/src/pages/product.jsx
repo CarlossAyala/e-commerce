@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import {
@@ -22,6 +22,7 @@ import {
   useSendQuestion,
 } from '../features/product';
 import { priceFormater } from '../utils/formater';
+import { useAddToHistory } from '../features/history';
 
 const Product = () => {
   const [tabQA, setTabQA] = useState(0);
@@ -32,32 +33,40 @@ const Product = () => {
   const customerQA = useGetCustomerQAProduct(id);
   const sendQuestion = useSendQuestion();
 
+  const history = useAddToHistory();
+
   console.log('Product', product);
   console.log('QA', QA);
   console.log('customerQA', customerQA);
 
+  useEffect(() => {
+    if (product.isFetched && product.data) {
+      history.mutate(id);
+    }
+  }, [product.data]);
+
   return (
     <main className='overflow-auto bg-white'>
       {product.isFetched && product.data ? (
-        <section className='px-4 mt-4'>
+        <section className='mt-4 px-4'>
           <h1 className='text-xl font-semibold'>{product.data.name}</h1>
           <div className='aspect-square w-full'>
             <img
-              className='object-cover mx-auto'
+              className='mx-auto object-cover'
               src='https://http2.mlstatic.com/D_NQ_NP_773243-MLA42453247573_072020-V.webp'
               alt='XD'
             />
           </div>
-          <div className='flex items-center gap-2 my-2 flex-wrap'>
-            <span className='px-3 bg-rose-200 leading-none py-1 text-rose-900 rounded-full text-sm'>
+          <div className='my-2 flex flex-wrap items-center gap-2'>
+            <span className='rounded-full bg-rose-200 px-3 py-1 text-sm leading-none text-rose-900'>
               {/* TODO: Add tags variety for each condition */}
               Condition:{' '}
               <span className='capitalize'>{product.data.condition}</span>
             </span>
-            <span className='px-3 bg-violet-200 leading-none py-1 text-violet-900 rounded-full text-sm'>
+            <span className='rounded-full bg-violet-200 px-3 py-1 text-sm leading-none text-violet-900'>
               Stock: {product.data.stock}
             </span>
-            <span className='px-3 bg-green-200 leading-none py-1 text-green-900 rounded-full text-sm'>
+            <span className='rounded-full bg-green-200 px-3 py-1 text-sm leading-none text-green-900'>
               Sold: {product.data.sold}
             </span>
           </div>
@@ -69,7 +78,7 @@ const Product = () => {
             <p className='text-sm text-gray-600'>{product.data.description}</p>
           </div>
           <div className='mt-3'>
-            <p className='text-sm font-semibold mb-1'>Quantity</p>
+            <p className='mb-1 text-sm font-semibold'>Quantity</p>
             <NumberInput
               id='cart-quantity'
               label='Quantity'
@@ -78,7 +87,7 @@ const Product = () => {
               value={1}
               hideLabel
             />
-            <div className='flex justify-between gap-x-2 mt-2'>
+            <div className='mt-2 flex justify-between gap-x-2'>
               <Button kind='primary' size='md' className='grow'>
                 Add to cart
               </Button>
@@ -89,16 +98,16 @@ const Product = () => {
           </div>
         </section>
       ) : null}
-      <div className='h-0.5 my-6 bg-gray-200' />
+      <div className='my-6 h-0.5 bg-gray-200' />
 
       {product.isFetched && product.data && (
         <section className='px-4'>
-          <h2 className='font-semibold text-xl mb-2'>Store Information</h2>
+          <h2 className='mb-2 text-xl font-semibold'>Store Information</h2>
           <Link to='#' target='_blank'>
             <div className='flex items-center'>
-              <div className='w-12 h-12'>
+              <div className='h-12 w-12'>
                 <img
-                  className='object-cover w-full h-full'
+                  className='h-full w-full object-cover'
                   src='https://http2.mlstatic.com/D_NQ_NP_773243-MLA42453247573_072020-V.webp'
                   alt={`Profile from ${product.data.store.name} Store`}
                 />
@@ -107,7 +116,7 @@ const Product = () => {
                 <h3 className='text-sm font-semibold'>
                   {product.data.store.name}
                 </h3>
-                <span className='text-gray-600 text-sm'>
+                <span className='text-sm text-gray-600'>
                   {product.data.store.official
                     ? 'Official Store'
                     : 'Non-Official Store'}
@@ -118,10 +127,10 @@ const Product = () => {
         </section>
       )}
 
-      <div className='h-0.5 my-6 bg-gray-200' />
+      <div className='my-6 h-0.5 bg-gray-200' />
 
       <section className=''>
-        <h2 className='px-4 font-semibold text-xl mb-4'>
+        <h2 className='mb-4 px-4 text-xl font-semibold'>
           Questions and Answers
         </h2>
 
@@ -141,15 +150,15 @@ const Product = () => {
                       {/* TODO: Crear feature "ver mas / ver menos" */}
                       {QA.data.rows.map((question) => (
                         <li key={question.id}>
-                          <p className='text-sm text-gray-900 leading-snug font-semibold'>
+                          <p className='text-sm font-semibold leading-snug text-gray-900'>
                             {question.question}
                           </p>
-                          <div className='flex mt-1'>
+                          <div className='mt-1 flex'>
                             <XAxis
                               size='16'
                               className='mx-1 shrink-0 text-gray-400'
                             />
-                            <p className='text-sm text-gray-500 leading-snug tracking-wide'>
+                            <p className='text-sm leading-snug tracking-wide text-gray-500'>
                               {question.answer.answer}
                             </p>
                           </div>
@@ -160,10 +169,10 @@ const Product = () => {
 
                   {QA.data?.count === 0 && (
                     <div className='py-6'>
-                      <h3 className='text-lg leading-tight font-medium text-gray-900'>
+                      <h3 className='text-lg font-medium leading-tight text-gray-900'>
                         You have not asked any questions yet
                       </h3>
-                      <p className='text-sm text-gray-500 mb-2'>
+                      <p className='mb-2 text-sm text-gray-500'>
                         Make your first question
                       </p>
                       <Button
@@ -179,7 +188,7 @@ const Product = () => {
                   {QA.data?.count > 10 && (
                     // TODO: Crear modal para ver más
                     <div className='pt-2'>
-                      <p className='text-sm text-center text-indigo-500'>
+                      <p className='text-center text-sm text-indigo-500'>
                         Cargar más{' '}
                         <span className='italic'>(TODO: Crear feature)</span>
                       </p>
@@ -211,27 +220,27 @@ const Product = () => {
 
                         return (
                           <li key={question.id}>
-                            <div className='flex items-center flex-wrap gap-2 mb-1'>
+                            <div className='mb-1 flex flex-wrap items-center gap-2'>
                               <span className='text-xs text-gray-600'>
                                 {asked}
                               </span>
                               {/* TODO: Mojorar esto? */}
                               {question.states === 'answered' ? (
-                                <span className='px-2 bg-green-200 leading-none py-0.5 text-green-900 rounded-full text-xs'>
+                                <span className='rounded-full bg-green-200 px-2 py-0.5 text-xs leading-none text-green-900'>
                                   Status:{' '}
                                   <span className='capitalize'>
                                     {question.states}
                                   </span>
                                 </span>
                               ) : question.states === 'queue' ? (
-                                <span className='px-2 bg-yellow-200 leading-none py-0.5 text-yellow-900 rounded-full text-xs'>
+                                <span className='rounded-full bg-yellow-200 px-2 py-0.5 text-xs leading-none text-yellow-900'>
                                   Status:{' '}
                                   <span className='capitalize'>
                                     {question.states}
                                   </span>
                                 </span>
                               ) : (
-                                <span className='px-2 bg-rose-200 leading-none py-0.5 text-rose-900 rounded-full text-xs'>
+                                <span className='rounded-full bg-rose-200 px-2 py-0.5 text-xs leading-none text-rose-900'>
                                   Status:{' '}
                                   <span className='capitalize'>
                                     {question.states}
@@ -239,28 +248,28 @@ const Product = () => {
                                 </span>
                               )}
                             </div>
-                            <p className='text-sm text-gray-900 leading-snug font-semibold'>
+                            <p className='text-sm font-semibold leading-snug text-gray-900'>
                               {question.question}
                             </p>
                             {question.answer && (
-                              <div className='flex mt-1'>
+                              <div className='mt-1 flex'>
                                 <XAxis
                                   size='16'
                                   className='mx-1 shrink-0 text-gray-400'
                                 />
                                 {/* TODO: Crear feature "ver mas / ver menos" */}
-                                <p className='text-sm text-gray-500 leading-snug tracking-wide'>
+                                <p className='text-sm leading-snug tracking-wide text-gray-500'>
                                   {question.answer.answer}
                                 </p>
                               </div>
                             )}
                             {question.states === 'rejected' && (
-                              <div className='flex mt-1'>
+                              <div className='mt-1 flex'>
                                 <Error
                                   size='16'
                                   className='mr-1 shrink-0 text-gray-400'
                                 />
-                                <p className='text-sm text-gray-500 leading-snug tracking-wide'>
+                                <p className='text-sm leading-snug tracking-wide text-gray-500'>
                                   Your question has been rejected
                                 </p>
                               </div>
@@ -273,10 +282,10 @@ const Product = () => {
 
                   {customerQA.data?.count === 0 && (
                     <div className='py-6'>
-                      <h3 className='text-lg leading-tight font-medium text-gray-900'>
+                      <h3 className='text-lg font-medium leading-tight text-gray-900'>
                         There are no questions yet
                       </h3>
-                      <p className='text-sm text-gray-500 mb-2'>
+                      <p className='mb-2 text-sm text-gray-500'>
                         Be the first at ask
                       </p>
                       <Button
@@ -292,7 +301,7 @@ const Product = () => {
                   {customerQA.data?.count > 10 && (
                     // TODO: Crear modal para ver más
                     <div className='pt-2'>
-                      <p className='text-sm text-center text-indigo-500'>
+                      <p className='text-center text-sm text-indigo-500'>
                         Cargar más{' '}
                         <span className='italic'>(TODO: Crear feature)</span>
                       </p>
@@ -322,7 +331,7 @@ const Product = () => {
               >
                 {({ values, errors, touched, handleChange, handleBlur }) => (
                   <Form>
-                    <p className='text-sm text-gray-900 mb-4'>
+                    <p className='mb-4 text-sm text-gray-900'>
                       Your question will be in <em>Queue</em> until the{' '}
                       <em>Seller</em> answers it or rejects it. The question
                       will be <em>Viewable</em> for everyone when the Seller
@@ -353,24 +362,24 @@ const Product = () => {
         </Tabs>
       </section>
 
-      <div className='h-0.5 my-6 bg-gray-200' />
+      <div className='my-6 h-0.5 bg-gray-200' />
 
       {/* TODO: Crear feature "Reviews"  */}
       <section className='px-4'>
-        <h2 className='font-semibold text-xl mb-2'>Reviews</h2>
+        <h2 className='mb-2 text-xl font-semibold'>Reviews</h2>
 
-        <p className='text-sm text-gray-500 leading-snug tracking-wide italic'>
+        <p className='text-sm italic leading-snug tracking-wide text-gray-500'>
           Future feature
         </p>
       </section>
 
-      <div className='h-0.5 my-6 bg-gray-200' />
+      <div className='my-6 h-0.5 bg-gray-200' />
 
       {/* TODO: Crear feature "Related Products"  */}
       <section className='px-4'>
-        <h2 className='font-semibold text-xl mb-2'>Related Products</h2>
+        <h2 className='mb-2 text-xl font-semibold'>Related Products</h2>
 
-        <p className='text-sm text-gray-500 leading-snug tracking-wide italic'>
+        <p className='text-sm italic leading-snug tracking-wide text-gray-500'>
           Future feature
         </p>
       </section>

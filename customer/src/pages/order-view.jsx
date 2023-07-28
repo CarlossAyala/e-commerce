@@ -71,10 +71,10 @@ const OrderView = () => {
                           {item.product.name}
                         </h4>
                         <p className='text-sm leading-tight text-gray-600'>
-                          Price: {priceFormater(item.product.price)}
+                          U.P: {priceFormater(item.product.price)}
                         </p>
                         <p className='text-sm leading-tight text-gray-600'>
-                          Quantity: {item.quantity}
+                          Qty: {item.quantity}
                         </p>
                         <p className='text-sm leading-tight text-gray-600'>
                           Total:{' '}

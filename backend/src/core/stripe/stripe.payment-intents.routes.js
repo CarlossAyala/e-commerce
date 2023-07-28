@@ -150,6 +150,8 @@ router.post('/confirm', validateJWT, async (req, res, next) => {
 
       await OrderItem.model.bulkCreate(orderItems, { validate: true });
 
+      // TODO: Aplicar STOCK y SOLD correspondiente a cada producto
+
       // Clear Cart
       await CartProduct.model.destroy({
         where: {
