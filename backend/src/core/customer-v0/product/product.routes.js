@@ -7,7 +7,7 @@ const middleware = require('./product.middleware');
 const controller = require('./product.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, controller.getAll);
+router.get('/', apiMiddleware.validateJWT(), controller.getAll);
 
 // Get One
 router.get(
@@ -20,7 +20,7 @@ router.get(
 // Create
 router.post(
   '/',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.base, 'body'),
   controller.create
 );
@@ -28,7 +28,7 @@ router.post(
 // Update
 router.patch(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   validatorHandler(schema.base, 'body'),
   middleware.resourceExist,
@@ -38,7 +38,7 @@ router.patch(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.resourceExist,
   controller.remove

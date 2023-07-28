@@ -7,12 +7,12 @@ const purchaseOrderMiddleware = require('./purchase-order.middleware');
 const purchaseOrderController = require('./purchase-order.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, purchaseOrderController.getAll);
+router.get('/', apiMiddleware.validateJWT(), purchaseOrderController.getAll);
 
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(purchaseOrderSchema.resourceId, 'params'),
   purchaseOrderMiddleware.resourceExist,
   purchaseOrderController.getOne

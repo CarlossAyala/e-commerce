@@ -5,7 +5,7 @@ const Stripe = require('./strapi.connection');
 const { validateJWT } = require('../../middlewares/api');
 const { User } = require('../../database/mysql/models');
 
-router.get('/:id', validateJWT, async (req, res, next) => {
+router.get('/:id', validateJWT(), async (req, res, next) => {
   const { id } = req.params;
 
   try {

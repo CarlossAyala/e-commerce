@@ -13,7 +13,7 @@ const slugifyOptions = require('../../../constant/slugify');
 // Get Store info
 router.get(
   '/',
-  validateJWT,
+  validateJWT(),
   // controller getStore
   async (req, res, next) => {
     try {
@@ -35,7 +35,7 @@ router.get(
 // Create Store
 router.post(
   '/',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.base, 'body'),
   // middleware alreadyHaveStore
   async (req, res, next) => {
@@ -89,7 +89,7 @@ router.post(
 // Change Name
 router.patch(
   '/change-name',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.changeName, 'body'),
   // middleware existStore
   async (req, res, next) => {
@@ -152,7 +152,7 @@ router.patch(
 // Change description
 router.patch(
   '/change-description',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.changeDescription, 'body'),
   // middleware existStore
   async (req, res, next) => {
@@ -194,7 +194,7 @@ router.patch(
 // Check Duplicate Store Name
 router.post(
   '/check-duplicate-name',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.checkName, 'body'),
   // middleware checkDuplicateName
   async (req, res, next) => {
@@ -226,7 +226,7 @@ router.post(
 // Delete Store
 router.delete(
   '/',
-  validateJWT,
+  validateJWT(),
   // middleware existStore
   async (req, res, next) => {
     try {

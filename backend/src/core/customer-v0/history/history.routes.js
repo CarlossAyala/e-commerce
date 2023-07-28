@@ -7,24 +7,24 @@ const middleware = require('./history.middleware');
 const controller = require('./history.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, controller.getAll);
+router.get('/', apiMiddleware.validateJWT(), controller.getAll);
 
 // Create
 router.post(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.existProduct,
   controller.create
 );
 
 // Clear history
-router.delete('/clear', apiMiddleware.validateJWT, controller.removeAll);
+router.delete('/clear', apiMiddleware.validateJWT(), controller.removeAll);
 
 // Delete one
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.resourceExist,
   controller.remove

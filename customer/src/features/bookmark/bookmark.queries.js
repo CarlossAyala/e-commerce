@@ -1,49 +1,61 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import API from './bookmark.api';
 import { getToken } from '../../api';
-import { cartKeys } from '../cart';
+import { groupByMonthYear } from '../../utils/group-by';
 
 const bookmarkKeys = {
   key: ['bookmark'],
+  get: (id) => [...bookmarkKeys.key, 'get', id],
 };
 
-// export const useGetBookmark = () => {};
+export const useGetBookmark = (id) => {
+  const token = getToken();
+
+  return useQuery({
+    queryKey: bookmarkKeys.get(id),
+    queryFn: () => API.get(id),
+    enabled: Boolean(token) && Boolean(id),
+  });
+};
+
 export const useGetBookmarks = () => {
   const token = getToken();
 
   return useQuery({
     queryKey: bookmarkKeys.key,
-    queryFn: () => API.getBookmarks(),
-    enabled: !!token,
+    queryFn: () => API.getAll(),
+    enabled: Boolean(token),
+    select: (data) => groupByMonthYear(data?.rows, 'createdAt'),
   });
 };
+
 export const useAddBookmark = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (productId) => API.addBookmark(productId),
+    mutationFn: (productId) => API.add(productId),
     onSuccess: () => {
       queryClient.invalidateQueries(bookmarkKeys.key);
-      queryClient.invalidateQueries(cartKeys.key);
     },
   });
 };
+
 export const useRemoveBookmark = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (productId) => API.removeBookmark(productId),
+    mutationFn: (productId) => API.remove(productId),
     onSuccess: () => {
       queryClient.invalidateQueries(bookmarkKeys.key);
-      queryClient.invalidateQueries(cartKeys.key);
     },
   });
 };
+
 export const useClearBookmark = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => API.clearBookmark(),
+    mutationFn: () => API.clear(),
     onSuccess: () => {
       queryClient.invalidateQueries(bookmarkKeys.key);
     },

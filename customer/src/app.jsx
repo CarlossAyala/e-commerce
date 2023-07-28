@@ -19,6 +19,7 @@ import {
   OrderView,
   OrderList,
   History,
+  Bookmark,
 } from './pages';
 
 const router = createBrowserRouter([
@@ -83,8 +84,12 @@ const router = createBrowserRouter([
         element: <OrderView />,
       },
       {
-        path: 'history',
+        path: 'history/list',
         element: <History />,
+      },
+      {
+        path: 'bookmark/list',
+        element: <Bookmark />,
       },
     ],
   },

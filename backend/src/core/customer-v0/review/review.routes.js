@@ -9,7 +9,7 @@ const reviewController = require('./review.controller');
 // Get All
 router.get(
   '/product/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(reviewSchema.resourceId, 'params'),
   reviewMiddleware.productExist,
   reviewController.getAll
@@ -18,7 +18,7 @@ router.get(
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(reviewSchema.resourceId, 'params'),
   reviewMiddleware.resourceExist,
   reviewController.getOne
@@ -27,7 +27,7 @@ router.get(
 // Create
 router.post(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(reviewSchema.resourceId, 'params'),
   validatorHandler(reviewSchema.create, 'body'),
   reviewMiddleware.productExist,
@@ -37,7 +37,7 @@ router.post(
 // Update
 router.put(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(reviewSchema.resourceId, 'params'),
   validatorHandler(reviewSchema.update, 'body'),
   reviewMiddleware.resourceExist,
@@ -47,7 +47,7 @@ router.put(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(reviewSchema.resourceId, 'params'),
   reviewMiddleware.resourceExist,
   reviewController.remove
@@ -56,7 +56,7 @@ router.delete(
 // Like
 router.patch(
   '/:id/like',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(reviewSchema.resourceId, 'params'),
   reviewMiddleware.resourceExist,
   reviewController.like
@@ -65,7 +65,7 @@ router.patch(
 // Dislike
 router.patch(
   '/:id/dislike',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(reviewSchema.resourceId, 'params'),
   reviewMiddleware.resourceExist,
   reviewController.dislike

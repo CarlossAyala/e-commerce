@@ -2,33 +2,33 @@ import { Link } from 'react-router-dom';
 import { Button, SkeletonPlaceholder, SkeletonText } from '@carbon/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import {
-  useClearHistory,
-  useGetHistory,
-  useRemoveFromHistory,
-} from '../features/history';
+  useClearBookmark,
+  useGetBookmarks,
+  useRemoveBookmark,
+} from '../features/bookmark';
 import { monthYearFormat } from '../utils/formater';
 
-const History = () => {
-  const history = useGetHistory();
-  const clearHistory = useClearHistory();
-  const removeHistory = useRemoveFromHistory();
+const Bookmark = () => {
+  const bookmarks = useGetBookmarks();
+  const clearBookmark = useClearBookmark();
+  const removeBookmark = useRemoveBookmark();
 
-  console.log('History', history);
+  console.log('Bookmarks', bookmarks);
 
   const handleDelete = async (productId) => {
     try {
-      await removeHistory.mutateAsync(productId);
+      await removeBookmark.mutateAsync(productId);
     } catch (error) {
-      console.log('<History />');
+      console.log('<Bookmark />');
       console.log('handleDelete', error);
     }
   };
 
   const handleClear = async () => {
     try {
-      await clearHistory.mutateAsync();
+      await clearBookmark.mutateAsync();
     } catch (error) {
-      console.log('<History />');
+      console.log('<Bookmark />');
       console.log('handleClear', error);
     }
   };
@@ -36,45 +36,45 @@ const History = () => {
   return (
     <main className='flex w-full flex-col bg-white'>
       <section className='border-b border-gray-200 px-4 pb-4 pt-3'>
-        <h1 className='text-2xl font-medium leading-none'>History</h1>
+        <h1 className='text-2xl font-medium leading-none'>Bookmarks</h1>
       </section>
 
-      {history.isLoading && (
+      {bookmarks.isLoading && (
         <section className='p-4'>
           <div className='w-1/2'>
             <SkeletonText style={{ width: '100%', minWidth: '100%' }} />
           </div>
           <div className='mt-4 grid grid-cols-2 gap-3'>
-            <HistoryItemSkeleton />
-            <HistoryItemSkeleton />
-            <HistoryItemSkeleton />
-            <HistoryItemSkeleton />
-            <HistoryItemSkeleton />
-            <HistoryItemSkeleton />
+            <BookmarkItemSkeleton />
+            <BookmarkItemSkeleton />
+            <BookmarkItemSkeleton />
+            <BookmarkItemSkeleton />
+            <BookmarkItemSkeleton />
+            <BookmarkItemSkeleton />
           </div>
         </section>
       )}
 
-      {history.isFetched && history.data?.length === 0 && (
+      {bookmarks.isFetched && bookmarks.data?.length === 0 && (
         <section className='p-4'>
           <p className='text-lg font-semibold leading-normal text-gray-800'>
-            You don&apos;t have any history yet
+            You don&apos;t have any bookmark yet
           </p>
           <p className='mt-1 text-sm text-gray-500'>
-            Each time that you visit a product, it&apos;s added to your history.
+            Visit any product page to bookmark it.
           </p>
         </section>
       )}
 
-      {history.isFetched && history.data?.length > 0 && (
+      {bookmarks.isFetched && bookmarks.data?.length > 0 && (
         <section className='p-4'>
           <div className='flex justify-end'>
             <Button onClick={handleClear} size='md' kind='secondary'>
-              Clear history
+              Clear bookmark
             </Button>
           </div>
           <ol className='mt-2 space-y-4'>
-            {history.data.map((item) => (
+            {bookmarks.data.map((item) => (
               <li key={item.key}>
                 <p className='text-lg font-semibold capitalize leading-normal text-gray-800'>
                   {monthYearFormat(item.key)}
@@ -83,7 +83,7 @@ const History = () => {
                 <ol className='mt-1 grid grid-cols-2 gap-3'>
                   {item.values.map((value) => (
                     <li
-                      key={value.id}
+                      key={value.productId}
                       className='relative overflow-hidden rounded-md border border-gray-300 shadow-md'
                     >
                       <Link
@@ -106,7 +106,7 @@ const History = () => {
                         <button
                           className='flex items-center justify-center rounded-md bg-gray-100 p-2 text-black hover:bg-gray-200'
                           type='button'
-                          onClick={() => handleDelete(value.id)}
+                          onClick={() => handleDelete(value.productId)}
                         >
                           <XMarkIcon className='h-6 w-6' />
                         </button>
@@ -123,7 +123,7 @@ const History = () => {
   );
 };
 
-const HistoryItemSkeleton = () => {
+const BookmarkItemSkeleton = () => {
   return (
     <div>
       <div className='h-44 overflow-hidden rounded-md'>
@@ -141,4 +141,4 @@ const HistoryItemSkeleton = () => {
   );
 };
 
-export default History;
+export default Bookmark;

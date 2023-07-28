@@ -7,12 +7,12 @@ const storeMiddleware = require('./store.middleware');
 const storeController = require('./store.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, storeController.getAll);
+router.get('/', apiMiddleware.validateJWT(), storeController.getAll);
 
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(storeSchema.resourceId, 'params'),
   storeMiddleware.resourceExist,
   storeController.getOne
@@ -21,7 +21,7 @@ router.get(
 // Create
 router.post(
   '/',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(storeSchema.create, 'body'),
   storeController.create
 );
@@ -29,7 +29,7 @@ router.post(
 // Update Name
 router.patch(
   '/fullname/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(storeSchema.resourceId, 'params'),
   validatorHandler(storeSchema.updateName, 'body'),
   storeMiddleware.resourceExist,
@@ -39,7 +39,7 @@ router.patch(
 // Update email
 router.patch(
   '/email/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(storeSchema.resourceId, 'params'),
   validatorHandler(storeSchema.updateEmail, 'body'),
   storeMiddleware.resourceExist,
@@ -49,7 +49,7 @@ router.patch(
 // Update password
 router.patch(
   '/change-password/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(storeSchema.resourceId, 'params'),
   validatorHandler(storeSchema.updatePassword, 'body'),
   storeMiddleware.resourceExist,
@@ -59,7 +59,7 @@ router.patch(
 // Update hireDate
 router.patch(
   '/hire-date/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(storeSchema.resourceId, 'params'),
   validatorHandler(storeSchema.updateHireDate, 'body'),
   storeMiddleware.resourceExist,
@@ -69,7 +69,7 @@ router.patch(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(storeSchema.resourceId, 'params'),
   storeMiddleware.resourceExist,
   storeController.remove

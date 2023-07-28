@@ -10,7 +10,7 @@ const slugifyOptions = require('../../../constant/slugify');
 const QueryBuilder = require('../../../utils/database/query-builder');
 
 // Product Search
-router.get('/search', validateJWT, async (req, res, next) => {
+router.get('/search', validateJWT(), async (req, res, next) => {
   try {
     // middleware userHasStore
     const store = await Store.model.findOne({
@@ -40,7 +40,7 @@ router.get('/search', validateJWT, async (req, res, next) => {
 // Product Get One
 router.get(
   '/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     try {
@@ -77,7 +77,7 @@ router.get(
 // Product Update
 router.put(
   '/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
@@ -138,7 +138,7 @@ router.get(
 // Product Publish
 router.post(
   '/publish',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.base, 'body'),
   // middleware userHasStore
   async (req, res, next) => {
@@ -195,7 +195,7 @@ router.post(
 // Product Delete
 router.delete(
   '/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   // middleware isStoreOwner
   async (req, res, next) => {

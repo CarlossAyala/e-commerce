@@ -9,7 +9,7 @@ const controller = require('./employee-role.controller');
 // Create
 router.post(
   '/',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.create, 'body'),
   middleware.employeeExist,
   middleware.roleExist,
@@ -19,7 +19,7 @@ router.post(
 // Update
 router.patch(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.resourceId, 'params'),
   validatorHandler(schema.update, 'body'),
   middleware.resourceExist,
@@ -30,7 +30,7 @@ router.patch(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.resourceId, 'params'),
   middleware.resourceExist,
   controller.remove

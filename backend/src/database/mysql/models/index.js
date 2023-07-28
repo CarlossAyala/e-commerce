@@ -126,17 +126,6 @@ History.model.belongsTo(Product.model, {
   as: 'product',
 });
 
-// PRODUCT AND BOOKMARK
-Product.model.hasOne(Bookmark.model, {
-  foreignKey: 'productId',
-  as: 'inBookmark',
-});
-// PRODUCT AND CARTPRODUCT
-Product.model.hasOne(CartProduct.model, {
-  foreignKey: 'productId',
-  as: 'inCart',
-});
-
 // BOOKMARK AND PRODUCT
 Bookmark.model.belongsTo(Product.model, {
   foreignKey: 'productId',

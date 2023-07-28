@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import API from './product.api';
 import { getToken } from '../../api';
 
-const productKeys = {
+export const productKeys = {
   key: ['product'],
   one: (id) => [...productKeys.key, 'one', id],
   allQAs: (id) => [...productKeys.key, 'allQA', id],
@@ -15,7 +15,7 @@ export const useGetProduct = (id) => {
   return useQuery({
     queryKey: productKeys.one(id),
     queryFn: () => API.getProduct(id),
-    enabled: !!id,
+    enabled: Boolean(id),
   });
 };
 

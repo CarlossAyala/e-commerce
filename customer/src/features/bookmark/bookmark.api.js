@@ -3,7 +3,7 @@ import { CustomerClient, getToken } from '../../api';
 const BOOKMARKS = 'bookmarks';
 
 const API = {
-  async getBookmarks() {
+  async getAll() {
     const url = `/${BOOKMARKS}`;
     const token = getToken();
 
@@ -18,8 +18,23 @@ const API = {
 
     return data;
   },
-  async addBookmark(productId) {
-    const url = `/${BOOKMARKS}`;
+  async get(productId) {
+    const url = `/${BOOKMARKS}/${productId}`;
+    const token = getToken();
+
+    const { data } = await CustomerClient.request({
+      method: 'GET',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data;
+  },
+  async add(productId) {
+    const url = `/${BOOKMARKS}/${productId}`;
     const token = getToken();
 
     const { data } = await CustomerClient.request({
@@ -29,14 +44,11 @@ const API = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      data: {
-        productId,
-      },
     });
 
     return data;
   },
-  async removeBookmark(productId) {
+  async remove(productId) {
     const url = `/${BOOKMARKS}/${productId}`;
     const token = getToken();
 
@@ -51,7 +63,7 @@ const API = {
 
     return data;
   },
-  async clearBookmark() {
+  async clear() {
     const url = `/${BOOKMARKS}/clear`;
     const token = getToken();
 

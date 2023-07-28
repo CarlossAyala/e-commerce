@@ -61,7 +61,7 @@ module.exports = router;
 // // Create
 // router.post(
 //   '/',
-//   apiMiddleware.validateJWT,
+//   apiMiddleware.validateJWT(),
 //   validatorHandler(schema.create, 'body'),
 //   middleware.parentCategoryExist,
 //   controller.create
@@ -70,7 +70,7 @@ module.exports = router;
 // // Update
 // router.put(
 //   '/:id',
-//   apiMiddleware.validateJWT,
+//   apiMiddleware.validateJWT(),
 //   validatorHandler(schema.categoryId, 'params'),
 //   validatorHandler(schema.update, 'body'),
 //   middleware.categoryExist,
@@ -81,7 +81,7 @@ module.exports = router;
 // // Delete
 // router.delete(
 //   '/:id',
-//   apiMiddleware.validateJWT,
+//   apiMiddleware.validateJWT(),
 //   validatorHandler(schema.categoryId, 'params'),
 //   middleware.categoryExist,
 //   controller.remove

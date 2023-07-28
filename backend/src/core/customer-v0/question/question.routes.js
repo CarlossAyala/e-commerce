@@ -17,7 +17,7 @@ router.get(
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.resourceId, 'params'),
   middleware.resourceExist,
   controller.getOne
@@ -26,7 +26,7 @@ router.get(
 // Create
 router.post(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.resourceId, 'params'),
   validatorHandler(schema.create, 'body'),
   middleware.productExist,
@@ -36,7 +36,7 @@ router.post(
 // Update
 router.patch(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.resourceId, 'params'),
   validatorHandler(schema.update, 'body'),
   middleware.resourceExist,
@@ -47,7 +47,7 @@ router.patch(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.resourceId, 'params'),
   middleware.resourceExist,
   controller.remove

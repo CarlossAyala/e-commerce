@@ -9,7 +9,7 @@ const answerController = require('./answer.controller');
 // Get All
 router.get(
   '/product/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(answerSchema.resourceId, 'params'),
   answerMiddleware.productExist,
   answerController.getAll
@@ -18,7 +18,7 @@ router.get(
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(answerSchema.resourceId, 'params'),
   answerMiddleware.questionExist,
   answerController.getOne
@@ -27,7 +27,7 @@ router.get(
 // Answer
 router.post(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(answerSchema.resourceId, 'params'),
   validatorHandler(answerSchema.create, 'body'),
   answerMiddleware.questionExist,
@@ -38,7 +38,7 @@ router.post(
 // Update
 router.patch(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(answerSchema.resourceId, 'params'),
   validatorHandler(answerSchema.update, 'body'),
   answerMiddleware.questionExist,
@@ -49,7 +49,7 @@ router.patch(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(answerSchema.resourceId, 'params'),
   answerMiddleware.answerAlreadyExist,
   answerController.remove

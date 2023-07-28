@@ -5,7 +5,7 @@ const Stripe = require('./strapi.connection');
 const { User } = require('../../database/mysql/models');
 const { validateJWT } = require('../../middlewares/api');
 
-router.get('/:id', validateJWT, async (req, res, next) => {
+router.get('/:id', validateJWT(), async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -39,7 +39,7 @@ router.get('/:id', validateJWT, async (req, res, next) => {
 });
 
 // Create
-router.post('/', validateJWT, async (req, res, next) => {
+router.post('/', validateJWT(), async (req, res, next) => {
   try {
     // Exist Customer in my Own Database
     const exist_customer = await User.model.findByPk(req.auth.id);
@@ -70,7 +70,7 @@ router.post('/', validateJWT, async (req, res, next) => {
     next(error);
   }
 });
-// router.post('/', validateJWT, async (req, res, next) => {
+// router.post('/', validateJWT(), async (req, res, next) => {
 //   try {
 //     // Exist Customer in my Own Database
 //     const exist_customer = await User.model.findByPk(req.auth.id);

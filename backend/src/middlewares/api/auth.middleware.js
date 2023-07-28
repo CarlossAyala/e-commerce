@@ -1,38 +1,57 @@
-// const Boom = require('@hapi/boom');
-const { expressjwt: jwt } = require('express-jwt');
+const Boom = require('@hapi/boom');
+const jsonwebtoken = require('jsonwebtoken');
 
 const { jwt_secret } = require('../../config');
 
-const validateJWT = jwt({
-  secret: jwt_secret,
-  algorithms: ['HS256'], // TODO: Preguntar si esto viene del .env
-});
+const verifyToken = (token) => {
+  return new Promise((resolve, reject) => {
+    jsonwebtoken.verify(token, jwt_secret, (err, decoded) => {
+      if (err) return reject(err);
 
-// const checkRoles = (roles) => {
-//   return async (req, res, next) => {
-//     const user = await UserModel.findById(req.user._id);
+      resolve(decoded);
+    });
+  });
+};
 
-//     if (!roles.includes(user.roles))
-//       return next(Boom.unauthorized('You dont have roles for this'));
+const validateJWT = ({ optional = false } = {}) => {
+  return async (req, res, next) => {
+    // console.log('Headers', req.headers);
+    const authHeader = req.headers.authorization;
+    // console.log('authHeader', authHeader);
+    const token = authHeader ? authHeader.split(' ')[1] : null;
+    // console.log('token', token);
 
-//     next();
-//   };
-// };
+    if (optional) {
+      if (authHeader && token) {
+        try {
+          const decoded = await verifyToken(token);
+          req.auth = decoded;
+          next();
+        } catch (error) {
+          next();
+        }
+      } else {
+        next();
+      }
+    }
+
+    if (!authHeader) {
+      return next(Boom.unauthorized('Missing Authorization Header'));
+    }
+    if (!token) {
+      return next(Boom.unauthorized('Missing Authorization Token'));
+    }
+
+    try {
+      const decoded = await verifyToken(token);
+      req.auth = decoded;
+      next();
+    } catch (error) {
+      return next(Boom.unauthorized('Invalid Authorization Token'));
+    }
+  };
+};
 
 module.exports = {
   validateJWT,
-  // validateGuestPermissions,
-  // checkRoles,
 };
-
-// TODO: Podría usarlo
-// const validateGuestPermissions = (request, response, next) => {
-//   if (request.headers.authorization) {
-//     return next();
-//   }
-
-//   return response.status(251).json({
-//     roles: ['GUEST'],
-//     permissions: [],
-//   });
-// };

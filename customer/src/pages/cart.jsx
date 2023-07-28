@@ -170,9 +170,6 @@ const CartItem = ({ item }) => {
   const updateQuantity = useUpdateItemCart();
   const changeVisible = useChangeVisibility();
 
-  const addToBookmark = useAddBookmark();
-  const removeFromBookmark = useRemoveBookmark();
-
   const changeVisibility = () => {
     changeVisible.mutate(item.id);
   };
@@ -272,25 +269,6 @@ const CartItem = ({ item }) => {
             kind='secondary'
           >
             <ViewOff size='20' />
-          </IconButton>
-        )}
-        {item.product.inBookmark ? (
-          <IconButton
-            size='md'
-            kind='secondary'
-            label='Remove from bookmark'
-            onClick={() => removeFromBookmark.mutate(item.product.id)}
-          >
-            <BookmarkFilled size='20' />
-          </IconButton>
-        ) : (
-          <IconButton
-            label='Add from bookmark'
-            size='md'
-            kind='secondary'
-            onClick={() => addToBookmark.mutate(item.product.id)}
-          >
-            <BookmarkAdd size='20' />
           </IconButton>
         )}
       </div>

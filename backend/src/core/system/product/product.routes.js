@@ -37,14 +37,16 @@ router.get(
   '/:id',
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
+    const { id: productId } = req.params;
+
     try {
-      const product = await Product.model.findByPk(req.params.id, {
+      // TODO: Pedir Store por su Endpoint
+      const product = await Product.model.findByPk(productId, {
         include: {
           model: Store.model,
           as: 'store',
         },
       });
-
       if (!product) {
         return next(Boom.notFound('Product not found'));
       }
@@ -87,7 +89,7 @@ router.get(
 // Get Product CustomerQAs
 router.get(
   '/:id/customerQA',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const qb = new QueryBuilder(req.query)
@@ -117,7 +119,7 @@ router.get(
 // New Question Product
 router.post(
   '/:id/questions',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.newQuestion, 'body'),
   async (req, res, next) => {

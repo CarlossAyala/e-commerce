@@ -7,7 +7,7 @@ const validatorSchema = require('../../../middlewares/api/validator.middleware')
 const schemas = require('./address.schema');
 
 // Get All
-router.get('/', validateJWT, async (req, res, next) => {
+router.get('/', validateJWT(), async (req, res, next) => {
   try {
     const addresses = await Address.model.findAll({
       order: [['createdAt', 'ASC']],
@@ -22,7 +22,7 @@ router.get('/', validateJWT, async (req, res, next) => {
 // Get One
 router.get(
   '/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const { id } = req.params;
@@ -47,7 +47,7 @@ router.get(
 // Create
 router.post(
   '/',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
     try {
@@ -69,7 +69,7 @@ router.post(
 // Update
 router.put(
   '/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
@@ -97,8 +97,8 @@ router.put(
 // Delete
 router.delete(
   '/:id',
-  validateJWT,
-  validateJWT,
+  validateJWT(),
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const { id } = req.params;

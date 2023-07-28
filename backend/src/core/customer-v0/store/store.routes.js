@@ -7,12 +7,12 @@ const middleware = require('./store.middleware');
 const controller = require('./store.controller');
 
 // // Get All
-// router.get('/', apiMiddleware.validateJWT, controller.getAll);
+// router.get('/', apiMiddleware.validateJWT(), controller.getAll);
 
 // // Get One
 // router.get(
 //   '/:id',
-//   apiMiddleware.validateJWT,
+//   apiMiddleware.validateJWT(),
 //   validatorHandler(schema.resourceId, 'params'),
 //   middleware.resourceExist,
 //   controller.getOne
@@ -21,7 +21,7 @@ const controller = require('./store.controller');
 // // Create
 // router.post(
 //   '/',
-//   apiMiddleware.validateJWT,
+//   apiMiddleware.validateJWT(),
 //   validatorHandler(schema.create, 'body'),
 //   controller.create
 // );
@@ -29,7 +29,7 @@ const controller = require('./store.controller');
 // // Update
 // router.patch(
 //   '/:id',
-//   apiMiddleware.validateJWT,
+//   apiMiddleware.validateJWT(),
 //   validatorHandler(schema.resourceId, 'params'),
 //   validatorHandler(schema.update, 'body'),
 //   middleware.resourceExist,
@@ -39,7 +39,7 @@ const controller = require('./store.controller');
 // // Delete
 // router.delete(
 //   '/:id',
-//   apiMiddleware.validateJWT,
+//   apiMiddleware.validateJWT(),
 //   validatorHandler(schema.resourceId, 'params'),
 //   middleware.resourceExist,
 //   controller.remove

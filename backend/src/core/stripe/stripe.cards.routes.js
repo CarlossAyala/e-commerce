@@ -7,7 +7,7 @@ const { User } = require('../../database/mysql/models');
 // const validatorSchema = require('../../middlewares/api/validator.middleware');
 // const schemas = require('./card.schema');
 
-router.get('/', validateJWT, async (req, res, next) => {
+router.get('/', validateJWT(), async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
@@ -37,7 +37,7 @@ router.get('/', validateJWT, async (req, res, next) => {
   }
 });
 
-router.get('/:cardId', validateJWT, async (req, res, next) => {
+router.get('/:cardId', validateJWT(), async (req, res, next) => {
   const customerId = req.auth.id;
   const { cardId } = req.params;
 
@@ -63,7 +63,7 @@ router.get('/:cardId', validateJWT, async (req, res, next) => {
   }
 });
 
-router.post('/', validateJWT, async (req, res, next) => {
+router.post('/', validateJWT(), async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {

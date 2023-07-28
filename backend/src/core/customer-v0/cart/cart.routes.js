@@ -7,12 +7,12 @@ const middleware = require('./cart.middleware');
 const controller = require('./cart.controller');
 
 // Get Cart
-router.get('/', apiMiddleware.validateJWT, controller.getCart);
+router.get('/', apiMiddleware.validateJWT(), controller.getCart);
 
 // Add product
 router.post(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   validatorHandler(schema.baseQuantity, 'body'),
   middleware.productExist,
@@ -22,7 +22,7 @@ router.post(
 // Update Quantity Product
 router.patch(
   '/quantity/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   validatorHandler(schema.baseQuantity, 'body'),
   middleware.resourceExist,
@@ -32,19 +32,19 @@ router.patch(
 // Update Visible Product
 router.patch(
   '/visibility/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.resourceExist,
   controller.updateVisible
 );
 
 // Clear Cart
-router.delete('/clear', apiMiddleware.validateJWT, controller.clearCart);
+router.delete('/clear', apiMiddleware.validateJWT(), controller.clearCart);
 
 // Remove Product
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.resourceExist,
   controller.removeItem

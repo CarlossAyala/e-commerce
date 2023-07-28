@@ -5,7 +5,7 @@ const Stripe = require('./strapi.connection');
 const { validateJWT } = require('../../middlewares/api');
 const { User } = require('../../database/mysql/models');
 
-router.get('/', validateJWT, async (req, res, next) => {
+router.get('/', validateJWT(), async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
@@ -29,7 +29,7 @@ router.get('/', validateJWT, async (req, res, next) => {
   }
 });
 
-router.post('/', validateJWT, async (req, res, next) => {
+router.post('/', validateJWT(), async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
@@ -56,7 +56,7 @@ router.post('/', validateJWT, async (req, res, next) => {
   }
 });
 
-// router.patch('/', validateJWT, async (req, res, next) => {
+// router.patch('/', validateJWT(), async (req, res, next) => {
 //   const customerId = req.auth.id;
 
 //   try {

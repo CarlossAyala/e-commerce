@@ -9,7 +9,7 @@ const buyController = require('./buy.controller');
 // Buy Shopping Cart
 router.post(
   '/',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(buySchema.buy, 'body'),
   buyMiddleware.checkCartItems,
   buyMiddleware.checkDestination,

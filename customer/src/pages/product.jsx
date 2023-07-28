@@ -12,7 +12,13 @@ import {
   TabPanel,
   TextArea,
 } from '@carbon/react';
-import { Bookmark, Error, XAxis } from '@carbon/icons-react';
+import {
+  BookmarkAdd,
+  BookmarkFilled,
+  Error,
+  XAxis,
+  Renew,
+} from '@carbon/icons-react';
 import {
   questionInitial,
   questionSchema,
@@ -23,6 +29,11 @@ import {
 } from '../features/product';
 import { priceFormater } from '../utils/formater';
 import { useAddToHistory } from '../features/history';
+import {
+  useAddBookmark,
+  useGetBookmark,
+  useRemoveBookmark,
+} from '../features/bookmark';
 
 const Product = () => {
   const [tabQA, setTabQA] = useState(0);
@@ -33,11 +44,37 @@ const Product = () => {
   const customerQA = useGetCustomerQAProduct(id);
   const sendQuestion = useSendQuestion();
 
+  const bookmark = useGetBookmark(id);
+  const addBookmark = useAddBookmark();
+  const removeBookmark = useRemoveBookmark();
+
   const history = useAddToHistory();
 
   console.log('Product', product);
   console.log('QA', QA);
-  console.log('customerQA', customerQA);
+  console.log('CustomerQA', customerQA);
+  console.log('Bookmark', bookmark);
+
+  const handleAddBookmark = async () => {
+    try {
+      await addBookmark.mutateAsync(id);
+    } catch (error) {
+      console.log('<Product />');
+      console.log('handleAddBookmark', error);
+    }
+  };
+
+  const handleRemoveBookmark = async () => {
+    try {
+      await removeBookmark.mutateAsync(id);
+    } catch (error) {
+      console.log('<Product />');
+      console.log('handleRemoveBookmark', error);
+    }
+  };
+
+  const bookmarkLoading =
+    bookmark.isLoading || addBookmark.isLoading || removeBookmark.isLoading;
 
   useEffect(() => {
     if (product.isFetched && product.data) {
@@ -91,9 +128,42 @@ const Product = () => {
               <Button kind='primary' size='md' className='grow'>
                 Add to cart
               </Button>
-              <IconButton label='Add to favorites' size='md' kind='secondary'>
-                <Bookmark size='20' />
-              </IconButton>
+
+              {bookmarkLoading ? (
+                <IconButton
+                  label='Loading bookmark'
+                  size='md'
+                  kind='secondary'
+                  disabled={bookmarkLoading}
+                >
+                  <div className='animate-spin'>
+                    <Renew size='20' />
+                  </div>
+                </IconButton>
+              ) : null}
+
+              {bookmark.isFetched && !bookmarkLoading && bookmark.data ? (
+                <IconButton
+                  label='Remove from bookmark'
+                  size='md'
+                  kind='secondary'
+                  onClick={handleRemoveBookmark}
+                  disabled={bookmarkLoading}
+                >
+                  <BookmarkFilled size='20' />
+                </IconButton>
+              ) : null}
+              {bookmark.isFetched && !bookmarkLoading && !bookmark.data ? (
+                <IconButton
+                  label='Add from bookmark'
+                  size='md'
+                  kind='secondary'
+                  onClick={handleAddBookmark}
+                  disabled={bookmarkLoading}
+                >
+                  <BookmarkAdd size='20' />
+                </IconButton>
+              ) : null}
             </div>
           </div>
         </section>

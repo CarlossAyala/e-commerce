@@ -9,7 +9,7 @@ const userController = require('./user.controller');
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(userSchema.userId, 'params'),
   userMiddleware.userExist,
   userController.getOne
@@ -18,7 +18,7 @@ router.get(
 // DELETE
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(userSchema.userId, 'params'),
   userMiddleware.userExist,
   userController.remove

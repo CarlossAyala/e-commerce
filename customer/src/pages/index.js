@@ -2,6 +2,7 @@ import AddressEdit from './address-edit';
 import AddressList from './address-list';
 import AddressNew from './address-new';
 import AddressView from './address-view';
+import Bookmark from './bookmark';
 import Cart from './cart';
 import CheckoutPayment from './checkout-payment';
 import CheckoutReview from './checkout-review';
@@ -34,4 +35,5 @@ export {
   Signin,
   Signup,
   History,
+  Bookmark,
 };

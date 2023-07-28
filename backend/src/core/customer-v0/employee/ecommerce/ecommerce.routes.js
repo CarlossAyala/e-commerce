@@ -7,12 +7,12 @@ const ecommerceMiddleware = require('./ecommerce.middleware');
 const ecommerceController = require('./ecommerce.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, ecommerceController.getAll);
+router.get('/', apiMiddleware.validateJWT(), ecommerceController.getAll);
 
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(ecommerceSchema.resourceId, 'params'),
   ecommerceMiddleware.resourceExist,
   ecommerceController.getOne
@@ -21,7 +21,7 @@ router.get(
 // Create
 router.post(
   '/',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(ecommerceSchema.create, 'body'),
   ecommerceController.create
 );
@@ -29,7 +29,7 @@ router.post(
 // Update Name
 router.patch(
   '/fullname/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(ecommerceSchema.resourceId, 'params'),
   validatorHandler(ecommerceSchema.updateName, 'body'),
   ecommerceMiddleware.resourceExist,
@@ -39,7 +39,7 @@ router.patch(
 // Update email
 router.patch(
   '/email/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(ecommerceSchema.resourceId, 'params'),
   validatorHandler(ecommerceSchema.updateEmail, 'body'),
   ecommerceMiddleware.resourceExist,
@@ -49,7 +49,7 @@ router.patch(
 // Update password
 router.patch(
   '/change-password/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(ecommerceSchema.resourceId, 'params'),
   validatorHandler(ecommerceSchema.updatePassword, 'body'),
   ecommerceMiddleware.resourceExist,
@@ -59,7 +59,7 @@ router.patch(
 // Update hireDate
 router.patch(
   '/hire-date/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(ecommerceSchema.resourceId, 'params'),
   validatorHandler(ecommerceSchema.updateHireDate, 'body'),
   ecommerceMiddleware.resourceExist,
@@ -69,7 +69,7 @@ router.patch(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(ecommerceSchema.resourceId, 'params'),
   ecommerceMiddleware.resourceExist,
   ecommerceController.remove

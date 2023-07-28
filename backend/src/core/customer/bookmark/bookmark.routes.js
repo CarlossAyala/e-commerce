@@ -6,13 +6,20 @@ const { validateJWT } = require('../../../middlewares/api');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./bookmark.schema');
 
-// Get Bookmarks
-router.get('/', validateJWT, async (req, res, next) => {
+// TODO: Add pagination
+
+// Get All
+router.get('/', validateJWT(), async (req, res, next) => {
   try {
     const bookmarks = await Bookmark.model.findAndCountAll({
       where: {
         customerId: req.auth.id,
       },
+      include: {
+        model: Product.model,
+        as: 'product',
+      },
+      order: [['createdAt', 'DESC']],
     });
 
     return res.status(200).json(bookmarks);
@@ -21,21 +28,20 @@ router.get('/', validateJWT, async (req, res, next) => {
   }
 });
 
-// Add Bookmark
-router.post(
-  '/',
-  validateJWT,
-  validatorSchema(schemas.base, 'body'),
+// Get
+router.get(
+  '/:id',
+  validateJWT(),
+  validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     try {
-      const { productId } = req.body;
+      const { id: productId } = req.params;
 
-      const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound('Product not found'));
-
-      const bookmark = await Bookmark.model.create({
-        customerId: req.auth.id,
-        productId,
+      const bookmark = await Bookmark.model.findOne({
+        where: {
+          customerId: req.auth.id,
+          productId,
+        },
       });
 
       return res.status(200).json(bookmark);
@@ -45,8 +51,38 @@ router.post(
   }
 );
 
-// Clear Bookmark
-router.delete('/clear', validateJWT, async (req, res, next) => {
+// Add
+router.post(
+  '/:id',
+  validateJWT(),
+  validatorSchema(schemas.resourceId, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id: productId } = req.params;
+
+      const product = await Product.model.findByPk(productId);
+      if (!product) return next(Boom.notFound('Product not found'));
+
+      const [bookmark, created] = await Bookmark.model.findOrCreate({
+        where: {
+          customerId: req.auth.id,
+          productId,
+        },
+        defaults: {
+          customerId: req.auth.id,
+          productId,
+        },
+      });
+
+      return res.status(created ? 201 : 200).json(bookmark);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// Clear
+router.delete('/clear', validateJWT(), async (req, res, next) => {
   try {
     await Bookmark.model.destroy({
       where: {
@@ -60,27 +96,21 @@ router.delete('/clear', validateJWT, async (req, res, next) => {
   }
 });
 
-// Remove Bookmark
+// Remove
 router.delete(
   '/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
+    const { id: productId } = req.params;
+
     try {
-      const productId = req.params.id;
-
-      const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound('Product not found'));
-
-      const bookmark = await Bookmark.model.findOne({
+      await Bookmark.model.destroy({
         where: {
-          customerId: req.auth.id,
           productId,
+          customerId: req.auth.id,
         },
       });
-      if (!bookmark) return next(Boom.notFound('Bookmark not found'));
-
-      await bookmark.destroy();
 
       return res.status(200).json({ message: 'Bookmark removed' });
     } catch (error) {

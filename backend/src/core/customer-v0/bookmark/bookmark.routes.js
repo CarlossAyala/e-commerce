@@ -7,12 +7,12 @@ const middleware = require('./bookmark.middleware');
 const controller = require('./bookmark.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, controller.getAll);
+router.get('/', apiMiddleware.validateJWT(), controller.getAll);
 
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.existProduct,
   controller.getOne
@@ -21,19 +21,19 @@ router.get(
 // Create
 router.post(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.existProduct,
   controller.create
 );
 
 // Delete All
-router.delete('/clear', apiMiddleware.validateJWT, controller.removeAll);
+router.delete('/clear', apiMiddleware.validateJWT(), controller.removeAll);
 
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.resourceExist,
   controller.remove

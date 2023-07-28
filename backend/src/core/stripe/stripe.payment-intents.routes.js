@@ -14,7 +14,7 @@ const {
 } = require('../../database/mysql/models');
 
 // Create
-router.post('/', validateJWT, async (req, res, next) => {
+router.post('/', validateJWT(), async (req, res, next) => {
   try {
     // Exist Customer in my Own Database
     const exist_customer = await User.model.findByPk(req.auth.id);
@@ -79,7 +79,7 @@ router.post('/', validateJWT, async (req, res, next) => {
 });
 
 // Confirm
-router.post('/confirm', validateJWT, async (req, res, next) => {
+router.post('/confirm', validateJWT(), async (req, res, next) => {
   const { address, paymentIntent, paymentMethod } = req.body;
 
   try {

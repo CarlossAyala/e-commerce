@@ -1,4 +1,4 @@
-export const groupByMonth = (dates, key) => {
+export const groupByMonthYear = (dates, key) => {
   if (!Array.isArray(dates) || dates.length === 0) {
     return [];
   }

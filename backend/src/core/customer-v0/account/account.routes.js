@@ -21,14 +21,14 @@ router.post(
 
 router.get(
   '/profile',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   middleware.userExist,
   controller.profile
 );
 
 router.patch(
   '/change-name',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.changeName, 'body'),
   middleware.userExist,
   controller.changeName
@@ -36,7 +36,7 @@ router.patch(
 
 router.patch(
   '/change-password',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.changePassword, 'body'),
   middleware.userExist,
   controller.changePassword

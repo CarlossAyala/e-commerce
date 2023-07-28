@@ -7,12 +7,12 @@ const userRoleMiddleware = require('./user-role.middleware');
 const userRoleController = require('./user-role.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, userRoleController.getAll);
+router.get('/', apiMiddleware.validateJWT(), userRoleController.getAll);
 
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(userRoleSchema.resourceId, 'params'),
   userRoleMiddleware.userRoleExist,
   userRoleController.getOne
@@ -21,7 +21,7 @@ router.get(
 // Create
 router.post(
   '/',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(userRoleSchema.create, 'body'),
   userRoleController.create
 );
@@ -29,7 +29,7 @@ router.post(
 // Update
 router.patch(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(userRoleSchema.resourceId, 'params'),
   validatorHandler(userRoleSchema.update, 'body'),
   userRoleMiddleware.userRoleExist,
@@ -39,7 +39,7 @@ router.patch(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(userRoleSchema.resourceId, 'params'),
   userRoleMiddleware.userRoleExist,
   userRoleController.remove

@@ -8,7 +8,7 @@ const schemas = require('./order.schema');
 const router = express.Router();
 
 // Get All
-router.get('/', validateJWT, async (req, res, next) => {
+router.get('/', validateJWT(), async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
@@ -33,7 +33,7 @@ router.get('/', validateJWT, async (req, res, next) => {
 // Get One
 router.get(
   '/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const { id } = req.params;
@@ -86,7 +86,7 @@ router.get(
 // // Create
 // router.post(
 //   '/',
-//   validateJWT,
+//   validateJWT(),
 //   validatorSchema(schemas.base, 'body'),
 //   async (req, res, next) => {
 //     try {
@@ -108,7 +108,7 @@ router.get(
 // // Update
 // router.put(
 //   '/:id',
-//   validateJWT,
+//   validateJWT(),
 //   validatorSchema(schemas.resourceId, 'params'),
 //   validatorSchema(schemas.base, 'body'),
 //   async (req, res, next) => {
@@ -136,8 +136,8 @@ router.get(
 // // Delete
 // router.delete(
 //   '/:id',
-//   validateJWT,
-//   validateJWT,
+//   validateJWT(),
+//   validateJWT(),
 //   validatorSchema(schemas.resourceId, 'params'),
 //   async (req, res, next) => {
 //     const { id } = req.params;

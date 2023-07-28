@@ -7,12 +7,12 @@ const middleware = require('./card.middleware');
 const controller = require('./card.controller');
 
 // Get All
-router.get('/', apiMiddleware.validateJWT, controller.getAll);
+router.get('/', apiMiddleware.validateJWT(), controller.getAll);
 
 // Get One
 router.get(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.resourceExist,
   controller.getOne
@@ -21,7 +21,7 @@ router.get(
 // Create
 router.post(
   '/',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.base, 'body'),
   controller.create
 );
@@ -29,7 +29,7 @@ router.post(
 // Update
 router.put(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   validatorHandler(schema.base, 'body'),
   middleware.resourceExist,
@@ -39,7 +39,7 @@ router.put(
 // Delete
 router.delete(
   '/:id',
-  apiMiddleware.validateJWT,
+  apiMiddleware.validateJWT(),
   validatorHandler(schema.uuidV4, 'params'),
   middleware.resourceExist,
   controller.remove

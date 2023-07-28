@@ -9,7 +9,7 @@ const schemas = require('./question.schema');
 // Create Question
 router.post(
   '/product/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.base),
   async (req, res, next) => {
     const { question } = req.body;
@@ -37,7 +37,7 @@ router.post(
 // Delete Question
 router.post(
   '/product/:id',
-  validateJWT,
+  validateJWT(),
   validatorSchema(schemas.base),
   async (req, res, next) => {
     const { question } = req.body;
