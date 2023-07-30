@@ -22,7 +22,9 @@ router.get('/search', async (req, res, next) => {
 
   try {
     const products = await Product.model.findAndCountAll({
-      attributes: ['id', 'name', 'price', 'slug'],
+      attributes: {
+        exclude: ['storeId'],
+      },
       ...qb,
     });
 

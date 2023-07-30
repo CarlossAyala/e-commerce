@@ -18,15 +18,8 @@ import {
   totalHiddens,
 } from '../features/cart';
 import { priceFormater } from '../utils/formater';
-import {
-  BookmarkAdd,
-  BookmarkFilled,
-  Close,
-  View,
-  ViewOff,
-} from '@carbon/icons-react';
+import { Close, View, ViewOff } from '@carbon/icons-react';
 import { useDebounce } from '../utils/hooks';
-import { useAddBookmark, useRemoveBookmark } from '../features/bookmark';
 import { useCheckout } from '../features/checkout';
 import { useCreatePaymentIntent } from '../features/strapi/payment-intent';
 
@@ -43,6 +36,8 @@ const Cart = () => {
   // console.log('totalVisible', totalVisible);
   // console.log('hiddens', hiddens);
   // console.log('totalVisMoreHid', totalVisMoreHid);
+
+  console.log('Re reder');
 
   const { setPaymentIntent } = useCheckout();
   const createPaymentIntent = useCreatePaymentIntent();

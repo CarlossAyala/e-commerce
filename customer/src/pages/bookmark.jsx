@@ -7,6 +7,7 @@ import {
   useRemoveBookmark,
 } from '../features/bookmark';
 import { monthYearFormat } from '../utils/formater';
+import { groupByMonthYear } from '../utils/group-by';
 
 const Bookmark = () => {
   const bookmarks = useGetBookmarks();
@@ -14,6 +15,8 @@ const Bookmark = () => {
   const removeBookmark = useRemoveBookmark();
 
   console.log('Bookmarks', bookmarks);
+
+  const groupBookmarks = groupByMonthYear(bookmarks.data?.rows, 'createdAt');
 
   const handleDelete = async (productId) => {
     try {
@@ -55,7 +58,7 @@ const Bookmark = () => {
         </section>
       )}
 
-      {bookmarks.isFetched && bookmarks.data?.length === 0 && (
+      {bookmarks.isFetched && bookmarks.data?.rows.length === 0 && (
         <section className='p-4'>
           <p className='text-lg font-semibold leading-normal text-gray-800'>
             You don&apos;t have any bookmark yet
@@ -66,7 +69,7 @@ const Bookmark = () => {
         </section>
       )}
 
-      {bookmarks.isFetched && bookmarks.data?.length > 0 && (
+      {bookmarks.isFetched && bookmarks.data?.rows.length > 0 && (
         <section className='p-4'>
           <div className='flex justify-end'>
             <Button onClick={handleClear} size='md' kind='secondary'>
@@ -74,7 +77,7 @@ const Bookmark = () => {
             </Button>
           </div>
           <ol className='mt-2 space-y-4'>
-            {bookmarks.data.map((item) => (
+            {groupBookmarks.map((item) => (
               <li key={item.key}>
                 <p className='text-lg font-semibold capitalize leading-normal text-gray-800'>
                   {monthYearFormat(item.key)}

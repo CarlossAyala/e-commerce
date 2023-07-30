@@ -12,15 +12,17 @@ export const useGetCart = (queries) => {
   return useQuery({
     queryKey: cartKeys.key,
     queryFn: () => API.getCart(queries),
-    enabled: !!token,
+    enabled: Boolean(token),
   });
 };
 
 export const useAddToCart = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: ({ productId, quantity }) => API.addToCart(productId, quantity),
+    mutationFn: ([productId, quantity]) => API.addToCart(productId, quantity),
     onSuccess: () => {
+      console.log('SHOULD INVALIDATE QUERY');
       queryClient.invalidateQueries(cartKeys.key);
     },
   });

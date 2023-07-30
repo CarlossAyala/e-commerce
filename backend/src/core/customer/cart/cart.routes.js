@@ -51,35 +51,48 @@ router.post(
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
+    const { id: productId } = req.params;
+    const { id: customerId } = req.auth;
+    const { quantity } = req.body;
+
     try {
       const cart = await Cart.model.findOne({
         where: {
-          customerId: req.auth.id,
+          customerId,
         },
       });
       if (!cart) return next(Boom.notFound('Cart not found'));
 
-      const product = await Product.model.findByPk(req.params.id);
+      const product = await Product.model.findByPk(productId);
       if (!product) return next(Boom.notFound('Product not found'));
-      if (product.dataValues.stock === 0) {
-        return next(Boom.badRequest('Product out of stock'));
-      }
       if (!product.dataValues.available) {
         return next(Boom.badRequest('Product unavailable'));
       }
-      if (req.body.quantity > product.dataValues.stock) {
+      if (product.dataValues.stock === 0) {
+        return next(Boom.badRequest('Product out of stock'));
+      }
+      if (quantity > product.dataValues.stock) {
         return next(Boom.badRequest('Product does not have enough stock'));
       }
 
-      const quantity = req.body.quantity;
-
-      const newItem = await CartProduct.model.create({
-        cartId: cart.dataValues.id,
-        productId: req.params.id,
-        quantity,
+      const [item, created] = await CartProduct.model.findOrCreate({
+        where: {
+          cartId: cart.dataValues.id,
+          productId,
+        },
+        defaults: {
+          quantity,
+          cartId: cart.dataValues.id,
+          productId,
+        },
       });
 
-      return res.status(201).json(newItem);
+      if (!created) {
+        item.quantity += quantity;
+        await item.save();
+      }
+
+      return res.status(created ? 201 : 200).json(item);
     } catch (error) {
       next(error);
     }

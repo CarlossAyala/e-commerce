@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import API from './history.api';
 import { getToken } from '../../api';
-import { groupByMonthYear } from '../../utils/group-by';
 
 const historyKeys = {
   key: ['history'],
@@ -15,7 +14,6 @@ export const useGetHistory = (params) => {
     queryKey: historyKeys.withParams(params),
     queryFn: () => API.getHistory(params),
     enabled: !!token,
-    select: (data) => groupByMonthYear(data?.rows, 'lastSeenAt'),
   });
 };
 
@@ -25,8 +23,6 @@ export const useAddToHistory = () => {
   return useMutation({
     mutationFn: (id) => API.addToHistory(id),
     onSuccess: () => {
-      console.log('Added to history!');
-
       queryClient.invalidateQueries(historyKeys.key);
     },
   });

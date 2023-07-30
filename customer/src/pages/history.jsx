@@ -7,6 +7,7 @@ import {
   useRemoveFromHistory,
 } from '../features/history';
 import { monthYearFormat } from '../utils/formater';
+import { groupByMonthYear } from '../utils/group-by';
 
 const History = () => {
   const history = useGetHistory();
@@ -33,6 +34,8 @@ const History = () => {
     }
   };
 
+  const groupHistory = groupByMonthYear(history.data?.rows, 'lastSeenAt');
+
   return (
     <main className='flex w-full flex-col bg-white'>
       <section className='border-b border-gray-200 px-4 pb-4 pt-3'>
@@ -55,7 +58,7 @@ const History = () => {
         </section>
       )}
 
-      {history.isFetched && history.data?.length === 0 && (
+      {history.isFetched && history.data?.rows.length === 0 && (
         <section className='p-4'>
           <p className='text-lg font-semibold leading-normal text-gray-800'>
             You don&apos;t have any history yet
@@ -66,7 +69,7 @@ const History = () => {
         </section>
       )}
 
-      {history.isFetched && history.data?.length > 0 && (
+      {history.isFetched && history.data?.rows.length > 0 && (
         <section className='p-4'>
           <div className='flex justify-end'>
             <Button onClick={handleClear} size='md' kind='secondary'>
@@ -74,7 +77,7 @@ const History = () => {
             </Button>
           </div>
           <ol className='mt-2 space-y-4'>
-            {history.data.map((item) => (
+            {groupHistory.map((item) => (
               <li key={item.key}>
                 <p className='text-lg font-semibold capitalize leading-normal text-gray-800'>
                   {monthYearFormat(item.key)}

@@ -1,7 +1,6 @@
 import { SystemClient, getToken } from '../../api';
 
 const PRODUCTS = 'products';
-const PUBLISH = 'publish';
 const QUESTIONS = 'questions';
 
 const API = {

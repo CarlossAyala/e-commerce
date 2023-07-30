@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import API from './bookmark.api';
 import { getToken } from '../../api';
-import { groupByMonthYear } from '../../utils/group-by';
 
 const bookmarkKeys = {
   key: ['bookmark'],
@@ -25,7 +24,6 @@ export const useGetBookmarks = () => {
     queryKey: bookmarkKeys.key,
     queryFn: () => API.getAll(),
     enabled: Boolean(token),
-    select: (data) => groupByMonthYear(data?.rows, 'createdAt'),
   });
 };
 

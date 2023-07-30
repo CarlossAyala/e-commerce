@@ -49,9 +49,9 @@ export const useSendQuestion = () => {
   });
 };
 
-export const useSearchProducts = (q) => {
+export const useSearchProducts = (params) => {
   return useQuery({
-    queryKey: productKeys.searchProduct(q),
-    queryFn: () => API.searchProducts(q),
+    queryKey: productKeys.searchProduct(params),
+    queryFn: () => API.searchProducts(params),
   });
 };
