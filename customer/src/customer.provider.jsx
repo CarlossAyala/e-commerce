@@ -1,8 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from './auth/auth.provider';
 import { CheckoutProvider } from './features/checkout';
-// import { StripeProvider } from './features/strapi';
+// import { StripeProvider } from './features/stripe';
 
 const queryClient = new QueryClient();
 

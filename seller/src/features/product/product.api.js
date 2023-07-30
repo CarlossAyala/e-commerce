@@ -1,24 +1,10 @@
-import { SellerClient, UIClient, getToken } from '../../api';
+import { SellerClient, getToken } from '../../api';
 
 const PRODUCTS = 'products';
 const PUBLISH = 'publish';
 const QUESTIONS = 'questions';
 
 const API = {
-  // TODO: mover esto de aquí
-  async searchCategories(query) {
-    const url = `/publish-product/search-categories${query ? `?${query}` : ''}`;
-
-    const { data } = await UIClient.request({
-      method: 'GET',
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    return data;
-  },
   // TODO: mover esto de aquí
   async getCategory(id) {
     const url = `/${PRODUCTS}/categories/${id}`;

@@ -1,58 +1,87 @@
 const express = require('express');
 const router = express.Router();
 const Boom = require('@hapi/boom');
-const { Product, Question } = require('../../../database/mysql/models');
+const { Product, Question, Answer } = require('../../../database/mysql/models');
 const { validateJWT } = require('../../../middlewares/api');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./question.schema');
+const QueryBuilder = require('../../../utils/database/query-builder');
 
-// Create Question
-router.post(
+router.get(
   '/product/:id',
-  validateJWT(),
-  validatorSchema(schemas.base),
+  validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
-    const { question } = req.body;
+    const qb = new QueryBuilder(req.query)
+      .where('states', Question.enums.states.answered)
+      .where('productId', req.params.id)
+      .orderBy('createdAt', 'DESC')
+      .withPagination()
+      .build();
 
     try {
-      // product-exist
-      const product = await Product.model.findByPk(req.params.id);
-      if (!product) return next(Boom.notFound('Product not found'));
-
-      // question-create
-      const newQuestion = await Question.model.create({
-        question,
-        states: Question.enums.states.queue,
-        customerId: req.auth.id,
-        productId: product.dataValues.id,
+      const QAs = await Question.model.findAndCountAll({
+        ...qb,
+        include: {
+          model: Answer.model,
+          as: 'answer',
+        },
       });
 
-      return res.status(201).json(newQuestion);
+      return res.status(200).json(QAs);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// Delete Question
-router.post(
-  '/product/:id',
+router.get(
+  '/product/:id/customer',
   validateJWT(),
-  validatorSchema(schemas.base),
+  validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
+    const qb = new QueryBuilder(req.query)
+      .where('customerId', req.auth.id)
+      .where('productId', req.params.id)
+      .orderBy('createdAt', 'DESC')
+      .withPagination()
+      .build();
+
+    try {
+      const QAs = await Question.model.findAndCountAll({
+        ...qb,
+        include: {
+          model: Answer.model,
+          as: 'answer',
+        },
+      });
+
+      return res.status(200).json(QAs);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// Create Question
+router.post(
+  '/:id',
+  validateJWT(),
+  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.base, 'body'),
+  async (req, res, next) => {
+    const { id: productId } = req.params;
+    const { id: customerId } = req.auth;
     const { question } = req.body;
 
     try {
-      // product-exist
-      const product = await Product.model.findByPk(req.params.id);
+      const product = await Product.model.findByPk(productId);
       if (!product) return next(Boom.notFound('Product not found'));
 
-      // question-create
       const newQuestion = await Question.model.create({
         question,
         states: Question.enums.states.queue,
-        customerId: req.auth.id,
-        productId: product.dataValues.id,
+        customerId,
+        productId,
       });
 
       return res.status(201).json(newQuestion);

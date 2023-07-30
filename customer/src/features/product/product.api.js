@@ -17,34 +17,6 @@ const API = {
 
     return data;
   },
-  async getQAProduct(id) {
-    const url = `/${PRODUCTS}/${id}/QA`;
-
-    const { data } = await SystemClient.request({
-      method: 'GET',
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    return data;
-  },
-  async getCustomerQAProduct(id) {
-    const url = `/${PRODUCTS}/${id}/customerQA`;
-    const token = getToken();
-
-    const { data } = await SystemClient.request({
-      method: 'GET',
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return data;
-  },
   async sendQuestion(id, values) {
     const url = `/${PRODUCTS}/${id}/${QUESTIONS}`;
     const token = getToken();

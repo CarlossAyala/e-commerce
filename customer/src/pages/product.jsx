@@ -19,15 +19,8 @@ import {
   XAxis,
   Renew,
 } from '@carbon/icons-react';
-import {
-  questionInitial,
-  questionSchema,
-  useGetCustomerQAProduct,
-  useGetProduct,
-  useGetQAProduct,
-  useSendQuestion,
-} from '../features/product';
-import { priceFormater } from '../utils/formater';
+import { useGetProduct } from '../features/product';
+import { getTimeAgo, priceFormater } from '../utils/formater';
 import { useAddToHistory } from '../features/history';
 import {
   useAddBookmark,
@@ -35,6 +28,16 @@ import {
   useRemoveBookmark,
 } from '../features/bookmark';
 import { useAddToCart } from '../features/cart';
+import {
+  useCreateQuestion,
+  useGetCustomerQAs,
+  useGetProductQAs,
+} from '../features/question';
+import {
+  createQuestionInitial,
+  createQuestionSchema,
+} from '../features/question';
+import clsx from 'clsx';
 
 const Product = () => {
   const [tabQA, setTabQA] = useState(0);
@@ -43,9 +46,9 @@ const Product = () => {
   const { id } = useParams();
 
   const product = useGetProduct(id);
-  const QA = useGetQAProduct(id);
-  const customerQA = useGetCustomerQAProduct(id);
-  const sendQuestion = useSendQuestion();
+  const productQAs = useGetProductQAs(id);
+  const customerQAs = useGetCustomerQAs(id);
+  const createQuestion = useCreateQuestion();
 
   const bookmark = useGetBookmark(id);
   const addBookmark = useAddBookmark();
@@ -84,6 +87,18 @@ const Product = () => {
     } catch (error) {
       console.log('<Product />');
       console.log('handleRemoveBookmark', error);
+    }
+  };
+
+  const handleCreateQuestion = async (values, { resetForm }) => {
+    try {
+      await createQuestion.mutateAsync([id, values]);
+      resetForm();
+      // Ir a "Your questions"
+      setTabQA(1);
+    } catch (error) {
+      console.log('<Product />');
+      console.log('handleCreateQuestion', error);
     }
   };
 
@@ -221,8 +236,8 @@ const Product = () => {
         </section>
       )}
 
-      {QA.isFetched && (
-        <section>
+      {productQAs.isFetched && (
+        <section className='py-4'>
           <h2 className='px-4 text-xl font-semibold'>Questions and Answers</h2>
 
           <Tabs defaultSelectedIndex={tabQA} selectedIndex={tabQA}>
@@ -233,23 +248,23 @@ const Product = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                {QA.isLoading && <span>Loading...</span>}
-                {QA.isFetched && (
+                {productQAs.isLoading && <span>Loading...</span>}
+                {productQAs.isFetched && (
                   <>
-                    {QA.data?.rows.length > 0 && (
-                      <ul className='space-y-8'>
+                    {productQAs.data?.rows.length > 0 && (
+                      <ul className='space-y-6'>
                         {/* TODO: Crear feature "ver mas / ver menos" */}
-                        {QA.data.rows.map((question) => (
+                        {productQAs.data.rows.map((question) => (
                           <li key={question.id}>
-                            <p className='text-sm font-semibold leading-snug text-gray-900'>
+                            <p className='text-sm font-medium leading-snug text-gray-900'>
                               {question.question}
                             </p>
                             <div className='mt-1 flex'>
                               <XAxis
                                 size='16'
-                                className='mx-1 shrink-0 text-gray-400'
+                                className='mr-1 shrink-0 text-gray-400'
                               />
-                              <p className='text-sm leading-snug tracking-wide text-gray-500'>
+                              <p className='mt-0.5 text-sm leading-snug text-gray-600'>
                                 {question.answer.answer}
                               </p>
                             </div>
@@ -258,11 +273,11 @@ const Product = () => {
                       </ul>
                     )}
 
-                    {QA.data?.rows.length === 0 && (
-                      <div className='py-6'>
-                        <h3 className='text-lg font-medium leading-tight text-gray-900'>
+                    {productQAs.data?.rows.length === 0 && (
+                      <div className='py-2'>
+                        <p className='text-lg font-medium leading-none text-gray-900'>
                           There are no questions yet
-                        </h3>
+                        </p>
                         <p className='mb-2 text-sm text-gray-600'>
                           Make the first one!
                         </p>
@@ -276,7 +291,7 @@ const Product = () => {
                       </div>
                     )}
 
-                    {QA.data?.rows.length > 10 && (
+                    {productQAs.data?.count > 10 && (
                       // TODO: Crear modal para ver más
                       <div className='pt-2'>
                         <p className='text-center text-sm text-indigo-500'>
@@ -289,89 +304,62 @@ const Product = () => {
                 )}
               </TabPanel>
               <TabPanel>
-                {customerQA.isLoading && <span>Loading...</span>}
-                {customerQA.isFetched && (
+                {customerQAs.isLoading && <span>Loading...</span>}
+                {customerQAs.isFetched && (
                   <>
-                    {customerQA.data?.count > 0 && (
-                      <ul className='space-y-8'>
-                        {customerQA.data.rows.map((question) => {
-                          const date = new Date(question.createdAt);
-                          const [month, day, year] = [
-                            date.getMonth(),
-                            date.getDate(),
-                            date.getFullYear(),
-                          ];
-                          const [hour, minutes, seconds] = [
-                            date.getHours(),
-                            date.getMinutes(),
-                            date.getSeconds(),
-                          ];
-
-                          const asked = `${year}/${month}/${day} ${hour}:${minutes}:${seconds}`;
-
-                          return (
-                            <li key={question.id}>
-                              <div className='mb-1 flex flex-wrap items-center gap-2'>
-                                <span className='text-xs text-gray-600'>
-                                  {asked}
-                                </span>
-                                {/* TODO: Mojorar esto? */}
-                                {question.states === 'answered' ? (
-                                  <span className='rounded-full bg-green-200 px-2 py-0.5 text-xs leading-none text-green-900'>
-                                    Status:{' '}
-                                    <span className='capitalize'>
-                                      {question.states}
-                                    </span>
-                                  </span>
-                                ) : question.states === 'queue' ? (
-                                  <span className='rounded-full bg-yellow-200 px-2 py-0.5 text-xs leading-none text-yellow-900'>
-                                    Status:{' '}
-                                    <span className='capitalize'>
-                                      {question.states}
-                                    </span>
-                                  </span>
-                                ) : (
-                                  <span className='rounded-full bg-rose-200 px-2 py-0.5 text-xs leading-none text-rose-900'>
-                                    Status:{' '}
-                                    <span className='capitalize'>
-                                      {question.states}
-                                    </span>
-                                  </span>
+                    {customerQAs.data?.count > 0 && (
+                      <ul className='space-y-6'>
+                        {customerQAs.data.rows.map((question) => (
+                          <li key={question.id}>
+                            <div className='mb-1 flex flex-wrap items-center gap-2'>
+                              <span className='text-xs text-gray-600'>
+                                {getTimeAgo(question.createdAt)}
+                              </span>
+                              <span
+                                className={clsx(
+                                  'rounded-md px-2 py-1 text-xs font-semibold capitalize leading-none',
+                                  question.states === 'answered' &&
+                                    'bg-green-200 text-green-900',
+                                  question.states === 'queue' &&
+                                    'bg-yellow-200 text-yellow-900',
+                                  question.states === 'rejected' &&
+                                    'bg-rose-200 text-rose-900'
                                 )}
+                              >
+                                {question.states}
+                              </span>
+                            </div>
+                            <p className='text-sm font-medium leading-snug text-gray-900'>
+                              {question.question}
+                            </p>
+                            {question.answer && (
+                              <div className='mt-1 flex'>
+                                <XAxis
+                                  size='16'
+                                  className='mr-1 shrink-0 text-gray-400'
+                                />
+                                <p className='mt-0.5 text-sm leading-snug tracking-wide text-gray-600'>
+                                  {question.answer.answer}
+                                </p>
                               </div>
-                              <p className='text-sm font-semibold leading-snug text-gray-900'>
-                                {question.question}
-                              </p>
-                              {question.answer && (
-                                <div className='mt-1 flex'>
-                                  <XAxis
-                                    size='16'
-                                    className='mx-1 shrink-0 text-gray-400'
-                                  />
-                                  {/* TODO: Crear feature "ver mas / ver menos" */}
-                                  <p className='text-sm leading-snug tracking-wide text-gray-500'>
-                                    {question.answer.answer}
-                                  </p>
-                                </div>
-                              )}
-                              {question.states === 'rejected' && (
-                                <div className='mt-1 flex'>
-                                  <Error
-                                    size='16'
-                                    className='mr-1 shrink-0 text-gray-400'
-                                  />
-                                  <p className='text-sm leading-snug tracking-wide text-gray-500'>
-                                    Your question has been rejected
-                                  </p>
-                                </div>
-                              )}
-                            </li>
-                          );
-                        })}
+                            )}
+                            {question.states === 'rejected' && (
+                              <div className='mt-1 flex items-center'>
+                                <Error
+                                  size='16'
+                                  className='mr-1 shrink-0 text-gray-400'
+                                />
+                                <p className='text-sm leading-none text-gray-600'>
+                                  This question has been rejected
+                                </p>
+                              </div>
+                            )}
+                          </li>
+                        ))}
                       </ul>
                     )}
 
-                    {customerQA.data?.count === 0 && (
+                    {customerQAs.data?.count === 0 && (
                       <div className='py-6'>
                         <h3 className='text-lg font-medium leading-tight text-gray-900'>
                           There are no questions yet
@@ -389,7 +377,7 @@ const Product = () => {
                       </div>
                     )}
 
-                    {customerQA.data?.count > 10 && (
+                    {customerQAs.data?.count > 10 && (
                       // TODO: Crear modal para ver más
                       <div className='pt-2'>
                         <p className='text-center text-sm text-indigo-500'>
@@ -403,48 +391,39 @@ const Product = () => {
               </TabPanel>
               <TabPanel>
                 <Formik
-                  initialValues={questionInitial}
-                  validationSchema={questionSchema}
-                  onSubmit={async (values, { resetForm }) => {
-                    try {
-                      const newQuestion = await sendQuestion.mutateAsync({
-                        id,
-                        values,
-                      });
-                      resetForm();
-                      // Ir a "Your questions"
-                      setTabQA(1);
-                      console.log('New Question', newQuestion);
-                    } catch (error) {
-                      console.log('Product Ask', error);
-                    }
-                  }}
+                  initialValues={createQuestionInitial}
+                  validationSchema={createQuestionSchema}
+                  onSubmit={handleCreateQuestion}
                 >
                   {({ values, errors, touched, handleChange, handleBlur }) => (
-                    <Form>
-                      <p className='mb-4 text-sm text-gray-900'>
-                        Your question will be in <em>Queue</em> until the{' '}
-                        <em>Seller</em> answers it or rejects it. The question
-                        will be <em>Viewable</em> for everyone when the Seller
-                        answers it.
+                    <Form className='space-y-4'>
+                      <p className='text-sm text-gray-900'>
+                        Your question will be in{' '}
+                        <em className='font-bold'>Queue</em> until the{' '}
+                        <em className='font-bold'>Seller</em> answers it or
+                        rejects it. The question will be{' '}
+                        <em className='font-bold'>Viewable</em> for everyone
+                        when the <em className='font-bold'>Seller</em> answers
+                        it.
                       </p>
-                      <TextArea
-                        id='question-text'
-                        name='question'
-                        labelText='What is your question?'
-                        placeholder='Write your question here'
-                        className='mb-4'
-                        invalid={errors.question && touched.question}
-                        invalidText={errors.question}
-                        value={values.question}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        rows={4}
-                        cols={50}
-                      />
-                      <Button kind='primary' type='submit'>
-                        Ask
-                      </Button>
+                      <div>
+                        <TextArea
+                          id='question-text'
+                          name='question'
+                          labelText='What is your question?'
+                          placeholder='Write your question here'
+                          invalid={errors.question && touched.question}
+                          invalidText={errors.question}
+                          value={values.question}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      <div className='mt-4'>
+                        <Button kind='primary' type='submit'>
+                          Ask
+                        </Button>
+                      </div>
                     </Form>
                   )}
                 </Formik>

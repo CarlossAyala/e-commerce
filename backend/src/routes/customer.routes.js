@@ -1,5 +1,5 @@
 const express = require('express');
-const customerCore = express.Router();
+const customer = express.Router();
 const API = express.Router();
 
 const question = require('../core/customer/question/question.routes');
@@ -12,7 +12,7 @@ const history = require('../core/customer/history/history.routes');
 // TODO: Re-hacer
 const accountRoutes = require('../core/customer-v0/account/account.routes');
 
-customerCore.use('/api', API);
+customer.use('/api', API);
 
 // API Routes
 API.use('/account', accountRoutes);
@@ -23,7 +23,7 @@ API.use('/addresses', address);
 API.use('/orders', order);
 API.use('/history', history);
 
-module.exports = customerCore;
+module.exports = customer;
 
 // const express = require('express');
 

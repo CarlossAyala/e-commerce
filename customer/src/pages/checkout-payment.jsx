@@ -9,11 +9,11 @@ import {
 } from '@carbon/react';
 import { priceFormater } from '../utils/formater';
 import { useCheckout } from '../features/checkout';
-import { useCreateCheckoutSession } from '../features/strapi/checkout-session';
+import { useCreateCheckoutSession } from '../features/stripe/checkout-session';
 import {
   useGetNewPaymentMethod,
   useGetPaymentMethods,
-} from '../features/strapi/payment-method';
+} from '../features/stripe/payment-method';
 
 const CheckoutPayment = () => {
   const [submitted, setSubmitted] = useState(false);

@@ -51,7 +51,7 @@ const ProductsQuestions = () => {
   const debouncedQuery = useDebounce(params.toString());
 
   const questions = useGetQuestions(debouncedQuery);
-  console.log('XDDDDDD', questions);
+  // console.log('XDDDDDD', questions);
 
   const handleSearch = (e) => {
     const search = e.target.value;

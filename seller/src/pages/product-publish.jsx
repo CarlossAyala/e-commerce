@@ -3,7 +3,6 @@ import {
   PRODUCT_CONDITIONS,
   initialValues,
   usePublish,
-  useSearchCategories,
   validationSchema,
 } from '../features/product';
 import {
@@ -36,6 +35,7 @@ import {
   getPageSize,
 } from '../constants/pagination.contants';
 import { useDebounce } from '../utils/hooks';
+import { useSearchCategories } from '../features/category';
 
 const productConditions = Object.values(PRODUCT_CONDITIONS);
 
@@ -52,12 +52,12 @@ const headers = [
 
 const ProductPublish = () => {
   const [params, setParams] = useSearchParams();
-  const [search, setSearch] = useState(params.get('q') || '');
+  const [search, setSearch] = useState(params.get('name') || '');
 
   const navigate = useNavigate();
 
   const debouncedParams = useDebounce(params.toString());
-  const searchCategories = useSearchCategories(debouncedParams);
+  const categories = useSearchCategories(debouncedParams);
 
   const publish = usePublish();
 
@@ -73,27 +73,15 @@ const ProductPublish = () => {
   };
 
   const handleSearch = (e) => {
-    setSearch(e.target.value);
+    const value = e.target.value;
+    setSearch(value);
     setParams((prev) => {
-      prev.delete('q');
-      prev.set('q', e.target.value);
+      prev.delete('name');
+      prev.set('name', value);
       return prev;
     });
   };
 
-  const rows = searchCategories.data.rows.map(({ id, name, available }) => ({
-    id,
-    name: <Link to={`/categories/${id}`}>{name}</Link>,
-    status: available ? (
-      <span className='items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>
-        Available
-      </span>
-    ) : (
-      <span className='items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10'>
-        Unavailable
-      </span>
-    ),
-  }));
   // console.log(rows);
 
   return (
@@ -250,7 +238,7 @@ const ProductPublish = () => {
                       />
                     )}
 
-                    {searchCategories.isLoading && (
+                    {categories.isLoading && (
                       <DataTableSkeleton
                         headers={headers}
                         columnCount={headers.length}
@@ -258,11 +246,27 @@ const ProductPublish = () => {
                       />
                     )}
 
-                    {searchCategories.isFetched && (
+                    {categories.isFetched && (
                       <>
                         <DataTable
                           size='lg'
-                          rows={rows}
+                          rows={categories.data.rows.map(
+                            ({ id, name, available }) => ({
+                              id,
+                              name: (
+                                <Link to={`/categories/${id}`}>{name}</Link>
+                              ),
+                              status: available ? (
+                                <span className='items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>
+                                  Available
+                                </span>
+                              ) : (
+                                <span className='items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10'>
+                                  Unavailable
+                                </span>
+                              ),
+                            })
+                          )}
                           headers={headers}
                           radio
                           isSortable
@@ -333,7 +337,7 @@ const ProductPublish = () => {
                           pageNumberText='Page Number'
                           pageSize={getPageSize(params.get('limit'))}
                           pageSizes={PAGE_SIZES}
-                          totalItems={searchCategories.data.count}
+                          totalItems={categories.data.count}
                           onChange={(e) => {
                             const page = getPage(e.page);
                             const pageSize = getPageSize(e.pageSize);

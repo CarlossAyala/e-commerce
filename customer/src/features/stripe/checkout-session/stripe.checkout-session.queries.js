@@ -1,14 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import API from './strapi.checkout-session.api';
+import API from './stripe.checkout-session.api';
 
-const strapiCheckoutKeys = {
-  key: ['strapi/checkout-session'],
-  get: (id) => [...strapiCheckoutKeys.key, 'get', id],
+const stripeCheckoutKeys = {
+  key: ['stripe/checkout-session'],
+  get: (id) => [...stripeCheckoutKeys.key, 'get', id],
 };
 
 export const useGetCheckoutSession = (id) => {
   return useQuery({
-    queryKey: strapiCheckoutKeys.get(id),
+    queryKey: stripeCheckoutKeys.get(id),
     queryFn: () => API.get(id),
     enabled: !!id,
   });

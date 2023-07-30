@@ -1,13 +1,13 @@
 const express = require('express');
-const APIHub = express.Router();
+const routes = express.Router();
 const customerRoutes = require('./customer.routes');
 const sellerRoutes = require('./seller.routes');
 const systemRoutes = require('./system.routes');
-const strapiRoutes = require('./strapi.routes');
+const stripeRoutes = require('./stripe.routes');
 
-APIHub.use('/customer', customerRoutes);
-APIHub.use('/seller', sellerRoutes);
-APIHub.use('/system', systemRoutes);
-APIHub.use('/strapi', strapiRoutes);
+routes.use('/customer', customerRoutes);
+routes.use('/seller', sellerRoutes);
+routes.use('/system', systemRoutes);
+routes.use('/stripe', stripeRoutes);
 
-module.exports = APIHub;
+module.exports = routes;

@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import API from './auth.api';
 
 export const authKeys = {
@@ -6,7 +6,6 @@ export const authKeys = {
 };
 
 export const useGetProfile = () => {
-  
   return useMutation({
     mutationFn: () => API.getProfile(),
   });

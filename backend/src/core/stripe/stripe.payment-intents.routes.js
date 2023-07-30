@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Stripe = require('./strapi.connection');
+const Stripe = require('./stripe.connection');
 const Boom = require('@hapi/boom');
 const { validateJWT } = require('../../middlewares/api');
 const {

@@ -22,7 +22,6 @@ export const useAddToCart = () => {
   return useMutation({
     mutationFn: ([productId, quantity]) => API.addToCart(productId, quantity),
     onSuccess: () => {
-      console.log('SHOULD INVALIDATE QUERY');
       queryClient.invalidateQueries(cartKeys.key);
     },
   });

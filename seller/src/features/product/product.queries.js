@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import API from './product.api';
 
 const systemUiKeys = {
@@ -50,9 +50,7 @@ export const usePublish = () => {
     onSuccess: () => {
       console.log('Product published successfully');
 
-      queryClient.invalidateQueries({
-        queryKey: productKeys.key,
-      });
+      queryClient.invalidateQueries(productKeys.key);
     },
   });
 };

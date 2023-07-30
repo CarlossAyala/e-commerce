@@ -55,3 +55,29 @@ export const monthYearFormat = (date) => {
     }).format(resourceDate);
   }
 };
+
+const DATE_UNITS = [
+  ['year', 31536000],
+  ['month', 2629800],
+  ['day', 86400],
+  ['hour', 3600],
+  ['hour', 3600],
+  ['minute', 60],
+  ['second', 1],
+];
+const getSecondsDiff = (timestamp) => (Date.now() - timestamp) / 1000;
+const getUnitAndValueDate = (secondsElapsed) => {
+  for (const [unit, seconds] of DATE_UNITS) {
+    if (secondsElapsed >= seconds || unit === 'second') {
+      const value = Math.floor(secondsElapsed / seconds) * -1;
+      return { value, unit };
+    }
+  }
+};
+export const getTimeAgo = (date) => {
+  const timestamp = new Date(date).getTime();
+
+  const secondsElapsed = getSecondsDiff(timestamp);
+  const { value, unit } = getUnitAndValueDate(secondsElapsed);
+  return new Intl.RelativeTimeFormat('es-AR').format(value, unit);
+};

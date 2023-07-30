@@ -1,7 +1,7 @@
 const express = require('express');
 const Boom = require('@hapi/boom');
 const { Order, OrderItem, Product } = require('../../../database/mysql/models');
-const Stripe = require('../../stripe/strapi.connection');
+const Stripe = require('../../stripe/stripe.connection');
 const { validateJWT } = require('../../../middlewares/api');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./order.schema');

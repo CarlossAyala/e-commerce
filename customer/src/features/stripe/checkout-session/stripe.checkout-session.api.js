@@ -1,14 +1,14 @@
-import { StrapiClient, getToken } from '../../../api';
+import { StripeClient, getToken } from '../../../api';
 
-const PAYMENT_INTENTS = 'payment-intents';
+const CHECKOUT_SESSIONS = 'checkout-sessions';
 
 const API = {
-  async create() {
-    const url = `${PAYMENT_INTENTS}`;
+  async get(id) {
+    const url = `${CHECKOUT_SESSIONS}/${id}`;
     const token = getToken();
 
-    const { data } = await StrapiClient.request({
-      method: 'POST',
+    const { data } = await StripeClient.request({
+      method: 'GET',
       url,
       headers: {
         'Content-Type': 'application/json',
@@ -18,21 +18,20 @@ const API = {
 
     return data;
   },
-  async confirm(data) {
-    const url = `${PAYMENT_INTENTS}/confirm`;
+  async create(query) {
+    const url = `${CHECKOUT_SESSIONS}${query ? `?${query}` : ''}`;
     const token = getToken();
 
-    const { data: response } = await StrapiClient.request({
+    const { data } = await StripeClient.request({
       method: 'POST',
       url,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      data,
     });
 
-    return response;
+    return data;
   },
 };
 

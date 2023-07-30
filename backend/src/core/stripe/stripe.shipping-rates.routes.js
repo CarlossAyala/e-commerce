@@ -1,5 +1,5 @@
 const express = require('express');
-const Stripe = require('./strapi.connection');
+const Stripe = require('./stripe.connection');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {

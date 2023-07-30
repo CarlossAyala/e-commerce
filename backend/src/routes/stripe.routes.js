@@ -1,5 +1,5 @@
 const express = require('express');
-const strapiCore = express.Router();
+const stripe = express.Router();
 
 const balance = require('../core/stripe/stripe.balance.routes');
 const balanceTransactions = require('../core/stripe/stripe.balance-transactions.routes');
@@ -15,18 +15,18 @@ const cards = require('../core/stripe/stripe.cards.routes');
 const shippingRates = require('../core/stripe/stripe.shipping-rates.routes');
 const checkoutSessions = require('../core/stripe/stripe.checkout-sessions.routes');
 
-strapiCore.use('/balance', balance);
-strapiCore.use('/balance-transactions', balanceTransactions);
-strapiCore.use('/charges', charges);
-strapiCore.use('/customers', customers);
-strapiCore.use('/payment-intents', paymentIntents);
-strapiCore.use('/payment-methods', paymentMethods);
-strapiCore.use('/setup-intents', setupIntents);
-strapiCore.use('/setup-attempts', setupAttempts);
-strapiCore.use('/payouts', payouts);
-strapiCore.use('/refunds', refunds);
-strapiCore.use('/cards', cards);
-strapiCore.use('/shipping-rates', shippingRates);
-strapiCore.use('/checkout-sessions', checkoutSessions);
+stripe.use('/balance', balance);
+stripe.use('/balance-transactions', balanceTransactions);
+stripe.use('/charges', charges);
+stripe.use('/customers', customers);
+stripe.use('/payment-intents', paymentIntents);
+stripe.use('/payment-methods', paymentMethods);
+stripe.use('/setup-intents', setupIntents);
+stripe.use('/setup-attempts', setupAttempts);
+stripe.use('/payouts', payouts);
+stripe.use('/refunds', refunds);
+stripe.use('/cards', cards);
+stripe.use('/shipping-rates', shippingRates);
+stripe.use('/checkout-sessions', checkoutSessions);
 
-module.exports = strapiCore;
+module.exports = stripe;

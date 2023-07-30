@@ -1,28 +1,13 @@
-import { StrapiClient, getToken } from '../../../api';
+import { StripeClient, getToken } from '../../../api';
 
-const CHECKOUT_SESSIONS = 'checkout-sessions';
+const PAYMENT_INTENTS = 'payment-intents';
 
 const API = {
-  async get(id) {
-    const url = `${CHECKOUT_SESSIONS}/${id}`;
+  async create() {
+    const url = `${PAYMENT_INTENTS}`;
     const token = getToken();
 
-    const { data } = await StrapiClient.request({
-      method: 'GET',
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return data;
-  },
-  async create(query) {
-    const url = `${CHECKOUT_SESSIONS}${query ? `?${query}` : ''}`;
-    const token = getToken();
-
-    const { data } = await StrapiClient.request({
+    const { data } = await StripeClient.request({
       method: 'POST',
       url,
       headers: {
@@ -32,6 +17,22 @@ const API = {
     });
 
     return data;
+  },
+  async confirm(data) {
+    const url = `${PAYMENT_INTENTS}/confirm`;
+    const token = getToken();
+
+    const { data: response } = await StripeClient.request({
+      method: 'POST',
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      data,
+    });
+
+    return response;
   },
 };
 

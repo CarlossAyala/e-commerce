@@ -21,7 +21,7 @@ import { priceFormater } from '../utils/formater';
 import { Close, View, ViewOff } from '@carbon/icons-react';
 import { useDebounce } from '../utils/hooks';
 import { useCheckout } from '../features/checkout';
-import { useCreatePaymentIntent } from '../features/strapi/payment-intent';
+import { useCreatePaymentIntent } from '../features/stripe/payment-intent';
 
 const Cart = () => {
   const navigate = useNavigate();

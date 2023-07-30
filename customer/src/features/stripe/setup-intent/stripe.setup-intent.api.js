@@ -1,4 +1,4 @@
-import { StrapiClient, getToken } from '../../../api';
+import { StripeClient, getToken } from '../../../api';
 
 const SETUP_INTENTS = 'setup-intents';
 
@@ -7,7 +7,7 @@ const API = {
     const url = `${SETUP_INTENTS}/${id}`;
     const token = getToken();
 
-    const { data } = await StrapiClient.request({
+    const { data } = await StripeClient.request({
       method: 'GET',
       url,
       headers: {

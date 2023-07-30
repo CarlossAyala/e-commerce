@@ -1,4 +1,4 @@
-import { StrapiClient, getToken } from '../../../api';
+import { StripeClient, getToken } from '../../../api';
 
 const PAYMENT_METHOD = 'payment-methods';
 
@@ -7,7 +7,7 @@ const API = {
     const url = `${PAYMENT_METHOD}/${id}`;
     const token = getToken();
 
-    const { data } = await StrapiClient.request({
+    const { data } = await StripeClient.request({
       method: 'GET',
       url,
       headers: {
@@ -22,7 +22,7 @@ const API = {
     const url = `${PAYMENT_METHOD}`;
     const token = getToken();
 
-    const { data } = await StrapiClient.request({
+    const { data } = await StripeClient.request({
       method: 'GET',
       url,
       headers: {

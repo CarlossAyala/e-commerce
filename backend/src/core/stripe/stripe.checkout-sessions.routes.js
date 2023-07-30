@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Boom = require('@hapi/boom');
-const Stripe = require('./strapi.connection');
+const Stripe = require('./stripe.connection');
 const { User } = require('../../database/mysql/models');
 const { validateJWT } = require('../../middlewares/api');
 

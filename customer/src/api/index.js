@@ -3,7 +3,7 @@ import axios from 'axios';
 const DOMAIN = import.meta.env.VITE_API_DOMAIN;
 const API_HUB_CUSTOMER = import.meta.env.VITE_API_HUB_CUSTOMER;
 const API_HUB_SYSTEM = import.meta.env.VITE_API_HUB_SYSTEM;
-const API_HUB_STRAPI = import.meta.env.VITE_API_HUB_STRAPI;
+const API_HUB_STRIpe = import.meta.env.VITE_API_HUB_STRIPE;
 
 const TOKEN_LS = import.meta.env.VITE_TOKEN_LS;
 
@@ -15,8 +15,8 @@ export const SystemClient = axios.create({
   baseURL: `${DOMAIN}/${API_HUB_SYSTEM}`,
 });
 
-export const StrapiClient = axios.create({
-  baseURL: `${DOMAIN}/${API_HUB_STRAPI}`,
+export const StripeClient = axios.create({
+  baseURL: `${DOMAIN}/${API_HUB_STRIpe}`,
 });
 
 export const getToken = () => localStorage.getItem(TOKEN_LS);

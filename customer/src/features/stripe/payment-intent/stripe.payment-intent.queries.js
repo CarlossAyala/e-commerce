@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import API from './strapi.payment-intent.api';
+import API from './stripe.payment-intent.api';
 
-export const strapiPaymentIntentKeys = {
-  key: ['strapi/payment-intent'],
+export const stripePaymentIntentKeys = {
+  key: ['stripe/payment-intent'],
 };
 
 export const useCreatePaymentIntent = () => {
