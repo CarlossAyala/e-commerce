@@ -7,6 +7,7 @@ export const productKeys = {
   one: (id) => [...productKeys.key, 'one', id],
   allQAs: (id) => [...productKeys.key, 'allQA', id],
   searchProduct: (query) => [...productKeys.key, 'search', query],
+  related: (id) => [...productKeys.key, 'related', id],
 };
 
 export const useGetProduct = (id) => {
@@ -21,5 +22,13 @@ export const useSearchProducts = (params) => {
   return useQuery({
     queryKey: productKeys.searchProduct(params),
     queryFn: () => API.searchProducts(params),
+  });
+};
+
+export const useGetRelatedProducts = (id) => {
+  return useQuery({
+    queryKey: productKeys.related(id),
+    queryFn: () => API.getRelatedProducts(id),
+    enabled: Boolean(id),
   });
 };

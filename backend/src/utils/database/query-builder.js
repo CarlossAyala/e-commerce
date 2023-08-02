@@ -66,6 +66,13 @@ class QueryBuilder {
     return this;
   }
 
+  whereNot(fieldName, value = '') {
+    if (value) {
+      this._where[fieldName] = { [Op.not]: value };
+    }
+    return this;
+  }
+
   whereBetween(fieldName, [from = 0, to = 0]) {
     const fromValue = +from;
     const toValue = +to;

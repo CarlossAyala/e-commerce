@@ -1,7 +1,6 @@
-import { SystemClient, getToken } from '../../api';
+import { SystemClient } from '../../api';
 
 const PRODUCTS = 'products';
-const QUESTIONS = 'questions';
 
 const API = {
   async getProduct(id) {
@@ -17,24 +16,21 @@ const API = {
 
     return data;
   },
-  async sendQuestion(id, values) {
-    const url = `/${PRODUCTS}/${id}/${QUESTIONS}`;
-    const token = getToken();
+  async searchProducts(query) {
+    const url = `/${PRODUCTS}/search${query ? `?${query}` : ''}`;
 
     const { data } = await SystemClient.request({
-      method: 'POST',
+      method: 'GET',
       url,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
-      data: values,
     });
 
     return data;
   },
-  async searchProducts(query) {
-    const url = `/${PRODUCTS}/search${query ? `?${query}` : ''}`;
+  async getRelatedProducts(id) {
+    const url = `/${PRODUCTS}/${id}/related`;
 
     const { data } = await SystemClient.request({
       method: 'GET',

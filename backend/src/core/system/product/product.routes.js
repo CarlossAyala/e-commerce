@@ -6,6 +6,7 @@ const { Product, Store } = require('../../../database/mysql/models');
 const { validateJWT } = require('../../../middlewares/api');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./product.schema');
+const { Op } = require('sequelize');
 
 // Searcher
 router.get('/search', async (req, res, next) => {
@@ -49,6 +50,40 @@ router.get(
       }
 
       return res.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// Get Related Products
+router.get(
+  '/:id/related',
+  validatorSchema(schemas.resourceId, 'params'),
+  async (req, res, next) => {
+    const { id: productId } = req.params;
+
+    try {
+      const product = await Product.model.findByPk(productId);
+      if (!product) {
+        return next(Boom.notFound('Product not found'));
+      }
+
+      const qb = new QueryBuilder(req.query).withPagination().build();
+      const related = await Product.model.findAll({
+        where: {
+          [Op.or]: {
+            categoryId: product.dataValues.categoryId,
+            storeId: product.dataValues.storeId,
+          },
+          [Op.not]: {
+            id: product.dataValues.id,
+          },
+        },
+        ...qb,
+      });
+
+      return res.status(200).json(related);
     } catch (error) {
       next(error);
     }

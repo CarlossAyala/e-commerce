@@ -17,6 +17,7 @@ import {
   TabPanels,
   TabPanel,
   TextArea,
+  SkeletonPlaceholder,
 } from '@carbon/react';
 import {
   BookmarkAdd,
@@ -25,7 +26,7 @@ import {
   XAxis,
   Renew,
 } from '@carbon/icons-react';
-import { useGetProduct } from '../features/product';
+import { useGetProduct, useGetRelatedProducts } from '../features/product';
 import { getTimeAgo, priceFormater } from '../utils/formater';
 import { useAddToHistory } from '../features/history';
 import {
@@ -93,18 +94,76 @@ const ReviewStars = ({ rating }) => {
   );
 };
 
+const CarouselProducts = ({ products }) => {
+  return (
+    <div className='no-scrollbar flex w-full gap-4 overflow-auto px-4'>
+      {products.map((product) => (
+        <CarouselProductItem key={product.id} product={product} />
+      ))}
+    </div>
+  );
+};
+
+const CarouselProductItem = ({ product }) => {
+  return (
+    <article className='w-36 shrink-0 overflow-hidden rounded-md border border-black/10 shadow-md'>
+      <Link to={`/product/${product.id}/${product.slug}`}>
+        <div className='h-36 w-full  bg-gray-200'>
+          <img
+            src='https://http2.mlstatic.com/D_NQ_NP_773243-MLA42453247573_072020-V.webp'
+            alt={`${product.name} image`}
+            className='h-full w-full object-cover'
+          />
+        </div>
+        <div className='border-t border-black/10 p-2'>
+          <p className='text-base font-bold leading-snug text-black'>
+            {priceFormater(product.price)}
+          </p>
+          <p
+            className={clsx(
+              'rounded-md text-sm font-semibold capitalize leading-snug',
+              product.condition === 'new' && 'text-green-700',
+              product.condition === 'used' && 'text-violet-700',
+              product.condition === 'reconditioned' && 'text-blue-700'
+            )}
+          >
+            {product.condition}
+          </p>
+          <p className='line-clamp-2 text-sm font-medium leading-snug text-black'>
+            {product.name}
+          </p>
+        </div>
+      </Link>
+    </article>
+  );
+};
+
+const ProductCardSkeleton = () => {
+  return (
+    <article className='h-48 w-36 overflow-hidden rounded-md'>
+      <SkeletonPlaceholder
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+      />
+    </article>
+  );
+};
+
 const Product = () => {
   const [tabQA, setTabQA] = useState(0);
   const quantity = useRef(1);
 
-  const { id } = useParams();
+  const { id: productId } = useParams();
 
-  const product = useGetProduct(id);
-  const productQAs = useGetProductQAs(id);
-  const customerQAs = useGetCustomerQAs(id);
+  const product = useGetProduct(productId);
+  const related = useGetRelatedProducts(productId);
+  const productQAs = useGetProductQAs(productId);
+  const customerQAs = useGetCustomerQAs(productId);
   const createQuestion = useCreateQuestion();
 
-  const bookmark = useGetBookmark(id);
+  const bookmark = useGetBookmark(productId);
   const addBookmark = useAddBookmark();
   const removeBookmark = useRemoveBookmark();
 
@@ -112,21 +171,21 @@ const Product = () => {
 
   const history = useAddToHistory();
 
-  const reviews = useGetReviews(id);
-  const reviewsStats = useGetReviewsStats(id);
+  const reviews = useGetReviews(productId);
+  const reviewsStats = useGetReviewsStats(productId);
   const likeReview = useLikeReview();
   const dislikeReview = useDislikeReview();
-  console.log('Reviews', reviews);
-  console.log('Reviews Stats', reviewsStats);
 
   // console.log('Product', product);
   // console.log('QA', QA);
   // console.log('CustomerQA', customerQA);
   // console.log('Bookmark', bookmark);
+  // console.log('Reviews', reviews);
+  // console.log('Reviews Stats', reviewsStats);
 
   const handleAddToCart = () => {
     try {
-      addToCart.mutateAsync([id, quantity.current]);
+      addToCart.mutateAsync([productId, quantity.current]);
     } catch (error) {
       console.log('<Product />');
       console.log('handleAddToCart', error);
@@ -135,7 +194,7 @@ const Product = () => {
 
   const handleAddBookmark = async () => {
     try {
-      await addBookmark.mutateAsync(id);
+      await addBookmark.mutateAsync(productId);
     } catch (error) {
       console.log('<Product />');
       console.log('handleAddBookmark', error);
@@ -144,7 +203,7 @@ const Product = () => {
 
   const handleRemoveBookmark = async () => {
     try {
-      await removeBookmark.mutateAsync(id);
+      await removeBookmark.mutateAsync(productId);
     } catch (error) {
       console.log('<Product />');
       console.log('handleRemoveBookmark', error);
@@ -153,7 +212,7 @@ const Product = () => {
 
   const handleCreateQuestion = async (values, { resetForm }) => {
     try {
-      await createQuestion.mutateAsync([id, values]);
+      await createQuestion.mutateAsync([productId, values]);
       resetForm();
       // Ir a "Your questions"
       setTabQA(1);
@@ -165,7 +224,7 @@ const Product = () => {
 
   const handleLikeReview = async (reviewId) => {
     try {
-      await likeReview.mutateAsync([reviewId, id]);
+      await likeReview.mutateAsync([reviewId, productId]);
     } catch (error) {
       console.log('<Product />');
       console.log('handleLikeReview', error);
@@ -174,7 +233,7 @@ const Product = () => {
 
   const handleDislikeReview = async (reviewId) => {
     try {
-      await dislikeReview.mutateAsync([reviewId, id]);
+      await dislikeReview.mutateAsync([reviewId, productId]);
     } catch (error) {
       console.log('<Product />');
       console.log('handleDislikeReview', error);
@@ -183,12 +242,12 @@ const Product = () => {
 
   useEffect(() => {
     if (product.isFetched && product.data) {
-      history.mutate(id);
+      history.mutate(productId);
     }
   }, [product.data]);
 
   return (
-    <main className='w-full space-y-2 bg-white'>
+    <main className='w-full space-y-2 overflow-auto bg-white'>
       {product.isFetched && product.data ? (
         <section className='p-4'>
           <h1 className='text-xl font-semibold'>{product.data.name}</h1>
@@ -609,13 +668,27 @@ const Product = () => {
         )}
       </section>
 
-      {/* TODO: Crear feature "Related Products"  */}
-      <section className='px-4'>
-        <h2 className='mb-2 text-xl font-semibold'>Related Products</h2>
+      <section className='py-4'>
+        <h2 className='px-4 text-xl font-semibold'>Related products</h2>
 
-        <p className='text-sm italic leading-snug tracking-wide text-gray-500'>
-          Future feature
-        </p>
+        {related.isLoading && (
+          <div className='mt-2 flex gap-x-4 overflow-auto px-4'>
+            <ProductCardSkeleton />
+            <ProductCardSkeleton />
+          </div>
+        )}
+        {related.isFetched && related.data.length === 0 && (
+          <div className='mt-2 px-4'>
+            <p className='text-sm leading-none text-gray-800'>
+              There are no related products
+            </p>
+          </div>
+        )}
+        {related.isFetched && related.data.length > 0 && (
+          <div className='mt-2'>
+            <CarouselProducts title='Products' products={related.data} />
+          </div>
+        )}
       </section>
     </main>
   );
