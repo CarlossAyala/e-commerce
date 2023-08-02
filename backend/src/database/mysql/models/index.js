@@ -19,8 +19,7 @@ const CartProduct = require('./cart-product.model');
 
 const Review = require('./review.model');
 
-const Like = require('./like.model');
-const Dislike = require('./dislike.model');
+const ReviewLikeDislike = require('./review-like-dislike.model');
 
 const Question = require('./question.model');
 const Answer = require('./answer.model');
@@ -154,8 +153,7 @@ module.exports = {
 
   Review,
 
-  Like,
-  Dislike,
+  ReviewLikeDislike,
 
   Question,
   Answer,

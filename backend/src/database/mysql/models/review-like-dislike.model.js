@@ -3,11 +3,11 @@ const sequelize = require('../../../database/mysql/index');
 const User = require('./user.model');
 const Review = require('./review.model');
 
-const modelName = 'Dislike';
-const tableName = 'dislikes';
+const modelName = 'ReviewLikeDislike';
+const tableName = 'review_like_dislikes';
 const modelOptions = {
   tableName,
-  timestamps: true,
+  timestamps: false,
 };
 
 const modelSchema = {
@@ -16,6 +16,7 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
+  state: DataTypes.BOOLEAN,
   customerId: {
     type: DataTypes.UUID,
     field: 'customer_id',
@@ -31,16 +32,6 @@ const modelSchema = {
       model: Review.model,
       key: 'id',
     },
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-    field: 'created_at',
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-    field: 'updated_at',
   },
 };
 

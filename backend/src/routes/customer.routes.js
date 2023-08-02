@@ -8,6 +8,7 @@ const bookmark = require('../core/customer/bookmark/bookmark.routes');
 const address = require('../core/customer/address/address.routes');
 const order = require('../core/customer/order/order.routes');
 const history = require('../core/customer/history/history.routes');
+const review = require('../core/customer/review/review.routes');
 
 // TODO: Re-hacer
 const accountRoutes = require('../core/customer-v0/account/account.routes');
@@ -22,6 +23,7 @@ API.use('/bookmarks', bookmark);
 API.use('/addresses', address);
 API.use('/orders', order);
 API.use('/history', history);
+API.use('/reviews', review);
 
 module.exports = customer;
 
