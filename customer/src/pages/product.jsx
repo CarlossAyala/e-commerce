@@ -96,7 +96,7 @@ const ReviewStars = ({ rating }) => {
 
 const CarouselProducts = ({ products }) => {
   return (
-    <div className='no-scrollbar flex w-full gap-4 overflow-auto px-4'>
+    <div className='no-scrollbar flex w-full gap-4 overflow-auto px-4 py-2'>
       {products.map((product) => (
         <CarouselProductItem key={product.id} product={product} />
       ))}
@@ -106,9 +106,12 @@ const CarouselProducts = ({ products }) => {
 
 const CarouselProductItem = ({ product }) => {
   return (
-    <article className='w-36 shrink-0 overflow-hidden rounded-md border border-black/10 shadow-md'>
-      <Link to={`/product/${product.id}/${product.slug}`}>
-        <div className='h-36 w-full  bg-gray-200'>
+    <Link
+      className='w-36 shrink-0 rounded-md border border-black/10 shadow-md'
+      to={`/product/${product.id}/${product.slug}`}
+    >
+      <article>
+        <div className='h-36 w-full overflow-hidden rounded-t-md'>
           <img
             src='https://http2.mlstatic.com/D_NQ_NP_773243-MLA42453247573_072020-V.webp'
             alt={`${product.name} image`}
@@ -133,8 +136,8 @@ const CarouselProductItem = ({ product }) => {
             {product.name}
           </p>
         </div>
-      </Link>
-    </article>
+      </article>
+    </Link>
   );
 };
 
@@ -685,9 +688,7 @@ const Product = () => {
           </div>
         )}
         {related.isFetched && related.data.length > 0 && (
-          <div className='mt-2'>
-            <CarouselProducts title='Products' products={related.data} />
-          </div>
+          <CarouselProducts products={related.data} />
         )}
       </section>
     </main>

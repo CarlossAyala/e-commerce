@@ -131,6 +131,16 @@ Bookmark.model.belongsTo(Product.model, {
   as: 'product',
 });
 
+// PRODUCT AND REVIEW
+Product.model.hasMany(Review.model, {
+  foreignKey: 'productId',
+  as: 'reviews',
+});
+Review.model.belongsTo(Product.model, {
+  foreignKey: 'productId',
+  as: 'product',
+});
+
 module.exports = {
   User,
   Address,
