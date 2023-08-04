@@ -18,3 +18,23 @@ export const groupByMonthYear = (dates, key) => {
 
   return Array.from(map.values());
 };
+
+export const groupByFirstLetter = (items, key) => {
+  if (!Array.isArray(items) || items.length === 0) {
+    return [];
+  }
+
+  const map = new Map();
+
+  for (const item of items) {
+    const groupKey = item[key][0].toUpperCase();
+    const group = map.get(groupKey) || {
+      key: groupKey,
+      values: [],
+    };
+    group.values.push(item);
+    map.set(groupKey, group);
+  }
+
+  return Array.from(map.values());
+};

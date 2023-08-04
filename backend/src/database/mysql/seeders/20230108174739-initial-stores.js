@@ -49,6 +49,7 @@ const generateNUsers = async (n = 1) => {
 const createRandomStore = (userId) => {
   const id = uuidv4();
   const name = faker.company.name();
+  const description = faker.lorem.lines(1);
   const profile = faker.image.business(...Object.values(imageOptions));
   const official = faker.datatype.boolean();
   const slug = slugify(`${name}-${id}`, slugifyOptions);
@@ -56,6 +57,7 @@ const createRandomStore = (userId) => {
   return {
     id,
     name,
+    description,
     profile,
     official,
     slug,

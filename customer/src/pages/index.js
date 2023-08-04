@@ -18,6 +18,8 @@ import Product from './product';
 import ProductSearch from './product-search';
 import Signin from './signin';
 import Signup from './signup';
+import StoreList from './store-list';
+import StoreView from './store-view';
 
 export {
   AddressEdit,
@@ -40,4 +42,6 @@ export {
   Bookmark,
   CategoryList,
   CategoryView,
+  StoreList,
+  StoreView,
 };

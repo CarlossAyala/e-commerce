@@ -353,7 +353,10 @@ const Product = () => {
       {product.isFetched && product.data && (
         <section className='p-4'>
           <h2 className='text-xl font-semibold'>Store Information</h2>
-          <Link to='#' className='mt-2 block'>
+          <Link
+            to={`/store/${product.data.store.slug}/view`}
+            className='mt-2 block'
+          >
             <div className='flex items-center'>
               <div className='h-12 w-12'>
                 <img

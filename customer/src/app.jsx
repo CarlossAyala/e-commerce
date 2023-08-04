@@ -22,6 +22,8 @@ import {
   Bookmark,
   CategoryList,
   CategoryView,
+  StoreList,
+  StoreView,
 } from './pages';
 
 const router = createBrowserRouter([
@@ -100,6 +102,14 @@ const router = createBrowserRouter([
       {
         path: 'category/:slug/view',
         element: <CategoryView />,
+      },
+      {
+        path: 'store/list',
+        element: <StoreList />,
+      },
+      {
+        path: 'store/:slug/view',
+        element: <StoreView />,
       },
     ],
   },

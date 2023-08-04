@@ -81,3 +81,12 @@ export const getTimeAgo = (date) => {
   const { value, unit } = getUnitAndValueDate(secondsElapsed);
   return new Intl.RelativeTimeFormat('es-AR').format(value, unit);
 };
+
+export const joinedAt = (date) => {
+  const valid = new Date(date);
+
+  return new Intl.DateTimeFormat('es-AR', {
+    year: 'numeric',
+    month: 'long',
+  }).format(valid);
+};

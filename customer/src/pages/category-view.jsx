@@ -202,7 +202,7 @@ const CategoryView = () => {
   // console.log('CategoriesBestSellers', bestSellers);
   // console.log('CategoriesTopRated', topRated);
   // console.log('CategoriesRandom', randoms);
-  console.log('CategoryStores', stores);
+  // console.log('CategoryStores', stores);
 
   return (
     <main className='flex w-full flex-col space-y-8 overflow-auto bg-white'>
