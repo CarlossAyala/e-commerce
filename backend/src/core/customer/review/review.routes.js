@@ -6,7 +6,7 @@ const {
   Review,
   ReviewLikeDislike,
 } = require('../../../database/mysql/models');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./review.schema');
 const sequelize = require('../../../database/mysql');
@@ -112,7 +112,7 @@ router.get(
 // Create Review
 router.post(
   '/product/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
@@ -145,7 +145,7 @@ router.post(
 // Like Review
 router.post(
   '/:id/like',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
@@ -201,7 +201,7 @@ router.post(
 // Dislike Review
 router.post(
   '/:id/dislike',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const { id: customerId } = req.auth;

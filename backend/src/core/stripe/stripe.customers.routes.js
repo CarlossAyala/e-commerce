@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Boom = require('@hapi/boom');
 const Stripe = require('./stripe.connection');
-const { validateJWT } = require('../../middlewares/api');
+const JWT = require('../../middlewares/auth/jwt.auth');
 const { User } = require('../../database/mysql/models');
 
-router.get('/', validateJWT(), async (req, res, next) => {
+router.get('/', JWT.verify, async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
@@ -29,7 +29,7 @@ router.get('/', validateJWT(), async (req, res, next) => {
   }
 });
 
-router.post('/', validateJWT(), async (req, res, next) => {
+router.post('/', JWT.verify, async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
@@ -56,7 +56,7 @@ router.post('/', validateJWT(), async (req, res, next) => {
   }
 });
 
-// router.patch('/', validateJWT(), async (req, res, next) => {
+// router.patch('/', JWT.verify, async (req, res, next) => {
 //   const customerId = req.auth.id;
 
 //   try {

@@ -6,13 +6,13 @@ const {
   Cart,
   CartProduct,
 } = require('../../../database/mysql/models');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./cart.schema');
 const QueryBuilder = require('../../../utils/database/query-builder');
 
 // Get Cart
-router.get('/', validateJWT(), async (req, res, next) => {
+router.get('/', JWT.verify, async (req, res, next) => {
   const CartProductQB = new QueryBuilder(req.query)
     .where('visible', req.query.only_visible ? true : null)
     .build();
@@ -47,7 +47,7 @@ router.get('/', validateJWT(), async (req, res, next) => {
 // Add Item
 router.post(
   '/product/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
@@ -102,7 +102,7 @@ router.post(
 // Update Item
 router.patch(
   '/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
@@ -159,7 +159,7 @@ router.patch(
 // Update Visibility Item
 router.patch(
   '/:id/visibility',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     try {
@@ -204,7 +204,7 @@ router.patch(
 );
 
 // Clear Cart
-router.delete('/clear', validateJWT(), async (req, res, next) => {
+router.delete('/clear', JWT.verify, async (req, res, next) => {
   try {
     const cart = await Cart.model.findOne({
       where: {
@@ -230,7 +230,7 @@ router.delete('/clear', validateJWT(), async (req, res, next) => {
 // Remove from Cart
 router.delete(
   '/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     try {

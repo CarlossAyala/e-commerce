@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Boom = require('@hapi/boom');
 const { Product, Question, Answer } = require('../../../database/mysql/models');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./question.schema');
 const QueryBuilder = require('../../../utils/database/query-builder');
@@ -36,7 +36,7 @@ router.get(
 
 router.get(
   '/product/:id/customer',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const qb = new QueryBuilder(req.query)
@@ -65,7 +65,7 @@ router.get(
 // Create Question
 router.post(
   '/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {

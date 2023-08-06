@@ -12,7 +12,9 @@ const config = {
     password: process.env.MYSQL_PASSWORD,
     host: process.env.MYSQL_HOST,
   },
-  jwt_secret: process.env.JWT_SECRET,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
   admin: {
     name: process.env.ADMIN_NAME,
     lastName: process.env.ADMIN_LASTNAME,

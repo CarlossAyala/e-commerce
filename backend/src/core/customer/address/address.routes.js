@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Boom = require('@hapi/boom');
 const { Address } = require('../../../database/mysql/models');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./address.schema');
 
 // Get All
-router.get('/', validateJWT(), async (req, res, next) => {
+router.get('/', JWT.verify, async (req, res, next) => {
   try {
     const addresses = await Address.model.findAll({
       order: [['createdAt', 'ASC']],
@@ -22,7 +22,7 @@ router.get('/', validateJWT(), async (req, res, next) => {
 // Get One
 router.get(
   '/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const { id } = req.params;
@@ -47,7 +47,7 @@ router.get(
 // Create
 router.post(
   '/',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
     try {
@@ -69,7 +69,7 @@ router.post(
 // Update
 router.put(
   '/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
@@ -97,8 +97,8 @@ router.put(
 // Delete
 router.delete(
   '/:id',
-  validateJWT(),
-  validateJWT(),
+  JWT.verify,
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const { id } = req.params;

@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Boom = require('@hapi/boom');
 const Stripe = require('./stripe.connection');
-const { validateJWT } = require('../../middlewares/api');
+const JWT = require('../../middlewares/auth/jwt.auth');
 const { User } = require('../../database/mysql/models');
 
-router.get('/:id', validateJWT(), async (req, res, next) => {
+router.get('/:id', JWT.verify, async (req, res, next) => {
   const { id } = req.params;
 
   try {

@@ -3,14 +3,14 @@ const router = express.Router();
 const Boom = require('@hapi/boom');
 const { Op } = require('sequelize');
 const { History, Product } = require('../../../database/mysql/models');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./history.schema');
 
 // TODO: Add pagination
 
 // Get All
-router.get('/', validateJWT(), async (req, res, next) => {
+router.get('/', JWT.verify, async (req, res, next) => {
   try {
     const history = await History.model.findAndCountAll({
       where: {
@@ -32,7 +32,7 @@ router.get('/', validateJWT(), async (req, res, next) => {
 // Add
 router.post(
   '/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     try {
@@ -75,7 +75,7 @@ router.post(
 );
 
 // Clear
-router.delete('/clear', validateJWT(), async (req, res, next) => {
+router.delete('/clear', JWT.verify, async (req, res, next) => {
   try {
     await History.model.destroy({
       where: {
@@ -92,7 +92,7 @@ router.delete('/clear', validateJWT(), async (req, res, next) => {
 // Remove
 router.delete(
   '/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     try {

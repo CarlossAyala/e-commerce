@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Boom = require('@hapi/boom');
 const { Store } = require('../../../database/mysql/models');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./store.schema');
 

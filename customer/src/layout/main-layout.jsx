@@ -1,226 +1,228 @@
-import { Fragment, useEffect, useState } from 'react';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Fragment, useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import {
+  Bars3CenterLeftIcon,
+  MagnifyingGlassIcon,
+  ShoppingCartIcon,
+  Squares2X2Icon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
+import { useGetProfile } from '../auth';
 import { Dialog, Transition } from '@headlessui/react';
-import {
-  // IconButton,
-  HeaderContainer,
-  Header,
-  HeaderMenuButton,
-  HeaderName,
-  HeaderGlobalAction,
-  HeaderGlobalBar,
-  HeaderNavigation,
-  HeaderMenu,
-  HeaderMenuItem,
-  HeaderPanel,
-  SideNav,
-  SideNavItems,
-  HeaderSideNavItems,
-  Theme,
-  Search,
-} from '@carbon/react';
-import {
-  Search as SearchIcon,
-  UserAvatar,
-  Switcher,
-} from '@carbon/icons-react';
+import { useGetCart } from '../features/cart';
 
-const MENU_ITEMS = [
-  {
-    href: '#',
-    linkText: 'Link 1',
-  },
-  {
-    href: '#',
-    linkText: 'Link 2',
-  },
-  {
-    href: '#',
-    linkText: 'Link 3',
-  },
+const panelOptions = {
+  cart: 'cart',
+  switcher: 'switcher',
+};
+
+const switcherSections = [
+  [
+    {
+      label: 'Compras',
+      to: '/customer/orders',
+    },
+    {
+      label: 'Preguntas',
+      to: '/customer/questions',
+    },
+    {
+      label: 'Opiniones',
+      to: '/customer/opinions',
+    },
+  ],
+  [
+    {
+      label: 'Perfil',
+      to: '/customer/profile',
+    },
+  ],
+  [
+    {
+      label: 'Vender',
+      to: '/customer/sell',
+    },
+  ],
+  [
+    {
+      label: 'Cerrar sesión',
+      to: '/customer/logout',
+    },
+  ],
 ];
-const SHORTCUTS = ['K', 'k'];
 
 export const MainLayout = () => {
-  const [commandPalette, setSommandPalette] = useState(false);
-  const { q } = useParams();
-  const [search, setSearch] = useState(q || '');
+  const [slideover, setSlideover] = useState(false);
+  const [slideoverPanel, setSlideoverPanel] = useState('');
 
-  const navigate = useNavigate();
-
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
+  const handleSlideoverPanel = (panel) => {
+    setSlideoverPanel(panel);
+    setSlideover(true);
   };
 
-  useEffect(() => {
-    const handleKeydown = (event) => {
-      if (SHORTCUTS.includes(event.key) && (event.ctrlKey || event.metaKey)) {
-        event.preventDefault();
-        setSommandPalette((curr) => !curr);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeydown);
-    return () => {
-      window.removeEventListener('keydown', handleKeydown);
-    };
-  }, []);
+  const customer = useGetProfile();
+  const cart = useGetCart();
 
   return (
     <div className='grid min-h-screen grid-rows-[auto_1fr]'>
-      <Theme>
-        <HeaderContainer
-          render={({ isSideNavExpanded, onClickSideNavExpand }) => (
-            <Header
-              aria-label='Fak-Ommerce for Customers'
-              style={{ position: 'static' }}
-            >
-              <HeaderMenuButton
-                aria-label={isSideNavExpanded ? 'Close menu' : 'Open menu'}
-                onClick={onClickSideNavExpand}
-                isActive={isSideNavExpanded}
-                aria-expanded={isSideNavExpanded}
-              />
-              <HeaderName
-                href='/'
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/');
-                }}
-                prefix=''
-              >
-                <div className='flex flex-col'>
-                  <h2 className='text-sm leading-snug'>Fak-Ommerce</h2>
-                  <h3 className='text-sm leading-none'>[ Customer ]</h3>
-                </div>
-              </HeaderName>
-              <HeaderNavigation aria-label='Fak-Ommerce [Customer]'>
-                {MENU_ITEMS.map((item) => (
-                  <HeaderMenuItem key={item.linkText} href={item.href}>
-                    {item.linkText}
-                  </HeaderMenuItem>
-                ))}
-                <HeaderMenu aria-label='Link 4' menuLinkName='Link 4'>
-                  <HeaderMenuItem href='#'>Sub-link 1</HeaderMenuItem>
-                  <HeaderMenuItem href='#'>Sub-link 2</HeaderMenuItem>
-                  <HeaderMenuItem href='#'>Sub-link 3</HeaderMenuItem>
-                </HeaderMenu>
-              </HeaderNavigation>
-              <HeaderGlobalBar>
-                <HeaderGlobalAction
-                  aria-label='Search'
-                  onClick={() => setSommandPalette(false)}
-                >
-                  <SearchIcon />
-                </HeaderGlobalAction>
-                <HeaderGlobalAction aria-label='Account' onClick={() => {}}>
-                  <UserAvatar />
-                </HeaderGlobalAction>
-                <HeaderGlobalAction
-                  aria-label='App Switcher'
-                  onClick={() => {}}
-                >
-                  <Switcher />
-                </HeaderGlobalAction>
-              </HeaderGlobalBar>
-              <SideNav
-                aria-label='Side navigation'
-                expanded={isSideNavExpanded}
-                isPersistent={false}
-                onSideNavBlur={onClickSideNavExpand}
-              >
-                <SideNavItems>
-                  <HeaderSideNavItems>
-                    <HeaderMenuItem href='#'>Link 1</HeaderMenuItem>
-                    <HeaderMenuItem href='#'>Link 2</HeaderMenuItem>
-                    <HeaderMenuItem href='#'>Link 3</HeaderMenuItem>
-                    <HeaderMenu aria-label='Link 4' menuLinkName='Link 4'>
-                      <HeaderMenuItem href='#'>Sub-link 1</HeaderMenuItem>
-                      <HeaderMenuItem isActive href='#'>
-                        Sub-link 2
-                      </HeaderMenuItem>
-                      <HeaderMenuItem href='#'>Sub-link 3</HeaderMenuItem>
-                    </HeaderMenu>
-                  </HeaderSideNavItems>
-                </SideNavItems>
-              </SideNav>
-              {/* <HeaderPanel aria-label='Header Panel' /> */}
-            </Header>
-          )}
-        />
+      <header className='flex h-12 w-full items-center border-b border-black/10'>
+        <button className='flex h-full w-12 items-center justify-center'>
+          <Bars3CenterLeftIcon className='h-5 w-5 text-gray-900' />
+        </button>
+        <Link to='/' className='h-full px-4'>
+          <div className='flex h-full flex-col justify-center text-black/90'>
+            <p className='text-sm leading-none'>Fak-Ommerce</p>
+            <p className='text-sm font-semibold leading-tight'>[Customer]</p>
+          </div>
+        </Link>
+        <div className='flex h-full grow justify-end'>
+          <button
+            onClick={() => console.log('Search Icon Header')}
+            className='flex h-full w-12 items-center justify-center'
+          >
+            <MagnifyingGlassIcon className='h-5 w-5 text-gray-700' />
+          </button>
+          <button
+            onClick={() => handleSlideoverPanel(panelOptions.cart)}
+            className='flex h-full w-12 items-center justify-center'
+          >
+            <ShoppingCartIcon className='h-5 w-5 text-gray-700' />
+          </button>
+          <button
+            onClick={() => handleSlideoverPanel(panelOptions.switcher)}
+            className='flex h-full w-12 items-center justify-center'
+          >
+            <Squares2X2Icon className='h-5 w-5 text-gray-700' />
+          </button>
+        </div>
+
         <Transition.Root
-          show={commandPalette}
+          show={slideover}
           as={Fragment}
           afterLeave={() => {
-            setSearch('');
+            setSlideover(false);
+            setSlideoverPanel('');
           }}
         >
-          <Dialog
-            className='fixed inset-0 overflow-y-auto'
-            onClose={setSommandPalette}
-          >
+          <Dialog as='div' className='relative z-10' onClose={setSlideover}>
             <Transition.Child
               as={Fragment}
-              enter='ease-out duration-300'
+              enter='ease-in-out duration-500'
               enterFrom='opacity-0'
               enterTo='opacity-100'
-              leave='ease-in duration-200'
+              leave='ease-in-out duration-500'
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
             >
-              <Dialog.Overlay className='fixed inset-0 bg-black/50' />
+              <div className='fixed inset-0 bg-black bg-opacity-70 transition-opacity' />
             </Transition.Child>
 
-            <Transition.Child
-              as={Fragment}
-              enter='ease-out duration-300'
-              enterFrom='opacity-0 scale-95'
-              enterTo='opacity-100 scale-100'
-              leave='ease-in duration-200'
-              leaveFrom='opacity-100 scale-100'
-              leaveTo='opacity-0 scale-95'
-            >
-              <div>
-                <div className='border-b border-gray-200 bg-white p-4'>
-                  <h2 className='text-xl leading-none'>Search Products</h2>
+            <div className='fixed inset-0 overflow-hidden'>
+              <div className='absolute inset-0 overflow-hidden'>
+                <div className='pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10'>
+                  <Transition.Child
+                    as={Fragment}
+                    enter='transform transition ease-in-out duration-500 sm:duration-700'
+                    enterFrom='translate-x-full'
+                    enterTo='translate-x-0'
+                    leave='transform transition ease-in-out duration-500 sm:duration-700'
+                    leaveFrom='translate-x-0'
+                    leaveTo='translate-x-full'
+                  >
+                    <Dialog.Panel className='pointer-events-auto relative w-screen max-w-md'>
+                      <div className='flex h-full flex-col overflow-y-scroll bg-white'>
+                        <div className='flex items-center justify-between border-b border-black/10 bg-neutral-50 p-4'>
+                          <Dialog.Title className='text-base font-semibold leading-6 text-gray-900'>
+                            {slideoverPanel === panelOptions.switcher
+                              ? 'Switcher'
+                              : 'Shopping Cart'}
+                          </Dialog.Title>
+
+                          <button
+                            type='button'
+                            className='rounded-md text-gray-800 hover:text-black focus:outline-none focus:ring-2 focus:ring-neutral-400'
+                            onClick={() => setSlideover(false)}
+                          >
+                            <span className='sr-only'>Close panel</span>
+                            <XMarkIcon className='h-6 w-6' aria-hidden='true' />
+                          </button>
+                        </div>
+
+                        {slideoverPanel === panelOptions.switcher && (
+                          <div className='relative flex-1 divide-y divide-black/10'>
+                            {customer.isLoading ? (
+                              <p>Loading...</p>
+                            ) : (
+                              <div className='flex items-center gap-x-2 px-4 py-3'>
+                                {customer.isError && (
+                                  <div>
+                                    <p>Sign in / Sign up</p>
+                                  </div>
+                                )}
+
+                                {customer.isSuccess && (
+                                  <>
+                                    <div className='h-14 w-14 shrink-0 overflow-hidden rounded-full'>
+                                      <img
+                                        className='h-full w-full object-cover'
+                                        src='https://cdn.dribbble.com/users/6903298/avatars/small/350ff7d3d2a5470d9c9b1d8a05c823aa.png?1671623912'
+                                        alt='Dribble Random User'
+                                      />
+                                    </div>
+                                    <div>
+                                      <p className='line-clamp-1 text-base font-semibold leading-normal text-gray-900'>
+                                        {`${customer.data.name} ${customer.data.lastName}`}
+                                      </p>
+                                      <p className='line-clamp-1 text-sm font-medium leading-normal text-gray-600'>
+                                        {customer.data.email}
+                                      </p>
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            )}
+                            {switcherSections.map((section, index) => (
+                              <ul key={index} className='py-2'>
+                                {section.map(({ label, to }) => (
+                                  <li key={to}>
+                                    <Link to={to} className='flex px-4 py-1.5'>
+                                      <p className='text-base font-semibold leading-tight text-gray-900'>
+                                        {label}
+                                      </p>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            ))}
+                          </div>
+                        )}
+                        {slideoverPanel === panelOptions.cart && (
+                          <div className='flex-1'>
+                            {cart.isLoading ? (
+                              <p>Loading...</p>
+                            ) : (
+                              <ul>
+                                {cart.isSuccess &&
+                                  cart.data?.length > 0 &&
+                                  cart.data.map((item) => (
+                                    <li key={item.product.id}>
+                                      {item.product.name}
+                                    </li>
+                                  ))}
+                              </ul>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
                 </div>
-                <Search
-                  id='command-palette-search'
-                  labelText='Search'
-                  placeholder='What are you looking for?'
-                  size='lg'
-                  className='bg-white'
-                  onChange={handleSearch}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && search.length >= 2) {
-                      navigate(`/${search}`);
-                      setSommandPalette(false);
-                    }
-                  }}
-                  value={search}
-                />
-                {/* <section>
-                  <ul className='divide-y-2 divide-gray-200 bg-gray-100'>
-                    {products.isFetched &&
-                      products.data?.rows.map((product, index) => (
-                        <li key={index}>
-                          <Link to={`/:${debouncedSearch}`}>
-                            <div className='flex px-4 py-3 items-center'>
-                              <SearchIcon className='mr-4' />
-                              <h3 className='text-sm text-black'>
-                                {product.name}
-                              </h3>
-                            </div>
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                </section> */}
               </div>
-            </Transition.Child>
+            </div>
           </Dialog>
         </Transition.Root>
-      </Theme>
+      </header>
+
       <Outlet />
     </div>
   );

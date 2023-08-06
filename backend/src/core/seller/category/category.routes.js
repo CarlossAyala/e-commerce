@@ -3,7 +3,7 @@ const router = express.Router();
 const Boom = require('@hapi/boom');
 const QueryBuilder = require('../../../utils/database/query-builder');
 const { Category } = require('../../../database/mysql/models');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const schemas = require('./category.schema');
 

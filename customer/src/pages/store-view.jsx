@@ -96,7 +96,7 @@ const StoreView = () => {
           </div>
           <div className='px-4 pb-4 pt-8'>
             <div>
-              <h1 className='text-2xl font-semibold leading-tight text-gray-800'>
+              <h1 className='text-2xl font-semibold leading-none text-gray-800'>
                 {store.data.name}
               </h1>
               {store.data.official && (

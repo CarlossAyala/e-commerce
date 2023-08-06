@@ -7,20 +7,18 @@ import {
 } from '@carbon/react';
 import { ArrowRight } from '@carbon/icons-react';
 import { Form, Formik } from 'formik';
-import { initialValues, useSignin, validationSchema } from '../features/signin';
-import { useAuth } from '../auth';
+import { signinInitial, useSignin, signinSchema } from '../auth';
 
 const Signin = () => {
-  const mutation = useSignin();
-  const { signin } = useAuth();
+  const signin = useSignin();
+
   const navitage = useNavigate();
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const data = await mutation.mutateAsync(values);
-      console.log(data);
+      await signin.mutateAsync(values);
+      // console.log(data);
 
-      signin(data);
       resetForm();
       navitage('/');
     } catch (error) {
@@ -40,19 +38,19 @@ const Signin = () => {
           </p>
         </div>
         {/* Errors */}
-        {mutation.isError && (
+        {signin.isError && (
           <div className='w-full'>
             <InlineNotification
               title='Notification Error'
-              subtitle={mutation.error.response.data.message}
+              subtitle={signin.error.response.data.message}
               style={{ maxWidth: '100%' }}
             />
           </div>
         )}
         {/* Form */}
         <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
+          initialValues={signinInitial}
+          validationSchema={signinSchema}
           onSubmit={handleSubmit}
         >
           {({ values, errors, touched, handleChange, handleBlur }) => (

@@ -8,14 +8,14 @@ const {
   User,
   Answer,
 } = require('../../../database/mysql/models');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
 const QueryBuilder = require('../../../utils/database/query-builder');
 const schemas = require('./question.schema');
 const sequelize = require('../../../database/mysql');
 
 // Get Products Questions
-router.get('/', validateJWT(), async (req, res, next) => {
+router.get('/', JWT.verify, async (req, res, next) => {
   const qbQuestion = new QueryBuilder(req.query)
     .orderBy('total', 'DESC')
     .withPagination()
@@ -68,7 +68,7 @@ router.get('/', validateJWT(), async (req, res, next) => {
 // Get Product Questions
 router.get(
   '/product/:id',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     const qb = new QueryBuilder(req.query)
@@ -118,7 +118,7 @@ router.get(
 // Get Question
 router.get(
   '/:id/product',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   async (req, res, next) => {
     try {
@@ -171,7 +171,7 @@ router.get(
 // Create Answer to Question
 router.post(
   '/:id/product',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.answer, 'body'),
   async (req, res, next) => {

@@ -4,7 +4,7 @@ const Boom = require('@hapi/boom');
 const slugify = require('slugify');
 const { Category, Product, Store } = require('../../../database/mysql/models');
 const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const { validateJWT } = require('../../../middlewares/api');
+const JWT = require('../../../middlewares/auth/jwt.auth');
 const controllers = require('./store.controller');
 const middlewares = require('./store.middleware');
 const schemas = require('./store.schema');
@@ -13,7 +13,7 @@ const slugifyOptions = require('../../../constant/slugify');
 // Get Store info
 router.get(
   '/',
-  validateJWT(),
+  JWT.verify,
   // controller getStore
   async (req, res, next) => {
     try {
@@ -35,7 +35,7 @@ router.get(
 // Create Store
 router.post(
   '/',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.base, 'body'),
   // middleware alreadyHaveStore
   async (req, res, next) => {
@@ -89,7 +89,7 @@ router.post(
 // Change Name
 router.patch(
   '/change-name',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.changeName, 'body'),
   // middleware existStore
   async (req, res, next) => {
@@ -152,7 +152,7 @@ router.patch(
 // Change description
 router.patch(
   '/change-description',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.changeDescription, 'body'),
   // middleware existStore
   async (req, res, next) => {
@@ -194,7 +194,7 @@ router.patch(
 // Check Duplicate Store Name
 router.post(
   '/check-duplicate-name',
-  validateJWT(),
+  JWT.verify,
   validatorSchema(schemas.checkName, 'body'),
   // middleware checkDuplicateName
   async (req, res, next) => {
@@ -226,7 +226,7 @@ router.post(
 // Delete Store
 router.delete(
   '/',
-  validateJWT(),
+  JWT.verify,
   // middleware existStore
   async (req, res, next) => {
     try {

@@ -3,7 +3,7 @@ import { priceFormater } from '../utils/formater';
 import { useGetHistory } from '../features/history';
 import clsx from 'clsx';
 import { useGetBookmarks } from '../features/bookmark';
-import { useGetMainCategories } from '../features/category/category.queries';
+import { useGetCategories } from '../features/category/category.queries';
 import { useSearchProducts } from '../features/product';
 
 const CarouselProducts = ({ title, link, products }) => {
@@ -81,7 +81,7 @@ const CarouselCategories = ({ title, link, categories }) => {
 const CarouselCategoryItem = ({ category }) => {
   return (
     <article className='shrink-0 overflow-hidden rounded-md border border-black/10 shadow-md'>
-      <Link to={`/category/${category.id}/${category.slug}`}>
+      <Link to={`/category/${category.slug}/view`}>
         <div className='h-36 w-full  bg-gray-200'>
           <img
             src='https://http2.mlstatic.com/D_NQ_NP_610174-MLA53970594239_022023-O.webp'
@@ -102,12 +102,12 @@ const CarouselCategoryItem = ({ category }) => {
 const Home = () => {
   const history = useGetHistory();
   const bookmarks = useGetBookmarks();
-  const categories = useGetMainCategories();
+  const categories = useGetCategories();
   const products = useSearchProducts();
-  console.log('History', history);
-  console.log('Bookmarks', bookmarks);
-  console.log('Categories', categories);
-  console.log('Products', products);
+  // console.log('History', history);
+  // console.log('Bookmarks', bookmarks);
+  // console.log('Categories', categories);
+  // console.log('Products', products);
 
   return (
     <main className='flex w-full flex-col overflow-auto bg-white'>

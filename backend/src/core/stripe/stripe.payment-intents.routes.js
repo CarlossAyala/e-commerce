@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Stripe = require('./stripe.connection');
 const Boom = require('@hapi/boom');
-const { validateJWT } = require('../../middlewares/api');
+const JWT = require('../../middlewares/auth/jwt.auth');
 const {
   User,
   CartProduct,
@@ -14,7 +14,7 @@ const {
 } = require('../../database/mysql/models');
 
 // Create
-router.post('/', validateJWT(), async (req, res, next) => {
+router.post('/', JWT.verify, async (req, res, next) => {
   try {
     // Exist Customer in my Own Database
     const exist_customer = await User.model.findByPk(req.auth.id);
@@ -79,7 +79,7 @@ router.post('/', validateJWT(), async (req, res, next) => {
 });
 
 // Confirm
-router.post('/confirm', validateJWT(), async (req, res, next) => {
+router.post('/confirm', JWT.verify, async (req, res, next) => {
   const { address, paymentIntent, paymentMethod } = req.body;
 
   try {
