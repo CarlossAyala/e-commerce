@@ -1,25 +1,12 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button } from '@carbon/react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
-  Button,
-  IconButton,
-  NumberInput,
-  SkeletonPlaceholder,
-  SkeletonText,
-} from '@carbon/react';
-import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
-import {
-  totalVisibles,
-  useChangeVisibility,
   useGetCart,
-  useRemoveFromCart,
-  useUpdateItemCart,
-  totalHiddens,
+  CartItem,
+  CartItemSkeleton,
+  getTotalsCart,
 } from '../features/cart';
 import { priceFormater } from '../utils/formater';
-import { Close, View, ViewOff } from '@carbon/icons-react';
-import { useDebounce } from '../utils/hooks';
 import { useCheckout } from '../features/checkout';
 import { useCreatePaymentIntent } from '../features/stripe/payment-intent';
 
@@ -27,17 +14,15 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const items = useGetCart();
-  // console.log('Products', items);
+  console.log('Products', items);
 
-  const totalVisible = totalVisibles(items.data);
-  const hiddens = totalHiddens(items.data);
-  const totalVisMoreHid = totalVisible + hiddens;
+  const [visible, hidden, both] = getTotalsCart(items.data);
 
   // console.log('totalVisible', totalVisible);
   // console.log('hiddens', hiddens);
   // console.log('totalVisMoreHid', totalVisMoreHid);
 
-  console.log('Re reder');
+  // console.log('Re reder');
 
   const { setPaymentIntent } = useCheckout();
   const createPaymentIntent = useCreatePaymentIntent();
@@ -88,7 +73,10 @@ const Cart = () => {
           <section className='overflow-y-auto p-4'>
             <ul className='space-y-10'>
               {items.data.map((item) => (
-                <CartItem key={item.id} item={item} />
+                <CartItem
+                  key={`${item.product.id}-${item.quantity}`}
+                  item={item}
+                />
               ))}
             </ul>
           </section>
@@ -99,16 +87,16 @@ const Cart = () => {
                   Subtotal
                 </span>
                 <span className='text-xl font-semibold leading-none'>
-                  {priceFormater(totalVisible)}
+                  {priceFormater(visible)}
                 </span>
               </div>
-              {hiddens > 0 && (
+              {hidden > 0 && (
                 <div className='flex items-center justify-between'>
                   <span className='text-base leading-none text-gray-600'>
                     Total + Hiddens
                   </span>
                   <span className='text-xl font-semibold leading-none'>
-                    {priceFormater(totalVisMoreHid)}
+                    {priceFormater(both)}
                   </span>
                 </div>
               )}
@@ -130,144 +118,6 @@ const Cart = () => {
         </>
       ) : null}
     </main>
-  );
-};
-
-const CartItemSkeleton = () => {
-  return (
-    <div className='flex'>
-      <div className='mr-2'>
-        <SkeletonPlaceholder />
-      </div>
-      <div className='flex flex-col justify-between'>
-        <div>
-          <div className='w-52'>
-            <SkeletonText />
-          </div>
-          <div className='w-16'>
-            <SkeletonText style={{ margin: '0' }} />
-          </div>
-        </div>
-        <div className='w-20'>
-          <SkeletonText style={{ margin: '0' }} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const CartItem = ({ item }) => {
-  const [quantity, setQuantity] = useState(item.quantity);
-
-  const debouncedQuantity = useDebounce(quantity);
-
-  const removeFromCart = useRemoveFromCart();
-  const updateQuantity = useUpdateItemCart();
-  const changeVisible = useChangeVisibility();
-
-  const changeVisibility = () => {
-    changeVisible.mutate(item.id);
-  };
-
-  useEffect(() => {
-    if (debouncedQuantity < 1) return;
-    if (debouncedQuantity > item.product.stock) return;
-    if (!item.product.available) return;
-
-    if (debouncedQuantity !== item.quantity) {
-      updateQuantity.mutate({
-        id: item.id,
-        quantity: debouncedQuantity,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedQuantity]);
-
-  return (
-    <li className={clsx(!item.visible && 'opacity-50')}>
-      <div className='flex w-full'>
-        <div className='h-20 w-20 shrink-0 overflow-hidden rounded'>
-          <img
-            src={
-              item.product.image ||
-              'https://http2.mlstatic.com/D_NQ_NP_773243-MLA42453247573_072020-V.webp'
-            }
-            alt={item.product.name}
-            className='h-full w-full object-cover'
-          />
-        </div>
-        <div className='ml-2 flex grow flex-col justify-between'>
-          <div>
-            <Link
-              to={`/product/${item.product.id}/${item.product.slug}`}
-              target='_blank'
-            >
-              <h3 className='mb-1 text-base font-semibold leading-tight'>
-                {item.product.name}
-              </h3>
-            </Link>
-            <div className='flex flex-wrap items-center divide-x divide-gray-300 text-sm leading-tight text-gray-500'>
-              <span className='pr-2'>
-                U.P: {priceFormater(item.product.price)}
-              </span>
-              <span className='pl-2'>Stock: {item.product.stock}</span>
-            </div>
-          </div>
-          <p className='text-base font-semibold leading-tight text-gray-900'>
-            {priceFormater(item.product.price * item.quantity)}
-          </p>
-        </div>
-      </div>
-      <div className='mt-3 flex gap-x-2'>
-        <IconButton
-          label='Remove item from cart'
-          size='md'
-          kind='secondary'
-          onClick={() => removeFromCart.mutate(item.id)}
-        >
-          <Close size='20' />
-        </IconButton>
-        <NumberInput
-          id={`item-quantity-${item.product.id}`}
-          label='Quantity'
-          name='quantity'
-          hideLabel
-          invalid={quantity > item.product.stock || !item.product.available}
-          invalidText={
-            quantity > item.product.stock
-              ? 'Stock limit'
-              : !item.product.available
-              ? 'Product not available'
-              : quantity < 1 && 'Quantity must be greater than 0'
-          }
-          max={item.product.stock}
-          min={1}
-          step={1}
-          onChange={(_, { value }) => setQuantity(value)}
-          value={quantity}
-          size='md'
-        />
-        {item.visible ? (
-          <IconButton
-            onClick={() => changeVisibility()}
-            label='Visible On'
-            size='md'
-            kind='secondary'
-          >
-            <View size='20' />
-          </IconButton>
-        ) : (
-          <IconButton
-            onClick={() => changeVisibility()}
-            label='Visible Off'
-            size='md'
-            kind='secondary'
-          >
-            <ViewOff size='20' />
-          </IconButton>
-        )}
-      </div>
-    </li>
   );
 };
 

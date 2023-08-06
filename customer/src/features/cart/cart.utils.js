@@ -1,17 +1,28 @@
-export const totalVisibles = (cart) => {
-  if (!cart || cart.length === 0) return 0;
+export const getTotalsCart = (cart) => {
+  let visible = 0;
+  let hidden = 0;
+  let both = 0;
 
-  return cart.reduce((acc, item) => {
-    if (item.visible) return acc + item.quantity * item.product.price;
-    else return acc;
-  }, 0);
+  if (!Array.isArray(cart) || cart.length === 0) return [visible, hidden, both];
+
+  cart.forEach((item) => {
+    if (item.visible) visible += item.quantity * item.product.price;
+    else hidden += item.quantity * item.product.price;
+
+    both += item.quantity * item.product.price;
+  });
+
+  return [visible, hidden, both];
 };
 
-export const totalHiddens = (cart) => {
-  if (!cart || cart.length === 0) return 0;
+export const getQtyCart = (cart) => {
+  let qty = 0;
 
-  return cart.reduce((acc, item) => {
-    if (!item.visible) return acc + item.quantity * item.product.price;
-    else return acc;
-  }, 0);
+  if (!Array.isArray(cart) || cart.length === 0) return qty;
+
+  cart.forEach((item) => {
+    qty += item.quantity;
+  });
+
+  return qty;
 };
