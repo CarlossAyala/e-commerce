@@ -16,6 +16,7 @@ import OrderList from './order-list';
 import OrderView from './order-view';
 import Product from './product';
 import ProductSearch from './product-search';
+import Profile from './profile';
 import Signin from './signin';
 import Signup from './signup';
 import StoreList from './store-list';
@@ -44,4 +45,5 @@ export {
   CategoryView,
   StoreList,
   StoreView,
+  Profile,
 };

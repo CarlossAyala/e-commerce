@@ -100,14 +100,7 @@ router.get('/profile', JWT.verify, async (req, res, next) => {
       return next(Boom.notFound('Customer not found'));
     }
 
-    const token = await JWT.sign({
-      id: customer.dataValues.id,
-    });
-
-    return res.status(200).json({
-      token,
-      customer,
-    });
+    return res.status(200).json(customer);
   } catch (error) {
     next(error);
   }
@@ -162,7 +155,12 @@ router.patch(
         customer.dataValues.password
       );
       if (!equal) {
-        return next(Boom.badRequest('Invalid password'));
+        return next(Boom.badRequest('Old password is incorrect'));
+      }
+      if (oldPassword === newPassword) {
+        return next(
+          Boom.badRequest('New password must be different from old one')
+        );
       }
 
       const encryptedPassword = await Encrypter.hash(newPassword);

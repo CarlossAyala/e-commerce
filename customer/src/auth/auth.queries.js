@@ -15,11 +15,6 @@ export const useGetProfile = () => {
     enabled: Boolean(tokenLS),
     queryKey: authKeys.profile(),
     queryFn: () => API.getProfile(),
-    onSuccess: ({ customer, token }) => {
-      setToken(token);
-
-      queryClient.setQueryData(authKeys.profile(), customer);
-    },
     onError: () => {
       removeToken();
 

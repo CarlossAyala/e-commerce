@@ -43,8 +43,8 @@ const switcherSections = [
   ],
   [
     {
-      label: 'Perfil',
-      to: '/customer/profile',
+      label: 'Account',
+      to: '/account',
     },
   ],
   [

@@ -24,6 +24,7 @@ import {
   CategoryView,
   StoreList,
   StoreView,
+  Profile,
 } from './pages';
 
 const router = createBrowserRouter([
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
       {
         path: 'store/:slug/view',
         element: <StoreView />,
+      },
+      {
+        path: 'account/profile',
+        element: <Profile />,
       },
     ],
   },

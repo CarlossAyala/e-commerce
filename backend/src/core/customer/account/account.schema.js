@@ -5,9 +5,8 @@ const lastName = Joi.string().min(3).max(255).required();
 const email = Joi.string().email().required();
 const password = Joi.string().min(8).max(255).required();
 const validatePassword = Joi.string().valid(Joi.ref('password')).required();
-const newPassword = Joi.string()
-  .invalid(Joi.ref('oldPassword', { render: true }))
-  .required();
+const oldPassword = Joi.string().min(8).max(255).required();
+const newPassword = password;
 const confirmPassword = Joi.string()
   .valid(Joi.ref('newPassword', { render: true }))
   .required();
@@ -31,7 +30,7 @@ const changeName = Joi.object({
 });
 
 const changePassword = Joi.object({
-  oldPassword: password,
+  oldPassword,
   newPassword,
   confirmPassword,
 });
