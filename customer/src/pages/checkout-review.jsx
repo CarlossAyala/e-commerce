@@ -4,8 +4,8 @@ import { useGetAddress } from '../features/address';
 import { priceFormater } from '../utils/formater';
 import { useCheckout } from '../features/checkout';
 import { useGetCart } from '../features/cart';
-import { useGetPaymentMethod } from '../features/stripe/payment-method';
 import { useConfirmPaymentIntent } from '../features/stripe/payment-intent';
+import { useGetPaymentMethod } from '../features/payment-method';
 
 const CheckoutReview = () => {
   const checkout = useCheckout();

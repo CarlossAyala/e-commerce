@@ -3,6 +3,7 @@ import AddressList from './address-list';
 import AddressNew from './address-new';
 import AddressView from './address-view';
 import Bookmark from './bookmark';
+import Cards from './cards';
 import Cart from './cart';
 import CategoryList from './category-list';
 import CategoryView from './category-view';
@@ -46,4 +47,5 @@ export {
   StoreList,
   StoreView,
   Profile,
+  Cards,
 };

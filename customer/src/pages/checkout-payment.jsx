@@ -13,7 +13,7 @@ import { useCreateCheckoutSession } from '../features/stripe/checkout-session';
 import {
   useGetNewPaymentMethod,
   useGetPaymentMethods,
-} from '../features/stripe/payment-method';
+} from '../features/payment-method';
 
 const CheckoutPayment = () => {
   const [submitted, setSubmitted] = useState(false);

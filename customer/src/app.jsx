@@ -25,6 +25,7 @@ import {
   StoreList,
   StoreView,
   Profile,
+  Cards,
 } from './pages';
 
 const router = createBrowserRouter([
@@ -115,6 +116,10 @@ const router = createBrowserRouter([
       {
         path: 'account/profile',
         element: <Profile />,
+      },
+      {
+        path: 'account/cards',
+        element: <Cards />,
       },
     ],
   },
