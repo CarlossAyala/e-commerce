@@ -6,9 +6,9 @@ import {
   CartItemSkeleton,
   getTotalsCart,
 } from '../features/cart';
-import { priceFormater } from '../utils/formater';
 import { useCheckout } from '../features/checkout';
 import { useCreatePaymentIntent } from '../features/stripe/payment-intent';
+import { priceFormatter } from '../utils/formatter';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -19,10 +19,10 @@ const Cart = () => {
   const [visible, hidden, both] = getTotalsCart(items.data);
 
   // console.log('totalVisible', totalVisible);
-  // console.log('hiddens', hiddens);
+  // console.log('hidden', hidden);
   // console.log('totalVisMoreHid', totalVisMoreHid);
 
-  // console.log('Re reder');
+  // console.log('Re render');
 
   const { setPaymentIntent } = useCheckout();
   const createPaymentIntent = useCreatePaymentIntent();
@@ -87,16 +87,16 @@ const Cart = () => {
                   Subtotal
                 </span>
                 <span className='text-xl font-semibold leading-none'>
-                  {priceFormater(visible)}
+                  {priceFormatter(visible)}
                 </span>
               </div>
               {hidden > 0 && (
                 <div className='flex items-center justify-between'>
                   <span className='text-base leading-none text-gray-600'>
-                    Total + Hiddens
+                    Total + Hidden
                   </span>
                   <span className='text-xl font-semibold leading-none'>
-                    {priceFormater(both)}
+                    {priceFormatter(both)}
                   </span>
                 </div>
               )}

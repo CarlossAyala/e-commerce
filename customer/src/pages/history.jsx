@@ -6,7 +6,7 @@ import {
   useGetHistory,
   useRemoveFromHistory,
 } from '../features/history';
-import { monthYearFormat } from '../utils/formater';
+import { monthYearFormat } from '../utils/formatter';
 import { groupByMonthYear } from '../utils/group-by';
 
 const History = () => {

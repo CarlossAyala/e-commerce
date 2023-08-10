@@ -9,7 +9,7 @@ import {
 } from '@carbon/react';
 import { useCheckout } from '../features/checkout';
 import { useGetAddresses } from '../features/address';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 
 const CheckoutShipping = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -152,7 +152,7 @@ const CheckoutShipping = () => {
                 Productos
               </span>
               <span className='text-lg font-semibold leading-tight text-gray-900'>
-                {priceFormater(Math.random() * 1_000_000)}
+                {priceFormatter(Math.random() * 1_000_000)}
               </span>
             </li>
             <li className='flex items-center justify-between'>
@@ -160,7 +160,7 @@ const CheckoutShipping = () => {
                 Envío
               </span>
               <span className='text-lg font-semibold leading-tight text-gray-900'>
-                {priceFormater(Math.random() * 1000)}
+                {priceFormatter(Math.random() * 1000)}
               </span>
             </li>
           </ol>

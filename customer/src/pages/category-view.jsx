@@ -9,7 +9,7 @@ import {
   useGetCategoryRandom,
   useGetCategoryStores,
 } from '../features/category';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import { StarIcon } from '@heroicons/react/24/solid';
 
 const SectionSkeleton = () => {
@@ -133,7 +133,7 @@ const CarouselProductItem = ({ product }) => {
       </div>
       <div className='border-t border-black/10 p-2'>
         <p className='text-base font-bold leading-snug text-black'>
-          {priceFormater(product.price)}
+          {priceFormatter(product.price)}
         </p>
         <p
           className={clsx(

@@ -7,8 +7,8 @@ import {
 } from '../cart.queries';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
-import { IconButton, NumberInput } from '@carbon/react';
-import { priceFormater } from '../../../utils/formater';
+import { Button, NumberInput } from '@carbon/react';
+import { priceFormatter } from '../../../utils/formatter';
 import { Close, View, ViewOff } from '@carbon/icons-react';
 
 const CartItem = ({ item }) => {
@@ -81,25 +81,26 @@ const CartItem = ({ item }) => {
             </Link>
             <div className='flex flex-wrap items-center divide-x divide-gray-300 text-sm leading-tight text-gray-500'>
               <span className='pr-2'>
-                U.P: {priceFormater(item.product.price)}
+                U.P: {priceFormatter(item.product.price)}
               </span>
               <span className='pl-2'>Stock: {item.product.stock}</span>
             </div>
           </div>
           <p className='text-base font-semibold leading-tight text-gray-900'>
-            {priceFormater(item.product.price * item.quantity)}
+            {priceFormatter(item.product.price * item.quantity)}
           </p>
         </div>
       </div>
       <div className='mt-3 flex gap-x-2'>
-        <IconButton
-          label='Remove item from cart'
+        <Button
           size='md'
           kind='secondary'
           onClick={() => handleRemoveItem()}
-        >
-          <Close size='20' />
-        </IconButton>
+          hasIconOnly
+          iconDescription='Remove item'
+          renderIcon={(props) => <Close size='20' {...props} />}
+          tooltipAlignment='start'
+        />
         <NumberInput
           id={`item-quantity-${item.product.id}`}
           label='Quantity'
@@ -121,23 +122,25 @@ const CartItem = ({ item }) => {
           size='md'
         />
         {item.visible ? (
-          <IconButton
-            onClick={() => changeVisibility()}
-            label='Visible On'
+          <Button
             size='md'
             kind='secondary'
-          >
-            <View size='20' />
-          </IconButton>
+            hasIconOnly
+            iconDescription='Visible'
+            tooltipAlignment='start'
+            renderIcon={(props) => <View size='20' {...props} />}
+            onClick={() => changeVisibility()}
+          />
         ) : (
-          <IconButton
-            onClick={() => changeVisibility()}
-            label='Visible Off'
+          <Button
             size='md'
             kind='secondary'
-          >
-            <ViewOff size='20' />
-          </IconButton>
+            hasIconOnly
+            iconDescription='Hidden'
+            tooltipAlignment='start'
+            renderIcon={(props) => <ViewOff size='20' {...props} />}
+            onClick={() => changeVisibility()}
+          />
         )}
       </div>
     </li>

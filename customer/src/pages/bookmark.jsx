@@ -6,7 +6,7 @@ import {
   useGetBookmarks,
   useRemoveBookmark,
 } from '../features/bookmark';
-import { monthYearFormat } from '../utils/formater';
+import { monthYearFormat } from '../utils/formatter';
 import { groupByMonthYear } from '../utils/group-by';
 
 const Bookmark = () => {

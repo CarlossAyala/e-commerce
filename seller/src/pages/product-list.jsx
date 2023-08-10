@@ -17,7 +17,7 @@ import {
 import { useGetProducts } from '../features/product';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -102,7 +102,7 @@ const ProductList = () => {
         {product.name}
       </Link>
     ),
-    price: priceFormater(product.price),
+    price: priceFormatter(product.price),
     stock: product.stock,
     status: product.available ? (
       <span className='items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>

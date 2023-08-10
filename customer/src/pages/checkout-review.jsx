@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, SkeletonText, SkeletonPlaceholder } from '@carbon/react';
 import { useGetAddress } from '../features/address';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import { useCheckout } from '../features/checkout';
 import { useGetCart } from '../features/cart';
 import { useConfirmPaymentIntent } from '../features/stripe/payment-intent';
@@ -245,7 +245,7 @@ const CheckoutReview = () => {
                           x{item.quantity}
                         </span>
                         <span className='font-semibold text-gray-900'>
-                          {priceFormater(item.product.price * item.quantity)}
+                          {priceFormatter(item.product.price * item.quantity)}
                         </span>
                       </div>
                     </div>
@@ -265,7 +265,7 @@ const CheckoutReview = () => {
                 Productos
               </span>
               <span className='text-lg font-semibold leading-tight text-gray-900'>
-                {priceFormater(Math.random() * 1_000_000)}
+                {priceFormatter(Math.random() * 1_000_000)}
               </span>
             </li>
             <li className='flex items-center justify-between'>
@@ -273,7 +273,7 @@ const CheckoutReview = () => {
                 Envío
               </span>
               <span className='text-lg font-semibold leading-tight text-gray-900'>
-                {priceFormater(Math.random() * 1000)}
+                {priceFormatter(Math.random() * 1000)}
               </span>
             </li>
           </ol>

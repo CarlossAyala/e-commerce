@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, SkeletonText } from '@carbon/react';
-import { orderListDateFormater, priceFormater } from '../utils/formater';
+import { orderListDateFormater, priceFormatter } from '../utils/formatter';
 import { useGetOrders } from '../features/order/order.queries';
 
 const OrderList = () => {
@@ -103,7 +103,7 @@ const OrderList = () => {
                         Total
                       </p>
                       <p className='text-sm font-semibold capitalize leading-snug text-gray-900'>
-                        {priceFormater(order.total)}
+                        {priceFormatter(order.total)}
                       </p>
                     </div>
                   </div>

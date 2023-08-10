@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, SkeletonText, SkeletonPlaceholder } from '@carbon/react';
-import { dateFormater, priceFormater } from '../utils/formater';
+import { dateFormater, priceFormatter } from '../utils/formatter';
 import { useGetOrder } from '../features/order/order.queries';
 
 const OrderView = () => {
@@ -71,14 +71,14 @@ const OrderView = () => {
                           {item.product.name}
                         </h4>
                         <p className='text-sm leading-tight text-gray-600'>
-                          U.P: {priceFormater(item.product.price)}
+                          U.P: {priceFormatter(item.product.price)}
                         </p>
                         <p className='text-sm leading-tight text-gray-600'>
                           Qty: {item.quantity}
                         </p>
                         <p className='text-sm leading-tight text-gray-600'>
                           Total:{' '}
-                          {priceFormater(item.quantity * item.product.price)}
+                          {priceFormatter(item.quantity * item.product.price)}
                         </p>
                       </div>
                     </div>
@@ -97,7 +97,7 @@ const OrderView = () => {
                 Sub total
               </h4>
               <p className='text-base font-semibold leading-tight text-gray-900'>
-                {priceFormater(order.data.order.total)}
+                {priceFormatter(order.data.order.total)}
               </p>
             </div>
             <div className='flex items-center justify-between'>
@@ -105,7 +105,7 @@ const OrderView = () => {
                 Shipping Charge
               </h4>
               <p className='text-base font-semibold leading-tight text-gray-900'>
-                {priceFormater(order.data.order.total)}
+                {priceFormatter(order.data.order.total)}
               </p>
             </div>
             <div className='mt-1 flex items-center justify-between'>
@@ -113,7 +113,7 @@ const OrderView = () => {
                 Total
               </h4>
               <p className='text-xl font-semibold leading-tight text-gray-900'>
-                {priceFormater(order.data.order.total)}
+                {priceFormatter(order.data.order.total)}
               </p>
             </div>
           </div>

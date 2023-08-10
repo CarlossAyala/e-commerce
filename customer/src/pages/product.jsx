@@ -27,7 +27,7 @@ import {
   Renew,
 } from '@carbon/icons-react';
 import { useGetProduct, useGetRelatedProducts } from '../features/product';
-import { getTimeAgo, priceFormater } from '../utils/formater';
+import { getTimeAgo, priceFormatter } from '../utils/formatter';
 import { useAddToHistory } from '../features/history';
 import {
   useAddBookmark,
@@ -120,7 +120,7 @@ const CarouselProductItem = ({ product }) => {
         </div>
         <div className='border-t border-black/10 p-2'>
           <p className='text-base font-bold leading-snug text-black'>
-            {priceFormater(product.price)}
+            {priceFormatter(product.price)}
           </p>
           <p
             className={clsx(
@@ -262,7 +262,7 @@ const Product = () => {
             />
           </div>
           <div>
-            <p className='text-3xl'>{priceFormater(product.data.price)}</p>
+            <p className='text-3xl'>{priceFormatter(product.data.price)}</p>
           </div>
 
           <div className='mt-2 space-y-3'>

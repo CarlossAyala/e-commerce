@@ -42,7 +42,7 @@ import { customRows } from '../utils/tables';
 import { customHeaders } from '../utils/tables/custom-headers';
 import { Edit, Error } from '@carbon/icons-react';
 import { getTimeAgo } from '../utils/date';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import { Form, Formik } from 'formik';
 
 const headersData = [
@@ -198,7 +198,7 @@ const ProductQuestions = () => {
               <div>
                 <h3 className='text-sm font-semibold text-black'>Price</h3>
                 <h4 className='text-sm font-medium text-gray-600'>
-                  {priceFormater(product.data.price)}
+                  {priceFormatter(product.data.price)}
                 </h4>
               </div>
               <div>

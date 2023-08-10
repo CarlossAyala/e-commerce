@@ -18,7 +18,7 @@ import {
 import { Button } from '@carbon/react';
 import { useCreatePaymentIntent } from '../features/stripe/payment-intent';
 import { useCheckout } from '../features/checkout';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import clsx from 'clsx';
 
 const panelOptions = {
@@ -356,7 +356,7 @@ export const MainLayout = () => {
                                   <div className='flex items-end justify-between text-gray-900'>
                                     <p className='text-sm'>Subtotal</p>
                                     <p className='font-semibold'>
-                                      {priceFormater(visibles)}
+                                      {priceFormatter(visibles)}
                                     </p>
                                   </div>
                                   {hiddens ? (
@@ -366,7 +366,7 @@ export const MainLayout = () => {
                                           Subtotal hiddens
                                         </p>
                                         <p className='font-semibold'>
-                                          {priceFormater(hiddens)}
+                                          {priceFormatter(hiddens)}
                                         </p>
                                       </div>
                                       <div className='flex items-end justify-between text-gray-900'>
@@ -374,7 +374,7 @@ export const MainLayout = () => {
                                           Subtotal w/hiddens
                                         </p>
                                         <p className='font-semibold'>
-                                          {priceFormater(both)}
+                                          {priceFormatter(both)}
                                         </p>
                                       </div>
                                     </div>

@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 import { Search as SearchInput, Pagination, Dropdown } from '@carbon/react';
 import { Close, Filter } from '@carbon/icons-react';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import { useSearchProducts } from '../features/product';
 import { useDebounce } from '../utils/hooks/use-debounce';
 import {
@@ -66,7 +66,7 @@ const ProductSearch = () => {
         <h1 className='text-3xl leading-none'>Product Search</h1>
       </section>
 
-      <section className='flex mt-5'>
+      <section className='mt-5 flex'>
         <SearchInput
           id='search-products'
           labelText='Search products'
@@ -79,7 +79,7 @@ const ProductSearch = () => {
           {({ open }) => (
             <>
               <div className='border-l border-gray-300'>
-                <Menu.Button className='inline-flex w-12 h-12 justify-center items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-opacity-75 border-b border-gray-500 bg-gray-100'>
+                <Menu.Button className='inline-flex h-12 w-12 items-center justify-center border-b border-gray-500 bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-opacity-75'>
                   {open ? (
                     <Close label='Filter products' />
                   ) : (
@@ -96,7 +96,7 @@ const ProductSearch = () => {
                 leaveFrom='transform opacity-100 scale-100'
                 leaveTo='transform opacity-0 scale-95'
               >
-                <Menu.Items className='absolute z-10 right-0 w-56 origin-top-right divide-y divide-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                <Menu.Items className='absolute right-0 z-10 w-56 origin-top-right divide-y divide-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
                   <div className='px-1 py-1 '>
                     <Menu.Item>
                       {({ active }) => (
@@ -232,14 +232,14 @@ const ProductSearch = () => {
 
       {products.isFetched ? (
         <section className='my-4 border-b-2 border-gray-300'>
-          <p className='font-semibold text-base px-4 pb-2'>
+          <p className='px-4 pb-2 text-base font-semibold'>
             {products.data?.count || 0} results
           </p>
         </section>
       ) : null}
 
       <section className='flex items-center bg-gray-100'>
-        <p className='text-sm text-gray-600 pl-4 h-12 flex items-center border-b border-[#8d8d8d]'>
+        <p className='flex h-12 items-center border-b border-[#8d8d8d] pl-4 text-sm text-gray-600'>
           Sort by:
         </p>
         <Dropdown
@@ -256,16 +256,16 @@ const ProductSearch = () => {
       {products.isFetched && products.data?.count > 0 ? (
         <>
           <section className=''>
-            <ul className='grid grid-cols-2 my-4 px-4 gap-4'>
+            <ul className='my-4 grid grid-cols-2 gap-4 px-4'>
               {products.data.rows.map((product) => (
                 <li key={product.id}>
                   <Link
                     to={`/p/${product.id}/${product.slug}`}
-                    className='flex flex-col rounded-md bg-white shadow overflow-hidden'
+                    className='flex flex-col overflow-hidden rounded-md bg-white shadow'
                   >
                     <div className='p-2'>
                       <img
-                        className='aspect-square mx-auto w-full h-full object-cover'
+                        className='mx-auto aspect-square h-full w-full object-cover'
                         src='https://http2.mlstatic.com/D_NQ_NP_773243-MLA42453247573_072020-V.webp'
                         alt='XD'
                       />
@@ -273,7 +273,7 @@ const ProductSearch = () => {
                     <div className='px-3 py-2'>
                       <p className='text-sm text-gray-500'>{product.name}</p>
                       <p className='text-base font-semibold text-gray-900'>
-                        {priceFormater(product.price)}
+                        {priceFormatter(product.price)}
                       </p>
                     </div>
                   </Link>

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { CheckmarkFilled, Event } from '@carbon/icons-react';
 import { SkeletonPlaceholder, SkeletonText } from '@carbon/react';
 import { useGetStore, useGetStoreProducts } from '../features/store';
-import { joinedAt, priceFormater } from '../utils/formater';
+import { joinedAt, priceFormatter } from '../utils/formatter';
 
 const SectionSkeleton = () => {
   return (
@@ -48,7 +48,7 @@ const ProductItem = ({ product }) => {
       </div>
       <div className='border-t border-black/10 p-2'>
         <p className='text-base font-bold leading-snug text-black'>
-          {priceFormater(product.price)}
+          {priceFormatter(product.price)}
         </p>
         <p
           className={clsx(

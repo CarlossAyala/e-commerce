@@ -10,7 +10,7 @@ import {
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDeleteProduct, useGetProduct } from '../features/product';
-import { dateFormater, priceFormater } from '../utils/formater';
+import { dateFormater, priceFormatter } from '../utils/formatter';
 
 const FieldSkeleton = () => {
   return (
@@ -173,7 +173,7 @@ const ProductView = () => {
                   Price
                 </dt>
                 <dd className='mt-1 text-lg leading-6 text-gray-600 sm:col-span-2 sm:mt-0'>
-                  {priceFormater(product.data.price)}
+                  {priceFormatter(product.data.price)}
                 </dd>
               </div>
               <div className='px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>

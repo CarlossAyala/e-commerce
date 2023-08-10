@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import { useGetHistory } from '../features/history';
 import clsx from 'clsx';
 import { useGetBookmarks } from '../features/bookmark';
@@ -38,7 +38,7 @@ const CarouselProductItem = ({ product }) => {
         </div>
         <div className='border-t border-black/10 p-2'>
           <p className='text-base font-bold leading-snug text-black'>
-            {priceFormater(product.price)}
+            {priceFormatter(product.price)}
           </p>
           <p
             className={clsx(

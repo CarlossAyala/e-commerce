@@ -7,7 +7,7 @@ import {
   TileGroup,
   InlineNotification,
 } from '@carbon/react';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import { useCheckout } from '../features/checkout';
 import { useCreateCheckoutSession } from '../features/stripe/checkout-session';
 import {
@@ -219,7 +219,7 @@ const CheckoutPayment = () => {
                 Productos
               </span>
               <span className='text-lg font-semibold leading-tight text-gray-900'>
-                {priceFormater(Math.random() * 1_000_000)}
+                {priceFormatter(Math.random() * 1_000_000)}
               </span>
             </li>
             <li className='flex items-center justify-between'>
@@ -227,7 +227,7 @@ const CheckoutPayment = () => {
                 Envío
               </span>
               <span className='text-lg font-semibold leading-tight text-gray-900'>
-                {priceFormater(Math.random() * 1000)}
+                {priceFormatter(Math.random() * 1000)}
               </span>
             </li>
           </ol>

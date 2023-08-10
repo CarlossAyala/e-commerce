@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, SkeletonText } from '@carbon/react';
-import { priceFormater } from '../utils/formater';
+import { priceFormatter } from '../utils/formatter';
 import { useGetOrder } from '../features/order/order.queries';
 
 const CheckoutSuccess = () => {
@@ -91,7 +91,7 @@ const CheckoutSuccess = () => {
                     Total
                   </h5>
                   <p className='text-lg font-semibold leading-tight text-gray-900'>
-                    {priceFormater(order.data.order.total)}
+                    {priceFormatter(order.data.order.total)}
                   </p>
                 </div>
               </div>
