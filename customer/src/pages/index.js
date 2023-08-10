@@ -1,3 +1,4 @@
+import Account from './account';
 import AddressEdit from './address-edit';
 import AddressList from './address-list';
 import AddressNew from './address-new';
@@ -48,4 +49,5 @@ export {
   StoreView,
   Profile,
   Cards,
+  Account,
 };
