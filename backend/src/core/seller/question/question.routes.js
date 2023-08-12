@@ -228,7 +228,7 @@ router.post(
         // Cambiar el state de la pregunta
         await Question.model.update(
           {
-            states: req.body.states,
+            states: Question.enums.states.rejected,
           },
           {
             where: {

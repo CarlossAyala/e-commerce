@@ -5,8 +5,8 @@ import ProductPublish from './product-publish';
 import ProductQuestions from './product-questions';
 import ProductsQuestions from './products-questions';
 import ProductView from './product-view';
-import Signin from './sign-in';
-import Signup from './sign-up';
+import Signin from './signin';
+import Signup from './signup';
 import Store from './store';
 import StoreCreate from './store-create';
 

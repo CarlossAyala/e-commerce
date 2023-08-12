@@ -1,2 +1,2 @@
 export * from './price.formatter';
-export * from './date.formater';
+export * from './date.formatter';

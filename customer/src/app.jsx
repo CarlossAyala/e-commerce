@@ -27,6 +27,7 @@ import {
   Profile,
   Cards,
   Account,
+  QuestionList,
 } from './pages';
 
 const router = createBrowserRouter([
@@ -125,6 +126,10 @@ const router = createBrowserRouter([
       {
         path: 'account',
         element: <Account />,
+      },
+      {
+        path: 'question/list',
+        element: <QuestionList />,
       },
     ],
   },

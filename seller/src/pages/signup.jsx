@@ -1,32 +1,32 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { TextInput, Button, PasswordInput, Loading } from '@carbon/react';
 import { ArrowRight } from '@carbon/icons-react';
-import { initialValues, validationSchema, useSignup } from '../features/signup';
+import { signupInitial, signupSchema, useSignup } from '../auth';
 
 const Signup = () => {
-  const mutation = useSignup();
+  const signup = useSignup();
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values) => {
     try {
-      const data = await mutation.mutateAsync(values);
+      await signup.mutateAsync(values);
 
-      resetForm();
-
-      console.log(data);
+      navigate('/signin');
     } catch (error) {
-      console.log('Signup', error);
+      console.log('<Signup />', error);
     }
   };
 
   return (
-    <div className='grid grid-cols-1 min-h-screen'>
+    <div className='grid min-h-screen grid-cols-1'>
       <div className='flex flex-col items-center justify-center px-4'>
-        {mutation.isLoading && (
+        {signup.isLoading && (
           <Loading withOverlay description='Creating your account' />
         )}
         {/* Header */}
-        <div className='w-full mb-4'>
+        <div className='mb-4 w-full'>
           <h1>Sign up</h1>
           <p className='mt-1'>
             Have an account? <Link to='/signin'>Sign in</Link>
@@ -35,13 +35,13 @@ const Signup = () => {
         {/* TODO: Alerts? */}
         {/* Form */}
         <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
+          initialValues={signupInitial}
+          validationSchema={signupSchema}
           onSubmit={handleSubmit}
         >
           {({ values, errors, touched, handleChange, handleBlur }) => (
             <Form className='w-full'>
-              <div className='space-y-5 mt-4 mb-8'>
+              <div className='mb-8 mt-4 space-y-5'>
                 <TextInput
                   id='name'
                   name='name'

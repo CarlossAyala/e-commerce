@@ -37,8 +37,8 @@ import {
 import { useAddToCart } from '../features/cart';
 import {
   useCreateQuestion,
-  useGetCustomerQAs,
-  useGetProductQAs,
+  useGetQAsProductCustomer,
+  useGetQAsProduct,
 } from '../features/question';
 import {
   createQuestionInitial,
@@ -162,8 +162,8 @@ const Product = () => {
 
   const product = useGetProduct(productId);
   const related = useGetRelatedProducts(productId);
-  const productQAs = useGetProductQAs(productId);
-  const customerQAs = useGetCustomerQAs(productId);
+  const productQAs = useGetQAsProduct(productId);
+  const customerQAs = useGetQAsProductCustomer(productId);
   const createQuestion = useCreateQuestion();
 
   const bookmark = useGetBookmark(productId);

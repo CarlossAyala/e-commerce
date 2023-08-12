@@ -90,3 +90,13 @@ export const joinedAt = (date) => {
     month: 'long',
   }).format(valid);
 };
+
+export const ddMMYYFormatter = (date) => {
+  const valid = new Date(date);
+
+  return new Intl.DateTimeFormat('es-AR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+  }).format(valid);
+};

@@ -1,26 +1,20 @@
-import { Link } from 'react-router-dom';
-import { TextInput, Button, PasswordInput } from '@carbon/react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowRight } from '@carbon/icons-react';
 import { Form, Formik } from 'formik';
-import { initialValues, useSignin, validationSchema } from '../features/signin';
-import { useAuth } from '../features/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import { TextInput, Button, PasswordInput } from '@carbon/react';
+import { ArrowRight } from '@carbon/icons-react';
+import { useSignin, signinInitial, signinSchema } from '../auth';
 
 const Signin = () => {
-  const mutation = useSignin();
-  const { signin } = useAuth();
-  const navitage = useNavigate();
+  const signin = useSignin();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleSubmit = async (values) => {
     try {
-      const data = await mutation.mutateAsync(values);
-      console.log(data);
+      await signin.mutateAsync(values);
 
-      signin(data);
-      resetForm();
-      navitage('/');
+      navigate('/');
     } catch (error) {
-      console.log('Signin', error);
+      console.log('<Signin />', error);
     }
   };
 
@@ -39,8 +33,8 @@ const Signin = () => {
         <div className='w-full'></div>
         {/* Form */}
         <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
+          initialValues={signinInitial}
+          validationSchema={signinSchema}
           onSubmit={handleSubmit}
         >
           {({ values, errors, touched, handleChange, handleBlur }) => (
@@ -75,7 +69,7 @@ const Signin = () => {
               </div>
               <Button
                 renderIcon={(props) => <ArrowRight size={24} {...props} />}
-                iconDescription='Rigth Icon'
+                iconDescription='Right Icon'
                 kind='primary'
                 type='submit'
               >

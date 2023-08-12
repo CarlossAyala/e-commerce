@@ -29,15 +29,15 @@ const panelOptions = {
 const switcherSections = [
   [
     {
-      label: 'Compras',
-      to: '/customer/orders',
+      label: 'Purchases',
+      to: '/order/list',
     },
     {
-      label: 'Preguntas',
+      label: 'Questions',
       to: '/customer/questions',
     },
     {
-      label: 'Opiniones',
+      label: 'Reviews',
       to: '/customer/opinions',
     },
   ],
@@ -49,13 +49,13 @@ const switcherSections = [
   ],
   [
     {
-      label: 'Vender',
+      label: 'Sell on Fak-Ommerce',
       to: '/customer/sell',
     },
   ],
   [
     {
-      label: 'Cerrar sesión',
+      label: 'Log out',
       to: '/customer/logout',
     },
   ],

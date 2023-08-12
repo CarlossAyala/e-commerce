@@ -19,6 +19,7 @@ import OrderView from './order-view';
 import Product from './product';
 import ProductSearch from './product-search';
 import Profile from './profile';
+import QuestionList from './question-list';
 import Signin from './signin';
 import Signup from './signup';
 import StoreList from './store-list';
@@ -50,4 +51,5 @@ export {
   Profile,
   Cards,
   Account,
+  QuestionList,
 };

@@ -12,7 +12,7 @@ import { signinInitial, useSignin, signinSchema } from '../auth';
 const Signin = () => {
   const signin = useSignin();
 
-  const navitage = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -20,7 +20,7 @@ const Signin = () => {
       // console.log(data);
 
       resetForm();
-      navitage('/');
+      navigate('/');
     } catch (error) {
       console.log('Signin', error);
     }

@@ -7,6 +7,48 @@ const validatorSchema = require('../../../middlewares/api/validator.middleware')
 const schemas = require('./question.schema');
 const QueryBuilder = require('../../../utils/database/query-builder');
 
+// TODO: Add Pagination
+router.get('/customer', JWT.verify, async (req, res, next) => {
+  const { where, limit, offset } = new QueryBuilder(req.query)
+    .where('customerId', req.auth.id)
+    .orderBy('createdAt', 'DESC')
+    .withPagination()
+    .build();
+
+  try {
+    const QAs = await Product.model.findAndCountAll({
+      include: [
+        {
+          model: Question.model,
+          as: 'questions',
+          where,
+          required: true,
+          include: {
+            model: Answer.model,
+            as: 'answer',
+          },
+        },
+      ],
+      order: [
+        [
+          {
+            model: Question.model,
+            as: 'questions',
+          },
+          'createdAt',
+          'DESC',
+        ],
+      ],
+      limit,
+      offset,
+    });
+
+    return res.status(200).json(QAs);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get(
   '/product/:id',
   validatorSchema(schemas.resourceId, 'params'),
