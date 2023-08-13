@@ -105,6 +105,7 @@ const API = {
     return data;
   },
   async create(reviewId, values) {
+    console.log('Values', values);
     const url = `/${REVIEW}/${reviewId}`;
     const token = getToken();
 

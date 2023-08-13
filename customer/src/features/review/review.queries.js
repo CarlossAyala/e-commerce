@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import API from './review.api';
 import { getToken } from '../../api';
+import { findReviewIndex } from './review.utils';
 
-const reviewKeys = {
+export const reviewKeys = {
   key: ['review'],
   get: (id) => [...reviewKeys.key, 'get', id],
   done: () => [...reviewKeys.key, 'customer-done'],
@@ -93,7 +94,12 @@ export const useCreateReview = (reviewId) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (values) => API.create(reviewId, values),
+    mutationFn: ({ rating, description }) => {
+      return API.create(reviewId, {
+        rating: findReviewIndex(rating) + 1,
+        description,
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: reviewKeys.pending(),

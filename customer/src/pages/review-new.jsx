@@ -1,72 +1,104 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { Button, TextArea } from '@carbon/react';
 import { StarIcon as StarOutline } from '@heroicons/react/24/outline';
 import { StarIcon as StarSolid } from '@heroicons/react/24/solid';
 import {
+  REVIEW_RATING,
+  TABS_OPTIONS,
   newReviewInitial,
   reviewSchema,
+  useCreateReview,
   useGetReview,
 } from '../features/review';
-import { useState } from 'react';
+import { RadioGroup } from '@headlessui/react';
+import clsx from 'clsx';
+import { findReviewIndex } from '../features/review';
 
-const REVIEW_STARS = 5;
-
-const ReviewStar = () => {
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
+const ReviewStar = ({
+  values,
+  errors,
+  touched,
+  isSubmitting,
+  handleBlur,
+  setFieldValue,
+}) => {
+  const onChange = (rating) => {
+    setFieldValue('rating', rating);
+  };
 
   return (
-    <div className='flex items-center gap-x-1'>
-      {[...Array(REVIEW_STARS)].map((_, index) => {
-        const ratingValue = index + 1;
+    <RadioGroup
+      name='rating'
+      value={values.rating}
+      disabled={isSubmitting}
+      onChange={onChange}
+      onBlur={handleBlur}
+    >
+      <RadioGroup.Label className='text-xs leading-tight text-black/70'>
+        Rating
+      </RadioGroup.Label>
 
-        return (
-          <label
-            key={index}
-            className='relative h-4 w-4 cursor-pointer'
-            onMouseEnter={() => setHover(ratingValue)}
-            onMouseLeave={() => setHover(rating)}
-            onClick={() => setRating(ratingValue)}
-            style={{
-              color: ratingValue <= (hover || rating) ? '#ffc107' : '#e4e5e9',
-              backgroundColor:
-                ratingValue <= (hover || rating) ? '#ffc107' : '#e4e5e9',
-              borderRadius: '50%',
-              width: '20px',
-              height: '20px',
-              display: 'inline-block',
-              padding: '2px',
-              margin: '0',
-            }}
-          >
-            <input type='radio' name='' id='' />
-            {ratingValue <= (hover || rating) ? (
-              <StarSolid className='h-4 w-4 text-indigo-500' />
-            ) : (
-              <StarOutline className='h-4 w-4 text-indigo-500' />
-            )}
-          </label>
-        );
-      })}
-    </div>
+      <div className='mt-1 flex items-center justify-center gap-x-4'>
+        {REVIEW_RATING.map((rating, index) => {
+          const ratingValue = index;
+          const ratingForm = findReviewIndex(values.rating);
+
+          return (
+            <RadioGroup.Option
+              className='flex flex-col items-center'
+              value={rating}
+              key={rating}
+            >
+              <div className='group rounded-full p-2 hover:cursor-pointer hover:bg-indigo-100'>
+                {ratingValue <= ratingForm ? (
+                  <StarSolid className='h-8 w-8 text-indigo-600' />
+                ) : (
+                  <StarOutline className='h-8 w-8 text-gray-400 group-hover:text-gray-600' />
+                )}
+              </div>
+              <div className='text-center'>
+                <p
+                  className={clsx(
+                    'text-xs leading-tight',
+                    ratingValue === ratingForm
+                      ? 'text-indigo-600'
+                      : 'text-gray-400'
+                  )}
+                >
+                  {REVIEW_RATING[index]}
+                </p>
+              </div>
+            </RadioGroup.Option>
+          );
+        })}
+      </div>
+      {errors.rating && touched.rating && (
+        <div className='mt-2'>
+          <p className='text-xs leading-tight text-red-600'>{errors.rating}</p>
+        </div>
+      )}
+    </RadioGroup>
   );
 };
 
-// TODO: Add Pagination
 const ReviewNew = () => {
   const { reviewId } = useParams();
+  const navigate = useNavigate('/review/list?tab=done');
 
   const review = useGetReview(reviewId);
+  const create = useCreateReview(reviewId);
   console.log('Review', review);
 
   const handleSubmit = async (values, actions) => {
     try {
-      console.log('Values', values);
-      console.log('Actions', actions);
+      await create.mutateAsync(values);
+      navigate(`/review/list?tab=${TABS_OPTIONS.DONE}`);
     } catch (error) {
       console.log('<ReviewNew />');
       console.log('handleSubmit', error);
+    } finally {
+      actions.setSubmitting(false);
     }
   };
 
@@ -125,13 +157,21 @@ const ReviewNew = () => {
                     isSubmitting,
                     handleChange,
                     handleBlur,
+                    setFieldValue,
                   }) => (
                     <Form>
                       <h2 className='text-base font-semibold leading-6 text-gray-900'>
                         Review
                       </h2>
-                      <div className='mt-1 space-y-4'>
-                        <ReviewStar />
+                      <div className='space-y-6'>
+                        <ReviewStar
+                          values={values}
+                          errors={errors}
+                          touched={touched}
+                          isSubmitting={isSubmitting}
+                          handleChange={handleChange}
+                          setFieldValue={setFieldValue}
+                        />
                         <TextArea
                           id='review-description'
                           name='description'
@@ -139,7 +179,7 @@ const ReviewNew = () => {
                           rows={4}
                           enableCounter
                           maxCount={255}
-                          placeholder='Describe your experience'
+                          placeholder='Tell us more about your product'
                           invalidText={errors.description}
                           invalid={errors.description && touched.description}
                           value={values.description}

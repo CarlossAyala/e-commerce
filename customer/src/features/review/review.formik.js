@@ -1,4 +1,5 @@
-import { number, object, string } from 'yup';
+import { mixed, object, string } from 'yup';
+import { REVIEW_RATING } from './review.constants';
 
 const description = string()
   .label('Description')
@@ -6,12 +7,10 @@ const description = string()
   .min(5)
   .max(255)
   .required();
-const rating = number()
+const rating = mixed()
   .label('Rating')
-  .integer()
   .default('')
-  .min(1)
-  .max(5)
+  .oneOf(REVIEW_RATING)
   .required();
 
 export const reviewSchema = object({

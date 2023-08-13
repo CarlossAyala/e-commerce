@@ -48,7 +48,7 @@ router.get('/customer/done', JWT.verify, async (req, res, next) => {
   const { where, limit, offset, order } = new QueryBuilder(req.query)
     .where('status', Review.enums.status.done)
     .where('customerId', customerId)
-    .orderBy('createdAt', 'DESC')
+    .orderBy('updatedAt', 'DESC')
     .withPagination()
     .build();
 
@@ -106,7 +106,7 @@ router.get(
     const { id: productId } = req.params;
     const qb = new QueryBuilder(req.query)
       .where('productId', productId)
-      .orderBy('createdAt', 'DESC')
+      .orderBy('updatedAt', 'DESC')
       .withPagination()
       .build();
 
@@ -203,7 +203,7 @@ router.post(
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id } = req.params;
-    const { description, rating } = req.body;
+    const { rating, description } = req.body;
 
     try {
       const review = await Review.model.findOne({
@@ -212,13 +212,15 @@ router.post(
           customerId,
         },
       });
-      if (!review) {
-        throw Boom.notFound('Review not found');
+      if (review.dataValues.status === Review.enums.status.done) {
+        return next(Boom.conflict('Review already exists'));
+      } else if (!review) {
+        return next(Boom.notFound('Review not found'));
       }
 
       await review.update({
-        comment: description,
         rating,
+        description,
         status: Review.enums.status.done,
       });
 

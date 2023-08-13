@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { getTimeAgo } from '../utils/formatter';
 import {
+  findTabIndex,
   useDislikeReview,
   useGetCustomerDoneReviews,
   useGetCustomerPendingReviews,
@@ -40,6 +41,8 @@ const ReviewStars = ({ rating }) => {
 
 // TODO: Add Pagination
 const ReviewList = () => {
+  const [searchParams] = useSearchParams();
+
   const pending = useGetCustomerPendingReviews();
   const done = useGetCustomerDoneReviews();
 
@@ -66,6 +69,8 @@ const ReviewList = () => {
     }
   };
 
+  const defaultTab = findTabIndex(searchParams.get('tab'));
+
   return (
     <main className='flex w-full flex-col overflow-auto bg-white'>
       <section className='px-4 py-3'>
@@ -78,7 +83,7 @@ const ReviewList = () => {
       </section>
 
       <section className='px-4'>
-        <Tab.Group>
+        <Tab.Group defaultIndex={defaultTab}>
           <div className='border-b border-black/10'>
             <Tab.List className='-mb-px space-x-6'>
               <Tab className='py-2 font-semibold text-gray-500 hover:border-b-2 hover:border-gray-200 hover:text-gray-600 ui-selected:border-b-2 ui-selected:border-indigo-600 ui-selected:text-indigo-600'>
@@ -96,9 +101,9 @@ const ReviewList = () => {
               ) : (
                 <div>
                   {pending.isSuccess && pending.data.rows.length === 0 && (
-                    <p className='text-sm text-gray-900'>
-                      You haven&apos;t made any reviews yet.
-                    </p>
+                    <div className='text-sm text-gray-900'>
+                      <p>You don&apos;t have any pending reviews.</p>
+                    </div>
                   )}
 
                   {pending.isSuccess && pending.data.rows.length > 0 && (
@@ -165,7 +170,7 @@ const ReviewList = () => {
                               <p className='line-clamp-1 text-sm font-semibold text-gray-900'>
                                 {review.product.name}
                               </p>
-                              <p className='line-clamp-2 text-sm font-medium text-gray-800'>
+                              <p className='line-clamp-2 text-sm font-medium leading-tight text-gray-800'>
                                 {review.product.description}
                               </p>
                             </div>
@@ -178,7 +183,7 @@ const ReviewList = () => {
                               </span>
                             </div>
                             <div className='mb-2 mt-1'>
-                              <p className='text-sm leading-tight text-gray-800'>
+                              <p className='text-sm leading-tight text-gray-600'>
                                 {review.description}
                               </p>
                             </div>
