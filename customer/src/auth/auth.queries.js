@@ -20,6 +20,7 @@ export const useGetProfile = () => {
 
       queryClient.setQueryData(authKeys.profile(), null);
     },
+    retry: false,
   });
 };
 

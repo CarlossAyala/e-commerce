@@ -6,8 +6,7 @@ const id = Joi.string().guid({
 });
 
 const base = Joi.object({
-  title: Joi.string().min(5).max(50).required(),
-  comment: Joi.string().min(5).max(255).required(),
+  description: Joi.string().min(5).max(255).required(),
   rating: Joi.number().integer().min(1).max(5).required(),
 });
 

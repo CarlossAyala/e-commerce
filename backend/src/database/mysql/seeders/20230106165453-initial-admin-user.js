@@ -2,7 +2,7 @@
 
 const { v4: uuidv4 } = require('uuid');
 const config = require('../../../config');
-const Encrypter = require('../../../utils/encrypter');
+const Encrypter = require('../../../middlewares/auth/encrypter');
 const { User, Cart } = require('../models');
 
 const generateUser = async () => {
@@ -13,7 +13,7 @@ const generateUser = async () => {
     name,
     last_name: lastName,
     email,
-    password: await Encrypter.encrypt(password),
+    password: await Encrypter.hash(password),
     created_at: new Date(),
     updated_at: new Date(),
   };

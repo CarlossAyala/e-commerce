@@ -28,6 +28,8 @@ import {
   Cards,
   Account,
   QuestionList,
+  ReviewList,
+  ReviewNew,
 } from './pages';
 
 const router = createBrowserRouter([
@@ -130,6 +132,14 @@ const router = createBrowserRouter([
       {
         path: 'question/list',
         element: <QuestionList />,
+      },
+      {
+        path: 'review/list',
+        element: <ReviewList />,
+      },
+      {
+        path: 'review/:reviewId/new',
+        element: <ReviewNew />,
       },
     ],
   },

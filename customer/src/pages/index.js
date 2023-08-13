@@ -20,6 +20,8 @@ import Product from './product';
 import ProductSearch from './product-search';
 import Profile from './profile';
 import QuestionList from './question-list';
+import ReviewList from './review-list';
+import ReviewNew from './review-new';
 import Signin from './signin';
 import Signup from './signup';
 import StoreList from './store-list';
@@ -52,4 +54,6 @@ export {
   Cards,
   Account,
   QuestionList,
+  ReviewList,
+  ReviewNew,
 };

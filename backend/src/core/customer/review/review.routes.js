@@ -12,6 +12,92 @@ const schemas = require('./review.schema');
 const sequelize = require('../../../database/mysql');
 const QueryBuilder = require('../../../utils/database/query-builder');
 
+router.get(
+  '/:id',
+  JWT.verify,
+  validatorSchema(schemas.resourceId, 'params'),
+  async (req, res, next) => {
+    const { id } = req.params;
+    const { id: customerId } = req.auth;
+
+    try {
+      const review = await Review.model.findOne({
+        where: {
+          id,
+          customerId,
+        },
+        include: {
+          model: Product.model,
+          as: 'product',
+        },
+      });
+      if (!review) {
+        return next(Boom.notFound('Review not found'));
+      }
+
+      return res.status(200).json(review);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get('/customer/done', JWT.verify, async (req, res, next) => {
+  const { id: customerId } = req.auth;
+
+  const { where, limit, offset, order } = new QueryBuilder(req.query)
+    .where('status', Review.enums.status.done)
+    .where('customerId', customerId)
+    .orderBy('createdAt', 'DESC')
+    .withPagination()
+    .build();
+
+  try {
+    const reviews = await Review.model.findAndCountAll({
+      where,
+      order,
+      include: {
+        model: Product.model,
+        as: 'product',
+      },
+      limit,
+      offset,
+    });
+
+    return res.status(200).json(reviews);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/customer/pending', JWT.verify, async (req, res, next) => {
+  const { id: customerId } = req.auth;
+
+  const { where, limit, offset, order } = new QueryBuilder(req.query)
+    .where('status', Review.enums.status.pending)
+    .where('customerId', customerId)
+    .orderBy('createdAt', 'DESC')
+    .withPagination()
+    .build();
+
+  try {
+    const reviews = await Review.model.findAndCountAll({
+      where,
+      order,
+      include: {
+        model: Product.model,
+        as: 'product',
+      },
+      limit,
+      offset,
+    });
+
+    return res.status(200).json(reviews);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Get Reviews
 router.get(
   '/product/:id',
@@ -109,30 +195,31 @@ router.get(
   }
 );
 
-// Create Review
 router.post(
-  '/product/:id',
+  '/:id',
   JWT.verify,
   validatorSchema(schemas.resourceId, 'params'),
   validatorSchema(schemas.base, 'body'),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
-    const { id: productId } = req.params;
-    const { title, comment, rating } = req.body;
+    const { id } = req.params;
+    const { description, rating } = req.body;
+
     try {
-      const product = await Product.model.findByPk(productId);
-      if (!product) {
-        throw Boom.notFound('Product not found');
+      const review = await Review.model.findOne({
+        where: {
+          id,
+          customerId,
+        },
+      });
+      if (!review) {
+        throw Boom.notFound('Review not found');
       }
 
-      // TODO: Crear lógica para hacer solamente UNA review cuando se compró el producto
-
-      const review = await Review.model.create({
-        title,
-        comment,
+      await review.update({
+        comment: description,
         rating,
-        productId,
-        customerId,
+        status: Review.enums.status.done,
       });
 
       return res.status(201).json(review);

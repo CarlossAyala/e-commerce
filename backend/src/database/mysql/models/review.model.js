@@ -2,12 +2,19 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../../database/mysql/index');
 const User = require('./user.model');
 const Product = require('./product.model');
+const OrderItem = require('./order-item.model');
 
 const modelName = 'Review';
 const tableName = 'reviews';
 const modelOptions = {
   tableName,
   timestamps: true,
+};
+const enums = {
+  status: {
+    done: 'done',
+    pending: 'pending',
+  },
 };
 
 const modelSchema = {
@@ -16,8 +23,7 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  title: DataTypes.STRING(50),
-  comment: DataTypes.STRING,
+  description: DataTypes.STRING,
   rating: DataTypes.INTEGER,
   like: {
     type: DataTypes.INTEGER,
@@ -26,6 +32,18 @@ const modelSchema = {
   dislike: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
+  },
+  status: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums.status),
+  },
+  orderItemId: {
+    type: DataTypes.UUID,
+    field: 'order_item_id',
+    references: {
+      model: OrderItem.model,
+      key: 'id',
+    },
   },
   customerId: {
     type: DataTypes.UUID,
@@ -62,4 +80,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

@@ -38,7 +38,7 @@ const switcherSections = [
     },
     {
       label: 'Reviews',
-      to: '/customer/opinions',
+      to: '/review/list',
     },
   ],
   [

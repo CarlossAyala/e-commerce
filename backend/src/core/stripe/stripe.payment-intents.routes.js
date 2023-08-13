@@ -11,6 +11,7 @@ const {
   Address,
   Order,
   OrderItem,
+  Review,
 } = require('../../database/mysql/models');
 
 // Create
@@ -80,13 +81,14 @@ router.post('/', JWT.verify, async (req, res, next) => {
 
 // Confirm
 router.post('/confirm', JWT.verify, async (req, res, next) => {
+  const { id: customerId } = req.auth;
   const { address, paymentIntent, paymentMethod } = req.body;
 
   try {
     const existAddress = await Address.model.findOne({
       where: {
         id: address,
-        customerId: req.auth.id,
+        customerId,
       },
     });
     if (!existAddress) return next(Boom.notFound('Address not found'));
@@ -94,7 +96,7 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
     // Get Cart Products
     const cart = await Cart.model.findOne({
       where: {
-        customerId: req.auth.id,
+        customerId,
       },
     });
     if (!cart) return next(Boom.notFound('Cart not found'));
@@ -134,7 +136,7 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
         destinataire: `${existAddress.name} - ${existAddress.phone}`,
         destination: `${existAddress.province} (${existAddress.zipCode}), ${existAddress.city}`,
         indications: existAddress.aditional,
-        customerId: req.auth.id,
+        customerId,
         status: Order.enums.pending,
         paymentIntentId: paymentIntent,
       });
@@ -147,8 +149,21 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
           price: item.product.price,
         };
       });
+      const createdOrders = await OrderItem.model.bulkCreate(orderItems, {
+        validate: true,
+      });
 
-      await OrderItem.model.bulkCreate(orderItems, { validate: true });
+      const reviewItems = createdOrders.map((order) => {
+        return {
+          status: Review.enums.status.pending,
+          orderItemId: order.id,
+          customerId,
+          productId: order.productId,
+        };
+      });
+      await Review.model.bulkCreate(reviewItems, {
+        validate: true,
+      });
 
       // TODO: Aplicar STOCK y SOLD correspondiente a cada producto
 

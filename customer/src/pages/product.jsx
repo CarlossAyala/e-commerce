@@ -48,8 +48,8 @@ import clsx from 'clsx';
 import { splitFloat } from '../utils/numbers';
 import {
   useDislikeReview,
-  useGetReviews,
-  useGetReviewsStats,
+  useGetProductReviews,
+  useGetProductReviewStats,
   useLikeReview,
 } from '../features/review';
 
@@ -174,8 +174,8 @@ const Product = () => {
 
   const history = useAddToHistory();
 
-  const reviews = useGetReviews(productId);
-  const reviewsStats = useGetReviewsStats(productId);
+  const reviews = useGetProductReviews(productId);
+  const reviewsStats = useGetProductReviewStats(productId);
   const likeReview = useLikeReview();
   const dislikeReview = useDislikeReview();
 
@@ -648,8 +648,8 @@ const Product = () => {
                     </span>
                   </div>
                   <div className='mb-2 mt-1'>
-                    <p className='text-sm leading-tight text-black'>
-                      {review.comment}
+                    <p className='text-sm leading-tight text-gray-800'>
+                      {review.description}
                     </p>
                   </div>
                   <div className='flex items-center gap-x-4'>

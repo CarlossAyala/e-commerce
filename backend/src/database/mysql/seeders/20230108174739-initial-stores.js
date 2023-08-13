@@ -1,7 +1,7 @@
 'use strict';
 
 const config = require('../../../config');
-const Encrypter = require('../../../utils/encrypter');
+const Encrypter = require('../../../middlewares/auth/encrypter');
 const { v4: uuidv4 } = require('uuid');
 const { faker } = require('@faker-js/faker/locale/es_MX');
 const slugify = require('slugify');
@@ -23,7 +23,7 @@ const createRandomUsers = async () => {
   const name = faker.name.firstName(userSex);
   const lastName = faker.name.lastName(userSex);
   const email = `${name}.${id}@gmail.com`;
-  const password = await Encrypter.encrypt(config.seller.password);
+  const password = await Encrypter.hash(config.seller.password);
 
   return {
     id,
