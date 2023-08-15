@@ -34,7 +34,7 @@ const switcherSections = [
     },
     {
       label: 'Questions',
-      to: '/customer/questions',
+      to: '/question/list',
     },
     {
       label: 'Reviews',
@@ -93,11 +93,16 @@ export const MainLayout = () => {
   const cart = useGetCart();
 
   const qtyItems = getQtyCart(cart.data);
-  const [visibles, hiddens, both] = getTotalsCart(cart.data);
+  const [visible, hidden, both] = getTotalsCart(cart.data);
 
   const handleSlideoverPanel = (panel) => {
     setSlideoverPanel(panel);
     setSlideover(true);
+  };
+
+  const hideSlideover = () => {
+    setSlideoverPanel('');
+    setSlideover(false);
   };
 
   const handleCheckout = async () => {
@@ -164,7 +169,7 @@ export const MainLayout = () => {
           <Dialog
             as='div'
             className='relative z-40 lg:hidden'
-            onClose={setSidebar}
+            onClose={hideSlideover}
           >
             <Transition.Child
               as={Fragment}
@@ -209,6 +214,7 @@ export const MainLayout = () => {
                         key={page.name}
                         to={page.href}
                         className='block px-4 py-2 font-semibold text-gray-900'
+                        onClick={hideSlideover}
                       >
                         {page.name}
                       </Link>
@@ -325,7 +331,11 @@ export const MainLayout = () => {
                               <ul key={index} className='py-2'>
                                 {section.map(({ label, to }) => (
                                   <li key={to}>
-                                    <Link to={to} className='flex px-4 py-1.5'>
+                                    <Link
+                                      to={to}
+                                      className='flex px-4 py-1.5'
+                                      onClick={hideSlideover}
+                                    >
                                       <p className='text-base font-semibold leading-tight text-gray-900'>
                                         {label}
                                       </p>
@@ -356,17 +366,17 @@ export const MainLayout = () => {
                                   <div className='flex items-end justify-between text-gray-900'>
                                     <p className='text-sm'>Subtotal</p>
                                     <p className='font-semibold'>
-                                      {priceFormatter(visibles)}
+                                      {priceFormatter(visible)}
                                     </p>
                                   </div>
-                                  {hiddens ? (
+                                  {hidden ? (
                                     <div className='mb-2'>
                                       <div className='flex items-end justify-between text-gray-900'>
                                         <p className='text-sm'>
                                           Subtotal hiddens
                                         </p>
                                         <p className='font-semibold'>
-                                          {priceFormatter(hiddens)}
+                                          {priceFormatter(hidden)}
                                         </p>
                                       </div>
                                       <div className='flex items-end justify-between text-gray-900'>

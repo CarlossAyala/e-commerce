@@ -106,6 +106,7 @@ router.get(
     const { id: productId } = req.params;
     const qb = new QueryBuilder(req.query)
       .where('productId', productId)
+      .where('status', Review.enums.status.done)
       .orderBy('updatedAt', 'DESC')
       .withPagination()
       .build();
@@ -150,6 +151,7 @@ router.get(
         ],
         where: {
           productId,
+          status: Review.enums.status.done,
         },
         group: ['rating'],
         order: [['rating', 'DESC']],
