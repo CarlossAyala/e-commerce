@@ -11,7 +11,7 @@ import {
   Signin,
   Signup,
   Store,
-  StoreCreate,
+  StoreNew,
 } from './pages';
 import SellerProvider from './seller.provider';
 
@@ -41,11 +41,11 @@ const router = createBrowserRouter([
         element: <ProductEdit />,
       },
       {
-        path: 'product/questions',
+        path: 'product/question/list',
         element: <ProductsQuestions />,
       },
       {
-        path: 'product/:id/questions',
+        path: 'product/:id/question/list',
         element: <ProductQuestions />,
       },
       {
@@ -53,8 +53,8 @@ const router = createBrowserRouter([
         element: <Store />,
       },
       {
-        path: 'store/create',
-        element: <StoreCreate />,
+        path: 'store/new',
+        element: <StoreNew />,
       },
     ],
   },

@@ -23,9 +23,9 @@ const modelSchema = {
     defaultValue: false,
   },
   slug: DataTypes.STRING,
-  userId: {
+  sellerId: {
     type: DataTypes.UUID,
-    field: 'user_id',
+    field: 'seller_id',
     references: {
       model: User.model,
       key: 'id',

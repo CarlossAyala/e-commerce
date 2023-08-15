@@ -66,22 +66,6 @@ const API = {
 
     return data;
   },
-  async checkDuplicateName(values) {
-    const url = `/${STORE}/check-duplicate-name`;
-    const token = getToken();
-
-    const response = await SellerClient.request({
-      method: 'POST',
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      data: values,
-    });
-
-    return response.data;
-  },
   async deleteStore() {
     const url = `/${STORE}`;
     const token = getToken();

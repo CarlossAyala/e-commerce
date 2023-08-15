@@ -9,10 +9,10 @@ export const authKeys = {
 
 export const useGetProfile = () => {
   const queryClient = useQueryClient();
-  const tokenLS = getToken();
+  const token = getToken();
 
   return useQuery({
-    enabled: Boolean(tokenLS),
+    enabled: Boolean(token),
     queryKey: authKeys.profile(),
     queryFn: () => API.getProfile(),
     onError: () => {

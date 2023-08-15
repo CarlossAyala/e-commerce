@@ -8,14 +8,14 @@ import ProductView from './product-view';
 import Signin from './signin';
 import Signup from './signup';
 import Store from './store';
-import StoreCreate from './store-create';
+import StoreNew from './store-new';
 
 export {
   Signin,
   Signup,
   Dashboard,
   Store,
-  StoreCreate,
+  StoreNew,
   ProductList,
   ProductPublish,
   ProductView,

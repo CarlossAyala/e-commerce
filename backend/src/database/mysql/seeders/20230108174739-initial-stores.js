@@ -61,7 +61,7 @@ const createRandomStore = (userId) => {
     profile,
     official,
     slug,
-    user_id: userId,
+    seller_id: userId,
     created_at: new Date(),
     updated_at: new Date(),
   };

@@ -1,19 +1,22 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import API from './store.api';
+import { getToken } from '../../api';
 
 const storeKeys = {
   key: ['store'],
-  // allFilter: (filters = {}) => [...storeKeys.key, 'all', filters],
 };
 
 export const useGetStore = () => {
+  const token = getToken();
+
   return useQuery({
     queryKey: storeKeys.key,
     queryFn: () => API.getStore(),
+    enabled: Boolean(token),
   });
 };
 
-export const useCreateStore = () => {
+export const useNewStore = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -25,12 +28,6 @@ export const useCreateStore = () => {
         queryKey: storeKeys.key,
       });
     },
-  });
-};
-
-export const useCheckDuplicateName = () => {
-  return useMutation({
-    mutationFn: (values) => API.checkDuplicateName(values),
   });
 };
 
@@ -49,7 +46,7 @@ export const useChangeName = () => {
   });
 };
 
-export const useChangeDesc = () => {
+export const useChangeDescription = () => {
   const queryClient = useQueryClient();
 
   return useMutation({

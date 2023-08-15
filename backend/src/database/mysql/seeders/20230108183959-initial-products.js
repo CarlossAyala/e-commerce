@@ -15,7 +15,7 @@ const createRandomProduct = (categoryId, storeId) => {
     min: 1,
     max: 10_000,
     dec: 2,
-    simbol: '',
+    symbol: '',
   };
   const stockSoldOptions = {
     max: 1_000,

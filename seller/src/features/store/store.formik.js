@@ -1,35 +1,39 @@
 import * as Yup from 'yup';
 
-const name = Yup.string().label('Name').min(3).max(255);
+const name = Yup.string().label('Name').min(3).max(255).required();
 
-const description = Yup.string().label('Description').min(3).max(255);
+const description = Yup.string()
+  .label('Description')
+  .min(3)
+  .max(255)
+  .required();
 
-export const validationSchema = Yup.object({
-  name: name.required(),
-  description: description.required(),
+export const storeSchema = Yup.object({
+  name,
+  description,
 });
 
 export const changeNameSchema = Yup.object({
-  name: name.required(),
+  name,
 });
 
-export const changeDescSchema = Yup.object({
-  description: description.required(),
+export const changeDescriptionSchema = Yup.object({
+  description,
 });
 
-export const withName = (values) => {
+export const storeNameDefault = (values) => {
   return {
     name: values.name,
   };
 };
 
-export const withDescription = (values) => {
+export const storeDescriptionDefault = (values) => {
   return {
     description: values.description,
   };
 };
 
-export const initialValues = {
-  name: 'Some fancy name',
-  description: '',
+export const storeInitial = {
+  name: 'Coca Cola',
+  description: 'Lorem ipsum dolor sit amet',
 };

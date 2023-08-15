@@ -13,6 +13,7 @@
     "@carbon/icons-react": "^11.19.0",
     "@carbon/react": "^1.29.1",
     "@headlessui/react": "^1.7.14",
+    "@heroicons/react": "^2.0.18",
     "@ibm/plex": "^6.3.0",
     "@tanstack/react-query": "^4.29.12",
     "@tanstack/react-query-devtools": "^4.29.12",
