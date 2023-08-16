@@ -18,7 +18,7 @@ const sequelize = require('../../../database/mysql');
 router.get('/', JWT.verify, async (req, res, next) => {
   const qbQuestion = new QueryBuilder(req.query)
     .orderBy('total', 'DESC')
-    .withPagination()
+    .pagination()
     .build();
 
   try {
@@ -76,7 +76,7 @@ router.get(
       .where('states', Question.enums.states.queue)
       .whereLike('name', req.query.q)
       .orderBy('createdAt', 'DESC')
-      .withPagination()
+      .pagination()
       .build();
 
     try {

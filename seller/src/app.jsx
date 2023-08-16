@@ -2,12 +2,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MainLayout } from './layout';
 import {
   Dashboard,
-  ProductEdit,
+  // ProductEdit,
+  // ProductNew,
   ProductList,
-  ProductPublish,
-  ProductQuestions,
-  ProductsQuestions,
-  ProductView,
+  // ProductQuestions,
+  // ProductsQuestions,
+  // ProductView,
   Signin,
   Signup,
   Store,
@@ -24,30 +24,30 @@ const router = createBrowserRouter([
         index: true,
         element: <Dashboard />,
       },
-      {
-        path: 'product/publish',
-        element: <ProductPublish />,
-      },
+      // {
+      //   path: 'product/new',
+      //   element: <ProductNew />,
+      // },
       {
         path: 'product/list',
         element: <ProductList />,
       },
-      {
-        path: 'product/view/:id',
-        element: <ProductView />,
-      },
-      {
-        path: 'product/edit/:id',
-        element: <ProductEdit />,
-      },
-      {
-        path: 'product/question/list',
-        element: <ProductsQuestions />,
-      },
-      {
-        path: 'product/:id/question/list',
-        element: <ProductQuestions />,
-      },
+      // {
+      //   path: 'product/:id/view',
+      //   element: <ProductView />,
+      // },
+      // {
+      //   path: 'product/:id/edit',
+      //   element: <ProductEdit />,
+      // },
+      // {
+      //   path: 'product/question/list',
+      //   element: <ProductsQuestions />,
+      // },
+      // {
+      //   path: 'product/:id/question/list',
+      //   element: <ProductQuestions />,
+      // },
       {
         path: 'store',
         element: <Store />,

@@ -1,21 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
+const Boom = require("@hapi/boom");
 const {
   Product,
   Review,
   ReviewLikeDislike,
-} = require('../../../database/mysql/models');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./review.schema');
-const sequelize = require('../../../database/mysql');
-const QueryBuilder = require('../../../utils/database/query-builder');
+} = require("../../../database/mysql/models");
+const JWT = require("../../../middlewares/auth/jwt.auth");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const schemas = require("./review.schema");
+const sequelize = require("../../../database/mysql");
+const QueryBuilder = require("../../../utils/database/query-builder");
 
 router.get(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id } = req.params;
     const { id: customerId } = req.auth;
@@ -28,11 +28,11 @@ router.get(
         },
         include: {
           model: Product.model,
-          as: 'product',
+          as: "product",
         },
       });
       if (!review) {
-        return next(Boom.notFound('Review not found'));
+        return next(Boom.notFound("Review not found"));
       }
 
       return res.status(200).json(review);
@@ -42,14 +42,14 @@ router.get(
   }
 );
 
-router.get('/customer/done', JWT.verify, async (req, res, next) => {
+router.get("/customer/done", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;
 
   const { where, limit, offset, order } = new QueryBuilder(req.query)
-    .where('status', Review.enums.status.done)
-    .where('customerId', customerId)
-    .orderBy('updatedAt', 'DESC')
-    .withPagination()
+    .where("status", Review.enums.status.done)
+    .where("customerId", customerId)
+    .orderBy("updatedAt", "DESC")
+    .pagination()
     .build();
 
   try {
@@ -58,7 +58,7 @@ router.get('/customer/done', JWT.verify, async (req, res, next) => {
       order,
       include: {
         model: Product.model,
-        as: 'product',
+        as: "product",
       },
       limit,
       offset,
@@ -70,14 +70,14 @@ router.get('/customer/done', JWT.verify, async (req, res, next) => {
   }
 });
 
-router.get('/customer/pending', JWT.verify, async (req, res, next) => {
+router.get("/customer/pending", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;
 
   const { where, limit, offset, order } = new QueryBuilder(req.query)
-    .where('status', Review.enums.status.pending)
-    .where('customerId', customerId)
-    .orderBy('createdAt', 'DESC')
-    .withPagination()
+    .where("status", Review.enums.status.pending)
+    .where("customerId", customerId)
+    .orderBy("createdAt", "DESC")
+    .pagination()
     .build();
 
   try {
@@ -86,7 +86,7 @@ router.get('/customer/pending', JWT.verify, async (req, res, next) => {
       order,
       include: {
         model: Product.model,
-        as: 'product',
+        as: "product",
       },
       limit,
       offset,
@@ -100,26 +100,26 @@ router.get('/customer/pending', JWT.verify, async (req, res, next) => {
 
 // Get Reviews
 router.get(
-  '/product/:id',
-  validatorSchema(schemas.resourceId, 'params'),
+  "/product/:id",
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const qb = new QueryBuilder(req.query)
-      .where('productId', productId)
-      .where('status', Review.enums.status.done)
-      .orderBy('updatedAt', 'DESC')
-      .withPagination()
+      .where("productId", productId)
+      .where("status", Review.enums.status.done)
+      .orderBy("updatedAt", "DESC")
+      .pagination()
       .build();
 
     try {
       const product = await Product.model.findByPk(productId);
       if (!product) {
-        return next(Boom.notFound('Product not found'));
+        return next(Boom.notFound("Product not found"));
       }
 
       const reviews = await Review.model.findAndCountAll({
         attributes: {
-          exclude: ['customerId'],
+          exclude: ["customerId"],
         },
         ...qb,
       });
@@ -133,28 +133,28 @@ router.get(
 
 // Get Stats
 router.get(
-  '/product/:id/stats',
-  validatorSchema(schemas.resourceId, 'params'),
+  "/product/:id/stats",
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
     try {
       const product = await Product.model.findByPk(productId);
       if (!product) {
-        return next(Boom.notFound('Product not found'));
+        return next(Boom.notFound("Product not found"));
       }
 
       const reviews = await Review.model.findAll({
         attributes: [
-          'rating',
-          [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
+          "rating",
+          [sequelize.fn("COUNT", sequelize.col("id")), "count"],
         ],
         where: {
           productId,
           status: Review.enums.status.done,
         },
-        group: ['rating'],
-        order: [['rating', 'DESC']],
+        group: ["rating"],
+        order: [["rating", "DESC"]],
       });
 
       let totalReviews = 0;
@@ -172,7 +172,7 @@ router.get(
       for (let rating = 5; rating >= 1; rating--) {
         reviewsMap.set(rating, {
           rating,
-          percentage: '0',
+          percentage: "0",
           count: 0,
         });
       }
@@ -198,10 +198,10 @@ router.get(
 );
 
 router.post(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
-  validatorSchema(schemas.base, 'body'),
+  validatorSchema(schemas.resourceId, "params"),
+  validatorSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id } = req.params;
@@ -215,9 +215,9 @@ router.post(
         },
       });
       if (review.dataValues.status === Review.enums.status.done) {
-        return next(Boom.conflict('Review already exists'));
+        return next(Boom.conflict("Review already exists"));
       } else if (!review) {
-        return next(Boom.notFound('Review not found'));
+        return next(Boom.notFound("Review not found"));
       }
 
       await review.update({
@@ -235,16 +235,16 @@ router.post(
 
 // Like Review
 router.post(
-  '/:id/like',
+  "/:id/like",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id: reviewId } = req.params;
     try {
       const review = await Review.model.findByPk(reviewId);
       if (!review) {
-        throw Boom.notFound('Review not found');
+        throw Boom.notFound("Review not found");
       }
 
       // Si ya le dio like, lo elimina
@@ -256,20 +256,20 @@ router.post(
       });
       if (likeState?.dataValues?.state) {
         await likeState.destroy();
-        await review.decrement('like');
+        await review.decrement("like");
 
         return res.status(200).json({
-          message: 'Review disliked',
+          message: "Review disliked",
         });
       } else if (likeState?.dataValues?.state === false) {
         await likeState.update({
           state: true,
         });
-        await review.increment('like');
-        await review.decrement('dislike');
+        await review.increment("like");
+        await review.decrement("dislike");
 
         return res.status(200).json({
-          message: 'Review liked',
+          message: "Review liked",
         });
       } else {
         await ReviewLikeDislike.model.create({
@@ -277,10 +277,10 @@ router.post(
           customerId,
           reviewId,
         });
-        await review.increment('like');
+        await review.increment("like");
 
         return res.status(200).json({
-          message: 'Review liked',
+          message: "Review liked",
         });
       }
     } catch (error) {
@@ -291,16 +291,16 @@ router.post(
 
 // Dislike Review
 router.post(
-  '/:id/dislike',
+  "/:id/dislike",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id: reviewId } = req.params;
     try {
       const review = await Review.model.findByPk(reviewId);
       if (!review) {
-        throw Boom.notFound('Review not found');
+        throw Boom.notFound("Review not found");
       }
 
       // Si ya le dio dislike, lo elimina
@@ -312,20 +312,20 @@ router.post(
       });
       if (dislikeState?.dataValues?.state === false) {
         await dislikeState.destroy();
-        await review.decrement('dislike');
+        await review.decrement("dislike");
 
         return res.status(200).json({
-          message: 'Review disliked',
+          message: "Review disliked",
         });
       } else if (dislikeState?.dataValues?.state) {
         await dislikeState.update({
           state: false,
         });
-        await review.decrement('like');
-        await review.increment('dislike');
+        await review.decrement("like");
+        await review.increment("dislike");
 
         return res.status(200).json({
-          message: 'Review disliked',
+          message: "Review disliked",
         });
       } else {
         await ReviewLikeDislike.model.create({
@@ -333,10 +333,10 @@ router.post(
           customerId,
           reviewId,
         });
-        await review.increment('dislike');
+        await review.increment("dislike");
 
         return res.status(200).json({
-          message: 'Review disliked',
+          message: "Review disliked",
         });
       }
     } catch (error) {

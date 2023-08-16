@@ -12,7 +12,7 @@ router.get('/search', async (req, res, next) => {
   const qb = new QueryBuilder(req.query)
     .whereLike('name', req.query.name)
     .orderBy('name', 'ASC')
-    .withPagination()
+    .pagination()
     .build();
 
   try {

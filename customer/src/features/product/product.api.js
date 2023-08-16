@@ -1,29 +1,29 @@
-import { SystemClient } from '../../api';
+import { SystemClient } from "../../api";
 
-const PRODUCTS = 'products';
+const PRODUCTS = "products";
 
 const API = {
   async getProduct(id) {
     const url = `/${PRODUCTS}/${id}`;
 
     const { data } = await SystemClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
     return data;
   },
   async searchProducts(query) {
-    const url = `/${PRODUCTS}/search${query ? `?${query}` : ''}`;
+    const url = `/${PRODUCTS}${query ? `?${query}` : ""}`;
 
     const { data } = await SystemClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
@@ -33,10 +33,10 @@ const API = {
     const url = `/${PRODUCTS}/${id}/related`;
 
     const { data } = await SystemClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 

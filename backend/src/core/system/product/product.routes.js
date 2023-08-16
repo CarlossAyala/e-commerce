@@ -1,25 +1,25 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const QueryBuilder = require('../../../utils/database/query-builder');
-const { Product, Store } = require('../../../database/mysql/models');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./product.schema');
-const { Op } = require('sequelize');
+const Boom = require("@hapi/boom");
+const QueryBuilder = require("../../../utils/database/query-builder");
+const { Product, Store } = require("../../../database/mysql/models");
+const JWT = require("../../../middlewares/auth/jwt.auth");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const schemas = require("./product.schema");
+const { Op } = require("sequelize");
 
 // Searcher
-router.get('/search', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   const qb = new QueryBuilder(req.query)
-    .whereLike('name', req.query.q)
-    .orderBy('name', 'ASC')
-    .withPagination()
+    .whereLike("name", req.query.q)
+    .orderBy("name", "ASC")
+    .pagination()
     .build();
 
   try {
     const products = await Product.model.findAndCountAll({
       attributes: {
-        exclude: ['storeId'],
+        exclude: ["storeId"],
       },
       ...qb,
     });
@@ -32,8 +32,8 @@ router.get('/search', async (req, res, next) => {
 
 // Get Product
 router.get(
-  '/:id',
-  validatorSchema(schemas.resourceId, 'params'),
+  "/:id",
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
@@ -42,11 +42,11 @@ router.get(
       const product = await Product.model.findByPk(productId, {
         include: {
           model: Store.model,
-          as: 'store',
+          as: "store",
         },
       });
       if (!product) {
-        return next(Boom.notFound('Product not found'));
+        return next(Boom.notFound("Product not found"));
       }
 
       return res.status(200).json(product);
@@ -58,18 +58,18 @@ router.get(
 
 // Get Related Products
 router.get(
-  '/:id/related',
-  validatorSchema(schemas.resourceId, 'params'),
+  "/:id/related",
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
     try {
       const product = await Product.model.findByPk(productId);
       if (!product) {
-        return next(Boom.notFound('Product not found'));
+        return next(Boom.notFound("Product not found"));
       }
 
-      const qb = new QueryBuilder(req.query).withPagination().build();
+      const qb = new QueryBuilder(req.query).pagination().build();
       const related = await Product.model.findAll({
         where: {
           [Op.or]: {

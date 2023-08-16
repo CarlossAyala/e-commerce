@@ -39,6 +39,8 @@ const switcherSections = [
       label: 'Create Store',
       to: '/store/new',
     },
+  ],
+  [
     {
       label: 'Account',
       to: '/account',

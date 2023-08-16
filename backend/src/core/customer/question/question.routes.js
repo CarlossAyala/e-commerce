@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const { Product, Question, Answer } = require('../../../database/mysql/models');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./question.schema');
-const QueryBuilder = require('../../../utils/database/query-builder');
+const Boom = require("@hapi/boom");
+const { Product, Question, Answer } = require("../../../database/mysql/models");
+const JWT = require("../../../middlewares/auth/jwt.auth");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const schemas = require("./question.schema");
+const QueryBuilder = require("../../../utils/database/query-builder");
 
 // TODO: Add Pagination
-router.get('/customer', JWT.verify, async (req, res, next) => {
+router.get("/customer", JWT.verify, async (req, res, next) => {
   const { where, limit, offset } = new QueryBuilder(req.query)
-    .where('customerId', req.auth.id)
-    .orderBy('createdAt', 'DESC')
-    .withPagination()
+    .where("customerId", req.auth.id)
+    .orderBy("createdAt", "DESC")
+    .pagination()
     .build();
 
   try {
@@ -20,12 +20,12 @@ router.get('/customer', JWT.verify, async (req, res, next) => {
       include: [
         {
           model: Question.model,
-          as: 'questions',
+          as: "questions",
           where,
           required: true,
           include: {
             model: Answer.model,
-            as: 'answer',
+            as: "answer",
           },
         },
       ],
@@ -33,10 +33,10 @@ router.get('/customer', JWT.verify, async (req, res, next) => {
         [
           {
             model: Question.model,
-            as: 'questions',
+            as: "questions",
           },
-          'createdAt',
-          'DESC',
+          "createdAt",
+          "DESC",
         ],
       ],
       limit,
@@ -50,14 +50,14 @@ router.get('/customer', JWT.verify, async (req, res, next) => {
 });
 
 router.get(
-  '/product/:id',
-  validatorSchema(schemas.resourceId, 'params'),
+  "/product/:id",
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const qb = new QueryBuilder(req.query)
-      .where('states', Question.enums.states.answered)
-      .where('productId', req.params.id)
-      .orderBy('createdAt', 'DESC')
-      .withPagination()
+      .where("states", Question.enums.states.answered)
+      .where("productId", req.params.id)
+      .orderBy("createdAt", "DESC")
+      .pagination()
       .build();
 
     try {
@@ -65,7 +65,7 @@ router.get(
         ...qb,
         include: {
           model: Answer.model,
-          as: 'answer',
+          as: "answer",
         },
       });
 
@@ -77,15 +77,15 @@ router.get(
 );
 
 router.get(
-  '/product/:id/customer',
+  "/product/:id/customer",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const qb = new QueryBuilder(req.query)
-      .where('customerId', req.auth.id)
-      .where('productId', req.params.id)
-      .orderBy('createdAt', 'DESC')
-      .withPagination()
+      .where("customerId", req.auth.id)
+      .where("productId", req.params.id)
+      .orderBy("createdAt", "DESC")
+      .pagination()
       .build();
 
     try {
@@ -93,7 +93,7 @@ router.get(
         ...qb,
         include: {
           model: Answer.model,
-          as: 'answer',
+          as: "answer",
         },
       });
 
@@ -106,10 +106,10 @@ router.get(
 
 // Create Question
 router.post(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
-  validatorSchema(schemas.base, 'body'),
+  validatorSchema(schemas.resourceId, "params"),
+  validatorSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const { id: customerId } = req.auth;
@@ -117,7 +117,7 @@ router.post(
 
     try {
       const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound('Product not found'));
+      if (!product) return next(Boom.notFound("Product not found"));
 
       const newQuestion = await Question.model.create({
         question,

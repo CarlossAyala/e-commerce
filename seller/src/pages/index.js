@@ -1,10 +1,10 @@
 import Dashboard from './dashboard';
-import ProductEdit from './product-edit';
+// import ProductEdit from './product-edit';
 import ProductList from './product-list';
-import ProductPublish from './product-publish';
-import ProductQuestions from './product-questions';
-import ProductsQuestions from './products-questions';
-import ProductView from './product-view';
+// import ProductNew from './product-new';
+// import ProductQuestions from './product-questions';
+// import ProductsQuestions from './products-questions';
+// import ProductView from './product-view';
 import Signin from './signin';
 import Signup from './signup';
 import Store from './store';
@@ -17,9 +17,9 @@ export {
   Store,
   StoreNew,
   ProductList,
-  ProductPublish,
-  ProductView,
-  ProductEdit,
-  ProductsQuestions,
-  ProductQuestions,
+  // ProductNew,
+  // ProductView,
+  // ProductEdit,
+  // ProductsQuestions,
+  // ProductQuestions,
 };

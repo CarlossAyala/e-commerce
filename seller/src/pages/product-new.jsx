@@ -50,7 +50,7 @@ const headers = [
   },
 ];
 
-const ProductPublish = () => {
+const ProductNew = () => {
   const [params, setParams] = useSearchParams();
   const [search, setSearch] = useState(params.get('name') || '');
 
@@ -87,7 +87,7 @@ const ProductPublish = () => {
   return (
     <main className='overflow-auto bg-gray-200'>
       <section className='border-b border-gray-200 bg-white px-4 pb-4 pt-3'>
-        <h1 className='text-3xl leading-none'>Publish Product</h1>
+        <h1 className='text-3xl leading-none'>New Product</h1>
       </section>
 
       <section className='my-4 px-4'>
@@ -378,4 +378,4 @@ const ProductPublish = () => {
   );
 };
 
-export default ProductPublish;
+export default ProductNew;

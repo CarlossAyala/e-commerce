@@ -124,7 +124,7 @@ class QueryBuilder {
     this._offset = (offset - 1) * this._limit;
   }
 
-  withPagination() {
+  pagination() {
     const { limit, page } = this.params;
 
     this.limit(limit);
