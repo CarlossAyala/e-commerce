@@ -1,45 +1,45 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { MainLayout } from './layout';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { MainLayout } from "./layout";
 import {
   Dashboard,
-  // ProductEdit,
-  // ProductNew,
+  ProductNew,
   ProductList,
+  ProductView,
+  ProductEdit,
   // ProductQuestions,
   // ProductsQuestions,
-  // ProductView,
   Signin,
   Signup,
   Store,
   StoreNew,
-} from './pages';
-import SellerProvider from './seller.provider';
+} from "./pages";
+import SellerProvider from "./seller.provider";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
         index: true,
         element: <Dashboard />,
       },
-      // {
-      //   path: 'product/new',
-      //   element: <ProductNew />,
-      // },
       {
-        path: 'product/list',
+        path: "product/new",
+        element: <ProductNew />,
+      },
+      {
+        path: "product/list",
         element: <ProductList />,
       },
-      // {
-      //   path: 'product/:id/view',
-      //   element: <ProductView />,
-      // },
-      // {
-      //   path: 'product/:id/edit',
-      //   element: <ProductEdit />,
-      // },
+      {
+        path: "product/:id/view",
+        element: <ProductView />,
+      },
+      {
+        path: "product/:id/edit",
+        element: <ProductEdit />,
+      },
       // {
       //   path: 'product/question/list',
       //   element: <ProductsQuestions />,
@@ -49,21 +49,21 @@ const router = createBrowserRouter([
       //   element: <ProductQuestions />,
       // },
       {
-        path: 'store',
+        path: "store",
         element: <Store />,
       },
       {
-        path: 'store/new',
+        path: "store/new",
         element: <StoreNew />,
       },
     ],
   },
   {
-    path: '/signin',
+    path: "/signin",
     element: <Signin />,
   },
   {
-    path: '/signup',
+    path: "/signup",
     element: <Signup />,
   },
 ]);

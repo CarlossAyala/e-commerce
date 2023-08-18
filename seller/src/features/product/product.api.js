@@ -1,192 +1,83 @@
-import { SellerClient, getToken, urlWithQuery } from '../../api';
+import { SellerClient, getToken, urlWithQuery } from "../../api";
 
-const PRODUCTS = 'products';
+const PRODUCTS = "products";
 
 const API = {
-  async getProducts(query) {
-    const url = urlWithQuery(`${PRODUCTS}`, query);
+  async getProduct(productId) {
+    const url = `${PRODUCTS}/${productId}`;
     const token = getToken();
 
     const { data } = await SellerClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
 
     return data;
   },
+  async getProducts(query) {
+    const url = urlWithQuery(`${PRODUCTS}`, query);
+    const token = getToken();
 
-  // // TODO: mover esto de aquí
-  // async getCategory(id) {
-  //   const url = `/${PRODUCTS}/categories/${id}`;
+    const { data } = await SellerClient.request({
+      method: "GET",
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  //   const { data } = await SellerClient.request({
-  //     method: 'GET',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
+    return data;
+  },
+  async createProduct(values) {
+    const url = `${PRODUCTS}`;
+    const token = getToken();
+    const { data } = await SellerClient.request({
+      method: "POST",
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: values,
+    });
+    return data;
+  },
+  async updateProduct(productId, values) {
+    const url = `${PRODUCTS}/${productId}`;
+    const token = getToken();
 
-  //   return data;
-  // },
-  // async getProducts(query) {
-  //   const url = `/${PRODUCTS}/search${query ? `?${query}` : ''}`;
-  //   const token = getToken();
+    const { data } = await SellerClient.request({
+      method: "PUT",
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: values,
+    });
 
-  //   const { data } = await SellerClient.request({
-  //     method: 'GET',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
+    return data;
+  },
+  async deleteProduct(productId) {
+    const url = `${PRODUCTS}/${productId}`;
+    const token = getToken();
 
-  //   return data;
-  // },
-  // async editProduct(id, values) {
-  //   const url = `/${PRODUCTS}/${id}`;
-  //   const token = getToken();
+    const { data } = await SellerClient.request({
+      method: "DELETE",
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  //   const { data } = await SellerClient.request({
-  //     method: 'PUT',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     data: values,
-  //   });
-
-  //   return data;
-  // },
-  // async publishProduct(values) {
-  //   const url = `/${PRODUCTS}/${PUBLISH}`;
-  //   const token = getToken();
-
-  //   const { data } = await SellerClient.request({
-  //     method: 'POST',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     data: values,
-  //   });
-
-  //   return data;
-  // },
-  // async getProduct(id) {
-  //   const url = `/${PRODUCTS}/${id}`;
-  //   const token = getToken();
-
-  //   const { data } = await SellerClient.request({
-  //     method: 'GET',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   return data;
-  // },
-  // async deleteProduct(id) {
-  //   const url = `/${PRODUCTS}/${id}`;
-  //   const token = getToken();
-
-  //   const { data } = await SellerClient.request({
-  //     method: 'DELETE',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   return data;
-  // },
-  // // QUESTIONS
-  // async getQuestions(query) {
-  //   const url = `/${QUESTIONS}${query ? `?${query}` : ''}`;
-  //   const token = getToken();
-
-  //   const { data } = await SellerClient.request({
-  //     method: 'GET',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   return data;
-  // },
-  // async getQuestion(id) {
-  //   const url = `/${QUESTIONS}/${id}/product`;
-  //   const token = getToken();
-
-  //   const { data } = await SellerClient.request({
-  //     method: 'GET',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   return data;
-  // },
-  // async getProductQuestions(id, query) {
-  //   const url = `/${QUESTIONS}/product/${id}${query ? `?${query}` : ''}`;
-  //   const token = getToken();
-  //   const { data } = await SellerClient.request({
-  //     method: 'GET',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   return data;
-  // },
-  // async sendAnswerToQuestion(id, values) {
-  //   const url = `/${QUESTIONS}/${id}/product`;
-  //   const token = getToken();
-
-  //   const { data } = await SellerClient.request({
-  //     method: 'POST',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     data: values,
-  //   });
-
-  //   return data;
-  // },
-  // async sendStateQuestion(id, values) {
-  //   const url = `/${QUESTIONS}/${id}/product`;
-  //   const token = getToken();
-
-  //   const { data } = await SellerClient.request({
-  //     method: 'POST',
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     data: values,
-  //   });
-
-  //   return data;
-  // },
+    return data;
+  },
 };
 
 export default API;

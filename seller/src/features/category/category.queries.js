@@ -1,14 +1,23 @@
-import { useQuery } from '@tanstack/react-query';
-import API from './category.api';
+import { useQuery } from "@tanstack/react-query";
+import API from "./category.api";
 
 const categoryKeys = {
-  key: ['category'],
-  search: (search) => [...categoryKeys.key, 'search', search],
+  key: ["category"],
+  get: (id) => [...categoryKeys.key, "get", id],
+  getAll: (search) => [...categoryKeys.key, "get-all", search],
 };
 
-export const useSearchCategories = (params) => {
+export const useGetCategory = (id) => {
   return useQuery({
-    queryKey: categoryKeys.search(params),
-    queryFn: () => API.search(params),
+    queryKey: categoryKeys.get(id),
+    queryFn: () => API.get(id),
+    enabled: Boolean(id),
+  });
+};
+
+export const useGetCategories = (params) => {
+  return useQuery({
+    queryKey: categoryKeys.getAll(params),
+    queryFn: () => API.getAll(params),
   });
 };

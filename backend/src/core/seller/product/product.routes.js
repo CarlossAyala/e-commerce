@@ -1,16 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const slugify = require('slugify');
-const { Category, Product, Store } = require('../../../database/mysql/models');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const schemas = require('./product.schema');
-const slugifyOptions = require('../../../constant/slugify');
-const QueryBuilder = require('../../../utils/database/query-builder');
+const Boom = require("@hapi/boom");
+const slugify = require("slugify");
+const { Category, Product, Store } = require("../../../database/mysql/models");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const JWT = require("../../../middlewares/auth/jwt.auth");
+const schemas = require("./product.schema");
+const slugifyOptions = require("../../../constant/slugify");
+const QueryBuilder = require("../../../utils/database/query-builder");
 
 // Get Products
-router.get('/', JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
   const { id: sellerId } = req.auth;
   try {
     const store = await Store.model.findOne({
@@ -18,12 +18,12 @@ router.get('/', JWT.verify, async (req, res, next) => {
         sellerId,
       },
     });
-    if (!store) return next(Boom.notFound('Store not found'));
+    if (!store) return next(Boom.notFound("Store not found"));
 
     const { where, order, limit, offset } = new QueryBuilder(req.query)
-      .where('storeId', store.dataValues.id)
-      .whereLike('name', req.query.name)
-      .orderBy('name', 'ASC')
+      .where("storeId", store.dataValues.id)
+      .whereLike("name", req.query.name)
+      .orderBy("name", "ASC")
       .pagination()
       .build();
 
@@ -40,204 +40,153 @@ router.get('/', JWT.verify, async (req, res, next) => {
   }
 });
 
-// // Product Get One
-// router.get(
-//   '/:id',
-//   JWT.verify,
-//   validatorSchema(schemas.resourceId, 'params'),
-//   async (req, res, next) => {
-//     try {
-//       // middleware userHasStore
-//       const store = await Store.model.findOne({
-//         where: {
-//           userId: req.auth.id,
-//         },
-//       });
+// Get Product
+router.get(
+  "/:id",
+  JWT.verify,
+  validatorSchema(schemas.resourceId, "params"),
+  async (req, res, next) => {
+    const { id: sellerId } = req.auth;
 
-//       if (!store) return next(Boom.notFound('Store not found'));
+    try {
+      const store = await Store.model.findOne({
+        where: {
+          sellerId,
+        },
+      });
+      if (!store) return next(Boom.notFound("Store not found"));
 
-//       // controller getProduct
-//       const product = await Product.model.findOne({
-//         where: {
-//           id: req.params.id,
-//           storeId: store.dataValues.id,
-//         },
-//         include: {
-//           model: Category.model,
-//           as: 'category',
-//         },
-//       });
+      const product = await Product.model.findOne({
+        where: {
+          id: req.params.id,
+          storeId: store.dataValues.id,
+        },
+        include: {
+          model: Category.model,
+          as: "category",
+        },
+      });
+      if (!product) return next(Boom.notFound("Product not found"));
 
-//       if (!product) return next(Boom.notFound('Product not found'));
+      return res.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-//       return res.status(200).json(product);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+// New Product
+router.post(
+  "/",
+  JWT.verify,
+  validatorSchema(schemas.base, "body"),
+  async (req, res, next) => {
+    const { id: sellerId } = req.auth;
+    const { name, categoryId, ...rest } = req.body;
 
-// // Product Update
-// router.put(
-//   '/:id',
-//   JWT.verify,
-//   validatorSchema(schemas.resourceId, 'params'),
-//   validatorSchema(schemas.base, 'body'),
-//   async (req, res, next) => {
-//     try {
-//       // middleware userHasStore
-//       const store = await Store.model.findOne({
-//         where: {
-//           userId: req.auth.id,
-//         },
-//       });
-//       if (!store) return next(Boom.notFound('Store not found'));
+    try {
+      const store = await Store.model.findOne({
+        where: {
+          sellerId,
+        },
+      });
+      if (!store) return next(Boom.notFound("Store not found"));
 
-//       // middleware getProduct
-//       const product = await Product.model.findOne({
-//         where: {
-//           id: req.params.id,
-//           storeId: store.dataValues.id,
-//         },
-//       });
-//       if (!product) return next(Boom.notFound('Product not found'));
+      const category = await Category.model.findByPk(categoryId);
+      if (!category) return next(Boom.notFound("Category not found"));
 
-//       // middleware existCategory
-//       const category = await Category.model.findByPk(req.body.categoryId);
-//       if (!category) return next(Boom.notFound('Category not found'));
+      const product = await Product.model.create({
+        name,
+        slug: slugify(name, slugifyOptions),
+        categoryId,
+        storeId: store.dataValues.id,
+        ...rest,
+      });
 
-//       // controller updateProduct
-//       const updatedProduct = await product.update(req.body);
+      return res.status(201).json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-//       return res.status(200).json(updatedProduct);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+// Update Product
+router.put(
+  "/:id",
+  JWT.verify,
+  validatorSchema(schemas.resourceId, "params"),
+  validatorSchema(schemas.base, "body"),
+  async (req, res, next) => {
+    const { id: sellerId } = req.auth;
+    const { name, categoryId, ...rest } = req.body;
 
-// // Product Category Get One
-// router.get(
-//   '/categories/:id',
-//   validatorSchema(schemas.resourceId, 'params'),
-//   async (req, res, next) => {
-//     try {
-//       // controller getCategory
-//       const category = await Category.model.findOne({
-//         where: {
-//           id: req.params.id,
-//         },
-//       });
+    try {
+      const store = await Store.model.findOne({
+        where: {
+          sellerId,
+        },
+      });
+      if (!store) return next(Boom.notFound("Store not found"));
 
-//       if (!category) return next(Boom.notFound('Category not found'));
+      const category = await Category.model.findByPk(categoryId);
+      if (!category) return next(Boom.notFound("Category not found"));
 
-//       return res.status(200).json(category);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+      const product = await Product.model.findOne({
+        where: {
+          id: req.params.id,
+          storeId: store.dataValues.id,
+        },
+      });
+      if (!product) return next(Boom.notFound("Product not found"));
 
-// // Product Publish
-// router.post(
-//   '/publish',
-//   JWT.verify,
-//   validatorSchema(schemas.base, 'body'),
-//   // middleware userHasStore
-//   async (req, res, next) => {
-//     try {
-//       const store = await Store.model.findOne({
-//         where: {
-//           userId: req.auth.id,
-//         },
-//       });
+      await product.update({
+        name,
+        slug: slugify(name, slugifyOptions),
+        categoryId,
+        ...rest,
+      });
 
-//       if (!store) return next(Boom.notFound('Store not found'));
+      return res.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-//       next();
-//     } catch (error) {
-//       next(error);
-//     }
-//   },
-//   // middleware existCategory
-//   async (req, res, next) => {
-//     const { categoryId } = req.body;
+// Delete Product
+router.delete(
+  "/:id",
+  JWT.verify,
+  validatorSchema(schemas.resourceId, "params"),
+  async (req, res, next) => {
+    const { id: productId } = req.params;
+    const { id: sellerId } = req.auth;
 
-//     try {
-//       const resource = await Category.model.findByPk(categoryId);
+    try {
+      const store = await Store.model.findOne({
+        where: {
+          sellerId,
+        },
+      });
+      if (!store) return next(Boom.notFound("Store not found"));
 
-//       if (!resource) return next(Boom.notFound('Category not found'));
+      const product = await Product.model.findOne({
+        where: {
+          id: productId,
+          storeId: store.dataValues.id,
+        },
+      });
+      if (!product) return next(Boom.notFound("Product not found"));
 
-//       next();
-//     } catch (error) {
-//       next(error);
-//     }
-//   },
-//   // controller publishProduct
-//   async (req, res, next) => {
-//     try {
-//       const store = await Store.model.findOne({
-//         where: {
-//           userId: req.auth.id,
-//         },
-//       });
+      await product.destroy();
 
-//       const newProduct = await Product.model.create({
-//         ...req.body,
-//         slug: slugify(req.body.name, slugifyOptions),
-//         storeId: store.dataValues.id,
-//       });
-
-//       return res.status(200).json(newProduct.dataValues);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
-
-// // Product Delete
-// router.delete(
-//   '/:id',
-//   JWT.verify,
-//   validatorSchema(schemas.resourceId, 'params'),
-//   // middleware isStoreOwner
-//   async (req, res, next) => {
-//     try {
-//       const store = await Store.model.findOne({
-//         where: {
-//           userId: req.auth.id,
-//         },
-//       });
-
-//       if (!store) return next(Boom.notFound('Store not found'));
-
-//       const product = await Product.model.findByPk(req.params.id);
-
-//       if (!product) return next(Boom.notFound('Product not found'));
-
-//       if (product.dataValues.storeId !== store.dataValues.id) {
-//         return next(Boom.unauthorized('You are not the owner of this store'));
-//       }
-
-//       next();
-//     } catch (error) {
-//       next(error);
-//     }
-//   },
-//   // controller deleteProduct
-//   async (req, res, next) => {
-//     try {
-//       await Product.model.destroy({
-//         where: {
-//           id: req.params.id,
-//         },
-//       });
-
-//       return res.status(200).json({ message: 'Product deleted' });
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+      return res.status(200).json({
+        message: "Product deleted successfully",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;

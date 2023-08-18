@@ -1,19 +1,19 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql/index');
-const Category = require('./category.model');
-const Store = require('./store.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../../database/mysql/index");
+const Category = require("./category.model");
+const Store = require("./store.model");
 
-const modelName = 'Product';
-const tableName = 'products';
+const modelName = "Product";
+const tableName = "products";
 const modelOptions = {
   tableName,
   timestamps: true,
 };
 const enums = {
   condition: {
-    new: 'new',
-    used: 'used',
-    reconditioned: 'reconditioned',
+    new: "new",
+    used: "used",
+    reconditioned: "reconditioned",
   },
 };
 
@@ -35,38 +35,35 @@ const modelSchema = {
   },
   slug: DataTypes.STRING,
   price: DataTypes.DECIMAL(10, 2),
-  available: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true,
-  },
+  available: DataTypes.BOOLEAN,
   condition: {
     type: DataTypes.ENUM,
     values: Object.values(enums.condition),
   },
   categoryId: {
     type: DataTypes.UUID,
-    field: 'category_id',
+    field: "category_id",
     references: {
       model: Category.model,
-      key: 'id',
+      key: "id",
     },
   },
   storeId: {
     type: DataTypes.UUID,
-    field: 'store_id',
+    field: "store_id",
     references: {
       model: Store.model,
-      key: 'id',
+      key: "id",
     },
   },
   createdAt: {
     type: DataTypes.DATE,
-    field: 'created_at',
+    field: "created_at",
     defaultValue: DataTypes.NOW,
   },
   updatedAt: {
     type: DataTypes.DATE,
-    field: 'updated_at',
+    field: "updated_at",
     defaultValue: DataTypes.NOW,
   },
 };

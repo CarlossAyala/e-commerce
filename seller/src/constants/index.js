@@ -1,1 +1,1 @@
-export * from './pagination.contants';
+export * from "./pagination.constants";

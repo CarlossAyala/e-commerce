@@ -1,10 +1,10 @@
-import { Form, Formik } from 'formik';
+import { Form, Formik } from "formik";
 import {
   PRODUCT_CONDITIONS,
-  initialValues,
-  usePublish,
-  validationSchema,
-} from '../features/product';
+  productInitial,
+  useCreateProduct,
+  productSchema,
+} from "../features/product";
 import {
   Button,
   TextInput,
@@ -26,74 +26,77 @@ import {
   TableCell,
   Pagination,
   Checkbox,
-} from '@carbon/react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+} from "@carbon/react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import {
   PAGE_SIZES,
   getPage,
   getPageSize,
-} from '../constants/pagination.contants';
-import { useDebounce } from '../utils/hooks';
-import { useSearchCategories } from '../features/category';
+} from "../constants/pagination.constants";
+import { useDebounce } from "../utils/hooks";
+import { useGetCategories } from "../features/category";
 
 const productConditions = Object.values(PRODUCT_CONDITIONS);
 
 const headers = [
   {
-    key: 'name',
-    header: 'Name',
+    key: "name",
+    header: "Name",
   },
   {
-    key: 'status',
-    header: 'Status',
+    key: "status",
+    header: "Status",
   },
 ];
 
 const ProductNew = () => {
   const [params, setParams] = useSearchParams();
-  const [search, setSearch] = useState(params.get('name') || '');
+  const [search, setSearch] = useState(() => params.get("name") || "");
 
   const navigate = useNavigate();
 
   const debouncedParams = useDebounce(params.toString());
-  const categories = useSearchCategories(debouncedParams);
+  const categories = useGetCategories(debouncedParams);
 
-  const publish = usePublish();
+  const createProduct = useCreateProduct();
 
   const handleSubmit = async (values) => {
     try {
-      const newProduct = await publish.mutateAsync(values);
+      console.log("Values", values);
+      const newProduct = await createProduct.mutateAsync(values);
 
-      console.log('newProduct', newProduct);
-      navigate(`/product/view/${newProduct.id}`);
+      console.log("newProduct", newProduct);
+      navigate(`/product/${newProduct.id}/view`);
     } catch (error) {
-      console.log('ProductPublish', error);
+      console.log("ProductPublish", error);
     }
   };
 
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearch(value);
-    setParams((prev) => {
-      prev.delete('name');
-      prev.set('name', value);
-      return prev;
-    });
+    setParams(`name=${value}`);
   };
 
   // console.log(rows);
 
   return (
-    <main className='overflow-auto bg-gray-200'>
-      <section className='border-b border-gray-200 bg-white px-4 pb-4 pt-3'>
-        <h1 className='text-3xl leading-none'>New Product</h1>
+    <main className="flex w-full flex-col overflow-auto bg-white">
+      <section className="px-4 pt-3">
+        <h1 className="text-base font-semibold leading-6 text-gray-900">
+          New Product
+        </h1>
+        <p className="mt-1 text-sm text-gray-600">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore
+          suscipit quasi consectetur aperiam.
+        </p>
       </section>
 
-      <section className='my-4 px-4'>
+      <section className="my-6 px-4">
         <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
+          initialValues={productInitial}
+          validationSchema={productSchema}
           onSubmit={handleSubmit}
         >
           {({
@@ -104,18 +107,20 @@ const ProductNew = () => {
             handleBlur,
             setFieldValue,
           }) => (
-            <Form className='w-full'>
-              <div className='space-y-6'>
+            <Form className="w-full">
+              <div className="space-y-12">
                 <div>
-                  <h2 className='mb-2 text-xl'>Product information</h2>
-                  <div className='space-y-4'>
+                  <h2 className="mb-2 text-base font-semibold">
+                    Product information
+                  </h2>
+                  <div className="space-y-4">
                     <TextInput
-                      id='product-name'
-                      name='name'
-                      labelText='Name'
-                      type='text'
-                      placeholder='Name'
-                      size='md'
+                      id="product-name"
+                      name="name"
+                      labelText="Name"
+                      type="text"
+                      placeholder="Name"
+                      size="md"
                       invalidText={errors.name}
                       invalid={errors.name && touched.name}
                       value={values.name}
@@ -123,12 +128,12 @@ const ProductNew = () => {
                       onBlur={handleBlur}
                     />
                     <TextArea
-                      id='product-description'
-                      name='description'
-                      labelText='Description'
-                      type='text'
-                      placeholder='Description'
-                      size='xl'
+                      id="product-description"
+                      name="description"
+                      labelText="Description"
+                      type="text"
+                      placeholder="Description"
+                      size="xl"
                       enableCounter={true}
                       maxCount={255}
                       invalidText={errors.description}
@@ -140,15 +145,17 @@ const ProductNew = () => {
                   </div>
                 </div>
                 <div>
-                  <h2 className='mb-2 text-xl'>Product inventory</h2>
-                  <div className='space-y-4'>
-                    <div className='grid grid-cols-2 gap-x-4'>
+                  <h2 className="mb-2 text-base font-semibold">
+                    Product inventory
+                  </h2>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-x-4">
                       <NumberInput
-                        id='product-stock'
-                        name='stock'
+                        id="product-stock"
+                        name="stock"
                         min={0}
                         hideSteppers
-                        label='Stock'
+                        label="Stock"
                         invalidText={errors.stock}
                         invalid={errors.stock && touched.stock}
                         value={values.stock}
@@ -156,17 +163,17 @@ const ProductNew = () => {
                           handleChange(e);
                           if (
                             e.target.valueAsNumber < 1 ||
-                            e.target.value === ''
+                            e.target.value === ""
                           ) {
-                            setFieldValue('available', false);
+                            setFieldValue("available", false);
                           }
                         }}
                         onBlur={handleBlur}
                       />
                       <NumberInput
-                        id='product-price'
-                        name='price'
-                        label='Price'
+                        id="product-price"
+                        name="price"
+                        label="Price"
                         min={0}
                         hideSteppers
                         invalidText={errors.price}
@@ -177,9 +184,9 @@ const ProductNew = () => {
                       />
                     </div>
                     <Select
-                      id='product-condition'
-                      name='condition'
-                      labelText='Condition'
+                      id="product-condition"
+                      name="condition"
+                      labelText="Condition"
                       invalidText={errors.condition}
                       invalid={errors.condition && touched.condition}
                       value={values.condition}
@@ -198,16 +205,18 @@ const ProductNew = () => {
                 </div>
 
                 <div>
-                  <h2 className='mb-2 text-xl'>Product Settings</h2>
-                  <fieldset className='cds--fieldset'>
-                    <legend className='cds--label'>Available</legend>
+                  <h2 className="mb-2 text-base font-semibold">
+                    Product Settings
+                  </h2>
+                  <fieldset className="cds--fieldset">
+                    <legend className="cds--label">Available</legend>
                     <Checkbox
-                      id='product-available'
-                      name='available'
+                      id="product-available"
+                      name="available"
                       labelText={
-                        values.available ? 'Available' : 'Not Available'
+                        values.available ? "Available" : "Not Available"
                       }
-                      helperText='Solamente podrás habilitar el producto cuando el Stock sea mayor a cero'
+                      helperText="Solamente podrás habilitar el producto cuando el Stock sea mayor a cero"
                       onChange={handleChange}
                       checked={values.available}
                       disabled={values.stock < 1 || !values.stock}
@@ -215,26 +224,26 @@ const ProductNew = () => {
                   </fieldset>
                 </div>
                 <div>
-                  <h2 className='mb-2 text-xl'>Product Category</h2>
-                  <div className='space-y-2'>
+                  <h2 className="mb-2 text-xl">Product Category</h2>
+                  <div className="space-y-2">
                     {/* TODO: Agregar un Feedback cuando no se encuentre la categoría */}
                     <Search
-                      id='category-search'
-                      placeholder='Search for a category'
-                      labelText='Search Icon'
+                      id="category-search"
+                      placeholder="Search for a category"
+                      labelText="Search Icon"
                       onChange={handleSearch}
                       value={search}
                     />
                     {errors.categoryId && touched.categoryId && (
                       <InlineNotification
-                        style={{ maxWidth: '100%' }}
-                        kind='error'
+                        style={{ maxWidth: "100%" }}
+                        kind="error"
                         lowContrast
-                        role='alert'
-                        title='Notification error'
+                        role="alert"
+                        title="Notification error"
                         subtitle={errors.categoryId}
                         hideCloseButton={true}
-                        statusIconDescription='notification'
+                        statusIconDescription="notification"
                       />
                     )}
 
@@ -249,7 +258,7 @@ const ProductNew = () => {
                     {categories.isFetched && (
                       <>
                         <DataTable
-                          size='lg'
+                          size="lg"
                           rows={categories.data.rows.map(
                             ({ id, name, available }) => ({
                               id,
@@ -257,11 +266,11 @@ const ProductNew = () => {
                                 <Link to={`/categories/${id}`}>{name}</Link>
                               ),
                               status: available ? (
-                                <span className='items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>
+                                <span className="items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                                   Available
                                 </span>
                               ) : (
-                                <span className='items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10'>
+                                <span className="items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                                   Unavailable
                                 </span>
                               ),
@@ -281,14 +290,14 @@ const ProductNew = () => {
                             getTableContainerProps,
                           }) => (
                             <TableContainer
-                              title='Table Categories'
-                              description='Choose one category'
+                              title="Table Categories"
+                              description="Choose one category"
                               {...getTableContainerProps()}
                             >
                               <Table {...getTableProps()}>
                                 <TableHead>
                                   <TableRow>
-                                    <th scope='col' />
+                                    <th scope="col" />
                                     {headers.map((header, i) => (
                                       <TableHeader
                                         key={i}
@@ -308,7 +317,7 @@ const ProductNew = () => {
                                           onChange: () => {
                                             const e = {
                                               target: {
-                                                name: 'categoryId',
+                                                name: "categoryId",
                                                 value: row.id,
                                               },
                                             };
@@ -330,12 +339,12 @@ const ProductNew = () => {
                         </DataTable>
 
                         <Pagination
-                          backwardText='Previous page'
-                          forwardText='Next page'
-                          itemsPerPageText='Items per page:'
-                          page={getPage(params.get('page'))}
-                          pageNumberText='Page Number'
-                          pageSize={getPageSize(params.get('limit'))}
+                          backwardText="Previous page"
+                          forwardText="Next page"
+                          itemsPerPageText="Items per page:"
+                          page={getPage(params.get("page"))}
+                          pageNumberText="Page Number"
+                          pageSize={getPageSize(params.get("limit"))}
                           pageSizes={PAGE_SIZES}
                           totalItems={categories.data.count}
                           onChange={(e) => {
@@ -343,14 +352,14 @@ const ProductNew = () => {
                             const pageSize = getPageSize(e.pageSize);
 
                             setParams((prev) => {
-                              prev.delete('page');
-                              prev.delete('limit');
-                              prev.set('page', page);
-                              prev.set('limit', pageSize);
+                              prev.delete("page");
+                              prev.delete("limit");
+                              prev.set("page", page);
+                              prev.set("limit", pageSize);
                               return prev;
                             });
 
-                            setFieldValue('categoryId', '');
+                            setFieldValue("categoryId", "");
                           }}
                         />
                       </>
@@ -358,16 +367,17 @@ const ProductNew = () => {
                   </div>
                 </div>
               </div>
-              <div className='mt-8 flex gap-x-px'>
+              <div className="mt-8 flex gap-x-px">
                 <Button
-                  kind='secondary'
-                  style={{ flexGrow: '1' }}
-                  type='button'
+                  kind="secondary"
+                  style={{ flexGrow: "1" }}
+                  type="button"
+                  onClick={() => navigate("/product/list")}
                 >
                   Cancel
                 </Button>
-                <Button kind='primary' style={{ flexGrow: '1' }} type='submit'>
-                  Publish
+                <Button kind="primary" style={{ flexGrow: "1" }} type="submit">
+                  Create
                 </Button>
               </div>
             </Form>

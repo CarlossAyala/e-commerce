@@ -1,28 +1,24 @@
-import { useState } from 'react';
 import {
   Link,
   useNavigate,
   useParams,
   useSearchParams,
-} from 'react-router-dom';
-import { Form, Formik } from 'formik';
+} from "react-router-dom";
 import {
   PRODUCT_CONDITIONS,
-  useEditProduct,
-  useGetCategory,
+  productDefault,
+  productSchema,
   useGetProduct,
-  useSearchCategories,
-  validationSchema,
-  withInitialValues,
-} from '../features/product';
-import { useDebounce } from '../utils/hooks';
+  useUpdateProduct,
+} from "../features/product";
+import { Form, Formik } from "formik";
 import {
   TextArea,
   TextInput,
   NumberInput,
   Select,
   SelectItem,
-  Search,
+  Toggle,
   DataTable,
   TableContainer,
   Table,
@@ -31,185 +27,121 @@ import {
   TableHeader,
   TableBody,
   TableSelectRow,
-  DataTableSkeleton,
   TableCell,
-  Pagination,
-  Checkbox,
-  InlineNotification,
+  Search,
   Button,
-  Modal,
-  Tag,
-  SkeletonText,
-} from '@carbon/react';
+  Pagination,
+} from "@carbon/react";
+import { useState } from "react";
+import { useGetCategories, useGetCategory } from "../features/category";
+import { useDebounce } from "../utils/hooks";
 import {
-  DEFAULT_PAGE,
-  DEFAULT_PAGE_SIZE,
   PAGE_SIZES,
   getPage,
   getPageSize,
-} from '../constants/pagination.contants';
+} from "../constants/pagination.constants";
 
-const productConditions = Object.values(PRODUCT_CONDITIONS);
 const headers = [
   {
-    key: 'name',
-    header: 'Name',
-  },
-  {
-    key: 'status',
-    header: 'Status',
+    key: "name",
+    header: "Name",
   },
 ];
 
-const INITIAL_CATEGORY = {
-  pre: '',
-  post: '',
-};
-
 const ProductEdit = () => {
   const [params, setParams] = useSearchParams();
+  const [categoryId, setCategoryId] = useState("");
+  const [search, setSearch] = useState(() => params.get("name") || "");
+
+  const { id: productId } = useParams();
   const navigate = useNavigate();
-  const { id } = useParams();
-
-  const [search, setSearch] = useState(params.get('q') || '');
-  const [modal, setModal] = useState(false);
-
-  const [category, setCategory] = useState(INITIAL_CATEGORY);
-  const newCategory = useGetCategory(category.post);
-
   const debounceParams = useDebounce(params.toString());
-  const categories = useSearchCategories(debounceParams);
 
-  const product = useGetProduct(id);
-  const editProduct = useEditProduct();
+  const product = useGetProduct(productId);
+  const updateProduct = useUpdateProduct();
+  const category = useGetCategory(categoryId);
+  const categories = useGetCategories(debounceParams);
 
-  // console.log(product);
-  // console.log('NewCategory', category);
+  // console.log("Product", product);
+  // console.log("Categories", categories);
 
-  const handleSubmit = async (values) => {
+  const handleSearch = (event) => {
+    const search = event.target.value;
+    setSearch(search);
+    setParams({ ...params, ...(search ? { name: search } : {}) });
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+    setParams();
+  };
+
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      // Si tengo una ID en category.post, entonces tengo que actualizar la categoria
-      if (category.post !== '') values.categoryId = category.post;
+      await updateProduct.mutateAsync([productId, values]);
+      setSubmitting(false);
 
-      await editProduct.mutateAsync({
-        id,
-        values,
-      });
-
-      navigate(`/product/view/${id}`);
+      navigate(`/product/${productId}/view`);
     } catch (error) {
-      console.log('ProductEdit', error);
+      setSubmitting(false);
+      console.log("<ProductEdit />");
+      console.log("handleSubmit", error);
     }
   };
 
-  const handlePagination = (e) => {
-    const page = getPage(e.page);
-    const pageSize = getPageSize(e.pageSize);
-
-    setParams((prev) => {
-      prev.delete('page');
-      prev.delete('limit');
-
-      if (page !== DEFAULT_PAGE) prev.set('page', page);
-      if (pageSize !== DEFAULT_PAGE_SIZE) prev.set('limit', pageSize);
-
-      return prev;
-    });
-  };
-
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    setParams((prev) => {
-      prev.delete('q');
-      prev.delete('page');
-
-      prev.set('q', e.target.value);
-      return prev;
-    });
-  };
-
-  const handleClearFilters = () => {
-    setSearch('');
-    setParams((prev) => {
-      prev.delete('q');
-      prev.delete('page');
-      prev.delete('limit');
-
-      return prev;
-    });
-  };
-
-  const rows = categories.data?.rows.map(({ id, name, available }) => ({
+  const rows = categories.data?.rows.map(({ id, name }) => ({
     id,
-    name: <Link to={`/category/${id}`}>{name}</Link>,
-    status: available ? (
-      <Tag id='tag-available' type='green' style={{ margin: '0' }}>
-        Available
-      </Tag>
-    ) : (
-      <Tag id='tag-inavailable' type='red' style={{ margin: '0' }}>
-        Not Available
-      </Tag>
+    name: (
+      <Link to="#">
+        <p className="leading-none">{name}</p>
+        {id === product.data?.categoryId ? (
+          <p className="text-sm italic text-gray-600">Current</p>
+        ) : id === categoryId ? (
+          <p className="text-sm italic text-gray-600">New</p>
+        ) : null}
+      </Link>
     ),
   }));
 
   return (
-    <main className='overflow-auto bg-gray-200'>
-      <section className='border-b border-gray-200 bg-white px-4 pb-4 pt-3'>
-        <h1 className='text-3xl leading-none'>Product Edit</h1>
-      </section>
-
-      <section className='my-4 px-4'>
-        {product.isLoading ? (
-          <DataTableSkeleton columnCount={headers.length} rowCount={7} />
-        ) : null}
-
-        {product.isFetched && !product.data ? (
-          <div>
-            <h3 className='mb-1 mt-4 text-base font-medium'>
-              No products found
-            </h3>
-            <p className='text-sm text-gray-600'>
-              Try adjusting you search or filter options to find what
-              you&apos;re looking for.
-            </p>
-            <Button
-              kind='ghost'
-              size='sm'
-              style={{ padding: '0' }}
-              onClick={() => handleClearFilters()}
+    <main className="flex w-full flex-col overflow-auto bg-white">
+      {product.isLoading ? (
+        <div>
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <>
+          {product.isSuccess && (
+            <Formik
+              initialValues={productDefault(product.data)}
+              validationSchema={productSchema}
+              onSubmit={handleSubmit}
             >
-              Clear filters
-            </Button>
-          </div>
-        ) : null}
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                setFieldValue,
+              }) => (
+                <Form className="space-y-10 px-4 py-3">
+                  <section>
+                    <h2 className="text-base font-semibold leading-6 text-gray-900">
+                      Product information
+                    </h2>
+                    <p className="text-sm text-gray-600">
+                      Edit the information of the product.
+                    </p>
 
-        {product.isFetched && product.data ? (
-          <Formik
-            initialValues={withInitialValues(product.data)}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              setFieldValue,
-            }) => (
-              <Form>
-                <div className='space-y-6'>
-                  <div>
-                    <h2 className='mb-2 text-xl'>Product information</h2>
-                    <div className='space-y-4'>
+                    <div className="mt-6 space-y-4">
                       <TextInput
-                        id='product-name'
-                        name='name'
-                        labelText='Name'
-                        type='text'
-                        placeholder='Name'
-                        size='md'
+                        id="product-name"
+                        name="name"
+                        type="text"
+                        labelText="Name"
+                        placeholder="Your product name"
+                        size="md"
                         invalidText={errors.name}
                         invalid={errors.name && touched.name}
                         value={values.name}
@@ -217,13 +149,12 @@ const ProductEdit = () => {
                         onBlur={handleBlur}
                       />
                       <TextArea
-                        id='product-description'
-                        name='description'
-                        labelText='Description'
-                        type='text'
-                        placeholder='Description'
-                        size='xl'
-                        enableCounter={true}
+                        id="product-description"
+                        name="description"
+                        labelText="Description"
+                        placeholder="Your product description"
+                        rows={5}
+                        enableCounter
                         maxCount={255}
                         invalidText={errors.description}
                         invalid={errors.description && touched.description}
@@ -232,392 +163,352 @@ const ProductEdit = () => {
                         onBlur={handleBlur}
                       />
                     </div>
-                  </div>
-                  <div>
-                    <h2 className='mb-2 text-xl'>Product inventory</h2>
-                    <div className='space-y-4'>
-                      <div className='grid grid-cols-2 gap-x-4'>
-                        <NumberInput
-                          id='product-stock'
-                          name='stock'
-                          min={0}
-                          hideSteppers
-                          label='Stock'
-                          invalidText={errors.stock}
-                          invalid={errors.stock && touched.stock}
-                          value={values.stock}
-                          onChange={(e) => {
-                            handleChange(e);
-                            if (
-                              e.target.valueAsNumber < 1 ||
-                              e.target.value === ''
-                            ) {
-                              setFieldValue('available', false);
-                            }
-                          }}
-                          onBlur={handleBlur}
-                        />
-                        <NumberInput
-                          id='product-price'
-                          name='price'
-                          label='Price'
-                          min={0}
-                          hideSteppers
-                          invalidText={errors.price}
-                          invalid={errors.price && touched.price}
-                          value={values.price}
+                  </section>
+                  <section>
+                    <h2 className="text-base font-semibold leading-6 text-gray-900">
+                      Product inventory
+                    </h2>
+                    <p className="text-sm text-gray-600">
+                      Settings the inventory of the product.
+                    </p>
+
+                    <div className="mt-6 grid grid-cols-2 gap-4">
+                      <NumberInput
+                        id="product-stock"
+                        name="stock"
+                        label="Stock"
+                        invalidText={errors.stock}
+                        invalid={errors.stock && touched.stock}
+                        value={values.stock}
+                        onChange={(event, { value }) => {
+                          setFieldValue("stock", value);
+                          if (value < 1) setFieldValue("available", false);
+                        }}
+                        onBlur={handleBlur}
+                        min={0}
+                      />
+                      <NumberInput
+                        id="product-price"
+                        name="price"
+                        label="Price"
+                        invalidText={errors.price}
+                        invalid={errors.price && touched.price}
+                        value={values.price}
+                        onChange={(event, { value }) => {
+                          setFieldValue("price", value);
+                        }}
+                        onBlur={handleBlur}
+                        min={0}
+                      />
+                      <div className="col-span-2">
+                        <Select
+                          id="product-condition"
+                          name="condition"
+                          labelText="Condition"
+                          invalidText={errors.condition}
+                          invalid={errors.condition && touched.condition}
+                          value={values.condition}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                        />
+                        >
+                          {PRODUCT_CONDITIONS.map((condition) => (
+                            <SelectItem
+                              key={condition}
+                              value={condition}
+                              text={condition}
+                            />
+                          ))}
+                        </Select>
                       </div>
-                      <Select
-                        id='product-condition'
-                        name='condition'
-                        labelText='Condition'
-                        invalidText={errors.condition}
-                        invalid={errors.condition && touched.condition}
-                        value={values.condition}
-                        onChange={(e) => handleChange(e)}
-                        onBlur={(e) => handleBlur(e)}
-                      >
-                        {productConditions.map((condition) => (
-                          <SelectItem
-                            key={condition}
-                            text={condition}
-                            value={condition}
-                          />
-                        ))}
-                      </Select>
+                      <div className="col-span-2">
+                        <Toggle
+                          id="product-available"
+                          name="available"
+                          labelText="Status"
+                          labelA="Unavailable"
+                          labelB="Available"
+                          defaultToggled={values.available}
+                          onToggle={(value) =>
+                            setFieldValue("available", value)
+                          }
+                          toggled={values.available}
+                          disabled={values.stock < 1 || !values.stock}
+                        />
+                        <p className="text-xs text-gray-800">
+                          You can only disable the product when the Stock is
+                          zero
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </section>
 
-                  <div>
-                    <h2 className='mb-2 text-xl'>Product settings</h2>
-                    <fieldset className='cds--fieldset'>
-                      <legend className='cds--label'>Available</legend>
-                      <Checkbox
-                        id='product-available'
-                        name='available'
-                        labelText={
-                          values.available ? 'Available' : 'Not Available'
-                        }
-                        helperText='Solamente podrás habilitar el producto cuando el Stock sea mayor a cero'
-                        onChange={handleChange}
-                        checked={values.available}
-                        disabled={values.stock < 1 || !values.stock}
-                      />
-                    </fieldset>
-                  </div>
-
-                  <div>
-                    <div className='mb-4'>
-                      <h2 className='text-xl'>Product category</h2>
-                      <p className='text-sm text-gray-600'>
-                        You can change the category of this product. If you
-                        select a new category, the <strong>Current</strong>{' '}
-                        category will be replaced with the <strong>New</strong>{' '}
-                        one.
+                  <section className="space-y-4">
+                    <div>
+                      <h2 className="text-base font-semibold leading-6 text-gray-900">
+                        Product category
+                      </h2>
+                      <p className="text-sm text-gray-600">
+                        Settings the category of the product.
                       </p>
                     </div>
-                    <div className='mb-3'>
-                      <h3 className='mb-1 text-base'>Current</h3>
-                      <div className='bg-gray-50 px-3 pt-1'>
-                        <span className='text-xs leading-none text-gray-500'>
-                          Name
-                        </span>
-                        <Link to={`/category/${product.data.categoryId}`}>
-                          <h4 className='text-lg leading-none'>
-                            {product.data.category.name}
-                          </h4>
-                        </Link>
-                      </div>
-                      <div className='bg-gray-50 px-3 py-2 pb-2'>
-                        <p className='block text-xs text-gray-500'>Status</p>
-                        {product.data.category.available ? (
-                          <Tag
-                            id='tag-available'
-                            type='green'
-                            size='sm'
-                            style={{ margin: '0' }}
-                          >
-                            Available
-                          </Tag>
-                        ) : (
-                          <Tag
-                            id='tag-inavailable'
-                            type='red'
-                            style={{ margin: '0' }}
-                          >
-                            Not Available
-                          </Tag>
-                        )}
-                      </div>
-                    </div>
-                    {newCategory.isLoading && (
-                      <div>
-                        <h3 className='mb-1 text-base'>New</h3>
-                        <div className='space-y-4 bg-gray-50'>
-                          <div className='px-3 pt-3'>
-                            <div className='mb-2 w-16'>
-                              <SkeletonText style={{ margin: '0' }} />
-                            </div>
-                            <SkeletonText style={{ margin: '0' }} />
-                          </div>
-                          <div className='px-3 pb-3'>
-                            <div className='mb-2 w-16'>
-                              <SkeletonText style={{ margin: '0' }} />
-                            </div>
-                            <SkeletonText style={{ margin: '0' }} />
-                          </div>
+
+                    <div>
+                      <h3 className="text-sm leading-5 text-gray-500">
+                        Current
+                      </h3>
+
+                      <dl className="mt-1 space-y-2 bg-gray-100 px-4 py-3">
+                        <div className="col-span-2">
+                          <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
+                            Name
+                          </dt>
+                          <dd className="text-sm leading-tight text-gray-900">
+                            <Link to="#">{product.data.category.name}</Link>
+                          </dd>
                         </div>
+                        <div className="col-span-2">
+                          <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
+                            Description
+                          </dt>
+                          <dd className="line-clamp-2 text-sm leading-tight text-gray-900">
+                            {product.data.category.description}
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+
+                    {categoryId && (
+                      <div>
+                        <div className="flex justify-between">
+                          <h3 className="text-sm leading-5 text-gray-500">
+                            New
+                          </h3>
+                          <button
+                            onClick={() => setCategoryId("")}
+                            className="text-sm text-blue-600"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+
+                        {category.isLoading ? (
+                          <p>Loading category...</p>
+                        ) : (
+                          <>
+                            {category.isSuccess && (
+                              <dl className="mt-1 space-y-2 bg-gray-100 px-4 py-3">
+                                <div className="col-span-2">
+                                  <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
+                                    Name
+                                  </dt>
+                                  <dd className="text-sm leading-tight text-gray-900">
+                                    <Link to="#">{category.data.name}</Link>
+                                  </dd>
+                                </div>
+                                <div className="col-span-2">
+                                  <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
+                                    Description
+                                  </dt>
+                                  <dd className="line-clamp-2 text-sm leading-tight text-gray-900">
+                                    {category.data.description}
+                                  </dd>
+                                </div>
+                              </dl>
+                            )}
+                          </>
+                        )}
                       </div>
                     )}
 
-                    {newCategory.isFetched && newCategory.data ? (
-                      <div>
-                        <h3 className='mb-1 text-base'>New</h3>
-                        <div className='bg-gray-50 px-2'>
-                          <span className='text-xs leading-none text-gray-500'>
-                            Name
-                          </span>
-                          <Link to={`/category/${newCategory.data.id}`}>
-                            <h4 className='text-lg leading-none'>
-                              {newCategory.data.name}
-                            </h4>
-                          </Link>
-                        </div>
-                        <div className='bg-gray-50 px-2 py-2'>
-                          <p className='block text-xs text-gray-500'>Status</p>
-                          {newCategory.data.available ? (
-                            <Tag
-                              id='tag-available'
-                              type='green'
-                              size='sm'
-                              style={{ margin: '0' }}
-                            >
-                              Available
-                            </Tag>
-                          ) : (
-                            <Tag
-                              id='tag-inavailable'
-                              type='red'
-                              style={{ margin: '0' }}
-                            >
-                              Not Available
-                            </Tag>
-                          )}
-                        </div>
-                      </div>
-                    ) : null}
+                    <div className="space-y-2">
+                      <h3 className="text-sm leading-5 text-gray-500">
+                        Category search
+                      </h3>
 
-                    <div className='mt-2 grid grid-cols-3 gap-x-px'>
-                      {category.post !== '' && (
-                        <Button
-                          id='product-remove-category'
-                          kind='secondary'
-                          size='md'
-                          style={{ width: 'auto' }}
-                          onClick={() => setCategory(INITIAL_CATEGORY)}
-                        >
-                          Remove
-                        </Button>
-                      )}
-                      <Button
-                        id='product-change-category'
-                        kind='primary'
-                        size='md'
-                        style={{ width: 'auto' }}
-                        onClick={() => setModal(true)}
-                      >
-                        Change
-                      </Button>
-                    </div>
-                  </div>
-
-                  <Modal
-                    open={modal}
-                    modalHeading='Select one Category'
-                    modalLabel='Confirm Product Category'
-                    primaryButtonText='Change'
-                    secondaryButtonText='Cancel'
-                    onRequestClose={() => setModal(false)}
-                    onRequestSubmit={() => {
-                      setCategory((previus) => ({
-                        ...previus,
-                        post: previus.pre,
-                      }));
-                      setModal(false);
-                    }}
-                    isFullWidth
-                    style={{ margin: '0' }}
-                  >
-                    <div className='space-y-2 bg-gray-200 py-4 sm:px-4'>
                       <Search
-                        id='category-search'
-                        placeholder='Search for a category'
-                        labelText='Search Icon'
+                        id="category-search"
+                        name="search"
+                        labelText="Search"
+                        placeholder="Search for a category"
+                        size="lg"
+                        closeButtonLabelText="Clear search input"
                         onChange={handleSearch}
+                        onClear={clearSearch}
                         value={search}
-                        size='lg'
                       />
 
-                      {errors.categoryId && touched.categoryId && (
-                        <InlineNotification
-                          style={{ maxWidth: '100%' }}
-                          kind='error'
-                          lowContrast
-                          role='alert'
-                          title='Notification error'
-                          subtitle={errors.categoryId}
-                          hideCloseButton={true}
-                          statusIconDescription='notification'
-                        />
-                      )}
-
-                      {categories.isLoading && (
-                        <DataTableSkeleton
-                          columnCount={headers.length}
-                          headers={headers}
-                          rowCount={7}
-                          showToolbar={false}
-                        />
-                      )}
-
-                      {categories.isFetched && categories.data?.count === 0 ? (
-                        <div className='min-h-full px-4'>
-                          <h3 className='mb-1 mt-4 text-xl font-medium'>
-                            No categories found
-                          </h3>
-                          <p className='text-sm text-gray-600'>
-                            Try adjusting you search or filter options to find
-                            what you&apos;re looking for.
-                          </p>
-                          <Button
-                            kind='ghost'
-                            size='sm'
-                            style={{ padding: '0' }}
-                            onClick={() => handleClearFilters()}
-                          >
-                            Clear filters
-                          </Button>
+                      {categories.isLoading ? (
+                        <div>
+                          <p>Loading categories...</p>
                         </div>
-                      ) : null}
-
-                      {categories.isFetched && categories.data.count ? (
+                      ) : (
                         <>
-                          <DataTable
-                            size='lg'
-                            rows={rows}
-                            headers={headers}
-                            radio
-                            isSortable
-                          >
-                            {({
-                              rows,
-                              headers,
-                              getHeaderProps,
-                              getRowProps,
-                              getSelectionProps,
-                              getTableProps,
-                              getTableContainerProps,
-                            }) => (
+                          {search && categories.data.rows.length === 0 && (
+                            <div>
                               <TableContainer
-                                title='Table Categories'
-                                description=''
-                                {...getTableContainerProps()}
+                                title="Table Categories"
+                                description="To change the current category, choose any of the following"
                               >
-                                <Table {...getTableProps()}>
-                                  <TableHead>
-                                    <TableRow>
-                                      <th scope='col' />
-                                      {headers.map((header, i) => (
-                                        <TableHeader
-                                          key={i}
-                                          {...getHeaderProps({ header })}
-                                        >
-                                          {header.header}
-                                        </TableHeader>
-                                      ))}
-                                    </TableRow>
-                                  </TableHead>
-                                  <TableBody>
-                                    {rows.map((row, i) => (
-                                      <TableRow
-                                        key={i}
-                                        {...getRowProps({ row })}
-                                      >
-                                        <TableSelectRow
-                                          {...getSelectionProps({
-                                            row,
-                                            onChange: () => {
-                                              const e = {
-                                                target: {
-                                                  name: 'categoryId',
-                                                  value: row.id,
-                                                },
-                                              };
-                                              setCategory({
-                                                pre: row.id,
-                                                post: '',
-                                              });
-                                              handleChange(e);
-                                            },
-                                          })}
-                                        />
-                                        {row.cells.map((cell) => (
-                                          <TableCell key={cell.id}>
-                                            {cell.value}
-                                          </TableCell>
-                                        ))}
-                                      </TableRow>
-                                    ))}
-                                  </TableBody>
-                                </Table>
-                              </TableContainer>
-                            )}
-                          </DataTable>
+                                <div className="text border-t border-gray-300 bg-gray-100 px-4 py-10">
+                                  <p className="text-base font-bold leading-5 text-gray-900">
+                                    No results found
+                                  </p>
+                                  <p className="mb-4 text-sm text-gray-600">
+                                    Try searching for a different term
+                                  </p>
 
-                          <Pagination
-                            id='categories-pagination'
-                            backwardText='Previous page'
-                            forwardText='Next page'
-                            itemsPerPageText='Items per page:'
-                            page={getPage(params.get('page'))}
-                            size='lg'
-                            pageNumberText='Page Number'
-                            pageSize={getPageSize(params.get('limit'))}
-                            pageSizes={PAGE_SIZES}
-                            totalItems={categories.data.count}
-                            onChange={handlePagination}
-                          />
+                                  <Button kind="tertiary" onClick={clearSearch}>
+                                    Clear search
+                                  </Button>
+                                </div>
+                              </TableContainer>
+                              <div className="">
+                                <Pagination
+                                  backwardText="Previous page"
+                                  forwardText="Next page"
+                                  itemsPerPageText="Items per page:"
+                                  onChange={(e) => {
+                                    const page = getPage(e.page);
+                                    const pageSize = getPageSize(e.pageSize);
+
+                                    setParams((prev) => {
+                                      prev.delete("page");
+                                      prev.delete("limit");
+                                      prev.set("page", page);
+                                      prev.set("limit", pageSize);
+                                      return prev;
+                                    });
+                                  }}
+                                  page={getPage(params.get("page"))}
+                                  pageSize={getPageSize(params.get("limit"))}
+                                  pageSizes={PAGE_SIZES}
+                                  size="md"
+                                  totalItems={categories.data.count}
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {categories.data.rows.length > 0 && (
+                            <div className="mt-2">
+                              <DataTable rows={rows} headers={headers} radio>
+                                {({
+                                  rows,
+                                  headers,
+                                  getHeaderProps,
+                                  getRowProps,
+                                  getSelectionProps,
+                                  getTableProps,
+                                  getTableContainerProps,
+                                }) => (
+                                  <TableContainer
+                                    title="Table Categories"
+                                    description="To change the current category, choose any of the following"
+                                    {...getTableContainerProps()}
+                                  >
+                                    <Table {...getTableProps()}>
+                                      <TableHead>
+                                        <TableRow>
+                                          <th scope="col" />
+                                          {headers.map((header, i) => (
+                                            <TableHeader
+                                              key={i}
+                                              {...getHeaderProps({ header })}
+                                            >
+                                              {header.header}
+                                            </TableHeader>
+                                          ))}
+                                        </TableRow>
+                                      </TableHead>
+                                      <TableBody>
+                                        {rows.map((row, i) => (
+                                          <TableRow
+                                            key={i}
+                                            {...getRowProps({ row })}
+                                          >
+                                            <TableSelectRow
+                                              {...getSelectionProps({
+                                                row,
+                                                onChange: () => {
+                                                  setFieldValue(
+                                                    "categoryId",
+                                                    row.id
+                                                  );
+                                                  setCategoryId(row.id);
+                                                },
+                                              })}
+                                              checked={row.id === categoryId}
+                                            />
+                                            {row.cells.map((cell) => (
+                                              <TableCell key={cell.id}>
+                                                {cell.value}
+                                              </TableCell>
+                                            ))}
+                                          </TableRow>
+                                        ))}
+                                      </TableBody>
+                                    </Table>
+                                  </TableContainer>
+                                )}
+                              </DataTable>
+                              <div className="">
+                                <Pagination
+                                  backwardText="Previous page"
+                                  forwardText="Next page"
+                                  itemsPerPageText="Items per page:"
+                                  onChange={(e) => {
+                                    const page = getPage(e.page);
+                                    const pageSize = getPageSize(e.pageSize);
+
+                                    setParams((prev) => {
+                                      prev.delete("page");
+                                      prev.delete("limit");
+                                      prev.set("page", page);
+                                      prev.set("limit", pageSize);
+                                      return prev;
+                                    });
+                                  }}
+                                  page={getPage(params.get("page"))}
+                                  pageSize={getPageSize(params.get("limit"))}
+                                  pageSizes={PAGE_SIZES}
+                                  size="md"
+                                  totalItems={categories.data.count}
+                                />
+                              </div>
+                            </div>
+                          )}
                         </>
-                      ) : null}
+                      )}
                     </div>
-                  </Modal>
-                </div>
-                <div className='mt-8 flex gap-x-px'>
-                  <Link to={`/product/view/${id}`} style={{ flexGrow: '1' }}>
-                    <Button
-                      kind='secondary'
-                      type='button'
-                      style={{ width: '100%' }}
+                  </section>
+
+                  <section className="mt-8 flex gap-x-px">
+                    <Link
+                      to={`/product/${productId}/view`}
+                      style={{ flexGrow: "1" }}
                     >
-                      Cancel
+                      <Button
+                        kind="secondary"
+                        type="button"
+                        style={{ width: "100%" }}
+                      >
+                        Cancel
+                      </Button>
+                    </Link>
+                    <Button
+                      kind="primary"
+                      style={{ flexGrow: "1" }}
+                      type="submit"
+                    >
+                      Save
                     </Button>
-                  </Link>
-                  <Button
-                    kind='primary'
-                    style={{ flexGrow: '1' }}
-                    type='submit'
-                  >
-                    Save
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        ) : null}
-      </section>
+                  </section>
+                </Form>
+              )}
+            </Formik>
+          )}
+        </>
+      )}
     </main>
   );
 };
