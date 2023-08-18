@@ -1,0 +1,26 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "Decidí crear un E-Commerce desde 0 con el fin de aprender y ver que conocimientos me faltan mejorar para seguir avanzando como Backend Developer con Node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarlossAyala/e-commerce.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CarlossAyala/e-commerce/issues"
+  },
+  "homepage": "https://github.com/CarlossAyala/e-commerce#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

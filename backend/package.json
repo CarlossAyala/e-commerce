@@ -41,14 +41,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.23.1",
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.5.2"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
