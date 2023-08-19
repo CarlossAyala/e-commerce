@@ -7,7 +7,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useDeleteProduct, useGetProduct } from "../features/product";
 import { priceFormatter } from "../utils/formatter";
 import clsx from "clsx";
-import { fullDateFormatter } from "../utils/date";
+import { datePlusTimeFormatter } from "../utils/date";
 
 const ProductView = () => {
   const [modal, setModal] = useState(false);
@@ -126,7 +126,7 @@ const ProductView = () => {
                       Created at
                     </dt>
                     <dd className="text-sm leading-tight text-gray-900">
-                      {fullDateFormatter(product.data.createdAt)}
+                      {datePlusTimeFormatter(product.data.createdAt)}
                     </dd>
                   </div>
                   <div className="">
@@ -134,7 +134,7 @@ const ProductView = () => {
                       Last update at
                     </dt>
                     <dd className="text-sm leading-tight text-gray-900">
-                      {fullDateFormatter(product.data.updatedAt)}
+                      {datePlusTimeFormatter(product.data.updatedAt)}
                     </dd>
                   </div>
                 </dl>

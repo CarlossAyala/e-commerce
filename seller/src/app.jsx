@@ -12,6 +12,8 @@ import {
   Signup,
   Store,
   StoreNew,
+  SaleList,
+  SaleView,
 } from "./pages";
 import SellerProvider from "./seller.provider";
 
@@ -55,6 +57,14 @@ const router = createBrowserRouter([
       {
         path: "store/new",
         element: <StoreNew />,
+      },
+      {
+        path: "sale/list",
+        element: <SaleList />,
+      },
+      {
+        path: "sale/:id/view",
+        element: <SaleView />,
       },
     ],
   },

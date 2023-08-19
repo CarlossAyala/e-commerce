@@ -1,10 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import API from './auth.api';
-import { getToken, removeToken, setToken } from '../api';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import API from "./auth.api";
+import { getToken, removeToken, setToken } from "../api";
 
 export const authKeys = {
-  key: ['auth'],
-  profile: () => [...authKeys.key, 'profile'],
+  key: ["auth"],
+  profile: () => [...authKeys.key, "profile"],
 };
 
 export const useGetProfile = () => {
@@ -20,6 +20,7 @@ export const useGetProfile = () => {
 
       queryClient.setQueryData(authKeys.profile(), null);
     },
+    retry: false,
   });
 };
 

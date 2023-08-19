@@ -1,10 +1,10 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../index');
-const Order = require('./order.model');
-const Product = require('./product.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../index");
+const Order = require("./order.model");
+const Product = require("./product.model");
 
-const modelName = 'OrderItem';
-const tableName = 'orders_items';
+const modelName = "OrderItem";
+const tableName = "orders_items";
 const modelOptions = {
   tableName,
   timestamps: false,
@@ -20,19 +20,24 @@ const modelSchema = {
   price: DataTypes.DECIMAL(10, 2),
   orderId: {
     type: DataTypes.UUID,
-    field: 'order_id',
+    field: "order_id",
     references: {
       model: Order.model,
-      key: 'id',
+      key: "id",
     },
   },
   productId: {
     type: DataTypes.UUID,
-    field: 'product_id',
+    field: "product_id",
     references: {
       model: Product.model,
-      key: 'id',
+      key: "id",
     },
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    field: "created_at",
+    defaultValue: DataTypes.NOW,
   },
 };
 

@@ -1,9 +1,9 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql/index');
-const User = require('./user.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../../database/mysql/index");
+const User = require("./user.model");
 
-const modelName = 'Address';
-const tableName = 'addresses';
+const modelName = "Address";
+const tableName = "addresses";
 const modelOptions = {
   tableName,
   timestamps: false,
@@ -19,28 +19,28 @@ const modelSchema = {
   phone: DataTypes.STRING(20),
   zipCode: {
     type: DataTypes.STRING(5),
-    field: 'zip_code',
+    field: "zip_code",
   },
   province: DataTypes.STRING(50),
   city: DataTypes.STRING(50),
   street: DataTypes.STRING(100),
   apartmentNumber: {
     type: DataTypes.STRING(5),
-    field: 'apartment_number',
+    field: "apartment_number",
   },
-  aditional: DataTypes.STRING,
+  indications: DataTypes.STRING,
   customerId: {
     type: DataTypes.UUID,
-    field: 'customer_id',
+    field: "customer_id",
     references: {
       model: User.model,
-      key: 'id',
+      key: "id",
     },
   },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at',
+    field: "created_at",
   },
 };
 

@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Stripe = require('./stripe.connection');
-const Boom = require('@hapi/boom');
-const JWT = require('../../middlewares/auth/jwt.auth');
+const Stripe = require("./stripe.connection");
+const Boom = require("@hapi/boom");
+const JWT = require("../../middlewares/auth/jwt.auth");
 const {
   User,
   CartProduct,
@@ -12,14 +12,14 @@ const {
   Order,
   OrderItem,
   Review,
-} = require('../../database/mysql/models');
+} = require("../../database/mysql/models");
 
 // Create
-router.post('/', JWT.verify, async (req, res, next) => {
+router.post("/", JWT.verify, async (req, res, next) => {
   try {
     // Exist Customer in my Own Database
     const exist_customer = await User.model.findByPk(req.auth.id);
-    if (!exist_customer) return next(Boom.notFound('Customer not found'));
+    if (!exist_customer) return next(Boom.notFound("Customer not found"));
 
     // Get Customer from Stripe
     const { email } = exist_customer.dataValues;
@@ -27,7 +27,7 @@ router.post('/', JWT.verify, async (req, res, next) => {
       query: `email:"${email}"`,
     });
     if (data.length === 0) {
-      return next(Boom.notFound('Customer not found'));
+      return next(Boom.notFound("Customer not found"));
     }
     const [customer] = data;
 
@@ -37,7 +37,7 @@ router.post('/', JWT.verify, async (req, res, next) => {
         customerId: req.auth.id,
       },
     });
-    if (!cart) return next(Boom.notFound('Cart not found'));
+    if (!cart) return next(Boom.notFound("Cart not found"));
 
     const cart_items = await CartProduct.model.findAll({
       where: {
@@ -46,11 +46,11 @@ router.post('/', JWT.verify, async (req, res, next) => {
       },
       include: {
         model: Product.model,
-        as: 'product',
+        as: "product",
       },
     });
     if (cart_items.length === 0) {
-      return next(Boom.badRequest('Cart must have at least one product'));
+      return next(Boom.badRequest("Cart must have at least one product"));
     }
 
     const itemsTotal = cart_items.reduce((acc, item) => {
@@ -63,12 +63,12 @@ router.post('/', JWT.verify, async (req, res, next) => {
 
     const payment_intent = await Stripe.paymentIntents.create({
       amount,
-      currency: 'usd',
+      currency: "usd",
       customer: customer.id,
-      payment_method_types: ['card'],
+      payment_method_types: ["card"],
     });
 
-    console.log('payment_intent', payment_intent);
+    console.log("payment_intent", payment_intent);
 
     return res.status(201).json({
       id: payment_intent.id,
@@ -80,7 +80,7 @@ router.post('/', JWT.verify, async (req, res, next) => {
 });
 
 // Confirm
-router.post('/confirm', JWT.verify, async (req, res, next) => {
+router.post("/confirm", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;
   const { address, paymentIntent, paymentMethod } = req.body;
 
@@ -91,7 +91,7 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
         customerId,
       },
     });
-    if (!existAddress) return next(Boom.notFound('Address not found'));
+    if (!existAddress) return next(Boom.notFound("Address not found"));
 
     // Get Cart Products
     const cart = await Cart.model.findOne({
@@ -99,7 +99,7 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
         customerId,
       },
     });
-    if (!cart) return next(Boom.notFound('Cart not found'));
+    if (!cart) return next(Boom.notFound("Cart not found"));
 
     const cartItems = await CartProduct.model.findAll({
       where: {
@@ -108,11 +108,11 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
       },
       include: {
         model: Product.model,
-        as: 'product',
+        as: "product",
       },
     });
     if (cartItems.length === 0) {
-      return next(Boom.badRequest('Cart must have at least one product'));
+      return next(Boom.badRequest("Cart must have at least one product"));
     }
 
     const itemsTotal = cartItems.reduce((acc, item) => {
@@ -129,13 +129,27 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
     });
     const payment_intent = await Stripe.paymentIntents.confirm(paymentIntent);
 
-    if (payment_intent.status === 'succeeded') {
+    if (payment_intent.status === "succeeded") {
+      const {
+        name,
+        phone,
+        zipCode,
+        province,
+        city,
+        street,
+        apartmentNumber,
+        indications,
+      } = existAddress.dataValues;
       const order = await Order.model.create({
         total: amount,
-        address: `${existAddress.street} ${existAddress.apartmentNumber}`,
-        destinataire: `${existAddress.name} - ${existAddress.phone}`,
-        destination: `${existAddress.province} (${existAddress.zipCode}), ${existAddress.city}`,
-        indications: existAddress.aditional,
+        receiverName: name,
+        receiverPhone: phone,
+        zipCode,
+        province,
+        city,
+        street,
+        apartmentNumber,
+        indications,
         customerId,
         status: Order.enums.pending,
         paymentIntentId: paymentIntent,
@@ -149,9 +163,7 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
           price: item.product.price,
         };
       });
-      const createdOrders = await OrderItem.model.bulkCreate(orderItems, {
-        validate: true,
-      });
+      const createdOrders = await OrderItem.model.bulkCreate(orderItems);
 
       const reviewItems = createdOrders.map((order) => {
         return {
@@ -175,12 +187,12 @@ router.post('/confirm', JWT.verify, async (req, res, next) => {
       });
 
       return res.status(200).json({
-        message: 'Payment Succeeded',
+        message: "Payment Succeeded",
         order: order.id,
       });
     }
 
-    next(Boom.badRequest('Payment Failed'));
+    next(Boom.badRequest("Payment Failed"));
   } catch (error) {
     next(error);
   }

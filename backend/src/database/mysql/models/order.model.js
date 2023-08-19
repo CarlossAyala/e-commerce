@@ -1,22 +1,22 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql');
-const User = require('./user.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../../database/mysql");
+const User = require("./user.model");
 
-const modelName = 'Order';
-const tableName = 'orders';
+const modelName = "Order";
+const tableName = "orders";
 const modelOptions = {
   tableName,
   timestamps: false,
 };
 const enums = {
-  pending: 'pending',
-  process: 'in process',
-  shipped: 'shipped',
-  delivered: 'delivered',
-  cancelled: 'cancelled',
-  return: 'return',
-  refunded: 'refunded',
-  completed: 'completed',
+  pending: "pending",
+  process: "in process",
+  shipped: "shipped",
+  delivered: "delivered",
+  cancelled: "cancelled",
+  return: "return",
+  refunded: "refunded",
+  completed: "completed",
 };
 
 const modelSchema = {
@@ -26,12 +26,25 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   total: DataTypes.DECIMAL(10, 2),
-  // street + apartment number
-  address: DataTypes.STRING,
-  // person name + phone
-  destinataire: DataTypes.STRING,
-  // province (zipcode) + city
-  destination: DataTypes.STRING,
+  street: DataTypes.STRING(100),
+  apartmentNumber: {
+    type: DataTypes.STRING(5),
+    field: "apartment_number",
+  },
+  receiverName: {
+    type: DataTypes.STRING(100),
+    field: "receiver_name",
+  },
+  receiverPhone: {
+    type: DataTypes.STRING(20),
+    field: "receiver_phone",
+  },
+  zipCode: {
+    type: DataTypes.STRING(5),
+    field: "zip_code",
+  },
+  province: DataTypes.STRING(50),
+  city: DataTypes.STRING(50),
   indications: DataTypes.STRING,
   status: {
     type: DataTypes.ENUM,
@@ -40,20 +53,20 @@ const modelSchema = {
   },
   customerId: {
     type: DataTypes.UUID,
-    field: 'customer_id',
+    field: "customer_id",
     references: {
       model: User.model,
-      key: 'id',
+      key: "id",
     },
   },
   paymentIntentId: {
     type: DataTypes.STRING,
-    field: 'payment_intent_id',
+    field: "payment_intent_id",
   },
   orderedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'ordered_at',
+    field: "ordered_at",
   },
 };
 

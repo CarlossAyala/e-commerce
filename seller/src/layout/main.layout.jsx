@@ -29,6 +29,10 @@ const switcherSections = [
       label: "Questions",
       to: "/product/question/all",
     },
+    {
+      label: "Sales",
+      to: "/sale/list",
+    },
   ],
   [
     {

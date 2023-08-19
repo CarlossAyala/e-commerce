@@ -9,6 +9,8 @@ import Signin from "./signin";
 import Signup from "./signup";
 import Store from "./store";
 import StoreNew from "./store-new";
+import SaleList from "./sale-list";
+import SaleView from "./sale-view";
 
 export {
   Signin,
@@ -22,4 +24,6 @@ export {
   ProductEdit,
   ProductQuestionAll,
   ProductQuestionList,
+  SaleList,
+  SaleView,
 };

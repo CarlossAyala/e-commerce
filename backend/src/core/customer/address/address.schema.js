@@ -1,8 +1,8 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 const id = Joi.string().guid({
-  version: 'uuidv4',
-  separator: '-',
+  version: "uuidv4",
+  separator: "-",
 });
 
 const name = Joi.string().min(3).max(100).required();
@@ -12,7 +12,7 @@ const province = Joi.string().min(3).max(50).required();
 const city = Joi.string().min(3).max(50).required();
 const street = Joi.string().min(3).max(100).required();
 const apartmentNumber = Joi.string().min(1).max(5).required();
-const aditional = Joi.string().max(255);
+const indications = Joi.string().max(255);
 
 const base = Joi.object({
   name,
@@ -22,7 +22,7 @@ const base = Joi.object({
   city,
   street,
   apartmentNumber,
-  aditional,
+  indications,
 });
 
 const resourceId = Joi.object({
