@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import API from "./product.api";
 import { getToken } from "../../api";
+import { qaKeys } from "../qa/qa.queries";
 
 const productKeys = {
   key: ["product"],
@@ -52,6 +53,9 @@ export const useUpdateProduct = () => {
       queryClient.invalidateQueries({
         queryKey: productKeys.getAll(),
       });
+      queryClient.invalidateQueries({
+        queryKey: qaKeys.key,
+      });
     },
   });
 };
@@ -67,6 +71,9 @@ export const useDeleteProduct = () => {
       });
       queryClient.invalidateQueries({
         queryKey: productKeys.getAll(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: qaKeys.key,
       });
     },
   });

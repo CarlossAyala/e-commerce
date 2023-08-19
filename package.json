@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Decidí crear un E-Commerce desde 0 con el fin de aprender y ver que conocimientos me faltan mejorar para seguir avanzando como Backend Developer con Node.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",

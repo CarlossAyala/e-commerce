@@ -6,8 +6,8 @@ import {
   ProductList,
   ProductView,
   ProductEdit,
-  // ProductQuestions,
-  // ProductsQuestions,
+  ProductQuestionAll,
+  ProductQuestionList,
   Signin,
   Signup,
   Store,
@@ -40,14 +40,14 @@ const router = createBrowserRouter([
         path: "product/:id/edit",
         element: <ProductEdit />,
       },
-      // {
-      //   path: 'product/question/list',
-      //   element: <ProductsQuestions />,
-      // },
-      // {
-      //   path: 'product/:id/question/list',
-      //   element: <ProductQuestions />,
-      // },
+      {
+        path: "product/question/all",
+        element: <ProductQuestionAll />,
+      },
+      {
+        path: "product/:id/question/list",
+        element: <ProductQuestionList />,
+      },
       {
         path: "store",
         element: <Store />,

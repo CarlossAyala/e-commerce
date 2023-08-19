@@ -1,27 +1,26 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Button, Pagination, Search } from "@carbon/react";
-import clsx from "clsx";
-import { useGetProducts } from "../features/product";
-import { useDebounce } from "../utils/hooks";
-import { priceFormatter } from "../../../customer/src/utils/formatter";
+import { Search, Pagination } from "@carbon/react";
 import {
   PAGE_SIZES,
   getPage,
   getPageSize,
 } from "../constants/pagination.constants";
+import { useDebounce } from "../utils/hooks";
+import { useGetQAAll } from "../features/qa/qa.queries";
+import clsx from "clsx";
 
-const headerTable = ["Name", "Stock", "Sold", "Price", "Status", ""];
+const headerTable = ["Name", "Status", "Total", ""];
 
-const ProductList = () => {
-  const [search, setSearch] = useState("");
+const ProductQuestionAll = () => {
   const [params, setParams] = useSearchParams();
+  const [search, setSearch] = useState(() => params.get("name") || "");
 
   const debounceParams = useDebounce(params.toString(), 500);
 
-  const products = useGetProducts(debounceParams);
+  const questions = useGetQAAll(debounceParams);
 
-  console.log("Products", products);
+  console.log("Products", questions);
 
   const handleSearch = (event) => {
     const search = event.target.value;
@@ -33,43 +32,39 @@ const ProductList = () => {
     <main className="flex w-full flex-col overflow-auto bg-white">
       <section className="px-4 py-3">
         <h1 className="text-base font-semibold leading-6 text-gray-900">
-          Product List
+          All questions
         </h1>
         <p className="mt-1 text-sm text-gray-600">
-          Here you will see a list of all the products you have made.
+          Here will appear all questions about your products.
         </p>
       </section>
 
       <section className="overflow-auto px-4">
         <div className="mb-4">
           <Search
+            id="search-product"
             labelText="Icon search"
+            placeholder="Search by name"
             onChange={handleSearch}
             value={search}
           />
         </div>
 
-        {products.isLoading ? (
+        {questions.isLoading ? (
           <div>
             <p>Loading...</p>
           </div>
         ) : (
           <>
-            {products.isSuccess && products.data.rows.length === 0 && (
-              <div className="">
-                <h2 className="text-base font-semibold leading-tight text-gray-800">
-                  You don&apos;t have any products yet.
+            {questions.isSuccess && questions.data.rows.length === 0 && (
+              <div>
+                <h2 className="text-base leading-tight text-gray-800">
+                  You don&apos;t have any questions yet.
                 </h2>
-                <p className="mt-1 text-sm leading-tight text-gray-600">
-                  Start by creating one.
-                </p>
-                <Link to="/product/new" className="mt-2 inline-block">
-                  <Button size="md">Create Product</Button>
-                </Link>
               </div>
             )}
 
-            {products.isSuccess && products.data.rows.length > 0 && (
+            {questions.isSuccess && questions.data.rows.length > 0 && (
               <div className="overflow-hidden border border-black/20 shadow-sm">
                 <div className="overflow-auto">
                   <table className="min-w-full">
@@ -91,37 +86,16 @@ const ProductList = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-300">
-                      {products.data.rows.map((product) => (
-                        <tr key={product.id}>
+                      {questions.data.rows.map((qa) => (
+                        <tr key={qa.product.id}>
                           <td>
                             <div className="px-6 py-2">
                               <Link
-                                to={`/product/${product.id}/view`}
+                                to={`/product/${qa.product.id}/view`}
                                 className="text-sm font-semibold leading-none text-blue-800"
                               >
-                                {product.name}
+                                {qa.product.name}
                               </Link>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="px-6 py-2">
-                              <p className="text-sm leading-none text-gray-800">
-                                {product.stock}
-                              </p>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="px-6 py-2">
-                              <p className="text-sm leading-none text-gray-800">
-                                {product.sold}
-                              </p>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="px-6 py-2">
-                              <p className="text-sm leading-none text-gray-800">
-                                {priceFormatter(product.price)}
-                              </p>
                             </div>
                           </td>
                           <td>
@@ -130,12 +104,12 @@ const ProductList = () => {
                                 size="md"
                                 className={clsx(
                                   "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize leading-tight",
-                                  product.available
+                                  qa.product.available
                                     ? "bg-green-100 text-green-800"
                                     : "bg-red-100 text-red-800"
                                 )}
                               >
-                                {product.available
+                                {qa.product.available
                                   ? "Available"
                                   : "Unavailable"}
                               </span>
@@ -143,9 +117,18 @@ const ProductList = () => {
                           </td>
                           <td>
                             <div className="px-6 py-2">
-                              <Link to={`/product/${product.id}/edit`}>
+                              <p className="text-sm leading-none text-gray-800">
+                                {qa.count}
+                              </p>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="px-6 py-2">
+                              <Link
+                                to={`/product/${qa.product.id}/question/list`}
+                              >
                                 <p className="leading-none text-blue-600 hover:text-blue-600">
-                                  Edit
+                                  View
                                 </p>
                               </Link>
                             </div>
@@ -176,7 +159,7 @@ const ProductList = () => {
                     pageSize={getPageSize(params.get("limit"))}
                     pageSizes={PAGE_SIZES}
                     size="md"
-                    totalItems={products.data.count}
+                    totalItems={questions.data.count.length}
                   />
                 </div>
               </div>
@@ -188,4 +171,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default ProductQuestionAll;
