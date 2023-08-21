@@ -1,18 +1,18 @@
-import { object, ref, string } from 'yup';
+import { object, ref, string } from "yup";
 
-const name = string().label('Name').min(3).max(255).required();
-const lastName = string().label('Last name').min(3).max(255).required();
-const email = string().label('Email').email().required();
-const password = string().label('Password').min(8).max(255).required();
+const name = string().label("Name").min(3).max(255).required();
+const lastName = string().label("Last name").min(3).max(255).required();
+const email = string().label("Email").email().required();
+const password = string().label("Password").min(8).max(255).required();
 const validatePassword = string()
-  .label('Confirm password')
-  .oneOf([ref('password')], 'Passwords must match')
+  .label("Confirm password")
+  .oneOf([ref("password")], "Passwords must match")
   .required();
-const oldPassword = string().label('Old password').min(8).max(255).required();
-const newPassword = string().label('New password').min(8).max(255).required();
+const oldPassword = string().label("Old password").min(8).max(255).required();
+const newPassword = string().label("New password").min(8).max(255).required();
 const confirmPassword = string()
-  .label('Confirm password')
-  .oneOf([ref('newPassword')], 'Passwords must match')
+  .label("Confirm password")
+  .oneOf([ref("newPassword")], "Passwords must match")
   .required();
 
 export const signupSchema = object({
@@ -24,11 +24,11 @@ export const signupSchema = object({
 });
 
 export const signupInitial = {
-  name: 'carlos',
-  lastName: 'ayala',
-  email: 'customer@customer.com',
-  password: '123123123123',
-  validatePassword: '123123123123',
+  name: "carlos",
+  lastName: "ayala",
+  email: "customer@customer.com",
+  password: "123123123123",
+  validatePassword: "123123123123",
 };
 
 export const signinSchema = object({
@@ -37,8 +37,8 @@ export const signinSchema = object({
 });
 
 export const signinInitial = {
-  email: 'owner@owner.com',
-  password: 'ownerowner',
+  email: "owner@owner.com",
+  password: "ownerowner",
 };
 
 export const changeNameSchema = object({
@@ -56,7 +56,7 @@ export const changePasswordSchema = object({
   confirmPassword,
 });
 export const changePasswordInitial = {
-  oldPassword: '',
-  newPassword: '',
-  confirmPassword: '',
+  oldPassword: "",
+  newPassword: "",
+  confirmPassword: "",
 };

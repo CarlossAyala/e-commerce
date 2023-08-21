@@ -14,6 +14,7 @@ import {
   StoreNew,
   SaleList,
   SaleView,
+  ReviewList,
 } from "./pages";
 import SellerProvider from "./seller.provider";
 
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "sale/:id/view",
         element: <SaleView />,
+      },
+      {
+        path: "review/list",
+        element: <ReviewList />,
       },
     ],
   },

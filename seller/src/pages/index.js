@@ -11,6 +11,7 @@ import Store from "./store";
 import StoreNew from "./store-new";
 import SaleList from "./sale-list";
 import SaleView from "./sale-view";
+import ReviewList from "./review-list";
 
 export {
   Signin,
@@ -26,4 +27,5 @@ export {
   ProductQuestionList,
   SaleList,
   SaleView,
+  ReviewList,
 };

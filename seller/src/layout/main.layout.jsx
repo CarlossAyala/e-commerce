@@ -33,6 +33,10 @@ const switcherSections = [
       label: "Sales",
       to: "/sale/list",
     },
+    {
+      label: "Reviews",
+      to: "/review/list",
+    },
   ],
   [
     {
