@@ -29,6 +29,10 @@ const modelSchema = {
     type: DataTypes.INTEGER.UNSIGNED,
     defaultValue: 0,
   },
+  stockAlert: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    field: "stock_alert",
+  },
   sold: {
     type: DataTypes.INTEGER.UNSIGNED,
     defaultValue: 0,

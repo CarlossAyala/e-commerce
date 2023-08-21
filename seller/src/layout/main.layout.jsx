@@ -67,7 +67,7 @@ const navigation = {
 
 const Logo = () => {
   return (
-    <Link to="/" className="h-full px-2">
+    <Link to="/" className="px-2">
       <div className="flex h-12 flex-col justify-center text-black/90">
         <p className="text-sm leading-none">Fak-Ommerce</p>
         <p className="text-sm font-semibold leading-tight">[Seller]</p>
@@ -94,8 +94,8 @@ export const MainLayout = () => {
   };
 
   return (
-    <div className="grid min-h-screen grid-rows-[auto_1fr]">
-      <header className="flex h-12 w-full items-center border-b border-black/10">
+    <div className="grid min-h-screen grid-rows-[auto_auto_1fr] overflow-hidden">
+      <header className="flex h-12 w-full items-center border-b border-neutral-300">
         <button
           onClick={() => setSidebar(true)}
           className="flex h-full w-12 items-center justify-center"
@@ -315,6 +315,37 @@ export const MainLayout = () => {
           </Dialog>
         </Transition.Root>
       </header>
+
+      <div>
+        <nav className="px-4 mt-3 flex items-center">
+          <ol className="flex items-center flex-wrap">
+            <li className="leading-tight mr-1 relative after:text-sm after:content-['/'] after:ml-1 after:text-gray-600">
+              <Link
+                to="#"
+                className="text-sm hover:underline hover:underline-offset-2 hover:decoration-blue-600"
+              >
+                Page
+              </Link>
+            </li>
+            <li className="leading-tight mr-1 relative after:text-sm after:content-['/'] after:ml-1 after:text-gray-600">
+              <Link
+                to="#"
+                className="text-sm hover:underline hover:underline-offset-2 hover:decoration-blue-600"
+              >
+                Page
+              </Link>
+            </li>
+          </ol>
+        </nav>
+        <section className="px-4 pb-4 pt-3 border-black/10 border-b">
+          <h1 className="text-2xl leading-tight font-medium text-neutral-800">
+            Dashboard
+          </h1>
+          <p className="text-sm mt-1 leading-tight text-gray-600">
+            Welcome back, <strong>John Doe</strong>
+          </p>
+        </section>
+      </div>
 
       <Outlet />
     </div>

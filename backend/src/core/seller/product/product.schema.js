@@ -1,22 +1,23 @@
-const Joi = require('joi');
-const { Product } = require('../../../database/mysql/models');
+const Joi = require("joi");
+const { Product } = require("../../../database/mysql/models");
 
 const id = Joi.string().guid({
-  version: 'uuidv4',
-  separator: '-',
+  version: "uuidv4",
+  separator: "-",
 });
 
-const validConditions = Object.values(Product.enums.condition);
+const conditions = Object.values(Product.enums.condition);
 
 const base = Joi.object({
   name: Joi.string().min(3).max(255).required(),
   description: Joi.string().min(3).max(255).required(),
   stock: Joi.number().integer().min(0).required(),
+  stockAlert: Joi.number().integer().min(0).required(),
   price: Joi.number().precision(2).min(1).required(),
   available: Joi.boolean().required(),
   condition: Joi.string()
     .lowercase()
-    .valid(...validConditions)
+    .valid(...conditions)
     .required(),
   categoryId: id.required(),
 });

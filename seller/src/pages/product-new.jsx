@@ -149,22 +149,18 @@ const ProductNew = () => {
                     Product inventory
                   </h2>
                   <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-x-4">
+                    <div className="grid grid-cols-2 gap-4">
                       <NumberInput
                         id="product-stock"
                         name="stock"
                         min={0}
-                        hideSteppers
                         label="Stock"
                         invalidText={errors.stock}
                         invalid={errors.stock && touched.stock}
                         value={values.stock}
-                        onChange={(e) => {
-                          handleChange(e);
-                          if (
-                            e.target.valueAsNumber < 1 ||
-                            e.target.value === ""
-                          ) {
+                        onChange={(event, { value }) => {
+                          setFieldValue("stock", value);
+                          if (value < 1 || value === "") {
                             setFieldValue("available", false);
                           }
                         }}
@@ -174,14 +170,31 @@ const ProductNew = () => {
                         id="product-price"
                         name="price"
                         label="Price"
-                        min={0}
-                        hideSteppers
+                        min={1}
                         invalidText={errors.price}
                         invalid={errors.price && touched.price}
                         value={values.price}
-                        onChange={handleChange}
+                        onChange={(event, { value }) => {
+                          setFieldValue("price", value);
+                        }}
                         onBlur={handleBlur}
                       />
+                      <div className="col-span-2">
+                        <NumberInput
+                          id="product-stock-alert"
+                          name="stockAlert"
+                          label="Stock alert"
+                          helperText="The number of items to be alerted when the stock is low."
+                          min={0}
+                          invalidText={errors.stockAlert}
+                          invalid={errors.stockAlert && touched.stockAlert}
+                          value={values.stockAlert}
+                          onChange={(event, { value }) => {
+                            setFieldValue("stockAlert", value);
+                          }}
+                          onBlur={handleBlur}
+                        />
+                      </div>
                     </div>
                     <Select
                       id="product-condition"
@@ -216,7 +229,7 @@ const ProductNew = () => {
                       labelText={
                         values.available ? "Available" : "Not Available"
                       }
-                      helperText="Solamente podrás habilitar el producto cuando el Stock sea mayor a cero"
+                      helperText="You can only enable the product when the Stock is greater than zero"
                       onChange={handleChange}
                       checked={values.available}
                       disabled={values.stock < 1 || !values.stock}

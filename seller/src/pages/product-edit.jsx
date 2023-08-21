@@ -198,8 +198,24 @@ const ProductEdit = () => {
                           setFieldValue("price", value);
                         }}
                         onBlur={handleBlur}
-                        min={0}
+                        min={1}
                       />
+                      <div className="col-span-2">
+                        <NumberInput
+                          id="product-stock-alert"
+                          name="stockAlert"
+                          label="Stock alert"
+                          helperText="The number of items to be alerted when the stock is low."
+                          invalidText={errors.stockAlert}
+                          invalid={errors.stockAlert && touched.stockAlert}
+                          value={values.stockAlert}
+                          onChange={(event, { value }) => {
+                            setFieldValue("stockAlert", value);
+                          }}
+                          onBlur={handleBlur}
+                          min={0}
+                        />
+                      </div>
                       <div className="col-span-2">
                         <Select
                           id="product-condition"
@@ -235,8 +251,8 @@ const ProductEdit = () => {
                           disabled={values.stock < 1 || !values.stock}
                         />
                         <p className="text-xs text-gray-800">
-                          You can only disable the product when the Stock is
-                          zero
+                          You can only enable the product when the Stock is
+                          greater than zero
                         </p>
                       </div>
                     </div>

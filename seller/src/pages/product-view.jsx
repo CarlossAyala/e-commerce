@@ -42,7 +42,7 @@ const ProductView = () => {
         <>
           {product.isSuccess && (
             <section className="space-y-10 px-4 py-3">
-              <div className="">
+              <div>
                 <h1 className="text-base font-semibold leading-6 text-gray-900">
                   Product information
                 </h1>
@@ -66,7 +66,7 @@ const ProductView = () => {
                       {product.data.description}
                     </dd>
                   </div>
-                  <div className="">
+                  <div>
                     <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
                       Stock
                     </dt>
@@ -74,7 +74,15 @@ const ProductView = () => {
                       {product.data.stock}
                     </dd>
                   </div>
-                  <div className="">
+                  <div>
+                    <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
+                      Stock alert
+                    </dt>
+                    <dd className="text-sm leading-tight text-gray-900">
+                      {product.data.stockAlert}
+                    </dd>
+                  </div>
+                  <div>
                     <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
                       Sold
                     </dt>
@@ -82,7 +90,7 @@ const ProductView = () => {
                       {product.data.sold}
                     </dd>
                   </div>
-                  <div className="">
+                  <div>
                     <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
                       Price
                     </dt>
@@ -90,7 +98,7 @@ const ProductView = () => {
                       {priceFormatter(product.data.price)}
                     </dd>
                   </div>
-                  <div className="">
+                  <div>
                     <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
                       Condition
                     </dt>
@@ -106,7 +114,7 @@ const ProductView = () => {
                       {product.data.condition}
                     </dd>
                   </div>
-                  <div className="col-span-2">
+                  <div>
                     <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
                       Status
                     </dt>
@@ -121,7 +129,7 @@ const ProductView = () => {
                       {product.data.available ? "Available" : "Unavailable"}
                     </dd>
                   </div>
-                  <div className="">
+                  <div>
                     <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
                       Created at
                     </dt>
@@ -129,7 +137,7 @@ const ProductView = () => {
                       {datePlusTimeFormatter(product.data.createdAt)}
                     </dd>
                   </div>
-                  <div className="">
+                  <div>
                     <dt className="text-xs font-semibold uppercase leading-6 text-gray-900">
                       Last update at
                     </dt>
@@ -140,7 +148,7 @@ const ProductView = () => {
                 </dl>
               </div>
 
-              <div className="">
+              <div>
                 <h1 className="text-base font-semibold leading-6 text-gray-900">
                   Category information
                 </h1>

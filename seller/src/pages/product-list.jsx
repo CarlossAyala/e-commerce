@@ -11,7 +11,15 @@ import {
   getPageSize,
 } from "../constants/pagination.constants";
 
-const headerTable = ["Name", "Stock", "Sold", "Price", "Status", ""];
+const headerTable = [
+  "Name",
+  "Stock",
+  "Stock alert",
+  "Sold",
+  "Price",
+  "Status",
+  "",
+];
 
 const ProductList = () => {
   const [search, setSearch] = useState("");
@@ -97,7 +105,7 @@ const ProductList = () => {
                             <div className="px-6 py-2">
                               <Link
                                 to={`/product/${product.id}/view`}
-                                className="text-sm font-semibold leading-none text-blue-800"
+                                className="text-sm line-clamp-1 w-40 font-semibold leading-none text-blue-800"
                               >
                                 {product.name}
                               </Link>
@@ -107,6 +115,13 @@ const ProductList = () => {
                             <div className="px-6 py-2">
                               <p className="text-sm leading-none text-gray-800">
                                 {product.stock}
+                              </p>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="px-6 py-2">
+                              <p className="text-sm leading-none text-gray-800">
+                                {product.stockAlert}
                               </p>
                             </div>
                           </td>
