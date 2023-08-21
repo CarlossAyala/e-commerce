@@ -2,11 +2,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import API from "./product.api";
 import { getToken } from "../../api";
 import { qaKeys } from "../qa/qa.queries";
+import { storeKeys } from "../store/store.queries";
 
 const productKeys = {
   key: ["product"],
   get: (id) => [...productKeys.key, "get", id],
   getAll: (query = "") => [...productKeys.key, "get-all", query],
+  stockAlert: (query = "") => [...productKeys.key, "stock-alert", query],
 };
 
 export const useGetProduct = (id) => {
@@ -34,10 +36,14 @@ export const useCreateProduct = () => {
 
   return useMutation({
     mutationFn: (values) => API.createProduct(values),
-    onSuccess: () =>
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: productKeys.getAll(),
-      }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: productKeys.stockAlert(),
+      });
+    },
   });
 };
 
@@ -52,6 +58,12 @@ export const useUpdateProduct = () => {
       });
       queryClient.invalidateQueries({
         queryKey: productKeys.getAll(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: productKeys.stockAlert(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: storeKeys.getStats(),
       });
       queryClient.invalidateQueries({
         queryKey: qaKeys.key,
@@ -73,8 +85,21 @@ export const useDeleteProduct = () => {
         queryKey: productKeys.getAll(),
       });
       queryClient.invalidateQueries({
+        queryKey: productKeys.stockAlert(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: storeKeys.getStats(),
+      });
+      queryClient.invalidateQueries({
         queryKey: qaKeys.key,
       });
     },
+  });
+};
+
+export const useStockAlert = (query) => {
+  return useQuery({
+    queryKey: productKeys.stockAlert(query),
+    queryFn: () => API.stockAlert(query),
   });
 };

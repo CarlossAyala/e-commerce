@@ -1,16 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const slugify = require('slugify');
-const { Store } = require('../../../database/mysql/models');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const schema = require('./store.schema');
-const slugifyOptions = require('../../../constant/slugify');
-const { Op } = require('sequelize');
+const Boom = require("@hapi/boom");
+const slugify = require("slugify");
+const {
+  Store,
+  OrderItem,
+  Product,
+  Question,
+} = require("../../../database/mysql/models");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const JWT = require("../../../middlewares/auth/jwt.auth");
+const schema = require("./store.schema");
+const slugifyOptions = require("../../../constant/slugify");
+const { Op, Sequelize } = require("sequelize");
+const ms = require("ms");
 
 // Get Store
-router.get('/', JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
   const { id: sellerId } = req.auth;
 
   try {
@@ -20,7 +26,7 @@ router.get('/', JWT.verify, async (req, res, next) => {
       },
     });
 
-    console.log('Store', store);
+    console.log("Store", store);
 
     return res.status(200).json(store);
   } catch (error) {
@@ -28,11 +34,120 @@ router.get('/', JWT.verify, async (req, res, next) => {
   }
 });
 
+// Get Store Stats
+router.get("/stats", JWT.verify, async (req, res, next) => {
+  const { id: sellerId } = req.auth;
+
+  try {
+    const store = await Store.model.findOne({
+      where: {
+        sellerId,
+      },
+    });
+    if (!store) return next(Boom.notFound("Store not found"));
+
+    const daysAgo30 = new Date(Date.now() - ms("30d"));
+
+    const revenuesPromise = OrderItem.model.findAll({
+      attributes: [
+        "id",
+        [
+          Sequelize.fn(
+            "SUM",
+            Sequelize.literal("OrderItem.price * OrderItem.quantity")
+          ),
+          "revenue",
+        ],
+      ],
+      where: {
+        createdAt: {
+          [Op.gte]: daysAgo30,
+        },
+      },
+      include: {
+        model: Product.model,
+        as: "product",
+        attributes: [],
+        where: {
+          storeId: store.id,
+        },
+      },
+      group: ["id"],
+    });
+
+    const soldPromise = OrderItem.model.findAll({
+      attributes: ["quantity"],
+      where: {
+        createdAt: {
+          [Op.gte]: daysAgo30,
+        },
+      },
+      include: {
+        model: Product.model,
+        as: "product",
+        attributes: [],
+        where: {
+          storeId: store.id,
+        },
+      },
+    });
+
+    const stockAlertPromise = Product.model.count({
+      where: {
+        storeId: store.id,
+        stock: {
+          [Op.lte]: Sequelize.col("stock_alert"),
+        },
+      },
+    });
+
+    const questionsPromise = Question.model.count({
+      where: {
+        states: Question.enums.states.queue,
+      },
+      include: {
+        model: Product.model,
+        as: "product",
+        attributes: [],
+        where: {
+          storeId: store.id,
+        },
+      },
+    });
+
+    const [revenuesResult, soldResult, stockAlertResult, questionsResult] =
+      await Promise.all([
+        revenuesPromise,
+        soldPromise,
+        stockAlertPromise,
+        questionsPromise,
+      ]);
+
+    const revenue = revenuesResult.reduce(
+      (acc, item) => acc + (+item.dataValues.revenue || 0),
+      0
+    );
+    const sold = soldResult.reduce(
+      (acc, item) => acc + (+item.dataValues.quantity || 0),
+      0
+    );
+
+    return res.status(200).json({
+      revenue,
+      sold,
+      stockAlert: stockAlertResult,
+      questions: questionsResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Create Store
 router.post(
-  '/',
+  "/",
   JWT.verify,
-  validatorSchema(schema.base, 'body'),
+  validatorSchema(schema.base, "body"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { name, description } = req.body;
@@ -45,9 +160,9 @@ router.post(
         },
       });
       if (store?.sellerId === sellerId) {
-        return next(Boom.badRequest('You already have a Store'));
+        return next(Boom.badRequest("You already have a Store"));
       } else if (store?.name === name || store?.slug === slug) {
-        return next(Boom.badRequest('Store already exists'));
+        return next(Boom.badRequest("Store already exists"));
       }
 
       const newStore = await Store.model.create({
@@ -66,9 +181,9 @@ router.post(
 
 // Change Name
 router.patch(
-  '/change-name',
+  "/change-name",
   JWT.verify,
-  validatorSchema(schema.changeName, 'body'),
+  validatorSchema(schema.changeName, "body"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { name } = req.body;
@@ -81,9 +196,9 @@ router.patch(
         },
       });
       if (!store || store?.sellerId !== sellerId) {
-        return next(Boom.badRequest('Store not found'));
+        return next(Boom.badRequest("Store not found"));
       } else if (store?.name === name || store?.slug === slug) {
-        return next(Boom.badRequest('The Store name already exists'));
+        return next(Boom.badRequest("The Store name already exists"));
       }
 
       await store.update({
@@ -100,9 +215,9 @@ router.patch(
 
 // Change description
 router.patch(
-  '/change-description',
+  "/change-description",
   JWT.verify,
-  validatorSchema(schema.changeDescription, 'body'),
+  validatorSchema(schema.changeDescription, "body"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { description } = req.body;
@@ -113,7 +228,7 @@ router.patch(
           sellerId,
         },
       });
-      if (!store) return next(Boom.badRequest('Store not found'));
+      if (!store) return next(Boom.badRequest("Store not found"));
 
       await store.update({
         description,
@@ -127,7 +242,7 @@ router.patch(
 );
 
 // Delete Store
-router.delete('/', JWT.verify, async (req, res, next) => {
+router.delete("/", JWT.verify, async (req, res, next) => {
   const { id: sellerId } = req.auth;
   try {
     const store = await Store.model.findOne({
@@ -135,12 +250,12 @@ router.delete('/', JWT.verify, async (req, res, next) => {
         sellerId,
       },
     });
-    if (!store) return next(Boom.badRequest('Store not found'));
+    if (!store) return next(Boom.badRequest("Store not found"));
 
     await store.destroy();
 
     return res.status(200).json({
-      message: 'Store deleted',
+      message: "Store deleted",
     });
   } catch (error) {
     next(error);

@@ -3,6 +3,21 @@ import { SellerClient, getToken, urlWithQuery } from "../../api";
 const PRODUCTS = "products";
 
 const API = {
+  async stockAlert() {
+    const url = `${PRODUCTS}/stock-alert`;
+    const token = getToken();
+
+    const { data } = await SellerClient.request({
+      method: "GET",
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data;
+  },
   async getProduct(productId) {
     const url = `${PRODUCTS}/${productId}`;
     const token = getToken();

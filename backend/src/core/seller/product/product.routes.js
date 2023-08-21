@@ -8,6 +8,7 @@ const JWT = require("../../../middlewares/auth/jwt.auth");
 const schemas = require("./product.schema");
 const slugifyOptions = require("../../../constant/slugify");
 const QueryBuilder = require("../../../utils/database/query-builder");
+const { Sequelize, Op } = require("sequelize");
 
 // Get Products
 router.get("/", JWT.verify, async (req, res, next) => {
@@ -30,6 +31,44 @@ router.get("/", JWT.verify, async (req, res, next) => {
     const products = await Product.model.findAndCountAll({
       where,
       order,
+      limit,
+      offset,
+    });
+
+    return res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Get Products in Stock Alert
+router.get("/stock-alert", JWT.verify, async (req, res, next) => {
+  const { id: sellerId } = req.auth;
+  try {
+    const store = await Store.model.findOne({
+      where: {
+        sellerId,
+      },
+    });
+    if (!store) return next(Boom.notFound("Store not found"));
+
+    const { where, limit, offset } = new QueryBuilder(req.query)
+      .where("storeId", store.dataValues.id)
+      .whereLike("name", req.query.name)
+      .pagination()
+      .build();
+
+    const products = await Product.model.findAndCountAll({
+      where: {
+        ...where,
+        stock: {
+          [Op.lte]: Sequelize.col("stock_alert"),
+        },
+      },
+      order: [
+        ["stock", "ASC"],
+        ["name", "ASC"],
+      ],
       limit,
       offset,
     });

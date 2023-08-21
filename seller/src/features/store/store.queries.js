@@ -1,9 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import API from './store.api';
-import { getToken } from '../../api';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import API from "./store.api";
+import { getToken } from "../../api";
 
-const storeKeys = {
-  key: ['store'],
+export const storeKeys = {
+  key: ["store"],
+  getStats: () => [...storeKeys.key, "stats"],
 };
 
 export const useGetStore = () => {
@@ -22,7 +23,7 @@ export const useNewStore = () => {
   return useMutation({
     mutationFn: (values) => API.createStore(values),
     onSuccess: () => {
-      console.log('Store created successfully');
+      console.log("Store created successfully");
 
       queryClient.invalidateQueries({
         queryKey: storeKeys.key,
@@ -37,7 +38,7 @@ export const useChangeName = () => {
   return useMutation({
     mutationFn: (values) => API.changeName(values),
     onSuccess: () => {
-      console.log('Store updated successfully');
+      console.log("Store updated successfully");
 
       queryClient.invalidateQueries({
         queryKey: storeKeys.key,
@@ -52,7 +53,7 @@ export const useChangeDescription = () => {
   return useMutation({
     mutationFn: (values) => API.changeDescription(values),
     onSuccess: () => {
-      console.log('Store updated successfully');
+      console.log("Store updated successfully");
 
       queryClient.invalidateQueries({
         queryKey: storeKeys.key,
@@ -67,11 +68,18 @@ export const useDeleteStore = () => {
   return useMutation({
     mutationFn: () => API.deleteStore(),
     onSuccess: () => {
-      console.log('Store deleted successfully');
+      console.log("Store deleted successfully");
 
       queryClient.invalidateQueries({
         queryKey: storeKeys.key,
       });
     },
+  });
+};
+
+export const useGetStoreStats = () => {
+  return useQuery({
+    queryKey: storeKeys.getStats(),
+    queryFn: () => API.getStats(),
   });
 };

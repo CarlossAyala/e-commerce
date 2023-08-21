@@ -1,6 +1,6 @@
-import { SellerClient, getToken } from '../../api';
+import { SellerClient, getToken } from "../../api";
 
-const STORE = 'stores';
+const STORE = "stores";
 
 const API = {
   async getStore() {
@@ -8,10 +8,25 @@ const API = {
     const token = getToken();
 
     const { data } = await SellerClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data;
+  },
+  async getStats() {
+    const url = `/${STORE}/stats`;
+    const token = getToken();
+
+    const { data } = await SellerClient.request({
+      method: "GET",
+      url,
+      headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -23,10 +38,10 @@ const API = {
     const token = getToken();
 
     const { data } = await SellerClient.request({
-      method: 'POST',
+      method: "POST",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       data: values,
@@ -39,10 +54,10 @@ const API = {
     const token = getToken();
 
     const { data } = await SellerClient.request({
-      method: 'PATCH',
+      method: "PATCH",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       data: values,
@@ -55,10 +70,10 @@ const API = {
     const token = getToken();
 
     const { data } = await SellerClient.request({
-      method: 'PATCH',
+      method: "PATCH",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       data: values,
@@ -71,10 +86,10 @@ const API = {
     const token = getToken();
 
     const { data } = await SellerClient.request({
-      method: 'DELETE',
+      method: "DELETE",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
