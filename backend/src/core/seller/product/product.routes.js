@@ -21,12 +21,20 @@ router.get("/", JWT.verify, async (req, res, next) => {
     });
     if (!store) return next(Boom.notFound("Store not found"));
 
-    const { where, order, limit, offset } = new QueryBuilder(req.query)
+    const qb = new QueryBuilder(req.query)
       .where("storeId", store.dataValues.id)
-      .whereLike("name", req.query.name)
-      .orderBy("name", "ASC")
-      .pagination()
-      .build();
+      .whereLike("name", req.query.name);
+
+    switch (req.query.sortby) {
+      case "latest":
+        qb.orderBy("createdAt", "DESC");
+        qb.orderBy("name", "DESC");
+        break;
+
+      default:
+        qb.orderBy("name", "ASC");
+    }
+    const { where, order, limit, offset } = qb.pagination().build();
 
     const products = await Product.model.findAndCountAll({
       where,

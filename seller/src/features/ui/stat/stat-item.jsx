@@ -5,7 +5,7 @@ const StatItem = ({ title, value, to }) => {
   return (
     <div className="bg-white border border-gray-300 rounded-md overflow-hidden">
       <div className="p-4 md:p-5 w-full">
-        <p className="text-xs leading-tight uppercase tracking-wide text-gray-500">
+        <p className="text-xs leading-tight uppercase tracking-wide text-gray-600">
           {title}
         </p>
         <p className="leading-tight text-xl mt-1 font-semibold text-gray-800">

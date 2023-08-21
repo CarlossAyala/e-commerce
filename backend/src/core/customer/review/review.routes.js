@@ -48,7 +48,7 @@ router.get("/customer/done", JWT.verify, async (req, res, next) => {
   const { where, limit, offset, order } = new QueryBuilder(req.query)
     .where("status", Review.enums.status.done)
     .where("customerId", customerId)
-    .orderBy("updatedAt", "DESC")
+    .orderBy("createdAt", "DESC")
     .pagination()
     .build();
 
