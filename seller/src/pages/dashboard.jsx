@@ -365,10 +365,10 @@ const Dashboard = () => {
                 />
                 <div className="border-t border-gray-300 bg-gray-100 px-4 pb-12 pt-10">
                   <p className="text-base font-semibold leading-tight text-gray-900">
-                    No sales found
+                    No stock alert
                   </p>
                   <p className="mb-6 mt-1 text-sm leading-tight text-gray-600">
-                    It seems that no one has bought anything.
+                    It seems that there are no products with low stock.
                   </p>
 
                   <div className="flex flex-col gap-y-2">
@@ -380,15 +380,15 @@ const Dashboard = () => {
                     >
                       Refresh
                     </Button>
-                    <Link to="/product/list" className="">
-                      Go to products
+                    <Link to="/product/stock-alert" className="">
+                      Go to stock alert
                     </Link>
                   </div>
                 </div>
               </>
             )}
 
-            {sales.isSuccess && sales.data.rows.length > 0 && (
+            {stockAlert.isSuccess && stockAlert.data.rows.length > 0 && (
               <>
                 <div className="mb-3">
                   <div className="flex items-start justify-between gap-x-4 mb-1">

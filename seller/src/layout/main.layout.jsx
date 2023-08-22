@@ -22,7 +22,11 @@ const switcherSections = [
       to: "/product/list",
     },
     {
-      label: "New Product",
+      label: "Stock alert",
+      to: "/product/stock-alert",
+    },
+    {
+      label: "New product",
       to: "/product/new",
     },
     {

@@ -15,6 +15,7 @@ import {
   SaleList,
   SaleView,
   ReviewList,
+  ProductStockAlert,
 } from "./pages";
 import SellerProvider from "./seller.provider";
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "product/list",
         element: <ProductList />,
+      },
+      {
+        path: "product/stock-alert",
+        element: <ProductStockAlert />,
       },
       {
         path: "product/:id/view",
