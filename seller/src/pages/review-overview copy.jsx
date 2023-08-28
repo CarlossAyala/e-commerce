@@ -1,5 +1,5 @@
 import { Renew } from "@carbon/icons-react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   Button,
   DataTable,
@@ -19,16 +19,13 @@ import {
   HandThumbUpIcon,
   StarIcon as StarSolid,
 } from "@heroicons/react/24/solid";
-import { useGetProductReviews, useGetScoreReview } from "../features/review";
+import { useGetReviews } from "../features/review/review.queries";
 import { ddMMYYFormatter } from "../utils/date";
 import {
   PAGE_SIZES,
   getPage,
   getPageSize,
 } from "../constants/pagination.constants";
-import { useGetProduct } from "../features/product";
-import { splitFloat } from "../utils/number";
-import { ratingFormatter } from "../utils/formatter";
 
 const REVIEW_STARS = 5;
 const ReviewStars = ({ rating }) => {
@@ -53,25 +50,11 @@ const ReviewStars = ({ rating }) => {
   );
 };
 
-const AverageRating = ({ rating, index }) => {
-  const [int, float] = splitFloat(rating);
-
-  let width;
-  if (rating >= index) width = "100%";
-  else if (rating < index && int === index - 1) width = `${float * 100}%`;
-  else width = "0%";
-
-  return (
-    <div className="relative h-4 w-4">
-      <StarOutline className="absolute h-4 w-4 text-indigo-500" />
-      <div className="absolute overflow-hidden" style={{ width }}>
-        <StarSolid className="h-4 w-4 text-indigo-500" />
-      </div>
-    </div>
-  );
-};
-
 const reviewHeaders = [
+  {
+    key: "product",
+    header: "Product",
+  },
   {
     key: "review",
     header: "Review",
@@ -86,113 +69,24 @@ const reviewHeaders = [
   },
 ];
 
-const ReviewList = () => {
+const ReviewOverview = () => {
   const [params, setParams] = useSearchParams();
-  const { id: productId } = useParams();
-
-  const product = useGetProduct(productId);
-  const reviews = useGetProductReviews(productId);
-  const score = useGetScoreReview(productId);
-  console.log("Score", score);
+  const reviews = useGetReviews();
 
   return (
     <main className="flex w-full flex-col overflow-auto bg-white">
-      <section className="px-4 mt-3 space-y-6">
-        {product.isLoading ? (
-          <div>
-            <p>Loading product...</p>
-          </div>
-        ) : (
-          <>
-            {product.isError && (
-              <div>
-                <p>Error loading product</p>
-              </div>
-            )}
-
-            {product.isSuccess && (
-              <div>
-                <h2 className="text-base font-semibold leading-6 text-gray-900">
-                  Product
-                </h2>
-
-                <div className="mt-2">
-                  <Link to={`/product/${product.data.id}/view`}>
-                    <div className="flex items-center gap-x-1">
-                      <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-gray-200">
-                        <img
-                          className="h-full w-full object-cover"
-                          src="https://http2.mlstatic.com/D_NQ_NP_904598-MLU69493154879_052023-O.webp"
-                          alt={product.data.name}
-                        />
-                      </div>
-                      <div className="grow">
-                        <p className="line-clamp-1 text-sm leading-tight text-blue-600">
-                          {product.data.name}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            )}
-          </>
-        )}
-
-        {score.isLoading ? (
-          <div>
-            <p>Loading product score...</p>
-          </div>
-        ) : (
-          <>
-            {score.isError && (
-              <div>
-                <p>Error loading product score</p>
-              </div>
-            )}
-
-            {score.isSuccess && (
-              <div>
-                <h2 className="text-base font-semibold leading-6 text-gray-900">
-                  Review score
-                </h2>
-
-                <div className="mt-2">
-                  <div>
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, index) => (
-                        <AverageRating
-                          rating={score.data}
-                          index={++index}
-                          key={index}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-base mt-1 leading-tight text-gray-600">
-                      {ratingFormatter(score.data)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
-        )}
-
+      <section className="px-4 mt-3">
         {reviews.isLoading ? (
           <DataTableSkeleton columnCount={3} showToolbar={false} rowCount={6} />
         ) : (
           <>
             {reviews.isSuccess && reviews.data.rows.length === 0 && (
-              <div>
-                <div className="mb-3">
-                  <h2 className="text-base font-semibold leading-6 text-gray-900">
-                    Reviews
-                  </h2>
-                  <p className="text-sm text-gray-600 leading-snug">
-                    Latest reviews about your products
-                  </p>
-                </div>
-                <div className="bg-gray-100 px-4 pb-12 pt-10">
+              <>
+                <TableContainer
+                  title="Reviews"
+                  description="Latest reviews about your products"
+                />
+                <div className="border-t border-gray-300 bg-gray-100 px-4 pb-12 pt-10">
                   <p className="text-base font-semibold leading-tight text-gray-900">
                     No reviews yet
                   </p>
@@ -211,11 +105,11 @@ const ReviewList = () => {
                     </Button>
                   </div>
                 </div>
-              </div>
+              </>
             )}
 
             {reviews.isSuccess && reviews.data.rows.length > 0 && (
-              <div>
+              <>
                 <div className="mb-3">
                   <h2 className="text-base font-semibold leading-6 text-gray-900">
                     Reviews
@@ -228,6 +122,7 @@ const ReviewList = () => {
                   rows={reviews.data.rows.map(
                     ({
                       id,
+                      product,
                       description,
                       rating,
                       like,
@@ -235,6 +130,24 @@ const ReviewList = () => {
                       updatedAt,
                     }) => ({
                       id,
+                      product: (
+                        <Link to={`/product/${product.id}/view`}>
+                          <div className="flex items-center gap-x-1 w-32">
+                            <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-gray-200">
+                              <img
+                                className="h-full w-full object-cover"
+                                src="https://http2.mlstatic.com/D_NQ_NP_904598-MLU69493154879_052023-O.webp"
+                                alt={product.name}
+                              />
+                            </div>
+                            <div className="grow">
+                              <p className="line-clamp-1 text-sm leading-tight text-blue-600">
+                                {product.name}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      ),
                       review: (
                         <div className="w-48">
                           <ReviewStars rating={rating} />
@@ -319,7 +232,7 @@ const ReviewList = () => {
                     totalItems={reviews.data.count}
                   />
                 </div>
-              </div>
+              </>
             )}
           </>
         )}
@@ -328,4 +241,4 @@ const ReviewList = () => {
   );
 };
 
-export default ReviewList;
+export default ReviewOverview;

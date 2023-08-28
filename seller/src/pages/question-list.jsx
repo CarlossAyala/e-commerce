@@ -46,7 +46,7 @@ const headers = [
   },
 ];
 
-const ProductQuestionList = () => {
+const QuestionList = () => {
   const [params, setParams] = useSearchParams();
   const [questionId, setQuestionId] = useState("");
   const [modalReply, setModalReply] = useState(false);
@@ -475,4 +475,4 @@ const ProductQuestionList = () => {
   );
 };
 
-export default ProductQuestionList;
+export default QuestionList;

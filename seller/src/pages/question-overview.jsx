@@ -12,7 +12,7 @@ import clsx from "clsx";
 
 const headerTable = ["Name", "Status", "Total", ""];
 
-const ProductQuestion = () => {
+const QuestionOverview = () => {
   const [params, setParams] = useSearchParams();
   const [search, setSearch] = useState(() => params.get("name") || "");
 
@@ -32,7 +32,7 @@ const ProductQuestion = () => {
     <main className="flex w-full flex-col overflow-auto bg-white">
       <section className="px-4 py-3">
         <h1 className="text-base font-semibold leading-6 text-gray-900">
-          All questions
+          Overview
         </h1>
         <p className="mt-1 text-sm text-gray-600">
           Here will appear all questions about your products.
@@ -171,4 +171,4 @@ const ProductQuestion = () => {
   );
 };
 
-export default ProductQuestion;
+export default QuestionOverview;

@@ -66,12 +66,21 @@ const switcherSections = [
   ],
 ];
 
-const navigation = {
-  pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
-  ],
-};
+const navigation = [
+  {
+    section: "Reviews",
+    pages: [
+      {
+        label: "Overview",
+        to: "/review",
+      },
+      {
+        label: "Timeline",
+        to: "/review/timeline",
+      },
+    ],
+  },
+];
 
 const Logo = () => {
   return (
@@ -99,6 +108,10 @@ export const RootLayout = () => {
   const hideSlideover = () => {
     setSlideoverPanel("");
     setSlideover(false);
+  };
+
+  const hideSidebar = () => {
+    setSidebar(false);
   };
 
   return (
@@ -176,33 +189,30 @@ export const RootLayout = () => {
                   </div>
 
                   {/* Links */}
-                  <div className="border-t border-gray-200 py-2">
-                    {navigation.pages.map((page) => (
-                      <Link
-                        key={page.name}
-                        to={page.href}
-                        className="block px-4 py-2 font-semibold text-gray-900"
-                        onClick={hideSlideover}
-                      >
-                        {page.name}
-                      </Link>
+                  <nav className="border-t border-gray-200 space-y-4">
+                    {navigation.map((sections) => (
+                      <div key={sections.section} className="group">
+                        <div className="mx-4 pb-1 pt-2 border-b border-black/20 group-first:pt-3">
+                          <p className="leading-tight text-sm text-gray-600">
+                            {sections.section}
+                          </p>
+                        </div>
+                        <ul>
+                          {sections.pages.map((page) => (
+                            <li key={page.label}>
+                              <Link
+                                to={page.to}
+                                className="block px-4 py-2 font-semibold text-gray-900 leading-tight"
+                                onClick={hideSidebar}
+                              >
+                                {page.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
-                  </div>
-
-                  <div className="border-t border-gray-200 py-2">
-                    <Link
-                      to="/signin"
-                      className="block px-4 py-2 font-semibold text-gray-900"
-                    >
-                      Sign in
-                    </Link>
-                    <Link
-                      to="/signup"
-                      className="block px-4 py-2 font-semibold text-gray-900"
-                    >
-                      Create account
-                    </Link>
-                  </div>
+                  </nav>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -345,13 +355,10 @@ export const RootLayout = () => {
             </li>
           </ol>
         </nav>
-        <section className="px-4 pb-4 pt-3 border-black/10 border-b">
+        <section className="px-4 pb-2 mt-1 border-black/10 border-b">
           <h1 className="text-2xl leading-tight font-medium text-neutral-800">
             Dashboard
           </h1>
-          <p className="text-sm mt-1 leading-tight text-gray-600">
-            Welcome back, <strong>John Doe</strong>
-          </p>
         </section>
       </div>
 

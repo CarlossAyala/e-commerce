@@ -6,16 +6,18 @@ import {
   ProductList,
   ProductView,
   ProductEdit,
-  ProductQuestion,
-  ProductQuestionList,
+  QuestionList,
   Signin,
   Signup,
   Store,
   StoreNew,
   SaleList,
   SaleView,
-  ReviewList,
+  ReviewTimeline,
   ProductStockAlert,
+  QuestionOverview,
+  ReviewOverview,
+  ReviewList,
 } from "./pages";
 import SellerProvider from "./seller.provider";
 
@@ -41,10 +43,6 @@ const router = createBrowserRouter([
             element: <ProductNew />,
           },
           {
-            path: "question",
-            element: <ProductQuestion />,
-          },
-          {
             path: "stock-alert",
             element: <ProductStockAlert />,
           },
@@ -56,9 +54,19 @@ const router = createBrowserRouter([
             path: ":id/edit",
             element: <ProductEdit />,
           },
+        ],
+      },
+      {
+        path: "question",
+        element: <Outlet />,
+        children: [
           {
-            path: ":id/question",
-            element: <ProductQuestionList />,
+            index: true,
+            element: <QuestionOverview />,
+          },
+          {
+            path: ":id/list",
+            element: <QuestionList />,
           },
         ],
       },
@@ -94,13 +102,16 @@ const router = createBrowserRouter([
         path: "review",
         element: <Outlet />,
         children: [
-          /*
-            - Mostrar una vista con todos mis productos y la cantidad de reviews
-            - Mostrar una vista con las reviews de un solo producto
-            - Mostrar una vista las reviews que van haciendo los usuarios
-          */
           {
             index: true,
+            element: <ReviewOverview />,
+          },
+          {
+            path: "timeline",
+            element: <ReviewTimeline />,
+          },
+          {
+            path: ":id/list",
             element: <ReviewList />,
           },
         ],

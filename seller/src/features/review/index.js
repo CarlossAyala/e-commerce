@@ -1,2 +1,1 @@
-export * from "./qa.queries";
-export * from "./qa.formik";
+export * from "./review.queries";

@@ -26,7 +26,7 @@ import { priceFormatter } from "../utils/formatter";
 import { ddMMYYFormatter } from "../utils/date";
 import { useGetProducts, useStockAlert } from "../features/product";
 import { useGetQAAll } from "../features/qa";
-import { useGetReviews } from "../features/review/review.queries";
+import { useGetReviewTimeline } from "../features/review";
 
 const REVIEW_STARS = 5;
 const ReviewStars = ({ rating }) => {
@@ -50,21 +50,6 @@ const ReviewStars = ({ rating }) => {
     </div>
   );
 };
-
-/*
-  -  Stats resume
-  -- Revenue
-  -- Sold products
-  -- Count product stock alert
-  -- Count product questions
-
-  - Tables
-  -- Sales
-  -- Stock Alert
-  -- Questions Product
-  -- Reviews Product
-  -- Last published products
-*/
 
 const saleHeaders = [
   {
@@ -182,7 +167,7 @@ const Dashboard = () => {
   const sales = useGetSales();
   const stockAlert = useStockAlert();
   const questions = useGetQAAll();
-  const reviews = useGetReviews();
+  const reviews = useGetReviewTimeline();
   const products = useGetProducts("sortby=latest");
   console.log("Products", products);
 
