@@ -1,12 +1,12 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { MainLayout } from "./layout";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { RootLayout } from "./layout";
 import {
   Dashboard,
   ProductNew,
   ProductList,
   ProductView,
   ProductEdit,
-  ProductQuestionAll,
+  ProductQuestion,
   ProductQuestionList,
   Signin,
   Signup,
@@ -22,59 +22,88 @@ import SellerProvider from "./seller.provider";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element: <RootLayout />,
     children: [
       {
         index: true,
         element: <Dashboard />,
       },
       {
-        path: "product/new",
-        element: <ProductNew />,
-      },
-      {
-        path: "product/list",
-        element: <ProductList />,
-      },
-      {
-        path: "product/stock-alert",
-        element: <ProductStockAlert />,
-      },
-      {
-        path: "product/:id/view",
-        element: <ProductView />,
-      },
-      {
-        path: "product/:id/edit",
-        element: <ProductEdit />,
-      },
-      {
-        path: "product/question/all",
-        element: <ProductQuestionAll />,
-      },
-      {
-        path: "product/:id/question/list",
-        element: <ProductQuestionList />,
+        path: "product",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <ProductList />,
+          },
+          {
+            path: "new",
+            element: <ProductNew />,
+          },
+          {
+            path: "question",
+            element: <ProductQuestion />,
+          },
+          {
+            path: "stock-alert",
+            element: <ProductStockAlert />,
+          },
+          {
+            path: ":id/view",
+            element: <ProductView />,
+          },
+          {
+            path: ":id/edit",
+            element: <ProductEdit />,
+          },
+          {
+            path: ":id/question",
+            element: <ProductQuestionList />,
+          },
+        ],
       },
       {
         path: "store",
-        element: <Store />,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <Store />,
+          },
+          {
+            path: "new",
+            element: <StoreNew />,
+          },
+        ],
       },
       {
-        path: "store/new",
-        element: <StoreNew />,
+        path: "sale",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <SaleList />,
+          },
+          {
+            path: ":id/view",
+            element: <SaleView />,
+          },
+        ],
       },
       {
-        path: "sale/list",
-        element: <SaleList />,
-      },
-      {
-        path: "sale/:id/view",
-        element: <SaleView />,
-      },
-      {
-        path: "review/list",
-        element: <ReviewList />,
+        path: "review",
+        element: <Outlet />,
+        children: [
+          /*
+            - Mostrar una vista con todos mis productos y la cantidad de reviews
+            - Mostrar una vista con las reviews de un solo producto
+            - Mostrar una vista las reviews que van haciendo los usuarios
+          */
+          {
+            index: true,
+            element: <ReviewList />,
+          },
+        ],
       },
     ],
   },

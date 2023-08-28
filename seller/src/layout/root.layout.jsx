@@ -84,7 +84,7 @@ const Logo = () => {
   );
 };
 
-export const MainLayout = () => {
+export const RootLayout = () => {
   const [slideover, setSlideover] = useState(false);
   const [sidebar, setSidebar] = useState(false);
   const [slideoverPanel, setSlideoverPanel] = useState("");
@@ -360,4 +360,4 @@ export const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default RootLayout;

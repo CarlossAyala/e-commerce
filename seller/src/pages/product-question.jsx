@@ -12,7 +12,7 @@ import clsx from "clsx";
 
 const headerTable = ["Name", "Status", "Total", ""];
 
-const ProductQuestionAll = () => {
+const ProductQuestion = () => {
   const [params, setParams] = useSearchParams();
   const [search, setSearch] = useState(() => params.get("name") || "");
 
@@ -171,4 +171,4 @@ const ProductQuestionAll = () => {
   );
 };
 
-export default ProductQuestionAll;
+export default ProductQuestion;

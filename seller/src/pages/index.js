@@ -3,7 +3,7 @@ import ProductList from "./product-list";
 import ProductNew from "./product-new";
 import ProductView from "./product-view";
 import ProductEdit from "./product-edit";
-import ProductQuestionAll from "./product-question-all";
+import ProductQuestion from "./product-question";
 import ProductQuestionList from "./product-question-list";
 import Signin from "./signin";
 import Signup from "./signup";
@@ -24,7 +24,7 @@ export {
   ProductNew,
   ProductView,
   ProductEdit,
-  ProductQuestionAll,
+  ProductQuestion,
   ProductQuestionList,
   SaleList,
   SaleView,
