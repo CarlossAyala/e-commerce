@@ -1,4 +1,5 @@
-import { SellerClient, urlWithQuery } from "../../api";
+import { SellerClient } from "../../lib/axios";
+import { urlWithQuery } from "../../utils/url";
 
 const CATEGORIES = "categories";
 
@@ -16,8 +17,8 @@ const API = {
 
     return data;
   },
-  async getAll(params) {
-    const url = urlWithQuery(`/${CATEGORIES}`, params);
+  async getAll(query) {
+    const url = urlWithQuery(`/${CATEGORIES}`, query);
 
     const { data } = await SellerClient.request({
       method: "GET",

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getToken, removeToken, setToken } from "../utils/local-storage";
 import API from "./auth.api";
-import { getToken, removeToken, setToken } from "../api";
 
 export const authKeys = {
   key: ["auth"],

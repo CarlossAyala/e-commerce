@@ -1,4 +1,6 @@
-import { SellerClient, getToken, urlWithQuery } from "../../api";
+import { SellerClient } from "../../lib/axios";
+import { getToken } from "../../utils/local-storage";
+import { urlWithQuery } from "../../utils/url";
 
 const SALES = "sales";
 

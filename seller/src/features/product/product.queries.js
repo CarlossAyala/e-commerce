@@ -1,8 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getToken } from "../../utils/local-storage";
+import { qaKeys } from "../qa";
+import { storeKeys } from "../store";
 import API from "./product.api";
-import { getToken } from "../../api";
-import { qaKeys } from "../qa/qa.queries";
-import { storeKeys } from "../store/store.queries";
 
 const productKeys = {
   key: ["product"],

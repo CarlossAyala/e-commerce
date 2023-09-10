@@ -1,6 +1,7 @@
-import { CustomerClient, getToken } from '../api';
+import { CustomerClient } from "../lib/axios";
+import { getToken } from "../utils/local-storage";
 
-const ENDPOINT = 'account';
+const ENDPOINT = "account";
 
 const API = {
   async getProfile() {
@@ -8,10 +9,10 @@ const API = {
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -22,10 +23,10 @@ const API = {
     const url = `/${ENDPOINT}/signin`;
 
     const { data } = await CustomerClient.request({
-      method: 'POST',
+      method: "POST",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       data: values,
     });
@@ -37,10 +38,10 @@ const API = {
     const url = `/${ENDPOINT}/signup`;
 
     const { data } = await CustomerClient.request({
-      method: 'POST',
+      method: "POST",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       data: values,
     });

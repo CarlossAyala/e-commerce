@@ -1,4 +1,5 @@
-import { SellerClient, getToken } from "../../api";
+import { SellerClient } from "../../lib/axios";
+import { getToken } from "../../utils/local-storage";
 
 const STORE = "stores";
 

@@ -80,6 +80,15 @@ const navigation = [
       },
     ],
   },
+  {
+    section: "Questions",
+    pages: [
+      {
+        label: "Overview",
+        to: "/question",
+      },
+    ],
+  },
 ];
 
 const Logo = () => {
@@ -189,7 +198,7 @@ export const RootLayout = () => {
                   </div>
 
                   {/* Links */}
-                  <nav className="border-t border-gray-200 space-y-4">
+                  <nav className="border-t border-gray-200 space-y-2">
                     {navigation.map((sections) => (
                       <div key={sections.section} className="group">
                         <div className="mx-4 pb-1 pt-2 border-b border-black/20 group-first:pt-3">
