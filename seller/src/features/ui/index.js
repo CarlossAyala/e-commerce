@@ -1,4 +1,6 @@
+import Logo from "./logo";
+import Sidebar from "./sidebar/sidebar";
 import StatContainer from "./stat/stat-container";
 import StatItem from "./stat/stat-item";
 
-export { StatContainer, StatItem };
+export { Logo, Sidebar, StatContainer, StatItem };

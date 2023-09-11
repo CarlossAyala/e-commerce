@@ -1,17 +1,16 @@
+import { Renew } from "@carbon/icons-react";
 import {
   Button,
-  TableContainer,
-  DataTableSkeleton,
   DataTable,
+  DataTableSkeleton,
   Table,
-  TableHead,
-  TableRow,
-  TableHeader,
   TableBody,
   TableCell,
+  TableContainer,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@carbon/react";
-import { Link } from "react-router-dom";
-import { Renew } from "@carbon/icons-react";
 import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
 import {
   HandThumbDownIcon,
@@ -19,14 +18,15 @@ import {
   StarIcon as StarSolid,
 } from "@heroicons/react/24/solid";
 import clsx from "clsx";
-import { useGetSales } from "../features/sale";
-import { useGetStoreStats } from "../features/store";
-import { StatContainer, StatItem } from "../features/ui/";
-import { priceFormatter } from "../utils/formatter";
-import { ddMMYYFormatter } from "../utils/date";
+import { Link } from "react-router-dom";
 import { useGetProducts, useStockAlert } from "../features/product";
 import { useGetQAAll } from "../features/qa";
 import { useGetReviewTimeline } from "../features/review";
+import { useGetSales } from "../features/sale";
+import { useGetStoreStats } from "../features/store";
+import { StatContainer, StatItem } from "../features/ui/";
+import { ddMMYYFormatter } from "../utils/date";
+import { priceFormatter } from "../utils/formatter";
 
 const REVIEW_STARS = 5;
 const ReviewStars = ({ rating }) => {
@@ -172,20 +172,25 @@ const Dashboard = () => {
   console.log("Products", products);
 
   return (
-    <main className="flex w-full flex-col overflow-auto space-y-16  pb-10">
-      <section className="px-4 pt-4">
+    <main className="flex w-full flex-col overflow-auto space-y-10">
+      <section className="px-4 pt-3">
         {stats.isLoading ? (
           <p>Loading stats...</p>
         ) : (
           <>
             {stats.isSuccess && (
               <>
-                <h2 className="text-base font-semibold leading-6 text-gray-900">
-                  Last 30 days
-                </h2>
-                <p className="text-sm text-gray-600">
-                  Key information about your business performance.
-                </p>
+                <div>
+                  <h1 className="text-2xl mb-2 leading-tight font-medium text-neutral-800">
+                    Dashboard
+                  </h1>
+                  <h2 className="text-base font-semibold leading-6 text-gray-900">
+                    Last 30 days
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    Key information about your business performance.
+                  </p>
+                </div>
                 <StatContainer>
                   <StatItem
                     title="Revenue"
