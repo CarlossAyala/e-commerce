@@ -1,90 +1,21 @@
-import { Link, useSearchParams } from "react-router-dom";
 import {
-  DataTableSkeleton,
-  DataTable,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Pagination,
   Button,
+  DataTableSkeleton,
+  Pagination,
+  TableContainer,
 } from "@carbon/react";
+import { useSearchParams } from "react-router-dom";
 import {
   PAGE_SIZES,
   getPage,
   getPageSize,
 } from "../constants/pagination.constants";
-import { useGetSales } from "../features/sale";
-import { ddMMYYFormatter } from "../utils/date";
-import { priceFormatter } from "../utils/formatter";
-
-const headers = [
-  {
-    key: "product",
-    header: "PRODUCT",
-  },
-  {
-    key: "qty",
-    header: "QTY",
-  },
-  {
-    key: "price",
-    header: "PRICE",
-  },
-  {
-    key: "amount",
-    header: "AMOUNT",
-  },
-  {
-    key: "date",
-    header: "DATE",
-  },
-  {
-    key: "actions",
-    header: "",
-  },
-];
+import { TableSale, useGetSales } from "../features/sale";
 
 const SaleList = () => {
   const [params, setParams] = useSearchParams();
   const sales = useGetSales();
   console.log("Sales", sales);
-
-  const rows = sales.data?.rows.map(
-    ({ id, orderId, product, quantity, price, createdAt }) => ({
-      id,
-      product: (
-        <Link to={`/product/${product.id}/view`}>
-          <div className="flex items-center gap-x-1">
-            <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-gray-200">
-              <img
-                className="h-full w-full object-cover"
-                src="https://http2.mlstatic.com/D_NQ_NP_904598-MLU69493154879_052023-O.webp"
-                alt={product.name}
-              />
-            </div>
-            <div className="grow">
-              <p className="line-clamp-1 text-sm leading-tight text-blue-600">
-                {product.name}
-              </p>
-            </div>
-          </div>
-        </Link>
-      ),
-      qty: quantity,
-      price: priceFormatter(price),
-      amount: priceFormatter(quantity * price),
-      date: ddMMYYFormatter(createdAt),
-      actions: (
-        <Link to={`/sale/${orderId}/view#${id}`} target="_blank">
-          <p className="text-sm leading-tight text-blue-600">View</p>
-        </Link>
-      ),
-    })
-  );
 
   return (
     <main className="flex w-full flex-col overflow-auto bg-white">
@@ -139,39 +70,7 @@ const SaleList = () => {
 
             {sales.isSuccess && sales.data.rows.length > 0 && (
               <>
-                <DataTable
-                  rows={rows}
-                  headers={headers}
-                  render={({ rows, headers }) => (
-                    <TableContainer
-                      title="Tabla sales"
-                      description="List of sales and their details"
-                    >
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            {headers.map((header) => (
-                              <TableHeader id={header.key} key={header.key}>
-                                {header.header}
-                              </TableHeader>
-                            ))}
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map((row) => (
-                            <TableRow key={row.id}>
-                              {row.cells.map((cell) => (
-                                <TableCell key={cell.id}>
-                                  {cell.value}
-                                </TableCell>
-                              ))}
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  )}
-                />
+                <TableSale data={sales.data.rows} />
                 <div className="">
                   <Pagination
                     backwardText="Previous page"

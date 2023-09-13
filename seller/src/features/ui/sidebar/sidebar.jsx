@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
 import { productRoutes } from "../../product";
+import { reviewRoutes } from "../../review";
 import Logo from "../logo";
 import SideNavItems from "./side-nav-items";
 import SideNavLink from "./side-nav-link";
@@ -101,10 +102,10 @@ const Sidebar = ({ open, setOpen }) => {
                         icon={BanknotesIcon}
                         onClick={() => setOpen(false)}
                       />
-                      <SideNavLink
-                        to="/review"
+                      <SideNavMenu
                         label="Reviews"
                         icon={ChatBubbleLeftRightIcon}
+                        items={reviewRoutes}
                         onClick={() => setOpen(false)}
                       />
                     </SideNavItems>
