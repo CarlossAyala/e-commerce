@@ -1,19 +1,8 @@
-import {
-  Button,
-  DataTableSkeleton,
-  Pagination,
-  TableContainer,
-} from "@carbon/react";
-import { useSearchParams } from "react-router-dom";
-import {
-  PAGE_SIZES,
-  getPage,
-  getPageSize,
-} from "../constants/pagination.constants";
+import { Button, DataTableSkeleton, TableContainer } from "@carbon/react";
 import { TableSale, useGetSales } from "../features/sale";
+import { Pagination } from "../features/ui";
 
 const SaleList = () => {
-  const [params, setParams] = useSearchParams();
   const sales = useGetSales();
   console.log("Sales", sales);
 
@@ -54,47 +43,13 @@ const SaleList = () => {
                     Refresh
                   </Button>
                 </div>
-                <div>
-                  <Pagination
-                    backwardText="Previous page"
-                    forwardText="Next page"
-                    itemsPerPageText="Items per page:"
-                    size="md"
-                    disabled
-                    pageSizes={[10]}
-                    totalItems={0}
-                  />
-                </div>
               </>
             )}
 
             {sales.isSuccess && sales.data.rows.length > 0 && (
               <>
                 <TableSale data={sales.data.rows} />
-                <div className="">
-                  <Pagination
-                    backwardText="Previous page"
-                    forwardText="Next page"
-                    itemsPerPageText="Items per page:"
-                    onChange={(e) => {
-                      const page = getPage(e.page);
-                      const pageSize = getPageSize(e.pageSize);
-
-                      setParams((prev) => {
-                        prev.delete("page");
-                        prev.delete("limit");
-                        prev.set("page", page);
-                        prev.set("limit", pageSize);
-                        return prev;
-                      });
-                    }}
-                    page={getPage(params.get("page"))}
-                    pageSize={getPageSize(params.get("limit"))}
-                    pageSizes={PAGE_SIZES}
-                    size="md"
-                    totalItems={sales.data.count}
-                  />
-                </div>
+                <Pagination count={sales.data.count} />
               </>
             )}
           </>

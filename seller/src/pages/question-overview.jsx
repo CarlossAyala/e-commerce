@@ -1,16 +1,10 @@
-import { Pagination, Search } from "@carbon/react";
+import { Search } from "@carbon/react";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import {
-  PAGE_SIZES,
-  getPage,
-  getPageSize,
-} from "../constants/pagination.constants";
 import { TableQuestion } from "../features/qa";
 import { useGetQAAll } from "../features/qa/qa.queries";
+import { Pagination } from "../features/ui";
 import { useDebounce } from "../utils/hooks";
-
-const headerTable = ["Name", "Status", "Total", ""];
 
 const QuestionOverview = () => {
   const [params, setParams] = useSearchParams();
@@ -67,30 +61,7 @@ const QuestionOverview = () => {
             {questions.isSuccess && questions.data.rows.length > 0 && (
               <>
                 <TableQuestion data={questions.data.rows} />
-                <div>
-                  <Pagination
-                    backwardText="Previous page"
-                    forwardText="Next page"
-                    itemsPerPageText="Items per page:"
-                    onChange={(e) => {
-                      const page = getPage(e.page);
-                      const pageSize = getPageSize(e.pageSize);
-
-                      setParams((prev) => {
-                        prev.delete("page");
-                        prev.delete("limit");
-                        prev.set("page", page);
-                        prev.set("limit", pageSize);
-                        return prev;
-                      });
-                    }}
-                    page={getPage(params.get("page"))}
-                    pageSize={getPageSize(params.get("limit"))}
-                    pageSizes={PAGE_SIZES}
-                    size="md"
-                    totalItems={questions.data.count.length}
-                  />
-                </div>
+                <Pagination count={questions.data.count} />
               </>
             )}
           </>

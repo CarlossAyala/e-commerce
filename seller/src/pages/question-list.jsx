@@ -1,6 +1,5 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
-import { useGetProduct } from "../features/product";
 import {
+  Button,
   DataTable,
   Modal,
   Table,
@@ -11,25 +10,21 @@ import {
   TableHeader,
   TableRow,
   TextArea,
-  Pagination,
-  Button,
 } from "@carbon/react";
+import { NoSymbolIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { Form, Formik } from "formik";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useGetProduct } from "../features/product";
+import { answerDefault, answerSchema } from "../features/qa";
 import {
   useGetQA,
   useGetQAList,
   useRejectQA,
   useReplyQA,
 } from "../features/qa/qa.queries";
-import { NoSymbolIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { Pagination } from "../features/ui";
 import { ddMMYYFormatter } from "../utils/date";
-import { useState } from "react";
-import { Form, Formik } from "formik";
-import { answerDefault, answerSchema } from "../features/qa";
-import {
-  PAGE_SIZES,
-  getPage,
-  getPageSize,
-} from "../constants/pagination.constants";
 
 const headers = [
   {
@@ -47,7 +42,6 @@ const headers = [
 ];
 
 const QuestionList = () => {
-  const [params, setParams] = useSearchParams();
   const [questionId, setQuestionId] = useState("");
   const [modalReply, setModalReply] = useState(false);
   const [modalReject, setModalReject] = useState(false);
@@ -206,17 +200,6 @@ const QuestionList = () => {
                   Refresh
                 </Button>
               </div>
-              <div className="">
-                <Pagination
-                  backwardText="Previous page"
-                  forwardText="Next page"
-                  itemsPerPageText="Items per page:"
-                  pageSizes={[10]}
-                  size="md"
-                  totalItems={0}
-                  disabled
-                />
-              </div>
               {questionId && modalReply && (
                 <Formik
                   initialValues={answerDefault}
@@ -347,30 +330,7 @@ const QuestionList = () => {
                   </TableContainer>
                 )}
               />
-              <div className="">
-                <Pagination
-                  backwardText="Previous page"
-                  forwardText="Next page"
-                  itemsPerPageText="Items per page:"
-                  onChange={(e) => {
-                    const page = getPage(e.page);
-                    const pageSize = getPageSize(e.pageSize);
-
-                    setParams((prev) => {
-                      prev.delete("page");
-                      prev.delete("limit");
-                      prev.set("page", page);
-                      prev.set("limit", pageSize);
-                      return prev;
-                    });
-                  }}
-                  page={getPage(params.get("page"))}
-                  pageSize={getPageSize(params.get("limit"))}
-                  pageSizes={PAGE_SIZES}
-                  size="md"
-                  totalItems={questions.data.count}
-                />
-              </div>
+              <Pagination />
 
               {questionId && modalReply && (
                 <Formik

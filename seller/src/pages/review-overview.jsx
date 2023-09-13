@@ -1,21 +1,9 @@
 import { Renew } from "@carbon/icons-react";
-import {
-  Button,
-  DataTableSkeleton,
-  Pagination,
-  TableContainer,
-} from "@carbon/react";
-import { useSearchParams } from "react-router-dom";
-
-import {
-  PAGE_SIZES,
-  getPage,
-  getPageSize,
-} from "../constants/pagination.constants";
+import { Button, DataTableSkeleton, TableContainer } from "@carbon/react";
 import { TableReviewOverview, useGetReviewOverview } from "../features/review";
+import { Pagination } from "../features/ui";
 
 const ReviewOverview = () => {
-  const [params, setParams] = useSearchParams();
   const reviews = useGetReviewOverview();
   console.log("Reviews", reviews);
 
@@ -65,30 +53,7 @@ const ReviewOverview = () => {
                   </p>
                 </div>
                 <TableReviewOverview data={reviews.data.rows} />
-                <div className="">
-                  <Pagination
-                    backwardText="Previous page"
-                    forwardText="Next page"
-                    itemsPerPageText="Items per page:"
-                    onChange={(e) => {
-                      const page = getPage(e.page);
-                      const pageSize = getPageSize(e.pageSize);
-
-                      setParams((prev) => {
-                        prev.delete("page");
-                        prev.delete("limit");
-                        prev.set("page", page);
-                        prev.set("limit", pageSize);
-                        return prev;
-                      });
-                    }}
-                    page={getPage(params.get("page"))}
-                    pageSize={getPageSize(params.get("limit"))}
-                    pageSizes={PAGE_SIZES}
-                    size="md"
-                    totalItems={reviews.data.count}
-                  />
-                </div>
+                <Pagination count={reviews.data.count} />
               </>
             )}
           </>

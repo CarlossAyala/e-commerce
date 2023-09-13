@@ -51,6 +51,8 @@ router.get("/all", JWT.verify, async (req, res, next) => {
       offset,
     });
 
+    questions.count = questions.count.length;
+
     return res.status(200).json(questions);
   } catch (error) {
     next(error);

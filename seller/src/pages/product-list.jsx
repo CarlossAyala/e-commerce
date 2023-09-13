@@ -2,6 +2,7 @@ import { Button, Search } from "@carbon/react";
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { TableProduct, useGetProducts } from "../features/product";
+import { Pagination } from "../features/ui";
 import { useDebounce } from "../utils/hooks";
 
 const ProductList = () => {
@@ -61,7 +62,10 @@ const ProductList = () => {
             )}
 
             {products.isSuccess && products.data.rows.length > 0 && (
-              <TableProduct data={products.data.rows} />
+              <>
+                <TableProduct data={products.data.rows} />
+                <Pagination count={products.data.count} />
+              </>
             )}
           </>
         )}

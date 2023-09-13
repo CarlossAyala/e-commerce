@@ -1,5 +1,4 @@
 import { Renew } from "@carbon/icons-react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
 import {
   Button,
   DataTable,
@@ -11,7 +10,6 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  Pagination,
 } from "@carbon/react";
 import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
 import {
@@ -19,16 +17,13 @@ import {
   HandThumbUpIcon,
   StarIcon as StarSolid,
 } from "@heroicons/react/24/solid";
-import { useGetProductReviews, useGetScoreReview } from "../features/review";
-import { ddMMYYFormatter } from "../utils/date";
-import {
-  PAGE_SIZES,
-  getPage,
-  getPageSize,
-} from "../constants/pagination.constants";
+import { Link, useParams } from "react-router-dom";
 import { useGetProduct } from "../features/product";
-import { splitFloat } from "../utils/number";
+import { useGetProductReviews, useGetScoreReview } from "../features/review";
+import { Pagination } from "../features/ui";
+import { ddMMYYFormatter } from "../utils/date";
 import { ratingFormatter } from "../utils/formatter";
+import { splitFloat } from "../utils/number";
 
 const REVIEW_STARS = 5;
 const ReviewStars = ({ rating }) => {
@@ -87,7 +82,6 @@ const reviewHeaders = [
 ];
 
 const ReviewList = () => {
-  const [params, setParams] = useSearchParams();
   const { id: productId } = useParams();
 
   const product = useGetProduct(productId);
@@ -295,30 +289,7 @@ const ReviewList = () => {
                     </TableContainer>
                   )}
                 </DataTable>
-                <div className="">
-                  <Pagination
-                    backwardText="Previous page"
-                    forwardText="Next page"
-                    itemsPerPageText="Items per page:"
-                    onChange={(e) => {
-                      const page = getPage(e.page);
-                      const pageSize = getPageSize(e.pageSize);
-
-                      setParams((prev) => {
-                        prev.delete("page");
-                        prev.delete("limit");
-                        prev.set("page", page);
-                        prev.set("limit", pageSize);
-                        return prev;
-                      });
-                    }}
-                    page={getPage(params.get("page"))}
-                    pageSize={getPageSize(params.get("limit"))}
-                    pageSizes={PAGE_SIZES}
-                    size="md"
-                    totalItems={reviews.data.count}
-                  />
-                </div>
+                <Pagination count={reviews.data.count} />
               </div>
             )}
           </>

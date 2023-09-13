@@ -1,17 +1,8 @@
 import { Renew } from "@carbon/icons-react";
-import {
-  Button,
-  DataTableSkeleton,
-  Pagination,
-  TableContainer,
-} from "@carbon/react";
+import { Button, DataTableSkeleton, TableContainer } from "@carbon/react";
 import { useSearchParams } from "react-router-dom";
-import {
-  PAGE_SIZES,
-  getPage,
-  getPageSize,
-} from "../constants/pagination.constants";
 import { TableStockAlert, useStockAlert } from "../features/product";
+import { Pagination } from "../features/ui";
 import { useDebounce } from "../utils/hooks";
 
 const ProductStockAlert = () => {
@@ -68,30 +59,7 @@ const ProductStockAlert = () => {
                   </p>
                 </div>
                 <TableStockAlert data={products.data.rows} />
-                <div className="">
-                  <Pagination
-                    backwardText="Previous page"
-                    forwardText="Next page"
-                    itemsPerPageText="Items per page:"
-                    onChange={(e) => {
-                      const page = getPage(e.page);
-                      const pageSize = getPageSize(e.pageSize);
-
-                      setParams((prev) => {
-                        prev.delete("page");
-                        prev.delete("limit");
-                        prev.set("page", page);
-                        prev.set("limit", pageSize);
-                        return prev;
-                      });
-                    }}
-                    page={getPage(params.get("page"))}
-                    pageSize={getPageSize(params.get("limit"))}
-                    pageSizes={PAGE_SIZES}
-                    size="md"
-                    totalItems={products.data.count}
-                  />
-                </div>
+                <Pagination count={products.data.count} />
               </>
             )}
           </>
