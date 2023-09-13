@@ -1,2 +1,4 @@
-export { default as TableSale } from "./components/table-sale";
+import TableSale from "./components/table-sale";
+
 export * from "./sale.queries";
+export { TableSale };

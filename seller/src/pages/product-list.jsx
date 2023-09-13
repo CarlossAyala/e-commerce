@@ -1,8 +1,7 @@
-import { Button, Search } from "@carbon/react";
+import { Search } from "@carbon/react";
 import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { TableProduct, useGetProducts } from "../features/product";
-import { Pagination } from "../features/ui";
 import { useDebounce } from "../utils/hooks";
 
 const ProductList = () => {
@@ -41,34 +40,7 @@ const ProductList = () => {
           />
         </div>
 
-        {products.isLoading ? (
-          <div>
-            <p>Loading...</p>
-          </div>
-        ) : (
-          <>
-            {products.isSuccess && products.data.rows.length === 0 && (
-              <div className="">
-                <h2 className="text-base font-semibold leading-tight text-gray-800">
-                  You don&apos;t have any products yet.
-                </h2>
-                <p className="mt-1 text-sm leading-tight text-gray-600">
-                  Start by creating one.
-                </p>
-                <Link to="/product/new" className="mt-2 inline-block">
-                  <Button size="md">Create Product</Button>
-                </Link>
-              </div>
-            )}
-
-            {products.isSuccess && products.data.rows.length > 0 && (
-              <>
-                <TableProduct data={products.data.rows} />
-                <Pagination count={products.data.count} />
-              </>
-            )}
-          </>
-        )}
+        <TableProduct {...products} hasPagination />
       </section>
     </main>
   );

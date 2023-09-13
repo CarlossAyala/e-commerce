@@ -1,5 +1,3 @@
-import { Renew } from "@carbon/icons-react";
-import { Button, DataTableSkeleton, TableContainer } from "@carbon/react";
 import { Link } from "react-router-dom";
 import {
   TableProduct,
@@ -73,282 +71,83 @@ const Dashboard = () => {
       </section>
 
       <section className="px-4">
-        {sales.isLoading ? (
-          <DataTableSkeleton columnCount={3} showToolbar={false} rowCount={6} />
-        ) : (
-          <>
-            {sales.isSuccess && sales.data.rows.length === 0 && (
-              <>
-                <TableContainer
-                  title="Sales"
-                  description="List of sales and their details"
-                />
-                <div className="border-t border-gray-300 bg-gray-100 px-4 pb-12 pt-10">
-                  <p className="text-base font-semibold leading-tight text-gray-900">
-                    No sales found
-                  </p>
-                  <p className="mb-6 mt-1 text-sm leading-tight text-gray-600">
-                    It seems that no one has bought anything.
-                  </p>
+        <div className="mb-3">
+          <div className="flex items-start justify-between gap-x-4 mb-1">
+            <h2 className="text-base font-semibold leading-6 text-gray-900">
+              Sales
+            </h2>
+            <Link to="/sale/list">View</Link>
+          </div>
+          <p className="text-sm text-gray-600 leading-snug">
+            The latest sales and their details.
+          </p>
+        </div>
 
-                  <div className="flex flex-col gap-y-2">
-                    <Button
-                      kind="tertiary"
-                      disabled={sales.isLoading}
-                      onClick={() => sales.refetch()}
-                      renderIcon={(args) => <Renew {...args} size="24" />}
-                    >
-                      Refresh
-                    </Button>
-                    <Link to="/sale/list" className="">
-                      Go to Sales
-                    </Link>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {sales.isSuccess && sales.data.rows.length > 0 && (
-              <>
-                <div className="mb-3">
-                  <div className="flex items-start justify-between gap-x-4 mb-1">
-                    <h2 className="text-base font-semibold leading-6 text-gray-900">
-                      Sales
-                    </h2>
-                    <Link to="/sale/list">View</Link>
-                  </div>
-                  <p className="text-sm text-gray-600 leading-snug">
-                    The latest sales and their details.
-                  </p>
-                </div>
-
-                <TableSale data={sales.data.rows} />
-              </>
-            )}
-          </>
-        )}
+        <TableSale {...sales} />
       </section>
 
       <section className="px-4">
-        {stockAlert.isLoading ? (
-          <DataTableSkeleton columnCount={3} showToolbar={false} rowCount={6} />
-        ) : (
-          <>
-            {stockAlert.isSuccess && stockAlert.data.rows.length === 0 && (
-              <>
-                <TableContainer
-                  title="Sales"
-                  description="List of sales and their details"
-                />
-                <div className="border-t border-gray-300 bg-gray-100 px-4 pb-12 pt-10">
-                  <p className="text-base font-semibold leading-tight text-gray-900">
-                    No stock alert
-                  </p>
-                  <p className="mb-6 mt-1 text-sm leading-tight text-gray-600">
-                    It seems that there are no products with low stock.
-                  </p>
+        <div className="mb-3">
+          <div className="flex items-start justify-between gap-x-4 mb-1">
+            <h2 className="text-base font-semibold leading-6 text-gray-900">
+              Stock alert
+            </h2>
+            <Link to="/product/list">View</Link>
+          </div>
+          <p className="text-sm text-gray-600 leading-snug">
+            List of products with low stock.
+          </p>
+        </div>
 
-                  <div className="flex flex-col gap-y-2">
-                    <Button
-                      kind="tertiary"
-                      disabled={stockAlert.isLoading}
-                      onClick={() => stockAlert.refetch()}
-                      renderIcon={(args) => <Renew {...args} size="24" />}
-                    >
-                      Refresh
-                    </Button>
-                    <Link to="/product/stock-alert" className="">
-                      Go to stock alert
-                    </Link>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {stockAlert.isSuccess && stockAlert.data.rows.length > 0 && (
-              <>
-                <div className="mb-3">
-                  <div className="flex items-start justify-between gap-x-4 mb-1">
-                    <h2 className="text-base font-semibold leading-6 text-gray-900">
-                      Stock alert
-                    </h2>
-                    <Link to="/product/list">View</Link>
-                  </div>
-                  <p className="text-sm text-gray-600 leading-snug">
-                    List of products with low stock.
-                  </p>
-                </div>
-                <TableStockAlert data={stockAlert.data.rows} />
-              </>
-            )}
-          </>
-        )}
+        <TableStockAlert {...stockAlert} />
       </section>
 
       <section className="px-4">
-        {questions.isLoading ? (
-          <DataTableSkeleton columnCount={3} showToolbar={false} rowCount={6} />
-        ) : (
-          <>
-            {questions.isSuccess && questions.data.rows.length === 0 && (
-              <>
-                <TableContainer
-                  title="Questions"
-                  description="List of questions and their total without answers."
-                />
-                <div className="border-t border-gray-300 bg-gray-100 px-4 pb-12 pt-10">
-                  <p className="text-base font-semibold leading-tight text-gray-900">
-                    No questions found
-                  </p>
-                  <p className="mb-6 mt-1 text-sm leading-tight text-gray-600">
-                    It seems that no one has asked any questions yet.
-                  </p>
+        <div className="mb-3">
+          <div className="flex items-start justify-between gap-x-4 mb-1">
+            <h2 className="text-base font-semibold leading-6 text-gray-900">
+              Questions
+            </h2>
+            <Link to="/product/question/all">View</Link>
+          </div>
+          <p className="text-sm text-gray-600 leading-snug">
+            List of questions and their total without answers.
+          </p>
+        </div>
 
-                  <div className="flex flex-col gap-y-2">
-                    <Button
-                      kind="tertiary"
-                      disabled={questions.isLoading}
-                      onClick={() => questions.refetch()}
-                      renderIcon={(args) => <Renew {...args} size="24" />}
-                    >
-                      Refresh
-                    </Button>
-                    <Link to="/product/question/all" className="">
-                      Go to questions
-                    </Link>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {questions.isSuccess && questions.data.rows.length > 0 && (
-              <>
-                <div className="mb-3">
-                  <div className="flex items-start justify-between gap-x-4 mb-1">
-                    <h2 className="text-base font-semibold leading-6 text-gray-900">
-                      Questions
-                    </h2>
-                    <Link to="/product/question/all">View</Link>
-                  </div>
-                  <p className="text-sm text-gray-600 leading-snug">
-                    List of questions and their total without answers.
-                  </p>
-                </div>
-                <TableQuestion data={questions.data.rows} />
-              </>
-            )}
-          </>
-        )}
+        <TableQuestion {...questions} />
       </section>
 
       <section className="px-4">
-        {reviews.isLoading ? (
-          <DataTableSkeleton columnCount={3} showToolbar={false} rowCount={6} />
-        ) : (
-          <>
-            {reviews.isSuccess && reviews.data.rows.length === 0 && (
-              <>
-                <TableContainer
-                  title="Reviews"
-                  description="Latest reviews about your products"
-                />
-                <div className="border-t border-gray-300 bg-gray-100 px-4 pb-12 pt-10">
-                  <p className="text-base font-semibold leading-tight text-gray-900">
-                    No reviews yet
-                  </p>
-                  <p className="mb-6 mt-1 text-sm leading-tight text-gray-600">
-                    It seems that no one has reviewed any of your products yet.
-                  </p>
+        <div className="mb-3">
+          <div className="flex items-start justify-between gap-x-4 mb-1">
+            <h2 className="text-base font-semibold leading-6 text-gray-900">
+              Reviews
+            </h2>
+            <Link to="/product/list">View</Link>
+          </div>
+          <p className="text-sm text-gray-600 leading-snug">
+            Latest reviews about your products
+          </p>
+        </div>
 
-                  <div className="flex flex-col gap-y-2">
-                    <Button
-                      kind="tertiary"
-                      disabled={reviews.isLoading}
-                      onClick={() => reviews.refetch()}
-                      renderIcon={(args) => <Renew {...args} size="24" />}
-                    >
-                      Refresh
-                    </Button>
-                    <Link to="/review/list">Go to reviews</Link>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {reviews.isSuccess && reviews.data.rows.length > 0 && (
-              <>
-                <div className="mb-3">
-                  <div className="flex items-start justify-between gap-x-4 mb-1">
-                    <h2 className="text-base font-semibold leading-6 text-gray-900">
-                      Reviews
-                    </h2>
-                    <Link to="/product/list">View</Link>
-                  </div>
-                  <p className="text-sm text-gray-600 leading-snug">
-                    Latest reviews about your products
-                  </p>
-                </div>
-                <TableReviewTimeline data={reviews.data.rows} />
-              </>
-            )}
-          </>
-        )}
+        <TableReviewTimeline {...reviews} />
       </section>
 
       <section className="px-4">
-        {products.isLoading ? (
-          <DataTableSkeleton columnCount={3} showToolbar={false} rowCount={6} />
-        ) : (
-          <>
-            {products.isSuccess && products.data.rows.length === 0 && (
-              <>
-                <TableContainer
-                  title="Latest products"
-                  description="List of the latest products"
-                />
-                <div className="border-t border-gray-300 bg-gray-100 px-4 pb-12 pt-10">
-                  <p className="text-base font-semibold leading-tight text-gray-900">
-                    No products found.
-                  </p>
-                  <p className="mb-6 mt-1 text-sm leading-tight text-gray-600">
-                    It seems like you haven&apos;t added any products yet.
-                  </p>
+        <div className="mb-3">
+          <div className="flex items-start justify-between gap-x-4 mb-1">
+            <h2 className="text-base font-semibold leading-6 text-gray-900">
+              Latest products
+            </h2>
+            <Link to="/product/list">View</Link>
+          </div>
+          <p className="text-sm text-gray-600 leading-snug">
+            List of the latest products
+          </p>
+        </div>
 
-                  <div className="flex flex-col gap-y-2">
-                    <Button
-                      kind="tertiary"
-                      disabled={stockAlert.isLoading}
-                      onClick={() => stockAlert.refetch()}
-                      renderIcon={(args) => <Renew {...args} size="24" />}
-                    >
-                      Refresh
-                    </Button>
-                    <Link to="/product/list" className="">
-                      Go to products
-                    </Link>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {products.isSuccess && products.data.rows.length > 0 && (
-              <>
-                <div className="mb-3">
-                  <div className="flex items-start justify-between gap-x-4 mb-1">
-                    <h2 className="text-base font-semibold leading-6 text-gray-900">
-                      Latest products
-                    </h2>
-                    <Link to="/product/list">View</Link>
-                  </div>
-                  <p className="text-sm text-gray-600 leading-snug">
-                    List of the latest products
-                  </p>
-                </div>
-                <TableProduct data={products.data.rows} />
-              </>
-            )}
-          </>
-        )}
+        <TableProduct {...products} />
       </section>
     </main>
   );

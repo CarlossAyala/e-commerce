@@ -42,47 +42,51 @@ const AverageRating = ({ rating, index }) => {
 };
 
 const useOverviewTableProps = (data) => {
-  const rows = data.map(({ product, rating, count }) => ({
-    id: product.id,
-    product: (
-      <Link to={`/product/${product.id}/view`}>
-        <div className="flex items-center gap-x-1 w-44">
-          <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-gray-200">
-            <img
-              className="h-full w-full object-cover"
-              src="https://http2.mlstatic.com/D_NQ_NP_904598-MLU69493154879_052023-O.webp"
-              alt={product.name}
-            />
-          </div>
-          <div className="grow">
-            <p className="line-clamp-1 text-sm leading-tight text-blue-600">
-              {product.name}
+  const rows = data?.rows
+    ? data.rows.map(({ product, rating, count }) => ({
+        id: product.id,
+        product: (
+          <Link to={`/product/${product.id}/view`}>
+            <div className="flex items-center gap-x-1 w-44">
+              <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-gray-200">
+                <img
+                  className="h-full w-full object-cover"
+                  src="https://http2.mlstatic.com/D_NQ_NP_904598-MLU69493154879_052023-O.webp"
+                  alt={product.name}
+                />
+              </div>
+              <div className="grow">
+                <p className="line-clamp-1 text-sm leading-tight text-blue-600">
+                  {product.name}
+                </p>
+              </div>
+            </div>
+          </Link>
+        ),
+        score: (
+          <div>
+            <div className="flex items-center">
+              {[...Array(5)].map((_, index) => (
+                <AverageRating rating={rating} index={++index} key={index} />
+              ))}
+            </div>
+            <p className="text-base leading-tight text-gray-600">
+              {ratingFormatter(rating)}
             </p>
           </div>
-        </div>
-      </Link>
-    ),
-    score: (
-      <div>
-        <div className="flex items-center">
-          {[...Array(5)].map((_, index) => (
-            <AverageRating rating={rating} index={++index} key={index} />
-          ))}
-        </div>
-        <p className="text-base leading-tight text-gray-600">
-          {ratingFormatter(rating)}
-        </p>
-      </div>
-    ),
-    total: count,
-    actions: (
-      <Link to={`/review/${product.id}/list`} target="_blank">
-        <p className="text-sm leading-tight text-blue-600">View</p>
-      </Link>
-    ),
-  }));
+        ),
+        total: count,
+        actions: (
+          <Link to={`/review/${product.id}/list`} target="_blank">
+            <p className="text-sm leading-tight text-blue-600">View</p>
+          </Link>
+        ),
+      }))
+    : [];
 
-  return { rows, headers };
+  const count = data?.count ? data.count : 0;
+
+  return { rows, headers, count };
 };
 
 export default useOverviewTableProps;
