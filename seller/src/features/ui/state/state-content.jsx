@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const StateContent = ({ action, link, subtitle, title }) => {
   return (
-    <div className="bg-neutral-100 px-4 py-8">
+    <div className="bg-neutral-100 px-4 py-10">
       <h3 className="text-base leading-tight font-semibold">{title}</h3>
       {subtitle && (
         <p className="text-base leading-tight font-normal">{subtitle}</p>
@@ -17,12 +17,12 @@ const StateContent = ({ action, link, subtitle, title }) => {
             iconDescription={action.iconDescription || null}
             size="md"
           >
-            {action.text}
+            <p>{action.text}</p>
           </Button>
         </div>
       )}
       {link?.text && link?.to && (
-        <div className="mt-2">
+        <div className="mt-4">
           <Link to={link.to}>{link.text}</Link>
         </div>
       )}

@@ -14,7 +14,7 @@ const TableProduct = (props) => {
   const tableProps = useProductTableProps(data);
 
   if (isLoading) {
-    return <TableSkeleton columnCount={tableProps.headers.length} />;
+    return <TableSkeleton />;
   }
 
   if (isError) {

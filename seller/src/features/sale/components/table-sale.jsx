@@ -14,7 +14,7 @@ const TableSale = (props) => {
   const tableProps = useSaleTable(data);
 
   if (isLoading) {
-    return <TableSkeleton columnCount={tableProps.headers.length} />;
+    return <TableSkeleton />;
   }
 
   if (isError) {

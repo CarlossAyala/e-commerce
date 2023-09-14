@@ -13,7 +13,7 @@ const TableStockAlert = (props) => {
   const tableProps = useStockAlertTableProps(data);
 
   if (isLoading) {
-    return <TableSkeleton columnCount={tableProps.headers.length} />;
+    return <TableSkeleton />;
   }
 
   if (isError) {

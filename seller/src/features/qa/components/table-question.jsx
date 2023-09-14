@@ -14,7 +14,7 @@ const TableQuestion = (props) => {
   const tableProps = useQuestionTableProps(data);
 
   if (isLoading) {
-    return <TableSkeleton columnCount={tableProps.headers.length} />;
+    return <TableSkeleton />;
   }
 
   if (isError) {

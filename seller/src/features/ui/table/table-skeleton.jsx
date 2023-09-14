@@ -1,11 +1,12 @@
 import { DataTableSkeleton } from "@carbon/react";
 
-const TableSkeleton = ({ columnCount }) => {
+const TableSkeleton = () => {
   return (
     <DataTableSkeleton
-      columnCount={columnCount}
+      columnCount={3}
       showToolbar={false}
-      rowCount={6}
+      showHeader={false}
+      rowCount={5}
     />
   );
 };

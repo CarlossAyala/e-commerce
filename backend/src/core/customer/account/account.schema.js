@@ -1,14 +1,22 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
-const name = Joi.string().min(3).max(255).required();
-const lastName = Joi.string().min(3).max(255).required();
-const email = Joi.string().email().required();
+const name = Joi.string().label("Name").min(3).max(255).required();
+const lastName = Joi.string().label("Last name").min(3).max(255).required();
+const email = Joi.string().label("Email").email().required();
 const password = Joi.string().min(8).max(255).required();
-const validatePassword = Joi.string().valid(Joi.ref('password')).required();
-const oldPassword = Joi.string().min(8).max(255).required();
-const newPassword = password;
+const validatePassword = Joi.string()
+  .label("Validate password")
+  .valid(Joi.ref("password"))
+  .required();
+const oldPassword = Joi.string()
+  .label("Old password")
+  .min(8)
+  .max(255)
+  .required();
+const newPassword = password.label("New password");
 const confirmPassword = Joi.string()
-  .valid(Joi.ref('newPassword', { render: true }))
+  .label("Confirm password")
+  .valid(Joi.ref("newPassword", { render: true }))
   .required();
 
 const signup = Joi.object({

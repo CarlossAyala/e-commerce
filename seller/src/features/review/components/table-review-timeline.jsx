@@ -14,7 +14,7 @@ const TableReviewTimeline = (props) => {
   const tableProps = useTimelineTableProps(data);
 
   if (isLoading) {
-    return <TableSkeleton columnCount={tableProps.headers.length} />;
+    return <TableSkeleton />;
   }
 
   if (isError) {
