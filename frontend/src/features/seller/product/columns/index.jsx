@@ -52,7 +52,7 @@ export const productsColumns = [
   }),
   accessor((row) => row.stockAlert, {
     id: "stock-alert",
-    header: "STOCK",
+    header: "STOCK ALERT",
     cell: (info) => info.getValue(),
   }),
   accessor((row) => row.price, {

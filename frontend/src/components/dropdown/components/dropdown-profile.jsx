@@ -31,7 +31,7 @@ const DropdownProfile = () => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 z-10 mr-4 mt-2 w-56 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="bg-gray-100 px-3 py-2">
+          <div className="bg-gray-100 px-3 py-3">
             {user.isLoading ? (
               <>
                 <p>Loading...</p>
@@ -39,10 +39,10 @@ const DropdownProfile = () => {
             ) : (
               <>
                 <p className="line-clamp-1 text-sm font-semibold leading-none text-gray-800">
-                  {"user.data.name"} {"user.data.lastName"}
+                  Carlos Ayala
                 </p>
-                <p className="mt-0.5 line-clamp-1 text-sm font-medium leading-tight text-gray-800">
-                  {"user.data.email"}
+                <p className="mt-0.5 line-clamp-1 text-sm font-medium leading-tight text-gray-600">
+                  carlosayala@gmail.com
                 </p>
               </>
             )}
