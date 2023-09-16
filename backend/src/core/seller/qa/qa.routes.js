@@ -14,7 +14,7 @@ const schemas = require("./qa.schema");
 const sequelize = require("../../../database/mysql");
 
 // Get All Question
-router.get("/all", JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
   const { id: sellerId } = req.auth;
   const { limit, offset } = new QueryBuilder(req.query).pagination().build();
   const { where } = new QueryBuilder(req.query)
@@ -59,49 +59,6 @@ router.get("/all", JWT.verify, async (req, res, next) => {
   }
 });
 
-// Get Product Questions
-router.get(
-  "/:id/list",
-  JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
-  async (req, res, next) => {
-    const { id: sellerId } = req.auth;
-    const { id: productId } = req.params;
-    const { order, limit, offset } = new QueryBuilder(req.query)
-      .orderBy("createdAt", "DESC")
-      .pagination()
-      .build();
-
-    try {
-      const store = await Store.model.findOne({
-        where: {
-          sellerId,
-        },
-      });
-      if (!store) return next(Boom.notFound("Store not found"));
-
-      const product = await Product.model.findByPk(productId);
-      if (!product || product.storeId !== store.id) {
-        return next(Boom.notFound("Product not found"));
-      }
-
-      const questions = await Question.model.findAndCountAll({
-        where: {
-          states: Question.enums.states.queue,
-          productId,
-        },
-        order,
-        limit,
-        offset,
-      });
-
-      return res.status(200).json(questions);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
 // Get Question
 router.get(
   "/:id",
@@ -142,9 +99,52 @@ router.get(
   }
 );
 
+// Get Product Questions
+router.get(
+  "/product/:id",
+  JWT.verify,
+  validatorSchema(schemas.resourceId, "params"),
+  async (req, res, next) => {
+    const { id: sellerId } = req.auth;
+    const { id: productId } = req.params;
+    const { order, limit, offset } = new QueryBuilder(req.query)
+      .orderBy("createdAt", "DESC")
+      .pagination()
+      .build();
+
+    try {
+      const store = await Store.model.findOne({
+        where: {
+          sellerId,
+        },
+      });
+      if (!store) return next(Boom.notFound("Store not found"));
+
+      const product = await Product.model.findByPk(productId);
+      if (!product || product.storeId !== store.id) {
+        return next(Boom.notFound("Product not found"));
+      }
+
+      const questions = await Question.model.findAndCountAll({
+        where: {
+          states: Question.enums.states.queue,
+          productId,
+        },
+        order,
+        limit,
+        offset,
+      });
+
+      return res.status(200).json(questions);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 // Reply Question
-router.post(
-  "/:id/reply",
+router.put(
+  "/:id",
   JWT.verify,
   validatorSchema(schemas.resourceId, "params"),
   validatorSchema(schemas.answer, "body"),
@@ -209,7 +209,7 @@ router.post(
 
 // Reject Question
 router.patch(
-  "/:id/reject",
+  "/:id",
   JWT.verify,
   validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {

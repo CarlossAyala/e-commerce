@@ -21,7 +21,7 @@ const API = {
     return data;
   },
   async getList(productId) {
-    const url = `${QA}/${productId}/list`;
+    const url = `${QA}/product/${productId}`;
     const token = getToken();
 
     const { data } = await SellerClient.request({
@@ -36,7 +36,7 @@ const API = {
     return data;
   },
   async getAll(query) {
-    const url = urlWithQuery(`${QA}/all`, query);
+    const url = urlWithQuery(`${QA}`, query);
     const token = getToken();
 
     const { data } = await SellerClient.request({
@@ -51,11 +51,11 @@ const API = {
     return data;
   },
   async reply(questionId, reply) {
-    const url = `${QA}/${questionId}/reply`;
+    const url = `${QA}/${questionId}`;
     const token = getToken();
 
     const { data } = await SellerClient.request({
-      method: "POST",
+      method: "PUT",
       url,
       data: reply,
       headers: {
@@ -67,7 +67,7 @@ const API = {
     return data;
   },
   async reject(questionId) {
-    const url = `${QA}/${questionId}/reject`;
+    const url = `${QA}/${questionId}`;
     const token = getToken();
 
     const { data } = await SellerClient.request({

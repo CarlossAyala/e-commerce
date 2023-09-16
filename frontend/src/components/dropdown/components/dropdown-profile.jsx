@@ -7,8 +7,11 @@ import {
 import clsx from "clsx";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { useGetProfile } from "../../../libs/auth";
 
 const DropdownProfile = () => {
+  const user = useGetProfile();
+
   return (
     <Menu as="div" className="ml-auto">
       <Menu.Button className="h-10 w-10 overflow-hidden rounded-full">
@@ -29,12 +32,20 @@ const DropdownProfile = () => {
       >
         <Menu.Items className="absolute right-0 z-10 mr-4 mt-2 w-56 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="bg-gray-100 px-3 py-2">
-            <p className="text-sm font-semibold leading-none text-gray-800">
-              James Doe
-            </p>
-            <p className="text-sm font-medium leading-normal text-gray-800">
-              james@site.com
-            </p>
+            {user.isLoading ? (
+              <>
+                <p>Loading...</p>
+              </>
+            ) : (
+              <>
+                <p className="line-clamp-1 text-sm font-semibold leading-none text-gray-800">
+                  {"user.data.name"} {"user.data.lastName"}
+                </p>
+                <p className="mt-0.5 line-clamp-1 text-sm font-medium leading-tight text-gray-800">
+                  {"user.data.email"}
+                </p>
+              </>
+            )}
           </div>
           <div className="px-1 py-1">
             <Menu.Item>
@@ -110,7 +121,7 @@ const DropdownProfile = () => {
                     className="mr-2 h-5 w-5"
                     aria-hidden="true"
                   />
-                  Sign out
+                  Log out
                 </Link>
               )}
             </Menu.Item>

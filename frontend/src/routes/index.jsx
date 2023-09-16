@@ -1,7 +1,7 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Root, RootSeller } from "../layouts";
-import { Dashboard } from "../features/seller/dashboard";
 import { Signin, Signup } from "../components";
+import SellerRoutes from "../features/seller/routes";
 
 const router = createBrowserRouter([
   {
@@ -15,12 +15,7 @@ const router = createBrowserRouter([
       {
         path: "seller",
         element: <RootSeller />,
-        children: [
-          {
-            index: true,
-            element: <Dashboard />,
-          },
-        ],
+        children: SellerRoutes,
       },
       {
         path: "signin",

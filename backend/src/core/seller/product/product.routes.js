@@ -50,7 +50,7 @@ router.get("/", JWT.verify, async (req, res, next) => {
 });
 
 // Get Products in Stock Alert
-router.get("/stock-alert", JWT.verify, async (req, res, next) => {
+router.get("/low-stock", JWT.verify, async (req, res, next) => {
   const { id: sellerId } = req.auth;
   try {
     const store = await Store.model.findOne({
