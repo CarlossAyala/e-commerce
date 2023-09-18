@@ -6,6 +6,7 @@ import Signup from "./signup/signup";
 import StatCard from "./stat/stat-card";
 import StatContainer from "./stat/stat-container";
 import DataTable from "./table/data-table";
+import DataTablePagination from "./table/data-table-pagination";
 import { Badge } from "./ui/badge";
 
 export {
@@ -18,4 +19,5 @@ export {
   Badge,
   StatContainer,
   StatCard,
+  DataTablePagination,
 };

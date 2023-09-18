@@ -21,7 +21,8 @@ export const findOne = async (productId) => {
 
 export const findAll = async (query) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = getToken();
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkyYjVlMjg0LTBiZDktNGY4Ni04N2E1LTQwOWYzM2Y4OGZlZCIsImlhdCI6MTY5NDgwMzM4MX0.Eu2hm_8T2by75Xw_xzx9ZrW0S15AeN_xAsz-oVf2J3U";
 
   if (!token) throw new Error("Token not found");
 
