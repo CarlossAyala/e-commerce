@@ -20,7 +20,7 @@ export const useGetQuestion = (questionId) => {
   });
 };
 
-export const useGetQAs = (query) => {
+export const useGetQuestions = (query) => {
   return useQuery({
     queryKey: qaKeys.findAll(query),
     queryFn: () => findAll(query),

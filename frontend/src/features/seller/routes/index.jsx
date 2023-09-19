@@ -1,4 +1,5 @@
-import { Dashboard, ProductList } from "../pages";
+import { ProductList } from "../product";
+import Dashboard from "./dashboard";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}

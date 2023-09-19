@@ -1,9 +1,9 @@
 import { DataTable } from "../../../../components";
 import { lowStockColumns } from "../columns";
-import { useGetLowStockProducts } from "../queries";
+import { useGetLowStock } from "../queries";
 
 const TableLowStock = () => {
-  const { isLoading, isError, error, data } = useGetLowStockProducts();
+  const { isLoading, isError, error, data } = useGetLowStock();
   console.log("Low Stock", data);
 
   if (isLoading) return <div>Loading...</div>;

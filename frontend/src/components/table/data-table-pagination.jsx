@@ -38,6 +38,29 @@ const DataTablePagination = ({ table, count }) => {
     count,
   );
 
+  const canPreviousPage = !table.getCanPreviousPage();
+  const canNextPage = !table.getCanNextPage();
+
+  const handleFirstPage = () => {
+    handlePage(initialPage);
+    table.setPageIndex(0);
+  };
+
+  const handlePreviousPage = () => {
+    handlePage(page - 1);
+    table.previousPage();
+  };
+
+  const handleNextPage = () => {
+    handlePage(page + 1);
+    table.nextPage();
+  };
+
+  const handleLastPage = () => {
+    handlePage(pageCount);
+    table.setPageIndex(pageCount - 1);
+  };
+
   return (
     <div className="flex flex-wrap justify-between gap-4">
       <div className="flex items-center">
@@ -47,7 +70,6 @@ const DataTablePagination = ({ table, count }) => {
         <p>Page</p>
         <Select
           onValueChange={(value) => {
-            console.log("Incoming page", value);
             const parseValue = +value;
             handlePage(parseValue);
             table.setPageIndex(parseValue - 1);
@@ -55,8 +77,8 @@ const DataTablePagination = ({ table, count }) => {
           defaultValue={page}
           value={page}
         >
-          <SelectTrigger>
-            <span className="mr-1">{page}</span>
+          <SelectTrigger className="h-8">
+            <span className="mr-2">{page}</span>
           </SelectTrigger>
           <SelectContent className="max-h-40 overflow-auto">
             {[...Array(pageCount)].map((_, index) => (
@@ -80,13 +102,13 @@ const DataTablePagination = ({ table, count }) => {
             if (initialPage !== page) handlePage(initialPage);
           }}
         >
-          <SelectTrigger className="h-8 w-[70px]">
+          <SelectTrigger className="h-8">
             <SelectValue placeholder={pageSize} />
           </SelectTrigger>
-          <SelectContent side="top">
+          <SelectContent className="max-h-40 overflow-auto">
             {pageSizes.map((size) => (
               <SelectItem key={size} value={size}>
-                {size}
+                <span className="mr-2">{size}</span>
               </SelectItem>
             ))}
           </SelectContent>
@@ -96,12 +118,9 @@ const DataTablePagination = ({ table, count }) => {
       <div className="flex items-center gap-x-2">
         <Button
           variant="outline"
-          className="h-8 w-8 p-1 lg:flex"
-          onClick={() => {
-            handlePage(initialPage);
-            table.setPageIndex(0);
-          }}
-          disabled={!table.getCanPreviousPage()}
+          className="h-8 w-8 p-1"
+          onClick={handleFirstPage}
+          disabled={canPreviousPage}
         >
           <span className="sr-only">Go to first page</span>
           <DoubleArrowLeftIcon className="h-4 w-4" />
@@ -109,11 +128,8 @@ const DataTablePagination = ({ table, count }) => {
         <Button
           variant="outline"
           className="h-8 w-8 p-1"
-          onClick={() => {
-            handlePage(page - 1);
-            table.previousPage();
-          }}
-          disabled={!table.getCanPreviousPage()}
+          onClick={handlePreviousPage}
+          disabled={canPreviousPage}
         >
           <span className="sr-only">Go to previous page</span>
           <ChevronLeftIcon className="h-4 w-4" />
@@ -121,23 +137,17 @@ const DataTablePagination = ({ table, count }) => {
         <Button
           variant="outline"
           className="h-8 w-8 p-1"
-          onClick={() => {
-            handlePage(page + 1);
-            table.nextPage();
-          }}
-          disabled={!table.getCanNextPage()}
+          onClick={handleNextPage}
+          disabled={canNextPage}
         >
           <span className="sr-only">Go to next page</span>
           <ChevronRightIcon className="h-4 w-4" />
         </Button>
         <Button
           variant="outline"
-          className="h-8 w-8 p-1 lg:flex"
-          onClick={() => {
-            handlePage(pageCount);
-            table.setPageIndex(pageCount - 1);
-          }}
-          disabled={!table.getCanNextPage()}
+          className="h-8 w-8 p-1"
+          onClick={handleLastPage}
+          disabled={canNextPage}
         >
           <span className="sr-only">Go to last page</span>
           <DoubleArrowRightIcon className="h-4 w-4" />

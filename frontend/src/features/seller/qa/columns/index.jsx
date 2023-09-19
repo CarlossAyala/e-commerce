@@ -3,7 +3,7 @@ import { Badge } from "../../../../components";
 
 const { accessor } = createColumnHelper();
 
-export const allQuestionColumns = [
+export const questionsColumns = [
   accessor((row) => row.product.name, {
     id: "product",
     header: "PRODUCT",

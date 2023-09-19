@@ -30,7 +30,7 @@ export const useGetProducts = (query) => {
   });
 };
 
-export const useGetLowStockProducts = (query) => {
+export const useGetLowStock = (query) => {
   return useQuery({
     queryKey: productKeys.lowStock(query),
     queryFn: () => findAllLowStock(query),

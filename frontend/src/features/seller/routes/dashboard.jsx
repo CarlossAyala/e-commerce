@@ -4,16 +4,25 @@ import {
   ChatBubbleLeftEllipsisIcon,
   CreditCardIcon,
 } from "@heroicons/react/24/outline";
-import { StatCard, StatContainer } from "../../../components";
-import { TableLowStock, TableProducts } from "../product";
-import { TableAllQuestion } from "../qa";
-import { TableReviewTimeline } from "../review";
-import { TableSales } from "../sale";
+import { DataTable, StatCard, StatContainer } from "../../../components";
+import {
+  lowStockColumns,
+  productsColumns,
+  useGetLowStock,
+  useGetProducts,
+} from "../product";
+import { questionsColumns, useGetQuestions } from "../qa";
+import { reviewTimelineColumns, useGetReviewTimeline } from "../review";
+import { salesColumns, useGetSales } from "../sale";
 import { useGetStoreStats } from "../store";
 
 const Dashboard = () => {
   const stats = useGetStoreStats();
-  console.log("Stats", stats);
+  const sales = useGetSales();
+  const stocks = useGetLowStock();
+  const questions = useGetQuestions();
+  const reviewTimeline = useGetReviewTimeline();
+  const products = useGetProducts();
 
   return (
     <main className="flex w-full flex-col space-y-8 overflow-auto">
@@ -78,7 +87,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <TableSales />
+        <DataTable query={sales} columns={salesColumns} />
       </section>
 
       <section className="space-y-4 px-4">
@@ -91,7 +100,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <TableLowStock />
+        <DataTable query={stocks} columns={lowStockColumns} />
       </section>
 
       <section className="space-y-4 px-4">
@@ -104,7 +113,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <TableAllQuestion />
+        <DataTable query={questions} columns={questionsColumns} />
       </section>
 
       <section className="space-y-4 px-4">
@@ -117,7 +126,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <TableReviewTimeline />
+        <DataTable query={reviewTimeline} columns={reviewTimelineColumns} />
       </section>
 
       <section className="space-y-4 px-4">
@@ -130,7 +139,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <TableProducts />
+        <DataTable query={products} columns={productsColumns} />
       </section>
     </main>
   );

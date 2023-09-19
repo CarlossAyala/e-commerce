@@ -1,5 +1,6 @@
-import TableLowStock from "./components/table-low-stock";
-import TableProducts from "./components/table-products";
+import ProductList from "./pages/product-list";
 
 export * from "./queries";
-export { TableLowStock, TableProducts };
+export * from "./columns";
+
+export { ProductList };
