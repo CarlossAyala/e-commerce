@@ -26,6 +26,7 @@ const usePagination = () => {
     setPage(page);
   };
   const handlePageSize = (pageSize) => {
+    setPage(DEFAULT_PAGE);
     setPageSize(pageSize);
   };
 

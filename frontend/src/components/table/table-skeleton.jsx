@@ -10,7 +10,7 @@ import {
 const ROWS = 8;
 const COLUMNS = 3;
 
-const DataTableSkeleton = () => {
+const TableSkeleton = () => {
   return (
     <Table>
       <TableHeader>
@@ -37,4 +37,4 @@ const DataTableSkeleton = () => {
   );
 };
 
-export default DataTableSkeleton;
+export default TableSkeleton;

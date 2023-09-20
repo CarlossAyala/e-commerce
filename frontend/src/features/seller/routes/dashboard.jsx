@@ -4,17 +4,13 @@ import {
   ChatBubbleLeftEllipsisIcon,
   CreditCardIcon,
 } from "@heroicons/react/24/outline";
-import { DataTable, StatCard, StatContainer } from "../../../components";
-import {
-  lowStockColumns,
-  productsColumns,
-  useGetLowStock,
-  useGetProducts,
-} from "../product";
-import { questionsColumns, useGetQuestions } from "../qa";
-import { reviewTimelineColumns, useGetReviewTimeline } from "../review";
-import { salesColumns, useGetSales } from "../sale";
+import { StatCard, StatContainer } from "../../../components";
+import { useGetLowStock, useGetProducts } from "../product";
+import { useGetQuestions } from "../qa";
+import { useGetReviewTimeline } from "../review";
+import { useGetSales } from "../sale";
 import { useGetStoreStats } from "../store";
+import { Formatter } from "../../../utils/formatter";
 
 const Dashboard = () => {
   const stats = useGetStoreStats();
@@ -48,7 +44,9 @@ const Dashboard = () => {
         <StatContainer>
           <StatCard
             title="Total Revenue"
-            content={stats.isSuccess ? stats.data?.revenue : "Error"}
+            content={
+              stats.isSuccess ? Formatter.money(stats.data?.revenue) : "Error"
+            }
             icon={BanknotesIcon}
             isLoading={stats.isLoading}
             isSuccess={stats.isSuccess}
@@ -86,8 +84,6 @@ const Dashboard = () => {
             Here are the latest sales from your store.
           </p>
         </div>
-
-        <DataTable query={sales} columns={salesColumns} />
       </section>
 
       <section className="space-y-4 px-4">
@@ -99,8 +95,6 @@ const Dashboard = () => {
             Here are the products that are running low on stock.
           </p>
         </div>
-
-        <DataTable query={stocks} columns={lowStockColumns} />
       </section>
 
       <section className="space-y-4 px-4">
@@ -112,8 +106,6 @@ const Dashboard = () => {
             Here are the latest questions about your products.
           </p>
         </div>
-
-        <DataTable query={questions} columns={questionsColumns} />
       </section>
 
       <section className="space-y-4 px-4">
@@ -125,8 +117,6 @@ const Dashboard = () => {
             Here are the latest reviews about your products.
           </p>
         </div>
-
-        <DataTable query={reviewTimeline} columns={reviewTimelineColumns} />
       </section>
 
       <section className="space-y-4 px-4">
@@ -138,8 +128,6 @@ const Dashboard = () => {
             Here are the latest products.
           </p>
         </div>
-
-        <DataTable query={products} columns={productsColumns} />
       </section>
     </main>
   );

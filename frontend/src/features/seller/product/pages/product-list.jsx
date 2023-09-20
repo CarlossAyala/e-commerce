@@ -1,8 +1,87 @@
-import { productColumnsFull, useGetProducts } from "..";
-import { DataTableFull } from "../../../../components";
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  EllipsisHorizontalIcon,
+} from "@heroicons/react/24/outline";
+import { useDeleteProduct, useGetProducts } from "..";
+import {
+  Badge,
+  DataTablePagination,
+  TableEmpty,
+  TableError,
+  TableSkeleton,
+} from "../../../../components";
+import { Button } from "../../../../components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../../../../components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../../components/ui/table";
+import { Formatter } from "../../../../utils/formatter";
+import { Link, useSearchParams } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../../../components/ui/dialog";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Input } from "../../../../components/ui/input";
+import { useDebounced } from "../../../../hooks";
 
 const ProductList = () => {
-  const products = useGetProducts();
+  const [param, setParams] = useSearchParams();
+
+  const [modal, setModal] = useState(false);
+  const [modalProduct, setModalProduct] = useState(null);
+
+  const [search, setSearch] = useState(param.get("q") || "");
+
+  const debounceParams = useDebounced(param.toString(), 500);
+
+  const products = useGetProducts(debounceParams);
+  const remove = useDeleteProduct();
+
+  const isEmpty = products.data?.rows.length === 0;
+  const hasData = products.data?.rows.length > 0;
+
+  const handleDelete = (id) => {
+    remove.mutate(id, {
+      onSuccess: () => {
+        toast.success("Product deleted successfully");
+
+        setModal(false);
+        setModalProduct(null);
+        remove.reset();
+      },
+      onError: (error) => {
+        const description = error?.message ?? "Something went wrong";
+        toast.error(description);
+      },
+    });
+  };
+
+  const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearch(value);
+    param.delete("q");
+    if (value) param.set("q", value);
+    setParams(param);
+  };
 
   return (
     <main className="flex w-full flex-col space-y-4 overflow-auto">
@@ -13,7 +92,162 @@ const ProductList = () => {
         </p>
       </section>
 
-      <DataTableFull query={products} columns={productColumnsFull} />
+      <section className="space-y-3 px-4">
+        <Input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={handleSearch}
+        />
+
+        {products.isLoading ? (
+          <TableSkeleton />
+        ) : (
+          <>
+            {products.isError && <TableError />}
+            {isEmpty && <TableEmpty />}
+            {hasData && (
+              <>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="uppercase">Product</TableHead>
+                      <TableHead className="uppercase">Stock</TableHead>
+                      <TableHead className="uppercase">Stock Alert</TableHead>
+                      <TableHead className="uppercase">Sold</TableHead>
+                      <TableHead className="text-right uppercase">
+                        Price
+                      </TableHead>
+                      <TableHead className="text-center uppercase">
+                        Created At
+                      </TableHead>
+                      <TableHead className="text-center uppercase">
+                        Available
+                      </TableHead>
+                      <TableHead className="text-end uppercase">
+                        Actions
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {products.data.rows.map((product) => (
+                      <TableRow key={product.id}>
+                        <TableCell className="max-w-sm truncate whitespace-nowrap font-medium">
+                          <Link
+                            to={`#${product.id}`}
+                            className="hover:underline"
+                          >
+                            {product.name}
+                          </Link>
+                        </TableCell>
+                        <TableCell>{product.stock}</TableCell>
+                        <TableCell>{product.stockAlert}</TableCell>
+                        <TableCell>{product.sold}</TableCell>
+                        <TableCell className="text-right">
+                          {Formatter.money(product.price)}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {Formatter.shortDate(product.createdAt)}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <Badge variant="outline">
+                            {product.available ? "Yes" : "No"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <div className="text-end">
+                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                  <EllipsisHorizontalIcon className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem>
+                                <Link to="#">View</Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>Edit</DropdownMenuItem>
+                              <DropdownMenuItem
+                                onSelect={() => {
+                                  setModal(true);
+                                  setModalProduct(product);
+                                }}
+                              >
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </>
+            )}
+
+            <Dialog open={modal} onOpenChange={setModal}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className="text-left">
+                    Delete Product
+                  </DialogTitle>
+                  <DialogDescription className="text-left">
+                    This action cannot be undone. Are you sure you want to
+                    permanently delete this file from our servers?
+                  </DialogDescription>
+                </DialogHeader>
+                <dl className="space-y-2 rounded border border-dashed p-2">
+                  <div>
+                    <dt className="text-sm font-medium leading-tight text-gray-900">
+                      ID
+                    </dt>
+                    <dd className="text- text-sm leading-tight">
+                      {modalProduct?.id}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium leading-tight text-gray-900">
+                      Name
+                    </dt>
+                    <dd className="text- text-sm leading-tight">
+                      {modalProduct?.name}
+                    </dd>
+                  </div>
+                </dl>
+                <DialogFooter className="gap-2">
+                  <Button
+                    type="button"
+                    className="grow"
+                    variant="outline"
+                    onClick={() => setModal(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(modalProduct?.id)}
+                    type="button"
+                    className="flex grow items-center gap-x-2"
+                    variant="destructive"
+                    disabled={remove.isLoading || remove.isSuccess}
+                  >
+                    {remove.isLoading ? (
+                      <span>Deleting...</span>
+                    ) : (
+                      <>
+                        {remove.isError && <span>Error deleting</span>}
+                        {remove.isIdle && <span>Delete</span>}
+                      </>
+                    )}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </>
+        )}
+
+        <DataTablePagination totalRows={products.data?.count} />
+      </section>
     </main>
   );
 };

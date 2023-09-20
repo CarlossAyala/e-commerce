@@ -1,4 +1,4 @@
-const DataTableEmpty = () => {
+const TableEmpty = () => {
   return (
     <div className="h-48 w-full rounded-xl border border-dashed">
       <div className="flex h-full flex-col items-center justify-center">
@@ -8,4 +8,4 @@ const DataTableEmpty = () => {
   );
 };
 
-export default DataTableEmpty;
+export default TableEmpty;

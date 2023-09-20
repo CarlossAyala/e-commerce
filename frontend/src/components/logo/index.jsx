@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import usePrefixApp from "../../hooks/use-prefix-app";
+import { usePrefixApp } from "../../hooks";
 
 const Logo = () => {
   const prefix = usePrefixApp();

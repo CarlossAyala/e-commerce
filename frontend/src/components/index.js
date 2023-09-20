@@ -5,10 +5,10 @@ import Signin from "./signin/signin";
 import Signup from "./signup/signup";
 import StatCard from "./stat/stat-card";
 import StatContainer from "./stat/stat-container";
-import DataTable from "./table/data-table";
-import DataTableFull from "./table/data-table-full";
 import DataTablePagination from "./table/data-table-pagination";
-import DataTableToolbar from "./table/data-table-toolbar";
+import TableEmpty from "./table/table-empty";
+import TableError from "./table/table-error";
+import TableSkeleton from "./table/table-skeleton";
 import { Badge } from "./ui/badge";
 
 export {
@@ -17,11 +17,11 @@ export {
   Sidebar,
   Signin,
   Signup,
-  DataTable,
   Badge,
   StatContainer,
   StatCard,
+  TableEmpty,
+  TableError,
+  TableSkeleton,
   DataTablePagination,
-  DataTableToolbar,
-  DataTableFull,
 };

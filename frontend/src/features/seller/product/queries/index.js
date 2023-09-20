@@ -60,10 +60,10 @@ export const useUpdateProduct = () => {
     mutationFn: ([productId, values]) => update(productId, values),
     onSuccess: (_, [productId]) => {
       queryClient.invalidateQueries({
-        queryKey: productKeys.get(productId),
+        queryKey: productKeys.findOne(productId),
       });
       queryClient.invalidateQueries({
-        queryKey: productKeys.getAll(),
+        queryKey: productKeys.findAll(),
       });
       queryClient.invalidateQueries({
         queryKey: productKeys.lowStock(),
@@ -79,10 +79,10 @@ export const useDeleteProduct = () => {
     mutationFn: (productId) => remove(productId),
     onSuccess: (_, productId) => {
       queryClient.invalidateQueries({
-        queryKey: productKeys.get(productId),
+        queryKey: productKeys.findOne(productId),
       });
       queryClient.invalidateQueries({
-        queryKey: productKeys.getAll(),
+        queryKey: productKeys.findAll(),
       });
       queryClient.invalidateQueries({
         queryKey: productKeys.lowStock(),

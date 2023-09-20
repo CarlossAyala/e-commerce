@@ -1,5 +1,5 @@
 export class Formatter {
-  static price(amount) {
+  static money(amount) {
     return new Intl.NumberFormat("es-AR", {
       style: "currency",
       currency: "ARS",
@@ -7,7 +7,7 @@ export class Formatter {
     }).format(amount);
   }
 
-  static createdAt(date) {
+  static shortDate(date) {
     const validDate = new Date(date);
 
     return new Intl.DateTimeFormat("es-AR", {

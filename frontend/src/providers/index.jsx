@@ -8,7 +8,7 @@ const AppProvider = ({ children }) => {
     <QueryClientProvider client={queryClient}>
       {children}
 
-      <Toaster richColors closeButton />
+      <Toaster richColors closeButton expand position="top-right" />
       <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
     </QueryClientProvider>
   );

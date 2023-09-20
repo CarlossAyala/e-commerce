@@ -29,12 +29,12 @@ import DataTableError from "./data-table-error";
 const DataTable = ({ query, columns }) => {
   const table = useReactTable({
     columns,
-    data: query,
+    data: query.data?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const isEmpty = query.isSuccess && query.data.rows.length === 0;
-  const hasContent = query.isSuccess && query.data.rows.length > 0;
+  const isEmpty = query.isSuccess && query.data?.rows.length === 0;
+  const hasContent = query.isSuccess && query.data?.rows.length > 0;
 
   return (
     <>

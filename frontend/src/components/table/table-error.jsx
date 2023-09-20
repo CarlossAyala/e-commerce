@@ -1,6 +1,6 @@
-const DataTableError = () => {
+const TableError = () => {
   return (
-    <div className="h-48 w-full rounded-xl border border-dashed">
+    <div className="h-48 w-full rounded-md border border-dashed">
       <div className="flex h-full flex-col items-center justify-center">
         <p className="text-muted-foreground">Something went wrong</p>
       </div>
@@ -8,4 +8,4 @@ const DataTableError = () => {
   );
 };
 
-export default DataTableError;
+export default TableError;

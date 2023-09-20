@@ -134,6 +134,7 @@ Product.model.belongsTo(Store.model, {
 History.model.belongsTo(Product.model, {
   foreignKey: "productId",
   as: "product",
+  onDelete: "CASCADE",
 });
 
 // BOOKMARK AND PRODUCT

@@ -1,9 +1,9 @@
 import {
-  DoubleArrowRightIcon,
-  ChevronRightIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
   ChevronLeftIcon,
-  DoubleArrowLeftIcon,
-} from "@radix-ui/react-icons";
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 import { Button } from "../ui/button";
 import {
   Select,
@@ -14,146 +14,109 @@ import {
 } from "../ui/select";
 import usePagination from "./hooks/use-pagination";
 
-const itemRangeText = (min, max, total) => `${min}–${max} of ${total} items`;
-
-/**
- * @typedef {import("@tanstack/react-table").Table} Table
- */
-
-/**
- * @param {Object} props
- * @param {Table} props.table
- */
-const DataTablePagination = ({ table, count }) => {
-  const { initialPage, pageSizes, handlePage, handlePageSize } =
+const DataTablePagination = ({ totalRows = 0 }) => {
+  const { page, pageSize, pageSizes, handlePage, handlePageSize } =
     usePagination();
 
-  const { pageIndex, pageSize } = table.getState().pagination;
-  const page = pageIndex + 1;
-  const pageCount = table.getPageCount();
-
-  const items = itemRangeText(
-    Math.min(pageSize * pageIndex + 1, count),
-    Math.min(page * pageSize, count),
-    count,
-  );
-
-  const canPreviousPage = !table.getCanPreviousPage();
-  const canNextPage = !table.getCanNextPage();
+  const leftRows = Math.min(pageSize * (page - 1) + 1, totalRows);
+  const rightRows = Math.min(page * pageSize, totalRows);
+  const totalPages = Math.max(Math.ceil(totalRows / pageSize), 1);
 
   const handleFirstPage = () => {
-    handlePage(initialPage);
-    table.setPageIndex(0);
+    handlePage(1);
   };
-
   const handlePreviousPage = () => {
     handlePage(page - 1);
-    table.previousPage();
   };
-
+  const canPreviousPage = page > 1;
+  const canNextPage = page < totalPages;
   const handleNextPage = () => {
     handlePage(page + 1);
-    table.nextPage();
   };
-
   const handleLastPage = () => {
-    handlePage(pageCount);
-    table.setPageIndex(pageCount - 1);
+    handlePage(totalPages);
   };
 
   return (
-    <div className="flex flex-wrap justify-between gap-4">
-      <div className="flex items-center">
-        <p className="text-sm font-medium">{items}</p>
-      </div>
-      <div className="flex items-center gap-x-1 text-sm font-medium">
-        <p>Page</p>
+    <>
+      <div className="flex">
         <Select
-          onValueChange={(value) => {
-            const parseValue = +value;
-            handlePage(parseValue);
-            table.setPageIndex(parseValue - 1);
-          }}
-          defaultValue={page}
-          value={page}
-        >
-          <SelectTrigger className="h-8">
-            <span className="mr-2">{page}</span>
-          </SelectTrigger>
-          <SelectContent className="max-h-40 overflow-auto">
-            {[...Array(pageCount)].map((_, index) => (
-              <SelectItem key={index} value={index + 1}>
-                <span className="mr-2">{index + 1}</span>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <p>of</p>
-        <p>{pageCount}</p>
-      </div>
-      <div className="flex items-center gap-x-4">
-        <p className="text-sm font-medium">Items</p>
-        <Select
+          defaultValue={pageSize}
           value={pageSize}
-          onValueChange={(value) => {
-            const parseValue = +value;
-            handlePageSize(parseValue);
-            table.setPageSize(parseValue);
-            if (initialPage !== page) handlePage(initialPage);
-          }}
+          onValueChange={handlePageSize}
         >
-          <SelectTrigger className="h-8">
-            <SelectValue placeholder={pageSize} />
+          <SelectTrigger className="w-26 flex h-8 gap-x-1">
+            <SelectValue asChild>
+              <div>Rows {pageSize}</div>
+            </SelectValue>
           </SelectTrigger>
-          <SelectContent className="max-h-40 overflow-auto">
-            {pageSizes.map((size) => (
-              <SelectItem key={size} value={size}>
-                <span className="mr-2">{size}</span>
+          <SelectContent side="bottom" className="max-h-40">
+            {pageSizes.map((pageSize) => (
+              <SelectItem key={pageSize} value={pageSize}>
+                {pageSize}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
+        <div className="ml-auto flex items-center gap-x-2">
+          <p className="text-sm font-normal">
+            {leftRows}-{rightRows} of {totalRows} rows
+          </p>
+        </div>
       </div>
-
-      <div className="flex items-center gap-x-2">
+      <div className="flex items-center justify-center space-x-4">
         <Button
           variant="outline"
-          className="h-8 w-8 p-1"
+          className="h-8 w-8 p-0"
           onClick={handleFirstPage}
-          disabled={canPreviousPage}
+          disabled={!canPreviousPage}
         >
           <span className="sr-only">Go to first page</span>
-          <DoubleArrowLeftIcon className="h-4 w-4" />
+          <ChevronDoubleLeftIcon className="h-4 w-4" />
         </Button>
         <Button
           variant="outline"
-          className="h-8 w-8 p-1"
+          className="h-8 w-8 p-0"
           onClick={handlePreviousPage}
-          disabled={canPreviousPage}
+          disabled={!canPreviousPage}
         >
           <span className="sr-only">Go to previous page</span>
           <ChevronLeftIcon className="h-4 w-4" />
         </Button>
+        <Select defaultValue={page} value={page} onValueChange={handlePage}>
+          <SelectTrigger className="w-26 flex h-8 gap-x-1">
+            <SelectValue asChild>
+              <div>Page {page}</div>
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent side="bottom" className="max-h-40">
+            {[...Array(totalPages)].map((_, pageIndex) => (
+              <SelectItem key={pageIndex} value={pageIndex + 1}>
+                {pageIndex + 1}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Button
           variant="outline"
-          className="h-8 w-8 p-1"
+          className="h-8 w-8 p-0"
           onClick={handleNextPage}
-          disabled={canNextPage}
+          disabled={!canNextPage}
         >
           <span className="sr-only">Go to next page</span>
           <ChevronRightIcon className="h-4 w-4" />
         </Button>
         <Button
           variant="outline"
-          className="h-8 w-8 p-1"
+          className="h-8 w-8 p-0"
           onClick={handleLastPage}
-          disabled={canNextPage}
+          disabled={!canNextPage}
         >
           <span className="sr-only">Go to last page</span>
-          <DoubleArrowRightIcon className="h-4 w-4" />
+          <ChevronDoubleRightIcon className="h-4 w-4" />
         </Button>
       </div>
-    </div>
+    </>
   );
 };
 
