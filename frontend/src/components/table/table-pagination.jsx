@@ -66,6 +66,7 @@ const TablePagination = ({ totalRows = 0 }) => {
       </div>
       <div className="flex items-center justify-center space-x-4">
         <Button
+          type="button"
           variant="outline"
           className="h-8 w-8 p-0"
           onClick={handleFirstPage}
@@ -75,6 +76,7 @@ const TablePagination = ({ totalRows = 0 }) => {
           <ChevronDoubleLeftIcon className="h-4 w-4" />
         </Button>
         <Button
+          type="button"
           variant="outline"
           className="h-8 w-8 p-0"
           onClick={handlePreviousPage}
@@ -98,6 +100,7 @@ const TablePagination = ({ totalRows = 0 }) => {
           </SelectContent>
         </Select>
         <Button
+          type="button"
           variant="outline"
           className="h-8 w-8 p-0"
           onClick={handleNextPage}
@@ -107,6 +110,7 @@ const TablePagination = ({ totalRows = 0 }) => {
           <ChevronRightIcon className="h-4 w-4" />
         </Button>
         <Button
+          type="button"
           variant="outline"
           className="h-8 w-8 p-0"
           onClick={handleLastPage}

@@ -80,6 +80,7 @@ const ProductList = () => {
     const value = event.target.value;
     setSearch(value);
     param.delete("q");
+    param.delete("page");
     if (value) param.set("q", value);
     setParams(param);
   };
@@ -166,14 +167,14 @@ const ProductList = () => {
                               </div>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
+                              <DropdownMenuItem asChild>
                                 <Link
                                   to={productActionRoutes.details(product.id)}
                                 >
                                   View
                                 </Link>
                               </DropdownMenuItem>
-                              <DropdownMenuItem>
+                              <DropdownMenuItem asChild>
                                 <Link to={productActionRoutes.edit(product.id)}>
                                   Edit
                                 </Link>

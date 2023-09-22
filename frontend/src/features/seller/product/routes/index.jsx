@@ -1,5 +1,6 @@
-import ProductDetails from "../pages/product-details";
+import ProductDetail from "../pages/product-detail";
 import ProductList from "../pages/product-list";
+import ProductNew from "../pages/product-new";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -10,7 +11,11 @@ export const productRoutes = [
     element: <ProductList />,
   },
   {
-    path: ":id/detail",
-    element: <ProductDetails />,
+    path: "new",
+    element: <ProductNew />,
+  },
+  {
+    path: ":productId/detail",
+    element: <ProductDetail />,
   },
 ];
