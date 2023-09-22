@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import {
   BanknotesIcon,
   BuildingStorefrontIcon,
+  CubeIcon,
   QuestionMarkCircleIcon,
   SparklesIcon,
   XMarkIcon,
@@ -11,9 +12,27 @@ import SideNavItems from "./side-nav-items";
 import SideNavLink from "./side-nav-link";
 import SideNavMenu from "./side-nav-menu";
 import Logo from "../../logo";
-import { productNavigation } from "../../../features/seller/product/routes";
 import { reviewNavigation } from "../../../features/seller/review/routes";
 import { useSidebarContext } from "../hooks";
+
+const productNavigation = {
+  label: "Product",
+  icon: CubeIcon,
+  navigation: [
+    {
+      label: "New",
+      to: `/seller/product/new`,
+    },
+    {
+      label: "List",
+      to: "/seller/product",
+    },
+    {
+      label: "Stock Alert",
+      to: `/seller/product/stock-alert`,
+    },
+  ],
+};
 
 const Sidebar = () => {
   const { open, handleClose } = useSidebarContext();
@@ -45,7 +64,7 @@ const Sidebar = () => {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto flex relative w-full max-w-xs mr-16">
+                <Dialog.Panel className="pointer-events-auto relative mr-16 flex w-full max-w-xs">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-500"
@@ -55,10 +74,10 @@ const Sidebar = () => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <div className="absolute left-full top-0 flex pt-4 w-16 justify-center">
+                    <div className="absolute left-full top-0 flex w-16 justify-center pt-4">
                       <button
                         type="button"
-                        className="bg-black/50 rounded-full p-1 -m-1 text-white"
+                        className="-m-1 rounded-full bg-black/50 p-1 text-white"
                         onClick={handleClose}
                       >
                         <span className="absolute" />
@@ -68,8 +87,8 @@ const Sidebar = () => {
                     </div>
                   </Transition.Child>
 
-                  <div className="flex grow gap-y-4 h-full flex-col overflow-y-auto bg-white">
-                    <div className="p-2 flex">
+                  <div className="flex h-full grow flex-col gap-y-4 overflow-y-auto bg-white">
+                    <div className="flex p-2">
                       <Logo />
                     </div>
                     <SideNavItems>

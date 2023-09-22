@@ -11,7 +11,7 @@ export function cn(...inputs) {
  * @param { string | URL } input - URL to fetch
  * @param { RequestInit } init - Request init
  *
- * @returns { Promise<JSON> }
+ * @returns { Promise<any> }
  */
 export const fetcher = async (input, init) => {
   const response = await fetch(input, init);

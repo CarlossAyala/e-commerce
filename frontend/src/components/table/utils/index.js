@@ -1,5 +1,5 @@
 export const DEFAULT_PAGE = 1;
-export const PAGE_SIZES = [2, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+export const PAGE_SIZES = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 export const DEFAULT_PAGE_SIZE = PAGE_SIZES[0];
 
 const validatePage = (page = DEFAULT_PAGE) => {

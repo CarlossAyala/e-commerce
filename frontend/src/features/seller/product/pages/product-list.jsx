@@ -1,17 +1,12 @@
-import {
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisHorizontalIcon,
-} from "@heroicons/react/24/outline";
-import { useDeleteProduct, useGetProducts } from "..";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { productActionRoutes, useDeleteProduct, useGetProducts } from "..";
 import {
   Badge,
-  DataTablePagination,
+  TablePagination,
   TableEmpty,
   TableError,
   TableSkeleton,
+  useToast,
 } from "../../../../components";
 import { Button } from "../../../../components/ui/button";
 import {
@@ -39,11 +34,11 @@ import {
   DialogTitle,
 } from "../../../../components/ui/dialog";
 import { useState } from "react";
-import { toast } from "sonner";
 import { Input } from "../../../../components/ui/input";
 import { useDebounced } from "../../../../hooks";
 
 const ProductList = () => {
+  const { toast } = useToast();
   const [param, setParams] = useSearchParams();
 
   const [modal, setModal] = useState(false);
@@ -62,7 +57,9 @@ const ProductList = () => {
   const handleDelete = (id) => {
     remove.mutate(id, {
       onSuccess: () => {
-        toast.success("Product deleted successfully");
+        toast({
+          description: "Product deleted successfully",
+        });
 
         setModal(false);
         setModalProduct(null);
@@ -70,7 +67,11 @@ const ProductList = () => {
       },
       onError: (error) => {
         const description = error?.message ?? "Something went wrong";
-        toast.error(description);
+        toast({
+          variant: "destructive",
+          title: "Error deleting product",
+          description,
+        });
       },
     });
   };
@@ -85,7 +86,7 @@ const ProductList = () => {
 
   return (
     <main className="flex w-full flex-col space-y-4 overflow-auto">
-      <section className="mt-2 px-4">
+      <section className="mt-3 px-4">
         <h1 className="text-2xl font-bold tracking-tight">Product List</h1>
         <p className="text-muted-foreground">
           Here are all the products in your store.
@@ -98,6 +99,7 @@ const ProductList = () => {
           placeholder="Search"
           value={search}
           onChange={handleSearch}
+          className="max-w-md"
         />
 
         {products.isLoading ? (
@@ -134,7 +136,7 @@ const ProductList = () => {
                       <TableRow key={product.id}>
                         <TableCell className="max-w-sm truncate whitespace-nowrap font-medium">
                           <Link
-                            to={`#${product.id}`}
+                            to={productActionRoutes.details(product.id)}
                             className="hover:underline"
                           >
                             {product.name}
@@ -165,9 +167,17 @@ const ProductList = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem>
-                                <Link to="#">View</Link>
+                                <Link
+                                  to={productActionRoutes.details(product.id)}
+                                >
+                                  View
+                                </Link>
                               </DropdownMenuItem>
-                              <DropdownMenuItem>Edit</DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Link to={productActionRoutes.edit(product.id)}>
+                                  Edit
+                                </Link>
+                              </DropdownMenuItem>
                               <DropdownMenuItem
                                 onSelect={() => {
                                   setModal(true);
@@ -246,7 +256,7 @@ const ProductList = () => {
           </>
         )}
 
-        <DataTablePagination totalRows={products.data?.count} />
+        <TablePagination totalRows={products.data?.count} />
       </section>
     </main>
   );

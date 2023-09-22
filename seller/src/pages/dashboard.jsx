@@ -20,6 +20,7 @@ const Dashboard = () => {
   const reviews = useGetReviewTimeline();
   const products = useGetProducts("sortby=latest");
   console.log("Products", products);
+  console.log("Stock Alert", stockAlert);
 
   return (
     <main className="flex w-full flex-col overflow-auto space-y-10">

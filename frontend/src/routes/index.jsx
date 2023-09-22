@@ -1,6 +1,6 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Root, RootSeller } from "../layouts";
-import { Signin, Signup } from "../components";
+// import { Signin, Signup } from "../components";
 import SellerRoutes from "../features/seller/routes";
 
 const router = createBrowserRouter([
@@ -17,14 +17,14 @@ const router = createBrowserRouter([
         element: <RootSeller />,
         children: SellerRoutes,
       },
-      {
-        path: "signin",
-        element: <Signin />,
-      },
-      {
-        path: "signup",
-        element: <Signup />,
-      },
+      // {
+      //   path: "signin",
+      //   element: <Signin />,
+      // },
+      // {
+      //   path: "signup",
+      //   element: <Signup />,
+      // },
     ],
   },
 ]);

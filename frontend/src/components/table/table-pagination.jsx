@@ -14,7 +14,7 @@ import {
 } from "../ui/select";
 import usePagination from "./hooks/use-pagination";
 
-const DataTablePagination = ({ totalRows = 0 }) => {
+const TablePagination = ({ totalRows = 0 }) => {
   const { page, pageSize, pageSizes, handlePage, handlePageSize } =
     usePagination();
 
@@ -47,7 +47,7 @@ const DataTablePagination = ({ totalRows = 0 }) => {
         >
           <SelectTrigger className="w-26 flex h-8 gap-x-1">
             <SelectValue asChild>
-              <div>Rows {pageSize}</div>
+              <div>Rows: {pageSize}</div>
             </SelectValue>
           </SelectTrigger>
           <SelectContent side="bottom" className="max-h-40">
@@ -86,7 +86,7 @@ const DataTablePagination = ({ totalRows = 0 }) => {
         <Select defaultValue={page} value={page} onValueChange={handlePage}>
           <SelectTrigger className="w-26 flex h-8 gap-x-1">
             <SelectValue asChild>
-              <div>Page {page}</div>
+              <div>Page: {page}</div>
             </SelectValue>
           </SelectTrigger>
           <SelectContent side="bottom" className="max-h-40">
@@ -120,4 +120,4 @@ const DataTablePagination = ({ totalRows = 0 }) => {
   );
 };
 
-export default DataTablePagination;
+export default TablePagination;

@@ -15,7 +15,7 @@ import { Formatter } from "../../../utils/formatter";
 const Dashboard = () => {
   const stats = useGetStoreStats();
   const sales = useGetSales();
-  const stocks = useGetLowStock();
+  const stockAlert = useGetLowStock();
   const questions = useGetQuestions();
   const reviewTimeline = useGetReviewTimeline();
   const products = useGetProducts();
@@ -89,7 +89,7 @@ const Dashboard = () => {
       <section className="space-y-4 px-4">
         <div>
           <h2 className="text-lg font-semibold leading-tight tracking-tight">
-            Low stock
+            Stock Alert
           </h2>
           <p className="mt-1 leading-tight text-neutral-600">
             Here are the products that are running low on stock.

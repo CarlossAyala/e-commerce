@@ -1,5 +1,6 @@
-import { ProductList } from "../product";
-import Dashboard from "./dashboard";
+import { Outlet } from "react-router-dom";
+import Dashboard from "../pages/dashboard";
+import { productRoutes } from "../product/routes";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -12,7 +13,8 @@ const SellerRoutes = [
   },
   {
     path: "product",
-    element: <ProductList />,
+    element: <Outlet />,
+    children: productRoutes,
   },
 ];
 
