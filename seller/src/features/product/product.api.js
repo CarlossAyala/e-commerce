@@ -6,7 +6,7 @@ const PRODUCTS = "products";
 
 const API = {
   async stockAlert() {
-    const url = `${PRODUCTS}/low-stock`;
+    const url = `${PRODUCTS}/stock-alert`;
     const token = getToken();
 
     const { data } = await SellerClient.request({

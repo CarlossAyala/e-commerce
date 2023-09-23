@@ -87,6 +87,7 @@ const ProductNew = () => {
     setParams(params);
   };
 
+  const isEmptyCategories = categories.isSuccess && categories.data?.rows === 0;
   const hasDataCategories =
     categories.isSuccess && categories.data?.rows.length > 0;
 
@@ -332,11 +333,21 @@ const ProductNew = () => {
                             <p>Loading categories...</p>
                           ) : (
                             <>
-                              {!hasDataCategories && (
-                                <div className="h-36 w-full rounded-xl border border-dashed">
+                              {categories.isError && (
+                                <div className="h-36 w-full rounded-lg border border-dashed">
                                   <div className="flex h-full flex-col items-center justify-center">
                                     <p className="text-muted-foreground">
-                                      No results.
+                                      {categories.error?.message ??
+                                        "Something went wrong"}
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
+                              {isEmptyCategories && (
+                                <div className="h-36 w-full rounded-lg border border-dashed">
+                                  <div className="flex h-full flex-col items-center justify-center">
+                                    <p className="text-muted-foreground">
+                                      No results found.
                                     </p>
                                   </div>
                                 </div>

@@ -12,6 +12,9 @@ import TableSkeleton from "./table/table-skeleton";
 import { Badge } from "./ui/badge";
 import Mandatory from "./mandatory";
 
+export * from "./ui/table";
+export * from "./ui/dropdown-menu";
+export * from "./ui/sheet";
 export * from "./ui/separator";
 export * from "./ui/form";
 export * from "./ui/toaster";
@@ -24,9 +27,11 @@ export * from "./ui/radio-group";
 export * from "./ui/label";
 export * from "./ui/card";
 export * from "./ui/button";
+export * from "./ui/input";
 export * from "./skeleton/skeleton-input";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
+export * from "./search";
 
 export {
   Logo,

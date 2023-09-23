@@ -5,20 +5,11 @@ import {
   CreditCardIcon,
 } from "@heroicons/react/24/outline";
 import { StatCard, StatContainer } from "../../../components";
-import { useGetLowStock, useGetProducts } from "../product";
-import { useGetQuestions } from "../qa";
-import { useGetReviewTimeline } from "../review";
-import { useGetSales } from "../sale";
 import { useGetStoreStats } from "../store";
 import { Formatter } from "../../../utils/formatter";
 
 const Dashboard = () => {
   const stats = useGetStoreStats();
-  const sales = useGetSales();
-  const stockAlert = useGetLowStock();
-  const questions = useGetQuestions();
-  const reviewTimeline = useGetReviewTimeline();
-  const products = useGetProducts();
 
   return (
     <main className="flex w-full flex-col space-y-8 overflow-auto">

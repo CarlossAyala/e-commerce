@@ -118,7 +118,7 @@ const ProductDetail = () => {
     categories.isSuccess && categories.data?.rows.length > 0;
 
   return (
-    <main className="flex w-full flex-col space-y-6 overflow-auto px-4 pb-20">
+    <main className="flex w-full flex-col space-y-6 overflow-auto px-4">
       <section className="pt-3">
         <h1 className="text-2xl font-bold tracking-tight">Product Details</h1>
         <p className="text-muted-foreground">

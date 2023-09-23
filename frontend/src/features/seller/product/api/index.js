@@ -35,7 +35,7 @@ export const findAll = async (query) => {
 };
 
 export const findAllLowStock = async (query) => {
-  const url = `${ENDPOINT}/low-stock?${query}`;
+  const url = `${ENDPOINT}/stock-alert?${query}`;
   const token = getToken();
 
   if (!token) throw new Error("Token not found");

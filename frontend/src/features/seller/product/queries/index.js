@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   create,
   findAll,
-  findAllLowStock,
+  findAllLowStock as findAllStockAlert,
   findOne,
   remove,
   update,
@@ -12,7 +12,7 @@ export const productKeys = {
   key: ["product"],
   findOne: (id) => [...productKeys.key, "find-one", id],
   findAll: (query = "") => [...productKeys.key, "find-all", query],
-  lowStock: (query = "") => [...productKeys.key, "low-stock", query],
+  stockAlert: (query = "") => [...productKeys.key, "stock-alert", query],
 };
 
 export const useGetProduct = (id) => {
@@ -30,10 +30,10 @@ export const useGetProducts = (query) => {
   });
 };
 
-export const useGetLowStock = (query) => {
+export const useGetStockAlert = (query = "") => {
   return useQuery({
-    queryKey: productKeys.lowStock(query),
-    queryFn: () => findAllLowStock(query),
+    queryKey: productKeys.stockAlert(query),
+    queryFn: () => findAllStockAlert(query),
   });
 };
 
@@ -44,10 +44,10 @@ export const useCreateProduct = () => {
     mutationFn: (values) => create(values),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: productKeys.findAll(),
+        queryKey: productKeys.findAll().slice(0, 2),
       });
       queryClient.invalidateQueries({
-        queryKey: productKeys.lowStock(),
+        queryKey: productKeys.stockAlert().slice(0, 2),
       });
     },
   });
@@ -58,15 +58,9 @@ export const useUpdateProduct = () => {
 
   return useMutation({
     mutationFn: ([productId, values]) => update(productId, values),
-    onSuccess: (_, [productId]) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: productKeys.findOne(productId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: productKeys.findAll(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: productKeys.lowStock(),
+        queryKey: productKeys.key,
       });
     },
   });
@@ -77,15 +71,9 @@ export const useDeleteProduct = () => {
 
   return useMutation({
     mutationFn: (productId) => remove(productId),
-    onSuccess: (_, productId) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: productKeys.findOne(productId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: productKeys.findAll(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: productKeys.lowStock(),
+        queryKey: productKeys.key,
       });
       // TODO: Add Key of QA
     },
