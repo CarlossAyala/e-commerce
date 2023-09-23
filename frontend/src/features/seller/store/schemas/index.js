@@ -1,8 +1,16 @@
 import { object, string } from "yup";
+import { parseString } from "../../../../utils/schema";
 
-const name = string().label("Name").min(3).max(255).default("").required();
+const name = string()
+  .label("Name")
+  .transform(parseString)
+  .min(3)
+  .max(255)
+  .default("")
+  .required();
 const description = string()
   .label("Description")
+  .transform(parseString)
   .min(3)
   .max(255)
   .default("")
