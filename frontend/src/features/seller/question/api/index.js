@@ -34,8 +34,8 @@ export const findAll = async (query) => {
   });
 };
 
-export const findAllByProductId = async (productId) => {
-  const url = `${ENDPOINT}/product/${productId}`;
+export const findAllByProductId = async (productId, query) => {
+  const url = `${ENDPOINT}/product/${productId}?${query}`;
   const token = getToken();
 
   if (!token) throw new Error("Token not found");

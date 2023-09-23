@@ -28,6 +28,7 @@ export * from "./ui/label";
 export * from "./ui/card";
 export * from "./ui/button";
 export * from "./ui/input";
+export * from "./ui/alert-dialog";
 export * from "./skeleton/skeleton-input";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";

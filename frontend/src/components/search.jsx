@@ -3,7 +3,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useState } from "react";
 
-export const Search = () => {
+export const Search = ({ label = true }) => {
   const [params, setParams] = useSearchParams();
   const [search, setSearch] = useState(params.get("q") || "");
 
@@ -17,7 +17,7 @@ export const Search = () => {
   };
   return (
     <div>
-      <Label htmlFor="search">Search</Label>
+      {label && <Label htmlFor="search">Search</Label>}
       <Input
         type="text"
         placeholder="Search"

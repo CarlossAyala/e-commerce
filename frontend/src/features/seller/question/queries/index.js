@@ -1,36 +1,37 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { findAll, findAllByProductId, findOne, reject, reply } from "../api";
 
-export const qaKeys = {
-  key: ["qa"],
-  findOne: (questionId) => [...qaKeys.key, "find-one", questionId],
-  findAll: (query) => [...qaKeys.key, "find-all", query],
-  findAllByProductId: (productId) => [
-    ...qaKeys.key,
+export const questionKeys = {
+  key: ["question"],
+  findOne: (questionId) => [...questionKeys.key, "find-one", questionId],
+  findAll: (query) => [...questionKeys.key, "find-all", query],
+  findAllByProductId: (productId, query) => [
+    ...questionKeys.key,
     "find-all-by-product-id",
     productId,
+    query,
   ],
 };
 
 export const useGetQuestion = (questionId) => {
   return useQuery({
-    queryKey: qaKeys.findOne(questionId),
+    queryKey: questionKeys.findOne(questionId),
     queryFn: () => findOne(questionId),
     enabled: Boolean(questionId),
   });
 };
 
-export const useGetQuestions = (query) => {
+export const useGetQuestions = (query = "") => {
   return useQuery({
-    queryKey: qaKeys.findAll(query),
+    queryKey: questionKeys.findAll(query),
     queryFn: () => findAll(query),
   });
 };
 
-export const useGetQAsByProductId = (productId) => {
+export const useGetQAsByProductId = (productId, query = "") => {
   return useQuery({
-    queryKey: qaKeys.findAllByProductId(productId),
-    queryFn: () => findAllByProductId(productId),
+    queryKey: questionKeys.findAllByProductId(productId, query),
+    queryFn: () => findAllByProductId(productId, query),
     enabled: Boolean(productId),
   });
 };
@@ -42,7 +43,7 @@ export const useReplyQuestion = () => {
     mutationFn: ([questionId, answer]) => reply(questionId, answer),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: qaKeys.key,
+        queryKey: questionKeys.key,
       });
     },
   });
@@ -55,7 +56,7 @@ export const useRejectQuestion = () => {
     mutationFn: (questionId) => reject(questionId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: qaKeys.key,
+        queryKey: questionKeys.key,
       });
     },
   });

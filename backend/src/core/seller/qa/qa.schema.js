@@ -6,7 +6,7 @@ const id = Joi.string().guid({
 });
 
 const answer = Joi.object({
-  answer: Joi.string().min(3).max(255),
+  answer: Joi.string().label("Answer").min(3).max(255).required(),
 });
 
 const resourceId = Joi.object({

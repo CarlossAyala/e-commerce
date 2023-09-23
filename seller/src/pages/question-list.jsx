@@ -330,7 +330,7 @@ const QuestionList = () => {
                   </TableContainer>
                 )}
               />
-              <Pagination count={question.data.count} />
+              <Pagination count={questions.data.count} />
 
               {questionId && modalReply && (
                 <Formik
