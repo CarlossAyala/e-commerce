@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { create, findOne, getStats } from "../api";
+import { create, findOne, getStats, remove, update } from "../api";
 
 export const storeKeys = {
   key: ["store"],
@@ -10,14 +10,14 @@ export const storeKeys = {
 export const useGetStore = () => {
   return useQuery({
     queryKey: storeKeys.current(),
-    queryFn: () => findOne(),
+    queryFn: findOne,
   });
 };
 
 export const useGetStoreStats = () => {
   return useQuery({
     queryKey: storeKeys.getStats(),
-    queryFn: () => getStats(),
+    queryFn: getStats,
   });
 };
 
@@ -38,7 +38,7 @@ export const useUpdateStore = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (values) => create(values),
+    mutationFn: (values) => update(values),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: storeKeys.current(),
@@ -51,7 +51,7 @@ export const useDeleteStore = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => create(),
+    mutationFn: remove,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: storeKeys.key,

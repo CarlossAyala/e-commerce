@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Dashboard from "../pages/dashboard";
 import { productRoutes } from "../product";
 import { questionRoutes } from "../question";
+import { storeRoutes } from "../store";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -21,6 +22,11 @@ const SellerRoutes = [
     path: "question",
     element: <Outlet />,
     children: questionRoutes,
+  },
+  {
+    path: "store",
+    element: <Outlet />,
+    children: storeRoutes,
   },
 ];
 

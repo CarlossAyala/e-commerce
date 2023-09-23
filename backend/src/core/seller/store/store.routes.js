@@ -156,13 +156,13 @@ router.post(
     try {
       const store = await Store.model.findOne({
         where: {
-          [Op.or]: [{ name }, { sellerId }, { slug }],
+          [Op.or]: [{ name }, { slug }],
         },
       });
       if (store?.sellerId === sellerId) {
         return next(Boom.badRequest("You already have a Store"));
-      } else if (store?.name === name || store?.slug === slug) {
-        return next(Boom.badRequest("Store already exists"));
+      } else if (store) {
+        return next(Boom.badRequest("Store name already exists"));
       }
 
       const newStore = await Store.model.create({
@@ -179,48 +179,15 @@ router.post(
   }
 );
 
-// Change Name
-router.patch(
-  "/change-name",
+// Update
+router.put(
+  "/",
   JWT.verify,
-  validatorSchema(schema.changeName, "body"),
+  validatorSchema(schema.base, "body"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
-    const { name } = req.body;
+    const { name, description } = req.body;
     const slug = slugify(name, slugifyOptions);
-
-    try {
-      const store = await Store.model.findOne({
-        where: {
-          [Op.or]: [{ name }, { sellerId }, { slug }],
-        },
-      });
-      if (!store || store?.sellerId !== sellerId) {
-        return next(Boom.badRequest("Store not found"));
-      } else if (store?.name === name || store?.slug === slug) {
-        return next(Boom.badRequest("The Store name already exists"));
-      }
-
-      await store.update({
-        name,
-        slug,
-      });
-
-      return res.status(200).json(store);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-// Change description
-router.patch(
-  "/change-description",
-  JWT.verify,
-  validatorSchema(schema.changeDescription, "body"),
-  async (req, res, next) => {
-    const { id: sellerId } = req.auth;
-    const { description } = req.body;
 
     try {
       const store = await Store.model.findOne({
@@ -230,7 +197,22 @@ router.patch(
       });
       if (!store) return next(Boom.badRequest("Store not found"));
 
+      const storeAlreadyExist = await Store.model.findOne({
+        where: {
+          [Op.or]: [{ name }, { slug }],
+          sellerId: {
+            [Op.ne]: sellerId,
+          },
+        },
+      });
+
+      if (storeAlreadyExist) {
+        return next(Boom.badRequest("Store name already exists"));
+      }
+
       await store.update({
+        name,
+        slug,
         description,
       });
 
@@ -241,7 +223,7 @@ router.patch(
   }
 );
 
-// Delete Store
+// Delete
 router.delete("/", JWT.verify, async (req, res, next) => {
   const { id: sellerId } = req.auth;
   try {

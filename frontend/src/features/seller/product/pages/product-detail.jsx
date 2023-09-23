@@ -28,7 +28,7 @@ import {
   Switch,
   TablePagination,
   Textarea,
-  toast,
+  useToast,
 } from "../../../../components";
 import { Input } from "../../../../components/ui/input";
 import { productDefault, productInitial, productSchema } from "../schemas";
@@ -46,6 +46,7 @@ import clsx from "clsx";
 import { useDeleteProduct, useGetProduct, useUpdateProduct } from "../queries";
 
 const ProductDetail = () => {
+  const { toast } = useToast();
   const [params, setParams] = useSearchParams();
   const { productId } = useParams();
   const [search, setSearch] = useState(params.get("q") || "");

@@ -57,7 +57,7 @@ export const update = async (values) => {
   if (!token) throw new Error("Token not found");
 
   return fetcher(url, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
