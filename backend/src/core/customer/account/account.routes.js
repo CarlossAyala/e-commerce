@@ -1,15 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const { User, Cart } = require('../../../database/mysql/models');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./account.schema');
-const Encrypter = require('../../../middlewares/auth/encrypter');
-const JWT = require('../../../middlewares/auth/jwt.auth');
+const Boom = require("@hapi/boom");
+const { User, Cart } = require("../../../database/mysql/models");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const schemas = require("./account.schema");
+const Encrypter = require("../../../middlewares/auth/encrypter");
+const JWT = require("../../../middlewares/auth/jwt.auth");
 
 router.post(
-  '/signup',
-  validatorSchema(schemas.signup, 'body'),
+  "/signup",
+  validatorSchema(schemas.signup, "body"),
   async (req, res, next) => {
     const { name, lastName, email, password } = req.body;
 
@@ -20,7 +20,7 @@ router.post(
         },
       });
       if (alreadyExists) {
-        return next(Boom.badRequest('Email already exists'));
+        return next(Boom.badRequest("Email already exists"));
       }
 
       const encryptedPassword = await Encrypter.hash(password);
@@ -36,7 +36,7 @@ router.post(
       });
 
       return res.status(201).json({
-        message: 'Account created successfully',
+        message: "Account created successfully",
       });
     } catch (error) {
       next(error);
@@ -45,8 +45,8 @@ router.post(
 );
 
 router.post(
-  '/signin',
-  validatorSchema(schemas.signin, 'body'),
+  "/signin",
+  validatorSchema(schemas.signin, "body"),
   async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -56,7 +56,7 @@ router.post(
       });
       if (!customer) {
         return next(
-          Boom.badRequest('Please provide a valid email address or password')
+          Boom.badRequest("Please provide a valid email address or password")
         );
       }
 
@@ -66,7 +66,7 @@ router.post(
       );
       if (!valid) {
         return next(
-          Boom.badRequest('Please provide a valid email address or password')
+          Boom.badRequest("Please provide a valid email address or password")
         );
       }
 
@@ -86,18 +86,18 @@ router.post(
   }
 );
 
-router.get('/profile', JWT.verify, async (req, res, next) => {
+router.get("/profile", JWT.verify, async (req, res, next) => {
   const { id } = req.auth;
 
   try {
     const customer = await User.model.findOne({
       attributes: {
-        exclude: ['password'],
+        exclude: ["password"],
       },
       where: { id },
     });
     if (!customer) {
-      return next(Boom.notFound('Customer not found'));
+      return next(Boom.notFound("Customer not found"));
     }
 
     return res.status(200).json(customer);
@@ -107,9 +107,9 @@ router.get('/profile', JWT.verify, async (req, res, next) => {
 });
 
 router.patch(
-  '/change-name',
+  "/change-name",
   JWT.verify,
-  validatorSchema(schemas.changeName, 'body'),
+  validatorSchema(schemas.changeName, "body"),
   async (req, res, next) => {
     const { id } = req.auth;
     const { name, lastName } = req.body;
@@ -117,12 +117,12 @@ router.patch(
     try {
       const customer = await User.model.findOne({
         attributes: {
-          exclude: ['password'],
+          exclude: ["password"],
         },
         where: { id },
       });
       if (!customer) {
-        return next(Boom.notFound('Customer not found'));
+        return next(Boom.notFound("Customer not found"));
       }
 
       await customer.update({ name, lastName });
@@ -135,19 +135,19 @@ router.patch(
 );
 
 router.patch(
-  '/change-password',
+  "/change-password",
   JWT.verify,
-  validatorSchema(schemas.changePassword, 'body'),
+  validatorSchema(schemas.changePassword, "body"),
   async (req, res, next) => {
     const { id } = req.auth;
-    const { oldPassword, newPassword } = req.body;
+    const { oldPassword, password } = req.body;
 
     try {
       const customer = await User.model.findOne({
         where: { id },
       });
       if (!customer) {
-        return next(Boom.notFound('Customer not found'));
+        return next(Boom.notFound("Customer not found"));
       }
 
       const equal = await Encrypter.compare(
@@ -155,19 +155,19 @@ router.patch(
         customer.dataValues.password
       );
       if (!equal) {
-        return next(Boom.badRequest('Old password is incorrect'));
+        return next(Boom.badRequest("Old password is incorrect"));
       }
-      if (oldPassword === newPassword) {
+      if (oldPassword === password) {
         return next(
-          Boom.badRequest('New password must be different from old one')
+          Boom.badRequest("New password must be different from old one")
         );
       }
 
-      const encryptedPassword = await Encrypter.hash(newPassword);
+      const encryptedPassword = await Encrypter.hash(password);
       await customer.update({ password: encryptedPassword });
 
       return res.status(200).json({
-        message: 'Password updated successfully',
+        message: "Password updated successfully",
       });
     } catch (error) {
       next(error);

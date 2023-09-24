@@ -1,21 +1,36 @@
 import { object, ref, string } from "yup";
+import { parseString } from "../../../utils/schema";
 
-const name = string().label("Name").min(3).max(255).default("").required();
-const lastName = string()
-  .label("Last name")
+const name = string()
+  .transform(parseString)
+  .label("Name")
   .min(3)
   .max(255)
   .default("")
   .required();
-const email = string().label("Email").email().default("").required();
+const lastName = string()
+  .label("Last name")
+  .transform(parseString)
+  .min(3)
+  .max(255)
+  .default("")
+  .required();
+const email = string()
+  .label("Email")
+  .transform(parseString)
+  .email()
+  .default("")
+  .required();
 const password = string()
   .label("Password")
+  .transform(parseString)
   .min(8)
   .max(255)
   .default("")
   .required();
-const validatePassword = string()
+const confirmPassword = string()
   .label("Confirm password")
+  .transform(parseString)
   .oneOf([ref("password")], "Passwords must match")
   .default("")
   .required();
@@ -25,7 +40,7 @@ export const signupSchema = object({
   lastName,
   email,
   password,
-  validatePassword,
+  confirmPassword,
 });
 
 export const signupInitial = signupSchema.getDefault();

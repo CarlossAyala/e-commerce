@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { removeToken, setToken } from "../../../utils/local-storage";
 import { getProfile, signin, signup } from "../api";
-import { useNavigate } from "react-router-dom";
 
 export const authKeys = {
   key: ["auth"],
@@ -24,7 +23,6 @@ export const useGetProfile = () => {
 };
 
 export const useSignin = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,8 +30,6 @@ export const useSignin = () => {
     onSuccess: ({ token, customer }) => {
       setToken(token);
       queryClient.setQueryData(authKeys.profile(), customer);
-
-      navigate("/seller");
     },
   });
 };

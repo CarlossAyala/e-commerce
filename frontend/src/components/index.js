@@ -1,8 +1,8 @@
 // import Header from "./header";
 import Logo from "./logo";
 // import Sidebar from "./sidebar/components/sidebar";
-// import Signin from "./signin/signin";
-// import Signup from "./signup/signup";
+import Signin from "./signin";
+import Signup from "./signup";
 import StatCard from "./stat/stat-card";
 import StatContainer from "./stat/stat-container";
 import TablePagination from "./table/table-pagination";
@@ -38,8 +38,8 @@ export {
   Logo,
   // Header,
   // Sidebar,
-  // Signin,
-  // Signup,
+  Signin,
+  Signup,
   Badge,
   StatContainer,
   StatCard,
