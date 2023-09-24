@@ -93,6 +93,45 @@ router.get("/timeline", JWT.verify, async (req, res, next) => {
   }
 });
 
+// Get review
+router.get(
+  "/:id",
+  JWT.verify,
+  validatorSchema(schemas.resourceId, "params"),
+  async (req, res, next) => {
+    const { id: sellerId } = req.auth;
+    const { id: reviewId } = req.params;
+
+    try {
+      const store = await Store.model.findOne({
+        where: {
+          sellerId,
+        },
+      });
+      if (!store) return next(Boom.notFound("Store not found"));
+
+      const review = await Review.model.findOne({
+        where: {
+          id: reviewId,
+        },
+        include: {
+          model: Product.model,
+          as: "product",
+          where: {
+            storeId: store.dataValues.id,
+          },
+        },
+      });
+
+      if (!review) return next(Boom.notFound("Review not found"));
+
+      return res.status(200).json(review);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 // Product Reviews
 router.get(
   "/product/:id",

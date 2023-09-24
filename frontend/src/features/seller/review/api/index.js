@@ -4,6 +4,21 @@ import { getToken } from "../../../../utils/local-storage";
 
 const ENDPOINT = `${API_SELLER}/reviews`;
 
+export const findOne = async (reviewId) => {
+  const url = `${ENDPOINT}/${reviewId}`;
+  const token = getToken();
+
+  if (!token) throw new Error("Token not found");
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const overview = async (query) => {
   const url = `${ENDPOINT}/overview?${query}`;
   const token = getToken();

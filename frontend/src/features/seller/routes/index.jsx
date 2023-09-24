@@ -4,6 +4,7 @@ import { productRoutes } from "../product";
 import { questionRoutes } from "../question";
 import { storeRoutes } from "../store";
 import { saleRoutes } from "../sale";
+import { reviewRoutes } from "../review";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -33,6 +34,11 @@ const SellerRoutes = [
     path: "sale",
     element: <Outlet />,
     children: saleRoutes,
+  },
+  {
+    path: "review",
+    element: <Outlet />,
+    children: reviewRoutes,
   },
 ];
 

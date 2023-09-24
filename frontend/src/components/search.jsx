@@ -1,9 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { useState } from "react";
 
-export const Search = ({ label = true }) => {
+export const Search = () => {
   const [params, setParams] = useSearchParams();
   const [search, setSearch] = useState(params.get("q") || "");
 
@@ -17,7 +16,6 @@ export const Search = ({ label = true }) => {
   };
   return (
     <div>
-      {label && <Label htmlFor="search">Search</Label>}
       <Input
         type="text"
         placeholder="Search"

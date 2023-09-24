@@ -1,6 +1,6 @@
-import Header from "./header";
+// import Header from "./header";
 import Logo from "./logo";
-import Sidebar from "./sidebar/components/sidebar";
+// import Sidebar from "./sidebar/components/sidebar";
 // import Signin from "./signin/signin";
 // import Signup from "./signup/signup";
 import StatCard from "./stat/stat-card";
@@ -36,8 +36,8 @@ export * from "./search";
 
 export {
   Logo,
-  Header,
-  Sidebar,
+  // Header,
+  // Sidebar,
   // Signin,
   // Signup,
   Badge,

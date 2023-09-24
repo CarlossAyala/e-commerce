@@ -16,4 +16,9 @@ export class Formatter {
       day: "2-digit",
     }).format(validDate);
   }
+
+  static precisionTwo(num) {
+    const valid = +num;
+    return valid.toFixed(2);
+  }
 }

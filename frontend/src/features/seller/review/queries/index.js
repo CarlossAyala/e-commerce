@@ -1,10 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { findAllByProductId, getScore, overview, timeline } from "../api";
+import {
+  findAllByProductId,
+  findOne,
+  getScore,
+  overview,
+  timeline,
+} from "../api";
 
 const reviewKeys = {
   key: ["review"],
-  overview: (query = "") => [...reviewKeys.key, "overview", query],
-  timeline: (query = "") => [...reviewKeys.key, "timeline", query],
+  findOne: (id) => [...reviewKeys.key, "find-one", id],
+  overview: (query) => [...reviewKeys.key, "overview", query],
+  timeline: (query) => [...reviewKeys.key, "timeline", query],
   findAllByProductId: (id, query) => [
     ...reviewKeys.key,
     "find-all-by-product-id",
@@ -14,21 +21,29 @@ const reviewKeys = {
   score: (id) => [...reviewKeys.key, "score", id],
 };
 
-export const useGetReviewOverview = (query) => {
+export const useGetReview = (reviewId) => {
+  return useQuery({
+    queryKey: reviewKeys.findOne(reviewId),
+    queryFn: () => findOne(reviewId),
+    enabled: Boolean(reviewId),
+  });
+};
+
+export const useGetReviewOverview = (query = "") => {
   return useQuery({
     queryKey: reviewKeys.overview(query),
     queryFn: () => overview(query),
   });
 };
 
-export const useGetReviewTimeline = (query) => {
+export const useGetReviewTimeline = (query = "") => {
   return useQuery({
     queryKey: reviewKeys.timeline(query),
     queryFn: () => timeline(query),
   });
 };
 
-export const useGetProductReviews = (productId, query) => {
+export const useGetProductReviews = (productId, query = "") => {
   return useQuery({
     queryKey: reviewKeys.findAllByProductId(productId, query),
     queryFn: () => findAllByProductId(productId, query),
