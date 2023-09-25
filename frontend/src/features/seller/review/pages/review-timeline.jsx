@@ -31,6 +31,7 @@ import { productActionRoutes } from "../../product/utils";
 import { Formatter } from "../../../../utils/formatter";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { MainContent } from "../../layout";
 
 const ReviewTimeline = () => {
   const [reviewId, setReviewId] = useState(null);
@@ -59,7 +60,7 @@ const ReviewTimeline = () => {
   const hasContent = reviews.isSuccess && reviews.data?.rows.length > 0;
 
   return (
-    <main className="flex w-full flex-col space-y-4 overflow-auto px-4 pb-20">
+    <MainContent>
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Reviews Timeline</h1>
         <p className="text-sm text-gray-500">
@@ -195,7 +196,7 @@ const ReviewTimeline = () => {
 
         <TablePagination totalRows={reviews.data?.count} />
       </section>
-    </main>
+    </MainContent>
   );
 };
 

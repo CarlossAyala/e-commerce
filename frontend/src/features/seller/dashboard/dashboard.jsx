@@ -7,13 +7,14 @@ import {
 import { StatCard, StatContainer } from "../../../components";
 import { useGetStoreStats } from "../store";
 import { Formatter } from "../../../utils/formatter";
+import { MainContent } from "../layout";
 
 const Dashboard = () => {
   const stats = useGetStoreStats();
 
   return (
-    <main className="flex w-full flex-col space-y-8 overflow-auto">
-      <section className="mt-3 px-4">
+    <MainContent>
+      <section className="mt-3">
         <h1 className="text-3xl font-semibold leading-tight text-neutral-800">
           Dashboard
         </h1>
@@ -21,8 +22,7 @@ const Dashboard = () => {
           Welcome back, <strong>John Doe</strong>!
         </p>
       </section>
-
-      <section className="space-y-4 px-4">
+      <section className="space-y-4">
         <div>
           <h2 className="text-lg font-semibold leading-tight tracking-tight">
             About your store
@@ -65,8 +65,7 @@ const Dashboard = () => {
           />
         </StatContainer>
       </section>
-
-      <section className="space-y-4 px-4">
+      <section className="space-y-4">
         <div>
           <h2 className="text-lg font-semibold leading-tight tracking-tight">
             Latest sales
@@ -76,8 +75,7 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
-
-      <section className="space-y-4 px-4">
+      <section className="space-y-4">
         <div>
           <h2 className="text-lg font-semibold leading-tight tracking-tight">
             Stock Alert
@@ -87,8 +85,7 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
-
-      <section className="space-y-4 px-4">
+      <section className="space-y-4">
         <div>
           <h2 className="text-lg font-semibold leading-tight tracking-tight">
             Questions
@@ -98,8 +95,7 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
-
-      <section className="space-y-4 px-4">
+      <section className="space-y-4">
         <div>
           <h2 className="text-lg font-semibold leading-tight tracking-tight">
             Reviews
@@ -109,8 +105,7 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
-
-      <section className="space-y-4 px-4">
+      <section className="space-y-4">
         <div>
           <h2 className="text-lg font-semibold leading-tight tracking-tight">
             Products
@@ -120,7 +115,7 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
-    </main>
+    </MainContent>
   );
 };
 

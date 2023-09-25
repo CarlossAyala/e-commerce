@@ -30,6 +30,7 @@ import {
 import { Formatter } from "../../../../utils/formatter";
 import { useState } from "react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { MainContent } from "../../layout";
 
 const ReviewList = () => {
   const [reviewId, setReviewId] = useState(null);
@@ -59,7 +60,7 @@ const ReviewList = () => {
   const hasContent = reviews.isSuccess && reviews.data?.rows.length > 0;
 
   return (
-    <main className="flex w-full flex-col space-y-4 overflow-auto px-4 pb-20">
+    <MainContent>
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Reviews Product</h1>
         <p className="text-muted-foreground">Product&apos;s review.</p>
@@ -192,7 +193,7 @@ const ReviewList = () => {
 
         <TablePagination totalRows={reviews.data?.count} />
       </section>
-    </main>
+    </MainContent>
   );
 };
 

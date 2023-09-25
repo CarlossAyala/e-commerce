@@ -16,6 +16,7 @@ import {
 import { Formatter } from "../../../../utils/formatter";
 import { productActionRoutes } from "../../product/utils";
 import { saleActionRoutes } from "../utils";
+import { MainContent } from "../../layout";
 
 const Sale = () => {
   const [params] = useSearchParams();
@@ -27,7 +28,7 @@ const Sale = () => {
   const hasContent = sales.isSuccess && sales.data?.rows.length > 0;
 
   return (
-    <main className="flex w-full flex-col space-y-4 overflow-auto px-4 pb-20">
+    <MainContent>
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Sales</h1>
         <p className="text-muted-foreground">This is a list of sales.</p>
@@ -87,7 +88,7 @@ const Sale = () => {
 
         <TablePagination totalRows={sales.data?.count} />
       </section>
-    </main>
+    </MainContent>
   );
 };
 

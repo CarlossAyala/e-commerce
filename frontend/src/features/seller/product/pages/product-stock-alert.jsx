@@ -45,6 +45,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { productDefault, productInitial, productSchema } from "../schemas";
 import { Formatter } from "../../../../utils/formatter";
+import { MainContent } from "../../layout";
 
 const ProductStockAlert = () => {
   const { toast } = useToast();
@@ -87,7 +88,7 @@ const ProductStockAlert = () => {
   const hasContent = products.isSuccess && products.data?.rows.length > 0;
 
   return (
-    <main className="flex w-full flex-col space-y-4 overflow-auto px-4 pb-20">
+    <MainContent>
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Stock Alert</h1>
         <p className="text-muted-foreground">
@@ -285,7 +286,7 @@ const ProductStockAlert = () => {
 
         <TablePagination totalRows={products.data?.count} />
       </section>
-    </main>
+    </MainContent>
   );
 };
 

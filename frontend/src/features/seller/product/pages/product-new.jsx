@@ -36,6 +36,7 @@ import { useGetCategories, useGetCategory } from "../../../common/category";
 import { useDebounced } from "../../../../hooks";
 import clsx from "clsx";
 import { useCreateProduct } from "../queries";
+import { MainContent } from "../../layout";
 
 const ProductNew = () => {
   const [params, setParams] = useSearchParams();
@@ -92,7 +93,7 @@ const ProductNew = () => {
     categories.isSuccess && categories.data?.rows.length > 0;
 
   return (
-    <main className="flex w-full flex-col space-y-6 overflow-auto px-4 pb-20">
+    <MainContent>
       <section className="pt-3">
         <h1 className="text-2xl font-bold tracking-tight">Product Details</h1>
         <p className="text-muted-foreground">
@@ -449,7 +450,7 @@ const ProductNew = () => {
           </form>
         </Form>
       </section>
-    </main>
+    </MainContent>
   );
 };
 

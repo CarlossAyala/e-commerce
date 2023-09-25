@@ -1,6 +1,4 @@
 // import Header from "./header";
-import Logo from "./logo";
-// import Sidebar from "./sidebar/components/sidebar";
 import Signin from "./signin";
 import Signup from "./signup";
 import StatCard from "./stat/stat-card";
@@ -11,6 +9,7 @@ import TableError from "./table/table-error";
 import TableSkeleton from "./table/table-skeleton";
 import { Badge } from "./ui/badge";
 import Mandatory from "./mandatory";
+import Logo from "./logo";
 
 export * from "./ui/table";
 export * from "./ui/dropdown-menu";
@@ -29,6 +28,8 @@ export * from "./ui/card";
 export * from "./ui/button";
 export * from "./ui/input";
 export * from "./ui/alert-dialog";
+export * from "./ui/avatar";
+export * from "./ui/accordion";
 export * from "./skeleton/skeleton-input";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
@@ -36,8 +37,6 @@ export * from "./search";
 
 export {
   Logo,
-  // Header,
-  // Sidebar,
   Signin,
   Signup,
   Badge,

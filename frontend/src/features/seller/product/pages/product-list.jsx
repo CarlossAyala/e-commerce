@@ -36,6 +36,7 @@ import {
 import { useState } from "react";
 import { Input } from "../../../../components/ui/input";
 import { useDebounced } from "../../../../hooks";
+import { MainContent } from "../../layout";
 
 const ProductList = () => {
   const { toast } = useToast();
@@ -86,15 +87,15 @@ const ProductList = () => {
   };
 
   return (
-    <main className="flex w-full flex-col space-y-4 overflow-auto">
-      <section className="mt-3 px-4">
+    <MainContent>
+      <section className="mt-3">
         <h1 className="text-2xl font-bold tracking-tight">Product List</h1>
         <p className="text-muted-foreground">
           Here are all the products in your store.
         </p>
       </section>
 
-      <section className="space-y-3 px-4">
+      <section className="space-y-3">
         <Input
           type="text"
           placeholder="Search"
@@ -259,7 +260,7 @@ const ProductList = () => {
 
         <TablePagination totalRows={products.data?.count} />
       </section>
-    </main>
+    </MainContent>
   );
 };
 

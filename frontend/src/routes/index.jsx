@@ -1,7 +1,8 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Root, RootSeller } from "../layouts";
+import { Root } from "../layouts";
 import { Signin, Signup } from "../components";
 import SellerRoutes from "../features/seller/routes";
+import { RootSeller } from "../features/seller/layout";
 
 const router = createBrowserRouter([
   {

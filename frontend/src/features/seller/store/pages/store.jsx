@@ -23,6 +23,7 @@ import {
   useToast,
 } from "../../../../components";
 import { useState } from "react";
+import { MainContent } from "../../layout";
 
 const Store = () => {
   const [dialog, setDialog] = useState(false);
@@ -78,7 +79,7 @@ const Store = () => {
   };
 
   return (
-    <main className="flex w-full flex-col space-y-6 overflow-auto px-4">
+    <MainContent>
       <section className="pt-3">
         <h1 className="text-2xl font-bold tracking-tight">Store</h1>
         <p className="text-muted-foreground">About your store</p>
@@ -173,7 +174,7 @@ const Store = () => {
           </AlertDialog>
         </section>
       )}
-    </main>
+    </MainContent>
   );
 };
 

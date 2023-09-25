@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { storeInitial, storeSchema } from "../schemas";
 import { useCreateStore } from "../queries";
+import { MainContent } from "../../layout";
 
 const StoreNew = () => {
   const { toast } = useToast();
@@ -51,7 +52,7 @@ const StoreNew = () => {
   };
 
   return (
-    <main className="flex w-full flex-col space-y-6 overflow-auto px-4">
+    <MainContent>
       <section className="pt-3">
         <h1 className="text-2xl font-bold tracking-tight">Create Store</h1>
         <p className="text-muted-foreground">
@@ -95,7 +96,7 @@ const StoreNew = () => {
           </Button>
         </form>
       </Form>
-    </main>
+    </MainContent>
   );
 };
 

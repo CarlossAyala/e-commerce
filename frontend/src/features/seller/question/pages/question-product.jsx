@@ -56,6 +56,7 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { replyInitial, replySchema } from "../schemas";
+import { MainContent } from "../../layout";
 
 const QuestionProduct = () => {
   const { toast } = useToast();
@@ -140,7 +141,7 @@ const QuestionProduct = () => {
   console.log("form", form);
 
   return (
-    <main className="flex w-full flex-col space-y-6 overflow-auto px-4 pb-20">
+    <MainContent>
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Questions Product</h1>
         <p className="text-muted-foreground">
@@ -347,7 +348,7 @@ const QuestionProduct = () => {
 
         <TablePagination totalRows={questions.data?.count} />
       </section>
-    </main>
+    </MainContent>
   );
 };
 

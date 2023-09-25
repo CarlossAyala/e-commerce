@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import Dashboard from "../pages/dashboard";
 import { productRoutes } from "../product";
 import { questionRoutes } from "../question";
 import { storeRoutes } from "../store";
 import { saleRoutes } from "../sale";
 import { reviewRoutes } from "../review";
+import { Dashboard } from "../dashboard";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}

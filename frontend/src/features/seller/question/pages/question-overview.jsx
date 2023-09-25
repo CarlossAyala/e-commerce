@@ -15,6 +15,7 @@ import {
 } from "../../../../components";
 import { productActionRoutes } from "../../product/utils";
 import { questionActionRoutes } from "../utils";
+import { MainContent } from "../../layout";
 
 const QuestionOverview = () => {
   const [params] = useSearchParams();
@@ -26,7 +27,7 @@ const QuestionOverview = () => {
   const hasContent = questions.isSuccess && questions.data?.rows.length > 0;
 
   return (
-    <main className="flex w-full flex-col space-y-4 overflow-auto px-4 pb-20">
+    <MainContent>
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">
           Questions Overview
@@ -81,7 +82,7 @@ const QuestionOverview = () => {
 
         <TablePagination totalRows={questions.data?.count} />
       </section>
-    </main>
+    </MainContent>
   );
 };
 
