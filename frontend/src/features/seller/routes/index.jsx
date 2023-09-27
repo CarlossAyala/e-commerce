@@ -5,6 +5,7 @@ import { storeRoutes } from "../store";
 import { saleRoutes } from "../sale";
 import { reviewRoutes } from "../review";
 import { Dashboard } from "../dashboard";
+import { WithStore } from "../utils";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -13,16 +14,16 @@ import { Dashboard } from "../dashboard";
 const SellerRoutes = [
   {
     index: true,
-    element: <Dashboard />,
+    element: <WithStore component={Dashboard} />,
   },
   {
     path: "product",
-    element: <Outlet />,
+    element: <WithStore component={Outlet} />,
     children: productRoutes,
   },
   {
     path: "question",
-    element: <Outlet />,
+    element: <WithStore component={Outlet} />,
     children: questionRoutes,
   },
   {
@@ -32,12 +33,12 @@ const SellerRoutes = [
   },
   {
     path: "sale",
-    element: <Outlet />,
+    element: <WithStore component={Outlet} />,
     children: saleRoutes,
   },
   {
     path: "review",
-    element: <Outlet />,
+    element: <WithStore component={Outlet} />,
     children: reviewRoutes,
   },
 ];

@@ -10,6 +10,7 @@ import TableSkeleton from "./table/table-skeleton";
 import { Badge } from "./ui/badge";
 import Mandatory from "./mandatory";
 import Logo from "./logo";
+import Signout from "./signout";
 
 export * from "./ui/table";
 export * from "./ui/dropdown-menu";
@@ -39,6 +40,7 @@ export {
   Logo,
   Signin,
   Signup,
+  Signout,
   Badge,
   StatContainer,
   StatCard,

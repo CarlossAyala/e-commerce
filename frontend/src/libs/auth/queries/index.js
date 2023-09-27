@@ -12,7 +12,7 @@ export const useGetProfile = () => {
 
   return useQuery({
     queryKey: authKeys.profile(),
-    queryFn: () => getProfile(),
+    queryFn: getProfile,
     onError: () => {
       removeToken();
 
@@ -40,7 +40,7 @@ export const useSignup = () => {
   });
 };
 
-export const useLogout = () => {
+export const useSignout = () => {
   const queryClient = useQueryClient();
 
   removeToken();

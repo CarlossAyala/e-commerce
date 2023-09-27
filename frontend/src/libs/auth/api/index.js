@@ -8,7 +8,7 @@ export const getProfile = async () => {
   const url = `${ENDPOINT}/profile`;
   const token = getToken();
 
-  if (!token) throw new Error("Token not found");
+  if (!token) return null;
 
   return fetcher(url, {
     method: "GET",

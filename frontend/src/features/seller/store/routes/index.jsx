@@ -1,3 +1,4 @@
+import { WithStore, WithoutStore } from "../../utils";
 import Store from "../pages/store";
 import StoreNew from "../pages/store-new";
 
@@ -7,10 +8,10 @@ import StoreNew from "../pages/store-new";
 export const storeRoutes = [
   {
     index: true,
-    element: <Store />,
+    element: <WithStore component={Store} />,
   },
   {
     path: "new",
-    element: <StoreNew />,
+    element: <WithoutStore component={StoreNew} />,
   },
 ];
