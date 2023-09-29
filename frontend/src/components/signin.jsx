@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signinInitial, signinSchema, useSignin } from "../libs/auth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,11 +14,15 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { actionRoutes } from "../configs";
 
 const Signin = () => {
   const { toast } = useToast();
+  const location = useLocation();
   const navigate = useNavigate();
   const signin = useSignin();
+
+  const from = location.state?.from?.pathname || actionRoutes.seller.dashboard;
 
   const form = useForm({
     resolver: yupResolver(signinSchema),
@@ -29,7 +33,7 @@ const Signin = () => {
   const handleSignin = (values) => {
     signin.mutate(values, {
       onSuccess() {
-        navigate("/seller");
+        navigate(from, { replace: true });
       },
       onError(error) {
         toast({

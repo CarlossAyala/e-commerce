@@ -184,7 +184,7 @@ const Product = () => {
   // console.log('CustomerQA', customerQA);
   // console.log('Bookmark', bookmark);
   // console.log('Reviews', reviews);
-  // console.log('Reviews Stats', reviewsStats);
+  console.log("Reviews Stats", reviewsStats);
 
   const handleAddToCart = () => {
     try {

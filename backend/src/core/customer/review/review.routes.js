@@ -186,6 +186,8 @@ router.get(
         });
       }
 
+      console.log("REVIEWS", reviews);
+
       return res.status(200).json({
         reviews: Array.from(reviewsMap.values()),
         total: totalReviews,

@@ -1,10 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import API from './bookmark.api';
-import { getToken } from '../../api';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import API from "./bookmark.api";
+import { getToken } from "../../api";
 
 const bookmarkKeys = {
-  key: ['bookmark'],
-  get: (id) => [...bookmarkKeys.key, 'get', id],
+  key: ["bookmark"],
+  get: (id) => [...bookmarkKeys.key, "get", id],
 };
 
 export const useGetBookmark = (id) => {

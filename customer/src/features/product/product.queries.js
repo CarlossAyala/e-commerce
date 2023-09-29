@@ -1,13 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import API from './product.api';
-import { getToken } from '../../api';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import API from "./product.api";
+import { getToken } from "../../api";
 
 export const productKeys = {
-  key: ['product'],
-  one: (id) => [...productKeys.key, 'one', id],
-  allQAs: (id) => [...productKeys.key, 'allQA', id],
-  searchProduct: (query) => [...productKeys.key, 'search', query],
-  related: (id) => [...productKeys.key, 'related', id],
+  key: ["product"],
+  one: (id) => [...productKeys.key, "one", id],
+  allQAs: (id) => [...productKeys.key, "allQA", id],
+  searchProduct: (query) => [...productKeys.key, "search", query],
+  related: (id) => [...productKeys.key, "related", id],
 };
 
 export const useGetProduct = (id) => {

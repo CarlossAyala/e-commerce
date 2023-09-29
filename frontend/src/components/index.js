@@ -11,6 +11,7 @@ import { Badge } from "./ui/badge";
 import Mandatory from "./mandatory";
 import Logo from "./logo";
 import Signout from "./signout";
+import MainContent from "./layouts/main-content";
 
 export * from "./ui/table";
 export * from "./ui/dropdown-menu";
@@ -31,10 +32,13 @@ export * from "./ui/input";
 export * from "./ui/alert-dialog";
 export * from "./ui/avatar";
 export * from "./ui/accordion";
+export * from "./ui/skeleton";
+export * from "./ui/navigation-menu";
 export * from "./skeleton/skeleton-input";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
 export * from "./search";
+export * from "./empty-placeholder";
 
 export {
   Logo,
@@ -49,4 +53,5 @@ export {
   TableSkeleton,
   TablePagination,
   Mandatory,
+  MainContent,
 };

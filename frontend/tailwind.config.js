@@ -7,6 +7,9 @@ module.exports = {
     "./app/**/*.{js,jsx}",
     "./src/**/*.{js,jsx}",
   ],
+  corePlugins: {
+    aspectRatio: false,
+  },
   theme: {
     fontFamily: {
       sans: ["IBM Plex Sans", "ui-sans-serif", "system-ui"],
@@ -81,5 +84,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };

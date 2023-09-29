@@ -1,4 +1,4 @@
-const prefix = "fak-ommerce-seller-";
+const prefix = "fak-ommerce-";
 
 export const getToken = () => {
   return JSON.parse(window.localStorage.getItem(`${prefix}token`));
