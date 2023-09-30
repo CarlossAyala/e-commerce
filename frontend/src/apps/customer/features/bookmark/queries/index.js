@@ -4,14 +4,15 @@ import { clear, create, findAll, findOne, remove } from "../api";
 const bookmarkKeys = {
   key: ["bookmark"],
   findOne: (id) => [...bookmarkKeys.key, "find-one", id],
+  findAllKey: () => [...bookmarkKeys.key, "find-all"],
   findAll: (query) => [...bookmarkKeys.key, "find-all", query],
 };
 
-export const useGetBookmark = (bookmarkId) => {
+export const useGetBookmark = (productId) => {
   return useQuery({
-    queryKey: bookmarkKeys.findOne(bookmarkId),
-    queryFn: () => findOne(bookmarkId),
-    enabled: Boolean(bookmarkId),
+    queryKey: bookmarkKeys.findOne(productId),
+    queryFn: () => findOne(productId),
+    enabled: Boolean(productId),
   });
 };
 
@@ -27,8 +28,9 @@ export const useCreateBookmark = () => {
 
   return useMutation({
     mutationFn: create,
-    onSuccess: () => {
-      queryClient.invalidateQueries(bookmarkKeys.key);
+    onSuccess: (_, productId) => {
+      queryClient.invalidateQueries(bookmarkKeys.findOne(productId));
+      queryClient.invalidateQueries(bookmarkKeys.findAllKey());
     },
   });
 };
@@ -38,8 +40,9 @@ export const useRemoveBookmark = () => {
 
   return useMutation({
     mutationFn: remove,
-    onSuccess: () => {
-      queryClient.invalidateQueries(bookmarkKeys.key);
+    onSuccess: (_, productId) => {
+      queryClient.invalidateQueries(bookmarkKeys.findOne(productId));
+      queryClient.invalidateQueries(bookmarkKeys.findAllKey());
     },
   });
 };

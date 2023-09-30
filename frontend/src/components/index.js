@@ -34,11 +34,13 @@ export * from "./ui/avatar";
 export * from "./ui/accordion";
 export * from "./ui/skeleton";
 export * from "./ui/navigation-menu";
+export * from "./ui/tabs";
 export * from "./skeleton/skeleton-input";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
 export * from "./search";
 export * from "./empty-placeholder";
+export * from "./review-star";
 
 export {
   Logo,

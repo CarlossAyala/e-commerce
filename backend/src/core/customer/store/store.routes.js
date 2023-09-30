@@ -1,15 +1,16 @@
-const express = require('express');
-const Boom = require('@hapi/boom');
-const { Store, Product } = require('../../../database/mysql/models');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./store.schema');
+const express = require("express");
+const Boom = require("@hapi/boom");
+const { Store, Product } = require("../../../database/mysql/models");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const schemas = require("./store.schema");
+const { slugify } = require("../../../utils");
 const router = express.Router();
 
 // Get All
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const stores = await Store.model.findAndCountAll({
-      order: [['name', 'ASC']],
+      order: [["name", "ASC"]],
       limit: 50,
       offset: 0,
     });
@@ -21,22 +22,45 @@ router.get('/', async (req, res, next) => {
 });
 
 // Get by slug
+router.get("/:name", async (req, res, next) => {
+  const { name } = req.params;
+
+  const slug = slugify(name);
+
+  try {
+    const store = await Store.model.findOne({
+      attributes: {
+        exclude: ["userId"],
+      },
+      where: { slug },
+    });
+
+    if (!store) {
+      throw Boom.notFound("Store not found");
+    }
+
+    return res.status(200).json(store);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Get by productId
 router.get(
-  '/:slug',
-  validatorSchema(schemas.resourceSlug, 'params'),
+  "/:id/by-product-id",
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
-    const { slug } = req.params;
+    const { id: productId } = req.params;
 
     try {
-      const store = await Store.model.findOne({
-        attributes: {
-          exclude: ['userId'],
-        },
-        where: { slug },
-      });
+      const product = await Product.model.findByPk(productId);
+      if (!product) {
+        throw Boom.notFound("Product not found");
+      }
 
+      const store = await Store.model.findByPk(product.dataValues.storeId);
       if (!store) {
-        throw Boom.notFound('Store not found');
+        throw Boom.notFound("Store not found");
       }
 
       return res.status(200).json(store);
@@ -48,20 +72,22 @@ router.get(
 
 // Get Products Store by slug
 router.get(
-  '/:slug/products',
-  validatorSchema(schemas.resourceSlug, 'params'),
+  "/:name/products",
+  validatorSchema(schemas.resourceSlug, "params"),
   async (req, res, next) => {
-    const { slug } = req.params;
+    const { name } = req.params;
+
+    const slug = slugify(name);
 
     try {
       const store = await Store.model.findOne({
         attributes: {
-          exclude: ['userId'],
+          exclude: ["userId"],
         },
         where: { slug },
       });
       if (!store) {
-        throw Boom.notFound('Store not found');
+        throw Boom.notFound("Store not found");
       }
 
       const products = await Product.model.findAndCountAll({

@@ -1,17 +1,17 @@
-import { CustomerClient, getToken } from '../../api';
+import { CustomerClient, getToken } from "../../api";
 
-const CART = 'cart';
+const CART = "cart";
 
 const API = {
   async getCart(queries) {
-    const url = `/${CART}${queries ? `?${queries}` : ''}`;
+    const url = `/${CART}${queries ? `?${queries}` : ""}`;
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -19,14 +19,14 @@ const API = {
     return data;
   },
   async addToCart(productId, quantity) {
-    const url = `/${CART}/product/${productId}`;
+    const url = `/${CART}/${productId}`;
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'POST',
+      method: "POST",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       data: {
@@ -41,10 +41,10 @@ const API = {
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'DELETE',
+      method: "DELETE",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -56,10 +56,10 @@ const API = {
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'PATCH',
+      method: "PATCH",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       data: { quantity },
@@ -72,10 +72,10 @@ const API = {
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'PATCH',
+      method: "PATCH",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -87,10 +87,10 @@ const API = {
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'DELETE',
+      method: "DELETE",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });

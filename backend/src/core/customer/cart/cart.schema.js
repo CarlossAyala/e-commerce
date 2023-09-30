@@ -1,8 +1,8 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 const id = Joi.string().guid({
-  version: 'uuidv4',
-  separator: '-',
+  version: "uuidv4",
+  separator: "-",
 });
 
 const resourceId = Joi.object({

@@ -1,41 +1,37 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
+const Boom = require("@hapi/boom");
 const {
   Product,
   Cart,
   CartProduct,
-} = require('../../../database/mysql/models');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./cart.schema');
-const QueryBuilder = require('../../../utils/database/query-builder');
+} = require("../../../database/mysql/models");
+const JWT = require("../../../middlewares/auth/jwt.auth");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const schemas = require("./cart.schema");
 
 // Get Cart
-router.get('/', JWT.verify, async (req, res, next) => {
-  const CartProductQB = new QueryBuilder(req.query)
-    .where('visible', req.query.only_visible ? true : null)
-    .build();
-
+router.get("/", JWT.verify, async (req, res, next) => {
   try {
-    // midd
     const cart = await Cart.model.findOne({
       where: {
         customerId: req.auth.id,
       },
     });
-    if (!cart) return next(Boom.notFound('Cart not found'));
+    if (!cart) return next(Boom.notFound("Cart not found"));
 
     const items = await CartProduct.model.findAll({
       where: {
         cartId: cart.dataValues.id,
-        ...CartProductQB.where,
+        ...(req.query.only_visible && {
+          visible: true,
+        }),
       },
       include: {
         model: Product.model,
-        as: 'product',
+        as: "product",
       },
-      order: [['createdAt', 'ASC']],
+      order: [["createdAt", "ASC"]],
     });
 
     return res.status(200).json(items);
@@ -46,10 +42,10 @@ router.get('/', JWT.verify, async (req, res, next) => {
 
 // Add Item
 router.post(
-  '/product/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
-  validatorSchema(schemas.base, 'body'),
+  validatorSchema(schemas.resourceId, "params"),
+  validatorSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const { id: customerId } = req.auth;
@@ -61,18 +57,18 @@ router.post(
           customerId,
         },
       });
-      if (!cart) return next(Boom.notFound('Cart not found'));
+      if (!cart) return next(Boom.notFound("Cart not found"));
 
       const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound('Product not found'));
+      if (!product) return next(Boom.notFound("Product not found"));
       if (!product.dataValues.available) {
-        return next(Boom.badRequest('Product unavailable'));
+        return next(Boom.badRequest("Product unavailable"));
       }
       if (product.dataValues.stock === 0) {
-        return next(Boom.badRequest('Product out of stock'));
+        return next(Boom.badRequest("Product out of stock"));
       }
       if (quantity > product.dataValues.stock) {
-        return next(Boom.badRequest('Product does not have enough stock'));
+        return next(Boom.badRequest("Product does not have enough stock"));
       }
 
       const [item, created] = await CartProduct.model.findOrCreate({
@@ -88,7 +84,7 @@ router.post(
       });
 
       if (!created) {
-        item.quantity += quantity;
+        item.quantity = quantity;
         await item.save();
       }
 
@@ -101,10 +97,10 @@ router.post(
 
 // Update Item
 router.patch(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
-  validatorSchema(schemas.base, 'body'),
+  validatorSchema(schemas.resourceId, "params"),
+  validatorSchema(schemas.base, "body"),
   async (req, res, next) => {
     try {
       const cart = await Cart.model.findOne({
@@ -112,7 +108,7 @@ router.patch(
           customerId: req.auth.id,
         },
       });
-      if (!cart) return next(Boom.notFound('Cart not found'));
+      if (!cart) return next(Boom.notFound("Cart not found"));
 
       const cartItem = await CartProduct.model.findOne({
         where: {
@@ -120,20 +116,20 @@ router.patch(
           cartId: cart.dataValues.id,
         },
       });
-      if (!cartItem) return next(Boom.notFound('Item Cart not found'));
+      if (!cartItem) return next(Boom.notFound("Item Cart not found"));
 
       const product = await Product.model.findByPk(
         cartItem.dataValues.productId
       );
-      if (!product) return next(Boom.notFound('Product not found'));
+      if (!product) return next(Boom.notFound("Product not found"));
       if (product.dataValues.stock === 0) {
-        return next(Boom.badRequest('Product out of stock'));
+        return next(Boom.badRequest("Product out of stock"));
       }
       if (!product.dataValues.available) {
-        return next(Boom.badRequest('Product unavailable'));
+        return next(Boom.badRequest("Product unavailable"));
       }
       if (req.body.quantity > product.dataValues.stock) {
-        return next(Boom.badRequest('Product does not have enough stock'));
+        return next(Boom.badRequest("Product does not have enough stock"));
       }
 
       const quantity = req.body.quantity;
@@ -158,9 +154,9 @@ router.patch(
 
 // Update Visibility Item
 router.patch(
-  '/:id/visibility',
+  "/:id/visibility",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const cart = await Cart.model.findOne({
@@ -168,7 +164,7 @@ router.patch(
           customerId: req.auth.id,
         },
       });
-      if (!cart) return next(Boom.notFound('Cart not found'));
+      if (!cart) return next(Boom.notFound("Cart not found"));
 
       const cartItem = await CartProduct.model.findOne({
         where: {
@@ -176,12 +172,12 @@ router.patch(
           cartId: cart.dataValues.id,
         },
       });
-      if (!cartItem) return next(Boom.notFound('Item Cart not found'));
+      if (!cartItem) return next(Boom.notFound("Item Cart not found"));
 
       const product = await Product.model.findByPk(
         cartItem.dataValues.productId
       );
-      if (!product) return next(Boom.notFound('Product not found'));
+      if (!product) return next(Boom.notFound("Product not found"));
 
       await CartProduct.model.update(
         {
@@ -195,7 +191,7 @@ router.patch(
       );
 
       return res.status(200).json({
-        message: 'Item updated',
+        message: "Item updated",
       });
     } catch (error) {
       next(error);
@@ -204,14 +200,14 @@ router.patch(
 );
 
 // Clear Cart
-router.delete('/clear', JWT.verify, async (req, res, next) => {
+router.delete("/clear", JWT.verify, async (req, res, next) => {
   try {
     const cart = await Cart.model.findOne({
       where: {
         customerId: req.auth.id,
       },
     });
-    if (!cart) return next(Boom.notFound('Cart not found'));
+    if (!cart) return next(Boom.notFound("Cart not found"));
 
     await CartProduct.model.destroy({
       where: {
@@ -220,7 +216,7 @@ router.delete('/clear', JWT.verify, async (req, res, next) => {
     });
 
     return res.status(200).json({
-      message: 'Clear Cart',
+      message: "Clear Cart",
     });
   } catch (error) {
     next(error);
@@ -229,9 +225,9 @@ router.delete('/clear', JWT.verify, async (req, res, next) => {
 
 // Remove from Cart
 router.delete(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const cart = await Cart.model.findOne({
@@ -239,7 +235,7 @@ router.delete(
           customerId: req.auth.id,
         },
       });
-      if (!cart) return next(Boom.notFound('Cart not found'));
+      if (!cart) return next(Boom.notFound("Cart not found"));
 
       const cartItem = await CartProduct.model.findOne({
         where: {
@@ -247,7 +243,7 @@ router.delete(
           cartId: cart.dataValues.id,
         },
       });
-      if (!cartItem) return next(Boom.notFound('Item Cart not found'));
+      if (!cartItem) return next(Boom.notFound("Item Cart not found"));
 
       await CartProduct.model.destroy({
         where: {
@@ -256,7 +252,7 @@ router.delete(
       });
 
       return res.status(200).json({
-        message: 'Item removed',
+        message: "Item removed",
       });
     } catch (error) {
       next(error);

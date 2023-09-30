@@ -3,8 +3,8 @@ export const isEven = (num) => {
 };
 
 export const splitFloat = (num) => {
-  const intPart = Math.floor(num);
-  const floatPart = (num - intPart).toFixed(1);
+  const int = Math.floor(+num);
+  const float = (num - int).toFixed(1);
 
-  return [intPart, floatPart];
+  return [int, float];
 };

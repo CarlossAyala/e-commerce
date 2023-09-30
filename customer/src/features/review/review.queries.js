@@ -1,15 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import API from './review.api';
-import { getToken } from '../../api';
-import { findReviewIndex } from './review.utils';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import API from "./review.api";
+import { getToken } from "../../api";
+import { findReviewIndex } from "./review.utils";
 
 export const reviewKeys = {
-  key: ['review'],
-  get: (id) => [...reviewKeys.key, 'get', id],
-  done: () => [...reviewKeys.key, 'customer-done'],
-  pending: () => [...reviewKeys.key, 'customer-pending'],
-  productStats: (id) => [...reviewKeys.key, 'product-stats', id],
-  productReviews: (id) => [...reviewKeys.key, 'product-reviews', id],
+  key: ["review"],
+  get: (id) => [...reviewKeys.key, "get", id],
+  done: () => [...reviewKeys.key, "customer-done"],
+  pending: () => [...reviewKeys.key, "customer-pending"],
+  productStats: (id) => [...reviewKeys.key, "product-stats", id],
+  productReviews: (id) => [...reviewKeys.key, "product-reviews", id],
 };
 
 export const useGetReview = (reviewId) => {
