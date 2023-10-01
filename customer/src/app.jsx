@@ -1,6 +1,6 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import CustomerProvider from './customer.provider';
-import { MainLayout } from './layout';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CustomerProvider from "./customer.provider";
+import { MainLayout } from "./layout";
 import {
   AddressEdit,
   AddressList,
@@ -30,11 +30,11 @@ import {
   QuestionList,
   ReviewList,
   ReviewNew,
-} from './pages';
+} from "./pages";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -42,113 +42,113 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'product/search',
+        path: "product/search",
         element: <ProductSearch />,
       },
       {
-        path: 'product/:id/:slug',
+        path: "product/:id/:slug",
         element: <Product />,
       },
       {
-        path: 'account/address/list',
+        path: "account/address/list",
         element: <AddressList />,
       },
       {
-        path: 'account/address/new',
+        path: "account/address/new",
         element: <AddressNew />,
       },
       {
-        path: 'account/address/:id/view',
+        path: "account/address/:id/view",
         element: <AddressView />,
       },
       {
-        path: 'account/address/:id/edit',
+        path: "account/address/:id/edit",
         element: <AddressEdit />,
       },
       {
-        path: 'cart',
+        path: "cart",
         element: <Cart />,
       },
       {
-        path: 'checkout/shipping',
+        path: "checkout/shipping",
         element: <CheckoutShipping />,
       },
       {
-        path: 'checkout/payment',
+        path: "checkout/payment",
         element: <CheckoutPayment />,
       },
       {
-        path: 'checkout/review',
+        path: "checkout/review",
         element: <CheckoutReview />,
       },
       {
-        path: 'checkout/success/:id',
+        path: "checkout/success/:id",
         element: <CheckoutSuccess />,
       },
       {
-        path: 'order/list',
+        path: "order/list",
         element: <OrderList />,
       },
       {
-        path: 'order/:id/view',
+        path: "order/:id/view",
         element: <OrderView />,
       },
       {
-        path: 'history/list',
+        path: "history/list",
         element: <History />,
       },
       {
-        path: 'bookmark/list',
+        path: "bookmark/list",
         element: <Bookmark />,
       },
       {
-        path: 'category/list',
+        path: "category/list",
         element: <CategoryList />,
       },
       {
-        path: 'category/:slug/view',
+        path: "category/:slug/view",
         element: <CategoryView />,
       },
       {
-        path: 'store/list',
+        path: "store/list",
         element: <StoreList />,
       },
       {
-        path: 'store/:slug/view',
+        path: "store/:slug/view",
         element: <StoreView />,
       },
       {
-        path: 'account/profile',
+        path: "account/profile",
         element: <Profile />,
       },
       {
-        path: 'account/cards',
+        path: "account/cards",
         element: <Cards />,
       },
       {
-        path: 'account',
+        path: "account",
         element: <Account />,
       },
       {
-        path: 'question/list',
+        path: "question/list",
         element: <QuestionList />,
       },
       {
-        path: 'review/list',
+        path: "review/list",
         element: <ReviewList />,
       },
       {
-        path: 'review/:reviewId/new',
+        path: "review/:reviewId/new",
         element: <ReviewNew />,
       },
     ],
   },
   {
-    path: '/signin',
+    path: "/signin",
     element: <Signin />,
   },
   {
-    path: '/signup',
+    path: "/signup",
     element: <Signup />,
   },
 ]);

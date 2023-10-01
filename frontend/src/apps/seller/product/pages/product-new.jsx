@@ -37,6 +37,7 @@ import { useDebounced } from "../../../../hooks";
 import clsx from "clsx";
 import { useCreateProduct } from "../queries";
 import { MainContent } from "../../layouts";
+import { clearEmptyValues } from "../../../../utils";
 
 const ProductNew = () => {
   const [params, setParams] = useSearchParams();
@@ -57,7 +58,8 @@ const ProductNew = () => {
   });
 
   const onSubmit = (values) => {
-    createProduct.mutate(values, {
+    const cleanValues = clearEmptyValues(values);
+    createProduct.mutate(cleanValues, {
       onSuccess(data) {
         navigate(productActionRoutes.details(data.id));
 

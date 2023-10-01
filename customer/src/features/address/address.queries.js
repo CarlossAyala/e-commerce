@@ -1,11 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import API from './address.api';
-import { getToken } from '../../api';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import API from "./address.api";
+import { getToken } from "../../api";
 
 const addressKeys = {
-  key: ['address'],
+  key: ["address"],
   get: (id) => [...addressKeys.key, id],
-  getAll: () => [...addressKeys.key, 'all'],
+  getAll: () => [...addressKeys.key, "all"],
 };
 
 export const useGetAddresses = () => {

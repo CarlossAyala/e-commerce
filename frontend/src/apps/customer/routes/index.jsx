@@ -1,7 +1,9 @@
+import { Outlet } from "react-router-dom";
 import { Bookmark } from "../features/bookmark";
 import { History } from "../features/history";
 import { Home } from "../features/home";
 import { Product } from "../features/product";
+import { addressRoutes } from "../features/address";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -24,5 +26,11 @@ export const customerRoutes = [
   {
     path: "product/:productId/:slug",
     element: <Product />,
+  },
+  {
+    path: "address",
+    // element: <WithLoggedIn component={History} />,
+    element: <Outlet />,
+    children: addressRoutes,
   },
 ];

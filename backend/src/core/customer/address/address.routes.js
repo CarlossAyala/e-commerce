@@ -1,17 +1,25 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const { Address } = require('../../../database/mysql/models');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./address.schema');
+const Boom = require("@hapi/boom");
+const { Address } = require("../../../database/mysql/models");
+const JWT = require("../../../middlewares/auth/jwt.auth");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const schemas = require("./address.schema");
+const QueryBuilder = require("../../../utils/database/query-builder");
 
 // Get All
-router.get('/', JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
+  const { id: customerId } = req.auth;
+
+  const qb = new QueryBuilder(req.query)
+    .where("customerId", customerId)
+    .whereLike("name", req.query.q)
+    .orderBy("createdAt", "ASC")
+    .pagination()
+    .build();
+
   try {
-    const addresses = await Address.model.findAll({
-      order: [['createdAt', 'ASC']],
-    });
+    const addresses = await Address.model.findAndCountAll(qb);
 
     return res.status(200).json(addresses);
   } catch (error) {
@@ -21,9 +29,9 @@ router.get('/', JWT.verify, async (req, res, next) => {
 
 // Get One
 router.get(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id } = req.params;
     const customerId = req.auth.id;
@@ -35,7 +43,7 @@ router.get(
           customerId,
         },
       });
-      if (!address) return next(Boom.notFound('Address not found'));
+      if (!address) return next(Boom.notFound("Address not found"));
 
       return res.status(200).json(address);
     } catch (error) {
@@ -46,9 +54,9 @@ router.get(
 
 // Create
 router.post(
-  '/',
+  "/",
   JWT.verify,
-  validatorSchema(schemas.base, 'body'),
+  validatorSchema(schemas.base, "body"),
   async (req, res, next) => {
     try {
       const customerId = req.auth.id;
@@ -68,10 +76,10 @@ router.post(
 
 // Update
 router.put(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
-  validatorSchema(schemas.base, 'body'),
+  validatorSchema(schemas.resourceId, "params"),
+  validatorSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id } = req.params;
     const customerId = req.auth.id;
@@ -83,7 +91,7 @@ router.put(
           customerId,
         },
       });
-      if (!address) return next(Boom.notFound('Address not found'));
+      if (!address) return next(Boom.notFound("Address not found"));
 
       await address.update(req.body);
 
@@ -96,10 +104,10 @@ router.put(
 
 // Delete
 router.delete(
-  '/:id',
+  "/:id",
   JWT.verify,
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id } = req.params;
     const customerId = req.auth.id;
@@ -110,12 +118,12 @@ router.delete(
           customerId,
         },
       });
-      if (!address) return next(Boom.notFound('Address not found'));
+      if (!address) return next(Boom.notFound("Address not found"));
 
       await address.destroy();
 
       return res.status(200).json({
-        message: 'Address deleted',
+        message: "Address deleted",
       });
     } catch (error) {
       next(error);

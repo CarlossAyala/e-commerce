@@ -42,6 +42,8 @@ export * from "./search";
 export * from "./empty-placeholder";
 export * from "./review-star";
 export * from "./review-star-graph";
+export * from "./text-input-skeleton";
+export * from "./textarea-input-skeleton";
 
 export {
   Logo,

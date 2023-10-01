@@ -8,3 +8,11 @@ export const splitFloat = (num) => {
 
   return [int, float];
 };
+
+export const clearEmptyValues = (values) => {
+  const clearedValues = Object.entries(values).filter(
+    ([, value]) => value !== null && value !== "",
+  );
+
+  return Object.fromEntries(clearedValues);
+};

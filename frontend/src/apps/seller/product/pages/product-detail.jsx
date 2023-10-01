@@ -45,6 +45,7 @@ import { useDebounced } from "../../../../hooks";
 import clsx from "clsx";
 import { useDeleteProduct, useGetProduct, useUpdateProduct } from "../queries";
 import { MainContent } from "../../layouts";
+import { clearEmptyValues } from "../../../../utils";
 
 const ProductDetail = () => {
   const { toast } = useToast();
@@ -71,7 +72,9 @@ const ProductDetail = () => {
   });
 
   const onSubmit = (values) => {
-    updateProduct.mutate([productId, values], {
+    const cleanValues = clearEmptyValues(values);
+
+    updateProduct.mutate([productId, cleanValues], {
       onSuccess() {
         setCategoryId(null);
         toast({
