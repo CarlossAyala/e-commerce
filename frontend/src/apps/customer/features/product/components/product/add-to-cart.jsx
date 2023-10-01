@@ -1,6 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { addCartInitial, addCartSchema, useAddCart } from "../../cart";
 import {
   Button,
   Form,
@@ -10,16 +9,17 @@ import {
   FormMessage,
   Input,
   useToast,
-} from "../../../../../components";
+} from "../../../../../../components";
+import { addCartInitial, addCartSchema, useAddCart } from "../../../cart";
 
-export const AddToCart = ({ product, stock }) => {
+export const AddToCart = ({ product }) => {
   const { toast } = useToast();
 
   const addToCart = useAddCart();
 
   const form = useForm({
-    resolver: yupResolver(addCartSchema(stock)),
-    defaultValues: addCartInitial(stock),
+    resolver: yupResolver(addCartSchema(product.stock)),
+    defaultValues: addCartInitial(product.stock),
     mode: "all",
   });
 
@@ -57,7 +57,7 @@ export const AddToCart = ({ product, stock }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           control={form.control}
           name="quantity"

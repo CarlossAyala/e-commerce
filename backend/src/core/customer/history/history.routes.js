@@ -1,16 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const { Op } = require('sequelize');
-const { History, Product } = require('../../../database/mysql/models');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./history.schema');
+const Boom = require("@hapi/boom");
+const { Op } = require("sequelize");
+const { History, Product } = require("../../../database/mysql/models");
+const JWT = require("../../../middlewares/auth/jwt.auth");
+const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const schemas = require("./history.schema");
 
 // TODO: Add pagination
 
 // Get All
-router.get('/', JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
   try {
     const history = await History.model.findAndCountAll({
       where: {
@@ -18,9 +18,9 @@ router.get('/', JWT.verify, async (req, res, next) => {
       },
       include: {
         model: Product.model,
-        as: 'product',
+        as: "product",
       },
-      order: [['lastSeenAt', 'DESC']],
+      order: [["lastSeenAt", "DESC"]],
     });
 
     return res.status(200).json(history);
@@ -31,15 +31,15 @@ router.get('/', JWT.verify, async (req, res, next) => {
 
 // Add
 router.post(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const { id: productId } = req.params;
 
       const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound('Product not found'));
+      if (!product) return next(Boom.notFound("Product not found"));
 
       const date = new Date();
       const startDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -75,7 +75,7 @@ router.post(
 );
 
 // Clear
-router.delete('/clear', JWT.verify, async (req, res, next) => {
+router.delete("/clear", JWT.verify, async (req, res, next) => {
   try {
     await History.model.destroy({
       where: {
@@ -83,7 +83,7 @@ router.delete('/clear', JWT.verify, async (req, res, next) => {
       },
     });
 
-    return res.status(200).json({ message: 'History cleared' });
+    return res.status(200).json({ message: "History cleared" });
   } catch (error) {
     next(error);
   }
@@ -91,9 +91,9 @@ router.delete('/clear', JWT.verify, async (req, res, next) => {
 
 // Remove
 router.delete(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validatorSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -104,11 +104,11 @@ router.delete(
           customerId: req.auth.id,
         },
       });
-      if (!history) return next(Boom.notFound('History not found'));
+      if (!history) return next(Boom.notFound("History not found"));
 
       await history.destroy();
 
-      return res.status(200).json({ message: 'History removed' });
+      return res.status(200).json({ message: "History removed" });
     } catch (error) {
       next(error);
     }

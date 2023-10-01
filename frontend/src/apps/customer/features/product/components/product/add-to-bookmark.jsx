@@ -1,9 +1,10 @@
-import { Button, Skeleton, useToast } from "../../../../../components";
+import { Button, useToast } from "../../../../../../components";
 import {
   useCreateBookmark,
   useGetBookmark,
   useRemoveBookmark,
-} from "../../bookmark";
+} from "../../../bookmark";
+import { Skeleton } from "../questions-answers/question-item/skeleton";
 
 const AddToBookmarkSkeleton = () => {
   return <Skeleton className="h-10 w-full" />;

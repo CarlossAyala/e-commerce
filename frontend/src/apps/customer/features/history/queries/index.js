@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { clear, create, findAll, remove } from "../api";
+import { clear, add, findAll, remove } from "../api";
 
 export const historyKeys = {
   key: ["history"],
@@ -13,11 +13,11 @@ export const useGetHistory = (query) => {
   });
 };
 
-export const useCreateHistory = () => {
+export const useAddHistory = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: create,
+    mutationFn: add,
     onSuccess: () => {
       queryClient.invalidateQueries(historyKeys.key);
     },

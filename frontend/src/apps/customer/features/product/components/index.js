@@ -1,3 +1,3 @@
-export * from "./add-to-cart";
-export * from "./add-to-bookmark";
-export * from "./store-information";
+export * from "./questions-answers/questions-answers.jsx";
+export * from "./review/review-score";
+export * from "./review/review-comments";

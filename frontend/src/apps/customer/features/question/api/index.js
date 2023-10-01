@@ -2,13 +2,26 @@ import { API_CUSTOMER } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
 import { getToken } from "../../../../../utils/local-storage";
 
-const ENDPOINT = `${API_CUSTOMER}/history`;
+const ENDPOINT = `${API_CUSTOMER}/questions`;
 
-export const findAll = (query) => {
-  const url = `${ENDPOINT}?${query}`;
+export const findAllProduct = (productId, query) => {
+  const url = `${ENDPOINT}/product/${productId}?${query}`;
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const findAllProductCustomer = (productId, query) => {
+  const url = `${ENDPOINT}/product/${productId}/customer?${query}`;
   const token = getToken();
 
-  if (!token) throw new Error("Token not found");
+  if (!token) {
+    throw new Error("Token not found");
+  }
 
   return fetcher(url, {
     method: "GET",
@@ -19,11 +32,30 @@ export const findAll = (query) => {
   });
 };
 
-export const add = (productId) => {
+export const findAllCustomer = (query) => {
+  const url = `${ENDPOINT}/customer?${query}`;
+  const token = getToken();
+
+  if (!token) {
+    throw new Error("Token not found");
+  }
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const create = (productId, data) => {
   const url = `${ENDPOINT}/${productId}`;
   const token = getToken();
 
-  if (!token) throw new Error("Token not found");
+  if (!token) {
+    throw new Error("Token not found");
+  }
 
   return fetcher(url, {
     method: "POST",
@@ -31,35 +63,6 @@ export const add = (productId) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  });
-};
-
-export const remove = (productId) => {
-  const url = `${ENDPOINT}/${productId}`;
-  const token = getToken();
-
-  if (!token) throw new Error("Token not found");
-
-  return fetcher(url, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const clear = () => {
-  const url = `${ENDPOINT}/clear`;
-  const token = getToken();
-
-  if (!token) throw new Error("Token not found");
-
-  return fetcher(url, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    body: JSON.stringify(data),
   });
 };

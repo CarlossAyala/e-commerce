@@ -106,6 +106,7 @@ const QuestionProduct = () => {
         toast({
           description: "Reply successfully",
         });
+        form.reset();
       },
       onError(error) {
         toast({

@@ -41,6 +41,7 @@ export * from "./skeleton/skeleton-staked-list";
 export * from "./search";
 export * from "./empty-placeholder";
 export * from "./review-star";
+export * from "./review-star-graph";
 
 export {
   Logo,

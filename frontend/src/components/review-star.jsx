@@ -2,6 +2,7 @@ import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
 import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
 import { splitFloat } from "../utils";
 import { Skeleton } from "./ui/skeleton";
+import { cn } from "../libs/utils";
 
 const sizes = {
   xs: "w-3 h-3",
@@ -30,17 +31,9 @@ const Star = ({ rate, star, size }) => {
   );
 };
 
-const gaps = {
-  xs: "gap-x-px",
-  sm: "gap-x-2",
-  md: "gap-x-3",
-  lg: "gap-x-4",
-  xl: "gap-x-5",
-};
-
-export const ReviewStar = ({ rating = 0, size = "xs" }) => {
+export const ReviewStar = ({ rating = 0, size = "xs", className }) => {
   return (
-    <div className={`flex items-center ${gaps[size]}`}>
+    <div className={cn("flex items-center", className)}>
       {STARS.map((star) => (
         <Star key={star} rate={rating} star={star} size={size} />
       ))}
