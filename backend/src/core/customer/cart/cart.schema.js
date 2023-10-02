@@ -9,7 +9,7 @@ const resourceId = Joi.object({
   id: id.required(),
 });
 
-const quantity = Joi.number().integer().greater(0);
+const quantity = Joi.number().integer().min(1);
 
 const base = Joi.object({
   quantity: quantity.required(),

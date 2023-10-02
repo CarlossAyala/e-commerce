@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 
 // TODO: Add validation for prefix ["admin","seller", "customer"]
@@ -46,4 +46,27 @@ export const useCopyToClipboard = () => {
   };
 
   return [copiedText, copy];
+};
+
+export const useIsFirstRender = () => {
+  const isFirst = useRef(true);
+
+  if (isFirst.current) {
+    isFirst.current = false;
+
+    return true;
+  }
+
+  return isFirst.current;
+};
+
+export const useUpdateEffect = (effect, deps) => {
+  const isFirst = useIsFirstRender();
+
+  useEffect(() => {
+    if (!isFirst) {
+      return effect();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 };

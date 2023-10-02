@@ -30,7 +30,7 @@ const Addresses = () => {
   const isEmpty = isSuccess && addresses?.rows.length === 0;
 
   return (
-    <MainContent className="max-w-4xl space-y-4">
+    <MainContent className="max-w-3xl space-y-4">
       <section className="mt-3 justify-between sm:flex">
         <div className="scroll-m-20">
           <h1 className="text-3xl font-semibold tracking-tight">Addresses</h1>
@@ -38,14 +38,14 @@ const Addresses = () => {
             Manage your addresses
           </p>
         </div>
-        <section className="mt-3 text-end sm:mt-1">
+        <div className="mt-3 text-end sm:mt-1">
           <Button
             type="button"
             onClick={() => navigate(addressActionRoutes.new)}
           >
-            New address
+            New
           </Button>
-        </section>
+        </div>
       </section>
 
       <section>

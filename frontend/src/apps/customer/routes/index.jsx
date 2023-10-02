@@ -4,6 +4,7 @@ import { History } from "../features/history";
 import { Home } from "../features/home";
 import { Product } from "../features/product";
 import { addressRoutes } from "../features/address";
+import { Cart } from "../features/cart";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -32,5 +33,9 @@ export const customerRoutes = [
     // element: <WithLoggedIn component={History} />,
     element: <Outlet />,
     children: addressRoutes,
+  },
+  {
+    path: "cart",
+    element: <Cart />,
   },
 ];

@@ -54,7 +54,7 @@ const AddressNew = () => {
   };
 
   return (
-    <MainContent>
+    <MainContent className="max-w-3xl">
       <section className="pt-2">
         <h1 className="text-2xl font-semibold tracking-tight">New Address</h1>
         <p className="text-muted-foreground">

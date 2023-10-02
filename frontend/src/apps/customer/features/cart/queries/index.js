@@ -1,14 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { add, cart, remove, updateQuantity, updateVisibility } from "../api";
+import {
+  add,
+  cart,
+  clear,
+  remove,
+  updateQuantity,
+  updateVisibility,
+} from "../api";
 
 export const cartKeys = {
   key: ["cart"],
-  get: (query) => [...cartKeys.key, "get", query],
+  findAllKey: () => [...cartKeys.key, "find-all"],
+  findAll: (query) => [...cartKeys.findAllKey(), query],
 };
 
-export const useGetCart = (query) => {
+export const useGetCart = (query = "") => {
   return useQuery({
-    queryKey: cartKeys.get(query),
+    queryKey: cartKeys.findAll(query),
     queryFn: () => cart(query),
   });
 };
@@ -39,7 +47,7 @@ export const useUpdateQuantity = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ([itemId, quantity]) => updateQuantity(itemId, quantity),
+    mutationFn: ([itemId, quantity]) => updateQuantity(itemId, { quantity }),
     onSuccess: () => {
       queryClient.invalidateQueries(cartKeys.key);
     },
@@ -50,7 +58,18 @@ export const useUpdateVisibility = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ([itemId, quantity]) => updateVisibility(itemId, quantity),
+    mutationFn: updateVisibility,
+    onSuccess: () => {
+      queryClient.invalidateQueries(cartKeys.key);
+    },
+  });
+};
+
+export const useClearCart = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: clear,
     onSuccess: () => {
       queryClient.invalidateQueries(cartKeys.key);
     },

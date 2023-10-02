@@ -61,15 +61,6 @@ router.post(
 
       const product = await Product.model.findByPk(productId);
       if (!product) return next(Boom.notFound("Product not found"));
-      if (!product.dataValues.available) {
-        return next(Boom.badRequest("Product unavailable"));
-      }
-      if (product.dataValues.stock === 0) {
-        return next(Boom.badRequest("Product out of stock"));
-      }
-      if (quantity > product.dataValues.stock) {
-        return next(Boom.badRequest("Product does not have enough stock"));
-      }
 
       const [item, created] = await CartProduct.model.findOrCreate({
         where: {
@@ -122,15 +113,6 @@ router.patch(
         cartItem.dataValues.productId
       );
       if (!product) return next(Boom.notFound("Product not found"));
-      if (product.dataValues.stock === 0) {
-        return next(Boom.badRequest("Product out of stock"));
-      }
-      if (!product.dataValues.available) {
-        return next(Boom.badRequest("Product unavailable"));
-      }
-      if (req.body.quantity > product.dataValues.stock) {
-        return next(Boom.badRequest("Product does not have enough stock"));
-      }
 
       const quantity = req.body.quantity;
 
@@ -145,7 +127,7 @@ router.patch(
         }
       );
 
-      return res.status(201).json(item);
+      return res.status(200).json(item);
     } catch (error) {
       next(error);
     }
