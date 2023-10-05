@@ -1,7 +1,7 @@
-const Boom = require('@hapi/boom');
-const jsonwebtoken = require('jsonwebtoken');
+const Boom = require("@hapi/boom");
+const jsonwebtoken = require("jsonwebtoken");
 
-const { jwt } = require('../../config');
+const { jwt } = require("../../config");
 
 const verifyToken = (token) => {
   return new Promise((resolve, reject) => {
@@ -15,13 +15,13 @@ const verifyToken = (token) => {
 
 const verify = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader ? authHeader.split(' ')[1] : null;
+  const token = authHeader ? authHeader.split(" ")[1] : null;
 
   if (!authHeader) {
-    return next(Boom.unauthorized('Missing Authorization Header'));
+    return next(Boom.unauthorized("Missing Authorization Header"));
   }
   if (!token) {
-    return next(Boom.unauthorized('Missing Authorization Token'));
+    return next(Boom.unauthorized("Missing Authorization Token"));
   }
 
   try {
@@ -29,7 +29,7 @@ const verify = async (req, res, next) => {
     req.auth = decoded;
     next();
   } catch (error) {
-    return next(Boom.unauthorized('Invalid Authorization Token'));
+    return next(Boom.unauthorized("Invalid Authorization Token"));
   }
 };
 
@@ -42,7 +42,9 @@ const sign = (payload) => {
   });
 };
 
-module.exports = {
+const JWT = {
   verify,
   sign,
 };
+
+module.exports = JWT;

@@ -1,15 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const { Product, Bookmark } = require('../../../database/mysql/models');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./bookmark.schema');
+const Boom = require("@hapi/boom");
+const { Product, Bookmark } = require("../../../database/mysql/models");
+const { validateSchema, JWT } = require("../../../middlewares");
+const schemas = require("./bookmark.schema");
 
 // TODO: Add pagination
 
 // Get All
-router.get('/', JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
   try {
     const bookmarks = await Bookmark.model.findAndCountAll({
       where: {
@@ -17,9 +16,9 @@ router.get('/', JWT.verify, async (req, res, next) => {
       },
       include: {
         model: Product.model,
-        as: 'product',
+        as: "product",
       },
-      order: [['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
     });
 
     return res.status(200).json(bookmarks);
@@ -30,9 +29,9 @@ router.get('/', JWT.verify, async (req, res, next) => {
 
 // Get
 router.get(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const { id: productId } = req.params;
@@ -53,15 +52,15 @@ router.get(
 
 // Add
 router.post(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const { id: productId } = req.params;
 
       const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound('Product not found'));
+      if (!product) return next(Boom.notFound("Product not found"));
 
       const [bookmark, created] = await Bookmark.model.findOrCreate({
         where: {
@@ -82,7 +81,7 @@ router.post(
 );
 
 // Clear
-router.delete('/clear', JWT.verify, async (req, res, next) => {
+router.delete("/clear", JWT.verify, async (req, res, next) => {
   try {
     await Bookmark.model.destroy({
       where: {
@@ -90,7 +89,7 @@ router.delete('/clear', JWT.verify, async (req, res, next) => {
       },
     });
 
-    return res.status(200).json({ message: 'Bookmarks cleared' });
+    return res.status(200).json({ message: "Bookmarks cleared" });
   } catch (error) {
     next(error);
   }
@@ -98,9 +97,9 @@ router.delete('/clear', JWT.verify, async (req, res, next) => {
 
 // Remove
 router.delete(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
@@ -112,7 +111,7 @@ router.delete(
         },
       });
 
-      return res.status(200).json({ message: 'Bookmark removed' });
+      return res.status(200).json({ message: "Bookmark removed" });
     } catch (error) {
       next(error);
     }

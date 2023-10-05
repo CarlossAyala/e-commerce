@@ -4,8 +4,7 @@ import { create, findAll, findOne, remove, update } from "../api";
 const addressKeys = {
   key: ["address"],
   findOne: (addressId) => [...addressKeys.key, "find-one", addressId],
-  findAllKey: () => [...addressKeys.key, "find-all"],
-  findAll: (query) => [...addressKeys.findAllKey(), query],
+  findAll: () => [...addressKeys.key, "find-all"],
 };
 
 export const useGetAddress = (addressId) => {
@@ -16,10 +15,10 @@ export const useGetAddress = (addressId) => {
   });
 };
 
-export const useGetAddresses = (query) => {
+export const useGetAddresses = () => {
   return useQuery({
-    queryKey: addressKeys.findAll(query),
-    queryFn: () => findAll(query),
+    queryKey: addressKeys.findAll(),
+    queryFn: () => findAll(),
   });
 };
 
@@ -29,7 +28,7 @@ export const useCreateAddress = () => {
   return useMutation({
     mutationFn: create,
     onSuccess: () => {
-      queryClient.invalidateQueries(addressKeys.findAllKey());
+      queryClient.invalidateQueries(addressKeys.findAll());
     },
   });
 };
@@ -41,7 +40,7 @@ export const useUpdateAddress = () => {
     mutationFn: ([addressId, address]) => update(addressId, address),
     onSuccess: (_, [addressId]) => {
       queryClient.invalidateQueries(addressKeys.findOne(addressId));
-      queryClient.invalidateQueries(addressKeys.findAllKey());
+      queryClient.invalidateQueries(addressKeys.findAll());
     },
   });
 };
@@ -53,7 +52,7 @@ export const useRemoveAddress = () => {
     mutationFn: remove,
     onSuccess: (_, addressId) => {
       queryClient.removeQueries(addressKeys.findOne(addressId));
-      queryClient.invalidateQueries(addressKeys.findAllKey());
+      queryClient.invalidateQueries(addressKeys.findAll());
     },
   });
 };

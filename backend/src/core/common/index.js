@@ -1,11 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const category = require("./category/category.routes");
-const product = require("./product/product.routes");
+const categories = require("./category/category.routes");
+const products = require("./product/product.routes");
 const reviews = require("./review/review.routes");
+const paymentIntents = require("./payment-intents/payment-intent.routes");
+const paymentMethods = require("./payment-methods/payment-method.routes");
+const checkoutSessions = require("./checkout-sessions/checkout-session.routes");
 
-router.use("/categories", category);
-router.use("/products", product);
+router.use("/categories", categories);
+router.use("/products", products);
 router.use("/reviews", reviews);
+router.use("/payment-intents", paymentIntents);
+router.use("/payment-methods", paymentMethods);
+router.use("/checkout-sessions", checkoutSessions);
 
 module.exports = router;

@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
 const { Product, Question, Answer } = require("../../../database/mysql/models");
-const JWT = require("../../../middlewares/auth/jwt.auth");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./question.schema");
 const QueryBuilder = require("../../../utils/database/query-builder");
 
@@ -51,7 +50,7 @@ router.get("/customer", JWT.verify, async (req, res, next) => {
 
 router.get(
   "/product/:id",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const qb = new QueryBuilder(req.query)
       .where("states", Question.enums.states.answered)
@@ -79,7 +78,7 @@ router.get(
 router.get(
   "/product/:id/customer",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const qb = new QueryBuilder(req.query)
       .where("customerId", req.auth.id)
@@ -108,8 +107,8 @@ router.get(
 router.post(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
-  validatorSchema(schemas.base, "body"),
+  validateSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const { id: customerId } = req.auth;

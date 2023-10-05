@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
 const { Address } = require("../../../database/mysql/models");
-const JWT = require("../../../middlewares/auth/jwt.auth");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./address.schema");
 const QueryBuilder = require("../../../utils/database/query-builder");
 
@@ -15,11 +14,10 @@ router.get("/", JWT.verify, async (req, res, next) => {
     .where("customerId", customerId)
     .whereLike("name", req.query.q)
     .orderBy("createdAt", "ASC")
-    .pagination()
     .build();
 
   try {
-    const addresses = await Address.model.findAndCountAll(qb);
+    const addresses = await Address.model.findAll(qb);
 
     return res.status(200).json(addresses);
   } catch (error) {
@@ -31,7 +29,7 @@ router.get("/", JWT.verify, async (req, res, next) => {
 router.get(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id } = req.params;
     const customerId = req.auth.id;
@@ -56,7 +54,7 @@ router.get(
 router.post(
   "/",
   JWT.verify,
-  validatorSchema(schemas.base, "body"),
+  validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     try {
       const customerId = req.auth.id;
@@ -78,8 +76,8 @@ router.post(
 router.put(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
-  validatorSchema(schemas.base, "body"),
+  validateSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id } = req.params;
     const customerId = req.auth.id;
@@ -107,7 +105,7 @@ router.delete(
   "/:id",
   JWT.verify,
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id } = req.params;
     const customerId = req.auth.id;

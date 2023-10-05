@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -6,7 +6,6 @@ import {
   EmptyPlaceholder,
   MainContent,
 } from "../../../../../components";
-import { useDebounced } from "../../../../../hooks";
 import { useGetAddresses } from "../queries";
 import { AddressItem } from "../components/addresses/address-item";
 import {
@@ -17,17 +16,10 @@ import { addressActionRoutes } from "../utils";
 
 const Addresses = () => {
   const navigate = useNavigate();
-  const [params] = useSearchParams();
-  const debouncedParams = useDebounced(params.toString());
-  const {
-    data: addresses,
-    isLoading,
-    isError,
-    isSuccess,
-  } = useGetAddresses(debouncedParams);
+  const { data: addresses, isLoading, isError, isSuccess } = useGetAddresses();
 
-  const hasContent = isSuccess && addresses?.rows.length > 0;
-  const isEmpty = isSuccess && addresses?.rows.length === 0;
+  const hasContent = isSuccess && addresses?.length > 0;
+  const isEmpty = isSuccess && addresses?.length === 0;
 
   return (
     <MainContent className="max-w-3xl space-y-4">
@@ -85,7 +77,7 @@ const Addresses = () => {
         {hasContent && (
           <Card>
             <CardContent className="divide-y divide-black/10 p-0">
-              {addresses.rows.map((address) => (
+              {addresses.map((address) => (
                 <AddressItem key={address.id} address={address} />
               ))}
             </CardContent>

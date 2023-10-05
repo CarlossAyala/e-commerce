@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema } = require("../../../middlewares");
 const QueryBuilder = require("../../../utils/database/query-builder");
 const schemas = require("./product.schema");
 const { Product } = require("../../../database/mysql/models");
@@ -25,7 +25,7 @@ router.get("/", async (req, res, next) => {
 
 router.get(
   "/:id",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
@@ -45,7 +45,7 @@ router.get(
 
 router.get(
   "/:id/related",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const { limit, offset } = new QueryBuilder(req.query).pagination().build();

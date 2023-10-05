@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema } = require("../../../middlewares/");
 const schemas = require("./category.schema");
 const { Category } = require("../../../database/mysql/models");
 const QueryBuilder = require("../../../utils/database/query-builder");
@@ -25,7 +25,7 @@ router.get("/", async (req, res, next) => {
 
 router.get(
   "/:id",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id } = req.params;
     try {

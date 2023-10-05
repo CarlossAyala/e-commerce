@@ -1,16 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const Stripe = require('./stripe.connection');
-const JWT = require('../../middlewares/auth/jwt.auth');
-const { User } = require('../../database/mysql/models');
+const Boom = require("@hapi/boom");
+const Stripe = require("./stripe.connection");
+const { User } = require("../../database/mysql/models");
+const { JWT } = require("../../middlewares");
 
-router.get('/', JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
     const existCustomer = await User.model.findByPk(customerId);
-    if (!existCustomer) return next(Boom.notFound('Customer not found'));
+    if (!existCustomer) return next(Boom.notFound("Customer not found"));
 
     const { email } = existCustomer.dataValues;
 
@@ -18,7 +18,7 @@ router.get('/', JWT.verify, async (req, res, next) => {
       query: `email:"${email}"`,
     });
     if (data.length === 0) {
-      return next(Boom.notFound('Customer not found'));
+      return next(Boom.notFound("Customer not found"));
     }
 
     const [customer] = data;
@@ -29,12 +29,12 @@ router.get('/', JWT.verify, async (req, res, next) => {
   }
 });
 
-router.post('/', JWT.verify, async (req, res, next) => {
+router.post("/", JWT.verify, async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
     const existCustomer = await User.model.findByPk(customerId);
-    if (!existCustomer) return next(Boom.notFound('Customer not found'));
+    if (!existCustomer) return next(Boom.notFound("Customer not found"));
 
     const { name, lastName, email } = existCustomer.dataValues;
 
@@ -42,7 +42,7 @@ router.post('/', JWT.verify, async (req, res, next) => {
       query: `email:"${email}"`,
     });
     if (data.length > 0) {
-      return next(Boom.badRequest('Email customer already taken'));
+      return next(Boom.badRequest("Email customer already taken"));
     }
 
     const customer = await Stripe.customers.create({

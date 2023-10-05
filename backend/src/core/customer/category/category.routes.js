@@ -1,18 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
+const Boom = require("@hapi/boom");
+const { Op } = require("sequelize");
 const {
   Category,
   Product,
   Review,
   Store,
-} = require('../../../database/mysql/models');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./category.schema');
-const { Op } = require('sequelize');
-const sequelize = require('../../../database/mysql');
+} = require("../../../database/mysql/models");
+const { validateSchema } = require("../../../middlewares");
+const schemas = require("./category.schema");
 
-router.get('/full-list', async (req, res, next) => {
+router.get("/full-list", async (req, res, next) => {
   try {
     const categories = await Category.model.findAll({
       where: {
@@ -22,11 +21,11 @@ router.get('/full-list', async (req, res, next) => {
       },
       include: {
         model: Category.model,
-        as: 'children',
+        as: "children",
         separate: true,
-        order: [['name', 'ASC']],
+        order: [["name", "ASC"]],
       },
-      order: [['name', 'ASC']],
+      order: [["name", "ASC"]],
     });
 
     return res.status(200).json(categories);
@@ -37,8 +36,8 @@ router.get('/full-list', async (req, res, next) => {
 
 // By Slug Single
 router.get(
-  '/:slug',
-  validatorSchema(schemas.resourceSlug, 'params'),
+  "/:slug",
+  validateSchema(schemas.resourceSlug, "params"),
   async (req, res, next) => {
     const { slug } = req.params;
 
@@ -50,7 +49,7 @@ router.get(
       });
 
       if (!category) {
-        return next(Boom.notFound('Category not found'));
+        return next(Boom.notFound("Category not found"));
       }
 
       return res.status(200).json(category);
@@ -62,8 +61,8 @@ router.get(
 
 // By Slug List
 router.get(
-  '/:slug/list',
-  validatorSchema(schemas.resourceSlug, 'params'),
+  "/:slug/list",
+  validateSchema(schemas.resourceSlug, "params"),
   async (req, res, next) => {
     const { slug } = req.params;
 
@@ -75,7 +74,7 @@ router.get(
       });
 
       if (!category) {
-        return next(Boom.notFound('Category not found'));
+        return next(Boom.notFound("Category not found"));
       }
 
       // Checkear si es una Categoria principal
@@ -86,9 +85,9 @@ router.get(
           },
           include: {
             model: Category.model,
-            as: 'children',
+            as: "children",
             separate: true,
-            order: [['name', 'ASC']],
+            order: [["name", "ASC"]],
           },
         });
       } else {
@@ -98,9 +97,9 @@ router.get(
           },
           include: {
             model: Category.model,
-            as: 'children',
+            as: "children",
             separate: true,
-            order: [['name', 'ASC']],
+            order: [["name", "ASC"]],
           },
         });
       }
@@ -114,8 +113,8 @@ router.get(
 
 // Get Product Best Sellers by Category Slug
 router.get(
-  '/:slug/best-sellers',
-  validatorSchema(schemas.resourceSlug, 'params'),
+  "/:slug/best-sellers",
+  validateSchema(schemas.resourceSlug, "params"),
   async (req, res, next) => {
     const { slug } = req.params;
 
@@ -126,7 +125,7 @@ router.get(
         },
       });
       if (!category) {
-        return next(Boom.notFound('Category not found'));
+        return next(Boom.notFound("Category not found"));
       }
 
       const products = await Product.model.findAll({
@@ -136,7 +135,7 @@ router.get(
             [Op.gt]: 0,
           },
         },
-        order: [['sold', 'DESC']],
+        order: [["sold", "DESC"]],
         limit: 20,
         offset: 0,
       });
@@ -150,8 +149,8 @@ router.get(
 
 // Get Product Top Rated by Category Slug
 router.get(
-  '/:slug/top-rated',
-  validatorSchema(schemas.resourceSlug, 'params'),
+  "/:slug/top-rated",
+  validateSchema(schemas.resourceSlug, "params"),
   async (req, res, next) => {
     const { slug } = req.params;
 
@@ -162,18 +161,18 @@ router.get(
         },
       });
       if (!category) {
-        return next(Boom.notFound('Category not found'));
+        return next(Boom.notFound("Category not found"));
       }
 
       let reviews = await Review.model.findAll({
         attributes: [
-          'productId',
-          [sequelize.fn('AVG', sequelize.col('rating')), 'avarage'],
-          [sequelize.fn('COUNT', sequelize.col('Review.id')), 'count'],
+          "productId",
+          [Op.fn("AVG", Op.col("rating")), "avarage"],
+          [Op.fn("COUNT", Op.col("Review.id")), "count"],
         ],
         include: {
           model: Product.model,
-          as: 'product',
+          as: "product",
           where: {
             categoryId: category.dataValues.id,
             stock: {
@@ -185,18 +184,18 @@ router.get(
           },
           required: true,
         },
-        group: ['productId'],
+        group: ["productId"],
         order: [
           [
             {
               model: Product.model,
-              as: 'product',
+              as: "product",
             },
-            'sold',
-            'DESC',
+            "sold",
+            "DESC",
           ],
-          ['count', 'DESC'],
-          ['avarage', 'DESC'],
+          ["count", "DESC"],
+          ["avarage", "DESC"],
         ],
         limit: 20,
         offset: 0,
@@ -217,8 +216,8 @@ router.get(
 
 // Get Product Random by Category Slug
 router.get(
-  '/:slug/random',
-  validatorSchema(schemas.resourceSlug, 'params'),
+  "/:slug/random",
+  validateSchema(schemas.resourceSlug, "params"),
   async (req, res, next) => {
     const { slug } = req.params;
 
@@ -229,7 +228,7 @@ router.get(
         },
       });
       if (!category) {
-        return next(Boom.notFound('Category not found'));
+        return next(Boom.notFound("Category not found"));
       }
 
       const products = await Product.model.findAll({
@@ -242,7 +241,7 @@ router.get(
             [Op.is]: true,
           },
         },
-        order: sequelize.random(),
+        order: Op.random(),
         limit: 20,
         offset: 0,
       });
@@ -256,8 +255,8 @@ router.get(
 
 // Get Stores by Category Slug
 router.get(
-  '/:slug/stores',
-  validatorSchema(schemas.resourceSlug, 'params'),
+  "/:slug/stores",
+  validateSchema(schemas.resourceSlug, "params"),
   async (req, res, next) => {
     const { slug } = req.params;
 
@@ -268,22 +267,22 @@ router.get(
         },
       });
       if (!category) {
-        return next(Boom.notFound('Category not found'));
+        return next(Boom.notFound("Category not found"));
       }
 
       const stores = await Store.model.findAll({
         attributes: {
-          exclude: ['userId'],
+          exclude: ["userId"],
         },
         include: {
           model: Product.model,
-          as: 'products',
+          as: "products",
           where: {
             categoryId: category.dataValues.id,
           },
           attributes: [],
         },
-        order: sequelize.random(),
+        order: Op.random(),
         limit: 20,
         offset: 0,
       });

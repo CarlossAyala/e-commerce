@@ -1,6 +1,6 @@
-import { StripeClient, getToken } from '../../../api';
+import { StripeClient, getToken } from "../../../api";
 
-const PAYMENT_INTENTS = 'payment-intents';
+const PAYMENT_INTENTS = "payment-intents";
 
 const API = {
   async create() {
@@ -8,10 +8,10 @@ const API = {
     const token = getToken();
 
     const { data } = await StripeClient.request({
-      method: 'POST',
+      method: "POST",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -23,10 +23,10 @@ const API = {
     const token = getToken();
 
     const { data: response } = await StripeClient.request({
-      method: 'POST',
+      method: "POST",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       data,

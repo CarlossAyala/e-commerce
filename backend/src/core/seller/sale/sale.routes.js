@@ -8,8 +8,7 @@ const {
   OrderItem,
   User,
 } = require("../../../database/mysql/models");
-const JWT = require("../../../middlewares/auth/jwt.auth");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema, JWT } = require("../../../middlewares");
 const QueryBuilder = require("../../../utils/database/query-builder");
 const schema = require("./sale.schema");
 
@@ -53,7 +52,7 @@ router.get("/", JWT.verify, async (req, res, next) => {
 router.get(
   "/:id",
   JWT.verify,
-  validatorSchema(schema.resourceId, "params"),
+  validateSchema(schema.resourceId, "params"),
   async (req, res, next) => {
     const { id: orderId } = req.params;
     const { id: sellerId } = req.auth;

@@ -6,8 +6,7 @@ const {
   Review,
   ReviewLikeDislike,
 } = require("../../../database/mysql/models");
-const JWT = require("../../../middlewares/auth/jwt.auth");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./review.schema");
 const sequelize = require("../../../database/mysql");
 const QueryBuilder = require("../../../utils/database/query-builder");
@@ -15,7 +14,7 @@ const QueryBuilder = require("../../../utils/database/query-builder");
 router.get(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id } = req.params;
     const { id: customerId } = req.auth;
@@ -101,7 +100,7 @@ router.get("/customer/pending", JWT.verify, async (req, res, next) => {
 // Get Reviews
 router.get(
   "/product/:id",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const qb = new QueryBuilder(req.query)
@@ -134,7 +133,7 @@ router.get(
 // Get Stats
 router.get(
   "/product/:id/stats",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
@@ -202,8 +201,8 @@ router.get(
 router.post(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
-  validatorSchema(schemas.base, "body"),
+  validateSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id } = req.params;
@@ -239,7 +238,7 @@ router.post(
 router.post(
   "/:id/like",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id: reviewId } = req.params;
@@ -295,7 +294,7 @@ router.post(
 router.post(
   "/:id/dislike",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id: reviewId } = req.params;

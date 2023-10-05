@@ -1,8 +1,8 @@
-const express = require('express');
-const Stripe = require('./stripe.connection');
+const express = require("express");
+const Stripe = require("./stripe.connection");
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const shippingRates = await Stripe.shippingRates.list({
       limit: 3,
@@ -14,8 +14,8 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
-  const { id = 'shr_1NIJlYARNTjegl3VM99JU94Y' } = req.params;
+router.get("/:id", async (req, res, next) => {
+  const { id = "shr_1NIJlYARNTjegl3VM99JU94Y" } = req.params;
 
   try {
     const shippingRate = await Stripe.shippingRates.retrieve(id);
@@ -26,12 +26,12 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const shippingRate = await Stripe.shippingRates.create({
-      display_name: 'Ground shipping',
-      type: 'fixed_amount',
-      fixed_amount: { amount: 500, currency: 'usd' },
+      display_name: "Ground shipping",
+      type: "fixed_amount",
+      fixed_amount: { amount: 500, currency: "usd" },
     });
 
     return res.status(200).json(shippingRate);
@@ -40,12 +40,12 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.post('/:id', async (req, res, next) => {
-  const { id = 'shr_1NIJlYARNTjegl3VM99JU94Y' } = req.params;
+router.post("/:id", async (req, res, next) => {
+  const { id = "shr_1NIJlYARNTjegl3VM99JU94Y" } = req.params;
 
   try {
     const shippingRate = await Stripe.shippingRates.update(id, {
-      metadata: { order_id: '6735' },
+      metadata: { order_id: "6735" },
     });
 
     return res.status(200).json(shippingRate);

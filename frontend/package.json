@@ -47,7 +47,7 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "yup": "^1.2.0",
-    "zod": "^3.22.2"
+    "zustand": "^4.4.2"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",

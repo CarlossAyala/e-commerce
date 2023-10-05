@@ -7,15 +7,14 @@ const {
   Review,
   ReviewLikeDislike,
 } = require("../../../database/mysql/models");
-const JWT = require("../../../middlewares/auth/jwt.auth");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { JWT, validateSchema } = require("../../../middlewares");
 const QueryBuilder = require("../../../utils/database/query-builder");
 const schemas = require("./review.schema");
 
 // Find one
 router.get(
   "/:id",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: reviewId } = req.params;
 
@@ -36,7 +35,7 @@ router.get(
 // Find all
 router.get(
   "/product/:id",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const { where, order, limit, offset } = new QueryBuilder(req.query)
@@ -69,7 +68,7 @@ router.get(
 // Stats
 router.get(
   "/product/:id/stats",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
@@ -136,7 +135,7 @@ router.get(
 router.patch(
   "/:id/like",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id: reviewId } = req.params;
@@ -195,7 +194,7 @@ router.patch(
 router.patch(
   "/:id/dislike",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id: reviewId } = req.params;

@@ -8,8 +8,7 @@ const {
   Product,
   Question,
 } = require("../../../database/mysql/models");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
-const JWT = require("../../../middlewares/auth/jwt.auth");
+const { validateSchema, JWT } = require("../../../middlewares");
 const schema = require("./store.schema");
 const slugifyOptions = require("../../../constant/slugify");
 const { Op, Sequelize } = require("sequelize");
@@ -147,7 +146,7 @@ router.get("/stats", JWT.verify, async (req, res, next) => {
 router.post(
   "/",
   JWT.verify,
-  validatorSchema(schema.base, "body"),
+  validateSchema(schema.base, "body"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { name, description } = req.body;
@@ -183,7 +182,7 @@ router.post(
 router.put(
   "/",
   JWT.verify,
-  validatorSchema(schema.base, "body"),
+  validateSchema(schema.base, "body"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { name, description } = req.body;

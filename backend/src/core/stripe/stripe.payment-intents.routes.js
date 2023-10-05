@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Stripe = require("./stripe.connection");
 const Boom = require("@hapi/boom");
-const JWT = require("../../middlewares/auth/jwt.auth");
+const { JWT } = require("../../middlewares");
 const {
   User,
   CartProduct,

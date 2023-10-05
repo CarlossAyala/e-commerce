@@ -2,14 +2,13 @@ const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
 const { User, Cart } = require("../../../database/mysql/models");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./account.schema");
 const Encrypter = require("../../../middlewares/auth/encrypter");
-const JWT = require("../../../middlewares/auth/jwt.auth");
 
 router.post(
   "/signup",
-  validatorSchema(schemas.signup, "body"),
+  validateSchema(schemas.signup, "body"),
   async (req, res, next) => {
     const { name, lastName, email, password } = req.body;
 
@@ -46,7 +45,7 @@ router.post(
 
 router.post(
   "/signin",
-  validatorSchema(schemas.signin, "body"),
+  validateSchema(schemas.signin, "body"),
   async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -109,7 +108,7 @@ router.get("/profile", JWT.verify, async (req, res, next) => {
 router.patch(
   "/change-name",
   JWT.verify,
-  validatorSchema(schemas.changeName, "body"),
+  validateSchema(schemas.changeName, "body"),
   async (req, res, next) => {
     const { id } = req.auth;
     const { name, lastName } = req.body;
@@ -137,7 +136,7 @@ router.patch(
 router.patch(
   "/change-password",
   JWT.verify,
-  validatorSchema(schemas.changePassword, "body"),
+  validateSchema(schemas.changePassword, "body"),
   async (req, res, next) => {
     const { id } = req.auth;
     const { oldPassword, password } = req.body;

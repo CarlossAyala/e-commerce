@@ -3,8 +3,7 @@ const router = express.Router();
 const Boom = require("@hapi/boom");
 const slugify = require("slugify");
 const { Category, Product, Store } = require("../../../database/mysql/models");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
-const JWT = require("../../../middlewares/auth/jwt.auth");
+const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./product.schema");
 const slugifyOptions = require("../../../constant/slugify");
 const QueryBuilder = require("../../../utils/database/query-builder");
@@ -91,7 +90,7 @@ router.get("/stock-alert", JWT.verify, async (req, res, next) => {
 router.get(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
 
@@ -126,7 +125,7 @@ router.get(
 router.post(
   "/",
   JWT.verify,
-  validatorSchema(schemas.base, "body"),
+  validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { name, categoryId, ...rest } = req.body;
@@ -141,6 +140,11 @@ router.post(
 
       const category = await Category.model.findByPk(categoryId);
       if (!category) return next(Boom.notFound("Category not found"));
+
+      /*
+				TODO: Add Minimum and maximum charge amounts validations
+				https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts
+			*/
 
       const product = await Product.model.create({
         name,
@@ -161,8 +165,8 @@ router.post(
 router.put(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
-  validatorSchema(schemas.base, "body"),
+  validateSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { name, categoryId, ...rest } = req.body;
@@ -204,7 +208,7 @@ router.put(
 router.delete(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const { id: sellerId } = req.auth;

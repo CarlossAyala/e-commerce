@@ -1,10 +1,10 @@
 const express = require("express");
 const Boom = require("@hapi/boom");
-const { Store, Product } = require("../../../database/mysql/models");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
-const schemas = require("./store.schema");
-const { slugify } = require("../../../utils");
 const router = express.Router();
+const { Store, Product } = require("../../../database/mysql/models");
+const { slugify } = require("../../../libs");
+const { validateSchema } = require("../../../middlewares");
+const schemas = require("./store.schema");
 
 // Get All
 router.get("/", async (req, res, next) => {
@@ -48,7 +48,7 @@ router.get("/:name", async (req, res, next) => {
 // Get by productId
 router.get(
   "/:id/by-product-id",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
@@ -73,7 +73,7 @@ router.get(
 // Get Products Store by slug
 router.get(
   "/:name/products",
-  validatorSchema(schemas.resourceSlug, "params"),
+  validateSchema(schemas.resourceSlug, "params"),
   async (req, res, next) => {
     const { name } = req.params;
 

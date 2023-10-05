@@ -1,6 +1,6 @@
-import { CustomerClient, getToken } from '../../api';
+import { CustomerClient, getToken } from "../../api";
 
-const PAYMENT_METHOD = 'payment-methods';
+const PAYMENT_METHOD = "payment-methods";
 
 const API = {
   async get(id) {
@@ -8,10 +8,10 @@ const API = {
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -23,10 +23,10 @@ const API = {
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'GET',
+      method: "GET",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
@@ -38,10 +38,10 @@ const API = {
     const token = getToken();
 
     const { data } = await CustomerClient.request({
-      method: 'DELETE',
+      method: "DELETE",
       url,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });

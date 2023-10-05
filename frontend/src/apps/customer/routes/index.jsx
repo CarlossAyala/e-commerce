@@ -5,6 +5,7 @@ import { Home } from "../features/home";
 import { Product } from "../features/product";
 import { addressRoutes } from "../features/address";
 import { Cart } from "../features/cart";
+import { checkoutRoutes } from "../features/checkout";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -37,5 +38,10 @@ export const customerRoutes = [
   {
     path: "cart",
     element: <Cart />,
+  },
+  {
+    path: "checkout",
+    element: <Outlet />,
+    children: checkoutRoutes,
   },
 ];

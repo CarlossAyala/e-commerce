@@ -41,7 +41,7 @@ const Cart = () => {
   const isEmpty = isSuccess && cart.length === 0;
 
   return (
-    <MainContent className="flex max-w-6xl flex-col pb-20">
+    <MainContent className="flex max-w-6xl flex-col">
       <section className="mt-3 justify-between sm:flex">
         <div className="scroll-m-20">
           <h1 className="text-3xl font-semibold tracking-tight">Cart</h1>
@@ -107,7 +107,7 @@ const Cart = () => {
                 </CardContent>
               </Card>
             </div>
-            <div className="relative hidden max-w-sm grow md:block">
+            <div className="relative hidden max-w-sm grow sm:block">
               <Card className="sticky top-4">
                 <CardHeader>
                   <CartSummary cart={cart} />

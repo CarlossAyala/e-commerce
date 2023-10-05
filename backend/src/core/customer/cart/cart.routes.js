@@ -6,12 +6,14 @@ const {
   Cart,
   CartProduct,
 } = require("../../../database/mysql/models");
-const JWT = require("../../../middlewares/auth/jwt.auth");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./cart.schema");
 
 // Get Cart
 router.get("/", JWT.verify, async (req, res, next) => {
+  // TODO: Dependiendo de una key de los query params, buscar productos aptos para
+  // iniciar el proceso de checkout
+
   try {
     const cart = await Cart.model.findOne({
       where: {
@@ -44,8 +46,8 @@ router.get("/", JWT.verify, async (req, res, next) => {
 router.post(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
-  validatorSchema(schemas.base, "body"),
+  validateSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: productId } = req.params;
     const { id: customerId } = req.auth;
@@ -90,8 +92,8 @@ router.post(
 router.patch(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
-  validatorSchema(schemas.base, "body"),
+  validateSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     try {
       const cart = await Cart.model.findOne({
@@ -138,7 +140,7 @@ router.patch(
 router.patch(
   "/:id/visibility",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const cart = await Cart.model.findOne({
@@ -209,7 +211,7 @@ router.delete("/clear", JWT.verify, async (req, res, next) => {
 router.delete(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const cart = await Cart.model.findOne({

@@ -1,14 +1,13 @@
-const express = require('express');
-const Boom = require('@hapi/boom');
-const { Order, OrderItem, Product } = require('../../../database/mysql/models');
-const Stripe = require('../../stripe/stripe.connection');
-const JWT = require('../../../middlewares/auth/jwt.auth');
-const validatorSchema = require('../../../middlewares/api/validator.middleware');
-const schemas = require('./order.schema');
+const express = require("express");
+const Boom = require("@hapi/boom");
+const { Order, OrderItem, Product } = require("../../../database/mysql/models");
+const Stripe = require("../../stripe/stripe.connection");
+const { validateSchema, JWT } = require("../../../middlewares");
+const schemas = require("./order.schema");
 const router = express.Router();
 
 // Get All
-router.get('/', JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
@@ -17,7 +16,7 @@ router.get('/', JWT.verify, async (req, res, next) => {
       where: {
         customerId,
       },
-      order: [['orderedAt', 'DESC']],
+      order: [["orderedAt", "DESC"]],
     });
 
     for (const order of orders) {
@@ -32,9 +31,9 @@ router.get('/', JWT.verify, async (req, res, next) => {
 
 // Get One
 router.get(
-  '/:id',
+  "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, 'params'),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id } = req.params;
     const customerId = req.auth.id;
@@ -47,7 +46,7 @@ router.get(
         },
       });
       if (!order || order.customerId !== customerId) {
-        return next(Boom.notFound('Order not found'));
+        return next(Boom.notFound("Order not found"));
       }
 
       const orderItems = await OrderItem.model.findAll({
@@ -56,7 +55,7 @@ router.get(
         },
         include: {
           model: Product.model,
-          as: 'product',
+          as: "product",
         },
       });
 

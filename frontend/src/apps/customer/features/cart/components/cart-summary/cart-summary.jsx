@@ -1,10 +1,10 @@
 import { Button } from "../../../../../../components";
 import { cn } from "../../../../../../libs/utils";
 import { Formatter } from "../../../../../../utils/formatter";
-import { getTotalsCart } from "../../utils";
+import { getTotalCart } from "../../utils";
 
 export const CartSummary = ({ cart, className }) => {
-  const [itemsVisible, itemsHidden, both] = getTotalsCart(cart);
+  const [itemsVisible, itemsHidden, both] = getTotalCart(cart);
 
   return (
     <div className={cn("w-full rounded-b-md bg-white", className)}>

@@ -1,18 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Boom = require('@hapi/boom');
-const Stripe = require('./stripe.connection');
-const JWT = require('../../middlewares/auth/jwt.auth');
-const { User } = require('../../database/mysql/models');
-// const validatorSchema = require('../../middlewares/api/validator.middleware');
-// const schemas = require('./card.schema');
+const Boom = require("@hapi/boom");
+const Stripe = require("./stripe.connection");
+const { User } = require("../../database/mysql/models");
+const { JWT } = require("../../middlewares");
 
-router.get('/', JWT.verify, async (req, res, next) => {
+router.get("/", JWT.verify, async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
     const existCustomer = await User.model.findByPk(customerId);
-    if (!existCustomer) return next(Boom.notFound('Customer not found'));
+    if (!existCustomer) return next(Boom.notFound("Customer not found"));
 
     const { email } = existCustomer.dataValues;
 
@@ -20,14 +18,14 @@ router.get('/', JWT.verify, async (req, res, next) => {
       query: `email:"${email}"`,
     });
     if (data.length === 0) {
-      return next(Boom.notFound('Customer not found'));
+      return next(Boom.notFound("Customer not found"));
     }
 
     const [customer] = data;
 
     // TODO: Pagination?
     const { data: cards } = await Stripe.customers.listSources(customer.id, {
-      object: 'card',
+      object: "card",
       limit: 10,
     });
 
@@ -37,13 +35,13 @@ router.get('/', JWT.verify, async (req, res, next) => {
   }
 });
 
-router.get('/:cardId', JWT.verify, async (req, res, next) => {
+router.get("/:cardId", JWT.verify, async (req, res, next) => {
   const customerId = req.auth.id;
   const { cardId } = req.params;
 
   try {
     const existCustomer = await User.model.findByPk(customerId);
-    if (!existCustomer) return next(Boom.notFound('Customer not found'));
+    if (!existCustomer) return next(Boom.notFound("Customer not found"));
 
     const { email } = existCustomer.dataValues;
 
@@ -51,7 +49,7 @@ router.get('/:cardId', JWT.verify, async (req, res, next) => {
       query: `email:"${email}"`,
     });
     if (data.length === 0) {
-      return next(Boom.notFound('Customer not found'));
+      return next(Boom.notFound("Customer not found"));
     }
     const [customer] = data;
 
@@ -63,12 +61,12 @@ router.get('/:cardId', JWT.verify, async (req, res, next) => {
   }
 });
 
-router.post('/', JWT.verify, async (req, res, next) => {
+router.post("/", JWT.verify, async (req, res, next) => {
   const customerId = req.auth.id;
 
   try {
     const existCustomer = await User.model.findByPk(customerId);
-    if (!existCustomer) return next(Boom.notFound('Customer not found'));
+    if (!existCustomer) return next(Boom.notFound("Customer not found"));
 
     const { email } = existCustomer.dataValues;
 
@@ -76,13 +74,13 @@ router.post('/', JWT.verify, async (req, res, next) => {
       query: `email:"${email}"`,
     });
     if (data.length === 0) {
-      return next(Boom.notFound('Customer not found'));
+      return next(Boom.notFound("Customer not found"));
     }
 
     const [customer] = data;
 
     const card = await Stripe.customers.createSource(customer.id, {
-      source: 'tok_mastercard',
+      source: "tok_mastercard",
     });
 
     return res.status(201).json(card);
@@ -106,9 +104,9 @@ router.post('/', JWT.verify, async (req, res, next) => {
 //   }
 // });
 
-router.delete('/:card_id', async (req, res, next) => {
-  const customer = 'cus_O4Jq2eP0A1rHQA';
-  const { card_id = 'card_1NIBCaARNTjegl3VPbESQqLs' } = req.params;
+router.delete("/:card_id", async (req, res, next) => {
+  const customer = "cus_O4Jq2eP0A1rHQA";
+  const { card_id = "card_1NIBCaARNTjegl3VPbESQqLs" } = req.params;
 
   try {
     const deleted = await Stripe.customers.deleteSource(customer, card_id);

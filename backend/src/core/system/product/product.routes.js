@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
+const { Op } = require("sequelize");
 const QueryBuilder = require("../../../utils/database/query-builder");
 const { Product, Store } = require("../../../database/mysql/models");
-const JWT = require("../../../middlewares/auth/jwt.auth");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
 const schemas = require("./product.schema");
-const { Op } = require("sequelize");
+const { validateSchema } = require("../../../middlewares");
 
 // Searcher
 router.get("/", async (req, res, next) => {
@@ -33,7 +32,7 @@ router.get("/", async (req, res, next) => {
 // Get Product
 router.get(
   "/:id",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 
@@ -59,7 +58,7 @@ router.get(
 // Get Related Products
 router.get(
   "/:id/related",
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: productId } = req.params;
 

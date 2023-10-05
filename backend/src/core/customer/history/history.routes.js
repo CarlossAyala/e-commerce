@@ -3,8 +3,7 @@ const router = express.Router();
 const Boom = require("@hapi/boom");
 const { Op } = require("sequelize");
 const { History, Product } = require("../../../database/mysql/models");
-const JWT = require("../../../middlewares/auth/jwt.auth");
-const validatorSchema = require("../../../middlewares/api/validator.middleware");
+const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./history.schema");
 
 // TODO: Add pagination
@@ -33,7 +32,7 @@ router.get("/", JWT.verify, async (req, res, next) => {
 router.post(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const { id: productId } = req.params;
@@ -93,7 +92,7 @@ router.delete("/clear", JWT.verify, async (req, res, next) => {
 router.delete(
   "/:id",
   JWT.verify,
-  validatorSchema(schemas.resourceId, "params"),
+  validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
       const { id } = req.params;
