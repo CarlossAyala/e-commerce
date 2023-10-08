@@ -1,4 +1,10 @@
-import { CheckoutPaymentMethod, CheckoutShipping } from "../pages";
+import {
+  CheckoutPaymentMethod,
+  CheckoutReview,
+  CheckoutShipping,
+  CheckoutSuccess,
+} from "../pages";
+import WithPaymentIntent from "./with-payment-intent";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -6,10 +12,19 @@ import { CheckoutPaymentMethod, CheckoutShipping } from "../pages";
 export const checkoutRoutes = [
   {
     index: true,
-    element: <CheckoutShipping />,
+    element: <WithPaymentIntent component={CheckoutShipping} />,
+    // element: <CheckoutShipping />,
   },
   {
     path: "payment-method",
-    element: <CheckoutPaymentMethod />,
+    element: <WithPaymentIntent component={CheckoutPaymentMethod} />,
+  },
+  {
+    path: "review",
+    element: <WithPaymentIntent component={CheckoutReview} />,
+  },
+  {
+    path: ":orderId/success",
+    element: <CheckoutSuccess />,
   },
 ];

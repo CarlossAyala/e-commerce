@@ -4,7 +4,7 @@ export function EmptyPlaceholder({ className, children, ...props }) {
   return (
     <div
       className={cn(
-        "flex min-h-[400px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50",
+        "flex flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50",
         className,
       )}
       {...props}
@@ -36,9 +36,7 @@ EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
   className,
   ...props
 }) {
-  return (
-    <h2 className={cn("mt-6 text-xl font-semibold", className)} {...props} />
-  );
+  return <h2 className={cn("text-xl font-semibold", className)} {...props} />;
 };
 
 EmptyPlaceholder.Description = function EmptyPlaceholderDescription({

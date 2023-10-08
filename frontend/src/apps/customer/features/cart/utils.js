@@ -1,3 +1,12 @@
+export const getQtyVisibleCart = (cart) => {
+  let qty = 0;
+  if (!Array.isArray(cart) || cart.length === 0) return qty;
+
+  return cart.reduce((acum, cart) => {
+    return acum + cart.quantity;
+  }, qty);
+};
+
 export const getVisibleTotalCart = (cart) => {
   let total = 0;
   if (!Array.isArray(cart) || cart.length === 0) return total;

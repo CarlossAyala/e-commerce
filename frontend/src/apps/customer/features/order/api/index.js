@@ -2,10 +2,10 @@ import { API_CUSTOMER } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
 import { getToken } from "../../../../../utils/local-storage";
 
-const ENDPOINT = `${API_CUSTOMER}/checkouts`;
+const ENDPOINT = `${API_CUSTOMER}/orders`;
 
-export const findOne = (paymentIntentId) => {
-  const url = `${ENDPOINT}/${paymentIntentId}`;
+export const findOne = (orderId) => {
+  const url = `${ENDPOINT}/${orderId}`;
   const token = getToken();
 
   if (!token) {
@@ -21,25 +21,8 @@ export const findOne = (paymentIntentId) => {
   });
 };
 
-export const create = () => {
-  const url = ENDPOINT;
-  const token = getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
-
-  return fetcher(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const confirm = (paymentIntentId, data) => {
-  const url = `${ENDPOINT}/${paymentIntentId}/confirm`;
+export const findAll = (query) => {
+  const url = `${ENDPOINT}?${query}`;
   const token = getToken();
 
   if (!token) {
@@ -47,11 +30,10 @@ export const confirm = (paymentIntentId, data) => {
   }
 
   return fetcher(url, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(data),
   });
 };

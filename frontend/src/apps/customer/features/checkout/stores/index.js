@@ -6,7 +6,7 @@ const initialState = {
   paymentMethodId: "",
 };
 
-export const useCheckoutStore = create(() => initialState);
+export const useCheckoutStore = create(() => ({ ...initialState }));
 
 export const useUpdateCheckoutPaymentIntent = () => {
   return (paymentIntentId) => useCheckoutStore.setState({ paymentIntentId });
@@ -21,5 +21,5 @@ export const useUpdateCheckoutPaymentMethod = () => {
 };
 
 export const useResetCheckoutStore = () => {
-  return () => useCheckoutStore.setState(initialState);
+  return () => useCheckoutStore.setState({ ...initialState });
 };

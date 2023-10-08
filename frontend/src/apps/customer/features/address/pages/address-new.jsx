@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { addressInitial, addressSchema } from "../schemas";
@@ -20,9 +20,12 @@ import { addressActionRoutes } from "../utils";
 import { clearEmptyValues } from "../../../../../utils";
 
 const AddressNew = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const create = useCreateAddress();
+
+  const from = location.state?.from;
 
   const form = useForm({
     resolver: yupResolver(addressSchema),
@@ -42,7 +45,11 @@ const AddressNew = () => {
         toast({
           description: "Address created successfully",
         });
-        navigate(addressActionRoutes.edit(address.id));
+        navigate(from ?? addressActionRoutes.edit(address.id), {
+          state: {
+            addressId: address.id,
+          },
+        });
       },
       onError(error) {
         toast({
@@ -54,7 +61,7 @@ const AddressNew = () => {
   };
 
   return (
-    <MainContent className="max-w-3xl">
+    <MainContent className="max-w-3xl space-y-6">
       <section className="pt-2">
         <h1 className="text-2xl font-semibold tracking-tight">New Address</h1>
         <p className="text-muted-foreground">

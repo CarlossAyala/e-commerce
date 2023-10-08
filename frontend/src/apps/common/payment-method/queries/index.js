@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { findAll, findOne } from "../api";
+import { create, findAll, findOne, findSession } from "../api";
 
 export const paymentMethodKeys = {
   key: ["payment-method"],
@@ -23,6 +23,23 @@ export const useGetPaymentMethods = () => {
   return useQuery({
     queryKey: paymentMethodKeys.findAll(),
     queryFn: () => findAll(),
+  });
+};
+
+export const useCreatePaymentMethod = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: create,
+    onSuccess() {
+      queryClient.invalidateQueries(paymentMethodKeys.findAll());
+    },
+  });
+};
+
+export const useGetPaymentMethodSession = () => {
+  return useMutation({
+    mutationFn: findSession,
   });
 };
 

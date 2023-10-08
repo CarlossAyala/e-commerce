@@ -1,9 +1,11 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  Button,
   Card,
+  EmptyPlaceholder,
   Form,
   FormControl,
   FormField,
@@ -14,7 +16,7 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "../../../../../components";
-import { useGetAddresses } from "../../address";
+import { addressActionRoutes, useGetAddresses } from "../../address";
 import {
   checkoutAddressDefault,
   checkoutAddressInitial,
@@ -25,12 +27,13 @@ import { AddressItem } from "../components/address-item";
 import { useGetCart } from "../../cart/queries";
 import { CartSummary } from "../components/cart-summary";
 import { checkoutActionRoutes } from "../utils";
+import { FaceFrownIcon, InboxIcon } from "@heroicons/react/24/outline";
 
 const CheckoutShipping = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const checkoutStore = useCheckoutStore();
+  const addressId = useCheckoutStore((state) => state.addressId);
   const updateCheckoutAddress = useUpdateCheckoutAddress();
 
   const addresses = useGetAddresses();
@@ -39,22 +42,33 @@ const CheckoutShipping = () => {
   const form = useForm({
     resolver: yupResolver(checkoutAddressSchema),
     defaultValues: checkoutAddressInitial,
-    values: checkoutAddressDefault(checkoutStore.addressId),
+    values: checkoutAddressDefault(addressId),
     mode: "all",
   });
 
   const handleSubmit = (values) => {
-    updateCheckoutAddress(values.addressId);
-    navigate(checkoutActionRoutes.paymentMethod);
+    if (values.addressId === "new-address") {
+      navigate(addressActionRoutes.new, {
+        state: {
+          from: checkoutActionRoutes.shipping,
+        },
+      });
+    } else {
+      updateCheckoutAddress(values.addressId);
+      navigate(checkoutActionRoutes.paymentMethod);
+    }
   };
 
   useEffect(() => {
-    const addressId = location.state?.addressId;
-    if (addressId) {
-      form.setValue("addressId", addressId);
-      updateCheckoutAddress(addressId);
+    const newAddressId = location.state?.addressId;
+    if (newAddressId) {
+      updateCheckoutAddress(newAddressId);
     }
-  }, [form, location.state?.addressId, updateCheckoutAddress]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const hasContent = addresses.isSuccess && addresses.data?.length > 0;
+  const isEmpty = addresses.isSuccess && addresses.data?.length === 0;
 
   return (
     <MainContent className="flex max-w-5xl flex-col">
@@ -88,45 +102,92 @@ const CheckoutShipping = () => {
                   </div>
                 </Card>
               )}
-              {addresses.isError && <p>Error fetching addresses</p>}
-              {addresses.isSuccess && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="addressId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormMessage className="mb-1 mt-0" />
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-col gap-1"
-                          >
-                            <Card className="divide-y divide-black/10">
-                              {addresses.data.map((address) => (
-                                <FormItem
-                                  key={address.id}
-                                  className="flex items-center gap-4 px-4 py-3"
-                                >
-                                  <FormControl className="shrink-0">
-                                    <RadioGroupItem value={address.id} />
-                                  </FormControl>
-                                  <FormLabel className="mb-0 grow">
-                                    <AddressItem
-                                      key={address.id}
-                                      address={address}
-                                    />
-                                  </FormLabel>
-                                </FormItem>
-                              ))}
-                            </Card>
-                          </RadioGroup>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </>
+              {addresses.isError && (
+                <EmptyPlaceholder>
+                  <EmptyPlaceholder.Icon icon={FaceFrownIcon} />
+                  <EmptyPlaceholder.Title>
+                    Error fetching addresses
+                  </EmptyPlaceholder.Title>
+                  <EmptyPlaceholder.Description>
+                    An error occurred while fetching addresses. Please try
+                    again.
+                  </EmptyPlaceholder.Description>
+                  <Button
+                    className="mt-4"
+                    size="lg"
+                    type="button"
+                    onClick={() => addresses.refetch()}
+                  >
+                    Try again
+                  </Button>
+                </EmptyPlaceholder>
+              )}
+              {isEmpty && (
+                <EmptyPlaceholder>
+                  <EmptyPlaceholder.Icon icon={InboxIcon} />
+                  <EmptyPlaceholder.Title>
+                    No addresses found
+                  </EmptyPlaceholder.Title>
+                  <EmptyPlaceholder.Description>
+                    Start creating one.
+                  </EmptyPlaceholder.Description>
+                  <Button asChild>
+                    <Link
+                      to={addressActionRoutes.new}
+                      state={{
+                        from: checkoutActionRoutes.shipping,
+                      }}
+                    >
+                      New Address
+                    </Link>
+                  </Button>
+                </EmptyPlaceholder>
+              )}
+              {hasContent && (
+                <FormField
+                  control={form.control}
+                  name="addressId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormMessage className="mb-1 mt-0" />
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={addressId}
+                          value={field.value}
+                          className="flex flex-col gap-1"
+                        >
+                          <Card className="divide-y divide-black/10">
+                            <FormItem className="flex items-center gap-4 p-4">
+                              <FormControl className="shrink-0">
+                                <RadioGroupItem value="new-address" />
+                              </FormControl>
+                              <FormLabel className="mb-0 grow">
+                                New Address
+                              </FormLabel>
+                            </FormItem>
+                            {addresses.data.map((address) => (
+                              <FormItem
+                                key={address.id}
+                                className="flex items-center gap-4 p-4"
+                              >
+                                <FormControl className="shrink-0">
+                                  <RadioGroupItem value={address.id} />
+                                </FormControl>
+                                <FormLabel className="mb-0 grow">
+                                  <AddressItem
+                                    key={address.id}
+                                    address={address}
+                                  />
+                                </FormLabel>
+                              </FormItem>
+                            ))}
+                          </Card>
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               )}
               <div className="sticky bottom-0 mt-auto rounded-b-md bg-white md:hidden">
                 <Card className="sticky top-4">
@@ -146,7 +207,11 @@ const CheckoutShipping = () => {
               )}
               {cart.isSuccess && (
                 <Card className="sticky top-4">
-                  <CartSummary cart={cart.data} />
+                  <CartSummary cart={cart.data}>
+                    <Button className="mt-4 w-full" size="lg" type="submit">
+                      Next
+                    </Button>
+                  </CartSummary>
                 </Card>
               )}
             </div>
