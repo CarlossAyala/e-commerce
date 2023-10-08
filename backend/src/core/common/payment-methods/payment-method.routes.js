@@ -79,7 +79,7 @@ router.get("/session/:id", JWT.verify, async (req, res, next) => {
     console.log("Checkout Session: ", session);
 
     return res.status(200).json({
-      paymentMethod: session.setup_intent.payment_method,
+      id: session.setup_intent.payment_method,
     });
   } catch (error) {
     next(error);
@@ -102,7 +102,6 @@ router.post("/", JWT.verify, async (req, res, next) => {
     const [customer] = data;
 
     const params = new URLSearchParams();
-    params.append("session_id", "{CHECKOUT_SESSION_ID}");
     params.append("payment_intent_id", paymentIntentId);
     params.append("address_id", addressId);
 
@@ -111,15 +110,14 @@ router.post("/", JWT.verify, async (req, res, next) => {
     // TODO: Get Origin from .env
     const success_url = `${
       req.headers.origin
-    }/checkout/payment-method?${params.toString()}`;
-    const cancel_url = `${req.headers.origin}/checkout/cancel`;
+    }/customer/checkout?session_id={CHECKOUT_SESSION_ID}&${params.toString()}`;
 
     const session = await Stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "setup",
       customer: customer.id,
       success_url,
-      cancel_url,
+      cancel_url: success_url,
     });
 
     return res.status(201).json(session.url);

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -30,18 +29,21 @@ import {
   useCreatePaymentMethod,
   useGetPaymentMethods,
 } from "../../../../common/payment-method";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { useEffect } from "react";
 
 const CheckoutPaymentMethod = () => {
+  const [, setParams] = useSearchParams();
   const { toast } = useToast();
-  const [params, setParams] = useSearchParams();
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { paymentIntentId, addressId, paymentMethodId } = useCheckoutStore();
   const updateCheckoutPaymentMethod = useUpdateCheckoutPaymentMethod();
 
   const paymentMethods = useGetPaymentMethods();
   const createPaymentMethod = useCreatePaymentMethod();
+
   const cart = useGetCart("only_visible=true");
 
   const form = useForm({
@@ -72,17 +74,19 @@ const CheckoutPaymentMethod = () => {
   };
 
   const handleSubmit = (values) => {
-    updateCheckoutPaymentMethod(values.paymentMethodId);
-    navigate(checkoutActionRoutes.review);
+    if (values.paymentMethodId === "new") {
+      handleCreatePaymentMethod();
+    } else {
+      updateCheckoutPaymentMethod(values.paymentMethodId);
+      navigate(checkoutActionRoutes.review);
+    }
   };
 
-  useEffect(() => {
-    const newPaymentMethodId = location.state?.paymentMethodId;
-    if (newPaymentMethodId) {
-      updateCheckoutPaymentMethod(newPaymentMethodId);
-    }
+  useEffect(function clearNewPaymentMethodParams() {
+    const newPaymentMethod = location.state?.newPaymentMethod;
+    if (newPaymentMethod) setParams(new URLSearchParams());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.get("paymentMethodId")]);
+  }, []);
 
   return (
     <MainContent className="flex max-w-5xl flex-col">
@@ -127,9 +131,18 @@ const CheckoutPaymentMethod = () => {
                           <RadioGroup
                             onValueChange={field.onChange}
                             defaultValue={paymentMethodId}
+                            value={field.value}
                             className="flex flex-col gap-1"
                           >
                             <Card className="divide-y divide-black/10">
+                              <FormItem className="flex items-center gap-4 p-4">
+                                <FormControl className="shrink-0">
+                                  <RadioGroupItem value="new" />
+                                </FormControl>
+                                <FormLabel className="mb-0 grow">
+                                  New Card
+                                </FormLabel>
+                              </FormItem>
                               {paymentMethods.data.map((paymentMethod) => (
                                 <FormItem
                                   key={paymentMethod.id}
@@ -173,8 +186,20 @@ const CheckoutPaymentMethod = () => {
               {cart.isSuccess && (
                 <Card className="sticky top-4">
                   <CartSummary cart={cart.data}>
-                    <Button className="mt-4 w-full" size="lg" type="submit">
-                      Next
+                    <Button
+                      className="mt-4 w-full"
+                      size="lg"
+                      disabled={createPaymentMethod.isLoading}
+                      type="submit"
+                    >
+                      {createPaymentMethod.isLoading ? (
+                        <>
+                          <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
+                          Creating Payment Method...
+                        </>
+                      ) : (
+                        "Next"
+                      )}
                     </Button>
                   </CartSummary>
                 </Card>

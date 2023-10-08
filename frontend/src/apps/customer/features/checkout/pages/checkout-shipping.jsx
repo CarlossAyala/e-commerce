@@ -47,7 +47,7 @@ const CheckoutShipping = () => {
   });
 
   const handleSubmit = (values) => {
-    if (values.addressId === "new-address") {
+    if (values.addressId === "new") {
       navigate(addressActionRoutes.new, {
         state: {
           from: checkoutActionRoutes.shipping,
@@ -160,7 +160,7 @@ const CheckoutShipping = () => {
                           <Card className="divide-y divide-black/10">
                             <FormItem className="flex items-center gap-4 p-4">
                               <FormControl className="shrink-0">
-                                <RadioGroupItem value="new-address" />
+                                <RadioGroupItem value="new" />
                               </FormControl>
                               <FormLabel className="mb-0 grow">
                                 New Address

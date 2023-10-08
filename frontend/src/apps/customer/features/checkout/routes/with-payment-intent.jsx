@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCreateCheckout } from "../queries";
-import { useCheckoutStore, useUpdateCheckoutPaymentIntent } from "../stores";
+import {
+  useCheckoutStore,
+  useUpdateCheckoutAddress,
+  useUpdateCheckoutPaymentIntent,
+  useUpdateCheckoutPaymentMethod,
+} from "../stores";
 import {
   Button,
   EmptyPlaceholder,
@@ -10,18 +15,55 @@ import {
 } from "../../../../../components";
 import { checkoutActionRoutes } from "../utils";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { useGetPaymentMethodSession } from "../../../../common/payment-method";
+import { CheckoutShippingSkeleton } from "../components/checkout-shipping-skeleton";
+
+const PARAMS = {
+  sessionId: "session_id",
+  addressId: "address_id",
+  paymentIntentId: "payment_intent_id",
+};
 
 const WithPaymentIntent = ({ component: Component }) => {
   const [createPaymentIntentFlag, setCreatePaymentIntentFlag] = useState(false);
 
+  const [params, setParams] = useSearchParams();
   const { toast } = useToast();
 
   const navigate = useNavigate();
 
   const { paymentIntentId } = useCheckoutStore();
   const updatePaymentIntent = useUpdateCheckoutPaymentIntent();
+  const updateCheckoutAddress = useUpdateCheckoutAddress();
+  const updateCheckoutPaymentMethod = useUpdateCheckoutPaymentMethod();
 
   const createPaymentIntent = useCreateCheckout();
+  const getPaymentMethodSession = useGetPaymentMethodSession();
+
+  const handleGetPaymentMethodSession = (sessionId) => {
+    getPaymentMethodSession.mutate(sessionId, {
+      onSuccess(paymentMethod) {
+        updatePaymentIntent(params.get(PARAMS.paymentIntentId));
+        if (params.get(PARAMS.addressId)) {
+          updateCheckoutAddress(params.get(PARAMS.addressId));
+        }
+        if (paymentMethod.id) updateCheckoutPaymentMethod(paymentMethod.id);
+
+        navigate(checkoutActionRoutes.paymentMethod, {
+          state: {
+            newPaymentMethod: true,
+          },
+        });
+      },
+      onError(error) {
+        toast({
+          title: "Error fetching payment method",
+          description: error.message,
+        });
+        setParams(new URLSearchParams());
+      },
+    });
+  };
 
   const generatePaymentIntent = () => {
     createPaymentIntent.mutate(null, {
@@ -40,17 +82,34 @@ const WithPaymentIntent = ({ component: Component }) => {
     });
   };
 
+  const sessionId = params.get(PARAMS.sessionId);
+
+  useEffect(
+    function handlePaymentMethodSession() {
+      if (sessionId) {
+        handleGetPaymentMethodSession(sessionId);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sessionId],
+  );
+
   useEffect(
     // Checkout -> Address -> Payment Method -> Review
     function restartCheckoutSteps() {
-      if (!paymentIntentId) {
+      if (!paymentIntentId && !sessionId) {
         navigate(checkoutActionRoutes.shipping);
       }
     },
-    [navigate, paymentIntentId],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [paymentIntentId, sessionId],
   );
 
-  if (!paymentIntentId) {
+  if (sessionId) {
+    return <CheckoutShippingSkeleton />;
+  }
+
+  if (!paymentIntentId && !sessionId) {
     return (
       <MainContent className="flex items-center justify-center">
         <EmptyPlaceholder>

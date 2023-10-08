@@ -34,7 +34,7 @@ const AddressNew = () => {
   });
 
   const handleCancel = () => {
-    navigate(addressActionRoutes.root);
+    navigate(from ?? addressActionRoutes.root);
   };
 
   const handleSubmit = (values) => {
