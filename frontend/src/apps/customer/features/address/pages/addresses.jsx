@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   EmptyPlaceholder,
-  MainContent,
 } from "../../../../../components";
 import { useGetAddresses } from "../queries";
 import { AddressItem } from "../components/addresses/address-item";
@@ -18,26 +17,23 @@ const Addresses = () => {
   const navigate = useNavigate();
   const { data: addresses, isLoading, isError, isSuccess } = useGetAddresses();
 
+  const handleNewAddress = () => {
+    navigate(addressActionRoutes.new);
+  };
+
   const hasContent = isSuccess && addresses?.length > 0;
   const isEmpty = isSuccess && addresses?.length === 0;
 
   return (
-    <MainContent className="max-w-3xl space-y-4">
-      <section className="mt-3 justify-between sm:flex">
-        <div className="scroll-m-20">
-          <h1 className="text-3xl font-semibold tracking-tight">Addresses</h1>
-          <p className="mt-1 leading-tight text-muted-foreground">
-            Manage your addresses
-          </p>
+    <div className="space-y-4">
+      <section className="flex justify-between gap-x-4">
+        <div className="grow">
+          <h3 className="text-lg font-medium">Addresses</h3>
+          <p className="text-sm text-muted-foreground">Manage your addresses</p>
         </div>
-        <div className="mt-3 text-end sm:mt-1">
-          <Button
-            type="button"
-            onClick={() => navigate(addressActionRoutes.new)}
-          >
-            New
-          </Button>
-        </div>
+        <Button className="shrink-0" type="button" onClick={handleNewAddress}>
+          New
+        </Button>
       </section>
 
       <section>
@@ -84,7 +80,7 @@ const Addresses = () => {
           </Card>
         )}
       </section>
-    </MainContent>
+    </div>
   );
 };
 

@@ -55,7 +55,7 @@ export const CardItem = ({ card }) => {
         <p className="line-clamp-1 text-base font-semibold capitalize leading-tight">
           {card.card.brand}
         </p>
-        <p className="line-clamp-1 text-base font-normal capitalize leading-tight">
+        <p className="line-clamp-1 text-sm font-normal capitalize leading-tight">
           {card.billing_details.name}
         </p>
         <p className="line-clamp-1 text-sm font-normal leading-tight"></p>

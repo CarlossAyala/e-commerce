@@ -4,7 +4,7 @@ import { SettingsNav } from "../components/settings-nav";
 
 const Settings = () => {
   return (
-    <MainContent className="max-w-5xl space-y-6">
+    <MainContent className="max-w-5xl space-y-4">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
           Settings
@@ -16,7 +16,7 @@ const Settings = () => {
 
       <Separator className="hidden sm:block" />
 
-      <section className="grid gap-6 sm:grid-cols-[200px_1fr]">
+      <section className="grid gap-4 sm:grid-cols-[200px_1fr]">
         <SettingsNav />
         <Outlet />
       </section>

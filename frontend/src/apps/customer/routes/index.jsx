@@ -6,7 +6,6 @@ import { Product } from "../features/product";
 import { addressRoutes } from "../features/address";
 import { Cart } from "../features/cart";
 import { checkoutRoutes } from "../features/checkout";
-import { Cards } from "../features/card";
 import { Settings, settingRoutes } from "../features/setting";
 
 /**
@@ -45,10 +44,6 @@ export const customerRoutes = [
     path: "checkout",
     element: <Outlet />,
     children: checkoutRoutes,
-  },
-  {
-    path: "card",
-    element: <Cards />,
   },
   {
     path: "settings",

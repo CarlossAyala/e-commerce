@@ -12,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  MainContent,
   Textarea,
   useToast,
 } from "../../../../../components";
@@ -61,132 +60,137 @@ const AddressNew = () => {
   };
 
   return (
-    <MainContent className="max-w-3xl space-y-6">
-      <section className="pt-2">
-        <h1 className="text-2xl font-semibold tracking-tight">New Address</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-3">
+      <section>
+        <h3 className="text-lg font-medium">New Address</h3>
+        <p className="text-sm text-muted-foreground">
           Create a new address for your products delivery.
         </p>
       </section>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Recipient's name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone</FormLabel>
-                <FormControl>
-                  <Input placeholder="Recipient's phone" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="zipCode"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Zip code</FormLabel>
-                <FormControl>
-                  <Input placeholder="Zip code" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="province"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Province</FormLabel>
-                <FormControl>
-                  <Input placeholder="Province" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>City</FormLabel>
-                <FormControl>
-                  <Input placeholder="City" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="street"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Street</FormLabel>
-                <FormControl>
-                  <Input placeholder="Street" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="apartmentNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Apartment number</FormLabel>
-                <FormControl>
-                  <Input placeholder="Apartment number" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="indications"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Indications</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="House description, location, etc."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex items-center gap-x-4">
-            <Button variant="outline" type="button" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button type="submit">Create</Button>
-          </div>
-        </form>
-      </Form>
-    </MainContent>
+      <section>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Recipient's name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Recipient's phone" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="zipCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Zip code</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Zip code" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="province"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Province</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Province" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input placeholder="City" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="street"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Street</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Street" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="apartmentNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Apartment number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Apartment number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="indications"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Indications</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="House description, location, etc."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex items-center gap-x-4">
+              <Button variant="outline" type="button" onClick={handleCancel}>
+                Cancel
+              </Button>
+              <Button type="submit">Create</Button>
+            </div>
+          </form>
+        </Form>
+      </section>
+    </div>
   );
 };
 
