@@ -1,6 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { removeToken, setToken } from "../../../utils/local-storage";
-import { getProfile, signin, signup } from "../api";
+import {
+  getProfile,
+  signin,
+  signup,
+  updateFullName,
+  updatePassword,
+} from "../api";
 
 export const authKeys = {
   key: ["auth"],
@@ -53,4 +59,21 @@ export const useAuth = () => {
   const profile = queryClient.getQueryData(authKeys.profile());
 
   return profile;
+};
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateFullName,
+    onSuccess: () => {
+      queryClient.invalidateQueries(authKeys.profile());
+    },
+  });
+};
+
+export const useUpdatePassword = () => {
+  return useMutation({
+    mutationFn: updatePassword,
+  });
 };

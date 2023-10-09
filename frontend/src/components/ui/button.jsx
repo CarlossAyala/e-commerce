@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/libs/utils";
+import { Skeleton } from "./skeleton";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
@@ -47,5 +48,9 @@ const Button = React.forwardRef(
   },
 );
 Button.displayName = "Button";
+
+Button.Skeleton = function ButtonSkeleton({ className }) {
+  return <Skeleton className={cn("h-9 w-16 rounded-md", className)} />;
+};
 
 export { Button, buttonVariants };

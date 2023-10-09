@@ -42,12 +42,29 @@ export const signupSchema = object({
   password,
   confirmPassword,
 });
-
-export const signupInitial = signupSchema.getDefault();
-
 export const signinSchema = object({
   email,
   password,
 });
+export const changeNameSchema = object({
+  name,
+  lastName,
+});
+export const changePasswordSchema = object({
+  oldPassword: string().label("Old password").min(8).max(255).required(),
+  password: string().label("New password").min(8).max(255).required(),
+  confirmPassword: string()
+    .label("Confirm password")
+    .oneOf([ref("password")], "Passwords must match")
+    .required(),
+});
 
+export const signupInitial = signupSchema.getDefault();
 export const signinInitial = signinSchema.getDefault();
+export const changeNameInitial = changeNameSchema.getDefault();
+export const changePasswordInitial = changePasswordSchema.getDefault();
+
+export const changeNameDefault = (value) => ({
+  name: value?.name ?? changeNameInitial.name,
+  lastName: value?.lastName ?? changeNameInitial.lastName,
+});
