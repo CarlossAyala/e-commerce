@@ -51,8 +51,12 @@ export const useCreateQuestion = () => {
   return useMutation({
     mutationFn: ([productId, question]) => create(productId, question),
     onSuccess: (_, [productId]) => {
-      queryClient.invalidateQueries(questionKeys.customerKey());
-      queryClient.invalidateQueries(questionKeys.productCustomerKey(productId));
+      queryClient.invalidateQueries({
+        queryKey: questionKeys.customerKey(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: questionKeys.productCustomerKey(productId),
+      });
     },
   });
 };

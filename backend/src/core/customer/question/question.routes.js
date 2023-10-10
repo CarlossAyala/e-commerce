@@ -6,43 +6,34 @@ const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./question.schema");
 const QueryBuilder = require("../../../utils/database/query-builder");
 
-// TODO: Add Pagination
 router.get("/customer", JWT.verify, async (req, res, next) => {
-  const { where, limit, offset } = new QueryBuilder(req.query)
-    .where("customerId", req.auth.id)
+  const { id: customerId } = req.auth;
+
+  const { where, order, limit, offset } = new QueryBuilder(req.query)
+    .where("customerId", customerId)
     .orderBy("createdAt", "DESC")
     .pagination()
     .build();
 
   try {
-    const QAs = await Product.model.findAndCountAll({
+    const questions = await Question.model.findAndCountAll({
+      where,
       include: [
         {
-          model: Question.model,
-          as: "questions",
-          where,
-          required: true,
-          include: {
-            model: Answer.model,
-            as: "answer",
-          },
+          model: Product.model,
+          as: "product",
+        },
+        {
+          model: Answer.model,
+          as: "answer",
         },
       ],
-      order: [
-        [
-          {
-            model: Question.model,
-            as: "questions",
-          },
-          "createdAt",
-          "DESC",
-        ],
-      ],
+      order,
       limit,
       offset,
     });
 
-    return res.status(200).json(QAs);
+    return res.status(200).json(questions);
   } catch (error) {
     next(error);
   }
@@ -103,7 +94,6 @@ router.get(
   }
 );
 
-// Create Question
 router.post(
   "/:id",
   JWT.verify,
