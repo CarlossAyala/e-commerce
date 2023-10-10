@@ -1,4 +1,8 @@
 export const orderActionRoutes = {
-  list: "/customer/order",
-  order: (id) => `/customer/order/${id}/detail`,
+  list: "/customer/orders",
+  details: (id) => `/customer/orders/${id}/details`,
+};
+
+export const getOrderQty = (order) => {
+  return order.items.reduce((acc, item) => acc + item.quantity, 0);
 };

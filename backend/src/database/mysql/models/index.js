@@ -24,10 +24,6 @@ const ReviewLikeDislike = require("./review-like-dislike.model");
 const Question = require("./question.model");
 const Answer = require("./answer.model");
 
-// Association
-
-// SECURITY
-
 // CATEGORIES
 Category.model.belongsTo(Category.model, {
   foreignKey: "parentId",

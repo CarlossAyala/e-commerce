@@ -217,7 +217,7 @@ router.post("/:id/confirm", JWT.verify, async (req, res, next) => {
         } = address.dataValues;
 
         const order = await Order.model.create({
-          total: itemsTotalDecimals,
+          total: cartItemsTotal,
           receiverName: name,
           receiverPhone: phone,
           zipCode,

@@ -1,27 +1,43 @@
 const express = require("express");
+const router = express.Router();
 const Boom = require("@hapi/boom");
-const { Order, OrderItem, Product } = require("../../../database/mysql/models");
+const {
+  Order,
+  OrderItem,
+  Product,
+  User,
+} = require("../../../database/mysql/models");
 const Stripe = require("../../stripe/stripe.connection");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./order.schema");
-const router = express.Router();
+const { QueryBuilder } = require("../../../libs");
 
-// Get All
 router.get("/", JWT.verify, async (req, res, next) => {
-  const customerId = req.auth.id;
+  const { id: customerId } = req.auth;
+
+  const { where, limit, offset, order } = new QueryBuilder(req.query)
+    .where("customerId", customerId)
+    .orderBy("orderedAt", "DESC")
+    .pagination()
+    .build();
 
   try {
-    // TODO: Add search by status
-    const orders = await Order.model.findAll({
-      where: {
-        customerId,
-      },
-      order: [["orderedAt", "DESC"]],
-    });
-
-    for (const order of orders) {
-      order.total /= 100;
+    const customer = await User.model.findByPk(customerId);
+    if (!customer) {
+      throw Boom.notFound("Customer not found");
     }
+
+    const orders = await Order.model.findAndCountAll({
+      where,
+      include: {
+        model: OrderItem.model,
+        as: "items",
+      },
+      distinct: true,
+      order,
+      offset,
+      limit,
+    });
 
     return res.status(200).json(orders);
   } catch (error) {
@@ -29,29 +45,28 @@ router.get("/", JWT.verify, async (req, res, next) => {
   }
 });
 
-// Get One
 router.get(
   "/:id",
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
-    const { id } = req.params;
-    const customerId = req.auth.id;
+    const { id: orderId } = req.params;
+    const { id: customerId } = req.auth;
 
     try {
-      const order = await Order.model.findOne({
-        where: {
-          id,
-          customerId,
-        },
-      });
+      const customer = await User.model.findByPk(customerId);
+      if (!customer) {
+        throw Boom.notFound("Customer not found");
+      }
+
+      const order = await Order.model.findByPk(orderId);
       if (!order || order.customerId !== customerId) {
         return next(Boom.notFound("Order not found"));
       }
 
-      const orderItems = await OrderItem.model.findAll({
+      const items = await OrderItem.model.findAll({
         where: {
-          orderId: order.dataValues.id,
+          orderId,
         },
         include: {
           model: Product.model,
@@ -68,13 +83,9 @@ router.get(
       );
 
       return res.status(200).json({
-        order: {
-          ...order.dataValues,
-          total: order.total / 100,
-        },
-        paymentIntent,
+        order,
         paymentMethod,
-        orderItems,
+        items,
       });
     } catch (error) {
       next(error);
