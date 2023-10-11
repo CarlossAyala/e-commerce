@@ -5,11 +5,56 @@ const {
   Product,
   Review,
   ReviewLikeDislike,
+  User,
 } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./review.schema");
 const sequelize = require("../../../database/mysql");
 const QueryBuilder = require("../../../utils/database/query-builder");
+
+router.get("/customer", JWT.verify, async (req, res, next) => {
+  const { id: customerId } = req.auth;
+
+  const qb = new QueryBuilder(req.query).where("customerId", customerId);
+
+  switch (req.query.status) {
+    case "done": {
+      qb.where("status", Review.enums.status.done).orderBy("updatedAt", "DESC");
+      break;
+    }
+    case "pending": {
+      qb.where("status", Review.enums.status.pending).orderBy(
+        "createdAt",
+        "DESC"
+      );
+      break;
+    }
+  }
+
+  try {
+    const customer = await User.model.findByPk(customerId);
+    if (!customer) {
+      throw Boom.notFound("Customer not found");
+    }
+
+    const { where, order, limit, offset } = qb.pagination().build();
+
+    const reviews = await Review.model.findAndCountAll({
+      where,
+      include: {
+        model: Product.model,
+        as: "product",
+      },
+      order,
+      limit,
+      offset,
+    });
+
+    return res.status(200).json(reviews);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.get(
   "/:id",
@@ -18,6 +63,18 @@ router.get(
   async (req, res, next) => {
     const { id } = req.params;
     const { id: customerId } = req.auth;
+
+    let status;
+    switch (req.query.status) {
+      case "done": {
+        status = Review.enums.status.done;
+        break;
+      }
+      case "pending": {
+        status = Review.enums.status.pending;
+        break;
+      }
+    }
 
     try {
       const review = await Review.model.findOne({
@@ -31,7 +88,9 @@ router.get(
         },
       });
       if (!review) {
-        return next(Boom.notFound("Review not found"));
+        throw Boom.notFound("Review not found");
+      } else if (status === "done" && review.dataValues.status === "done") {
+        throw Boom.badRequest("Review is already done");
       }
 
       return res.status(200).json(review);
@@ -41,6 +100,7 @@ router.get(
   }
 );
 
+// TODO: Delete this
 router.get("/customer/done", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;
 
@@ -69,6 +129,7 @@ router.get("/customer/done", JWT.verify, async (req, res, next) => {
   }
 });
 
+// TODO: Delete this
 router.get("/customer/pending", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;
 
@@ -205,17 +266,14 @@ router.post(
   validateSchema(schemas.base, "body"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
-    const { id } = req.params;
+    const { id: reviewId } = req.params;
     const { rating, description } = req.body;
 
     try {
-      const review = await Review.model.findOne({
-        where: {
-          id,
-          customerId,
-        },
-      });
-      if (review.dataValues.status === Review.enums.status.done) {
+      const review = await Review.model.findByPk(reviewId);
+      if (review.dataValues.customerId !== customerId) {
+        return next(Boom.forbidden("You can't edit this review"));
+      } else if (review.dataValues.status === Review.enums.status.done) {
         return next(Boom.conflict("Review already exists"));
       } else if (!review) {
         return next(Boom.notFound("Review not found"));

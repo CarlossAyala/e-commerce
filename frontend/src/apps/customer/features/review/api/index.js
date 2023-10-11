@@ -1,22 +1,29 @@
-import { API_COMMON } from "../../../../../configs";
+import { API_COMMON, API_CUSTOMER } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
 import { getToken } from "../../../../../utils/local-storage";
 
-const ENDPOINT = `${API_COMMON}/reviews`;
+const ENDPOINT_COMMON = `${API_COMMON}/reviews`;
+const ENDPOINT_CUSTOMER = `${API_CUSTOMER}/reviews`;
 
-export const findOne = (reviewId) => {
-  const url = `${ENDPOINT}/${reviewId}`;
+export const findOne = (reviewId, query) => {
+  const url = `${ENDPOINT_CUSTOMER}/${reviewId}?${query}`;
+  const token = getToken();
+
+  if (!token) {
+    throw new Error("Token not found");
+  }
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
 };
 
 export const findAll = (productId, query) => {
-  const url = `${ENDPOINT}/product/${productId}?${query}`;
+  const url = `${ENDPOINT_COMMON}/product/${productId}?${query}`;
 
   return fetcher(url, {
     method: "GET",
@@ -26,8 +33,26 @@ export const findAll = (productId, query) => {
   });
 };
 
+export const findAllByCustomer = (query) => {
+  const url = `${ENDPOINT_CUSTOMER}/customer?${query}`;
+
+  const token = getToken();
+
+  if (!token) {
+    return Promise.reject("Unauthorized");
+  }
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const stats = (productId) => {
-  const url = `${ENDPOINT}/product/${productId}/stats`;
+  const url = `${ENDPOINT_COMMON}/product/${productId}/stats`;
 
   return fetcher(url, {
     method: "GET",
@@ -38,7 +63,7 @@ export const stats = (productId) => {
 };
 
 export const like = (reviewId) => {
-  const url = `${ENDPOINT}/${reviewId}/like`;
+  const url = `${ENDPOINT_COMMON}/${reviewId}/like`;
   const token = getToken();
 
   if (!token) {
@@ -55,7 +80,7 @@ export const like = (reviewId) => {
 };
 
 export const dislike = (reviewId) => {
-  const url = `${ENDPOINT}/${reviewId}/dislike`;
+  const url = `${ENDPOINT_COMMON}/${reviewId}/dislike`;
   const token = getToken();
 
   if (!token) {
@@ -68,5 +93,23 @@ export const dislike = (reviewId) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+  });
+};
+
+export const create = (reviewId, values) => {
+  const url = `${ENDPOINT_CUSTOMER}/${reviewId}`;
+  const token = getToken();
+
+  if (!token) {
+    throw new Error("Token not found");
+  }
+
+  return fetcher(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(values),
   });
 };

@@ -20,7 +20,6 @@ router.get(
 
     try {
       const review = await Review.model.findByPk(reviewId);
-
       if (!review) {
         return next(Boom.notFound("Review not found"));
       }
@@ -130,6 +129,8 @@ router.get(
     }
   }
 );
+
+// TODO: Mover Like y Dislike a api/customer
 
 // Like
 router.patch(
