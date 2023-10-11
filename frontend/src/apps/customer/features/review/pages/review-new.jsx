@@ -30,6 +30,7 @@ import { useCreateReview, useGetReview } from "../queries";
 import { ReviewProduct } from "../components/review-product";
 
 const STARS = [1, 2, 3, 4, 5];
+const RATINGS = ["Poor", "Fair", "Average", "Good", "Excellent"];
 
 const ReviewNew = () => {
   const { toast } = useToast();
@@ -140,10 +141,13 @@ const ReviewNew = () => {
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="flex gap-x-2"
+                        className="mt-2 flex gap-x-2"
                       >
                         {STARS.map((star) => (
-                          <FormItem key={star}>
+                          <FormItem
+                            key={star}
+                            className="flex flex-col items-center justify-center "
+                          >
                             <FormLabel className="mb-0 rounded-full p-2 hover:bg-black/10">
                               <FormControl>
                                 <RadioGroupItem
@@ -157,6 +161,9 @@ const ReviewNew = () => {
                                 <StarOutline className="h-10 w-10 text-indigo-500" />
                               )}
                             </FormLabel>
+                            <span className="text-sm font-normal text-muted-foreground">
+                              {RATINGS[star - 1]}
+                            </span>
                           </FormItem>
                         ))}
                       </RadioGroup>

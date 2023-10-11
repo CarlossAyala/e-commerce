@@ -22,7 +22,6 @@ const email = string()
   .default("")
   .required();
 const password = string()
-  .label("Password")
   .transform(parseString)
   .min(8)
   .max(255)
@@ -31,7 +30,6 @@ const password = string()
 const confirmPassword = string()
   .label("Confirm password")
   .transform(parseString)
-  .oneOf([ref("password")], "Passwords must match")
   .default("")
   .required();
 
@@ -40,7 +38,10 @@ export const signupSchema = object({
   lastName,
   email,
   password,
-  confirmPassword,
+  confirmPassword: confirmPassword.oneOf(
+    [ref("password")],
+    "Passwords must match",
+  ),
 });
 export const signinSchema = object({
   email,
@@ -51,12 +52,12 @@ export const changeNameSchema = object({
   lastName,
 });
 export const changePasswordSchema = object({
-  oldPassword: string().label("Old password").min(8).max(255).required(),
-  password: string().label("New password").min(8).max(255).required(),
-  confirmPassword: string()
-    .label("Confirm password")
-    .oneOf([ref("password")], "Passwords must match")
-    .required(),
+  oldPassword: password.label("Old password"),
+  newPassword: password.label("New password"),
+  confirmPassword: confirmPassword.oneOf(
+    [ref("newPassword")],
+    "Passwords must match",
+  ),
 });
 
 export const signupInitial = signupSchema.getDefault();

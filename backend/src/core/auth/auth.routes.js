@@ -136,7 +136,7 @@ router.patch(
   validateSchema(schemas.changePassword, "body"),
   async (req, res, next) => {
     const { id } = req.auth;
-    const { oldPassword, password } = req.body;
+    const { oldPassword, newPassword } = req.body;
 
     try {
       const account = await User.model.findByPk(id);
@@ -149,10 +149,10 @@ router.patch(
         account.dataValues.password
       );
       if (!isValidPassword) {
-        return next(Boom.badRequest("Old password is incorrect"));
+        return next(Boom.badRequest("Password is incorrect"));
       }
 
-      const hashedPassword = await bcrypt.hash(password);
+      const hashedPassword = await bcrypt.hash(newPassword);
       await account.update({ password: hashedPassword });
 
       return res.status(200).json({

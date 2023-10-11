@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { addressRoutes } from "../../address";
-import { Account, Cards, Profile } from "../pages";
+import { Account, Cards } from "../pages";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -8,10 +8,6 @@ import { Account, Cards, Profile } from "../pages";
 export const settingRoutes = [
   {
     index: true,
-    element: <Profile />,
-  },
-  {
-    path: "account",
     element: <Account />,
   },
   {
