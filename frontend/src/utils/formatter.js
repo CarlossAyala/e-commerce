@@ -26,6 +26,13 @@ export class Formatter {
     }).format(new Date(date));
   }
 
+  static monthAndYearDate(date) {
+    return new Intl.DateTimeFormat("es-AR", {
+      year: "numeric",
+      month: "long",
+    }).format(new Date(date));
+  }
+
   static precisionTwo(num) {
     const valid = +num;
     return valid.toFixed(2);

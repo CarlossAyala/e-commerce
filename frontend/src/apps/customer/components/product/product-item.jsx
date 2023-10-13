@@ -31,7 +31,7 @@ export const ProductItem = ({ product }) => {
         >
           {product.condition}
         </p>
-        <p className="line-clamp-2 text-sm font-medium leading-snug text-black">
+        <p className="line-clamp-2 text-sm font-normal leading-snug text-black">
           {product.name}
         </p>
       </div>
@@ -40,5 +40,5 @@ export const ProductItem = ({ product }) => {
 };
 
 ProductItem.Skeleton = function ProductItemSkeleton() {
-  return <Skeleton className="h-56 overflow-hidden rounded-md shadow-md" />;
+  return <Skeleton className="h-52 overflow-hidden rounded-md shadow-md" />;
 };

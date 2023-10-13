@@ -21,13 +21,17 @@ export const StoresDisplay = ({ className }) => {
     hasContent && Formatter.groupByFirstLetter(stores.rows, "name");
 
   return (
-    <section className={cn("space-y-8", className)}>
-      <Input
-        className="max-w-sm grow rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
-        placeholder="Search"
-      />
+    <section className={cn("space-y-6", className)}>
+      <div className="space-y-2">
+        <p className="text-sm font-medium tracking-tight">Search</p>
 
-      <section className="space-y-10">
+        <Input
+          className="max-w-sm grow rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          placeholder="Search"
+        />
+      </div>
+
+      <section>
         {isLoading && (
           <>
             <StoresGroup.Skeleton />
@@ -47,12 +51,26 @@ export const StoresDisplay = ({ className }) => {
           </EmptyPlaceholder>
         )}
         {isEmpty && (
-          <p className="text-sm font-normal italic text-muted-foreground">
-            No products
-          </p>
+          <div className="space-y-2">
+            <p className="text-sm font-medium tracking-tight">Results</p>
+
+            <p className="text-sm font-normal italic text-muted-foreground">
+              No stores found
+            </p>
+          </div>
         )}
-        {hasContent &&
-          groups.map((group) => <StoresGroup key={group.key} group={group} />)}
+
+        {hasContent && (
+          <div className="space-y-2">
+            <p className="text-sm font-medium tracking-tight">Results</p>
+
+            <div className="space-y-6">
+              {groups.map((group) => (
+                <StoresGroup key={group.key} group={group} />
+              ))}
+            </div>
+          </div>
+        )}
       </section>
     </section>
   );

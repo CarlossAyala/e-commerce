@@ -2,7 +2,7 @@ const express = require("express");
 const Boom = require("@hapi/boom");
 const router = express.Router();
 const { Store, Product } = require("../../../database/mysql/models");
-const { slugify } = require("../../../libs");
+const { slugify, QueryBuilder } = require("../../../libs");
 const { validateSchema } = require("../../../middlewares");
 const schemas = require("./store.schema");
 
@@ -77,6 +77,8 @@ router.get(
   async (req, res, next) => {
     const { name } = req.params;
 
+    const { limit, offset } = new QueryBuilder(req.query).pagination().build();
+
     const slug = slugify(name);
 
     try {
@@ -92,8 +94,8 @@ router.get(
 
       const products = await Product.model.findAndCountAll({
         where: { storeId: store.dataValues.id },
-        limit: 30,
-        offset: 0,
+        limit,
+        offset,
       });
 
       return res.status(200).json(products);

@@ -12,7 +12,7 @@ const Stores = () => {
         </p>
       </section>
 
-      <Separator className="" />
+      <Separator />
 
       <section className="flex gap-10">
         <StoresFilters className="hidden w-full max-w-[240px] shrink-0 sm:block" />

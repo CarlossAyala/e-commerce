@@ -1,3 +1,3 @@
 export const productActionRoutes = {
-  detail: (id, slug) => `/customer/product/${id}/${slug}`,
+  detail: (id, name) => `/customer/product/${id}/${name}`,
 };

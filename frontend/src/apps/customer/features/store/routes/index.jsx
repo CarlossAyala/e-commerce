@@ -9,7 +9,7 @@ export const storeRoutes = [
     element: <Stores />,
   },
   {
-    path: ":store",
+    path: ":name",
     element: <Store />,
   },
 ];
