@@ -36,6 +36,8 @@ export * from "./ui/skeleton";
 export * from "./ui/navigation-menu";
 export * from "./ui/tabs";
 export * from "./ui/tooltip";
+export * from "./ui/popover";
+export * from "./ui/command";
 export * from "./skeleton/skeleton-input";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";

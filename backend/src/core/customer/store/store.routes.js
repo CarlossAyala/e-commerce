@@ -73,7 +73,7 @@ router.get(
 // Get Products Store by slug
 router.get(
   "/:name/products",
-  validateSchema(schemas.resourceSlug, "params"),
+  validateSchema(schemas.resourceName, "params"),
   async (req, res, next) => {
     const { name } = req.params;
 

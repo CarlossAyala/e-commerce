@@ -30,4 +30,27 @@ export class Formatter {
     const valid = +num;
     return valid.toFixed(2);
   }
+
+  static getKeyGroup(obj, accessor) {
+    if (typeof accessor === "string") {
+      return obj[accessor].toUpperCase().charAt(0);
+    } else {
+      return accessor(obj).toUpperCase().charAt(0);
+    }
+  }
+
+  static groupByFirstLetter(arr, accessor) {
+    if (!Array.isArray(arr) || arr.length === 0) return [];
+
+    const map = new Map();
+
+    for (const item of arr) {
+      const firstLetter = Formatter.getKeyGroup(item, accessor);
+      const keyGroup = map.get(firstLetter) ?? { key: firstLetter, group: [] };
+      keyGroup.group.push(item);
+      map.set(firstLetter, keyGroup);
+    }
+
+    return Array.from(map.values());
+  }
 }

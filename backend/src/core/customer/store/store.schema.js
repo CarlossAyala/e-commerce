@@ -1,19 +1,19 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 const id = Joi.string().guid({
-  version: 'uuidv4',
-  separator: '-',
+  version: "uuidv4",
+  separator: "-",
 });
 
 const resourceId = Joi.object({
   id: id.required(),
 });
 
-const resourceSlug = Joi.object({
-  slug: Joi.string().required(),
+const resourceName = Joi.object({
+  name: Joi.string().required(),
 });
 
 module.exports = {
   resourceId,
-  resourceSlug,
+  resourceName,
 };

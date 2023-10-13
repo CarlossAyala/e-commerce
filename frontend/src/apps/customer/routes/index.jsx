@@ -10,6 +10,7 @@ import { Settings, settingRoutes } from "../features/setting";
 import { orderRoutes } from "../features/order";
 import { Questions } from "../features/question";
 import { reviewRoutes } from "../features/review";
+import { storeRoutes } from "../features/store";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -66,5 +67,10 @@ export const customerRoutes = [
     path: "reviews",
     element: <Outlet />,
     children: reviewRoutes,
+  },
+  {
+    path: "stores",
+    element: <Outlet />,
+    children: storeRoutes,
   },
 ];
