@@ -1,5 +1,5 @@
 import { Skeleton } from "../../../../../components";
-import { StoreItem } from "./store-item";
+import { StoreItem } from "../../../components";
 
 export const StoresGroup = ({ group }) => {
   return (

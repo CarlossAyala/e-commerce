@@ -1,17 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
-const { Op } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 const {
   Category,
   Product,
   Review,
   Store,
 } = require("../../../database/mysql/models");
-const { validateSchema } = require("../../../middlewares");
-const schemas = require("./category.schema");
 
-router.get("/full-list", async (req, res, next) => {
+router.get("/main", async (req, res, next) => {
+  try {
+    const categories = await Category.model.findAll({
+      where: {
+        parentId: {
+          [Op.is]: null,
+        },
+      },
+      order: [["name", "ASC"]],
+    });
+
+    return res.json(categories);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/full", async (req, res, next) => {
   try {
     const categories = await Category.model.findAll({
       where: {
@@ -28,270 +43,225 @@ router.get("/full-list", async (req, res, next) => {
       order: [["name", "ASC"]],
     });
 
-    return res.status(200).json(categories);
+    return res.json(categories);
   } catch (error) {
     next(error);
   }
 });
 
-// By Slug Single
-router.get(
-  "/:slug",
-  validateSchema(schemas.resourceSlug, "params"),
-  async (req, res, next) => {
-    const { slug } = req.params;
+router.get("/:slug", async (req, res, next) => {
+  const { slug } = req.params;
 
-    try {
-      const category = await Category.model.findOne({
-        where: {
-          slug,
-        },
-      });
+  try {
+    const category = await Category.model.findOne({
+      where: {
+        slug,
+      },
+    });
+    if (!category) throw Boom.notFound("Category not found");
 
-      if (!category) {
-        return next(Boom.notFound("Category not found"));
-      }
-
-      return res.status(200).json(category);
-    } catch (error) {
-      next(error);
-    }
+    return res.json(category);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-// By Slug List
-router.get(
-  "/:slug/list",
-  validateSchema(schemas.resourceSlug, "params"),
-  async (req, res, next) => {
-    const { slug } = req.params;
+router.get("/:slug/list", async (req, res, next) => {
+  const { slug } = req.params;
 
-    try {
-      let category = await Category.model.findOne({
+  console.log("SLUG _>>>>>>>>>>>>>>>>>>>>>>>>>", slug);
+
+  try {
+    const category = await Category.model.findOne({
+      where: {
+        slug,
+      },
+    });
+    if (!category) throw Boom.notFound("Category not found");
+
+    let categories;
+    if (category.parentId) {
+      categories = await Category.model.findAll({
         where: {
-          slug,
+          id: category.parentId,
+        },
+        include: {
+          model: Category.model,
+          as: "children",
+          separate: true,
+          order: [["name", "ASC"]],
         },
       });
-
-      if (!category) {
-        return next(Boom.notFound("Category not found"));
-      }
-
-      // Checkear si es una Categoria principal
-      if (category.dataValues.parentId) {
-        category = await Category.model.findOne({
-          where: {
-            id: category.dataValues.parentId,
-          },
-          include: {
-            model: Category.model,
-            as: "children",
-            separate: true,
-            order: [["name", "ASC"]],
-          },
-        });
-      } else {
-        category = await Category.model.findOne({
-          where: {
-            id: category.dataValues.id,
-          },
-          include: {
-            model: Category.model,
-            as: "children",
-            separate: true,
-            order: [["name", "ASC"]],
-          },
-        });
-      }
-
-      return res.status(200).json(category);
-    } catch (error) {
-      next(error);
+    } else {
+      categories = await Category.model.findAll({
+        where: {
+          id: category.id,
+        },
+        include: {
+          model: Category.model,
+          as: "children",
+          separate: true,
+          order: [["name", "ASC"]],
+        },
+      });
     }
+
+    const categoryList = categories[0].dataValues;
+
+    return res.json(categoryList);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-// Get Product Best Sellers by Category Slug
-router.get(
-  "/:slug/best-sellers",
-  validateSchema(schemas.resourceSlug, "params"),
-  async (req, res, next) => {
-    const { slug } = req.params;
+router.get("/:slug/products/best-sellers", async (req, res, next) => {
+  const { slug } = req.params;
 
-    try {
-      const category = await Category.model.findOne({
-        where: {
-          slug,
+  try {
+    const category = await Category.model.findOne({
+      where: {
+        slug,
+      },
+    });
+    if (!category) throw Boom.notFound("Category not found");
+
+    const products = await Product.model.findAll({
+      where: {
+        categoryId: category.id,
+        stock: {
+          [Op.gt]: 0,
         },
-      });
-      if (!category) {
-        return next(Boom.notFound("Category not found"));
-      }
+        available: true,
+      },
+      order: [["sold", "DESC"]],
+      limit: 10,
+      offset: 0,
+    });
 
-      const products = await Product.model.findAll({
+    return res.json(products);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:slug/products/top-rated", async (req, res, next) => {
+  const { slug } = req.params;
+
+  try {
+    const category = await Category.model.findOne({
+      where: {
+        slug,
+      },
+    });
+    if (!category) throw Boom.notFound("Category not found");
+
+    const reviews = await Review.model.findAll({
+      attributes: [
+        "productId",
+        [Sequelize.fn("AVG", Sequelize.col("rating")), "average"],
+        [Sequelize.fn("COUNT", Sequelize.col("Review.id")), "count"],
+      ],
+      include: {
+        model: Product.model,
+        as: "product",
         where: {
-          categoryId: category.dataValues.id,
+          categoryId: category.id,
           stock: {
             [Op.gt]: 0,
           },
+          available: true,
         },
-        order: [["sold", "DESC"]],
-        limit: 20,
-        offset: 0,
-      });
-
-      return res.status(200).json(products);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-// Get Product Top Rated by Category Slug
-router.get(
-  "/:slug/top-rated",
-  validateSchema(schemas.resourceSlug, "params"),
-  async (req, res, next) => {
-    const { slug } = req.params;
-
-    try {
-      const category = await Category.model.findOne({
-        where: {
-          slug,
-        },
-      });
-      if (!category) {
-        return next(Boom.notFound("Category not found"));
-      }
-
-      let reviews = await Review.model.findAll({
-        attributes: [
-          "productId",
-          [Op.fn("AVG", Op.col("rating")), "avarage"],
-          [Op.fn("COUNT", Op.col("Review.id")), "count"],
-        ],
-        include: {
-          model: Product.model,
-          as: "product",
-          where: {
-            categoryId: category.dataValues.id,
-            stock: {
-              [Op.gt]: 0,
-            },
-            available: {
-              [Op.is]: true,
-            },
+        required: true,
+      },
+      group: ["productId"],
+      order: [
+        ["count", "DESC"],
+        ["average", "DESC"],
+        [
+          {
+            model: Product.model,
+            as: "product",
           },
-          required: true,
-        },
-        group: ["productId"],
-        order: [
-          [
-            {
-              model: Product.model,
-              as: "product",
-            },
-            "sold",
-            "DESC",
-          ],
-          ["count", "DESC"],
-          ["avarage", "DESC"],
+          "sold",
+          "DESC",
         ],
-        limit: 20,
-        offset: 0,
-      });
+      ],
+      limit: 10,
+      offset: 0,
+    });
 
-      for (const review of reviews) {
-        review.dataValues.avarage = Number(review.dataValues.avarage).toFixed(
-          2
-        );
-      }
-
-      return res.status(200).json(reviews);
-    } catch (error) {
-      next(error);
+    for (const review of reviews) {
+      review.dataValues.average = Number(review.dataValues.average).toFixed(2);
     }
+
+    return res.json(reviews);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
-// Get Product Random by Category Slug
-router.get(
-  "/:slug/random",
-  validateSchema(schemas.resourceSlug, "params"),
-  async (req, res, next) => {
-    const { slug } = req.params;
+router.get("/:slug/products/randoms", async (req, res, next) => {
+  const { slug } = req.params;
 
-    try {
-      const category = await Category.model.findOne({
-        where: {
-          slug,
+  try {
+    const category = await Category.model.findOne({
+      where: {
+        slug,
+      },
+    });
+    if (!category) throw Boom.notFound("Category not found");
+
+    const products = await Product.model.findAll({
+      where: {
+        categoryId: category.id,
+        stock: {
+          [Op.gt]: 0,
         },
-      });
-      if (!category) {
-        return next(Boom.notFound("Category not found"));
-      }
+        available: true,
+      },
+      order: Sequelize.literal("RAND()"),
+      limit: 10,
+      offset: 0,
+    });
 
-      const products = await Product.model.findAll({
+    return res.json(products);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:slug/stores", async (req, res, next) => {
+  const { slug } = req.params;
+
+  try {
+    const category = await Category.model.findOne({
+      where: {
+        slug,
+      },
+    });
+    if (!category) throw Boom.notFound("Category not found");
+
+    const stores = await Store.model.findAll({
+      attributes: {
+        exclude: ["userId"],
+      },
+      include: {
+        model: Product.model,
+        as: "products",
         where: {
           categoryId: category.dataValues.id,
-          stock: {
-            [Op.gt]: 0,
-          },
-          available: {
-            [Op.is]: true,
-          },
         },
-        order: Op.random(),
-        limit: 20,
-        offset: 0,
-      });
+        attributes: [],
+      },
+      order: Sequelize.literal("RAND()"),
+      limit: 10,
+      offset: 0,
+    });
 
-      return res.status(200).json(products);
-    } catch (error) {
-      next(error);
-    }
+    return res.json(stores);
+  } catch (error) {
+    next(error);
   }
-);
-
-// Get Stores by Category Slug
-router.get(
-  "/:slug/stores",
-  validateSchema(schemas.resourceSlug, "params"),
-  async (req, res, next) => {
-    const { slug } = req.params;
-
-    try {
-      const category = await Category.model.findOne({
-        where: {
-          slug,
-        },
-      });
-      if (!category) {
-        return next(Boom.notFound("Category not found"));
-      }
-
-      const stores = await Store.model.findAll({
-        attributes: {
-          exclude: ["userId"],
-        },
-        include: {
-          model: Product.model,
-          as: "products",
-          where: {
-            categoryId: category.dataValues.id,
-          },
-          attributes: [],
-        },
-        order: Op.random(),
-        limit: 20,
-        offset: 0,
-      });
-
-      return res.status(200).json(stores);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
+});
 
 module.exports = router;

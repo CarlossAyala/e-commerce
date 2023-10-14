@@ -12,12 +12,12 @@ import { StoreProfile } from "../api/store-profile";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 
 const Store = () => {
-  const { name } = useParams();
+  const { slug } = useParams();
   const [params] = useSearchParams();
 
-  const store = useGetStore(name);
+  const store = useGetStore(slug);
   const debouncedParams = useDebounced(params.toString());
-  const products = useGetStoreProducts(name, debouncedParams);
+  const products = useGetStoreProducts(slug, debouncedParams);
 
   const hasProducts = products.isSuccess && products.data?.rows.length > 0;
   const isEmpty = products.isSuccess && products.data?.rows.length === 0;

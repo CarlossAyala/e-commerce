@@ -17,7 +17,7 @@ export const ProductItem = ({ product }) => {
           className="h-full w-full object-contain"
         />
       </div>
-      <div className="border-t border-black/10 p-2">
+      <div className="border-t border-black/10 px-4 py-3">
         <p className="text-base font-bold leading-snug text-black">
           {Formatter.money(product.price)}
         </p>
