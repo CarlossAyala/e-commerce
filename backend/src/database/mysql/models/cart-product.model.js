@@ -1,10 +1,10 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../index');
-const Cart = require('./cart.model');
-const Product = require('./product.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../connection");
+const Cart = require("./cart.model");
+const Product = require("./product.model");
 
-const modelName = 'CartProduct';
-const tableName = 'carts_products';
+const modelName = "CartProduct";
+const tableName = "carts_products";
 const modelOptions = {
   tableName,
   timestamps: true,
@@ -23,29 +23,29 @@ const modelSchema = {
   },
   cartId: {
     type: DataTypes.UUID,
-    field: 'cart_id',
+    field: "cart_id",
     references: {
       model: Cart.model,
-      key: 'id',
+      key: "id",
     },
   },
   productId: {
     type: DataTypes.UUID,
-    field: 'product_id',
+    field: "product_id",
     references: {
       model: Product.model,
-      key: 'id',
+      key: "id",
     },
   },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at',
+    field: "created_at",
   },
   updatedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'updated_at',
+    field: "updated_at",
   },
 };
 

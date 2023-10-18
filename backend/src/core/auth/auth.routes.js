@@ -4,7 +4,7 @@ const Boom = require("@hapi/boom");
 const { JWT, validateSchema } = require("../../middlewares");
 const schemas = require("./auth.schemas");
 const { bcrypt, Stripe } = require("../../libs");
-const { User, Cart } = require("../../database/mysql/models");
+const { User, Cart, Roles } = require("../../database/mysql/models");
 
 router.post(
   "/signup",
@@ -51,13 +51,30 @@ router.post(
   "/signin",
   validateSchema(schemas.signin, "body"),
   async (req, res, next) => {
+    const { from } = req.query;
     const { email, password } = req.body;
 
+    const isAdmin = from === "admin";
+
     try {
-      const userExist = await User.model.findOne({
+      const user = await User.model.findOne({
         where: { email },
+        ...(isAdmin && {
+          include: {
+            model: Roles.model,
+            as: "roles",
+            through: { attributes: [] },
+          },
+        }),
       });
-      if (!userExist) {
+
+      if (isAdmin && user.roles.length === 0) {
+        throw Boom.badRequest(
+          "Please provide a valid email address or password"
+        );
+      }
+
+      if (!user) {
         return next(
           Boom.badRequest("Please provide a valid email address or password")
         );
@@ -65,7 +82,7 @@ router.post(
 
       const isValidPassword = await bcrypt.compare(
         password,
-        userExist.dataValues.password
+        user.dataValues.password
       );
       if (!isValidPassword) {
         return next(
@@ -74,14 +91,14 @@ router.post(
       }
 
       const token = await JWT.sign({
-        id: userExist.dataValues.id,
+        id: user.dataValues.id,
       });
 
-      delete userExist.dataValues.password;
+      delete user.dataValues.password;
 
       return res.status(200).json({
         token,
-        customer: userExist,
+        user,
       });
     } catch (error) {
       next(error);
@@ -91,11 +108,22 @@ router.post(
 
 router.get("/profile", JWT.verify, async (req, res, next) => {
   const { id } = req.auth;
+  const { from } = req.query;
+
+  const isAdmin = from === "admin";
 
   try {
-    const account = await User.model.findByPk(id);
-    if (!account) {
-      return next(Boom.notFound("Account not found"));
+    const account = await User.model.findByPk(id, {
+      ...(isAdmin && {
+        include: {
+          model: Roles.model,
+          as: "roles",
+          through: { attributes: [] },
+        },
+      }),
+    });
+    if (!account || (isAdmin && account.roles.length === 0)) {
+      throw Boom.notFound("Account not found");
     }
 
     delete account.dataValues.password;

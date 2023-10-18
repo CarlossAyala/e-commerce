@@ -1,9 +1,9 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../index');
-const User = require('./user.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../connection");
+const User = require("./user.model");
 
-const modelName = 'Cart';
-const tableName = 'carts';
+const modelName = "Cart";
+const tableName = "carts";
 const modelOptions = {
   tableName,
   timestamps: false,
@@ -17,10 +17,10 @@ const modelSchema = {
   },
   customerId: {
     type: DataTypes.UUID,
-    field: 'customer_id',
+    field: "customer_id",
     references: {
       model: User.model,
-      key: 'id',
+      key: "id",
     },
   },
 };

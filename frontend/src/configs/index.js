@@ -5,11 +5,12 @@ export const API_SELLER = `${API_URL}/seller/api`;
 export const API_COMMON = `${API_URL}/api/common`;
 export const API_AUTH = `${API_URL}/api/auth`;
 
-export const actionRoutes = {
+export const appActionRoutes = {
   signin: "/signin",
   signup: "/signup",
   signout: "/signout",
-  seller: {
-    dashboard: "/seller",
-  },
+  admin: "/admin",
+  seller: "/seller",
+  customer: "/customer",
+  landing: "/",
 };

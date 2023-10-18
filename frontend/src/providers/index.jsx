@@ -9,7 +9,7 @@ const AppProvider = ({ children }) => {
       {children}
 
       <Toaster />
-      {/* <ReactQueryDevtools position="bottom-right" initialIsOpen={false} /> */}
+      <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
     </QueryClientProvider>
   );
 };

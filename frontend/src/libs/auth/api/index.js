@@ -4,8 +4,8 @@ import { fetcher } from "../../utils";
 
 const ENDPOINT = API_AUTH;
 
-export const getProfile = async () => {
-  const url = `${ENDPOINT}/profile`;
+export const getProfile = async (query) => {
+  const url = `${ENDPOINT}/profile?${query}`;
   const token = getToken();
 
   if (!token) {
@@ -21,8 +21,8 @@ export const getProfile = async () => {
   });
 };
 
-export const signin = async (values) => {
-  const url = `${ENDPOINT}/signin`;
+export const signin = async (values, query) => {
+  const url = `${ENDPOINT}/signin?${query}`;
 
   return fetcher(url, {
     method: "POST",

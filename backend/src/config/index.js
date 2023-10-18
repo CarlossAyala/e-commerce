@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
-require('dotenv').config();
+require("dotenv").config();
 
 const config = {
   env: process.env.NODE_ENV,
   port: process.env.PORT || 3007,
   saltRounds: Number(process.env.AUTH_SALT),
-  pexels: process.env.API_KEY_PIXELS,
+  pixels: process.env.API_KEY_PIXELS,
   mysql: {
     database: process.env.MYSQL_DATABASE,
     user: process.env.MYSQL_USER,
@@ -17,7 +17,7 @@ const config = {
   },
   admin: {
     name: process.env.ADMIN_NAME,
-    lastName: process.env.ADMIN_LASTNAME,
+    lastName: process.env.ADMIN_LAST_NAME,
     email: process.env.ADMIN_EMAIL,
     password: process.env.ADMIN_PASSWORD,
   },
@@ -26,6 +26,11 @@ const config = {
   },
   stipe: {
     sk_test: process.env.STRIPE_SK_TEST,
+  },
+  auth0: {
+    audience: process.env.AUTH0_AUDIENCE,
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+    tokenSigningAlg: process.env.AUTH0_TOKEN_SIGNING_ALG,
   },
 };
 

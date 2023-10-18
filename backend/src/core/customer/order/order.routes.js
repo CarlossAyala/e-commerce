@@ -7,10 +7,9 @@ const {
   Product,
   User,
 } = require("../../../database/mysql/models");
-const Stripe = require("../../stripe/stripe.connection");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./order.schema");
-const { QueryBuilder } = require("../../../libs");
+const { QueryBuilder, Stripe } = require("../../../libs");
 
 router.get("/", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;

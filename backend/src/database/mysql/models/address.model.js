@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../../../database/mysql/index");
 const User = require("./user.model");
+const sequelize = require("../connection");
 
 const modelName = "Address";
 const tableName = "addresses";

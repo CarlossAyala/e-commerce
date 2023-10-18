@@ -1,3 +1,5 @@
+import { appActionRoutes } from "../configs";
+
 export * from "./formatter";
 export * from "./local-storage";
 export * from "./schema";
@@ -33,4 +35,43 @@ export const getResultRowsStatus = (result) => {
   const isEmpty = result.isSuccess && result.data.rows.length === 0;
 
   return [hasContent, isEmpty];
+};
+
+const signinRedirectOptions = [
+  appActionRoutes.admin,
+  appActionRoutes.seller,
+  appActionRoutes.customer,
+];
+export const signinRedirects = (app) => {
+  const defaultRedirect = appActionRoutes.customer;
+
+  const redirect =
+    signinRedirectOptions.find((element) => element.includes(app)) ??
+    defaultRedirect;
+
+  return redirect;
+};
+
+/**
+ * @param {string} fullName
+ * @returns {string} initials
+ */
+export const getInitials = (fullName) => {
+  return fullName
+    .split(" ")
+    .map((word) => word.charAt(0))
+    .join("")
+    .toUpperCase();
+};
+
+/**
+ * @param {Location} location
+ * @param {string} path
+ * @returns {Boolean}
+ */
+export const isCurrentPath = (location, path, basePath) => {
+  if (location.pathname === path) return true;
+  else if (location.pathname.includes(path) && basePath !== path) {
+    return true;
+  }
 };

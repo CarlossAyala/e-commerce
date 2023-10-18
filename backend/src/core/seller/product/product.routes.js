@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
-const slugify = require("slugify");
 const { Category, Product, Store } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./product.schema");
-const slugifyOptions = require("../../../constant/slugify");
 const QueryBuilder = require("../../../utils/database/query-builder");
 const { Sequelize, Op } = require("sequelize");
+const { slugify } = require("../../../libs");
 
 // Get Products
 router.get("/", JWT.verify, async (req, res, next) => {
@@ -148,7 +147,7 @@ router.post(
 
       const product = await Product.model.create({
         name,
-        slug: slugify(name, slugifyOptions),
+        slug: slugify(name),
         categoryId,
         storeId: store.dataValues.id,
         ...rest,
@@ -192,7 +191,7 @@ router.put(
 
       await product.update({
         name,
-        slug: slugify(name, slugifyOptions),
+        slug: slugify(name),
         categoryId,
         ...rest,
       });

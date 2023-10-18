@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
-const slugify = require("slugify");
 const {
   Store,
   OrderItem,
@@ -10,9 +9,9 @@ const {
 } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schema = require("./store.schema");
-const slugifyOptions = require("../../../constant/slugify");
 const { Op, Sequelize } = require("sequelize");
 const ms = require("ms");
+const { slugify } = require("../../../libs");
 
 // Get Store
 router.get("/", JWT.verify, async (req, res, next) => {
@@ -150,7 +149,7 @@ router.post(
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { name, description } = req.body;
-    const slug = slugify(name, slugifyOptions);
+    const slug = slugify(name);
 
     try {
       const store = await Store.model.findOne({
@@ -186,7 +185,7 @@ router.put(
   async (req, res, next) => {
     const { id: sellerId } = req.auth;
     const { name, description } = req.body;
-    const slug = slugify(name, slugifyOptions);
+    const slug = slugify(name);
 
     try {
       const store = await Store.model.findOne({

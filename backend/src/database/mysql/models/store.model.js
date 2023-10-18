@@ -1,9 +1,9 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../index');
-const User = require('./user.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../connection");
+const User = require("./user.model");
 
-const modelName = 'Store';
-const tableName = 'stores';
+const modelName = "Store";
+const tableName = "stores";
 const modelOptions = {
   tableName,
   timestamps: true,
@@ -25,21 +25,21 @@ const modelSchema = {
   slug: DataTypes.STRING,
   sellerId: {
     type: DataTypes.UUID,
-    field: 'seller_id',
+    field: "seller_id",
     references: {
       model: User.model,
-      key: 'id',
+      key: "id",
     },
   },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at',
+    field: "created_at",
   },
   updatedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'updated_at',
+    field: "updated_at",
   },
 };
 

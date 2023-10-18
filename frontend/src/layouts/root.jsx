@@ -5,10 +5,13 @@ const Root = () => {
     <div>
       <ul>
         <li>
-          <Link to="/seller">Seller</Link>
+          <Link to="/admin">Admin</Link>
         </li>
         <li>
           <Link to="/customer">Customer</Link>
+        </li>
+        <li>
+          <Link to="/seller">Seller</Link>
         </li>
       </ul>
     </div>

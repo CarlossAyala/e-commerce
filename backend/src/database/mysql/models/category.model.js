@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../index');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../connection");
 
-const modelName = 'Category';
-const tableName = 'categories';
+const modelName = "Category";
+const tableName = "categories";
 const modelOptions = {
   tableName,
   timestamps: true,
@@ -19,21 +19,21 @@ const modelSchema = {
   image: DataTypes.STRING,
   slug: {
     type: DataTypes.STRING,
-    unique: 'slug',
+    unique: "slug",
   },
   parentId: {
     type: DataTypes.UUID,
-    field: 'parent_id',
+    field: "parent_id",
   },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at',
+    field: "created_at",
   },
   updatedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'updated_at',
+    field: "updated_at",
   },
 };
 

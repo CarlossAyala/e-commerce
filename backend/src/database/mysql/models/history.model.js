@@ -1,11 +1,10 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql/index');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../connection");
+const User = require("./user.model");
+const Product = require("./product.model");
 
-const User = require('./user.model');
-const Product = require('./product.model');
-
-const modelName = 'History';
-const tableName = 'history';
+const modelName = "History";
+const tableName = "history";
 const modelOptions = {
   tableName,
   timestamps: false,
@@ -19,26 +18,26 @@ const modelSchema = {
   },
   customerId: {
     type: DataTypes.UUID,
-    field: 'customer_id',
+    field: "customer_id",
     primaryKey: true,
     references: {
       model: User.model,
-      key: 'id',
+      key: "id",
     },
   },
   productId: {
     type: DataTypes.UUID,
-    field: 'product_id',
+    field: "product_id",
     primaryKey: true,
     references: {
       model: Product.model,
-      key: 'id',
+      key: "id",
     },
   },
   lastSeenAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'last_seen_at',
+    field: "last_seen_at",
     primaryKey: true,
   },
 };

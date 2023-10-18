@@ -1,7 +1,11 @@
 const User = require("./user.model");
 const Address = require("./address.model");
 
+const Roles = require("./roles.model");
+const UsersRoles = require("./users-roles.model");
+
 const Store = require("./store.model");
+const RequestOfficialStore = require("./request-official-store.model");
 
 const Category = require("./category.model");
 
@@ -23,6 +27,31 @@ const ReviewLikeDislike = require("./review-like-dislike.model");
 
 const Question = require("./question.model");
 const Answer = require("./answer.model");
+
+// Users - Roles
+User.model.belongsToMany(Roles.model, {
+  through: UsersRoles.model,
+  foreignKey: "userId",
+  as: "roles",
+  unique: false,
+});
+Roles.model.belongsToMany(User.model, {
+  through: UsersRoles.model,
+  unique: false,
+  foreignKey: "roleId",
+  as: "users",
+});
+
+// STORE
+Store.model.hasOne(RequestOfficialStore.model, {
+  foreignKey: "storeId",
+  as: "requestOfficialStore",
+  onDelete: "CASCADE",
+});
+RequestOfficialStore.model.belongsTo(Store.model, {
+  as: "store",
+  onDelete: "CASCADE",
+});
 
 // CATEGORIES
 Category.model.belongsTo(Category.model, {
@@ -153,7 +182,11 @@ module.exports = {
   User,
   Address,
 
+  Roles,
+  UsersRoles,
+
   Store,
+  RequestOfficialStore,
 
   Category,
 

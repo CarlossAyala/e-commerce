@@ -13,9 +13,9 @@ const Logo = ({ className }) => {
         className,
       )}
     >
-      <p className="text-sm leading-none">Fak-Ommerce</p>
+      <p className="text-sm leading-none">Fake-Commerce</p>
       <p className="mt-0.5 text-sm font-semibold capitalize leading-none">
-        [{prefix}]
+        [ {prefix} ]
       </p>
     </Link>
   );

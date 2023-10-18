@@ -12,7 +12,6 @@ const history = require("../core/customer/history/history.routes");
 const review = require("../core/customer/review/review.routes");
 const category = require("../core/customer/category/category.routes");
 const store = require("../core/customer/store/store.routes");
-const paymentMethod = require("../core/customer/payment-method/payment-method.routes");
 const checkouts = require("../core/customer/checkout/checkout.routes");
 
 customer.use("/api", API);
@@ -27,7 +26,6 @@ API.use("/history", history);
 API.use("/reviews", review);
 API.use("/categories", category);
 API.use("/stores", store);
-API.use("/payment-methods", paymentMethod);
 API.use("/checkouts", checkouts);
 
 module.exports = customer;

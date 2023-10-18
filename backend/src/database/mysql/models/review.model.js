@@ -1,19 +1,19 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql/index');
-const User = require('./user.model');
-const Product = require('./product.model');
-const OrderItem = require('./order-item.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../connection");
+const User = require("./user.model");
+const Product = require("./product.model");
+const OrderItem = require("./order-item.model");
 
-const modelName = 'Review';
-const tableName = 'reviews';
+const modelName = "Review";
+const tableName = "reviews";
 const modelOptions = {
   tableName,
   timestamps: true,
 };
 const enums = {
   status: {
-    done: 'done',
-    pending: 'pending',
+    done: "done",
+    pending: "pending",
   },
 };
 
@@ -39,37 +39,37 @@ const modelSchema = {
   },
   orderItemId: {
     type: DataTypes.UUID,
-    field: 'order_item_id',
+    field: "order_item_id",
     references: {
       model: OrderItem.model,
-      key: 'id',
+      key: "id",
     },
   },
   customerId: {
     type: DataTypes.UUID,
-    field: 'customer_id',
+    field: "customer_id",
     references: {
       model: User.model,
-      key: 'id',
+      key: "id",
     },
   },
   productId: {
     type: DataTypes.UUID,
-    field: 'product_id',
+    field: "product_id",
     references: {
       model: Product.model,
-      key: 'id',
+      key: "id",
     },
   },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at',
+    field: "created_at",
   },
   updatedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'updated_at',
+    field: "updated_at",
   },
 };
 

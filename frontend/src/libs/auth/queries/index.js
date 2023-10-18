@@ -7,35 +7,47 @@ import {
   updateFullName,
   updatePassword,
 } from "../api";
+import { useEffect } from "react";
 
 export const authKeys = {
   key: ["auth"],
-  profile: () => [...authKeys.key, "profile"],
+  profile: (query) => [...authKeys.key, "profile", query],
 };
 
-export const useGetProfile = () => {
+export const useGetProfile = (query = "") => {
   const queryClient = useQueryClient();
 
-  return useQuery({
-    queryKey: authKeys.profile(),
-    queryFn: getProfile,
-    onError: () => {
-      removeToken();
-
-      queryClient.setQueryData(authKeys.profile(), null);
-    },
+  const result = useQuery({
+    queryKey: authKeys.profile(query),
+    queryFn: () => getProfile(query),
     retry: false,
   });
+
+  useEffect(
+    function ErrorHandler() {
+      if (result.error) {
+        removeToken();
+        queryClient.setQueryData(authKeys.profile(), null);
+      }
+    },
+    [result.error, queryClient],
+  );
+
+  return result;
 };
 
-export const useSignin = () => {
+export const useGetAdminProfile = () => {
+  return useGetProfile("from=admin");
+};
+
+export const useSignin = (query) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: signin,
-    onSuccess: ({ token, customer }) => {
+    mutationFn: (values) => signin(values, query),
+    onSuccess: ({ token, user }) => {
       setToken(token);
-      queryClient.setQueryData(authKeys.profile(), customer);
+      queryClient.setQueryData(authKeys.profile(), user);
     },
   });
 };

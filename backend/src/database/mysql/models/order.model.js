@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../../../database/mysql");
+const sequelize = require("../connection");
 const User = require("./user.model");
 
 const modelName = "Order";

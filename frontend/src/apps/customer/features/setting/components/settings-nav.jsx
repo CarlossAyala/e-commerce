@@ -2,21 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { settingActionRoutes, settingsNav } from "../utils";
 import { cn } from "../../../../../libs/utils";
 import { buttonVariants } from "../../../../../components";
-
-/**
- * @param {Location} location
- * @param {string} path
- * @returns {Boolean}
- */
-const isCurrentPath = (location, path) => {
-  if (location.pathname === path) return true;
-  else if (
-    location.pathname.includes(path) &&
-    settingActionRoutes.base !== path
-  ) {
-    return true;
-  }
-};
+import { isCurrentPath } from "../../../../../utils";
 
 export const SettingsNav = () => {
   const location = useLocation();
@@ -30,7 +16,7 @@ export const SettingsNav = () => {
             to={nav.to}
             className={cn(
               buttonVariants({ variant: "ghost" }),
-              isCurrentPath(location, nav.to)
+              isCurrentPath(location, nav.to, settingActionRoutes.base)
                 ? "bg-muted hover:bg-muted"
                 : "hover:bg-transparent hover:underline",
               "justify-start",

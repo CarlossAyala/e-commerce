@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql/index');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../connection");
 
-const modelName = 'User';
-const tableName = 'users';
+const modelName = "User";
+const tableName = "users";
 const modelOptions = {
   tableName,
   timestamps: true,
@@ -17,11 +17,11 @@ const modelSchema = {
   name: DataTypes.STRING,
   lastName: {
     type: DataTypes.STRING,
-    field: 'last_name',
+    field: "last_name",
   },
   email: {
     type: DataTypes.STRING,
-    unique: 'email',
+    unique: "email",
   },
   password: {
     type: DataTypes.STRING,
@@ -30,12 +30,12 @@ const modelSchema = {
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at',
+    field: "created_at",
   },
   updatedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'updated_at',
+    field: "updated_at",
   },
 };
 

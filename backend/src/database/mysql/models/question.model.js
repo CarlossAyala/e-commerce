@@ -1,19 +1,19 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../../database/mysql/index');
-const User = require('./user.model');
-const Product = require('./product.model');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../connection");
+const User = require("./user.model");
+const Product = require("./product.model");
 
-const modelName = 'Question';
-const tableName = 'questions';
+const modelName = "Question";
+const tableName = "questions";
 const modelOptions = {
   tableName,
   timestamps: false,
 };
 const enums = {
   states: {
-    answered: 'answered',
-    queue: 'queue',
-    rejected: 'rejected',
+    answered: "answered",
+    queue: "queue",
+    rejected: "rejected",
   },
 };
 
@@ -31,24 +31,24 @@ const modelSchema = {
   },
   customerId: {
     type: DataTypes.UUID,
-    field: 'customer_id',
+    field: "customer_id",
     references: {
       model: User.model,
-      key: 'id',
+      key: "id",
     },
   },
   productId: {
     type: DataTypes.UUID,
-    field: 'product_id',
+    field: "product_id",
     references: {
       model: Product.model,
-      key: 'id',
+      key: "id",
     },
   },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at',
+    field: "created_at",
   },
 };
 
