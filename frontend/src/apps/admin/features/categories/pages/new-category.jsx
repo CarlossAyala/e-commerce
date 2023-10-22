@@ -14,7 +14,6 @@ import {
   RadioGroup,
   RadioGroupItem,
   Separator,
-  Switch,
   Textarea,
   useToast,
 } from "../../../../../components";
@@ -139,23 +138,6 @@ export const NewCategory = () => {
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="available"
-            render={({ field }) => (
-              <FormItem className="flex items-center justify-between rounded-md border p-4">
-                <FormLabel className="mb-0 text-base">Available</FormLabel>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    disabled={form.getValues().type === categoryTypes.single}
-                  />
-                </FormControl>
               </FormItem>
             )}
           />

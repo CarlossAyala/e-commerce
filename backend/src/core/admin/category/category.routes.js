@@ -91,7 +91,7 @@ router.post(
   authorization([Roles.permissions.crud_categories]),
   validateSchema(schemas.create, "body"),
   async (req, res, next) => {
-    const { name, description, type, available } = req.body;
+    const { name, description, type } = req.body;
 
     const slug = slugify(name);
 
@@ -110,7 +110,6 @@ router.post(
         description,
         slug,
         type,
-        available,
       });
 
       return res.status(201).json(category);
@@ -228,7 +227,6 @@ router.patch(
         await Category.model.update(
           {
             type: Category.enums.type.single,
-            available: false,
             parentId: null,
           },
           {
@@ -261,7 +259,7 @@ router.patch(
   validateSchema(schemas.update, "body"),
   async (req, res, next) => {
     const { id: categoryId } = req.params;
-    const { name, description, available } = req.body;
+    const { name, description } = req.body;
     const slug = slugify(name);
 
     try {
@@ -279,8 +277,7 @@ router.patch(
         }
       }
 
-      // TODO: Remove available from Categories
-      await category.update({ name, description, slug, available });
+      await category.update({ name, description, slug });
 
       return res.status(200).json(category);
     } catch (error) {

@@ -26,7 +26,6 @@ const createRandomCategory = ({ parentId, type }) => {
     image,
     slug,
     type,
-    available: true,
     parent_id: parentId,
     created_at: new Date(),
     updated_at: new Date(),

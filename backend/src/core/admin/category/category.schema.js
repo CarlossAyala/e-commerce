@@ -17,7 +17,6 @@ const type = Joi.string()
   .label("Type")
   .valid(...[main, single])
   .required();
-const available = Joi.boolean().label("Available").required();
 const categoriesId = Joi.array()
   .label("Categories")
   .min(1)
@@ -31,11 +30,6 @@ const create = Joi.object({
   name,
   description,
   type,
-  available: Joi.when("type", {
-    is: single,
-    then: available.valid(false),
-    otherwise: available,
-  }),
 });
 
 const attach = Joi.object({
@@ -51,7 +45,6 @@ const detach = Joi.object({
 const update = Joi.object({
   name,
   description,
-  available,
 });
 
 module.exports = {

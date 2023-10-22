@@ -32,7 +32,6 @@ const modelSchema = {
     type: DataTypes.ENUM,
     values: Object.values(enums.type),
   },
-  available: DataTypes.BOOLEAN,
   parentId: {
     type: DataTypes.UUID,
     field: "parent_id",

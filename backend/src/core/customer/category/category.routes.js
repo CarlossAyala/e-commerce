@@ -14,7 +14,6 @@ router.get("/main", async (req, res, next) => {
     const categories = await Category.model.findAll({
       where: {
         type: Category.enums.type.main,
-        available: true,
       },
       order: [["name", "ASC"]],
     });
@@ -30,14 +29,10 @@ router.get("/full", async (req, res, next) => {
     const categories = await Category.model.findAll({
       where: {
         type: Category.enums.type.main,
-        available: true,
       },
       include: {
         model: Category.model,
         as: "children",
-        where: {
-          available: true,
-        },
         separate: true,
         order: [["name", "ASC"]],
       },
@@ -90,14 +85,10 @@ router.get("/:slug/list", async (req, res, next) => {
         where: {
           id: category.dataValues.id,
           type: Category.enums.type.main,
-          available: true,
         },
         include: {
           model: Category.model,
           as: "children",
-          where: {
-            available: true,
-          },
           separate: true,
           order: [["name", "ASC"]],
         },
@@ -111,9 +102,6 @@ router.get("/:slug/list", async (req, res, next) => {
         include: {
           model: Category.model,
           as: "children",
-          where: {
-            available: true,
-          },
           separate: true,
           order: [["name", "ASC"]],
         },

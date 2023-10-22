@@ -16,7 +16,6 @@ import {
   EmptyPlaceholder,
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,7 +23,6 @@ import {
   Input,
   Separator,
   Skeleton,
-  Switch,
   Textarea,
   useToast,
 } from "../../../../../components";
@@ -204,32 +202,6 @@ export const CategoryDetails = () => {
                   {category.type}
                 </p>
               </div>
-
-              <FormField
-                control={form.control}
-                name="available"
-                render={({ field }) => (
-                  <FormItem className="flex items-center justify-between rounded-md border p-4">
-                    <div className="space-y-1">
-                      <FormLabel className="mb-0 text-base">
-                        Available
-                      </FormLabel>
-                      {category.type === categoryTypes.single && (
-                        <FormDescription>
-                          You cannot enable a category of type single.
-                        </FormDescription>
-                      )}
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        disabled={category.type === categoryTypes.single}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
 
               {category.type === categoryTypes.main && (
                 <div className="space-y-2">
