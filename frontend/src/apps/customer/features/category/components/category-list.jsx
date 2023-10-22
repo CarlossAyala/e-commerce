@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 export const CategoryList = ({ category }) => {
   return (
-    <div key={category.id} className="space-y-2">
+    <div key={category.id} className="space-y-2 px-4 lg:px-0">
       <NavLink
         to={categoryActionRoutes.details(category.slug)}
         className={({ isActive }) =>

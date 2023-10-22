@@ -7,6 +7,13 @@ const modelOptions = {
   tableName,
   timestamps: true,
 };
+const enums = {
+  type: {
+    main: "main",
+    sub: "sub",
+    single: "single",
+  },
+};
 
 const modelSchema = {
   id: {
@@ -21,6 +28,11 @@ const modelSchema = {
     type: DataTypes.STRING,
     unique: "slug",
   },
+  type: {
+    type: DataTypes.ENUM,
+    values: Object.values(enums.type),
+  },
+  available: DataTypes.BOOLEAN,
   parentId: {
     type: DataTypes.UUID,
     field: "parent_id",
@@ -44,4 +56,5 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
+  enums,
 };

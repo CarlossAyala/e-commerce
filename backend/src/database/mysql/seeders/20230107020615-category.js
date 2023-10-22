@@ -1,14 +1,10 @@
-'use strict';
+"use strict";
 
-const { v4: uuidv4 } = require('uuid');
-const slugify = require('slugify');
-const { faker } = require('@faker-js/faker/locale/es_MX');
-const { Category } = require('../models');
+const { v4: uuidv4 } = require("uuid");
+const { faker } = require("@faker-js/faker/locale/es_MX");
+const { Category } = require("../models");
+const { slugify } = require("../../../libs");
 
-const slugifyOptions = {
-  lower: true,
-  locale: 'la',
-};
 const imageOptions = {
   with: 640,
   height: 480,
@@ -16,12 +12,12 @@ const imageOptions = {
 };
 const NUM_LINES = 1;
 
-const createRandomCategory = (parentId = null) => {
+const createRandomCategory = ({ parentId, type }) => {
   const id = uuidv4();
   const name = faker.commerce.department();
   const image = faker.image.abstract(...Object.values(imageOptions));
   const description = faker.lorem.lines(NUM_LINES);
-  const slug = slugify(`${name}_${id}`, slugifyOptions);
+  const slug = slugify(`${name}_${id}`);
 
   return {
     id,
@@ -29,16 +25,21 @@ const createRandomCategory = (parentId = null) => {
     description,
     image,
     slug,
+    type,
+    available: true,
     parent_id: parentId,
     created_at: new Date(),
     updated_at: new Date(),
   };
 };
 
-const generateNCategories = (n = 1, parentCategory = {}) => {
+const categoryGenerator = ({ quantity, parentCategory = {}, type }) => {
   const categories = [];
-  for (let i = 1; i <= n; i++) {
-    const category = createRandomCategory(parentCategory.id);
+  for (let i = 0; i < quantity; i++) {
+    const category = createRandomCategory({
+      parentId: parentCategory.id,
+      type,
+    });
     categories.push(category);
   }
 
@@ -51,13 +52,20 @@ module.exports = {
     const NUM_SUB_CATEGORIES = 10;
 
     // Generate mains Categories
-    const categories = generateNCategories(NUM_MAIN_CATEGORIES);
+    const categories = categoryGenerator({
+      quantity: NUM_MAIN_CATEGORIES,
+      type: Category.enums.type.main,
+    });
     await queryInterface.bulkInsert(Category.tableName, categories);
 
     // Generate sub-categories for each category
     const subCategories = [];
     for (const category of categories) {
-      const subCategory = generateNCategories(NUM_SUB_CATEGORIES, category);
+      const subCategory = categoryGenerator({
+        quantity: NUM_SUB_CATEGORIES,
+        parentCategory: category,
+        type: Category.enums.type.sub,
+      });
       subCategories.push(subCategory);
     }
 
@@ -78,8 +86,8 @@ module.exports = {
         ...
       ]
     */
-    const flatedSubCategories = subCategories.flat();
-    await queryInterface.bulkInsert(Category.tableName, flatedSubCategories);
+    const flattenedSubCategories = subCategories.flat();
+    await queryInterface.bulkInsert(Category.tableName, flattenedSubCategories);
   },
 
   async down(queryInterface) {

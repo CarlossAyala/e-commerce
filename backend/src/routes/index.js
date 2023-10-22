@@ -2,12 +2,14 @@ const express = require("express");
 const routes = express.Router();
 const customerRoutes = require("./customer.routes");
 const sellerRoutes = require("./seller.routes");
-const common = require("../core/common");
+const commonRoutes = require("../core/common");
 const authRoutes = require("../core/auth/auth.routes");
+const adminRoutes = require("../core/admin");
 
 routes.use("/customer", customerRoutes);
 routes.use("/seller", sellerRoutes);
-routes.use("/api/common", common);
+routes.use("/api/common", commonRoutes);
 routes.use("/api/auth", authRoutes);
+routes.use("/api/admin", adminRoutes);
 
 module.exports = routes;

@@ -27,11 +27,6 @@ const config = {
   stipe: {
     sk_test: process.env.STRIPE_SK_TEST,
   },
-  auth0: {
-    audience: process.env.AUTH0_AUDIENCE,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-    tokenSigningAlg: process.env.AUTH0_TOKEN_SIGNING_ALG,
-  },
 };
 
 module.exports = config;

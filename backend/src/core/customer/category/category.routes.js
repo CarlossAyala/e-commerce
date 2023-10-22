@@ -13,9 +13,8 @@ router.get("/main", async (req, res, next) => {
   try {
     const categories = await Category.model.findAll({
       where: {
-        parentId: {
-          [Op.is]: null,
-        },
+        type: Category.enums.type.main,
+        available: true,
       },
       order: [["name", "ASC"]],
     });
@@ -30,13 +29,15 @@ router.get("/full", async (req, res, next) => {
   try {
     const categories = await Category.model.findAll({
       where: {
-        parentId: {
-          [Op.is]: null,
-        },
+        type: Category.enums.type.main,
+        available: true,
       },
       include: {
         model: Category.model,
         as: "children",
+        where: {
+          available: true,
+        },
         separate: true,
         order: [["name", "ASC"]],
       },
@@ -59,6 +60,9 @@ router.get("/:slug", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
+    else if (!category.available) {
+      throw Boom.notFound("Category not available");
+    }
 
     return res.json(category);
   } catch (error) {
@@ -69,8 +73,6 @@ router.get("/:slug", async (req, res, next) => {
 router.get("/:slug/list", async (req, res, next) => {
   const { slug } = req.params;
 
-  console.log("SLUG _>>>>>>>>>>>>>>>>>>>>>>>>>", slug);
-
   try {
     const category = await Category.model.findOne({
       where: {
@@ -78,16 +80,24 @@ router.get("/:slug/list", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
+    else if (!category.available) {
+      throw Boom.notFound("Category not available");
+    }
 
     let categories;
-    if (category.parentId) {
+    if (category.dataValues.type === Category.enums.type.main) {
       categories = await Category.model.findAll({
         where: {
-          id: category.parentId,
+          id: category.dataValues.id,
+          type: Category.enums.type.main,
+          available: true,
         },
         include: {
           model: Category.model,
           as: "children",
+          where: {
+            available: true,
+          },
           separate: true,
           order: [["name", "ASC"]],
         },
@@ -95,18 +105,22 @@ router.get("/:slug/list", async (req, res, next) => {
     } else {
       categories = await Category.model.findAll({
         where: {
-          id: category.id,
+          id: category.dataValues.parentId,
+          type: Category.enums.type.main,
         },
         include: {
           model: Category.model,
           as: "children",
+          where: {
+            available: true,
+          },
           separate: true,
           order: [["name", "ASC"]],
         },
       });
     }
 
-    const categoryList = categories[0].dataValues;
+    const [categoryList] = categories;
 
     return res.json(categoryList);
   } catch (error) {
@@ -124,6 +138,9 @@ router.get("/:slug/products/best-sellers", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
+    else if (!category.available) {
+      throw Boom.notFound("Category not available");
+    }
 
     const products = await Product.model.findAll({
       where: {
@@ -154,6 +171,9 @@ router.get("/:slug/products/top-rated", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
+    else if (!category.available) {
+      throw Boom.notFound("Category not available");
+    }
 
     const reviews = await Review.model.findAll({
       attributes: [
@@ -210,6 +230,9 @@ router.get("/:slug/products/randoms", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
+    else if (!category.available) {
+      throw Boom.notFound("Category not available");
+    }
 
     const products = await Product.model.findAll({
       where: {
@@ -240,6 +263,9 @@ router.get("/:slug/stores", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
+    else if (!category.available) {
+      throw Boom.notFound("Category not available");
+    }
 
     const stores = await Store.model.findAll({
       attributes: {

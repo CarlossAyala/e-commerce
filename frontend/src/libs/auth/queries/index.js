@@ -46,6 +46,7 @@ export const useSignin = (query) => {
   return useMutation({
     mutationFn: (values) => signin(values, query),
     onSuccess: ({ token, user }) => {
+      console.log("Success");
       setToken(token);
       queryClient.setQueryData(authKeys.profile(), user);
     },

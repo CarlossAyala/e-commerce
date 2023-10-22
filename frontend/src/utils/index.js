@@ -1,5 +1,3 @@
-import { appActionRoutes } from "../configs";
-
 export * from "./formatter";
 export * from "./local-storage";
 export * from "./schema";
@@ -35,21 +33,6 @@ export const getResultRowsStatus = (result) => {
   const isEmpty = result.isSuccess && result.data.rows.length === 0;
 
   return [hasContent, isEmpty];
-};
-
-const signinRedirectOptions = [
-  appActionRoutes.admin,
-  appActionRoutes.seller,
-  appActionRoutes.customer,
-];
-export const signinRedirects = (app) => {
-  const defaultRedirect = appActionRoutes.customer;
-
-  const redirect =
-    signinRedirectOptions.find((element) => element.includes(app)) ??
-    defaultRedirect;
-
-  return redirect;
 };
 
 /**

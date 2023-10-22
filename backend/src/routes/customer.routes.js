@@ -2,7 +2,6 @@ const express = require("express");
 const customer = express.Router();
 const API = express.Router();
 
-const account = require("../core/customer/account/account.routes");
 const question = require("../core/customer/question/question.routes");
 const cart = require("../core/customer/cart/cart.routes");
 const bookmark = require("../core/customer/bookmark/bookmark.routes");
@@ -16,7 +15,6 @@ const checkouts = require("../core/customer/checkout/checkout.routes");
 
 customer.use("/api", API);
 
-API.use("/account", account);
 API.use("/questions", question);
 API.use("/cart", cart);
 API.use("/bookmarks", bookmark);

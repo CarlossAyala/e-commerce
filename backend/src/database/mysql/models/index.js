@@ -54,13 +54,15 @@ RequestOfficialStore.model.belongsTo(Store.model, {
 });
 
 // CATEGORIES
-Category.model.belongsTo(Category.model, {
-  foreignKey: "parentId",
-  as: "parent",
-});
 Category.model.hasMany(Category.model, {
   foreignKey: "parentId",
   as: "children",
+  onDelete: "CASCADE",
+});
+Category.model.belongsTo(Category.model, {
+  foreignKey: "parentId",
+  as: "parent",
+  onDelete: "CASCADE",
 });
 
 // USER AND CART
@@ -139,6 +141,7 @@ Question.model.belongsTo(Product.model, {
 Category.model.hasMany(Product.model, {
   foreignKey: "categoryId",
   as: "products",
+  onDelete: "CASCADE",
 });
 Product.model.belongsTo(Category.model, {
   foreignKey: "categoryId",

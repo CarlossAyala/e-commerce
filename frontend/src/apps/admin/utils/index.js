@@ -4,7 +4,7 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
 import { adminPermissions } from "../permissions";
-import { dashboardActionRoutes } from "../features";
+import { categoryActionRoutes, dashboardActionRoutes } from "../features";
 
 export const hasAdminRoles = (roles) => {
   if (!roles || !Array.isArray(roles)) return false;
@@ -20,8 +20,22 @@ export const adminAsideNavigation = [
   },
   {
     name: "Categories",
-    to: "/admin/categories",
     icon: ListBulletIcon,
+    subRoutes: [
+      { name: "Overview", to: categoryActionRoutes.root },
+      {
+        name: "New",
+        to: categoryActionRoutes.new,
+      },
+      {
+        name: "Attach",
+        to: categoryActionRoutes.attach,
+      },
+      {
+        name: "Detach",
+        to: categoryActionRoutes.detach,
+      },
+    ],
   },
   {
     name: "Official Stores",

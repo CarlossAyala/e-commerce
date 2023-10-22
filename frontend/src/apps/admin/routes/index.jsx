@@ -1,4 +1,6 @@
+import { Outlet } from "react-router-dom";
 import { Home } from "../features/dashboard";
+import { categoriesRoutes } from "../features";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -14,6 +16,7 @@ export const adminRoutes = [
   },
   {
     path: "categories",
-    element: <Home />,
+    element: <Outlet />,
+    children: categoriesRoutes,
   },
 ];
