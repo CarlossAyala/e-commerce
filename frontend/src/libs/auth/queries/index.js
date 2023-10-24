@@ -7,7 +7,6 @@ import {
   updateFullName,
   updatePassword,
 } from "../api";
-import { useEffect } from "react";
 
 export const authKeys = {
   key: ["auth"],
@@ -15,25 +14,11 @@ export const authKeys = {
 };
 
 export const useGetProfile = (query = "") => {
-  const queryClient = useQueryClient();
-
-  const result = useQuery({
+  return useQuery({
     queryKey: authKeys.profile(query),
     queryFn: () => getProfile(query),
     retry: false,
   });
-
-  useEffect(
-    function ErrorHandler() {
-      if (result.error) {
-        removeToken();
-        queryClient.setQueryData(authKeys.profile(), null);
-      }
-    },
-    [result.error, queryClient],
-  );
-
-  return result;
 };
 
 export const useGetAdminProfile = () => {

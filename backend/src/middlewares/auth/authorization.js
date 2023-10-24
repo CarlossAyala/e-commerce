@@ -23,7 +23,7 @@ const authorization = (roles) => {
         },
       });
 
-      const hasPermission = userRoles.dataValues.roles.every((role) =>
+      const hasPermission = userRoles.dataValues.roles.some((role) =>
         roles.includes(role.name)
       );
       if (!hasPermission) {

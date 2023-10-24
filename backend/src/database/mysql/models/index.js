@@ -43,13 +43,23 @@ Roles.model.belongsToMany(User.model, {
 });
 
 // STORE
-Store.model.hasOne(RequestOfficialStore.model, {
+Store.model.hasMany(RequestOfficialStore.model, {
   foreignKey: "storeId",
-  as: "requestOfficialStore",
+  as: "requests",
   onDelete: "CASCADE",
 });
 RequestOfficialStore.model.belongsTo(Store.model, {
   as: "store",
+  onDelete: "CASCADE",
+});
+User.model.hasOne(Store.model, {
+  foreignKey: "sellerId",
+  as: "store",
+  onDelete: "CASCADE",
+});
+Store.model.belongsTo(User.model, {
+  foreignKey: "sellerId",
+  as: "owner",
   onDelete: "CASCADE",
 });
 

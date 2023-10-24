@@ -4,6 +4,7 @@ const { env } = require("../../config");
 function ErrorHandler(err, req, res, next) {
   // const isDevEnv = env === "dev";
   const isDevEnv = true;
+  console.log(err);
 
   let status = err.status || 500;
   let message = err.message;

@@ -12,19 +12,15 @@ module.exports = {
         email: admin.email,
       },
     });
-    const role = await Roles.model.findOne({
-      where: {
-        name: Roles.permissions.crud_categories,
-      },
-    });
 
-    return queryInterface.bulkInsert(UsersRoles.tableName, [
-      {
-        id: uuidv4(),
-        user_id: user.id,
-        role_id: role.id,
-      },
-    ]);
+    const roles = await Roles.model.findAll();
+    const userRoles = roles.map((role) => ({
+      id: uuidv4(),
+      user_id: user.id,
+      role_id: role.id,
+    }));
+
+    return queryInterface.bulkInsert(UsersRoles.tableName, userRoles);
   },
 
   async down(queryInterface) {

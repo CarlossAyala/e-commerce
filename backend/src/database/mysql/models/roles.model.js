@@ -10,6 +10,7 @@ const modelOptions = {
 
 const permissions = {
   crud_categories: "crud:categories",
+  crud_requests_official_stores: "crud:requests_official_stores",
 };
 
 const modelSchema = {

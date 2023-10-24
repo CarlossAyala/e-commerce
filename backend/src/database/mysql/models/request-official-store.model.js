@@ -3,7 +3,7 @@ const sequelize = require("../connection");
 const Store = require("./store.model");
 
 const modelName = "RequestOfficialStore";
-const tableName = "request_official_store";
+const tableName = "requests_official_stores";
 const modelOptions = {
   tableName,
   timestamps: true,
@@ -23,10 +23,10 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   description: DataTypes.STRING,
+  response: DataTypes.STRING,
   status: {
     type: DataTypes.ENUM,
     values: Object.values(enums.status),
-    defaultValue: enums.status.process,
   },
   storeId: {
     type: DataTypes.UUID,
@@ -35,6 +35,16 @@ const modelSchema = {
       model: Store.model,
       key: "id",
     },
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    field: "created_at",
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    field: "updated_at",
   },
 };
 

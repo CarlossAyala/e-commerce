@@ -12,6 +12,11 @@ module.exports = {
         name: Roles.permissions.crud_categories,
         description: "Can CRUD categories",
       },
+      {
+        id: uuidv4(),
+        name: Roles.permissions.crud_requests_official_stores,
+        description: "Can CRUD official stores",
+      },
     ]);
   },
 

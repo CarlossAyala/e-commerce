@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Home } from "../features/dashboard";
 import { categoriesRoutes } from "../features";
+import { requestsOfficialStoreRoutes } from "../features/requests-official-stores/routes";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -11,12 +12,13 @@ export const adminRoutes = [
     element: <Home />,
   },
   {
-    path: "official-stores",
-    element: <Home />,
-  },
-  {
     path: "categories",
     element: <Outlet />,
     children: categoriesRoutes,
+  },
+  {
+    path: "official-stores",
+    element: <Outlet />,
+    children: requestsOfficialStoreRoutes,
   },
 ];

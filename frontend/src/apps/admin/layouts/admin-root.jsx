@@ -15,7 +15,7 @@ const AdminRoot = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className="container flex min-h-screen overflow-y-auto border p-0">
+    <div className="container flex min-h-screen overflow-auto border p-0">
       <aside className="fixed inset-y-0 z-50 hidden w-full max-w-[256px] shrink-0 border-r bg-white lg:block">
         <div className="flex h-14 items-center px-2">
           <Logo />
@@ -81,7 +81,7 @@ const AdminRoot = () => {
           </nav>
         </div>
       </aside>
-      <div className="grow lg:pl-64">
+      <div className="grow overflow-y-auto lg:pl-64">
         <header className="flex h-14 w-full items-center justify-end border-b px-4">
           <UserNav />
         </header>
