@@ -40,8 +40,6 @@ export const Overview = () => {
     isSuccess,
   } = useGetRequestsOfficialStores(debounceParams);
 
-  console.log("Requests", requests);
-
   const hasRequests = isSuccess && requests.rows.length > 0;
   const isEmpty = isSuccess && requests.rows.length === 0;
 

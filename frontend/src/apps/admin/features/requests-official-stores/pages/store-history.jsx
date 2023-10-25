@@ -38,8 +38,6 @@ export const StoreHistory = () => {
   } = useGetHistoryRequestsOfficialStore(storeId, debounceParams);
   const store = useGetStoreById(storeId);
 
-  console.log("History", requests);
-
   const hasRequests = isSuccess && requests.rows.length > 0;
   const isEmpty = isSuccess && requests.rows.length === 0;
 

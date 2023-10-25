@@ -33,6 +33,7 @@ export const NewCategory = () => {
   const create = useCreateCategory();
 
   const handleCreate = (values) => {
+    console.log("Values", values);
     create.mutate(values, {
       onSuccess() {
         toast({
@@ -50,7 +51,7 @@ export const NewCategory = () => {
   };
 
   return (
-    <main className="mx-auto max-w-2xl space-y-4 p-4">
+    <main className="space-y-4 p-4">
       <section className="space-y-1">
         <h2 className="text-2xl font-semibold leading-none tracking-tight">
           New Category
@@ -63,7 +64,10 @@ export const NewCategory = () => {
       <Separator />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(handleCreate)}
+          className="max-w-xl space-y-6"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -99,14 +103,7 @@ export const NewCategory = () => {
                 <FormLabel>Type</FormLabel>
                 <FormControl>
                   <RadioGroup
-                    onValueChange={(value) => {
-                      if (value === categoryTypes.single) {
-                        form.setValue("available", false);
-                        field.onChange(value);
-                      } else {
-                        field.onChange(value);
-                      }
-                    }}
+                    onValueChange={field.onChange}
                     defaultValue={field.value}
                     className="space-y-1"
                   >

@@ -1,23 +1,37 @@
 import { Link } from "react-router-dom";
-import { usePrefixApp } from "../hooks";
-import { cn } from "../libs/utils";
+import { appActionRoutes } from "../configs";
+import { Button } from "./ui/button";
+import { useSidebarStore } from "../apps/admin/components";
 
-const Logo = ({ className }) => {
-  const prefix = usePrefixApp();
+const { admin, customer, seller } = appActionRoutes;
+
+const redirects = [admin, customer, seller];
+
+/**
+ * @param {Object} param
+ * @param {String} param.className
+ * @param {"admin"|"customer"|"seller"} param.app
+ */
+const Logo = ({ app = customer }) => {
+  const { setClose } = useSidebarStore();
+  const to = redirects.find((route) => route.includes(app)) ?? customer;
+  const prefix = to.split("/")[1];
 
   return (
-    <Link
-      to="/seller"
-      className={cn(
-        "flex h-10 flex-col justify-center px-2 text-black/90",
-        className,
-      )}
+    <Button
+      variant="ghost"
+      size="lg"
+      asChild
+      className="flex-col items-start px-2"
+      onClick={setClose}
     >
-      <p className="text-sm leading-none">Fake-Commerce</p>
-      <p className="mt-0.5 text-sm font-semibold capitalize leading-none">
-        [ {prefix} ]
-      </p>
-    </Link>
+      <Link to={to}>
+        <p className="text-sm font-normal leading-none">Fake-Commerce</p>
+        <p className="text-sm font-semibold capitalize leading-none">
+          [ {prefix} ]
+        </p>
+      </Link>
+    </Button>
   );
 };
 
