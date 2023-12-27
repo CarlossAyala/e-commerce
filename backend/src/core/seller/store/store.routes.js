@@ -10,7 +10,6 @@ const {
 const { validateSchema, JWT } = require("../../../middlewares");
 const schema = require("./store.schema");
 const { Op, Sequelize } = require("sequelize");
-const ms = require("ms");
 const { slugify } = require("../../../libs");
 
 // Get Store
@@ -44,7 +43,7 @@ router.get("/stats", JWT.verify, async (req, res, next) => {
     });
     if (!store) return next(Boom.notFound("Store not found"));
 
-    const daysAgo30 = new Date(Date.now() - ms("30d"));
+    const daysAgo30 = new Date(new Date() - 60 * 60 * 24 * 30 * 1000);
 
     const revenuesPromise = OrderItem.model.findAll({
       attributes: [

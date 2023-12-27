@@ -4,7 +4,7 @@ import { Sidebar, SidebarMobile, UserNav } from "../components";
 const AdminRoot = () => {
   return (
     <div className="container min-h-screen overflow-auto p-0 lg:border-x">
-      <aside className="fixed inset-y-0 z-50 hidden w-full max-w-[256px] shrink-0 border-r bg-white lg:block">
+      <aside className="fixed inset-y-0 z-50 hidden w-64 shrink-0 border-r bg-white lg:block">
         <Sidebar />
       </aside>
       <div className="overflow-y-auto lg:pl-64">

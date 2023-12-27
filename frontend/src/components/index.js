@@ -44,11 +44,13 @@ export * from "./skeleton/skeleton-input";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
 export * from "./search";
+export * from "./area-chart";
 export * from "./empty-placeholder";
 export * from "./review-star";
 export * from "./review-star-graph";
 export * from "./text-input-skeleton";
 export * from "./textarea-input-skeleton";
+export * from "./stat-component";
 
 export {
   Logo,

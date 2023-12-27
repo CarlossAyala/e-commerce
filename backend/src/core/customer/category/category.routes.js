@@ -55,9 +55,6 @@ router.get("/:slug", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
-    else if (!category.available) {
-      throw Boom.notFound("Category not available");
-    }
 
     return res.json(category);
   } catch (error) {
@@ -75,9 +72,6 @@ router.get("/:slug/list", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
-    else if (!category.available) {
-      throw Boom.notFound("Category not available");
-    }
 
     let categories;
     if (category.dataValues.type === Category.enums.type.main) {
@@ -126,9 +120,6 @@ router.get("/:slug/products/best-sellers", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
-    else if (!category.available) {
-      throw Boom.notFound("Category not available");
-    }
 
     const products = await Product.model.findAll({
       where: {
@@ -159,9 +150,6 @@ router.get("/:slug/products/top-rated", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
-    else if (!category.available) {
-      throw Boom.notFound("Category not available");
-    }
 
     const reviews = await Review.model.findAll({
       attributes: [
@@ -218,9 +206,6 @@ router.get("/:slug/products/randoms", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
-    else if (!category.available) {
-      throw Boom.notFound("Category not available");
-    }
 
     const products = await Product.model.findAll({
       where: {
@@ -251,9 +236,6 @@ router.get("/:slug/stores", async (req, res, next) => {
       },
     });
     if (!category) throw Boom.notFound("Category not found");
-    else if (!category.available) {
-      throw Boom.notFound("Category not available");
-    }
 
     const stores = await Store.model.findAll({
       attributes: {
