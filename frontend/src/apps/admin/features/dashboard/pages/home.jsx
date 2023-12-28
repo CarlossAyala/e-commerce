@@ -1,13 +1,11 @@
-import {
-  AreaChart,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../../../../../components";
+import { AreaChart } from "../../../../../components";
+import { Formatter } from "../../../../../utils";
 import { StatContainer } from "../components/stat-container";
+import { useStatCustomersStores } from "../queries";
 
 const Home = () => {
+  const mix = useStatCustomersStores();
+
   return (
     <main className="space-y-4 overflow-auto p-4">
       <section className="space-y-2">
@@ -21,15 +19,33 @@ const Home = () => {
 
       <StatContainer />
 
-      <section className="grid grid-cols-5">
-        <Card className="col-span-5">
-          <CardHeader>
-            <CardTitle>Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <AreaChart />
-          </CardContent>
-        </Card>
+      <section>
+        <AreaChart
+          title="Customers and Stores"
+          data={mix.data}
+          isLoading={mix.isLoading}
+          isError={mix.isError}
+          xAxis={{
+            dataKey: "date",
+            tickFormatter: Formatter.shortDate,
+          }}
+          yAxis={{
+            allowDecimals: false,
+          }}
+          area={{
+            type: "linear",
+          }}
+          areas={[
+            {
+              dataKey: "customers",
+              bg: "indigo",
+            },
+            {
+              dataKey: "stores",
+              bg: "green",
+            },
+          ]}
+        />
       </section>
     </main>
   );

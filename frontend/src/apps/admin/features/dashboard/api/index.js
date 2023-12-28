@@ -5,7 +5,7 @@ import { getToken } from "../../../../../utils";
 const ENDPOINT = `${API_ADMIN}/stats`;
 
 export const customersStores = () => {
-  const url = `${ENDPOINT}/customers-stores`;
+  const url = `${ENDPOINT}/customers-stores?range=1m`;
   const token = getToken();
 
   if (!token) {

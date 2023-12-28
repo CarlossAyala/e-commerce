@@ -13,9 +13,9 @@ export const StatComponent = ({
       {isLoading ? (
         <Skeleton className="h-8 w-full" />
       ) : isError ? (
-        <p className="text-2xl font-medium tabular-nums">Error</p>
+        <p className="text-2xl font-bold tabular-nums">Error</p>
       ) : (
-        <p className="text-2xl font-medium tabular-nums">{value}</p>
+        <p className="text-2xl font-bold tabular-nums">{value}</p>
       )}
       {description && (
         <p className="mt-1 text-xs text-muted-foreground">{description}</p>

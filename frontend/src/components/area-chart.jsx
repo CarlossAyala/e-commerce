@@ -7,85 +7,83 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Skeleton } from "./ui/skeleton";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+const colors = {
+  indigo: "text-indigo-500",
+  green: "text-green-500",
+  red: "text-red-500",
+  yellow: "text-yellow-500",
+  blue: "text-blue-500",
+  purple: "text-purple-500",
+  pink: "text-pink-500",
+  orange: "text-orange-500",
+  teal: "text-teal-500",
+  cyan: "text-cyan-500",
+  gray: "text-gray-500",
+};
 
-export const AreaChart = () => {
+// const config = [
+// 	{
+// 		xAxis: {
+// 			dataKey: "name",
+// 			tickFormatter: (value) => value,
+// 		},
+// 		yAxis: {
+// 			dataKey: "pv",
+// 			tickFormatter: (value) => value,
+// 		},
+// 		area: {
+// 			dataKey: "pv",
+// 			bg: "indigo",
+// 		},
+// 	},
+// ];
+export const AreaChart = ({
+  title,
+  xAxis,
+  yAxis,
+  data,
+  areas,
+  area,
+  isLoading,
+  isError,
+}) => {
   return (
-    <ResponsiveContainer width="100%" height={350}>
-      <AreaRechart data={data}>
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-          </linearGradient>
-          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
-        <Area
-          type="monotone"
-          dataKey="uv"
-          stroke="#8884d8"
-          fillOpacity={1}
-          fill="url(#colorUv)"
-        />
-        <Area
-          type="monotone"
-          dataKey="pv"
-          stroke="#82ca9d"
-          fillOpacity={1}
-          fill="url(#colorPv)"
-        />
-      </AreaRechart>
-    </ResponsiveContainer>
+    <Card className="col-span-5">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent className="pl-2">
+        {isLoading ? (
+          <Skeleton className="h-[350px] w-full" />
+        ) : isError ? (
+          <div className="flex h-[350px] w-full items-center justify-center border border-dashed text-center text-gray-500">
+            Something went wrong
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={350}>
+            <AreaRechart data={data}>
+              <CartesianGrid strokeDasharray="5" />
+              <XAxis {...xAxis} />
+              <YAxis {...yAxis} />
+              <Tooltip />
+              {areas.map(({ dataKey, bg }) => (
+                <Area
+                  key={dataKey}
+                  type={area.type}
+                  fill="currentColor"
+                  stroke="currentColor"
+                  fillOpacity={0.3}
+                  className={colors[bg]}
+                  dataKey={dataKey}
+                />
+              ))}
+            </AreaRechart>
+          </ResponsiveContainer>
+        )}
+      </CardContent>
+    </Card>
   );
 };
