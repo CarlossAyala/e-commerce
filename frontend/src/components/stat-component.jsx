@@ -9,7 +9,7 @@ export const StatComponent = ({
 }) => {
   return (
     <div className="overflow-hidden rounded-md border p-4">
-      <p className="mb-0 text-sm font-medium text-muted-foreground">{title}</p>
+      <p className="text-sm font-medium text-muted-foreground">{title}</p>
       {isLoading ? (
         <Skeleton className="h-8 w-full" />
       ) : isError ? (

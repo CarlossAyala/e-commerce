@@ -55,6 +55,7 @@ router.post(
     const { email, password } = req.body;
 
     const isAdmin = from === "admin";
+    console.log("QUERY", req.query);
 
     try {
       const user = await User.model.findOne({
@@ -68,15 +69,15 @@ router.post(
         }),
       });
 
-      if (isAdmin && user.roles.length === 0) {
-        throw Boom.badRequest(
-          "Please provide a valid email address or password"
-        );
-      }
-
       if (!user) {
         return next(
           Boom.badRequest("Please provide a valid email address or password")
+        );
+      }
+
+      if (isAdmin && user.roles.length === 0) {
+        throw Boom.badRequest(
+          "Please provide a valid email address or password"
         );
       }
 

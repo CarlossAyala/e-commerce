@@ -21,6 +21,12 @@ router.get(
   authentication,
   authorization([Roles.permissions.crud_requests_official_stores]),
   async (req, res, next) => {
+    const { status } = req.query;
+
+    const _status =
+      RequestOfficialStore.enums.status[status] ??
+      RequestOfficialStore.enums.status.process;
+
     const { limit, offset, order } = new QueryBuilder(req.query)
       .orderBy("updatedAt", "DESC")
       .pagination()
@@ -28,6 +34,9 @@ router.get(
 
     try {
       const stores = await RequestOfficialStore.model.findAndCountAll({
+        where: {
+          status: _status,
+        },
         include: {
           model: Store.model,
           as: "store",

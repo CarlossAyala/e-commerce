@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { findAll, findHistory, findOne, update } from "../api";
 
 const requestOfficialStoreKeys = {
-  key: ["admin/official-store"],
+  key: ["admin/request-official-store"],
   findAllKey: () => [...requestOfficialStoreKeys.key, "find-all"],
   findAll: (query) => [...requestOfficialStoreKeys.findAllKey(), query],
   findOne: (requestId) => [

@@ -17,7 +17,7 @@ export const adminRoutes = [
     children: categoriesRoutes,
   },
   {
-    path: "official-stores",
+    path: "request-official-stores",
     element: <Outlet />,
     children: requestsOfficialStoreRoutes,
   },

@@ -24,22 +24,6 @@ const colors = {
   gray: "text-gray-500",
 };
 
-// const config = [
-// 	{
-// 		xAxis: {
-// 			dataKey: "name",
-// 			tickFormatter: (value) => value,
-// 		},
-// 		yAxis: {
-// 			dataKey: "pv",
-// 			tickFormatter: (value) => value,
-// 		},
-// 		area: {
-// 			dataKey: "pv",
-// 			bg: "indigo",
-// 		},
-// 	},
-// ];
 export const AreaChart = ({
   title,
   xAxis,

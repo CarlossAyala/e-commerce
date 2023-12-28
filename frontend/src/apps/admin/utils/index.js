@@ -38,8 +38,8 @@ export const adminAsideNavigation = [
     ],
   },
   {
-    name: "Official Stores",
-    to: "/admin/official-stores",
+    name: "Request Official Stores",
+    to: "/admin/request-official-stores",
     icon: CheckBadgeIcon,
   },
 ];

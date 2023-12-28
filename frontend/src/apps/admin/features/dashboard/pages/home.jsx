@@ -1,6 +1,7 @@
 import { AreaChart } from "../../../../../components";
 import { Formatter } from "../../../../../utils";
 import { StatContainer } from "../components/stat-container";
+import { TableRequestOfficialStore } from "../components/table-request-official-store";
 import { useStatCustomersStores } from "../queries";
 
 const Home = () => {
@@ -47,6 +48,8 @@ const Home = () => {
           ]}
         />
       </section>
+
+      <TableRequestOfficialStore />
     </main>
   );
 };

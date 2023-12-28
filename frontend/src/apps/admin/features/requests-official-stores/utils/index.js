@@ -4,7 +4,7 @@ export const requestOfficialStoreStatus = {
   rejected: "rejected",
 };
 export const requestOfficialStoreActionRoutes = {
-  root: "/admin/official-stores",
-  history: (storeId) => `/admin/official-stores/${storeId}/history`,
-  details: (requestId) => `/admin/official-stores/${requestId}/details`,
+  root: "/admin/request-official-stores",
+  history: (storeId) => `/admin/request-official-stores/${storeId}/history`,
+  details: (requestId) => `/admin/request-official-stores/${requestId}/details`,
 };
