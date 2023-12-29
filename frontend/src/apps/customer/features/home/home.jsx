@@ -1,14 +1,10 @@
-import { MainContent } from "../../../../components";
-
 const Home = () => {
   return (
-    <MainContent>
-      <section className="mt-2">
-        <h2 className="mb-2 scroll-m-20 text-lg font-semibold tracking-tight transition-colors">
-          The King Plan
-        </h2>
+    <main className="container">
+      <section>
+        <h2 className="text-xl font-bold">Productos destacados</h2>
       </section>
-    </MainContent>
+    </main>
   );
 };
 
