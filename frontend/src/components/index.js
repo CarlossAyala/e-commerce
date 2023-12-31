@@ -51,6 +51,7 @@ export * from "./review-star-graph";
 export * from "./text-input-skeleton";
 export * from "./textarea-input-skeleton";
 export * from "./stat-component";
+export * from "./slider";
 
 export {
   Logo,

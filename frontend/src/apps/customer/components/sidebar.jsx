@@ -26,27 +26,9 @@ const items = [
   { ...stores, icon: BuildingStorefrontIcon },
 ];
 
-const SidebarLink = ({ name, to, icon: Icon, setOpen }) => {
-  const { pathname } = useLocation();
-  const variant = pathname === to ? "default" : "ghost";
-
-  return (
-    <Link
-      to={to}
-      className={cn(
-        buttonVariants({ variant, size: "lg" }),
-        "justify-start px-3",
-      )}
-      onClick={() => setOpen(false)}
-    >
-      <Icon className="mr-2 h-4 w-4" />
-      {name}
-    </Link>
-  );
-};
-
 export const Sidebar = () => {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
 
   return (
     <>
@@ -61,13 +43,27 @@ export const Sidebar = () => {
       </Button>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="left" className="py-3">
+        <SheetContent side="left" className="py-2">
           <SheetHeader className="mb-4 ">
             <Logo />
           </SheetHeader>
           <nav className="-ml-1 grid gap-1">
             {items.map((link, index) => (
-              <SidebarLink key={index} {...link} setOpen={setOpen} />
+              <Link
+                key={index}
+                to={link.to}
+                className={cn(
+                  buttonVariants({
+                    variant: pathname === link.to ? "default" : "ghost",
+                    size: "lg",
+                  }),
+                  "justify-start px-3",
+                )}
+                onClick={() => setOpen(false)}
+              >
+                <link.icon className="mr-2 h-4 w-4" />
+                {link.name}
+              </Link>
             ))}
           </nav>
         </SheetContent>
