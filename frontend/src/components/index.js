@@ -52,6 +52,7 @@ export * from "./text-input-skeleton";
 export * from "./textarea-input-skeleton";
 export * from "./stat-component";
 export * from "./slider";
+export * from "./slider-component";
 
 export {
   Logo,

@@ -1,12 +1,12 @@
 import { API_CUSTOMER } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
-import { getToken } from "../../../../../utils/local-storage";
+import { localStorageManager } from "../../../../../utils";
 
 const ENDPOINT = `${API_CUSTOMER}/cart`;
 
 export const cart = (query) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -23,7 +23,7 @@ export const cart = (query) => {
 
 export const add = (productId, quantity) => {
   const url = `${ENDPOINT}/${productId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -41,7 +41,7 @@ export const add = (productId, quantity) => {
 
 export const remove = (itemId) => {
   const url = `${ENDPOINT}/${itemId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -58,7 +58,7 @@ export const remove = (itemId) => {
 
 export const clear = () => {
   const url = `${ENDPOINT}/clear`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -75,7 +75,7 @@ export const clear = () => {
 
 export const updateQuantity = (itemId, quantity) => {
   const url = `${ENDPOINT}/${itemId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -93,7 +93,7 @@ export const updateQuantity = (itemId, quantity) => {
 
 export const updateVisibility = (itemId) => {
   const url = `${ENDPOINT}/${itemId}/visibility`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");

@@ -1,7 +1,7 @@
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import { EmptyPlaceholder } from "../../../../../components";
 import { getResultStatus } from "../../../../../utils";
-import { ProductItem } from "../../../components";
+import { ProductCard } from "../../../components";
 import { useGetTopRatedCategory } from "../queries";
 import { useParams } from "react-router-dom";
 
@@ -17,10 +17,10 @@ export const CategoryRopRated = () => {
       <h3 className="text-base font-medium tracking-tight">Top Rated</h3>
       {topRated.isLoading && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
         </div>
       )}
 
@@ -45,7 +45,7 @@ export const CategoryRopRated = () => {
       {hasContent && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
           {topRated.data.map((rate) => (
-            <ProductItem key={rate.product.id} product={rate.product} />
+            <ProductCard key={rate.product.id} product={rate.product} />
           ))}
         </div>
       )}

@@ -1,12 +1,12 @@
 import { API_COMMON } from "../../../../configs";
 import { fetcher } from "../../../../libs/utils";
-import { getToken } from "../../../../utils/local-storage";
+import { localStorageManager } from "../../../../utils";
 
 const ENDPOINT = `${API_COMMON}/payment-methods`;
 
 export const findOne = (paymentMethodId) => {
   const url = `${ENDPOINT}/${paymentMethodId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("No token found");
@@ -23,7 +23,7 @@ export const findOne = (paymentMethodId) => {
 
 export const findAll = () => {
   const url = ENDPOINT;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("No token found");
@@ -40,7 +40,7 @@ export const findAll = () => {
 
 export const findSession = (sessionId) => {
   const url = `${ENDPOINT}/session/${sessionId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("No token found");
@@ -57,7 +57,7 @@ export const findSession = (sessionId) => {
 
 export const create = (data) => {
   const url = ENDPOINT;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("No token found");
@@ -75,7 +75,7 @@ export const create = (data) => {
 
 export const remove = (paymentMethodId) => {
   const url = `${ENDPOINT}/${paymentMethodId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("No token found");

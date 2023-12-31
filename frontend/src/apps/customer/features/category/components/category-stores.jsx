@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import { EmptyPlaceholder } from "../../../../../components";
 import { getResultStatus } from "../../../../../utils";
-import { ProductItem, StoreItem } from "../../../components";
+import { ProductCard, StoreCard } from "../../../components";
 import { useGetStoresCategory } from "../queries";
 
 export const CategoryStores = () => {
@@ -17,10 +17,10 @@ export const CategoryStores = () => {
       <h3 className="text-base font-medium tracking-tight">Stores</h3>
       {stores.isLoading && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
         </div>
       )}
 
@@ -43,7 +43,7 @@ export const CategoryStores = () => {
       {hasContent && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
           {stores.data.map((store) => (
-            <StoreItem key={store.id} store={store} />
+            <StoreCard key={store.id} store={store} />
           ))}
         </div>
       )}

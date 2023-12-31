@@ -1,35 +1,37 @@
-import { Slider } from "../../../../components";
-
-const slides = [
-  "Slide 1",
-  "Slide 2",
-  "Slide 3",
-  "Slide 4",
-  "Slide 5",
-  "Slide 6",
-  "Slide 7",
-  "Slide 8",
-  "Slide 9",
-  "Slide 10",
-  "Slide 11",
-  "Slide 12",
-  "Slide 13",
-];
+import { SliderComponent } from "../../../../components";
+import { useCustomerAuth } from "../../../../libs/auth";
+import { useGetHistory } from "../history";
+import { useGetProducts } from "../product";
+import { useGetStores } from "../store";
 
 const Home = () => {
-  const itemWidth = 144;
-  const containerGap = 16;
+  const { isAuthenticated } = useCustomerAuth();
+  const products = useGetProducts("");
+  const history = useGetHistory("");
+  const stores = useGetStores("");
 
   return (
-    <main className="container space-y-4 py-10">
-      <section>
-        <h1 className="mb-4 text-2xl font-bold">React Tailwind Slider</h1>
-        <Slider
-          items={slides}
-          itemWidth={itemWidth}
-          containerGap={containerGap}
+    <main className="container space-y-6 py-4">
+      <SliderComponent
+        type="product"
+        title="Products"
+        items={products.data?.rows}
+        {...products}
+      />
+      {isAuthenticated && (
+        <SliderComponent
+          type="product"
+          title="Your history"
+          items={history.data?.rows.map(({ product }) => product)}
+          {...history}
         />
-      </section>
+      )}
+      <SliderComponent
+        type="store"
+        title="Stores"
+        items={stores.data?.rows}
+        {...stores}
+      />
     </main>
   );
 };

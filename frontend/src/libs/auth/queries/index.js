@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { removeToken, setToken } from "../../../utils/local-storage";
+import { localStorageManager } from "../../../utils/local-storage";
 import {
   getProfile,
   signin,
@@ -7,13 +7,14 @@ import {
   updateFullName,
   updatePassword,
 } from "../api";
+import { getProfileQuery } from "../utils";
 
 export const authKeys = {
   key: ["auth"],
   profile: (query) => [...authKeys.key, "profile", query],
 };
 
-export const useGetProfile = (query = "") => {
+export const useGetProfile = (query) => {
   return useQuery({
     queryKey: authKeys.profile(query),
     queryFn: () => getProfile(query),
@@ -21,19 +22,18 @@ export const useGetProfile = (query = "") => {
   });
 };
 
-export const useGetAdminProfile = () => {
-  return useGetProfile("from=admin");
-};
-
-export const useSignin = (query) => {
+/**
+ * @param {import("../utils.js").Profile} profile
+ */
+export const useSignin = (profile) => {
   const queryClient = useQueryClient();
+  const query = getProfileQuery(profile);
 
   return useMutation({
     mutationFn: (values) => signin(values, query),
-    onSuccess: ({ token, user }) => {
-      console.log("Success");
-      setToken(token);
-      queryClient.setQueryData(authKeys.profile(), user);
+    onSuccess: ({ token }) => {
+      localStorageManager.setToken(token);
+      queryClient.invalidateQueries(authKeys.key);
     },
   });
 };
@@ -47,16 +47,40 @@ export const useSignup = () => {
 export const useSignout = () => {
   const queryClient = useQueryClient();
 
-  removeToken();
-  queryClient.setQueryData(authKeys.profile(), null);
+  return () => {
+    localStorageManager.removeToken();
+    queryClient.invalidateQueries(authKeys.key);
+  };
 };
 
-export const useAuth = () => {
-  const queryClient = useQueryClient();
+export const useAdminAuth = () => {
+  const { data: admin, isLoading } = useGetProfile("from=admin");
 
-  const profile = queryClient.getQueryData(authKeys.profile());
+  return {
+    admin,
+    isLoading,
+    isAuthenticated: !!admin,
+  };
+};
 
-  return profile;
+export const useSellerAuth = () => {
+  const { data: seller, isLoading } = useGetProfile("from=seller");
+
+  return {
+    seller,
+    isLoading,
+    isAuthenticated: !!seller,
+  };
+};
+
+export const useCustomerAuth = () => {
+  const { data: customer, isLoading } = useGetProfile("from=customer");
+
+  return {
+    customer,
+    isLoading,
+    isAuthenticated: !!customer,
+  };
 };
 
 export const useUpdateProfile = () => {
@@ -65,7 +89,7 @@ export const useUpdateProfile = () => {
   return useMutation({
     mutationFn: updateFullName,
     onSuccess: () => {
-      queryClient.invalidateQueries(authKeys.profile());
+      queryClient.invalidateQueries(authKeys.key);
     },
   });
 };

@@ -1,12 +1,12 @@
 import { API_ADMIN } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
-import { getToken } from "../../../../../utils";
+import { localStorageManager } from "../../../../../utils";
 
 const ENDPOINT = `${API_ADMIN}/categories`;
 
 export const findMixed = async () => {
   const url = `${ENDPOINT}/mixed`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -23,7 +23,7 @@ export const findMixed = async () => {
 
 export const findOne = async (id) => {
   const url = `${ENDPOINT}/${id}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -40,7 +40,7 @@ export const findOne = async (id) => {
 
 export const create = (values) => {
   const url = ENDPOINT;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -58,7 +58,7 @@ export const create = (values) => {
 
 export const attach = (values) => {
   const url = `${ENDPOINT}/attach`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -76,7 +76,7 @@ export const attach = (values) => {
 
 export const detach = (values) => {
   const url = `${ENDPOINT}/detach`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -94,7 +94,7 @@ export const detach = (values) => {
 
 export const update = (categoryId, values) => {
   const url = `${ENDPOINT}/${categoryId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -112,7 +112,7 @@ export const update = (categoryId, values) => {
 
 export const remove = (categoryId) => {
   const url = `${ENDPOINT}/${categoryId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");

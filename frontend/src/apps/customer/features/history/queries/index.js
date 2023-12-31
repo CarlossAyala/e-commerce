@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { clear, add, findAll, remove } from "../api";
+import { localStorageManager } from "../../../../../utils";
 
 export const historyKeys = {
   key: ["history"],
@@ -7,9 +8,12 @@ export const historyKeys = {
 };
 
 export const useGetHistory = (query) => {
+  const token = localStorageManager.getToken();
+
   return useQuery({
     queryKey: historyKeys.finAll(query),
     queryFn: () => findAll(query),
+    enabled: !!token,
   });
 };
 

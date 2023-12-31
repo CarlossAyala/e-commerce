@@ -1,4 +1,4 @@
-import { ProductItem } from "../../../components";
+import { ProductCard } from "../../../components";
 import { useGetRelatedProducts } from "../queries";
 
 export const RelatedProducts = ({ productId }) => {
@@ -13,10 +13,10 @@ export const RelatedProducts = ({ productId }) => {
     <div className="grid w-full grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
       {isLoading && (
         <>
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
         </>
       )}
       {isError && (
@@ -26,7 +26,7 @@ export const RelatedProducts = ({ productId }) => {
       )}
       {isSuccess &&
         products.map((product) => (
-          <ProductItem key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
     </div>
   );

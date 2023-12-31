@@ -5,7 +5,6 @@ import { WithLoggedIn, WithLoggedOut } from "../libs/auth";
 import { SellerRoot, sellerRoutes } from "../apps/seller";
 import { CustomerRoot, customerRoutes } from "../apps/customer";
 import { AdminRoot, adminRoutes } from "../apps/admin";
-import { WithAdminAuth } from "../apps/admin";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <WithAdminAuth component={AdminRoot} />,
+        element: <AdminRoot />,
         children: adminRoutes,
       },
       {

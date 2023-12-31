@@ -1,5 +1,5 @@
 import { Skeleton } from "../../../../../components";
-import { StoreItem } from "../../../components";
+import { StoreCard } from "../../../components";
 
 export const StoresGroup = ({ group }) => {
   return (
@@ -9,7 +9,7 @@ export const StoresGroup = ({ group }) => {
       </p>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
         {group.group.map((store) => (
-          <StoreItem key={store.id} store={store} />
+          <StoreCard key={store.id} store={store} />
         ))}
       </div>
     </div>
@@ -22,9 +22,9 @@ StoresGroup.Skeleton = function StoresGroupSkeleton() {
       <Skeleton className="h-6 w-10" />
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
-        <StoreItem.Skeleton />
-        <StoreItem.Skeleton />
-        <StoreItem.Skeleton />
+        <StoreCard.Skeleton />
+        <StoreCard.Skeleton />
+        <StoreCard.Skeleton />
       </div>
     </div>
   );

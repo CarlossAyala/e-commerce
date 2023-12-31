@@ -1,5 +1,5 @@
-export * from "./product/product-item";
-export * from "./store/store-item";
+export * from "./product-card";
+export * from "./store-card";
 export * from "./customer-root";
 export * from "./header";
 export * from "./footer";

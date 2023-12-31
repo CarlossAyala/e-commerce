@@ -1,16 +1,14 @@
 import { API_AUTH } from "../../../configs";
-import { getToken } from "../../../utils/local-storage";
+import { localStorageManager } from "../../../utils/local-storage";
 import { fetcher } from "../../utils";
 
 const ENDPOINT = API_AUTH;
 
 export const getProfile = async (query) => {
   const url = `${ENDPOINT}/profile?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
-  if (!token) {
-    throw new Error("Token not found");
-  }
+  if (!token) return null;
 
   return fetcher(url, {
     method: "GET",
@@ -47,7 +45,7 @@ export const signup = async (values) => {
 
 export const updateFullName = (data) => {
   const url = `${ENDPOINT}/change-full-name`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -65,7 +63,7 @@ export const updateFullName = (data) => {
 
 export const updatePassword = (data) => {
   const url = `${ENDPOINT}/change-password`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");

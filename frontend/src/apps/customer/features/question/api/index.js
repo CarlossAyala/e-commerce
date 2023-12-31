@@ -1,6 +1,6 @@
 import { API_CUSTOMER } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
-import { getToken } from "../../../../../utils/local-storage";
+import { localStorageManager } from "../../../../../utils";
 
 const ENDPOINT = `${API_CUSTOMER}/questions`;
 
@@ -17,7 +17,7 @@ export const findAllProduct = (productId, query) => {
 
 export const findAllProductCustomer = (productId, query) => {
   const url = `${ENDPOINT}/product/${productId}/customer?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -34,7 +34,7 @@ export const findAllProductCustomer = (productId, query) => {
 
 export const findAllCustomer = (query) => {
   const url = `${ENDPOINT}/customer?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -51,7 +51,7 @@ export const findAllCustomer = (query) => {
 
 export const create = (productId, data) => {
   const url = `${ENDPOINT}/${productId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");

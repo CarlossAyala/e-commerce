@@ -23,7 +23,7 @@ const Logo = ({ app = customer, className }) => {
       variant="ghost"
       size="lg"
       asChild
-      className={cn("flex-col items-start px-2", className)}
+      className={cn("shrink-0 flex-col items-start px-2", className)}
       onClick={setClose}
     >
       <Link to={to}>

@@ -1,26 +1,26 @@
 import { Link } from "react-router-dom";
-import { storeActionRoutes } from "../../features/store";
-import { Skeleton } from "../../../../components";
+import { storeActionRoutes } from "../features/store";
+import { Skeleton } from "../../../components";
 
-export const StoreItem = ({ store }) => {
+export const StoreCard = ({ store }) => {
   return (
     <Link
       to={storeActionRoutes.detail(store.slug)}
       className="block overflow-hidden rounded-md border shadow"
     >
       <img
-        className="h-28 w-full object-contain"
+        className="h-32 w-full object-contain"
         src="https://http2.mlstatic.com/storage/official-stores-images/adidasfitness/logo201903220233.jpg"
         alt={`Profile Store ${store.name}`}
       />
       <div className="px-4 py-3 text-center">
-        <p className="text-xs leading-tight">{store.name}</p>
+        <p className="line-clamp-2 text-xs leading-tight">{store.name}</p>
       </div>
     </Link>
   );
 };
 
-StoreItem.Skeleton = function StoreItemSkeleton() {
+StoreCard.Skeleton = function StoreItemSkeleton() {
   return (
     <div className="overflow-hidden rounded-md border shadow">
       <Skeleton className="h-28 w-full rounded-none" />

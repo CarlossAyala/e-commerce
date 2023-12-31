@@ -12,7 +12,7 @@ import {
   useRemoveBookmark,
 } from "../queries";
 import { useDebounced } from "../../../../../hooks";
-import { ProductItem } from "../../../components";
+import { ProductCard } from "../../../components";
 import {
   ArchiveBoxXMarkIcon,
   FaceFrownIcon,
@@ -83,11 +83,11 @@ const Bookmark = () => {
 
       {bookmarks.isLoading ? (
         <div className="w- grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
         </div>
       ) : (
         <>
@@ -119,7 +119,7 @@ const Bookmark = () => {
             <div className="w- grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
               {bookmarks.data.rows.map((bookmark) => (
                 <div key={bookmark.product.id} className="relative">
-                  <ProductItem product={bookmark.product} />
+                  <ProductCard product={bookmark.product} />
                   <Button
                     variant="outline"
                     size="icon"

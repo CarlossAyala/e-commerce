@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { Formatter } from "../../../../utils/formatter";
-import { productActionRoutes } from "../../features/product/utils";
-import { Skeleton } from "../../../../components/ui/skeleton";
+import { Formatter } from "../../../utils/formatter";
+import { productActionRoutes } from "../features/product/utils";
+import { Skeleton } from "../../../components/ui/skeleton";
 
-export const ProductItem = ({ product }) => {
+export const ProductCard = ({ product }) => {
   return (
     <Link
       to={productActionRoutes.detail(product.id, product.slug)}
-      className="block w-full overflow-hidden rounded-md border border-black/10 shadow"
+      className="block w-full overflow-hidden rounded-md border border-black/10 shadow-sm"
     >
       <div className="h-36 w-full p-2">
         <img
@@ -17,7 +17,7 @@ export const ProductItem = ({ product }) => {
           className="h-full w-full object-contain"
         />
       </div>
-      <div className="border-t border-black/10 px-4 py-3">
+      <div className="border-t border-black/10 p-2">
         <p className="text-base font-bold leading-snug text-black">
           {Formatter.money(product.price)}
         </p>
@@ -39,6 +39,6 @@ export const ProductItem = ({ product }) => {
   );
 };
 
-ProductItem.Skeleton = function ProductItemSkeleton() {
+ProductCard.Skeleton = function ProductCardSkeleton() {
   return <Skeleton className="h-52 overflow-hidden rounded-md shadow-md" />;
 };

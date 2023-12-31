@@ -6,7 +6,7 @@ import {
 } from "../../../../../components";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useGetStore, useGetStoreProducts } from "../queries";
-import { ProductItem } from "../../../components";
+import { ProductCard } from "../../../components";
 import { useDebounced } from "../../../../../hooks";
 import { StoreProfile } from "../api/store-profile";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
@@ -69,12 +69,12 @@ const Store = () => {
               <div className="space-y-2">
                 <p className="text-sm font-medium tracking-tight">Products</p>
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(128px,1fr))] gap-4">
-                  <ProductItem.Skeleton />
-                  <ProductItem.Skeleton />
-                  <ProductItem.Skeleton />
-                  <ProductItem.Skeleton />
-                  <ProductItem.Skeleton />
-                  <ProductItem.Skeleton />
+                  <ProductCard.Skeleton />
+                  <ProductCard.Skeleton />
+                  <ProductCard.Skeleton />
+                  <ProductCard.Skeleton />
+                  <ProductCard.Skeleton />
+                  <ProductCard.Skeleton />
                 </div>
               </div>
             </>
@@ -89,7 +89,7 @@ const Store = () => {
                 <p className="text-sm font-medium tracking-tight">Products</p>
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(128px,1fr))] gap-4">
                   {products.data.rows.map((product) => (
-                    <ProductItem key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
               </div>

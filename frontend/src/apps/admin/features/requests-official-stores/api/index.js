@@ -1,12 +1,12 @@
 import { API_ADMIN } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
-import { getToken } from "../../../../../utils";
+import { localStorageManager } from "../../../../../utils";
 
 const ENDPOINT = `${API_ADMIN}/requests-official-stores`;
 
 export const findAll = (query) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -23,7 +23,7 @@ export const findAll = (query) => {
 
 export const findOne = (requestId) => {
   const url = `${ENDPOINT}/${requestId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -40,7 +40,7 @@ export const findOne = (requestId) => {
 
 export const findHistory = (requestId, query) => {
   const url = `${ENDPOINT}/${requestId}/history?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -57,7 +57,7 @@ export const findHistory = (requestId, query) => {
 
 export const update = (requestId, body) => {
   const url = `${ENDPOINT}/${requestId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");

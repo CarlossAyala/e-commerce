@@ -1,12 +1,12 @@
 import { API_SELLER } from "../../../../configs";
 import { fetcher } from "../../../../libs/utils";
-import { getToken } from "../../../../utils/local-storage";
+import { localStorageManager } from "../../../../utils";
 
 const ENDPOINT = `${API_SELLER}/qa`;
 
 export const findOne = async (questionId) => {
   const url = `${ENDPOINT}/${questionId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -21,7 +21,7 @@ export const findOne = async (questionId) => {
 
 export const findAll = async (query) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -36,7 +36,7 @@ export const findAll = async (query) => {
 
 export const findAllByProductId = async (productId, query) => {
   const url = `${ENDPOINT}/product/${productId}?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -51,7 +51,7 @@ export const findAllByProductId = async (productId, query) => {
 
 export const reply = async (questionId, reply) => {
   const url = `${ENDPOINT}/${questionId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -67,7 +67,7 @@ export const reply = async (questionId, reply) => {
 
 export const reject = async (questionId) => {
   const url = `${ENDPOINT}/${questionId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 

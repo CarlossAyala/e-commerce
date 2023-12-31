@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import { EmptyPlaceholder } from "../../../../../components";
 import { getResultStatus } from "../../../../../utils";
-import { ProductItem } from "../../../components";
+import { ProductCard } from "../../../components";
 import { useGetRandomsCategory } from "../queries";
 
 export const CategoryRandoms = () => {
@@ -17,10 +17,10 @@ export const CategoryRandoms = () => {
       <h3 className="text-base font-medium tracking-tight">Randoms</h3>
       {randoms.isLoading && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
         </div>
       )}
 
@@ -45,7 +45,7 @@ export const CategoryRandoms = () => {
       {hasContent && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
           {randoms.data.map((product) => (
-            <ProductItem key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       )}

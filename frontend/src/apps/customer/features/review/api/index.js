@@ -1,13 +1,13 @@
 import { API_COMMON, API_CUSTOMER } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
-import { getToken } from "../../../../../utils/local-storage";
+import { localStorageManager } from "../../../../../utils";
 
 const ENDPOINT_COMMON = `${API_COMMON}/reviews`;
 const ENDPOINT_CUSTOMER = `${API_CUSTOMER}/reviews`;
 
 export const findOne = (reviewId, query) => {
   const url = `${ENDPOINT_CUSTOMER}/${reviewId}?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -36,7 +36,7 @@ export const findAll = (productId, query) => {
 export const findAllByCustomer = (query) => {
   const url = `${ENDPOINT_CUSTOMER}/customer?${query}`;
 
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     return Promise.reject("Unauthorized");
@@ -64,7 +64,7 @@ export const stats = (productId) => {
 
 export const like = (reviewId) => {
   const url = `${ENDPOINT_COMMON}/${reviewId}/like`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     return Promise.reject("Unauthorized");
@@ -81,7 +81,7 @@ export const like = (reviewId) => {
 
 export const dislike = (reviewId) => {
   const url = `${ENDPOINT_COMMON}/${reviewId}/dislike`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     return Promise.reject("Unauthorized");
@@ -98,7 +98,7 @@ export const dislike = (reviewId) => {
 
 export const create = (reviewId, values) => {
   const url = `${ENDPOINT_CUSTOMER}/${reviewId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");

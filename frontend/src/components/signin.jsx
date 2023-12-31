@@ -1,4 +1,9 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { signinInitial, signinSchema, useSignin } from "../libs/auth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,12 +21,13 @@ import { Button } from "./ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 const Signin = () => {
+  const [params] = useSearchParams();
   const { toast } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
-  const signin = useSignin("from=admin");
+  const signin = useSignin(params.get("from"));
 
-  const from = location.state?.from?.pathname || "/admin";
+  const from = location.state?.from?.pathname || "/customer";
 
   const form = useForm({
     resolver: yupResolver(signinSchema),

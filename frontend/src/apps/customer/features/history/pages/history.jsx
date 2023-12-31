@@ -12,7 +12,7 @@ import {
 } from "../../../../../components";
 import { useClearHistory, useGetHistory } from "../queries";
 import { useDebounced } from "../../../../../hooks";
-import { ProductItem } from "../../../components/";
+import { ProductCard } from "../../../components/";
 
 const History = () => {
   const { toast } = useToast();
@@ -60,11 +60,11 @@ const History = () => {
 
       {history.isLoading ? (
         <div className="w- grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
-          <ProductItem.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
         </div>
       ) : (
         <>
@@ -92,7 +92,7 @@ const History = () => {
           {hasContent && (
             <div className="w- grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
               {history.data.rows.map((_history) => (
-                <ProductItem key={_history.id} product={_history.product} />
+                <ProductCard key={_history.id} product={_history.product} />
               ))}
             </div>
           )}

@@ -1,12 +1,12 @@
 import { API_SELLER } from "../../../../configs";
 import { fetcher } from "../../../../libs/utils";
-import { getToken } from "../../../../utils/local-storage";
+import { localStorageManager } from "../../../../utils/local-storage";
 
 const ENDPOINT = `${API_SELLER}/products`;
 
 export const findOne = async (productId) => {
   const url = `${ENDPOINT}/${productId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -21,7 +21,7 @@ export const findOne = async (productId) => {
 
 export const findAll = async (query) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -36,7 +36,7 @@ export const findAll = async (query) => {
 
 export const findAllLowStock = async (query) => {
   const url = `${ENDPOINT}/stock-alert?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -51,7 +51,7 @@ export const findAllLowStock = async (query) => {
 
 export const create = async (values) => {
   const url = `${ENDPOINT}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -67,7 +67,7 @@ export const create = async (values) => {
 
 export const update = async (productId, values) => {
   const url = `${ENDPOINT}/${productId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 
@@ -83,7 +83,7 @@ export const update = async (productId, values) => {
 
 export const remove = async (productId) => {
   const url = `${ENDPOINT}/${productId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) throw new Error("Token not found");
 

@@ -1,12 +1,12 @@
 import { API_CUSTOMER } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
-import { getToken } from "../../../../../utils/local-storage";
+import { localStorageManager } from "../../../../../utils";
 
 const ENDPOINT = `${API_CUSTOMER}/addresses`;
 
 export const findOne = (addressId) => {
   const url = `${ENDPOINT}/${addressId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -23,7 +23,7 @@ export const findOne = (addressId) => {
 
 export const findAll = (query) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -40,7 +40,7 @@ export const findAll = (query) => {
 
 export const create = (values) => {
   const url = ENDPOINT;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -58,7 +58,7 @@ export const create = (values) => {
 
 export const update = (addressId, values) => {
   const url = `${ENDPOINT}/${addressId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
@@ -76,7 +76,7 @@ export const update = (addressId, values) => {
 
 export const remove = (addressId) => {
   const url = `${ENDPOINT}/${addressId}`;
-  const token = getToken();
+  const token = localStorageManager.getToken();
 
   if (!token) {
     throw new Error("Token not found");
