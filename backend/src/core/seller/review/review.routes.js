@@ -4,8 +4,8 @@ const Boom = require("@hapi/boom");
 const { Store, Review, Product } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./review.schema");
-const QueryBuilder = require("../../../utils/database/query-builder");
 const { Sequelize } = require("sequelize");
+const { QueryBuilder } = require("../../../libs");
 
 // Overview
 router.get("/overview", JWT.verify, async (req, res, next) => {

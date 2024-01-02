@@ -10,7 +10,6 @@ import {
   FormField,
   FormItem,
   FormMessage,
-  MainContent,
   RadioGroup,
 } from "../../../../../components";
 import {
@@ -59,7 +58,7 @@ const CheckoutReview = () => {
   };
 
   return (
-    <MainContent className="flex max-w-5xl flex-col">
+    <main className="container flex max-w-5xl flex-col">
       <section className="mt-2">
         <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight">
           Checkout - Review
@@ -206,7 +205,7 @@ const CheckoutReview = () => {
           </form>
         </Form>
       </section>
-    </MainContent>
+    </main>
   );
 };
 

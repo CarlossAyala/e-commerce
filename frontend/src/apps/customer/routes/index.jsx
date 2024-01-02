@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Bookmark } from "../features/bookmark";
+import { Bookmarks } from "../features/bookmark";
 import { History } from "../features/history";
 import { Home } from "../features/home";
 import { Product } from "../features/product";
@@ -27,9 +27,9 @@ export const customerRoutes = [
     element: <History />,
   },
   {
-    path: "bookmark",
+    path: "bookmarks",
     // element: <WithLoggedIn component={History} />,
-    element: <Bookmark />,
+    element: <Bookmarks />,
   },
   {
     path: "product/:productId/:slug",

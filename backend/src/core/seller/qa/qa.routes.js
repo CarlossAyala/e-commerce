@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 const Boom = require("@hapi/boom");
 const {
   Product,
@@ -8,9 +7,10 @@ const {
   Answer,
 } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
-const QueryBuilder = require("../../../utils/database/query-builder");
 const schemas = require("./qa.schema");
 const sequelize = require("../../../database/mysql");
+const { QueryBuilder } = require("../../../libs");
+const router = express.Router();
 
 // Get All Question
 router.get("/", JWT.verify, async (req, res, next) => {

@@ -41,13 +41,13 @@ export const ProductCard = ({ product }) => {
 
 ProductCard.Skeleton = function ProductCardSkeleton({ items = 6 }) {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
+    <section className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
       {Array.from({ length: items }).map((_, index) => (
         <Skeleton
           key={index}
           className="h-52 overflow-hidden rounded-md shadow-md"
         />
       ))}
-    </div>
+    </section>
   );
 };

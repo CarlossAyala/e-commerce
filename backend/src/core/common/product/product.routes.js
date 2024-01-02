@@ -1,11 +1,11 @@
 const express = require("express");
-const router = express.Router();
-const Boom = require("@hapi/boom");
-const { validateSchema } = require("../../../middlewares");
-const QueryBuilder = require("../../../utils/database/query-builder");
-const schemas = require("./product.schema");
-const { Product } = require("../../../database/mysql/models");
 const { Op } = require("sequelize");
+const Boom = require("@hapi/boom");
+const schemas = require("./product.schema");
+const router = express.Router();
+const { validateSchema } = require("../../../middlewares");
+const { Product } = require("../../../database/mysql/models");
+const { QueryBuilder } = require("../../../libs");
 
 router.get("/", async (req, res, next) => {
   const qb = new QueryBuilder(req.query)

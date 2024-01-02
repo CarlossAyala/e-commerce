@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Button,
   DropdownMenu,
@@ -7,11 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   EmptyPlaceholder,
-  MainContent,
   TablePagination,
   useToast,
 } from "../../../../../components";
-import { useClearHistory, useGetHistory } from "../queries";
+import { useClearHistory, useGetHistory, useRemoveHistory } from "../queries";
 import { useDebounced } from "../../../../../hooks";
 import { ProductCard } from "../../../components/";
 
@@ -37,6 +36,29 @@ const groupByDate = (history) => {
   return Array.from(group.values());
 };
 
+const formatDate = (inputDate) => {
+  const currentDate = new Date();
+  const incomingDate = new Date(inputDate);
+
+  const currentYear = currentDate.getFullYear();
+  const inputYear = incomingDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+  const inputMonth = incomingDate.getMonth();
+
+  if (currentYear === inputYear && currentMonth === inputMonth) {
+    return "This month";
+  } else if (currentYear === inputYear) {
+    return incomingDate.toLocaleDateString("default", {
+      month: "long",
+    });
+  } else {
+    return incomingDate.toLocaleDateString("default", {
+      year: "numeric",
+      month: "long",
+    });
+  }
+};
+
 const History = () => {
   const { toast } = useToast();
   const [params] = useSearchParams();
@@ -50,8 +72,9 @@ const History = () => {
   } = useGetHistory(debouncedParams);
 
   const clearHistory = useClearHistory();
+  const removeHistory = useRemoveHistory();
 
-  const handleClearHistory = () => {
+  const handleClear = () => {
     clearHistory.mutate(null, {
       onSuccess: () => {
         toast({
@@ -68,11 +91,28 @@ const History = () => {
     });
   };
 
+  const handleRemove = (productId) => {
+    removeHistory.mutate(productId, {
+      onSuccess: () => {
+        toast({
+          description: "History removed",
+        });
+      },
+      onError(error) {
+        toast({
+          variant: "destructive",
+          title: "History could not be removed",
+          description: error?.message ?? "Uh oh! Something went wrong.",
+        });
+      },
+    });
+  };
+
   const isEmpty = isSuccess && history?.rows.length === 0;
   const groupedHistory = groupByDate(history?.rows);
 
   return (
-    <MainContent className="space-y-4">
+    <main className="container space-y-4">
       <section className="mt-3 flex gap-4">
         <div className="scroll-m-20">
           <h1 className="text-3xl font-semibold tracking-tight">History</h1>
@@ -89,8 +129,8 @@ const History = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-44">
             <DropdownMenuItem
-              onSelect={handleClearHistory}
-              disabled={isLoading || isEmpty}
+              onSelect={handleClear}
+              disabled={isLoading || isEmpty || isError}
             >
               Clear history
             </DropdownMenuItem>
@@ -102,7 +142,7 @@ const History = () => {
         <ProductCard.Skeleton />
       ) : isError ? (
         <EmptyPlaceholder
-          title="Error fetching history"
+          title={error?.name ?? "Error"}
           description={error?.message ?? "Uh oh! Something went wrong."}
         />
       ) : isEmpty ? (
@@ -111,15 +151,35 @@ const History = () => {
           description="You haven't viewed any product yet"
         />
       ) : (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
-          {history.rows.map((_history) => (
-            <ProductCard key={_history.id} product={_history.product} />
+        <section className="space-y-4">
+          {groupedHistory.map((group) => (
+            <div key={group.date} className="space-y-1">
+              <p className="text-sm font-medium capitalize">
+                {formatDate(group.date)}
+              </p>
+              <ol className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
+                {group.items.map((_history, index) => (
+                  <li key={index} className="relative">
+                    <ProductCard product={_history.product} />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      type="button"
+                      className="absolute right-2 top-2 bg-white shadow-md"
+                      onClick={() => handleRemove(_history.product.id)}
+                    >
+                      <XMarkIcon className="h-4 w-4" />
+                    </Button>
+                  </li>
+                ))}
+              </ol>
+            </div>
           ))}
-        </div>
+        </section>
       )}
 
       <TablePagination totalRows={history?.count} />
-    </MainContent>
+    </main>
   );
 };
 

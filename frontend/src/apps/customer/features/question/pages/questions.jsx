@@ -2,11 +2,7 @@ import {
   ArchiveBoxXMarkIcon,
   FaceFrownIcon,
 } from "@heroicons/react/24/outline";
-import {
-  EmptyPlaceholder,
-  MainContent,
-  TablePagination,
-} from "../../../../../components";
+import { EmptyPlaceholder, TablePagination } from "../../../../../components";
 import { Question } from "../components/question";
 import { useGetCustomerQuestions } from "../queries";
 
@@ -25,7 +21,7 @@ const Questions = () => {
   const isEmpty = isSuccess && questions?.rows.length === 0;
 
   return (
-    <MainContent className="max-w-3xl space-y-4">
+    <main className="container max-w-3xl space-y-4">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
           Questions
@@ -71,7 +67,7 @@ const Questions = () => {
 
         <TablePagination totalRows={questions?.count} />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

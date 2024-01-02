@@ -7,12 +7,7 @@ import {
   useUpdateCheckoutPaymentIntent,
   useUpdateCheckoutPaymentMethod,
 } from "../stores";
-import {
-  Button,
-  EmptyPlaceholder,
-  MainContent,
-  useToast,
-} from "../../../../../components";
+import { Button, EmptyPlaceholder, useToast } from "../../../../../components";
 import { checkoutActionRoutes } from "../utils";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useGetPaymentMethodSession } from "../../../../common/payment-method";
@@ -111,7 +106,7 @@ const WithPaymentIntent = ({ component: Component }) => {
 
   if (!paymentIntentId && !sessionId) {
     return (
-      <MainContent className="flex items-center justify-center">
+      <main className="container flex items-center justify-center">
         <EmptyPlaceholder>
           <EmptyPlaceholder.Title>Start Checkout</EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
@@ -130,7 +125,7 @@ const WithPaymentIntent = ({ component: Component }) => {
             {createPaymentIntentFlag ? "Try again" : "Start Checkout"}
           </Button>
         </EmptyPlaceholder>
-      </MainContent>
+      </main>
     );
   }
 

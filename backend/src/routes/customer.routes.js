@@ -2,6 +2,7 @@ const express = require("express");
 const customer = express.Router();
 const API = express.Router();
 
+const { JWT, authentication } = require("../middlewares");
 const question = require("../core/customer/question/question.routes");
 const cart = require("../core/customer/cart/cart.routes");
 const bookmark = require("../core/customer/bookmark/bookmark.routes");
@@ -17,10 +18,10 @@ customer.use("/api", API);
 
 API.use("/questions", question);
 API.use("/cart", cart);
-API.use("/bookmarks", bookmark);
+API.use("/bookmarks", JWT.verify, authentication, bookmark);
 API.use("/addresses", address);
 API.use("/orders", order);
-API.use("/history", history);
+API.use("/history", JWT.verify, authentication, history);
 API.use("/reviews", review);
 API.use("/categories", category);
 API.use("/stores", store);

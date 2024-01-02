@@ -1,10 +1,10 @@
 const express = require("express");
-const router = express.Router();
 const Boom = require("@hapi/boom");
 const schemas = require("./category.schema");
 const { validateSchema } = require("../../../middlewares/");
 const { Category } = require("../../../database/mysql/models");
-const QueryBuilder = require("../../../utils/database/query-builder");
+const { QueryBuilder } = require("../../../libs");
+const router = express.Router();
 
 router.get("/", async (req, res, next) => {
   const qb = new QueryBuilder(req.query)

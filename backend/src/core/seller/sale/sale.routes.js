@@ -9,8 +9,8 @@ const {
   User,
 } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
-const QueryBuilder = require("../../../utils/database/query-builder");
 const schema = require("./sale.schema");
+const { QueryBuilder } = require("../../../libs");
 
 // Get All
 router.get("/", JWT.verify, async (req, res, next) => {

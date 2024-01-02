@@ -11,7 +11,6 @@ import { Badge } from "./ui/badge";
 import Mandatory from "./mandatory";
 import Logo from "./logo";
 import Signout from "./signout";
-import MainContent from "./layouts/main-content";
 
 export * from "./ui/table";
 export * from "./ui/dropdown-menu";
@@ -67,5 +66,4 @@ export {
   TableSkeleton,
   TablePagination,
   Mandatory,
-  MainContent,
 };

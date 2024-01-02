@@ -1,9 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  EmptyPlaceholder,
-  MainContent,
-  TablePagination,
-} from "../../../../../components";
+import { EmptyPlaceholder, TablePagination } from "../../../../../components";
 import { useGetOrders } from "../queries";
 import { useDebounced } from "../../../../../hooks";
 import {
@@ -28,7 +24,7 @@ const Orders = () => {
   const isEmpty = isSuccess && orders?.rows.length === 0;
 
   return (
-    <MainContent className="max-w-3xl space-y-4">
+    <main className="container max-w-3xl space-y-4">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">Orders</h2>
         <p className="text-muted-foreground">
@@ -71,7 +67,7 @@ const Orders = () => {
 
         <TablePagination totalRows={orders?.count} />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

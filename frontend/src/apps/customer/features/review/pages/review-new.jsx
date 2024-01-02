@@ -18,7 +18,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  MainContent,
   RadioGroup,
   RadioGroupItem,
   Skeleton,
@@ -70,7 +69,7 @@ const ReviewNew = () => {
   };
 
   return (
-    <MainContent className="max-w-3xl space-y-4">
+    <main className="container max-w-3xl space-y-4">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
           Create Review
@@ -201,7 +200,7 @@ const ReviewNew = () => {
           </>
         )}
       </section>
-    </MainContent>
+    </main>
   );
 };
 

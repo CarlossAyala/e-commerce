@@ -1,10 +1,10 @@
-import { Card, MainContent, Skeleton } from "../../../../../components";
+import { Card, Skeleton } from "../../../../../components";
 import { AddressItem } from "./address-item";
 import { CartSummary } from "./cart-summary";
 
 export const CheckoutShippingSkeleton = () => {
   return (
-    <MainContent className="flex max-w-5xl flex-col">
+    <main className="container flex max-w-5xl flex-col">
       <section className="mt-2 w-full max-w-lg space-y-2">
         <Skeleton className="h-9 w-1/2 scroll-m-20" />
         <Skeleton className="h-5 w-full" />
@@ -36,6 +36,6 @@ export const CheckoutShippingSkeleton = () => {
           </div>
         </div>
       </section>
-    </MainContent>
+    </main>
   );
 };

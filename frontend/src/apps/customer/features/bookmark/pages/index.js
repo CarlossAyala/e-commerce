@@ -1,3 +1,1 @@
-import Bookmark from "./bookmark";
-
-export { Bookmark };
+export * from "./bookmarks";

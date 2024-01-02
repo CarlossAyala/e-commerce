@@ -1,5 +1,4 @@
 import {
-  MainContent,
   Tabs,
   TabsContent,
   TabsList,
@@ -10,7 +9,7 @@ import ReviewsPending from "./reviews-pending";
 
 const Reviews = () => {
   return (
-    <MainContent className="max-w-4xl space-y-4">
+    <main className="container max-w-4xl space-y-4">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
           Reviews
@@ -32,7 +31,7 @@ const Reviews = () => {
           <ReviewsDone />
         </TabsContent>
       </Tabs>
-    </MainContent>
+    </main>
   );
 };
 

@@ -8,8 +8,8 @@ const {
   ReviewLikeDislike,
 } = require("../../../database/mysql/models");
 const { JWT, validateSchema } = require("../../../middlewares");
-const QueryBuilder = require("../../../utils/database/query-builder");
 const schemas = require("./review.schema");
+const { QueryBuilder } = require("../../../libs");
 
 // Find one
 router.get(

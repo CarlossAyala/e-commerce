@@ -1,10 +1,10 @@
-import { MainContent, Separator } from "../../../../../components";
+import { Separator } from "../../../../../components";
 import { StoresDisplay } from "../components/stores-display";
 import { StoresFilters } from "../components/stores-filters";
 
 const Stores = () => {
   return (
-    <MainContent className="max-w-6xl space-y-6">
+    <main className="container max-w-6xl space-y-6">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">Stores</h2>
         <p className="leading-tight text-muted-foreground">
@@ -18,7 +18,7 @@ const Stores = () => {
         <StoresFilters className="hidden w-full max-w-[240px] shrink-0 sm:block" />
         <StoresDisplay className="grow" />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

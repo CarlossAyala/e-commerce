@@ -36,7 +36,7 @@ export const UserNav = () => {
         <DropdownMenuGroup>
           <DropdownMenuItem>Orders</DropdownMenuItem>
           <DropdownMenuItem>History</DropdownMenuItem>
-          <DropdownMenuItem>Bookmark</DropdownMenuItem>
+          <DropdownMenuItem>Bookmarks</DropdownMenuItem>
           <DropdownMenuItem>Questions</DropdownMenuItem>
           <DropdownMenuItem>Reviews</DropdownMenuItem>
         </DropdownMenuGroup>

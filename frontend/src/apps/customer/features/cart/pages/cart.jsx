@@ -3,7 +3,6 @@ import {
   FaceFrownIcon,
 } from "@heroicons/react/24/outline";
 import {
-  MainContent,
   useToast,
   Button,
   EmptyPlaceholder,
@@ -41,7 +40,7 @@ const Cart = () => {
   const isEmpty = isSuccess && cart.length === 0;
 
   return (
-    <MainContent className="flex max-w-6xl flex-col">
+    <main className="container flex max-w-6xl flex-col">
       <section className="mt-3 justify-between sm:flex">
         <div className="scroll-m-20">
           <h1 className="text-3xl font-semibold tracking-tight">Cart</h1>
@@ -117,7 +116,7 @@ const Cart = () => {
           </section>
         </>
       )}
-    </MainContent>
+    </main>
   );
 };
 

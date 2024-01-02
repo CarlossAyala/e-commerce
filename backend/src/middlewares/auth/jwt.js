@@ -19,8 +19,7 @@ const verify = async (req, res, next) => {
 
   if (!authHeader) {
     return next(Boom.unauthorized("Missing Authorization Header"));
-  }
-  if (!token) {
+  } else if (!token) {
     return next(Boom.unauthorized("Missing Authorization Token"));
   }
 

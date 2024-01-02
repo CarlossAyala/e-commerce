@@ -10,7 +10,7 @@ const {
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./review.schema");
 const sequelize = require("../../../database/mysql");
-const QueryBuilder = require("../../../utils/database/query-builder");
+const { QueryBuilder } = require("../../../libs");
 
 router.get("/customer", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;

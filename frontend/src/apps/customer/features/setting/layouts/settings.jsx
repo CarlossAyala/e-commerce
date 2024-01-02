@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { MainContent, Separator } from "../../../../../components";
+import { Separator } from "../../../../../components";
 import { SettingsNav } from "../components/settings-nav";
 
 const Settings = () => {
   return (
-    <MainContent className="max-w-5xl space-y-4">
+    <main className="container max-w-5xl space-y-4">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
           Settings
@@ -20,7 +20,7 @@ const Settings = () => {
         <SettingsNav />
         <Outlet />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

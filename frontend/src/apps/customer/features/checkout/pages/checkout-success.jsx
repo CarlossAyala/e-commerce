@@ -1,9 +1,5 @@
 import { useEffect } from "react";
-import {
-  Button,
-  EmptyPlaceholder,
-  MainContent,
-} from "../../../../../components";
+import { Button, EmptyPlaceholder } from "../../../../../components";
 import { useResetCheckoutStore } from "../stores";
 import { Link, useParams } from "react-router-dom";
 import { orderActionRoutes, useGetOrder } from "../../order";
@@ -23,7 +19,7 @@ const CheckoutSuccess = () => {
   }, []);
 
   return (
-    <MainContent className="max-w-4xl space-y-6">
+    <main className="container max-w-4xl space-y-6">
       <section className="mt-2">
         <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight">
           Checkout - Success
@@ -105,7 +101,7 @@ const CheckoutSuccess = () => {
           </>
         )}
       </section>
-    </MainContent>
+    </main>
   );
 };
 

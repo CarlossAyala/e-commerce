@@ -4,7 +4,7 @@ const Boom = require("@hapi/boom");
 const { Product, Question, Answer } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./question.schema");
-const QueryBuilder = require("../../../utils/database/query-builder");
+const { QueryBuilder } = require("../../../libs");
 
 router.get("/customer", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;

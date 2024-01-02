@@ -11,14 +11,10 @@ const modelOptions = {
 };
 
 const modelSchema = {
-  id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    defaultValue: DataTypes.UUIDV4,
-  },
   customerId: {
     type: DataTypes.UUID,
     field: "customer_id",
+    primaryKey: true,
     references: {
       model: User.model,
       key: "id",
@@ -27,6 +23,7 @@ const modelSchema = {
   productId: {
     type: DataTypes.UUID,
     field: "product_id",
+    primaryKey: true,
     references: {
       model: Product.model,
       key: "id",

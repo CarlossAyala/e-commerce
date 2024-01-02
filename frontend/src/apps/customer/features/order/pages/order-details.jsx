@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Card, EmptyPlaceholder, MainContent } from "../../../../../components";
+import { Card, EmptyPlaceholder } from "../../../../../components";
 import { useGetOrder } from "../queries";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import { Formatter } from "../../../../../utils/formatter";
@@ -18,7 +18,7 @@ const OrderDetails = () => {
   } = useGetOrder(orderId);
 
   return (
-    <MainContent className="max-w-4xl space-y-4">
+    <main className="container max-w-4xl space-y-4">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
           Order Details
@@ -132,7 +132,7 @@ const OrderDetails = () => {
           </>
         )}
       </section>
-    </MainContent>
+    </main>
   );
 };
 

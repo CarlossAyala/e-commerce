@@ -1,12 +1,11 @@
 const express = require("express");
-const router = express.Router();
+const { Sequelize, Op } = require("sequelize");
 const Boom = require("@hapi/boom");
+const schemas = require("./product.schema");
 const { Category, Product, Store } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
-const schemas = require("./product.schema");
-const QueryBuilder = require("../../../utils/database/query-builder");
-const { Sequelize, Op } = require("sequelize");
-const { slugify } = require("../../../libs");
+const { slugify, QueryBuilder } = require("../../../libs");
+const router = express.Router();
 
 // Get Products
 router.get("/", JWT.verify, async (req, res, next) => {

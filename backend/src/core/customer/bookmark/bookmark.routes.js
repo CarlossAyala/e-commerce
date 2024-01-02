@@ -4,21 +4,24 @@ const Boom = require("@hapi/boom");
 const { Product, Bookmark } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./bookmark.schema");
+const { QueryBuilder } = require("../../../libs");
 
-// TODO: Add pagination
-
-// Get All
 router.get("/", JWT.verify, async (req, res, next) => {
+  const { id: customerId } = req.auth;
+  const { limit, offset } = new QueryBuilder(req.query).pagination().build();
+
   try {
     const bookmarks = await Bookmark.model.findAndCountAll({
       where: {
-        customerId: req.auth.id,
+        customerId,
       },
       include: {
         model: Product.model,
         as: "product",
       },
       order: [["createdAt", "DESC"]],
+      limit,
+      offset,
     });
 
     return res.status(200).json(bookmarks);
@@ -33,12 +36,12 @@ router.get(
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
+    const { id: customerId } = req.auth;
+    const { id: productId } = req.params;
     try {
-      const { id: productId } = req.params;
-
       const bookmark = await Bookmark.model.findOne({
         where: {
-          customerId: req.auth.id,
+          customerId,
           productId,
         },
       });
@@ -56,19 +59,20 @@ router.post(
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
-    try {
-      const { id: productId } = req.params;
+    const { id: customerId } = req.auth;
+    const { id: productId } = req.params;
 
+    try {
       const product = await Product.model.findByPk(productId);
       if (!product) return next(Boom.notFound("Product not found"));
 
       const [bookmark, created] = await Bookmark.model.findOrCreate({
         where: {
-          customerId: req.auth.id,
+          customerId,
           productId,
         },
         defaults: {
-          customerId: req.auth.id,
+          customerId,
           productId,
         },
       });
@@ -82,10 +86,12 @@ router.post(
 
 // Clear
 router.delete("/clear", JWT.verify, async (req, res, next) => {
+  const { id: customerId } = req.auth;
+
   try {
     await Bookmark.model.destroy({
       where: {
-        customerId: req.auth.id,
+        customerId,
       },
     });
 
@@ -101,13 +107,14 @@ router.delete(
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
+    const { id: customerId } = req.auth;
     const { id: productId } = req.params;
 
     try {
       await Bookmark.model.destroy({
         where: {
+          customerId,
           productId,
-          customerId: req.auth.id,
         },
       });
 

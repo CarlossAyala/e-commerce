@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { MainContent } from "../../../../../components";
 import { useGetProduct } from "../queries";
 import { QuestionsAnswers } from "../components";
 import { Review } from "../components/review/review";
@@ -24,7 +23,7 @@ const Product = () => {
   }, [productId]);
 
   return (
-    <MainContent className="space-y-10">
+    <main className="container space-y-10">
       {product.isLoading && (
         <p className="text-base leading-tight text-muted-foreground">
           Loading...
@@ -59,7 +58,7 @@ const Product = () => {
           </section>
         </>
       )}
-    </MainContent>
+    </main>
   );
 };
 

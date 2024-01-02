@@ -1,4 +1,4 @@
-import { EmptyPlaceholder, MainContent } from "../../../../../components";
+import { EmptyPlaceholder } from "../../../../../components";
 import { useGetFullCategories } from "../queries";
 import { CategoriesDisplay } from "../components/categories-display";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
@@ -16,7 +16,7 @@ const Categories = () => {
   const isEmpty = isSuccess && categories.length === 0;
 
   return (
-    <MainContent className="max-w-6xl space-y-6">
+    <main className="container max-w-6xl space-y-6">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
           Categories
@@ -56,7 +56,7 @@ const Categories = () => {
             <CategoriesDisplay key={category.id} category={category} />
           ))}
       </section>
-    </MainContent>
+    </main>
   );
 };
 

@@ -12,7 +12,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  MainContent,
   RadioGroup,
   RadioGroupItem,
 } from "../../../../../components";
@@ -71,7 +70,7 @@ const CheckoutShipping = () => {
   const isEmpty = addresses.isSuccess && addresses.data?.length === 0;
 
   return (
-    <MainContent className="flex max-w-5xl flex-col">
+    <main className="container flex max-w-5xl flex-col">
       <section className="mt-2">
         <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight">
           Checkout - Shipping
@@ -218,7 +217,7 @@ const CheckoutShipping = () => {
           </form>
         </Form>
       </section>
-    </MainContent>
+    </main>
   );
 };
 

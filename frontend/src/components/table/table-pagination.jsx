@@ -39,7 +39,7 @@ const TablePagination = ({ totalRows = 0 }) => {
 
   return (
     <>
-      <div className="flex">
+      <section className="flex">
         <Select
           defaultValue={pageSize}
           value={pageSize}
@@ -63,8 +63,9 @@ const TablePagination = ({ totalRows = 0 }) => {
             {leftRows}-{rightRows} of {totalRows} rows
           </p>
         </div>
-      </div>
-      <div className="flex items-center justify-center space-x-4">
+      </section>
+
+      <section className="flex items-center justify-center space-x-4">
         <Button
           type="button"
           variant="outline"
@@ -119,7 +120,7 @@ const TablePagination = ({ totalRows = 0 }) => {
           <span className="sr-only">Go to last page</span>
           <ChevronDoubleRightIcon className="h-4 w-4" />
         </Button>
-      </div>
+      </section>
     </>
   );
 };

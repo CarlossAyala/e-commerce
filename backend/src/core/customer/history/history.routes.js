@@ -1,24 +1,27 @@
 const express = require("express");
-const router = express.Router();
-const Boom = require("@hapi/boom");
 const { Op } = require("sequelize");
-const { History, Product } = require("../../../database/mysql/models");
-const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./history.schema");
+const { History, Product } = require("../../../database/mysql/models");
+const { validateSchema } = require("../../../middlewares");
+const { QueryBuilder } = require("../../../libs");
+const router = express.Router();
 
-// TODO: Add pagination
+router.get("/", async (req, res, next) => {
+  const { id: customerId } = req.auth;
+  const { limit, offset } = new QueryBuilder(req.query).pagination().build();
 
-router.get("/", JWT.verify, async (req, res, next) => {
   try {
     const history = await History.model.findAndCountAll({
       where: {
-        customerId: req.auth.id,
+        customerId,
       },
       include: {
         model: Product.model,
         as: "product",
       },
       order: [["lastSeenAt", "DESC"]],
+      limit,
+      offset,
     });
 
     return res.status(200).json(history);
@@ -30,11 +33,11 @@ router.get("/", JWT.verify, async (req, res, next) => {
 // TODO: Resolve problem with React useEffect fetch, double product register
 router.post(
   "/:id",
-  JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id: productId } = req.params;
+    console.log("\n HELL NO \n");
 
     try {
       const currentMonth = new Date();
@@ -67,11 +70,13 @@ router.post(
   }
 );
 
-router.delete("/clear", JWT.verify, async (req, res, next) => {
+router.delete("/clear", async (req, res, next) => {
+  const { id: customerId } = req.auth;
+
   try {
     await History.model.destroy({
       where: {
-        customerId: req.auth.id,
+        customerId,
       },
     });
 
@@ -83,19 +88,18 @@ router.delete("/clear", JWT.verify, async (req, res, next) => {
 
 router.delete(
   "/:id",
-  JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { id: customerId } = req.auth;
+      const { id: productId } = req.params;
 
       const history = await History.model.findOne({
         where: {
-          id,
-          customerId: req.auth.id,
+          productId,
+          customerId,
         },
       });
-      if (!history) return next(Boom.notFound("History not found"));
 
       await history.destroy();
 

@@ -4,7 +4,7 @@ const Boom = require("@hapi/boom");
 const { Address } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./address.schema");
-const QueryBuilder = require("../../../utils/database/query-builder");
+const { QueryBuilder } = require("../../../libs");
 
 // Get All
 router.get("/", JWT.verify, async (req, res, next) => {
