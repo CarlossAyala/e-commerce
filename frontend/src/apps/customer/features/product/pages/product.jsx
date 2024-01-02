@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MainContent } from "../../../../../components";
 import { useGetProduct } from "../queries";
@@ -5,7 +6,6 @@ import { QuestionsAnswers } from "../components";
 import { Review } from "../components/review/review";
 import { RelatedProducts } from "../components/related-products";
 import { ProductDetail } from "../components/product/product-detail";
-import { useEffect } from "react";
 import { useAddHistory } from "../../history";
 
 const Product = () => {
@@ -13,13 +13,15 @@ const Product = () => {
   const product = useGetProduct(productId);
   const history = useAddHistory();
 
-  useEffect(
-    function addToHistory() {
-      history.mutate(productId);
-    },
+  useEffect(() => {
+    history.mutate(productId, {
+      onError(error) {
+        console.log("Error Product", error);
+      },
+    });
+    console.log("Fuck");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [productId],
-  );
+  }, [productId]);
 
   return (
     <MainContent className="space-y-10">

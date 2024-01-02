@@ -1,55 +1,12 @@
-import { cn } from "../libs/utils";
-
-export function EmptyPlaceholder({ className, children, ...props }) {
+export function EmptyPlaceholder({ title, description }) {
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50",
-        className,
+    <div className="grid place-content-center rounded border border-dashed py-32">
+      {title && <p className="text-center text-lg font-semibold">{title}</p>}
+      {description && (
+        <p className="text-center text-sm font-normal text-muted-foreground">
+          {description}
+        </p>
       )}
-      {...props}
-    >
-      <div className="mx-auto flex max-w-md flex-col items-center justify-center text-center">
-        {children}
-      </div>
     </div>
   );
 }
-
-EmptyPlaceholder.Icon = function EmptyPlaceHolderIcon({
-  icon: Icon,
-  className,
-  ...props
-}) {
-  if (!Icon) {
-    return null;
-  }
-
-  return (
-    <div className="mb-2 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-      <Icon className={cn("h-10 w-10", className)} {...props} />
-    </div>
-  );
-};
-
-EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
-  className,
-  ...props
-}) {
-  return <h2 className={cn("text-xl font-semibold", className)} {...props} />;
-};
-
-EmptyPlaceholder.Description = function EmptyPlaceholderDescription({
-  className,
-  ...props
-}) {
-  return (
-    <p
-      className={cn(
-        "mb-8 mt-2 text-center text-sm font-normal leading-6 text-muted-foreground",
-        className,
-      )}
-      {...props}
-    />
-  );
-};

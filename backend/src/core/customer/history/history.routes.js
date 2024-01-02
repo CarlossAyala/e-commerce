@@ -8,7 +8,6 @@ const schemas = require("./history.schema");
 
 // TODO: Add pagination
 
-// Get All
 router.get("/", JWT.verify, async (req, res, next) => {
   try {
     const history = await History.model.findAndCountAll({
@@ -28,52 +27,46 @@ router.get("/", JWT.verify, async (req, res, next) => {
   }
 });
 
-// Add
+// TODO: Resolve problem with React useEffect fetch, double product register
 router.post(
   "/:id",
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
+    const { id: customerId } = req.auth;
+    const { id: productId } = req.params;
+
     try {
-      const { id: productId } = req.params;
+      const currentMonth = new Date();
+      currentMonth.setHours(0, 0, 0, 0);
+      currentMonth.setDate(1);
 
-      const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound("Product not found"));
-
-      const date = new Date();
-      const startDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-      const endDayOfMonth = new Date(
-        date.getFullYear(),
-        date.getMonth() + 1,
-        0
-      );
-
-      // console.log('startDayOfMonth', startDayOfMonth);
-      // console.log('endDayOfMonth', endDayOfMonth);
-
-      const [history, created] = await History.model.findOrCreate({
+      const history = await History.model.findOne({
         where: {
-          customerId: req.auth.id,
+          customerId,
           productId,
           lastSeenAt: {
-            [Op.between]: [startDayOfMonth, endDayOfMonth],
+            [Op.gte]: currentMonth,
           },
-        },
-        defaults: {
-          customerId: req.auth.id,
-          productId,
-          lastSeenAt: new Date(),
         },
       });
 
-      return res.status(created ? 201 : 200).json(history);
+      if (!history) {
+        await History.model.create({
+          customerId,
+          productId,
+        });
+      } else {
+        await history.update({ lastSeenAt: new Date() });
+      }
+
+      return res.json(history);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// Clear
 router.delete("/clear", JWT.verify, async (req, res, next) => {
   try {
     await History.model.destroy({
@@ -88,7 +81,6 @@ router.delete("/clear", JWT.verify, async (req, res, next) => {
   }
 });
 
-// Remove
 router.delete(
   "/:id",
   JWT.verify,
