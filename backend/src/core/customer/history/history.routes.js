@@ -37,7 +37,6 @@ router.post(
   async (req, res, next) => {
     const { id: customerId } = req.auth;
     const { id: productId } = req.params;
-    console.log("\n HELL NO \n");
 
     try {
       const currentMonth = new Date();
