@@ -1,5 +1,5 @@
 export class Formatter {
-  static money(amount) {
+  static currency(amount) {
     return new Intl.NumberFormat("es-AR", {
       style: "currency",
       currency: "ARS",
