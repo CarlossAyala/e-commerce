@@ -32,7 +32,7 @@ export const SliderComponent = ({ items, title, isLoading, isError, type }) => {
 
   return (
     <section>
-      <h2 className="mb-2 text-xl font-semibold">{title}</h2>
+      {title && <h2 className="mb-2 text-xl font-semibold">{title}</h2>}
 
       {isLoading ? (
         <Slider.Skeleton {...config} />
