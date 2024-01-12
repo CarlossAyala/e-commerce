@@ -19,7 +19,7 @@ export const ProductCard = ({ product }) => {
       </div>
       <div className="border-t border-black/10 p-2">
         <p className="text-base font-bold leading-snug text-black">
-          {Formatter.money(product.price)}
+          {Formatter.currency(product.price)}
         </p>
         <p
           className={clsx(

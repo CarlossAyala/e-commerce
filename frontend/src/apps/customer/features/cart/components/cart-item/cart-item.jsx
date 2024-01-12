@@ -29,11 +29,11 @@ export const CartItem = ({ item }) => {
             {item.product.name}
           </Link>
           <p className="text-xs leading-tight text-muted-foreground">
-            <span>U.P {Formatter.money(+item.product.price)}</span>
+            <span>U.P {Formatter.currency(+item.product.price)}</span>
             {hasStock && <span> | Stock: {item.product.stock}</span>}
           </p>
           <p className="mt-auto text-lg font-medium tabular-nums leading-tight">
-            {Formatter.money(+item.product.price * item.quantity)}
+            {Formatter.currency(+item.product.price * item.quantity)}
           </p>
         </div>
       </div>

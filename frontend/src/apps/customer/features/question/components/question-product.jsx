@@ -22,7 +22,7 @@ export const QuestionProduct = ({ product }) => {
         <p className="text-xs leading-tight text-muted-foreground">
           <span className="capitalize">{product.condition}</span>
           {" - "}
-          <span>U.P {Formatter.money(product.price)}</span>
+          <span>U.P {Formatter.currency(product.price)}</span>
           {" - "}
           <span>{product.available ? "Available" : "Unavailable"}</span>
         </p>

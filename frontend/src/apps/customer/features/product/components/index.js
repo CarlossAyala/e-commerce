@@ -1,3 +1,3 @@
-export * from "./questions-answers/questions-answers.jsx";
+export * from "./faq.jsx";
 export * from "./review/review-score";
 export * from "./review/review-comments";

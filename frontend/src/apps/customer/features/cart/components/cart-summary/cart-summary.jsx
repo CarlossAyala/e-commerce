@@ -47,7 +47,7 @@ export const CartSummary = ({ cart, className }) => {
       <div className="flex items-end justify-between">
         <p className="text-sm leading-tight">Subtotal</p>
         <p className="text-lg font-medium leading-tight">
-          {Formatter.money(itemsVisible)}
+          {Formatter.currency(itemsVisible)}
         </p>
       </div>
       {itemsHidden > 0 && (
@@ -55,13 +55,13 @@ export const CartSummary = ({ cart, className }) => {
           <div className="mt-1 flex items-end justify-between">
             <p className="text-sm leading-tight">Hidden</p>
             <p className="text-sm font-medium leading-tight">
-              {Formatter.money(itemsHidden)}
+              {Formatter.currency(itemsHidden)}
             </p>
           </div>
           <div className="mt-1 flex items-end justify-between">
             <p className="text-sm leading-tight">SubTotal (w/hidden)</p>
             <p className="text-sm font-medium leading-tight">
-              {Formatter.money(both)}
+              {Formatter.currency(both)}
             </p>
           </div>
         </>

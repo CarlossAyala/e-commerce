@@ -18,7 +18,7 @@ export const CartSummary = ({ children, cart }) => {
       <div className="flex items-end justify-between">
         <p className="text-sm leading-tight">Total</p>
         <p className="text-lg font-medium leading-tight">
-          {Formatter.money(total)}
+          {Formatter.currency(total)}
         </p>
       </div>
       {children}

@@ -20,11 +20,11 @@ export const OrderProduct = ({ item }) => {
           {item.product.name}
         </Link>
         <p className="text-xs leading-tight text-muted-foreground">
-          <span>U.P {Formatter.money(item.price)}</span>
+          <span>U.P {Formatter.currency(item.price)}</span>
         </p>
         <div className="mt-auto flex justify-between text-base font-medium tabular-nums leading-tight">
           <p>x {item.quantity}</p>
-          <p>{Formatter.money(+item.price * item.quantity)}</p>
+          <p>{Formatter.currency(+item.price * item.quantity)}</p>
         </div>
       </div>
     </article>

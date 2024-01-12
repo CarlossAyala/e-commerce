@@ -1,13 +1,14 @@
-import { Button, useToast } from "../../../../../../components";
+import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid";
+import { BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/24/outline";
+import { Skeleton, useToast } from "../../../../../../components";
 import {
   useCreateBookmark,
   useGetBookmark,
   useRemoveBookmark,
 } from "../../../bookmark";
-import { Skeleton } from "../questions-answers/question-item/skeleton";
 
 const AddToBookmarkSkeleton = () => {
-  return <Skeleton className="h-10 w-full" />;
+  return <Skeleton className="h-8 w-32" />;
 };
 
 export const AddToBookmark = ({ productId }) => {
@@ -55,14 +56,18 @@ export const AddToBookmark = ({ productId }) => {
   }
 
   return (
-    <Button
-      variant="outline"
-      className="w-full"
+    <button
+      className="flex items-center text-muted-foreground"
       onClick={handleBookmark}
       disabled={add.isLoading || remove.isLoading}
     >
-      {bookmark.data ? "Remove from bookmark" : "Add to bookmark"}
-    </Button>
+      {bookmark.data ? (
+        <SolidBookmarkIcon className="mr-1 h-5 w-5" />
+      ) : (
+        <OutlineBookmarkIcon className="mr-1 h-5 w-5" />
+      )}
+      Bookmark
+    </button>
   );
 };
 

@@ -1,3 +1,1 @@
-import Product from "./product";
-
-export { Product };
+export * from "./product";

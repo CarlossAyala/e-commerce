@@ -4,7 +4,7 @@ import {
   questionDefault,
   questionSchema,
   useCreateQuestion,
-} from "../../../question";
+} from "../../question";
 import {
   Button,
   Form,
@@ -15,9 +15,9 @@ import {
   FormMessage,
   Textarea,
   useToast,
-} from "../../../../../../components";
+} from "../../../../../components";
 
-export const UserAsk = ({ productId }) => {
+export const UserQuestionForm = ({ productId }) => {
   const { toast } = useToast();
   const create = useCreateQuestion();
 
@@ -48,16 +48,13 @@ export const UserAsk = ({ productId }) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-xl space-y-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           control={form.control}
           name="question"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Question</FormLabel>
+              <FormLabel>Description</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Describe your question here"

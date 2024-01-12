@@ -85,7 +85,7 @@ const CheckoutSuccess = () => {
                 <dt className="text-sm font-semibold leading-6">Summary</dt>
                 <dd className="mt-1 text-sm font-normal leading-tight text-muted-foreground">
                   <p className="text-3xl leading-6">
-                    {Formatter.money(order.data.order.total)}
+                    {Formatter.currency(order.data.order.total)}
                   </p>
                 </dd>
               </div>

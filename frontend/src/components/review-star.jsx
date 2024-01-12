@@ -31,7 +31,7 @@ const Star = ({ rate, star, size }) => {
   );
 };
 
-export const ReviewStar = ({ rating = 0, size = "xs", className }) => {
+export const ReviewStar = ({ rating = 0, size = "sm", className }) => {
   return (
     <div className={cn("flex items-center", className)}>
       {STARS.map((star) => (
@@ -43,14 +43,4 @@ export const ReviewStar = ({ rating = 0, size = "xs", className }) => {
 
 ReviewStar.Skeleton = function ReviewStarSkeleton() {
   return <Skeleton className="h-6 w-20" />;
-};
-
-ReviewStar.Error = function ReviewStarError() {
-  return (
-    <div>
-      <p className="text-sm leading-tight text-muted-foreground">
-        Error loading review stats.
-      </p>
-    </div>
-  );
 };

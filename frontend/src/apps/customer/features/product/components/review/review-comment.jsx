@@ -19,7 +19,7 @@ export const ReviewComment = ({ review }) => {
   };
 
   return (
-    <article>
+    <article className="rounded border p-2">
       <div className="mb-1 flex items-center justify-between gap-x-2">
         <ReviewStar size="sm" rating={review.rating} />
         <p className="text-sm leading-tight text-muted-foreground">
@@ -57,37 +57,23 @@ export const ReviewComment = ({ review }) => {
 
 ReviewComment.Skeleton = function ReviewCommentSkeleton() {
   return (
-    <div className="space-y-2">
-      <div className="mb-2 flex items-center justify-between gap-x-2">
-        <Skeleton className="h-5 w-20" />
-        <Skeleton className="h-5 w-20" />
-      </div>
-      <Skeleton className="h-5 w-full" />
-      <Skeleton className="h-5 w-full" />
-      <div className="mt-2 flex gap-x-4">
-        <Skeleton className="h-5 w-10" />
-        <Skeleton className="h-5 w-10" />
-      </div>
-    </div>
-  );
-};
-
-ReviewComment.Empty = function ReviewCommentEmpty() {
-  return (
-    <div>
-      <p className="text-sm leading-tight text-muted-foreground">
-        There are no reviews yet.
-      </p>
-    </div>
-  );
-};
-
-ReviewComment.Error = function ReviewCommentError() {
-  return (
-    <div>
-      <p className="text-sm leading-tight text-muted-foreground">
-        There was an error loading the reviews.
-      </p>
-    </div>
+    <ol className="space-y-4">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <li key={index} className="space-y-2 rounded border p-2">
+          <div className="flex items-center justify-between gap-x-2">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
+          </div>
+          <div className="flex gap-2">
+            <Skeleton className="h-5 w-10" />
+            <Skeleton className="h-5 w-10" />
+          </div>
+        </li>
+      ))}
+    </ol>
   );
 };

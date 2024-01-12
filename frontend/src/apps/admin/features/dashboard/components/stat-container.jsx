@@ -37,7 +37,7 @@ export const StatContainer = () => {
       <StatComponent
         title="Total Revenue"
         description="This month"
-        value={Formatter.money(revenues.data?.revenue)}
+        value={Formatter.currency(revenues.data?.revenue)}
         isLoading={revenues.isLoading}
         isError={revenues.isError}
       />

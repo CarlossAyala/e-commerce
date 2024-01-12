@@ -11,6 +11,7 @@ import {
   useToast,
 } from "../../../../../../components";
 import { addCartInitial, addCartSchema, useAddCart } from "../../../cart";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 export const AddToCart = ({ product }) => {
   const { toast } = useToast();
@@ -57,7 +58,7 @@ export const AddToCart = ({ product }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-2">
         <FormField
           control={form.control}
           name="quantity"
@@ -67,7 +68,7 @@ export const AddToCart = ({ product }) => {
                 <Input
                   disabled={addToCart.isLoading}
                   type="number"
-                  className="h-10"
+                  className="h-10 w-24"
                   placeholder="Quantity"
                   {...field}
                 />
@@ -77,11 +78,12 @@ export const AddToCart = ({ product }) => {
           )}
         />
         <Button
-          className="w-full text-base"
+          className="grow gap-x-2 text-sm"
           size="lg"
           type="submit"
           disabled={addToCart.isLoading}
         >
+          <ShoppingCartIcon className="h-5 w-5" />
           Add to cart
         </Button>
       </form>

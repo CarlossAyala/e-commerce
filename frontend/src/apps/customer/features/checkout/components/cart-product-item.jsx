@@ -22,11 +22,11 @@ export const CartProductItem = ({ item }) => {
           {item.product.name}
         </Link>
         <p className="text-xs leading-tight text-muted-foreground">
-          <span>U.P {Formatter.money(item.product.price)}</span>
+          <span>U.P {Formatter.currency(item.product.price)}</span>
         </p>
         <div className="mt-auto flex justify-between text-lg font-medium tabular-nums leading-tight">
           <p>x{item.quantity}</p>
-          <p>{Formatter.money(+item.product.price * item.quantity)}</p>
+          <p>{Formatter.currency(+item.product.price * item.quantity)}</p>
         </div>
       </div>
     </div>

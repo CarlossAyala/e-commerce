@@ -1,55 +1,55 @@
+import { useParams } from "react-router-dom";
 import {
+  EmptyPlaceholder,
   ReviewStar,
   ReviewStarGraph,
   Skeleton,
 } from "../../../../../../components";
 import { useGetReviewStats } from "../../../review";
 
-export const ReviewScore = ({ productId }) => {
-  const reviews = useGetReviewStats(productId);
-
-  if (reviews.isLoading) {
-    return (
-      <div className="space-y-2">
-        <Skeleton className="h-14 w-28" />
-        <div className="space-y-1">
-          <Skeleton className="h-5 w-40" />
-          <Skeleton className="h-5 w-28" />
-        </div>
-        <div className="space-y-2 py-4">
-          <Skeleton className="h-3 w-full" />
-          <Skeleton className="h-3 w-full" />
-          <Skeleton className="h-3 w-full" />
-          <Skeleton className="h-3 w-full" />
-          <Skeleton className="h-3 w-full" />
-        </div>
-      </div>
-    );
-  }
-  if (reviews.isError) {
-    return <p className="text-sm text-muted-foreground">Error loading score</p>;
-  }
+export const ReviewScore = () => {
+  const { productId } = useParams();
+  const {
+    data: reviews,
+    isLoading,
+    isError,
+    error,
+  } = useGetReviewStats(productId);
 
   return (
-    <div className="space-y-4">
-      <div>
-        <p className="text-5xl font-semibold leading-none">
-          {reviews.data.average}
-        </p>
-        <div className="mt-1">
-          <ReviewStar
-            rating={reviews.data.average}
-            size="lg"
-            className="gap-x-1"
-          />
-          <p className="mt-1 text-sm leading-tight text-muted-foreground">
-            {reviews.data.total} reviews
-          </p>
+    <>
+      {isLoading ? (
+        <div className="space-y-4">
+          <Skeleton className="h-10 w-full" />
+          <div className="space-y-2">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <Skeleton key={index} className="h-4 w-full" />
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <ReviewStarGraph ratings={reviews.data.reviews} />
-      </div>
-    </div>
+      ) : isError ? (
+        <EmptyPlaceholder
+          title={error?.name ?? "Error"}
+          description={error?.message ?? "Uh oh! Something went wrong."}
+        />
+      ) : (
+        <div className="space-y-2">
+          <div className="flex items-center gap-4">
+            <p className="text-5xl font-semibold">{reviews.average}</p>
+            <div>
+              <ReviewStar
+                rating={reviews.average}
+                size="md"
+                className="gap-x-1"
+              />
+              <p className="text-sm leading-tight text-muted-foreground">
+                {reviews.total} reviews
+              </p>
+            </div>
+          </div>
+          <ReviewStarGraph ratings={reviews.reviews} />
+        </div>
+      )}
+    </>
   );
 };
