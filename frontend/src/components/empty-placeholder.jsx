@@ -1,10 +1,10 @@
 import { cn } from "../libs/utils";
 
-export function EmptyPlaceholder({ title, description, className }) {
+export function EmptyPlaceholder({ title, description, className, children }) {
   return (
     <section
       className={cn(
-        "grid place-content-center rounded border border-dashed py-32",
+        "grid place-content-center rounded border border-dashed p-32",
         className,
       )}
     >
@@ -14,6 +14,7 @@ export function EmptyPlaceholder({ title, description, className }) {
           {description}
         </p>
       )}
+      {children}
     </section>
   );
 }

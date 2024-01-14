@@ -107,23 +107,24 @@ const WithPaymentIntent = ({ component: Component }) => {
   if (!paymentIntentId && !sessionId) {
     return (
       <main className="container flex items-center justify-center">
-        <EmptyPlaceholder>
-          <EmptyPlaceholder.Title>Start Checkout</EmptyPlaceholder.Title>
-          <EmptyPlaceholder.Description>
-            Once you start the Checkout Process, you will have to select an
-            Address, Payment Method and finally, confirm the purchase.
-          </EmptyPlaceholder.Description>
-          <Button
-            type="button"
-            disabled={createPaymentIntent.isLoading}
-            onClick={generatePaymentIntent}
-            className="flex items-center justify-center"
-          >
-            {createPaymentIntent.isLoading && (
-              <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            {createPaymentIntentFlag ? "Try again" : "Start Checkout"}
-          </Button>
+        <EmptyPlaceholder
+          title="Start Checkout"
+          description="Once you start the Checkout Process, you will have to select an
+            Address, Payment Method and finally, confirm the purchase."
+        >
+          <div className="mx-auto mt-4">
+            <Button
+              type="button"
+              disabled={createPaymentIntent.isLoading}
+              onClick={generatePaymentIntent}
+              className="flex items-center justify-center"
+            >
+              {createPaymentIntent.isLoading && (
+                <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              {createPaymentIntentFlag ? "Try again" : "Start"}
+            </Button>
+          </div>
         </EmptyPlaceholder>
       </main>
     );

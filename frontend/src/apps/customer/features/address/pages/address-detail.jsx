@@ -1,5 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -9,6 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   Button,
+  ButtonSkeleton,
   EmptyPlaceholder,
   Form,
   FormControl,
@@ -17,20 +21,15 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Skeleton,
-  TextInputSkeleton,
+  InputSkeleton,
   Textarea,
-  TextareaInputSkeleton,
+  TextareaSkeleton,
   useToast,
 } from "../../../../../components";
 import { useGetAddress, useRemoveAddress, useUpdateAddress } from "../queries";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { addressDefault, addressInitial, addressSchema } from "../schemas";
-import { useParams } from "react-router-dom";
 import { clearEmptyValues } from "../../../../../utils";
 import { addressActionRoutes } from "../utils";
-import { useState } from "react";
-import { ArrowPathIcon, FaceFrownIcon } from "@heroicons/react/24/outline";
 
 const AddressDetail = () => {
   const [modal, setModal] = useState(false);
@@ -39,14 +38,14 @@ const AddressDetail = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const address = useGetAddress(addressId);
+  const { data: address, isLoading, isError, error } = useGetAddress(addressId);
   const update = useUpdateAddress();
   const remove = useRemoveAddress();
 
   const form = useForm({
     resolver: yupResolver(addressSchema),
     defaultValues: addressInitial,
-    values: addressDefault(address.data),
+    values: addressDefault(address),
     mode: "all",
   });
 
@@ -93,7 +92,7 @@ const AddressDetail = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="max-w-2xl space-y-4">
       <section>
         <h3 className="text-lg font-medium">Address Details</h3>
         <p className="text-sm text-muted-foreground">
@@ -102,37 +101,25 @@ const AddressDetail = () => {
       </section>
 
       <section>
-        {address.isLoading && (
-          <>
-            <TextInputSkeleton />
-            <TextInputSkeleton />
-            <TextInputSkeleton />
-            <TextInputSkeleton />
-            <TextInputSkeleton />
-            <TextInputSkeleton />
-            <TextInputSkeleton />
-            <TextareaInputSkeleton />
+        {isLoading ? (
+          <div className="space-y-4">
+            <InputSkeleton />
+            <InputSkeleton />
+            <InputSkeleton />
+            <InputSkeleton />
+            <InputSkeleton />
+            <InputSkeleton />
+            <InputSkeleton />
+            <TextareaSkeleton />
             <div className="flex gap-x-4">
-              <Skeleton className="h-10 w-24" />
-              <Skeleton className="h-10 w-24" />
-              <Skeleton className="h-10 w-24" />
+              <ButtonSkeleton />
+              <ButtonSkeleton />
+              <ButtonSkeleton />
             </div>
-          </>
-        )}
-
-        {address.isError && (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon icon={FaceFrownIcon} />
-            <EmptyPlaceholder.Title>
-              Error fetching addresses
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              {address.error.message}
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        )}
-
-        {address.isSuccess && (
+          </div>
+        ) : isError ? (
+          <EmptyPlaceholder title={error.name} description={error.message} />
+        ) : (
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleUpdate)}

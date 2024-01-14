@@ -1,11 +1,11 @@
 import clsx from "clsx";
-import { Formatter } from "../../../../../../utils/formatter";
+import { Formatter } from "../../../../../utils/formatter";
 import { Link } from "react-router-dom";
-import { productActionRoutes } from "../../../product";
+import { productActionRoutes } from "../../product";
 import { QuantityItem } from "./quantity-item";
 import { VisibilityItem } from "./visibility-item";
 import { RemoveItem } from "./remove-item";
-import { Skeleton } from "../../../../../../components";
+import { Skeleton } from "../../../../../components";
 
 export const CartItem = ({ item }) => {
   const hasStock = item.product.stock > 0;
@@ -50,12 +50,13 @@ export const CartItem = ({ item }) => {
 
 CartItem.Skeleton = function CartItemSkeleton() {
   return (
-    <div className="space-y-3 py-4">
+    <div className="space-y-2 p-4">
       <div className="flex gap-x-3">
         <Skeleton className="h-16 w-16 shrink-0" />
         <div className="flex grow flex-col gap-1">
-          <Skeleton className="h-5 w-full" />
-          <Skeleton className="mt-auto h-6 w-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-1/2" />
+          <Skeleton className="mt-auto h-5 w-1/2" />
         </div>
       </div>
       <div className="flex items-center justify-between gap-2">

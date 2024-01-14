@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { Button, Input, useToast } from "../../../../../../components";
-import { useUpdateQuantity } from "../../queries";
-import { useDebounced, useUpdateEffect } from "../../../../../../hooks";
-import { addCartSchema } from "../../schemas";
+import { Button, Input, useToast } from "../../../../../components";
+import { useUpdateQuantity } from "../queries";
+import { useDebounced, useUpdateEffect } from "../../../../../hooks";
+import { addCartSchema } from "../schemas";
 
 export const QuantityItem = ({ item }) => {
   const [error, setError] = useState("");
@@ -15,11 +15,11 @@ export const QuantityItem = ({ item }) => {
   const debouncedQuantity = useDebounced(quantity);
 
   const increment = () => {
-    setQuantity(quantity + 1);
+    setQuantity(+quantity + 1);
   };
 
   const decrement = () => {
-    setQuantity(quantity - 1);
+    setQuantity(+quantity - 1);
   };
 
   const hasStock = item.product.stock > 0;

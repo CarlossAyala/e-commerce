@@ -1,4 +1,3 @@
-import Account from "./account";
-import Cards from "./cards";
-
-export { Account, Cards };
+export * from "./account";
+export * from "./cards";
+export * from "./settings";

@@ -20,9 +20,9 @@ import {
   DropdownMenuTrigger,
   Skeleton,
   useToast,
-} from "../../../../../../components";
-import { useRemoveAddress } from "../../queries";
-import { addressActionRoutes } from "../../utils";
+} from "../../../../../components";
+import { addressActionRoutes } from "../utils";
+import { useRemoveAddress } from "../queries";
 
 export const AddressItem = ({ address }) => {
   const [alert, setAlert] = useState(false);

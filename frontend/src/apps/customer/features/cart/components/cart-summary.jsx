@@ -1,16 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { Button, useToast } from "../../../../../../components";
-import { cn } from "../../../../../../libs/utils";
-import { Formatter } from "../../../../../../utils/formatter";
+import { Button, Skeleton, useToast } from "../../../../../components";
+import { Formatter } from "../../../../../utils/formatter";
 import {
   checkoutActionRoutes,
   useCreateCheckout,
   useUpdateCheckoutPaymentIntent,
-} from "../../../checkout";
-import { getQtyVisibleCart, getTotalCart } from "../../utils";
+} from "../../checkout";
+import { getQtyVisibleCart, getTotalCart } from "../utils";
 
-export const CartSummary = ({ cart, className }) => {
+export const CartSummary = ({ cart }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -18,6 +17,7 @@ export const CartSummary = ({ cart, className }) => {
   const updatePaymentIntent = useUpdateCheckoutPaymentIntent();
 
   const [itemsVisible, itemsHidden, both] = getTotalCart(cart);
+
   const productsQty = getQtyVisibleCart(cart);
 
   const handleCheckout = () => {
@@ -36,7 +36,7 @@ export const CartSummary = ({ cart, className }) => {
   };
 
   return (
-    <div className={cn("w-full rounded-b-md bg-white", className)}>
+    <div className="w-full rounded-b-md bg-white p-4">
       <div className="mb-1">
         <p className="text-lg font-medium leading-tight">Summary</p>
       </div>
@@ -82,6 +82,26 @@ export const CartSummary = ({ cart, className }) => {
         )}
         Checkout
       </Button>
+    </div>
+  );
+};
+
+CartSummary.Skeleton = function CartSummarySkeleton() {
+  return (
+    <div className="space-y-4 bg-white p-4">
+      <Skeleton className="h-5 w-1/3" />
+      <div className="space-y-2">
+        <div className="flex justify-between">
+          <Skeleton className="h-4 w-1/4" />
+          <Skeleton className="h-4 w-1/4" />
+        </div>
+        <div className="flex justify-between">
+          <Skeleton className="h-4 w-1/4" />
+          <Skeleton className="h-4 w-1/4" />
+        </div>
+        <Skeleton className="h-4 w-full" />
+      </div>
+      <Skeleton className="h-8 w-full" />
     </div>
   );
 };

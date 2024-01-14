@@ -49,8 +49,9 @@ const Button = React.forwardRef(
 );
 Button.displayName = "Button";
 
-Button.Skeleton = function ButtonSkeleton({ className }) {
+const ButtonSkeleton = ({ className }) => {
   return <Skeleton className={cn("h-9 w-16 rounded-md", className)} />;
 };
+ButtonSkeleton.displayName = "ButtonSkeleton";
 
-export { Button, buttonVariants };
+export { Button, ButtonSkeleton, buttonVariants };

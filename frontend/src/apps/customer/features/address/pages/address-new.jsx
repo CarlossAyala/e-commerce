@@ -60,7 +60,7 @@ const AddressNew = () => {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="max-w-2xl space-y-4">
       <section>
         <h3 className="text-lg font-medium">New Address</h3>
         <p className="text-sm text-muted-foreground">

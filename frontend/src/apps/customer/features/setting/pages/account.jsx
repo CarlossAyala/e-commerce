@@ -1,67 +1,48 @@
-import { FaceFrownIcon } from "@heroicons/react/24/outline";
-import { useGetProfile } from "../../../../../libs/auth";
+import { useCustomerAuth } from "../../../../../libs/auth";
 import {
-  Button,
+  ButtonSkeleton,
   EmptyPlaceholder,
+  InputSkeleton,
   Skeleton,
-  SkeletonInput,
 } from "../../../../../components";
 import { ProfileForm } from "../components/profile-form";
 import { PasswordForm } from "../components/password-form";
 
-const Account = () => {
-  const {
-    data: profile,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetProfile();
+export const Account = () => {
+  const { customer, isLoading, isError, error } = useCustomerAuth();
 
   return (
-    <div className="space-y-10">
-      {isError && (
-        <EmptyPlaceholder>
-          <EmptyPlaceholder.Icon icon={FaceFrownIcon} />
-          <EmptyPlaceholder.Title>
-            Error fetching profile
-          </EmptyPlaceholder.Title>
-          <EmptyPlaceholder.Description>
-            {error.message}
-          </EmptyPlaceholder.Description>
-        </EmptyPlaceholder>
-      )}
-      {isLoading && (
+    <div className="max-w-2xl space-y-10">
+      {isLoading ? (
         <>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2 sm:col-span-2">
               <Skeleton className="h-5 w-1/2" />
               <Skeleton className="h-4 w-full" />
             </div>
-            <SkeletonInput />
-            <SkeletonInput />
-            <Button.Skeleton />
+            <InputSkeleton />
+            <InputSkeleton />
+            <ButtonSkeleton />
           </div>
           <div className="space-y-4">
             <div className="space-y-2 sm:col-span-2">
               <Skeleton className="h-5 w-1/2" />
               <Skeleton className="h-4 w-full" />
             </div>
-            <SkeletonInput />
-            <SkeletonInput />
-            <SkeletonInput />
-            <Button.Skeleton />
+            <InputSkeleton />
+            <InputSkeleton />
+            <InputSkeleton />
+            <ButtonSkeleton />
           </div>
         </>
-      )}
-      {isSuccess && (
+      ) : isError ? (
+        <EmptyPlaceholder title={error.name} description={error.message} />
+      ) : (
         <>
-          <ProfileForm profile={profile} />
+          <ProfileForm profile={customer} />
           <PasswordForm />
         </>
       )}
     </div>
   );
 };
-
-export default Account;

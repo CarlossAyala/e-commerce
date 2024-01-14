@@ -1,57 +1,42 @@
-import {
-  ArchiveBoxXMarkIcon,
-  FaceFrownIcon,
-} from "@heroicons/react/24/outline";
 import { Card, CardContent, EmptyPlaceholder } from "../../../../../components";
 import { useGetPaymentMethods } from "../../../../common/payment-method";
 import { CardItem } from "../components/card-item";
 
-const Cards = () => {
-  const { data: cards, isLoading, isSuccess, isError } = useGetPaymentMethods();
+export const Cards = () => {
+  const {
+    data: cards,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetPaymentMethods();
 
-  const hasContent = isSuccess && cards.length > 0;
   const isEmpty = isSuccess && cards.length === 0;
 
   return (
-    <div className="space-y-4">
+    <div className="max-w-2xl space-y-4">
       <section>
         <h3 className="text-lg font-medium">Cards</h3>
         <p className="text-sm text-muted-foreground">Manage your cards.</p>
       </section>
 
       <section>
-        {isLoading && (
+        {isLoading ? (
           <Card>
             <div className="divide-y divide-black/10">
               <CardItem.Skeleton />
               <CardItem.Skeleton />
               <CardItem.Skeleton />
-              <CardItem.Skeleton />
             </div>
           </Card>
-        )}
-        {isError && (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon icon={FaceFrownIcon} />
-            <EmptyPlaceholder.Title>
-              Error fetching cards
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              An error occurred while fetching addresses. Please try again
-              later.
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        )}
-        {isEmpty && (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon icon={ArchiveBoxXMarkIcon} />
-            <EmptyPlaceholder.Title>No cards found</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              You don&apos;t have any cards yet.
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        )}
-        {hasContent && (
+        ) : isError ? (
+          <EmptyPlaceholder title={error.name} description={error.message} />
+        ) : isEmpty ? (
+          <EmptyPlaceholder
+            title="No cards"
+            description="You don't have any cards yet."
+          />
+        ) : (
           <Card>
             <CardContent className="divide-y divide-black/10 p-0">
               {cards.map((card) => (
@@ -64,5 +49,3 @@ const Cards = () => {
     </div>
   );
 };
-
-export default Cards;

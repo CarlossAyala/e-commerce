@@ -1,6 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Button, useToast } from "../../../../../../components";
-import { useRemoveCart } from "../../queries";
+import { Button, useToast } from "../../../../../components";
+import { useRemoveCart } from "../queries";
 
 export const RemoveItem = ({ item }) => {
   const { toast } = useToast();

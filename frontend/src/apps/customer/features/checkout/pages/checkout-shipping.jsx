@@ -26,7 +26,6 @@ import { AddressItem } from "../components/address-item";
 import { useGetCart } from "../../cart/queries";
 import { CartSummary } from "../components/cart-summary";
 import { checkoutActionRoutes } from "../utils";
-import { FaceFrownIcon, InboxIcon } from "@heroicons/react/24/outline";
 
 const CheckoutShipping = () => {
   const navigate = useNavigate();
@@ -35,7 +34,14 @@ const CheckoutShipping = () => {
   const addressId = useCheckoutStore((state) => state.addressId);
   const updateCheckoutAddress = useUpdateCheckoutAddress();
 
-  const addresses = useGetAddresses();
+  const {
+    data: addresses,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    refetch,
+  } = useGetAddresses();
   const cart = useGetCart("only_visible=true");
 
   const form = useForm({
@@ -66,11 +72,10 @@ const CheckoutShipping = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const hasContent = addresses.isSuccess && addresses.data?.length > 0;
-  const isEmpty = addresses.isSuccess && addresses.data?.length === 0;
+  const isEmpty = isSuccess && addresses.length === 0;
 
   return (
-    <main className="container flex max-w-5xl flex-col">
+    <main className="container flex max-w-6xl flex-col">
       <section className="mt-2">
         <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight">
           Checkout - Shipping
@@ -91,58 +96,41 @@ const CheckoutShipping = () => {
             className="mt-2 flex h-full gap-4"
           >
             <div className="grow space-y-4">
-              {addresses.isLoading && (
-                <Card>
-                  <div className="divide-y divide-black/10">
-                    <AddressItem.Skeleton />
-                    <AddressItem.Skeleton />
-                    <AddressItem.Skeleton />
-                    <AddressItem.Skeleton />
-                  </div>
+              {isLoading ? (
+                <Card className="divide-y divide-black/10">
+                  <AddressItem.Skeleton />
+                  <AddressItem.Skeleton />
+                  <AddressItem.Skeleton />
+                  <AddressItem.Skeleton />
                 </Card>
-              )}
-              {addresses.isError && (
-                <EmptyPlaceholder>
-                  <EmptyPlaceholder.Icon icon={FaceFrownIcon} />
-                  <EmptyPlaceholder.Title>
-                    Error fetching addresses
-                  </EmptyPlaceholder.Title>
-                  <EmptyPlaceholder.Description>
-                    An error occurred while fetching addresses. Please try
-                    again.
-                  </EmptyPlaceholder.Description>
+              ) : isError ? (
+                <EmptyPlaceholder title="Error" description={error.message}>
                   <Button
                     className="mt-4"
                     size="lg"
                     type="button"
-                    onClick={() => addresses.refetch()}
+                    onClick={refetch}
                   >
                     Try again
                   </Button>
                 </EmptyPlaceholder>
-              )}
-              {isEmpty && (
-                <EmptyPlaceholder>
-                  <EmptyPlaceholder.Icon icon={InboxIcon} />
-                  <EmptyPlaceholder.Title>
-                    No addresses found
-                  </EmptyPlaceholder.Title>
-                  <EmptyPlaceholder.Description>
-                    Start creating one.
-                  </EmptyPlaceholder.Description>
-                  <Button asChild>
+              ) : isEmpty ? (
+                <EmptyPlaceholder
+                  title="No addresses found"
+                  description="Start creating one."
+                >
+                  <Button asChild className="mt-4">
                     <Link
                       to={addressActionRoutes.new}
                       state={{
                         from: checkoutActionRoutes.shipping,
                       }}
                     >
-                      New Address
+                      Add Address
                     </Link>
                   </Button>
                 </EmptyPlaceholder>
-              )}
-              {hasContent && (
+              ) : (
                 <FormField
                   control={form.control}
                   name="addressId"
@@ -188,6 +176,7 @@ const CheckoutShipping = () => {
                   )}
                 />
               )}
+
               <div className="sticky bottom-0 mt-auto rounded-b-md bg-white md:hidden">
                 <Card className="sticky top-4">
                   {cart.isLoading ? (

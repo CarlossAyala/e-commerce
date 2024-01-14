@@ -22,7 +22,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SkeletonInput,
+  InputSkeleton,
   SkeletonStakedList,
   SkeletonTitle,
   Switch,
@@ -136,9 +136,9 @@ const ProductDetail = () => {
           <div className="space-y-10">
             <div className="space-y-4">
               <SkeletonTitle />
-              <SkeletonInput />
-              <SkeletonInput />
-              <SkeletonInput />
+              <InputSkeleton />
+              <InputSkeleton />
+              <InputSkeleton />
             </div>
             <div className="space-y-4">
               <SkeletonTitle />

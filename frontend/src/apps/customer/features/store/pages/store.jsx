@@ -1,7 +1,7 @@
 import {
   EmptyPlaceholder,
   Input,
-  SkeletonInput,
+  InputSkeleton,
   TablePagination,
 } from "../../../../../components";
 import { useParams, useSearchParams } from "react-router-dom";
@@ -64,7 +64,7 @@ const Store = () => {
             <>
               <div className="space-y-2">
                 <p className="text-sm font-medium tracking-tight">Search</p>
-                <SkeletonInput label={false} />
+                <InputSkeleton label={false} />
               </div>
               <div className="space-y-2">
                 <p className="text-sm font-medium tracking-tight">Products</p>

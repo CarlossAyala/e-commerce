@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/libs/utils";
+import { Skeleton } from "./skeleton";
 
 const Textarea = React.forwardRef(({ className, ...props }, ref) => {
   return (
@@ -16,4 +17,13 @@ const Textarea = React.forwardRef(({ className, ...props }, ref) => {
 });
 Textarea.displayName = "Textarea";
 
-export { Textarea };
+const TextareaSkeleton = ({ label = true }) => {
+  return (
+    <div className="space-y-2">
+      {label && <Skeleton className="h-4 w-14" />}
+      <Skeleton className="h-24 w-full" />
+    </div>
+  );
+};
+
+export { Textarea, TextareaSkeleton };
