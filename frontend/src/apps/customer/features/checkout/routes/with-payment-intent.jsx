@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCreateCheckout } from "../queries";
 import {
@@ -9,7 +10,6 @@ import {
 } from "../stores";
 import { Button, EmptyPlaceholder, useToast } from "../../../../../components";
 import { checkoutActionRoutes } from "../utils";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useGetPaymentMethodSession } from "../../../../common/payment-method";
 import { CheckoutShippingSkeleton } from "../components/checkout-shipping-skeleton";
 

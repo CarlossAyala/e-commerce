@@ -13,7 +13,6 @@ export const checkoutRoutes = [
   {
     index: true,
     element: <WithPaymentIntent component={CheckoutShipping} />,
-    // element: <CheckoutShipping />,
   },
   {
     path: "payment-method",

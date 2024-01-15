@@ -101,7 +101,6 @@ const CheckoutShipping = () => {
                   <AddressItem.Skeleton />
                   <AddressItem.Skeleton />
                   <AddressItem.Skeleton />
-                  <AddressItem.Skeleton />
                 </Card>
               ) : isError ? (
                 <EmptyPlaceholder title="Error" description={error.message}>
@@ -126,7 +125,7 @@ const CheckoutShipping = () => {
                         from: checkoutActionRoutes.shipping,
                       }}
                     >
-                      Add Address
+                      Create
                     </Link>
                   </Button>
                 </EmptyPlaceholder>
