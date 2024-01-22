@@ -1,4 +1,4 @@
-import { Card, CardContent, EmptyPlaceholder } from "../../../../../components";
+import { Card, EmptyPlaceholder } from "../../../../../components";
 import { useGetPaymentMethods } from "../../../../common/payment-method";
 import { CardItem } from "../components/card-item";
 
@@ -22,12 +22,10 @@ export const Cards = () => {
 
       <section>
         {isLoading ? (
-          <Card>
-            <div className="divide-y divide-black/10">
-              <CardItem.Skeleton />
-              <CardItem.Skeleton />
-              <CardItem.Skeleton />
-            </div>
+          <Card className="divide-y divide-black/10">
+            <CardItem.Skeleton />
+            <CardItem.Skeleton />
+            <CardItem.Skeleton />
           </Card>
         ) : isError ? (
           <EmptyPlaceholder title={error.name} description={error.message} />
@@ -37,12 +35,10 @@ export const Cards = () => {
             description="You don't have any cards yet."
           />
         ) : (
-          <Card>
-            <CardContent className="divide-y divide-black/10 p-0">
-              {cards.map((card) => (
-                <CardItem key={card.id} card={card} />
-              ))}
-            </CardContent>
+          <Card className="divide-y divide-black/10">
+            {cards.map((card) => (
+              <CardItem key={card.id} card={card} />
+            ))}
           </Card>
         )}
       </section>

@@ -18,6 +18,13 @@ router.get("/:id", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;
   const { id: paymentIntentId } = req.params;
 
+  // https://stripe.com/docs/payments/paymentintents/lifecycle
+  const ACCEPT_PAYMENT_INTENT_STATUS = [
+    "requires_payment_method",
+    "requires_confirmation",
+    "requires_action",
+  ];
+
   try {
     const existCustomer = await User.model.findOne({
       where: { id: customerId },
@@ -32,17 +39,16 @@ router.get("/:id", JWT.verify, async (req, res, next) => {
     const [customer] = data;
 
     const paymentIntent = await Stripe.paymentIntents.retrieve(paymentIntentId);
-    if (!paymentIntent || paymentIntent.customer !== customer.id) {
-      throw Boom.notFound("PaymentIntent not found");
-    } else if (paymentIntent.status !== "requires_payment_method") {
-      throw Boom.badRequest(
-        "PaymentIntent status must be 'requires_payment_method' to confirm it"
-      );
+    const hasGoodStatus = ACCEPT_PAYMENT_INTENT_STATUS.includes(
+      paymentIntent.status
+    );
+    if (paymentIntent.customer !== customer.id) {
+      throw Boom.notFound("Payment Intent not found");
+    } else if (!hasGoodStatus) {
+      throw Boom.badRequest("Payment Intent status is not valid");
     }
 
-    return res.status(200).json({
-      id: paymentIntentId,
-    });
+    return res.json(paymentIntent);
   } catch (error) {
     next(error);
   }

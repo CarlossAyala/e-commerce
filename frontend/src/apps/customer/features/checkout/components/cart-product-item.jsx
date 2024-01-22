@@ -35,9 +35,16 @@ export const CartProductItem = ({ item }) => {
 
 CartProductItem.Skeleton = function CartProductItemSkeleton() {
   return (
-    <div className="flex gap-x-3">
-      <Skeleton />
-      <Skeleton />
+    <div className="flex gap-x-3 p-4">
+      <Skeleton className="h-16 w-16" />
+      <div className="flex grow flex-col gap-1">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-1/2" />
+        <div className="mt-auto flex justify-between">
+          <Skeleton className="h-4 w-1/4" />
+          <Skeleton className="h-4 w-1/4" />
+        </div>
+      </div>
     </div>
   );
 };

@@ -43,7 +43,7 @@ router.get(
       });
       if (!address) return next(Boom.notFound("Address not found"));
 
-      return res.status(200).json(address);
+      return res.json(address);
     } catch (error) {
       next(error);
     }

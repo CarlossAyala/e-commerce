@@ -60,7 +60,7 @@ router.get(
 
       const order = await Order.model.findByPk(orderId);
       if (!order || order.customerId !== customerId) {
-        return next(Boom.notFound("Order not found"));
+        throw Boom.notFound("Order not found");
       }
 
       const items = await OrderItem.model.findAll({
@@ -81,9 +81,10 @@ router.get(
         paymentIntent.payment_method
       );
 
-      return res.status(200).json({
+      return res.json({
         order,
         paymentMethod,
+        paymentIntent,
         items,
       });
     } catch (error) {

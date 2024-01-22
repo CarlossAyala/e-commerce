@@ -36,7 +36,7 @@ export const Account = () => {
           </div>
         </>
       ) : isError ? (
-        <EmptyPlaceholder title={error.name} description={error.message} />
+        <EmptyPlaceholder title="Error" description={error.message} />
       ) : (
         <>
           <ProfileForm profile={customer} />

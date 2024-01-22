@@ -50,9 +50,9 @@ const AddressDetail = () => {
   });
 
   const handleUpdate = (values) => {
-    const cleanValues = clearEmptyValues(values);
+    const _values = clearEmptyValues(values);
 
-    update.mutate([addressId, cleanValues], {
+    update.mutate([addressId, _values], {
       onSuccess() {
         toast({
           description: "Address updated successfully",
@@ -63,7 +63,7 @@ const AddressDetail = () => {
         toast({
           variant: "destructive",
           title: "Address could not be updated",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });
@@ -81,7 +81,7 @@ const AddressDetail = () => {
         toast({
           variant: "destructive",
           title: "Address could not be removed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

@@ -1,4 +1,2 @@
-import OrderDetails from "./order-details";
-import Orders from "./orders";
-
-export { Orders, OrderDetails };
+export * from "./order-details";
+export * from "./orders";

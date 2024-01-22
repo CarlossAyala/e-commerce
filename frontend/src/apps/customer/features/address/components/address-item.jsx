@@ -53,15 +53,13 @@ export const AddressItem = ({ address }) => {
 
   return (
     <>
-      <div className="flex w-full gap-x-4 px-4 py-3">
-        <div className="grow space-y-1">
-          <p className="line-clamp-1 text-sm font-medium leading-tight">
-            {address.street}
-          </p>
-          <p className="line-clamp-1 text-sm leading-tight text-muted-foreground">
+      <div className="flex w-full gap-x-4 p-4">
+        <div className="grow text-sm leading-tight">
+          <p className="line-clamp-1 font-medium">{address.street}</p>
+          <p className="line-clamp-1 text-muted-foreground">
             {`${address.province} (${address.zipCode})`}, {address.city}
           </p>
-          <p className="line-clamp-1 text-sm leading-tight text-muted-foreground">
+          <p className="line-clamp-1 text-muted-foreground">
             {address.name} - {address.phone}
           </p>
         </div>
@@ -78,7 +76,7 @@ export const AddressItem = ({ address }) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-36">
             <DropdownMenuItem
-              onSelect={() => navigate(addressActionRoutes.edit(address.id))}
+              onSelect={() => navigate(addressActionRoutes.detail(address.id))}
             >
               Edit
             </DropdownMenuItem>
@@ -124,13 +122,13 @@ export const AddressItem = ({ address }) => {
 
 AddressItem.Skeleton = function AddressItemSkeleton() {
   return (
-    <div className="flex gap-x-4 px-4 py-3">
+    <div className="flex gap-x-4 p-4">
       <div className="grow space-y-1">
-        <Skeleton className="h-5 w-full" />
-        <Skeleton className="h-5 w-1/2" />
-        <Skeleton className="h-5 w-3/4" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-1/2" />
+        <Skeleton className="h-4 w-1/2" />
       </div>
-      <Skeleton className="h-9 w-9" />
+      <Skeleton className="h-9 w-9 shrink-0" />
     </div>
   );
 };

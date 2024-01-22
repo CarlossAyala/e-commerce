@@ -8,12 +8,12 @@ export const OrderSummary = ({ order }) => {
   return (
     <article className="p-4">
       <div className="flex items-end justify-between">
-        <p className="text-sm leading-tight">Products</p>
+        <p className="text-sm text-muted-foreground">Products</p>
         <p className="text-base font-medium leading-tight">{itemsQty}</p>
       </div>
       <div className="flex items-end justify-between">
-        <p className="text-sm leading-tight">Total</p>
-        <p className="text-lg font-medium leading-tight">
+        <p className="text-sm text-muted-foreground">Total</p>
+        <p className="text-base font-medium leading-tight">
           {Formatter.currency(order.order.total)}
         </p>
       </div>

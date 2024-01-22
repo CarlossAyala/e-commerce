@@ -2,34 +2,28 @@ import { useNavigate } from "react-router-dom";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { Button, Skeleton, useToast } from "../../../../../components";
 import { Formatter } from "../../../../../utils/formatter";
-import {
-  checkoutActionRoutes,
-  useCreateCheckout,
-  useUpdateCheckoutPaymentIntent,
-} from "../../checkout";
+import { checkoutActionRoutes, useCreateCheckout } from "../../checkout";
 import { getQtyVisibleCart, getTotalCart } from "../utils";
 
 export const CartSummary = ({ cart }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const createPaymentIntent = useCreateCheckout();
-  const updatePaymentIntent = useUpdateCheckoutPaymentIntent();
+  const generatePaymentIntent = useCreateCheckout();
 
   const [itemsVisible, itemsHidden, both] = getTotalCart(cart);
 
   const productsQty = getQtyVisibleCart(cart);
 
   const handleCheckout = () => {
-    createPaymentIntent.mutate(null, {
+    generatePaymentIntent.mutate(null, {
       onSuccess({ id }) {
-        updatePaymentIntent(id);
-        navigate(checkoutActionRoutes.shipping);
+        navigate(checkoutActionRoutes.shipping(id));
       },
       onError(error) {
         toast({
-          title: "Checkout could not be completed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          title: "Error generating checkout",
+          description: error.message,
         });
       },
     });
@@ -74,10 +68,10 @@ export const CartSummary = ({ cart }) => {
         className="w-full"
         size="lg"
         type="button"
-        disabled={createPaymentIntent.isLoading}
+        disabled={generatePaymentIntent.isLoading}
         onClick={handleCheckout}
       >
-        {createPaymentIntent.isLoading && (
+        {generatePaymentIntent.isLoading && (
           <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
         )}
         Checkout

@@ -1,10 +1,11 @@
+import { Navigate } from "react-router-dom";
+import { CheckPaymentIntent } from "../components/check-payment-intent";
 import {
   CheckoutPaymentMethod,
   CheckoutReview,
   CheckoutShipping,
-  CheckoutSuccess,
+  CheckoutDetail,
 } from "../pages";
-import WithPaymentIntent from "./with-payment-intent";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -12,18 +13,35 @@ import WithPaymentIntent from "./with-payment-intent";
 export const checkoutRoutes = [
   {
     index: true,
-    element: <WithPaymentIntent component={CheckoutShipping} />,
+    element: <Navigate to="/customer/cart" replace />,
   },
   {
-    path: "payment-method",
-    element: <WithPaymentIntent component={CheckoutPaymentMethod} />,
+    path: ":paymentIntentId/shipping",
+    element: (
+      <CheckPaymentIntent>
+        <CheckoutShipping />
+      </CheckPaymentIntent>
+    ),
   },
   {
-    path: "review",
-    element: <WithPaymentIntent component={CheckoutReview} />,
+    path: ":paymentIntentId/payment-method",
+    element: (
+      <CheckPaymentIntent>
+        <CheckoutPaymentMethod />
+      </CheckPaymentIntent>
+    ),
   },
   {
-    path: ":orderId/success",
-    element: <CheckoutSuccess />,
+    path: ":paymentIntentId/review",
+    element: (
+      <CheckPaymentIntent>
+        <CheckoutReview />
+      </CheckPaymentIntent>
+    ),
+  },
+  // TODO: Move this to Order page
+  {
+    path: ":orderId/details",
+    element: <CheckoutDetail />,
   },
 ];

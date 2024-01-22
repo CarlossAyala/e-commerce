@@ -44,7 +44,7 @@ const AddressNew = () => {
         toast({
           description: "Address created successfully",
         });
-        navigate(from ?? addressActionRoutes.edit(address.id), {
+        navigate(from ?? addressActionRoutes.root, {
           state: {
             addressId: address.id,
           },

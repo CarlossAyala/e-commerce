@@ -4,7 +4,7 @@ import { Header } from "./header";
 
 export const CustomerRoot = () => {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="min-h-svh flex flex-col">
       <Header />
       <Outlet />
       <Footer />

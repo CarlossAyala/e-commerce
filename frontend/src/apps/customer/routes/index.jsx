@@ -12,6 +12,7 @@ import { Questions } from "../features/question";
 import { reviewRoutes } from "../features/review";
 import { storeRoutes } from "../features/store";
 import { categoryRoutes } from "../features/category";
+import { CheckoutProvider } from "../features/checkout";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -47,7 +48,7 @@ export const customerRoutes = [
   },
   {
     path: "checkout",
-    element: <Outlet />,
+    element: <CheckoutProvider />,
     children: checkoutRoutes,
   },
   {

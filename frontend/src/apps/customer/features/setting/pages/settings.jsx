@@ -4,7 +4,7 @@ import { SettingsNav } from "../components/settings-nav";
 
 export const Settings = () => {
   return (
-    <main className="container space-y-4">
+    <main className="container flex-1 space-y-4">
       <section className="mt-2 space-y-0.5">
         <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
           Settings

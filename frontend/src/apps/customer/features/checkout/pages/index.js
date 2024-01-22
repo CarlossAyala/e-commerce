@@ -1,11 +1,6 @@
 import CheckoutPaymentMethod from "./checkout-payment-method";
 import CheckoutReview from "./checkout-review";
 import CheckoutShipping from "./checkout-shipping";
-import CheckoutSuccess from "./checkout-success";
+export * from "./checkout-detail";
 
-export {
-  CheckoutShipping,
-  CheckoutPaymentMethod,
-  CheckoutReview,
-  CheckoutSuccess,
-};
+export { CheckoutShipping, CheckoutPaymentMethod, CheckoutReview };

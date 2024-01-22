@@ -101,23 +101,15 @@ router.post("/", JWT.verify, async (req, res, next) => {
     });
     const [customer] = data;
 
-    const params = new URLSearchParams();
-    params.append("payment_intent_id", paymentIntentId);
-    params.append("address_id", addressId);
-
-    console.log("Params: ", params.toString());
-
     // TODO: Get Origin from .env
-    const success_url = `${
-      req.headers.origin
-    }/customer/checkout?session_id={CHECKOUT_SESSION_ID}&${params.toString()}`;
+    const success_url = `${req.headers.origin}/customer/checkout/${paymentIntentId}/payment-method?session_id={CHECKOUT_SESSION_ID}&address_id=${addressId}`;
 
     const session = await Stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "setup",
       customer: customer.id,
       success_url,
-      cancel_url: success_url,
+      cancel_url: `${req.headers.origin}/customer/cart`,
     });
 
     return res.status(201).json(session.url);

@@ -1,6 +1,10 @@
 export const checkoutActionRoutes = {
-  shipping: "/customer/checkout",
-  paymentMethod: "/customer/checkout/payment-method",
-  review: "/customer/checkout/review",
-  success: (orderId) => `/customer/checkout/${orderId}/success`,
+  shipping: (paymentIntentId) => {
+    return `/customer/checkout/${paymentIntentId}/shipping`;
+  },
+  paymentMethod: (paymentIntentId) => {
+    return `/customer/checkout/${paymentIntentId}/payment-method`;
+  },
+  review: (paymentIntentId) => `/customer/checkout/${paymentIntentId}/review`,
+  details: (orderId) => `/customer/checkout/${orderId}/details`, //TODO: Move this to Order page
 };

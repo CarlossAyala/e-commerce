@@ -1,16 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardContent,
-  EmptyPlaceholder,
-} from "../../../../../components";
+import { Button, Card, EmptyPlaceholder } from "../../../../../components";
 import { useGetAddresses } from "../queries";
 import { AddressItem } from "../components/address-item";
 import { addressActionRoutes } from "../utils";
 
 const Addresses = () => {
   const navigate = useNavigate();
+
   const {
     data: addresses,
     isLoading,
@@ -39,12 +35,10 @@ const Addresses = () => {
 
       <section>
         {isLoading ? (
-          <Card>
-            <CardContent className="divide-y divide-black/10 p-0">
-              <AddressItem.Skeleton />
-              <AddressItem.Skeleton />
-              <AddressItem.Skeleton />
-            </CardContent>
+          <Card className="divide-y divide-black/10">
+            <AddressItem.Skeleton />
+            <AddressItem.Skeleton />
+            <AddressItem.Skeleton />
           </Card>
         ) : isError ? (
           <EmptyPlaceholder title={error.name} description={error.message} />
@@ -54,12 +48,10 @@ const Addresses = () => {
             description="You don't have any address yet."
           />
         ) : (
-          <Card>
-            <CardContent className="divide-y divide-black/10 p-0">
-              {addresses.map((address) => (
-                <AddressItem key={address.id} address={address} />
-              ))}
-            </CardContent>
+          <Card className="divide-y divide-black/10">
+            {addresses.map((address) => (
+              <AddressItem key={address.id} address={address} />
+            ))}
           </Card>
         )}
       </section>

@@ -54,32 +54,35 @@ export const useSignout = () => {
 };
 
 export const useAdminAuth = () => {
-  const { data: admin, isLoading } = useGetProfile("from=admin");
+  const { data: admin, isLoading, ...rest } = useGetProfile("from=admin");
 
   return {
     admin,
     isLoading,
     isAuthenticated: !!admin,
+    ...rest,
   };
 };
 
 export const useSellerAuth = () => {
-  const { data: seller, isLoading } = useGetProfile("from=seller");
+  const { data: seller, isLoading, ...rest } = useGetProfile("from=seller");
 
   return {
     seller,
     isLoading,
     isAuthenticated: !!seller,
+    ...rest,
   };
 };
 
 export const useCustomerAuth = () => {
-  const { data: customer, isLoading } = useGetProfile("from=customer");
+  const { data: customer, isLoading, ...rest } = useGetProfile("from=customer");
 
   return {
     customer,
     isLoading,
     isAuthenticated: !!customer,
+    ...rest,
   };
 };
 

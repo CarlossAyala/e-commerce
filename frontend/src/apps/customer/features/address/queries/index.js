@@ -15,6 +15,12 @@ export const useGetAddress = (addressId) => {
   });
 };
 
+export const useMGetAddress = () => {
+  return useMutation({
+    mutationFn: (addressId) => findOne(addressId),
+  });
+};
+
 export const useGetAddresses = () => {
   return useQuery({
     queryKey: addressKeys.findAll(),

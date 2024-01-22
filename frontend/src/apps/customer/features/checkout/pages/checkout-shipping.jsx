@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -21,18 +21,18 @@ import {
   checkoutAddressInitial,
   checkoutAddressSchema,
 } from "../schemas";
-import { useCheckoutStore, useUpdateCheckoutAddress } from "../stores";
 import { AddressItem } from "../components/address-item";
 import { useGetCart } from "../../cart/queries";
 import { CartSummary } from "../components/cart-summary";
 import { checkoutActionRoutes } from "../utils";
+import { useCheckout } from "../context";
 
 const CheckoutShipping = () => {
+  const { paymentIntentId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const addressId = useCheckoutStore((state) => state.addressId);
-  const updateCheckoutAddress = useUpdateCheckoutAddress();
+  const { addressId, updateAddress } = useCheckout();
 
   const {
     data: addresses,
@@ -51,23 +51,23 @@ const CheckoutShipping = () => {
     mode: "all",
   });
 
-  const handleSubmit = (values) => {
+  const handleNext = (values) => {
     if (values.addressId === "new") {
       navigate(addressActionRoutes.new, {
         state: {
-          from: checkoutActionRoutes.shipping,
+          from: checkoutActionRoutes.shipping(paymentIntentId),
         },
       });
     } else {
-      updateCheckoutAddress(values.addressId);
-      navigate(checkoutActionRoutes.paymentMethod);
+      updateAddress(values.addressId);
+      navigate(checkoutActionRoutes.paymentMethod(paymentIntentId));
     }
   };
 
   useEffect(() => {
     const newAddressId = location.state?.addressId;
     if (newAddressId) {
-      updateCheckoutAddress(newAddressId);
+      updateAddress(newAddressId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -75,7 +75,7 @@ const CheckoutShipping = () => {
   const isEmpty = isSuccess && addresses.length === 0;
 
   return (
-    <main className="container flex max-w-6xl flex-col">
+    <main className="container flex max-w-6xl flex-col space-y-4">
       <section className="mt-2">
         <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight">
           Checkout - Shipping
@@ -85,122 +85,113 @@ const CheckoutShipping = () => {
         </p>
       </section>
 
-      <section className="mt-4 h-full">
+      <section className="space-y-2">
         <h2 className="text-base leading-tight text-muted-foreground">
           Select an address to continue
         </h2>
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="mt-2 flex h-full gap-4"
+            onSubmit={form.handleSubmit(handleNext)}
+            className="flex flex-col gap-4 sm:flex-row"
           >
-            <div className="grow space-y-4">
-              {isLoading ? (
-                <Card className="divide-y divide-black/10">
-                  <AddressItem.Skeleton />
-                  <AddressItem.Skeleton />
-                  <AddressItem.Skeleton />
-                </Card>
-              ) : isError ? (
-                <EmptyPlaceholder title="Error" description={error.message}>
-                  <Button
-                    className="mt-4"
-                    size="lg"
-                    type="button"
-                    onClick={refetch}
-                  >
-                    Try again
-                  </Button>
-                </EmptyPlaceholder>
-              ) : isEmpty ? (
-                <EmptyPlaceholder
-                  title="No addresses found"
-                  description="Start creating one."
+            {isLoading ? (
+              <Card className="grow divide-y divide-black/10">
+                <AddressItem.Skeleton />
+                <AddressItem.Skeleton />
+                <AddressItem.Skeleton />
+              </Card>
+            ) : isError ? (
+              <EmptyPlaceholder title="Error" description={error.message}>
+                <Button
+                  className="mt-4"
+                  size="lg"
+                  type="button"
+                  onClick={refetch}
                 >
-                  <Button asChild className="mt-4">
-                    <Link
-                      to={addressActionRoutes.new}
-                      state={{
-                        from: checkoutActionRoutes.shipping,
-                      }}
-                    >
-                      Create
-                    </Link>
-                  </Button>
-                </EmptyPlaceholder>
-              ) : (
-                <FormField
-                  control={form.control}
-                  name="addressId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormMessage className="mb-1 mt-0" />
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={addressId}
-                          value={field.value}
-                          className="flex flex-col gap-1"
-                        >
-                          <Card className="divide-y divide-black/10">
-                            <FormItem className="flex items-center gap-4 p-4">
+                  Try again
+                </Button>
+              </EmptyPlaceholder>
+            ) : isEmpty ? (
+              <EmptyPlaceholder
+                title="No addresses found"
+                description="Start creating one."
+              >
+                <Button asChild className="mt-4">
+                  <Link
+                    to={addressActionRoutes.new}
+                    state={{
+                      from: checkoutActionRoutes.shipping,
+                    }}
+                  >
+                    Create
+                  </Link>
+                </Button>
+              </EmptyPlaceholder>
+            ) : (
+              <FormField
+                control={form.control}
+                name="addressId"
+                render={({ field }) => (
+                  <FormItem className="grow">
+                    <FormMessage className="mb-1 mt-0" />
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={addressId}
+                        value={field.value}
+                        className="flex flex-col gap-1"
+                      >
+                        <Card className="divide-y divide-black/10">
+                          <FormItem className="flex items-center gap-4 p-4">
+                            <FormControl className="shrink-0">
+                              <RadioGroupItem value="new" />
+                            </FormControl>
+                            <FormLabel className="mb-0 grow">
+                              New Address
+                            </FormLabel>
+                          </FormItem>
+                          {addresses.map((address) => (
+                            <FormItem
+                              key={address.id}
+                              className="flex items-center gap-4 p-4"
+                            >
                               <FormControl className="shrink-0">
-                                <RadioGroupItem value="new" />
+                                <RadioGroupItem value={address.id} />
                               </FormControl>
                               <FormLabel className="mb-0 grow">
-                                New Address
+                                <AddressItem
+                                  key={address.id}
+                                  address={address}
+                                />
                               </FormLabel>
                             </FormItem>
-                            {addresses.data.map((address) => (
-                              <FormItem
-                                key={address.id}
-                                className="flex items-center gap-4 p-4"
-                              >
-                                <FormControl className="shrink-0">
-                                  <RadioGroupItem value={address.id} />
-                                </FormControl>
-                                <FormLabel className="mb-0 grow">
-                                  <AddressItem
-                                    key={address.id}
-                                    address={address}
-                                  />
-                                </FormLabel>
-                              </FormItem>
-                            ))}
-                          </Card>
-                        </RadioGroup>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              )}
+                          ))}
+                        </Card>
+                      </RadioGroup>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
 
-              <div className="sticky bottom-0 mt-auto rounded-b-md bg-white md:hidden">
-                <Card className="sticky top-4">
-                  {cart.isLoading ? (
-                    <CartSummary.Skeleton />
-                  ) : (
-                    <>{cart.isSuccess && <CartSummary cart={cart.data} />}</>
-                  )}
-                </Card>
-              </div>
-            </div>
-            <div className="relative hidden w-full max-w-sm shrink-0 md:block">
-              {cart.isLoading && (
-                <Card>
+            <div className="w-full sm:max-w-sm">
+              <Card>
+                {cart.isLoading ? (
                   <CartSummary.Skeleton />
-                </Card>
-              )}
-              {cart.isSuccess && (
-                <Card className="sticky top-4">
+                ) : cart.isError ? (
+                  <EmptyPlaceholder
+                    title="Error"
+                    description={cart.error.message}
+                  />
+                ) : (
                   <CartSummary cart={cart.data}>
                     <Button className="mt-4 w-full" size="lg" type="submit">
                       Next
                     </Button>
                   </CartSummary>
-                </Card>
-              )}
+                )}
+              </Card>
             </div>
           </form>
         </Form>
