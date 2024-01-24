@@ -70,7 +70,7 @@ const CheckoutReview = () => {
   return (
     <main className="container flex max-w-6xl flex-col">
       <section className="mt-2">
-        <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight">
+        <h1 className="text-3xl font-semibold tracking-tight">
           Checkout - Review
         </h1>
         <p className="mt-1 leading-tight">

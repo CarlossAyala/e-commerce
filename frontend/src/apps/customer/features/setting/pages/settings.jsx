@@ -6,9 +6,7 @@ export const Settings = () => {
   return (
     <main className="container flex-1 space-y-4">
       <section className="mt-2 space-y-0.5">
-        <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
-          Settings
-        </h2>
+        <h2 className="tracking-none text-3xl font-bold">Settings</h2>
         <p className="text-muted-foreground">
           Manage your account settings and preferences.
         </p>

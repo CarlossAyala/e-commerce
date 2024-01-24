@@ -1,9 +1,6 @@
 import { Skeleton } from "../../../../../components";
 
-// TODO:
-export const OrderInformation = () => {
-  return <div>TODO</div>;
-};
+export const OrderInformation = () => {};
 
 OrderInformation.Skeleton = function OrderInformationSkeleton() {
   return (

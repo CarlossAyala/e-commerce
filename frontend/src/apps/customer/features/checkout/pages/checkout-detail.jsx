@@ -22,9 +22,7 @@ export const CheckoutDetail = () => {
   return (
     <main className="container space-y-6">
       <section className="mt-2">
-        <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight">
-          Checkout
-        </h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Checkout</h1>
       </section>
 
       <section className="space-y-6">

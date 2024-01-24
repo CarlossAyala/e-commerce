@@ -2,16 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
 const { Sequelize } = require("sequelize");
-const {
-  Product,
-  Review,
-  ReviewLikeDislike,
-} = require("../../../database/mysql/models");
-const { JWT, validateSchema } = require("../../../middlewares");
+const { Product, Review } = require("../../../database/mysql/models");
+const { validateSchema } = require("../../../middlewares");
 const schemas = require("./review.schema");
 const { QueryBuilder } = require("../../../libs");
 
-// Find one
 router.get(
   "/:id",
   validateSchema(schemas.resourceId, "params"),
@@ -31,7 +26,6 @@ router.get(
   }
 );
 
-// Find all
 router.get(
   "/product/:id",
   validateSchema(schemas.resourceId, "params"),
@@ -64,7 +58,6 @@ router.get(
   }
 );
 
-// Stats
 router.get(
   "/product/:id/stats",
   validateSchema(schemas.resourceId, "params"),
@@ -124,122 +117,6 @@ router.get(
         total: totalReviews,
         average: averageRating,
       });
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-// TODO: Mover Like y Dislike a api/customer
-
-// Like
-router.patch(
-  "/:id/like",
-  JWT.verify,
-  validateSchema(schemas.resourceId, "params"),
-  async (req, res, next) => {
-    const { id: customerId } = req.auth;
-    const { id: reviewId } = req.params;
-
-    try {
-      const review = await Review.model.findByPk(reviewId);
-      if (!review) {
-        throw Boom.notFound("Review not found");
-      }
-
-      /*
-				ReviewLikeDislike starts with the state at undefined, when the user likes the review it changes to TRUE and if the user dislikes it, it changes to FALSE.
-			*/
-      const customerLike = await ReviewLikeDislike.model.findOne({
-        where: {
-          reviewId,
-          customerId,
-        },
-      });
-      if (customerLike?.dataValues?.state) {
-        await customerLike.destroy();
-        await review.decrement("like");
-
-        return res.status(200).json({
-          message: "Review disliked",
-        });
-      } else if (customerLike?.dataValues?.state === false) {
-        await customerLike.update({
-          state: true,
-        });
-        await review.increment("like");
-        await review.decrement("dislike");
-
-        return res.status(200).json({
-          message: "Review liked",
-        });
-      } else {
-        await ReviewLikeDislike.model.create({
-          state: true,
-          customerId,
-          reviewId,
-        });
-        await review.increment("like");
-
-        return res.status(200).json({
-          message: "Review liked",
-        });
-      }
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-// Dislike
-router.patch(
-  "/:id/dislike",
-  JWT.verify,
-  validateSchema(schemas.resourceId, "params"),
-  async (req, res, next) => {
-    const { id: customerId } = req.auth;
-    const { id: reviewId } = req.params;
-    try {
-      const review = await Review.model.findByPk(reviewId);
-      if (!review) {
-        throw Boom.notFound("Review not found");
-      }
-
-      const customerDislike = await ReviewLikeDislike.model.findOne({
-        where: {
-          reviewId,
-          customerId,
-        },
-      });
-      if (customerDislike?.dataValues?.state === false) {
-        await customerDislike.destroy();
-        await review.decrement("dislike");
-
-        return res.status(200).json({
-          message: "Review disliked",
-        });
-      } else if (customerDislike?.dataValues?.state) {
-        await customerDislike.update({
-          state: false,
-        });
-        await review.decrement("like");
-        await review.increment("dislike");
-
-        return res.status(200).json({
-          message: "Review disliked",
-        });
-      } else {
-        await ReviewLikeDislike.model.create({
-          state: false,
-          customerId,
-          reviewId,
-        });
-        await review.increment("dislike");
-
-        return res.status(200).json({
-          message: "Review disliked",
-        });
-      }
     } catch (error) {
       next(error);
     }

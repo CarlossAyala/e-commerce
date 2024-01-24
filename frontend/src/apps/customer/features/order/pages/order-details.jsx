@@ -13,16 +13,18 @@ export const OrderDetails = () => {
   return (
     <main className="container max-w-3xl flex-1 space-y-4">
       <section className="mt-2">
-        <h1 className="scroll-m-20 text-3xl font-bold">Order Details</h1>
+        <h1 className="text-3xl font-bold">Order Details</h1>
         <p className="text-muted-foreground">View the details of your order.</p>
       </section>
 
       <section className="space-y-4">
         {isLoading ? (
           <>
-            <OrderInformation.Skeleton />
-            <OrderInformation.Skeleton />
-            <OrderInformation.Skeleton />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <OrderInformation.Skeleton />
+              <OrderInformation.Skeleton />
+              <OrderInformation.Skeleton />
+            </div>
             <Card className="divide-y divide-black/10">
               <OrderProduct.Skeleton />
               <OrderProduct.Skeleton />
@@ -34,57 +36,65 @@ export const OrderDetails = () => {
           <EmptyPlaceholder title="Error" description={error.message} />
         ) : (
           <>
-            <dl className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-1">
-                <dt className="text-base font-medium leading-tight">About</dt>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <p className="text-base font-medium">About</p>
                 <div className="space-y-1">
-                  <dd className="text-sm font-normal">
-                    ID:{" "}
+                  <div className="text-sm leading-tight">
+                    <span>ID: </span>
                     <span className="text-muted-foreground">
                       {order.order.id}
                     </span>
-                  </dd>
-                  <dd className="text-sm font-normal">
-                    Status:{" "}
+                  </div>
+                  <div className="text-sm leading-tight">
+                    <span>Status: </span>
                     <span className="capitalize text-muted-foreground">
                       {order.order.status}
                     </span>
-                  </dd>
-                  <dd className="text-sm font-normal">
-                    Date:{" "}
+                  </div>
+                  <div className="text-sm leading-tight">
+                    <span>Date: </span>
                     <span className="text-muted-foreground">
                       {Formatter.longDate(order.order.orderedAt)}
                     </span>
-                  </dd>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <dt className="text-base font-medium leading-tight">Billing</dt>
+              <div className="space-y-2">
+                <p className="text-base font-medium">Billing</p>
+                <div className="space-y-1">
+                  <div className="text-sm leading-tight">
+                    <span className="text-muted-foreground">
+                      {order.paymentMethod.billing_details.name}
+                    </span>
+                  </div>
+                  <div className="text-sm leading-tight">
+                    <span className="capitalize text-muted-foreground">
+                      {order.paymentMethod.card.brand}{" "}
+                      {order.paymentMethod.card.funding} {" **** "}
+                      {order.paymentMethod.card.last4}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <dt className="text-base font-medium leading-tight">
+                  Shipping
+                </dt>
                 <div className="text-sm font-normal leading-tight text-muted-foreground">
-                  <dd>{order.paymentMethod.billing_details.name}</dd>
-                  <dd className="capitalize">
-                    {order.paymentMethod.card.brand}{" "}
-                    {order.paymentMethod.card.funding} {" **** "}
-                    {order.paymentMethod.card.last4}
+                  <dd>
+                    {order.order.street} - {order.order.apartmentNumber}
                   </dd>
+                  <dd>
+                    {order.order.province} ({order.order.zipCode}),{" "}
+                    {order.order.city}
+                  </dd>
+                  {order.order.indications && (
+                    <dd>Indications: {order.order.indications}</dd>
+                  )}
                 </div>
-              </div>
-            </dl>
-
-            <div className="space-y-1">
-              <dt className="text-base font-medium leading-tight">Shipping</dt>
-              <div className="text-sm font-normal leading-tight text-muted-foreground">
-                <dd>
-                  {order.order.street} - {order.order.apartmentNumber}
-                </dd>
-                <dd>
-                  {order.order.province} ({order.order.zipCode}),{" "}
-                  {order.order.city}
-                </dd>
-                {order.order.indications && (
-                  <dd>Indications: {order.order.indications}</dd>
-                )}
               </div>
             </div>
 

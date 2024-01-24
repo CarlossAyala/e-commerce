@@ -10,6 +10,8 @@ const Home = () => {
   const history = useGetHistory("");
   const stores = useGetStores("");
 
+  const hasHistory = history.data?.rows.length > 0;
+
   return (
     <main className="container space-y-6 py-4">
       <SliderComponent
@@ -18,14 +20,14 @@ const Home = () => {
         items={products.data?.rows}
         {...products}
       />
-      {isAuthenticated && (
+      {isAuthenticated && hasHistory ? (
         <SliderComponent
           type="product"
           title="Your history"
           items={history.data?.rows.map(({ product }) => product)}
           {...history}
         />
-      )}
+      ) : null}
       <SliderComponent
         type="store"
         title="Stores"

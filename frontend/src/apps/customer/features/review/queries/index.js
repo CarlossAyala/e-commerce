@@ -1,13 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  create,
-  dislike,
-  findAll,
-  findAllByCustomer,
-  findOne,
-  like,
-  stats,
-} from "../api";
+import { create, findAll, findAllByCustomer, findOne, stats } from "../api";
 
 export const reviewKeys = {
   key: ["review"],
@@ -48,28 +40,6 @@ export const useGetReviewStats = (productId) => {
     queryKey: reviewKeys.stats(productId),
     queryFn: () => stats(productId),
     enabled: Boolean(productId),
-  });
-};
-
-export const useLikeReview = (productId) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: like,
-    onSuccess: () => {
-      queryClient.invalidateQueries(reviewKeys.findAllKey(productId));
-    },
-  });
-};
-
-export const useDislikeReview = (productId) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: dislike,
-    onSuccess: () => {
-      queryClient.invalidateQueries(reviewKeys.findAllKey(productId));
-    },
   });
 };
 

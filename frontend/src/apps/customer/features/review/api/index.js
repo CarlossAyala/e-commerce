@@ -62,40 +62,6 @@ export const stats = (productId) => {
   });
 };
 
-export const like = (reviewId) => {
-  const url = `${ENDPOINT_COMMON}/${reviewId}/like`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    return Promise.reject("Unauthorized");
-  }
-
-  return fetcher(url, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const dislike = (reviewId) => {
-  const url = `${ENDPOINT_COMMON}/${reviewId}/dislike`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    return Promise.reject("Unauthorized");
-  }
-
-  return fetcher(url, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
 export const create = (reviewId, values) => {
   const url = `${ENDPOINT_CUSTOMER}/${reviewId}`;
   const token = localStorageManager.getToken();

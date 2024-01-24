@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <main className="space-y-4 overflow-auto p-4">
       <section className="space-y-2">
-        <h2 className="tracking-none scroll-m-20 text-3xl font-bold leading-none">
+        <h2 className="tracking-none text-3xl font-bold leading-none">
           Dashboard
         </h2>
         <p className="text-sm leading-tight">

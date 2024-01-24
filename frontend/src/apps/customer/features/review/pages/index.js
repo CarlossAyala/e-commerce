@@ -1,4 +1,2 @@
-import ReviewNew from "./review-new";
-import Reviews from "./reviews";
-
-export { Reviews, ReviewNew };
+export * from "./review-new";
+export * from "./reviews";

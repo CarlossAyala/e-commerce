@@ -22,6 +22,7 @@ const email = string()
   .default("")
   .required();
 const password = string()
+  .label("Password")
   .transform(parseString)
   .min(8)
   .max(255)

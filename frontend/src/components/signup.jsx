@@ -48,7 +48,7 @@ const Signup = () => {
     <main className="container h-screen w-full">
       <div className="flex h-full flex-col justify-center gap-7">
         <div>
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
             Sign Up
           </h1>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">

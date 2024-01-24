@@ -23,8 +23,6 @@ const CartProduct = require("./cart-product.model");
 
 const Review = require("./review.model");
 
-const ReviewLikeDislike = require("./review-like-dislike.model");
-
 const Question = require("./question.model");
 const Answer = require("./answer.model");
 
@@ -216,8 +214,6 @@ module.exports = {
   CartProduct,
 
   Review,
-
-  ReviewLikeDislike,
 
   Question,
   Answer,

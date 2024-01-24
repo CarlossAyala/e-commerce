@@ -31,7 +31,7 @@ import { ReviewProduct } from "../components/review-product";
 const STARS = [1, 2, 3, 4, 5];
 const RATINGS = ["Poor", "Fair", "Average", "Good", "Excellent"];
 
-const ReviewNew = () => {
+export const ReviewNew = () => {
   const { toast } = useToast();
   const { reviewId } = useParams();
   const navigate = useNavigate();
@@ -71,9 +71,7 @@ const ReviewNew = () => {
   return (
     <main className="container max-w-3xl space-y-4">
       <section className="mt-2 space-y-0.5">
-        <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
-          Create Review
-        </h2>
+        <h2 className="tracking-none text-3xl font-bold">Create Review</h2>
         <p className="text-sm text-muted-foreground">
           Create a review for this product.
         </p>
@@ -203,5 +201,3 @@ const ReviewNew = () => {
     </main>
   );
 };
-
-export default ReviewNew;

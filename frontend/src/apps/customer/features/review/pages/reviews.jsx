@@ -4,17 +4,15 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../../../../components";
-import ReviewsDone from "./reviews-done";
-import ReviewsPending from "./reviews-pending";
+import { ReviewsDone } from "./reviews-done";
+import { ReviewsPending } from "./reviews-pending";
 
-const Reviews = () => {
+export const Reviews = () => {
   return (
-    <main className="container max-w-4xl space-y-4">
-      <section className="mt-2 space-y-0.5">
-        <h2 className="tracking-none scroll-m-20 text-3xl font-bold">
-          Reviews
-        </h2>
-        <p className="text-muted-foreground">
+    <main className="container max-w-3xl flex-1 space-y-4">
+      <section className="mt-4">
+        <h2 className="text-2xl font-semibold tracking-tight">Reviews</h2>
+        <p className="text-sm text-muted-foreground">
           Here you will see a list of all the reviews you have made.
         </p>
       </section>
@@ -34,5 +32,3 @@ const Reviews = () => {
     </main>
   );
 };
-
-export default Reviews;

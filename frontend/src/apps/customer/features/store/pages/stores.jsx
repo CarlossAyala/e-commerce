@@ -6,7 +6,7 @@ const Stores = () => {
   return (
     <main className="container max-w-6xl space-y-6">
       <section className="mt-2 space-y-0.5">
-        <h2 className="tracking-none scroll-m-20 text-3xl font-bold">Stores</h2>
+        <h2 className="tracking-none text-3xl font-bold">Stores</h2>
         <p className="leading-tight text-muted-foreground">
           Your favorite brands are already on Fake-Commerce.
         </p>

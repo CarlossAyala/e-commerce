@@ -25,14 +25,6 @@ const modelSchema = {
   },
   description: DataTypes.STRING,
   rating: DataTypes.INTEGER,
-  like: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-  },
-  dislike: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-  },
   status: {
     type: DataTypes.ENUM,
     values: Object.values(enums.status),
