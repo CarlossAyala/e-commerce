@@ -11,15 +11,15 @@ export const ReviewProduct = ({ className, product }) => {
         src="https://http2.mlstatic.com/D_NQ_NP_615787-MLA53225354281_012023-O.webp"
         alt={`Profile ${product.name}`}
       />
-      <div className="grow space-y-1">
+      <div className="grow">
         <Link
           to={productActionRoutes.detail(product.id, product.slug)}
           target="_blank"
-          className="line-clamp-1 text-sm leading-tight hover:underline"
+          className="line-clamp-1 text-base leading-tight hover:underline"
         >
           {product.name}
         </Link>
-        <p className="line-clamp-2 text-xs leading-tight text-muted-foreground">
+        <p className="line-clamp-2 text-sm leading-tight text-muted-foreground">
           {product.description}
         </p>
       </div>
@@ -32,9 +32,9 @@ ReviewProduct.Skeleton = function ReviewProductSkeleton({ className }) {
     <article className={cn("flex gap-4 p-4", className)}>
       <Skeleton className="size-14 shrink-0" />
       <div className="grow space-y-1">
+        <Skeleton className="h-4 w-1/2" />
         <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-1/2" />
-        <Skeleton className="h-4 w-1/2" />
+        <Skeleton className="h-4 w-full" />
       </div>
     </article>
   );

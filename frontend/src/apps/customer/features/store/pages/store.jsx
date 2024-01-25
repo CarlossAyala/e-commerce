@@ -11,7 +11,7 @@ import { useDebounced } from "../../../../../hooks";
 import { StoreProfile } from "../api/store-profile";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 
-const Store = () => {
+export const Store = () => {
   const { slug } = useParams();
   const [params] = useSearchParams();
 
@@ -103,5 +103,3 @@ const Store = () => {
     </main>
   );
 };
-
-export default Store;

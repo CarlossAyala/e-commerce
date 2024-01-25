@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import {
   Tabs,
   TabsContent,
@@ -7,7 +8,18 @@ import {
 import { ReviewsDone } from "./reviews-done";
 import { ReviewsPending } from "./reviews-pending";
 
+const TABS = {
+  PENDING: "pending",
+  DONE: "done",
+};
+
 export const Reviews = () => {
+  const [params, setParams] = useSearchParams();
+
+  const tab = Object.values(TABS).includes(params.get("tab"))
+    ? params.get("tab")
+    : TABS.PENDING;
+
   return (
     <main className="container max-w-3xl flex-1 space-y-4">
       <section className="mt-4">
@@ -17,15 +29,25 @@ export const Reviews = () => {
         </p>
       </section>
 
-      <Tabs defaultValue="pending">
+      <Tabs value={tab}>
         <TabsList>
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="done">Done</TabsTrigger>
+          <TabsTrigger
+            value={TABS.PENDING}
+            onClick={() => setParams({ tab: TABS.PENDING })}
+          >
+            Pending
+          </TabsTrigger>
+          <TabsTrigger
+            value={TABS.DONE}
+            onClick={() => setParams({ tab: TABS.DONE })}
+          >
+            Done
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="pending">
+        <TabsContent value={TABS.PENDING}>
           <ReviewsPending />
         </TabsContent>
-        <TabsContent value="done">
+        <TabsContent value={TABS.DONE}>
           <ReviewsDone />
         </TabsContent>
       </Tabs>

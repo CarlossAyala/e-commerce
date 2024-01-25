@@ -20,7 +20,7 @@ Textarea.displayName = "Textarea";
 const TextareaSkeleton = ({ label = true }) => {
   return (
     <div className="space-y-2">
-      {label && <Skeleton className="h-4 w-14" />}
+      {label && <Skeleton className="h-4 w-1/4" />}
       <Skeleton className="h-24 w-full" />
     </div>
   );

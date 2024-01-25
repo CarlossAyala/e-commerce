@@ -137,11 +137,16 @@ const CheckoutPaymentMethod = () => {
                 <PaymentMethodItem.Skeleton />
               </Card>
             ) : isError ? (
-              <EmptyPlaceholder title="Error" description={error.message} />
+              <EmptyPlaceholder
+                title="Error"
+                description={error.message}
+                className="grow"
+              />
             ) : isEmpty ? (
               <EmptyPlaceholder
                 title="No cards found"
                 description="Start adding one."
+                className="grow"
               >
                 <Button className="mt-4" onClick={handleCreatePaymentMethod}>
                   Add

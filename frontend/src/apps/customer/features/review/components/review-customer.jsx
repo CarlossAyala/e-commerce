@@ -19,16 +19,12 @@ ReviewCustomer.Skeleton = function ReviewCustomerSkeleton() {
   return (
     <div className="space-y-2 p-4">
       <div className="flex items-end justify-between">
-        <Skeleton className="h-4 w-1/3" />
-        <Skeleton className="h-4 w-1/3" />
+        <Skeleton className="h-4 w-1/4" />
+        <Skeleton className="h-4 w-1/4" />
       </div>
       <div className="space-y-1">
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-full" />
-      </div>
-      <div className="flex gap-4">
-        <Skeleton className="h-6 w-10" />
-        <Skeleton className="h-6 w-10" />
       </div>
     </div>
   );

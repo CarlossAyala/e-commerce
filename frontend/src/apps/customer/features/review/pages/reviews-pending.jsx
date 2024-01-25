@@ -4,6 +4,7 @@ import { useGetReviewsCustomer } from "../queries";
 import { EmptyPlaceholder, TablePagination } from "../../../../../components";
 import { ReviewPending } from "../components/review-pending";
 
+// TODO: Add search by product name, stars
 export const ReviewsPending = () => {
   const [params] = useSearchParams("status=pending");
   const debounceParams = useDebounced(params.toString());

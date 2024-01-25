@@ -102,7 +102,11 @@ const CheckoutShipping = () => {
                 <AddressItem.Skeleton />
               </Card>
             ) : isError ? (
-              <EmptyPlaceholder title="Error" description={error.message}>
+              <EmptyPlaceholder
+                title="Error"
+                description={error.message}
+                className="grow"
+              >
                 <Button
                   className="mt-4"
                   size="lg"
@@ -116,12 +120,13 @@ const CheckoutShipping = () => {
               <EmptyPlaceholder
                 title="No addresses found"
                 description="Start creating one."
+                className="grow"
               >
                 <Button asChild className="mt-4">
                   <Link
                     to={addressActionRoutes.new}
                     state={{
-                      from: checkoutActionRoutes.shipping,
+                      from: checkoutActionRoutes.shipping(paymentIntentId),
                     }}
                   >
                     Create

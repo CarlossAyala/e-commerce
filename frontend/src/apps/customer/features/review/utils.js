@@ -1,4 +1,4 @@
 export const reviewActionRoutes = {
-  list: "/customer/reviews",
+  list: (query) => `/customer/reviews?${query}`,
   new: (reviewId) => `/customer/reviews/${reviewId}/new`,
 };

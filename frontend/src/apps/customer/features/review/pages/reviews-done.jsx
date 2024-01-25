@@ -4,6 +4,7 @@ import { useGetReviewsCustomer } from "../queries";
 import { EmptyPlaceholder, TablePagination } from "../../../../../components";
 import { ReviewDone } from "../components/review-done";
 
+// TODO: Add search by product name, stars
 export const ReviewsDone = () => {
   const [params] = useSearchParams("status=done");
   const debounceParams = useDebounced(params.toString());

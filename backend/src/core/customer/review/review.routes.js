@@ -12,7 +12,7 @@ router.get("/customer", JWT.verify, async (req, res, next) => {
 
   const qb = new QueryBuilder(req.query).where("customerId", customerId);
 
-  switch (req.query.status) {
+  switch (req.query?.status) {
     case "pending": {
       qb.where("status", Review.enums.status.pending).orderBy(
         "createdAt",
@@ -56,11 +56,12 @@ router.get(
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
-    const { id } = req.params;
     const { id: customerId } = req.auth;
+    const { id } = req.params;
+    let { status } = req.query;
 
     const validStatus = Object.values(Review.enums.status).includes(status);
-    const status = validStatus ? status : Review.enums.status.done;
+    status = validStatus ? status : Review.enums.status.done;
 
     try {
       const review = await Review.model.findOne({
@@ -194,12 +195,10 @@ router.post(
 
     try {
       const review = await Review.model.findByPk(reviewId);
-      if (review.dataValues.customerId !== customerId) {
-        return next(Boom.forbidden("You can't edit this review"));
+      if (!review || review.dataValues.customerId !== customerId) {
+        throw Boom.notFound("Review not found");
       } else if (review.dataValues.status === Review.enums.status.done) {
-        return next(Boom.conflict("Review already exists"));
-      } else if (!review) {
-        return next(Boom.notFound("Review not found"));
+        throw Boom.conflict("Review already exists");
       }
 
       await review.update({
@@ -208,7 +207,7 @@ router.post(
         status: Review.enums.status.done,
       });
 
-      return res.status(201).json(review);
+      return res.json(review);
     } catch (error) {
       next(error);
     }
