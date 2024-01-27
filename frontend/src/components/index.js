@@ -39,6 +39,7 @@ export * from "./ui/popover";
 export * from "./ui/command";
 export * from "./ui/hover-card";
 export * from "./ui/checkbox";
+export * from "./ui/scroll-area";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
 export * from "./search";

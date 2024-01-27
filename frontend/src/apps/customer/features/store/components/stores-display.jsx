@@ -1,4 +1,3 @@
-import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import { EmptyPlaceholder, Input } from "../../../../../components";
 import { cn } from "../../../../../libs/utils";
 import { Formatter } from "../../../../../utils";
@@ -32,35 +31,17 @@ export const StoresDisplay = ({ className }) => {
       </div>
 
       <section>
-        {isLoading && (
+        {isLoading ? (
           <>
             <StoresGroup.Skeleton />
             <StoresGroup.Skeleton />
             <StoresGroup.Skeleton />
           </>
-        )}
-        {isError && (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon icon={FaceFrownIcon} />
-            <EmptyPlaceholder.Title>
-              Error fetching products
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              {error.message}
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        )}
-        {isEmpty && (
-          <div className="space-y-2">
-            <p className="text-sm font-medium tracking-tight">Results</p>
-
-            <p className="text-sm font-normal italic text-muted-foreground">
-              No stores found
-            </p>
-          </div>
-        )}
-
-        {hasContent && (
+        ) : isError ? (
+          <EmptyPlaceholder title="Error" description={error.message} />
+        ) : isEmpty ? (
+          <EmptyPlaceholder title="No results" description="No stores found." />
+        ) : (
           <div className="space-y-2">
             <p className="text-sm font-medium tracking-tight">Results</p>
 
