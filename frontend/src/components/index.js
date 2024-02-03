@@ -50,6 +50,7 @@ export * from "./review-star-graph";
 export * from "./stat-component";
 export * from "./slider";
 export * from "./slider-component";
+export * from "./filter";
 
 export {
   Logo,

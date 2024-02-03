@@ -129,5 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-#MongoDB
-/src/db/volume
+# docker mysql
+/src/database/mysql/data/*

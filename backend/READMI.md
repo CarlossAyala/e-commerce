@@ -1,20 +1,13 @@
 # Fake-Commerce Backend/API
 
-- [Fake-Commerce Backend/API](#fake-commerce-backendapi)
-  - [Categories](#categories)
-    - [Delete](#delete)
+## TODO
 
-## Categories
+- [ ] Write a script that takes .ENV database credentials and create `secrets` folder and files for `docker compose`
 
-All about Categories
+## Running Locally
 
-### Delete
+1. Install dependencies using pnpm:
 
-Depending on which category `type` we remove, we will cause different effects:
-
-- `main`
-  - `Products` under it will be disabled.
-  - Categories under it with `sub` type will be disabled and moved to `single` type.
-  - `Products` under their `sub` categories will be disabled too.
-- `sub` and `single`
-  - The `Products` under these will be disabled.
+```sh
+pnpm install
+```

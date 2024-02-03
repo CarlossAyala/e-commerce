@@ -1,11 +1,11 @@
 const { Sequelize } = require("sequelize");
 const config = require("../../config");
 
-const { database, user, password, host } = config.mysql;
+const { database, user, password, host, dialect } = config.db;
 
 const sequelize = new Sequelize(database, user, password, {
   host,
-  dialect: "mysql",
+  dialect,
 });
 
 module.exports = sequelize;

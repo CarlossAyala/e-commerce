@@ -3,14 +3,16 @@ require("dotenv").config();
 
 const config = {
   env: process.env.NODE_ENV,
-  port: process.env.PORT || 3007,
+  port: process.env.PORT || 3002,
   saltRounds: Number(process.env.AUTH_SALT),
-  pixels: process.env.API_KEY_PIXELS,
-  mysql: {
-    database: process.env.MYSQL_DATABASE,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    host: process.env.MYSQL_HOST,
+  pixels: process.env.API_KEY_PIXELS, //TODO: Implement
+  db: {
+    database: process.env.DB_DATABASE,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    port: process.env.DB_PORT,
   },
   jwt: {
     secret: process.env.JWT_SECRET,

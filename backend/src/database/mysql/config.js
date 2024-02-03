@@ -1,6 +1,6 @@
-const config = require('../../config');
+const config = require("../../config");
 
-const { database, host, password, user } = config.mysql;
+const { database, host, password, user, dialect } = config.db;
 
 module.exports = {
   development: {
@@ -8,20 +8,9 @@ module.exports = {
     password,
     database,
     host,
-    dialect: 'mysql',
+    dialect,
   },
-  // test: {
-  //   username: 'root',
-  //   password: null,
-  //   database: 'database_test',
-  //   host: '127.0.0.1',
-  //   dialect: 'mysql',
-  // },
-  // production: {
-  //   username: 'root',
-  //   password: null,
-  //   database: 'database_production',
-  //   host: '127.0.0.1',
-  //   dialect: 'mysql',
-  // },
+  // TODO: Implement
+  // test: {},
+  // production: {},
 };

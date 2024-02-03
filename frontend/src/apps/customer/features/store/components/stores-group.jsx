@@ -20,7 +20,6 @@ StoresGroup.Skeleton = function StoresGroupSkeleton() {
   return (
     <div className="space-y-2">
       <Skeleton className="h-6 w-10" />
-
       <div className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
         <StoreCard.Skeleton />
         <StoreCard.Skeleton />
