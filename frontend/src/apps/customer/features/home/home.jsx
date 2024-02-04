@@ -13,7 +13,7 @@ const Home = () => {
   const hasHistory = history.data?.rows.length > 0;
 
   return (
-    <main className="container space-y-6 py-4">
+    <main className="container flex-1 space-y-6">
       <SliderComponent
         type="product"
         title="Products"

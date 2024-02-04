@@ -30,10 +30,16 @@ export const useGetMainCategories = () => {
 };
 
 export const useGetFullCategories = () => {
-  return useQuery({
+  const values = useQuery({
     queryKey: categoryKeys.full(),
     queryFn: () => findFull(),
   });
+
+  return {
+    categories: values.data,
+    hasContent: values.data?.length > 0,
+    ...values,
+  };
 };
 
 export const useGetCategory = (slug) => {
@@ -45,41 +51,70 @@ export const useGetCategory = (slug) => {
 };
 
 export const useGetListCategories = (slug) => {
-  return useQuery({
+  const value = useQuery({
     queryKey: categoryKeys.findList(slug),
     queryFn: () => findList(slug),
     enabled: !!slug,
   });
+
+  return {
+    category: value.data,
+    ...value,
+  };
 };
 
 export const useGetBestSellerCategory = (slug) => {
-  return useQuery({
+  const values = useQuery({
     queryKey: categoryKeys.bestSeller(slug),
     queryFn: () => findProductsBestSellers(slug),
     enabled: !!slug,
   });
+
+  return {
+    products: values.data,
+    hasContent: values.data?.length > 0,
+    ...values,
+  };
 };
 
 export const useGetTopRatedCategory = (slug) => {
-  return useQuery({
+  const values = useQuery({
     queryKey: categoryKeys.topRated(slug),
     queryFn: () => findProductsTopRated(slug),
     enabled: !!slug,
   });
+
+  return {
+    products: values.data,
+    hasContent: values.data?.length > 0,
+    ...values,
+  };
 };
 
 export const useGetRandomsCategory = (slug) => {
-  return useQuery({
+  const values = useQuery({
     queryKey: categoryKeys.random(slug),
     queryFn: () => findProductsRandoms(slug),
     enabled: !!slug,
   });
+
+  return {
+    products: values.data,
+    hasContent: values.data?.length > 0,
+    ...values,
+  };
 };
 
 export const useGetStoresCategory = (slug) => {
-  return useQuery({
+  const values = useQuery({
     queryKey: categoryKeys.stores(slug),
     queryFn: () => findStores(slug),
     enabled: !!slug,
   });
+
+  return {
+    stores: values.data,
+    hasContent: values.data?.length > 0,
+    ...values,
+  };
 };

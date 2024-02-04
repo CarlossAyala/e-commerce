@@ -27,7 +27,7 @@ const Logo = ({ app = customer, className }) => {
       onClick={setClose}
     >
       <Link to={to}>
-        <p className="text-sm font-normal leading-none">Fake-Commerce</p>
+        <p className="text-sm font-normal leading-4">Fake-Commerce</p>
         <p className="text-sm font-semibold capitalize leading-none">
           [ {prefix} ]
         </p>

@@ -30,7 +30,7 @@ const filters = [
 
 export const Store = () => {
   return (
-    <main className="flex-1 space-y-6 lg:container">
+    <main className="flex-1 space-y-4 lg:container">
       <StoreProfile />
 
       <Filters className="px-4 lg:px-0" filters={filters} />

@@ -1,4 +1,4 @@
-import Categories from "./categories";
+export * from "./categories";
 import Category from "./category";
 
-export { Categories, Category };
+export { Category };

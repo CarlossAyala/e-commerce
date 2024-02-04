@@ -14,7 +14,7 @@ export const StoreCard = ({ store }) => {
         alt={`Profile Store ${store.name}`}
       />
       <div className="p-2 text-center">
-        <p className="line-clamp-2 text-xs leading-tight">{store.name}</p>
+        <p className="line-clamp-2 text-sm leading-tight">{store.name}</p>
       </div>
     </Link>
   );

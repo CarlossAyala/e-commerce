@@ -5,7 +5,7 @@ import { Sidebar } from "./sidebar";
 
 export const Header = () => {
   return (
-    <header className="container flex h-14 items-center border-b">
+    <header className="container flex h-14 items-center">
       <Sidebar />
       <Logo app="customer" className="sm:-ml-2" />
       <MainNav />

@@ -38,7 +38,7 @@ export const Sidebar = () => {
         size="icon"
         className="-ml-2 sm:hidden"
       >
-        <Bars3CenterLeftIcon className="h-6 w-6" />
+        <Bars3CenterLeftIcon className="size-6 text-black/50" />
         <span className="sr-only">Open sidebar</span>
       </Button>
 

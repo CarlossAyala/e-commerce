@@ -1,19 +1,35 @@
-import { Skeleton } from "../../../../../components";
+import { useParams } from "react-router-dom";
+import { Badge, EmptyPlaceholder, Skeleton } from "../../../../../components";
+import { useGetCategory } from "../queries";
 
-export const CategoryProfile = ({ category }) => {
+export const CategoryProfile = () => {
+  const { slug } = useParams();
+  const { data: category, isLoading, isError, error } = useGetCategory(slug);
+
   return (
-    <section className="space-y-4">
-      <div className="h-56">
-        <img
-          className="h-full w-full object-cover"
-          src="https://pbs.twimg.com/profile_banners/3106820359/1592524330/1500x500"
-          alt={`${category.name} category banner`}
-        />
-      </div>
-      <div className="space-y-1 px-4 lg:px-0">
-        <h2 className="text-2xl font-bold">{category.name}</h2>
-        <p className="text-sm leading-tight">{category.description}</p>
-      </div>
+    <section className="space-y-2">
+      {isLoading ? (
+        <CategoryProfile.Skeleton />
+      ) : isError ? (
+        <EmptyPlaceholder title="Error" description={error.message} />
+      ) : (
+        <>
+          <img
+            className="h-56 w-full object-cover"
+            src="https://http2.mlstatic.com/storage/official-stores-images/audibuenosaires/background20210112201824.jpg"
+            alt={`${category.name} category banner`}
+          />
+          <div className="space-y-1 px-4 lg:px-0">
+            <Badge variant="outline" className="uppercase">
+              {category.type}
+            </Badge>
+            <h2 className="text-2xl font-bold">{category.name}</h2>
+            <p className="leading-tight text-muted-foreground">
+              {category.description}
+            </p>
+          </div>
+        </>
+      )}
     </section>
   );
 };

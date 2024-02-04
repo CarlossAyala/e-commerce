@@ -1,61 +1,36 @@
 import { EmptyPlaceholder } from "../../../../../components";
 import { useGetFullCategories } from "../queries";
-import { CategoriesDisplay } from "../components/categories-display";
-import { FaceFrownIcon } from "@heroicons/react/24/outline";
+import { CategoriesList } from "../components/categories-list";
 
-const Categories = () => {
-  const {
-    data: categories,
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-  } = useGetFullCategories();
-
-  const hasContent = isSuccess && categories.length > 0;
-  const isEmpty = isSuccess && categories.length === 0;
+export const Categories = () => {
+  const { categories, isLoading, isError, hasContent, error } =
+    useGetFullCategories();
 
   return (
-    <main className="container max-w-6xl space-y-6">
-      <section className="mt-2 space-y-0.5">
-        <h2 className="tracking-none text-3xl font-bold">Categories</h2>
-        <p className="text-muted-foreground">
+    <main className="container flex-1 space-y-4">
+      <section className="mt-4">
+        <h2 className="text-2xl font-semibold tracking-tight">Categories</h2>
+        <p className="text-sm text-muted-foreground">
           Especially designed for you to find the best products for your needs.
         </p>
       </section>
 
-      <section className="space-y-10">
-        {isLoading && (
-          <>
-            <CategoriesDisplay.Skeleton />
-            <CategoriesDisplay.Skeleton />
-            <CategoriesDisplay.Skeleton />
-            <CategoriesDisplay.Skeleton />
-          </>
-        )}
-        {isError && (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon icon={FaceFrownIcon} />
-            <EmptyPlaceholder.Title>
-              Error fetching categories
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              {error.message}
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        )}
-        {isEmpty && (
-          <p className="text-sm italic text-muted-foreground">
-            No categories found.
-          </p>
-        )}
-        {hasContent &&
+      <section className="space-y-4">
+        {isLoading ? (
+          <CategoriesList.Skeleton />
+        ) : isError ? (
+          <EmptyPlaceholder title="Error" description={error.message} />
+        ) : !hasContent ? (
+          <EmptyPlaceholder
+            title="No results"
+            description="No categories found"
+          />
+        ) : (
           categories.map((category) => (
-            <CategoriesDisplay key={category.id} category={category} />
-          ))}
+            <CategoriesList key={category.id} category={category} />
+          ))
+        )}
       </section>
     </main>
   );
 };
-
-export default Categories;

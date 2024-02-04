@@ -21,20 +21,6 @@ export const clearEmptyValues = (values) => {
   return Object.fromEntries(clearedValues);
 };
 
-export const getResultStatus = (result) => {
-  const hasContent = result.isSuccess && result.data.length > 0;
-  const isEmpty = result.isSuccess && result.data.length === 0;
-
-  return [hasContent, isEmpty];
-};
-
-export const getResultRowsStatus = (result) => {
-  const hasContent = result.isSuccess && result.data.rows.length > 0;
-  const isEmpty = result.isSuccess && result.data.rows.length === 0;
-
-  return [hasContent, isEmpty];
-};
-
 /**
  * @param {string} fullName
  * @returns {string} initials

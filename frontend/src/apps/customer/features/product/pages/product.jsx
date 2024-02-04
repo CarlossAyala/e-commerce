@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { ShareIcon } from "@heroicons/react/24/outline";
 import { useGetProduct } from "../queries";
 import { FAQ } from "../components";
 import { Review } from "../components/review/review";
@@ -11,7 +12,6 @@ import { Formatter } from "../../../../../utils";
 import { AddToCart } from "../components/product/add-to-cart";
 import { AddToBookmark } from "../components/product/add-to-bookmark";
 import { StoreInformation } from "../components/store-information";
-import { ShareIcon } from "@heroicons/react/24/outline";
 
 export const Product = () => {
   const { productId } = useParams();
@@ -22,6 +22,10 @@ export const Product = () => {
     history.mutate(productId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <main className="container relative space-y-10">
