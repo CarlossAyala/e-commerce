@@ -8,7 +8,7 @@ export const ProductCard = ({ product }) => {
   return (
     <Link
       to={productActionRoutes.detail(product.id, product.slug)}
-      className="block w-full overflow-hidden rounded-md border border-black/10 shadow-sm"
+      className="block w-full overflow-hidden rounded-md border border-black/10"
     >
       <div className="h-36 w-full p-2">
         <img
@@ -40,14 +40,7 @@ export const ProductCard = ({ product }) => {
 };
 
 ProductCard.Skeleton = function ProductCardSkeleton({ items = 6 }) {
-  return (
-    <section className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
-      {Array.from({ length: items }).map((_, index) => (
-        <Skeleton
-          key={index}
-          className="h-52 overflow-hidden rounded-md shadow-md"
-        />
-      ))}
-    </section>
-  );
+  return Array.from({ length: items }).map((_, index) => (
+    <Skeleton key={index} className="h-52 overflow-hidden rounded-md" />
+  ));
 };

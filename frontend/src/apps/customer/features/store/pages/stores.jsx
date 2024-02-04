@@ -1,9 +1,15 @@
-import { StoresFilter } from "../components/stores-filter";
+import { Filters } from "../../../../../components";
 import { StoresList } from "../components/stores-list";
+
+const filters = [
+  {
+    filter_type: "search",
+  },
+];
 
 export const Stores = () => {
   return (
-    <main className="container flex-1 space-y-4">
+    <main className="container flex-1 space-y-6">
       <section className="mt-2">
         <h2 className="text-2xl font-semibold tracking-tight">Stores</h2>
         <p className="text-sm text-muted-foreground">
@@ -11,7 +17,7 @@ export const Stores = () => {
         </p>
       </section>
 
-      <StoresFilter />
+      <Filters filters={filters} />
 
       <StoresList />
     </main>

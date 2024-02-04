@@ -6,6 +6,7 @@ import { getAllFiltersNames, getFiltersActiveLabels } from "./utils";
 import { Button } from "../ui/button";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Search } from "./search";
+import { cn } from "../../libs/utils";
 
 const FILTER_TYPES = {
   search: Search,
@@ -114,7 +115,7 @@ const FILTER_TYPES = {
 //   },
 // ];
 
-export const Filters = ({ filters = [] }) => {
+export const Filters = ({ filters = [], className = "" }) => {
   const [params, setParams] = useSearchParams();
 
   // TODO
@@ -132,7 +133,9 @@ export const Filters = ({ filters = [] }) => {
   const activeFilters = getFiltersActiveLabels(params, filters);
 
   return (
-    <section className="flex flex-1 flex-wrap items-center gap-2">
+    <section
+      className={cn("flex flex-1 flex-wrap items-center gap-2", className)}
+    >
       {filters.map((filter, index) => {
         const FilterComponent = FILTER_TYPES[filter.filter_type];
 

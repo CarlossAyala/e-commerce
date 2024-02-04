@@ -9,7 +9,8 @@ export const Search = ({
   type = "text",
 }) => {
   const [params, setParams] = useSearchParams();
-  const [value, setValue] = useState(params.get(name) ? params.get(name) : "");
+  const paramValue = params.get(name);
+  const [value, setValue] = useState(paramValue ? paramValue : "");
 
   const debouncedText = useDebounced(value);
 
@@ -25,10 +26,16 @@ export const Search = ({
     } else {
       newParams.delete(name);
     }
-    setParams(newParams);
 
+    setParams(newParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedText]);
+
+  useEffect(() => {
+    if (!paramValue) setValue("");
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paramValue]);
 
   return (
     <div className="w-full sm:max-w-sm">

@@ -13,8 +13,9 @@ import {
   SelectValue,
 } from "../ui/select";
 import usePagination from "./hooks/use-pagination";
+import { cn } from "../../libs/utils";
 
-const TablePagination = ({ totalRows = 0 }) => {
+const TablePagination = ({ totalRows = 0, className = "" }) => {
   const { page, pageSize, pageSizes, handlePage, handlePageSize } =
     usePagination();
 
@@ -38,8 +39,8 @@ const TablePagination = ({ totalRows = 0 }) => {
   };
 
   return (
-    <>
-      <section className="flex">
+    <section className={cn("space-y-4", className)}>
+      <div className="flex justify-between">
         <Select
           defaultValue={pageSize}
           value={pageSize}
@@ -58,14 +59,12 @@ const TablePagination = ({ totalRows = 0 }) => {
             ))}
           </SelectContent>
         </Select>
-        <div className="ml-auto flex items-center gap-x-2">
-          <p className="text-sm font-normal">
-            {leftRows}-{rightRows} of {totalRows} rows
-          </p>
+        <div className="flex items-center gap-x-2 text-sm font-normal">
+          {leftRows}-{rightRows} of {totalRows} rows
         </div>
-      </section>
+      </div>
 
-      <section className="flex items-center justify-center space-x-4">
+      <div className="flex items-center justify-between space-x-4 sm:justify-center">
         <Button
           type="button"
           variant="outline"
@@ -120,8 +119,8 @@ const TablePagination = ({ totalRows = 0 }) => {
           <span className="sr-only">Go to last page</span>
           <ChevronDoubleRightIcon className="h-4 w-4" />
         </Button>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

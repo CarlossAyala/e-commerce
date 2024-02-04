@@ -25,16 +25,34 @@ export const useGetStoreByProductId = (productId) => {
 };
 
 export const useGetStores = (query) => {
-  return useQuery({
+  const params = new URLSearchParams(window.location.search);
+
+  const values = useQuery({
     queryKey: storeKeys.findAll(query),
     queryFn: () => findAll(query),
   });
+
+  return {
+    stores: values.data,
+    hasContent: values.isSuccess && values.data.rows.length > 0,
+    hasFilters: params.toString() !== "",
+    ...values,
+  };
 };
 
 export const useGetStoreProducts = (name, query) => {
-  return useQuery({
+  const params = new URLSearchParams(window.location.search);
+
+  const result = useQuery({
     queryKey: storeKeys.products(name, query),
     queryFn: () => products(name, query),
     enabled: Boolean(name),
   });
+
+  return {
+    products: result.products,
+    hasContent: result.isSuccess && result.data.rows.length > 0,
+    hasFilters: params.toString() !== "",
+    ...result,
+  };
 };

@@ -8,11 +8,17 @@ const schemas = require("./store.schema");
 
 // Get All
 router.get("/", async (req, res, next) => {
+  const { where, limit, offset } = new QueryBuilder(req.query)
+    .whereLike("name", req.query.q)
+    .pagination()
+    .build();
+
   try {
     const stores = await Store.model.findAndCountAll({
+      where,
       order: [["name", "ASC"]],
-      limit: 50,
-      offset: 0,
+      limit,
+      offset,
     });
 
     return res.status(200).json(stores);
