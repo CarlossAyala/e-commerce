@@ -25,7 +25,7 @@ export const Product = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [productId]);
 
   return (
     <main className="container relative space-y-10">

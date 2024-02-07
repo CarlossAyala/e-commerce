@@ -24,13 +24,12 @@ router.get("/", JWT.verify, async (req, res, next) => {
       offset,
     });
 
-    return res.status(200).json(bookmarks);
+    res.status(200).json(bookmarks);
   } catch (error) {
     next(error);
   }
 });
 
-// Get
 router.get(
   "/:id",
   JWT.verify,
@@ -46,14 +45,13 @@ router.get(
         },
       });
 
-      return res.status(200).json(bookmark);
+      res.json(bookmark);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// Add
 router.post(
   "/:id",
   JWT.verify,
@@ -64,7 +62,7 @@ router.post(
 
     try {
       const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound("Product not found"));
+      if (!product) throw Boom.notFound("Product not found");
 
       const [bookmark, created] = await Bookmark.model.findOrCreate({
         where: {
@@ -74,17 +72,17 @@ router.post(
         defaults: {
           customerId,
           productId,
+          createdAt: new Date(),
         },
       });
 
-      return res.status(created ? 201 : 200).json(bookmark);
+      res.status(created ? 201 : 200).json(bookmark);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// Clear
 router.delete("/clear", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;
 
@@ -95,13 +93,12 @@ router.delete("/clear", JWT.verify, async (req, res, next) => {
       },
     });
 
-    return res.status(200).json({ message: "Bookmarks cleared" });
+    res.json({ message: "Bookmarks cleared" });
   } catch (error) {
     next(error);
   }
 });
 
-// Remove
 router.delete(
   "/:id",
   JWT.verify,
@@ -118,7 +115,7 @@ router.delete(
         },
       });
 
-      return res.status(200).json({ message: "Bookmark removed" });
+      res.json({ message: "Bookmark removed" });
     } catch (error) {
       next(error);
     }

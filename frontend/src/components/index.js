@@ -51,6 +51,7 @@ export * from "./stat-component";
 export * from "./slider";
 export * from "./slider-component";
 export * from "./filter";
+export * from "./spinner";
 
 export {
   Logo,

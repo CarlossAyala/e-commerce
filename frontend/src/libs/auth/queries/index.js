@@ -76,11 +76,10 @@ export const useSellerAuth = () => {
 };
 
 export const useCustomerAuth = () => {
-  const { data: customer, isLoading, ...rest } = useGetProfile("from=customer");
+  const { data: customer, ...rest } = useGetProfile("from=customer");
 
   return {
     customer,
-    isLoading,
     isAuthenticated: !!customer,
     ...rest,
   };

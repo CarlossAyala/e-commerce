@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 
-const config = require('../../../config');
-const Encrypter = require('../../../middlewares/auth/encrypter');
-const { v4: uuidv4 } = require('uuid');
-const { faker } = require('@faker-js/faker/locale/es_MX');
-const slugify = require('slugify');
-const { User, Store } = require('../models');
+const config = require("../../../config");
+const Encrypter = require("../../../middlewares/auth/encrypter");
+const { v4: uuidv4 } = require("uuid");
+const { faker } = require("@faker-js/faker/locale/es_MX");
+const { User, Store } = require("../models");
+const { slugify } = require("../../../libs");
 
 const slugifyOptions = {
   lower: true,
-  locale: 'la',
+  locale: "la",
 };
 const imageOptions = {
   with: 640,

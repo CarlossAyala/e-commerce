@@ -4,8 +4,8 @@ import { localStorageManager } from "../../../../../utils";
 
 const ENDPOINT = `${API_CUSTOMER}/cart`;
 
-export const cart = (query) => {
-  const url = `${ENDPOINT}?${query}`;
+export const getCart = () => {
+  const url = ENDPOINT;
   const token = localStorageManager.getToken();
 
   if (!token) {
@@ -21,7 +21,7 @@ export const cart = (query) => {
   });
 };
 
-export const add = (productId, quantity) => {
+export const addToCart = (productId, quantity) => {
   const url = `${ENDPOINT}/${productId}`;
   const token = localStorageManager.getToken();
 
@@ -39,8 +39,8 @@ export const add = (productId, quantity) => {
   });
 };
 
-export const remove = (itemId) => {
-  const url = `${ENDPOINT}/${itemId}`;
+export const removeFromCart = (productId) => {
+  const url = `${ENDPOINT}/${productId}`;
   const token = localStorageManager.getToken();
 
   if (!token) {
@@ -56,7 +56,7 @@ export const remove = (itemId) => {
   });
 };
 
-export const clear = () => {
+export const clearCart = () => {
   const url = `${ENDPOINT}/clear`;
   const token = localStorageManager.getToken();
 
@@ -73,8 +73,8 @@ export const clear = () => {
   });
 };
 
-export const updateQuantity = (itemId, quantity) => {
-  const url = `${ENDPOINT}/${itemId}`;
+export const updateQuantity = (productId, quantity) => {
+  const url = `${ENDPOINT}/${productId}`;
   const token = localStorageManager.getToken();
 
   if (!token) {
@@ -87,23 +87,6 @@ export const updateQuantity = (itemId, quantity) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(quantity),
-  });
-};
-
-export const updateVisibility = (itemId) => {
-  const url = `${ENDPOINT}/${itemId}/visibility`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
-
-  return fetcher(url, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    body: JSON.stringify({ quantity }),
   });
 };

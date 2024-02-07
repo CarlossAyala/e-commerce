@@ -6,12 +6,25 @@ export const API_COMMON = `${API_URL}/api/common`;
 export const API_AUTH = `${API_URL}/api/auth`;
 export const API_ADMIN = `${API_URL}/api/admin`;
 
-export const appActionRoutes = {
-  signin: "/signin",
-  signup: "/signup",
-  signout: "/signout",
-  admin: "/admin",
-  seller: "/seller",
-  customer: "/customer",
-  landing: "/",
+export const appNavigation = {
+  signin: {
+    label: "Sign In",
+    to: "/signin",
+  },
+  signup: {
+    label: "Sign Up",
+    to: "/signup",
+  },
+  admin: {
+    label: "Admin",
+    to: "/admin",
+  },
+  seller: {
+    label: "Seller",
+    to: "/seller",
+  },
+  customer: {
+    label: "Customer",
+    to: "/customer",
+  },
 };

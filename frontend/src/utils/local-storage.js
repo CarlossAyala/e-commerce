@@ -29,4 +29,7 @@ export const localStorageManager = {
   setToken(token) {
     this.setItem("token", token);
   },
+  removeToken() {
+    this.removeItem("token");
+  },
 };

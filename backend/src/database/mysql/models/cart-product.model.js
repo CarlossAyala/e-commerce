@@ -1,35 +1,28 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
-const Cart = require("./cart.model");
+const User = require("./user.model");
 const Product = require("./product.model");
 
 const modelName = "CartProduct";
 const tableName = "carts_products";
 const modelOptions = {
   tableName,
-  timestamps: true,
+  timestamps: false,
 };
 
 const modelSchema = {
-  id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    defaultValue: DataTypes.UUIDV4,
-  },
   quantity: DataTypes.INTEGER,
-  visible: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true,
-  },
-  cartId: {
+  customerId: {
+    primaryKey: true,
     type: DataTypes.UUID,
-    field: "cart_id",
+    field: "customer_id",
     references: {
-      model: Cart.model,
+      model: User.model,
       key: "id",
     },
   },
   productId: {
+    primaryKey: true,
     type: DataTypes.UUID,
     field: "product_id",
     references: {
@@ -41,11 +34,6 @@ const modelSchema = {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
     field: "created_at",
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-    field: "updated_at",
   },
 };
 

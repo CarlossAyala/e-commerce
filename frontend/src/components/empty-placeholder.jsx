@@ -4,7 +4,7 @@ export function EmptyPlaceholder({ title, description, className, children }) {
   return (
     <section
       className={cn(
-        "grid place-content-center rounded border border-dashed p-10",
+        "flex flex-col items-center justify-center rounded border border-dashed p-10",
         className,
       )}
     >

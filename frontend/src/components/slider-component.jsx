@@ -1,4 +1,5 @@
 import { ProductCard, StoreCard } from "../apps/customer/components";
+import { cn } from "../libs/utils";
 import { Slider } from "./slider";
 
 const SLIDER_TYPES = {
@@ -27,11 +28,18 @@ const SLIDER_TYPES = {
  * @param {Boolean} props.isError
  * @param {("product"|"store")} props.type
  */
-export const SliderComponent = ({ items, title, isLoading, isError, type }) => {
+export const SliderComponent = ({
+  items,
+  title,
+  isLoading,
+  isError,
+  type,
+  className,
+}) => {
   const config = SLIDER_TYPES[type];
 
   return (
-    <section>
+    <section className={cn(className)}>
       {title && <h2 className="mb-2 text-xl font-semibold">{title}</h2>}
 
       {isLoading ? (

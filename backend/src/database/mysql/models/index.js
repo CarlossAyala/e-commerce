@@ -18,7 +18,6 @@ const History = require("./history.model");
 const Order = require("./order.model");
 const OrderItem = require("./order-item.model");
 
-const Cart = require("./cart.model");
 const CartProduct = require("./cart-product.model");
 
 const Review = require("./review.model");
@@ -71,28 +70,6 @@ Category.model.belongsTo(Category.model, {
   foreignKey: "parentId",
   as: "parent",
   onDelete: "CASCADE",
-});
-
-// USER AND CART
-User.model.hasOne(Cart.model, {
-  foreignKey: "customerId",
-  as: "cart",
-});
-Cart.model.belongsTo(User.model, {
-  foreignKey: "customerId",
-  as: "customer",
-});
-
-// CART AND PRODUCT
-Cart.model.belongsToMany(Product.model, {
-  through: CartProduct.model,
-  foreignKey: "cartId",
-  as: "products",
-});
-Product.model.belongsToMany(Cart.model, {
-  through: CartProduct.model,
-  foreignKey: "productId",
-  as: "cart",
 });
 
 // CART-PRODUCT AND PRODUCT
@@ -210,7 +187,6 @@ module.exports = {
   Order,
   OrderItem,
 
-  Cart,
   CartProduct,
 
   Review,

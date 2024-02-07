@@ -9,11 +9,16 @@ const bookmarkKeys = {
 };
 
 export const useGetBookmark = (productId) => {
-  return useQuery({
+  const values = useQuery({
     queryKey: bookmarkKeys.findOne(productId),
     queryFn: () => findOne(productId),
     enabled: Boolean(productId),
   });
+
+  return {
+    bookmark: values.data,
+    ...values,
+  };
 };
 
 export const useGetBookmarks = (query) => {

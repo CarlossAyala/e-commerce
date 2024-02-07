@@ -3,17 +3,12 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { Button, Skeleton, useToast } from "../../../../../components";
 import { Formatter } from "../../../../../utils/formatter";
 import { checkoutActionRoutes, useCreateCheckout } from "../../checkout";
-import { getQtyVisibleCart, getTotalCart } from "../utils";
 
 export const CartSummary = ({ cart }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const generatePaymentIntent = useCreateCheckout();
-
-  const [itemsVisible, itemsHidden, both] = getTotalCart(cart);
-
-  const productsQty = getQtyVisibleCart(cart);
 
   const handleCheckout = () => {
     generatePaymentIntent.mutate(null, {

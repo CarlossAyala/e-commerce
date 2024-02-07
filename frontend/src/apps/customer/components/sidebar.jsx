@@ -1,5 +1,5 @@
 import {
-  Bars3CenterLeftIcon,
+  Bars3Icon,
   BookOpenIcon,
   BuildingStorefrontIcon,
   CubeIcon,
@@ -36,15 +36,15 @@ export const Sidebar = () => {
         onClick={() => setOpen(true)}
         variant="ghost"
         size="icon"
-        className="-ml-2 sm:hidden"
+        className="-ml-2 mr-2 sm:hidden"
       >
-        <Bars3CenterLeftIcon className="size-6 text-black/50" />
+        <Bars3Icon className="size-5 text-black" />
         <span className="sr-only">Open sidebar</span>
       </Button>
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="left" className="py-2">
-          <SheetHeader className="mb-4 ">
+          <SheetHeader className="mb-2">
             <Logo />
           </SheetHeader>
           <nav className="-ml-1 grid gap-1">

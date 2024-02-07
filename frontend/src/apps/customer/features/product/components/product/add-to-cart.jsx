@@ -25,21 +25,24 @@ export const AddToCart = ({ product }) => {
   });
 
   const onSubmit = (quantity) => {
-    addToCart.mutate([product.id, quantity], {
-      onSuccess() {
-        toast({
-          description: "Product added to cart",
-        });
-        addToCart.reset();
+    addToCart.mutate(
+      { productId: product.id, quantity },
+      {
+        onSuccess() {
+          toast({
+            description: "Product added to cart",
+          });
+          addToCart.reset();
+        },
+        onError(error) {
+          toast({
+            title: "Product could not be added to cart",
+            description: error?.message ?? "Uh oh! Something went wrong.",
+          });
+          addToCart.reset();
+        },
       },
-      onError(error) {
-        toast({
-          title: "Product could not be added to cart",
-          description: error?.message ?? "Uh oh! Something went wrong.",
-        });
-        addToCart.reset();
-      },
-    });
+    );
   };
 
   const hasStock = product.stock > 0;

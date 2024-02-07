@@ -1,33 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
-const {
-  Product,
-  Cart,
-  CartProduct,
-} = require("../../../database/mysql/models");
+const { Product, CartProduct } = require("../../../database/mysql/models");
 const { validateSchema, JWT } = require("../../../middlewares");
 const schemas = require("./cart.schema");
 
-// Get Cart
+// TODO: Dependiendo de una key de los query params, buscar productos aptos para
+// iniciar el proceso de checkout
 router.get("/", JWT.verify, async (req, res, next) => {
-  // TODO: Dependiendo de una key de los query params, buscar productos aptos para
-  // iniciar el proceso de checkout
+  const { id: customerId } = req.auth;
 
   try {
-    const cart = await Cart.model.findOne({
+    const cart = await CartProduct.model.findAll({
       where: {
-        customerId: req.auth.id,
-      },
-    });
-    if (!cart) return next(Boom.notFound("Cart not found"));
-
-    const items = await CartProduct.model.findAll({
-      where: {
-        cartId: cart.dataValues.id,
-        ...(req.query.only_visible && {
-          visible: true,
-        }),
+        customerId,
       },
       include: {
         model: Product.model,
@@ -36,13 +22,12 @@ router.get("/", JWT.verify, async (req, res, next) => {
       order: [["createdAt", "ASC"]],
     });
 
-    return res.status(200).json(items);
+    res.json(cart);
   } catch (error) {
     next(error);
   }
 });
 
-// Add Item
 router.post(
   "/:id",
   JWT.verify,
@@ -54,189 +39,99 @@ router.post(
     const { quantity } = req.body;
 
     try {
-      const cart = await Cart.model.findOne({
+      const product = await Product.model.findByPk(productId);
+      if (!product) throw Boom.notFound("Product not found");
+
+      const cart = await CartProduct.model.findOne({
         where: {
           customerId,
-        },
-      });
-      if (!cart) return next(Boom.notFound("Cart not found"));
-
-      const product = await Product.model.findByPk(productId);
-      if (!product) return next(Boom.notFound("Product not found"));
-
-      const [item, created] = await CartProduct.model.findOrCreate({
-        where: {
-          cartId: cart.dataValues.id,
           productId,
         },
-        defaults: {
+      });
+
+      if (cart) {
+        cart.quantity = quantity;
+        await cart.save();
+        return res.json(cart);
+      } else {
+        const newCart = await CartProduct.model.create({
+          customerId,
+          productId,
           quantity,
-          cartId: cart.dataValues.id,
-          productId,
-        },
-      });
-
-      if (!created) {
-        item.quantity = quantity;
-        await item.save();
+        });
+        return res.json(newCart);
       }
-
-      return res.status(created ? 201 : 200).json(item);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// Update Item
 router.patch(
   "/:id",
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   validateSchema(schemas.base, "body"),
   async (req, res, next) => {
+    const { id: customerId } = req.auth;
+    const { id: productId } = req.params;
+    const { quantity } = req.body;
+
     try {
-      const cart = await Cart.model.findOne({
+      const cart = await CartProduct.model.findOne({
         where: {
-          customerId: req.auth.id,
+          customerId,
+          productId,
         },
       });
-      if (!cart) return next(Boom.notFound("Cart not found"));
+      if (!cart) throw Boom.notFound("Cart not found");
 
-      const cartItem = await CartProduct.model.findOne({
-        where: {
-          id: req.params.id,
-          cartId: cart.dataValues.id,
-        },
-      });
-      if (!cartItem) return next(Boom.notFound("Item Cart not found"));
+      cart.quantity = quantity;
+      await cart.save();
 
-      const product = await Product.model.findByPk(
-        cartItem.dataValues.productId
-      );
-      if (!product) return next(Boom.notFound("Product not found"));
-
-      const quantity = req.body.quantity;
-
-      const item = await CartProduct.model.update(
-        {
-          quantity,
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      );
-
-      return res.status(200).json(item);
+      res.json(cart);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// Update Visibility Item
-router.patch(
-  "/:id/visibility",
-  JWT.verify,
-  validateSchema(schemas.resourceId, "params"),
-  async (req, res, next) => {
-    try {
-      const cart = await Cart.model.findOne({
-        where: {
-          customerId: req.auth.id,
-        },
-      });
-      if (!cart) return next(Boom.notFound("Cart not found"));
-
-      const cartItem = await CartProduct.model.findOne({
-        where: {
-          id: req.params.id,
-          cartId: cart.dataValues.id,
-        },
-      });
-      if (!cartItem) return next(Boom.notFound("Item Cart not found"));
-
-      const product = await Product.model.findByPk(
-        cartItem.dataValues.productId
-      );
-      if (!product) return next(Boom.notFound("Product not found"));
-
-      await CartProduct.model.update(
-        {
-          visible: !cartItem.dataValues.visible,
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      );
-
-      return res.status(200).json({
-        message: "Item updated",
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-// Clear Cart
 router.delete("/clear", JWT.verify, async (req, res, next) => {
-  try {
-    const cart = await Cart.model.findOne({
-      where: {
-        customerId: req.auth.id,
-      },
-    });
-    if (!cart) return next(Boom.notFound("Cart not found"));
+  const { id: customerId } = req.auth;
 
+  try {
     await CartProduct.model.destroy({
       where: {
-        cartId: cart.dataValues.id,
+        customerId,
       },
     });
 
-    return res.status(200).json({
-      message: "Clear Cart",
+    res.json({
+      message: "Cart cleared",
     });
   } catch (error) {
     next(error);
   }
 });
 
-// Remove from Cart
 router.delete(
   "/:id",
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
+    const { id: customerId } = req.auth;
+    const { id: productId } = req.params;
+
     try {
-      const cart = await Cart.model.findOne({
-        where: {
-          customerId: req.auth.id,
-        },
-      });
-      if (!cart) return next(Boom.notFound("Cart not found"));
-
-      const cartItem = await CartProduct.model.findOne({
-        where: {
-          id: req.params.id,
-          cartId: cart.dataValues.id,
-        },
-      });
-      if (!cartItem) return next(Boom.notFound("Item Cart not found"));
-
       await CartProduct.model.destroy({
         where: {
-          id: req.params.id,
+          customerId,
+          productId,
         },
       });
 
-      return res.status(200).json({
-        message: "Item removed",
+      res.json({
+        message: "Product removed from cart",
       });
     } catch (error) {
       next(error);

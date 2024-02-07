@@ -1,11 +1,7 @@
 import { Skeleton } from "../../../../../components";
 import { Formatter } from "../../../../../utils/formatter";
-import { getQtyVisibleCart, getVisibleTotalCart } from "../../cart";
 
 export const CartSummary = ({ children, cart }) => {
-  const total = getVisibleTotalCart(cart);
-  const qty = getQtyVisibleCart(cart);
-
   return (
     <div className="p-4">
       <div className="mb-1">

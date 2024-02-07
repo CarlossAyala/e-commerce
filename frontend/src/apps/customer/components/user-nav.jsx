@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Avatar,
   AvatarFallback,
@@ -11,41 +12,69 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../../components";
+import { navigation } from "../config";
+import { useCustomerAuth, useSignout } from "../../../libs/auth";
+
+const { orders, history, bookmarks, questions, reviews, settings } = navigation;
+const navs = [orders, history, bookmarks, questions, reviews];
+
+/**
+ * @param {string} fullName
+ * @returns {string}
+ */
+const getInitials = (fullName) => {
+  const names = fullName.split(" ");
+  const initials = names.map((name) => name[0]);
+  if (initials.length > 3) {
+    return initials.slice(0, 2).join("").concat("...");
+  } else {
+    return initials.join("");
+  }
+};
 
 export const UserNav = () => {
+  const { customer } = useCustomerAuth();
+  const signout = useSignout();
+
+  const fullName = `${customer?.name} ${customer?.lastName}`;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative size-10 rounded-full">
-          <Avatar className="size-10">
-            <AvatarImage src={null} alt="@shadcn" />
-            <AvatarFallback>SC...</AvatarFallback>
+        <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+          <Avatar className="h-9 w-9">
+            <AvatarImage src={customer.avatar} alt={fullName} />
+            <AvatarFallback className="font-normal">
+              {getInitials(fullName)}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              m@example.com
-            </p>
-          </div>
+        <DropdownMenuLabel className="space-y-1 font-normal">
+          <p className="truncate text-sm font-medium leading-none">
+            {fullName}
+          </p>
+          <p className="truncate text-xs leading-none text-muted-foreground">
+            {customer.email}
+          </p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Orders</DropdownMenuItem>
-          <DropdownMenuItem>History</DropdownMenuItem>
-          <DropdownMenuItem>Bookmarks</DropdownMenuItem>
-          <DropdownMenuItem>Questions</DropdownMenuItem>
-          <DropdownMenuItem>Reviews</DropdownMenuItem>
+          {navs.map((nav, index) => (
+            <DropdownMenuItem asChild key={index}>
+              <Link to={nav.to}>{nav.name}</Link>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to={settings.to}>{settings.name}</Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => signout()}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

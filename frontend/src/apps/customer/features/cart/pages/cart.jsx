@@ -10,13 +10,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenu,
 } from "../../../../../components";
-import { CartItem } from "../components/cart-item";
 import { useClearCart, useGetCart } from "../queries";
+import { CartItem } from "../components/cart-item";
 import { CartSummary } from "../components/cart-summary";
 
 const Cart = () => {
   const { toast } = useToast();
-  const { data: cart, isLoading, isError, isSuccess, error } = useGetCart();
+  const { cart, isLoading, isError, hasContent, error } = useGetCart();
 
   const clearCart = useClearCart();
 
@@ -37,17 +37,16 @@ const Cart = () => {
     });
   };
 
-  const isEmpty = isSuccess && cart.length === 0;
-
   return (
-    <main className="container flex max-w-6xl flex-col space-y-4">
-      <section className="mt-3 flex gap-4">
-        <div className="scroll-m-20">
+    <main className="container flex max-w-6xl flex-1 flex-col space-y-4">
+      <section className="mt-4 flex gap-4">
+        <div>
           <h1 className="text-3xl font-semibold tracking-tight">Cart</h1>
-          <p className="mt-1 leading-tight text-muted-foreground">
+          <p className="mt-1 leading-tight text-muted-foreground sm:text-sm">
             Explore and shop for your favorite items.
           </p>
         </div>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="ml-auto shrink-0" size="icon">
@@ -58,7 +57,7 @@ const Cart = () => {
           <DropdownMenuContent align="end" className="w-44">
             <DropdownMenuItem
               onSelect={handleClearCart}
-              disabled={clearCart.isLoading || isEmpty || isError}
+              disabled={clearCart.isLoading || !hasContent || isError}
             >
               Clear cart
             </DropdownMenuItem>
@@ -88,7 +87,7 @@ const Cart = () => {
         </section>
       ) : isError ? (
         <EmptyPlaceholder title="Error" description={error.message} />
-      ) : isEmpty ? (
+      ) : !hasContent ? (
         <EmptyPlaceholder
           title="Your cart is empty"
           description="Explore and shop for your favorite items."

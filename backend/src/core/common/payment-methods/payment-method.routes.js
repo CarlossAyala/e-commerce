@@ -24,7 +24,7 @@ router.get("/", JWT.verify, async (req, res, next) => {
       { type: "card" }
     );
 
-    return res.status(200).json(paymentMethods);
+    return res.json(paymentMethods);
   } catch (error) {
     next(error);
   }
