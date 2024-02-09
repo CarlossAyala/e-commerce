@@ -4,7 +4,6 @@ const Boom = require("@hapi/boom");
 const { JWT } = require("../../../middlewares");
 const {
   User,
-  Cart,
   CartProduct,
   Product,
   Address,
@@ -30,12 +29,9 @@ router.post("/", JWT.verify, async (req, res, next) => {
     });
     const [customer] = data;
 
-    const cart = await Cart.model.findOne({ where: { customerId } });
-    if (!cart) return next(Boom.notFound("Cart not found"));
-
     const cartItems = await CartProduct.model.findAll({
       where: {
-        cartId: cart.dataValues.id,
+        customerId,
       },
       include: {
         model: Product.model,
@@ -45,7 +41,6 @@ router.post("/", JWT.verify, async (req, res, next) => {
     /*
      	TODO: Add follow validations:
 			- Cart must have at least one product
-			- Cart must have all products visible
 			- Cart must have all products available
 			- Cart must have all products enough stock
     */
@@ -111,12 +106,9 @@ router.post("/confirm", JWT.verify, async (req, res, next) => {
     });
     if (!address) throw Boom.notFound("Address not found");
 
-    const cart = await Cart.model.findOne({ where: { customerId } });
-    if (!cart) return next(Boom.notFound("Cart not found"));
-
     const cartItems = await CartProduct.model.findAll({
       where: {
-        cartId: cart.dataValues.id,
+        customerId,
       },
       include: {
         model: Product.model,
@@ -215,10 +207,9 @@ router.post("/confirm", JWT.verify, async (req, res, next) => {
 
         // TODO: Aplicar STOCK y SOLD correspondiente a cada producto
 
-        // Clear Cart
         await CartProduct.model.destroy({
           where: {
-            cartId: cart.dataValues.id,
+            customerId,
           },
         });
 

@@ -14,6 +14,7 @@ import {
   FormMessage,
   RadioGroup,
   RadioGroupItem,
+  Skeleton,
 } from "../../../../../components";
 import { addressActionRoutes, useGetAddresses } from "../../address";
 import {
@@ -23,26 +24,19 @@ import {
 } from "../schemas";
 import { AddressItem } from "../components/address-item";
 import { useGetCart } from "../../cart/queries";
-import { CartSummary } from "../components/cart-summary";
 import { checkoutActionRoutes } from "../utils";
 import { useCheckout } from "../context";
 
-const CheckoutShipping = () => {
+export const CheckoutShipping = () => {
   const { paymentIntentId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
   const { addressId, updateAddress } = useCheckout();
 
-  const {
-    data: addresses,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-    refetch,
-  } = useGetAddresses();
-  const cart = useGetCart("only_visible=true");
+  const { addresses, isLoading, isError, error, refetch, isEmpty } =
+    useGetAddresses();
+  const cart = useGetCart();
 
   const form = useForm({
     resolver: yupResolver(checkoutAddressSchema),
@@ -72,15 +66,13 @@ const CheckoutShipping = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isEmpty = isSuccess && addresses.length === 0;
-
   return (
-    <main className="container flex max-w-6xl flex-col space-y-4">
-      <section className="mt-2">
-        <h1 className="text-3xl font-semibold tracking-tight">
+    <main className="container flex max-w-6xl flex-1 flex-col space-y-4">
+      <section className="mt-4">
+        <h2 className="text-3xl font-semibold tracking-tight">
           Checkout - Shipping
-        </h1>
-        <p className="mt-1 leading-tight">
+        </h2>
+        <p className="leading-tight">
           How do you want to receive or withdraw your purchase?
         </p>
       </section>
@@ -93,10 +85,10 @@ const CheckoutShipping = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleNext)}
-            className="flex flex-col gap-4 sm:flex-row"
+            className="grid-cols-8 gap-6 md:grid"
           >
             {isLoading ? (
-              <Card className="grow divide-y divide-black/10">
+              <Card className="divide-y divide-black/10 md:col-span-5">
                 <AddressItem.Skeleton />
                 <AddressItem.Skeleton />
                 <AddressItem.Skeleton />
@@ -105,7 +97,7 @@ const CheckoutShipping = () => {
               <EmptyPlaceholder
                 title="Error"
                 description={error.message}
-                className="grow"
+                className="md:col-span-5"
               >
                 <Button
                   className="mt-4"
@@ -120,7 +112,7 @@ const CheckoutShipping = () => {
               <EmptyPlaceholder
                 title="No addresses found"
                 description="Start creating one."
-                className="grow"
+                className="md:col-span-5"
               >
                 <Button asChild className="mt-4">
                   <Link
@@ -138,7 +130,7 @@ const CheckoutShipping = () => {
                 control={form.control}
                 name="addressId"
                 render={({ field }) => (
-                  <FormItem className="grow">
+                  <FormItem className="md:col-span-5">
                     <FormMessage className="mb-1 mt-0" />
                     <FormControl>
                       <RadioGroup
@@ -180,29 +172,46 @@ const CheckoutShipping = () => {
               />
             )}
 
-            <div className="w-full sm:max-w-sm">
-              <Card>
-                {cart.isLoading ? (
-                  <CartSummary.Skeleton />
-                ) : cart.isError ? (
-                  <EmptyPlaceholder
-                    title="Error"
-                    description={cart.error.message}
-                  />
-                ) : (
-                  <CartSummary cart={cart.data}>
-                    <Button className="mt-4 w-full" size="lg" type="submit">
-                      Next
-                    </Button>
-                  </CartSummary>
-                )}
-              </Card>
-            </div>
+            {cart.isLoading ? (
+              <div className="mt-6 md:col-span-3 md:mt-0">
+                <div className="space-y-4 rounded-md border border-gray-200 p-4">
+                  <div className="flex justify-between gap-2">
+                    <Skeleton className="h-4 w-1/3" />
+                    <Skeleton className="h-4 w-1/3" />
+                  </div>
+
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              </div>
+            ) : cart.isError ? (
+              <EmptyPlaceholder
+                title="Error"
+                description={cart.error.message}
+                className="mt-6 md:col-span-3 md:mt-0"
+              />
+            ) : cart.isEmpty ? (
+              <EmptyPlaceholder
+                title="Error"
+                description="Something went wrong with your Checkout."
+                className="mt-6 md:col-span-3 md:mt-0"
+              />
+            ) : (
+              <div className="mt-6 md:col-span-3 md:mt-0">
+                <div className="space-y-2 rounded-md border border-gray-200 p-4">
+                  <div className="flex justify-between font-medium">
+                    <p>Subtotal</p>
+                    <p>{cart.subTotal}</p>
+                  </div>
+
+                  <Button className="w-full text-base" size="lg" type="submit">
+                    Next
+                  </Button>
+                </div>
+              </div>
+            )}
           </form>
         </Form>
       </section>
     </main>
   );
 };
-
-export default CheckoutShipping;

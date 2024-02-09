@@ -5,11 +5,10 @@ import {
   Card,
   EmptyPlaceholder,
   Skeleton,
+  Spinner,
   useToast,
 } from "../../../../../components";
-import { CartSummary } from "./cart-summary";
 import { checkoutActionRoutes } from "../utils";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 export const CheckPaymentIntent = ({ children }) => {
   const { paymentIntentId } = useParams();
@@ -42,19 +41,23 @@ export const CheckPaymentIntent = ({ children }) => {
             <Skeleton className="h-5 w-1/3" />
           </section>
 
-          <section className="flex flex-col gap-4 sm:flex-row">
-            <div className="grow">
+          <section className="grid-cols-8 gap-6 md:grid">
+            <div className="md:col-span-5">
               <Card className="space-y-1 p-4">
                 <Skeleton className="h-5 w-full" />
                 <Skeleton className="h-4 w-1/2" />
-                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-4 w-1/2" />
               </Card>
             </div>
 
-            <div className="w-full sm:max-w-sm">
-              <Card>
-                <CartSummary.Skeleton />
-              </Card>
+            <div className="md:col-span-3">
+              <div className="space-y-4 rounded-md border border-gray-200 p-4">
+                <div className="flex justify-between gap-4">
+                  <Skeleton className="h-4 w-1/3" />
+                  <Skeleton className="h-4 w-1/3" />
+                </div>
+                <Skeleton className="h-10 w-full" />
+              </div>
             </div>
           </section>
         </main>
@@ -71,7 +74,7 @@ export const CheckPaymentIntent = ({ children }) => {
                 disabled={generatePaymentIntent.isLoading}
               >
                 {generatePaymentIntent.isLoading && (
-                  <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
+                  <Spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 New Checkout
               </Button>

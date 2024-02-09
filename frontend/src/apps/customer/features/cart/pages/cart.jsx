@@ -1,120 +1,63 @@
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import {
-  useToast,
-  Button,
-  EmptyPlaceholder,
-  Card,
-  CardContent,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenu,
-} from "../../../../../components";
-import { useClearCart, useGetCart } from "../queries";
-import { CartItem } from "../components/cart-item";
-import { CartSummary } from "../components/cart-summary";
+import { EmptyPlaceholder } from "../../../../../components";
+import { CartItem } from "../../../components";
+import { CartSummary } from "../../../components/cart-summary";
+import { useGetCart } from "../queries";
 
-const Cart = () => {
-  const { toast } = useToast();
-  const { cart, isLoading, isError, hasContent, error } = useGetCart();
-
-  const clearCart = useClearCart();
-
-  const handleClearCart = () => {
-    clearCart.mutate(undefined, {
-      onSuccess() {
-        toast({
-          title: "Cart cleared",
-          description: "Your cart has been cleared",
-        });
-      },
-      onError(error) {
-        toast({
-          title: "Cart could not be cleared",
-          description: error?.message ?? "Uh oh! Something went wrong.",
-        });
-      },
-    });
-  };
+export const Cart = () => {
+  const { cart, isLoading, isError, isEmpty, error } = useGetCart();
 
   return (
-    <main className="container flex max-w-6xl flex-1 flex-col space-y-4">
-      <section className="mt-4 flex gap-4">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight">Cart</h1>
-          <p className="mt-1 leading-tight text-muted-foreground sm:text-sm">
-            Explore and shop for your favorite items.
-          </p>
-        </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-auto shrink-0" size="icon">
-              <EllipsisVerticalIcon className="h-5 w-5" />
-              <span className="sr-only">More</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-44">
-            <DropdownMenuItem
-              onSelect={handleClearCart}
-              disabled={clearCart.isLoading || !hasContent || isError}
-            >
-              Clear cart
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <main className="container flex max-w-6xl flex-1 flex-col space-y-6">
+      <section className="mt-4">
+        <h2 className="text-3xl font-semibold tracking-tight">Cart</h2>
+        <p className="leading-tight text-muted-foreground">
+          Explore and shop for your favorite items.
+        </p>
       </section>
 
       {isLoading ? (
-        <section className="flex content-start gap-4">
-          <Card className="w-full">
-            <CardContent className="divide-y divide-black/10 p-0">
-              <CartItem.Skeleton />
-              <CartItem.Skeleton />
-              <CartItem.Skeleton />
+        <section className="grid-cols-8 gap-6 md:grid">
+          <ul className="grid divide-y divide-gray-200 rounded-lg border border-gray-200 md:col-span-5">
+            {new Array(3).fill("").map((_, index) => (
+              <li key={index}>
+                <CartItem.Skeleton className="p-4" />
+              </li>
+            ))}
+          </ul>
 
-              <div className="overflow-hidden rounded-b-md sm:hidden">
-                <CartSummary.Skeleton />
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="hidden w-full max-w-sm grow sm:block">
-            <Card className="overflow-hidden">
-              <CartSummary.Skeleton />
-            </Card>
+          <div className="mt-6 md:col-span-3 md:mt-0">
+            <CartSummary.Skeleton />
           </div>
         </section>
       ) : isError ? (
         <EmptyPlaceholder title="Error" description={error.message} />
-      ) : !hasContent ? (
+      ) : isEmpty ? (
         <EmptyPlaceholder
           title="Your cart is empty"
           description="Explore and shop for your favorite items."
         />
       ) : (
-        <section className="mt-4 flex gap-4">
-          <div className="grow">
-            <Card className="divide-y divide-black/10">
-              {cart.map((item) => (
-                <CartItem key={item.id} item={item} />
-              ))}
+        <section className="grid-cols-8 gap-6 md:grid">
+          <ul className="grid divide-y divide-gray-200 rounded-lg border border-gray-200 md:col-span-5">
+            {cart.map((item, index) => (
+              <li key={index}>
+                <CartItem item={item} className="p-4" />
+              </li>
+            ))}
+          </ul>
 
-              <div className="sticky bottom-0 mt-auto rounded-b-md sm:hidden">
-                <CartSummary cart={cart} />
-              </div>
-            </Card>
-          </div>
+          <div className="mt-6 space-y-2 md:col-span-3 md:mt-0">
+            <CartSummary />
 
-          <div className="relative hidden max-w-sm grow sm:block">
-            <Card className="sticky top-4 overflow-hidden">
-              <CartSummary cart={cart} />
-            </Card>
+            <ul className="list-inside list-square text-sm text-muted-foreground">
+              <li>
+                The hidden products are used to see what the Cart would look
+                like if they are deleted.
+              </li>
+            </ul>
           </div>
         </section>
       )}
     </main>
   );
 };
-
-export default Cart;

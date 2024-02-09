@@ -20,10 +20,16 @@ export const useGetPaymentMethod = (paymentMethodId) => {
 };
 
 export const useGetPaymentMethods = () => {
-  return useQuery({
+  const values = useQuery({
     queryKey: paymentMethodKeys.findAll(),
     queryFn: () => findAll(),
   });
+
+  return {
+    paymentMethods: values.data,
+    isEmpty: values.data?.length === 0,
+    ...values,
+  };
 };
 
 export const useCreatePaymentMethod = () => {

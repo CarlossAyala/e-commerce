@@ -8,6 +8,7 @@ export const CartToolbarView = ({ item }) => {
 
   return (
     <Button
+      type="button"
       size="icon"
       variant="outline"
       className={cn(

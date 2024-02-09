@@ -42,6 +42,7 @@ export const CartToolbarQuantity = ({ item }) => {
   return (
     <div className="flex justify-between overflow-hidden rounded-md border">
       <Button
+        type="button"
         size="icon"
         variant="outline"
         className="h-8 w-8 rounded-none border-0 p-0 shadow-none"
@@ -59,6 +60,7 @@ export const CartToolbarQuantity = ({ item }) => {
         onChange={handleChange}
       />
       <Button
+        type="button"
         size="icon"
         variant="outline"
         className="h-8 w-8 rounded-none border-0 p-0 shadow-none"

@@ -1,7 +1,7 @@
-import { API_COMMON } from "../../../../configs";
+import { API_SHARED } from "../../../../configs";
 import { fetcher } from "../../../../libs/utils";
 
-const ENDPOINT = `${API_COMMON}/categories`;
+const ENDPOINT = `${API_SHARED}/categories`;
 
 export const findOne = async (id) => {
   const url = `${ENDPOINT}/${id}`;

@@ -96,24 +96,6 @@ router.patch(
   }
 );
 
-router.delete("/clear", JWT.verify, async (req, res, next) => {
-  const { id: customerId } = req.auth;
-
-  try {
-    await CartProduct.model.destroy({
-      where: {
-        customerId,
-      },
-    });
-
-    res.json({
-      message: "Cart cleared",
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.delete(
   "/:id",
   JWT.verify,

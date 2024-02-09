@@ -27,6 +27,7 @@ export const CartToolbarRemove = ({ item }) => {
 
   return (
     <Button
+      type="button"
       size="icon"
       variant="outline"
       className="h-8 w-8 p-0"

@@ -4,7 +4,7 @@ import {
   CheckoutPaymentMethod,
   CheckoutReview,
   CheckoutShipping,
-  CheckoutDetail,
+  CheckoutDetails,
 } from "../pages";
 
 /**
@@ -42,6 +42,6 @@ export const checkoutRoutes = [
   // TODO: Move this to Order page
   {
     path: ":orderId/details",
-    element: <CheckoutDetail />,
+    element: <CheckoutDetails />,
   },
 ];

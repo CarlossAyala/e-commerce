@@ -1,7 +1,7 @@
 const express = require("express");
 const Boom = require("@hapi/boom");
 const schemas = require("./category.schema");
-const { validateSchema } = require("../../../middlewares/");
+const { validateSchema } = require("../../../middlewares");
 const { Category } = require("../../../database/mysql/models");
 const { QueryBuilder } = require("../../../libs");
 const router = express.Router();

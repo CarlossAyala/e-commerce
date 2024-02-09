@@ -54,6 +54,7 @@ export const CartToolbarBookmark = ({ item }) => {
 
   return (
     <Button
+      type="button"
       size="icon"
       variant="outline"
       className="group h-8 w-8 p-0"

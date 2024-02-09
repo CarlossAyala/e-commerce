@@ -22,10 +22,16 @@ export const useMGetAddress = () => {
 };
 
 export const useGetAddresses = () => {
-  return useQuery({
+  const values = useQuery({
     queryKey: addressKeys.findAll(),
     queryFn: () => findAll(),
   });
+
+  return {
+    addresses: values.data,
+    isEmpty: values.data?.length === 0,
+    ...values,
+  };
 };
 
 export const useCreateAddress = () => {

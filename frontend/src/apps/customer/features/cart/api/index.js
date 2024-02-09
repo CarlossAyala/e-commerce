@@ -56,23 +56,6 @@ export const removeFromCart = (productId) => {
   });
 };
 
-export const clearCart = () => {
-  const url = `${ENDPOINT}/clear`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
-
-  return fetcher(url, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
 export const updateQuantity = (productId, quantity) => {
   const url = `${ENDPOINT}/${productId}`;
   const token = localStorageManager.getToken();

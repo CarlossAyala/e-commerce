@@ -4,7 +4,7 @@ const Boom = require("@hapi/boom");
 const { JWT, validateSchema } = require("../../middlewares");
 const schemas = require("./auth.schemas");
 const { bcrypt, Stripe } = require("../../libs");
-const { User, Cart, Roles } = require("../../database/mysql/models");
+const { User, Roles } = require("../../database/mysql/models");
 
 router.post(
   "/signup",
@@ -23,16 +23,13 @@ router.post(
       }
 
       const hashedPassword = await bcrypt.hash(password);
-      const customer = await User.model.create({
+      await User.model.create({
         name,
         lastName,
         email,
         password: hashedPassword,
       });
 
-      await Cart.model.create({
-        customerId: customer.dataValues.id,
-      });
       await Stripe.customers.create({
         name: `${name} ${lastName}`,
         email,

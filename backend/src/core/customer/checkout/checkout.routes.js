@@ -4,7 +4,6 @@ const Boom = require("@hapi/boom");
 const { JWT } = require("../../../middlewares");
 const {
   User,
-  Cart,
   CartProduct,
   Product,
   Address,
@@ -58,50 +57,47 @@ router.post("/", JWT.verify, async (req, res, next) => {
   const { id: customerId } = req.auth;
 
   try {
-    const existCustomer = await User.model.findOne({
-      where: { id: customerId },
-    });
-    if (!existCustomer) throw Boom.notFound("Customer not found");
+    const customer = await User.model.findByPk(customerId);
+    if (!customer) throw Boom.notFound("Customer not found");
 
-    const { email } = existCustomer.dataValues;
+    const { email } = customer.dataValues;
     const { data } = await Stripe.customers.search({
       query: `email:"${email}"`,
       limit: 1,
     });
-    const [customer] = data;
-
-    const cart = await Cart.model.findOne({ where: { customerId } });
-    if (!cart) return next(Boom.notFound("Cart not found"));
+    const [stripeAccount] = data;
+    if (!stripeAccount) throw Boom.notFound("Stripe Account not found");
 
     const cartItems = await CartProduct.model.findAll({
       where: {
-        cartId: cart.dataValues.id,
+        customerId,
       },
       include: {
         model: Product.model,
         as: "product",
       },
     });
-    /*
-     	TODO: Add follow validations:
-			- Cart must have at least one product
-			- Cart must have all products visible
-			- Cart must have all products available
-			- Cart must have all products enough stock
-    */
-    if (cartItems.length === 0) {
-      throw Boom.badRequest("Cart products need almost one product");
+
+    if (!cartItems.length) {
+      throw Boom.notFound("Cart is empty");
+    } else if (cartItems.some((item) => !item.product.available)) {
+      throw Boom.badRequest("Some products are not available");
+    } else if (cartItems.some((item) => item.product.stock < 1)) {
+      throw Boom.badRequest("Some products are out of stock");
+    } else if (cartItems.some((item) => item.quantity < 1)) {
+      throw Boom.badRequest("Some products have 0 quantity");
+    } else if (cartItems.some((item) => item.quantity > item.product.stock)) {
+      throw Boom.badRequest("Some products have more quantity than stock");
     }
 
-    const cartItemsTotal = cartItems.reduce((acc, curr) => {
-      return acc + curr.quantity * curr.product.price;
+    const totalAmount = cartItems.reduce((acc, curr) => {
+      return acc + curr.quantity * +curr.product.price;
     }, 0);
-    const itemsTotalDecimals = cartItemsTotal * 100;
 
     const paymentIntent = await Stripe.paymentIntents.create({
-      amount: itemsTotalDecimals,
+      amount: totalAmount * 100,
       currency: "usd",
-      customer: customer.id,
+      customer: stripeAccount.id,
     });
 
     return res.status(201).json({
@@ -155,12 +151,9 @@ router.post("/:id/confirm", JWT.verify, async (req, res, next) => {
     });
     if (!address) throw Boom.notFound("Address not found");
 
-    const cart = await Cart.model.findOne({ where: { customerId } });
-    if (!cart) return next(Boom.notFound("Cart not found"));
-
     const cartItems = await CartProduct.model.findAll({
       where: {
-        cartId: cart.dataValues.id,
+        customerId,
       },
       include: {
         model: Product.model,
@@ -262,7 +255,7 @@ router.post("/:id/confirm", JWT.verify, async (req, res, next) => {
         // Clear Cart
         await CartProduct.model.destroy({
           where: {
-            cartId: cart.dataValues.id,
+            customerId,
           },
         });
 

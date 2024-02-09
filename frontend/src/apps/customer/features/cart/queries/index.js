@@ -1,11 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addToCart,
-  getCart,
-  clearCart,
-  removeFromCart,
-  updateQuantity,
-} from "../api";
+import { addToCart, getCart, removeFromCart, updateQuantity } from "../api";
+import { Formatter } from "../../../../../utils";
 
 export const cartKeys = {
   key: ["cart"],
@@ -30,7 +25,7 @@ export const useGetCart = () => {
   });
 
   const quantity = values.data?.length ?? 0;
-  const subTotalVisible =
+  const subTotal =
     values.data?.reduce((acum, item) => {
       if (item.visible) return acum + item.product.price * item.quantity;
 
@@ -43,15 +38,15 @@ export const useGetCart = () => {
       return acum;
     }, 0) ?? 0;
 
-  const subTotal = subTotalHidden > 0 ? subTotalHidden + subTotalVisible : 0;
+  const subTotalPlusHidden = subTotalHidden > 0 ? subTotalHidden + subTotal : 0;
 
   return {
     cart: values.data,
-    hasContent: values.data?.length > 0,
+    isEmpty: values.data?.length === 0,
     quantity,
-    subTotal,
-    subTotalVisible,
-    subTotalHidden,
+    subTotal: Formatter.currency(subTotal),
+    subTotalHidden: Formatter.currency(subTotalHidden),
+    subTotalPlusHidden: Formatter.currency(subTotalPlusHidden),
     ...values,
   };
 };
@@ -92,8 +87,20 @@ export const useUpdateQuantity = () => {
   return useMutation({
     mutationFn: ({ productId, quantity }) =>
       updateQuantity(productId, quantity),
-    onSuccess: () => {
-      queryClient.invalidateQueries(cartKeys.key);
+    onSuccess: (_, { productId, quantity }) => {
+      queryClient.setQueryData(cartKeys.key, (oldData) => {
+        if (!oldData) return oldData;
+
+        const newData = oldData.map((item) => {
+          if (item.productId === productId) {
+            item.quantity = quantity;
+          }
+
+          return item;
+        });
+
+        return newData;
+      });
     },
   });
 };
@@ -116,15 +123,4 @@ export const useUpdateVisibility = () => {
       return newData;
     });
   };
-};
-
-export const useClearCart = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: clearCart,
-    onSuccess: () => {
-      queryClient.invalidateQueries(cartKeys.key);
-    },
-  });
 };

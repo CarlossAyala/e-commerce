@@ -1,8 +1,8 @@
-import { API_COMMON } from "../../../../configs";
+import { API_SHARED } from "../../../../configs";
 import { fetcher } from "../../../../libs/utils";
 import { localStorageManager } from "../../../../utils";
 
-const ENDPOINT = `${API_COMMON}/payment-methods`;
+const ENDPOINT = `${API_SHARED}/payment-methods`;
 
 export const findOne = (paymentMethodId) => {
   const url = `${ENDPOINT}/${paymentMethodId}`;

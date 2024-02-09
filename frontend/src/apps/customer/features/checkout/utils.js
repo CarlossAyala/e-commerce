@@ -6,5 +6,5 @@ export const checkoutActionRoutes = {
     return `/customer/checkout/${paymentIntentId}/payment-method`;
   },
   review: (paymentIntentId) => `/customer/checkout/${paymentIntentId}/review`,
-  details: (orderId) => `/customer/checkout/${orderId}/details`, //TODO: Move this to Order page
+  details: (orderId) => `/customer/checkout/${orderId}/details`,
 };

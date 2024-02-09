@@ -9,22 +9,21 @@ import {
   SheetTrigger,
 } from "../../../components";
 import { cartActionsRoutes, useGetCart } from "../features/cart";
-import { Formatter } from "../../../utils";
 import { CartItem } from "./cart-item";
 
 export const UserCart = () => {
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
   const {
     cart,
     quantity,
     isLoading,
     isError,
     error,
-    hasContent,
+    isEmpty,
     subTotal,
-    subTotalVisible,
     subTotalHidden,
+    subTotalPlusHidden,
   } = useGetCart();
 
   const handleCloseModal = () => {
@@ -41,7 +40,7 @@ export const UserCart = () => {
           </span>
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex h-full w-full max-w-sm flex-col gap-0 overflow-y-scroll bg-white p-0 shadow-xl">
+      <SheetContent className="flex h-full w-full flex-col gap-0 bg-white p-0 shadow-xl sm:max-w-sm">
         <div className="space-y-1 border-b px-4 py-3">
           <h2 className="text-lg font-medium text-gray-900">Shopping Cart</h2>
         </div>
@@ -56,7 +55,7 @@ export const UserCart = () => {
             title="Error"
             description={error.message}
           />
-        ) : !hasContent ? (
+        ) : isEmpty ? (
           <EmptyPlaceholder
             className="flex-1 border-0"
             title="No products"
@@ -71,7 +70,7 @@ export const UserCart = () => {
             <div className="flex-1 overflow-y-auto px-4">
               <ul className="divide-y divide-gray-200">
                 {cart.map((item, index) => (
-                  <li key={index} className="py-4">
+                  <li key={index} className="relative py-4">
                     <CartItem
                       item={item}
                       onProductLinkClick={handleCloseModal}
@@ -84,31 +83,25 @@ export const UserCart = () => {
               <div className="space-y-1">
                 <div className="flex items-center justify-between gap-2 font-medium text-gray-900">
                   <p>Subtotal</p>
-                  <p>{Formatter.currency(subTotalVisible)}</p>
+                  <p>{subTotal}</p>
                 </div>
 
                 <div className="flex items-center justify-between gap-2 text-sm text-gray-800">
                   <p className="leading-4">Hidden</p>
-                  <p className="leading-4">
-                    {Formatter.currency(subTotalHidden)}
-                  </p>
+                  <p className="leading-4">{subTotalHidden}</p>
                 </div>
                 <div className="flex items-center justify-between gap-2 text-sm text-gray-800">
                   <p className="leading-4">Hidden + Subtotal</p>
-                  <p className="leading-4">{Formatter.currency(subTotal)}</p>
+                  <p className="leading-4">{subTotalPlusHidden}</p>
                 </div>
               </div>
-
-              <p className="mt-2 text-sm text-gray-500">
-                Shipping and taxes calculated at checkout.
-              </p>
 
               <Button
                 onClick={() => {
                   handleCloseModal();
                   navigate(cartActionsRoutes.root);
                 }}
-                className="mt-2 w-full"
+                className="mt-4 w-full text-base"
                 size="lg"
               >
                 Cart
@@ -122,7 +115,6 @@ export const UserCart = () => {
                 >
                   Continue Shopping
                 </Button>
-                &rarr;
               </div>
             </div>
           </>

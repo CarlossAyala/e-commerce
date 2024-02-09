@@ -1,7 +1,7 @@
-import { API_COMMON } from "../../../../../configs";
+import { API_SHARED } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
 
-const ENDPOINT = `${API_COMMON}/products`;
+const ENDPOINT = `${API_SHARED}/products`;
 
 export const findOne = (productId) => {
   const url = `${ENDPOINT}/${productId}`;

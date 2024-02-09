@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { Button, EmptyPlaceholder } from "../../../../../components";
 import { Link, useParams } from "react-router-dom";
-import { orderActionRoutes, useGetOrder } from "../../order";
-import { Formatter } from "../../../../../utils/formatter";
-import { OrderDetailSkeleton } from "../components/order-detail-skeleton";
 import { useCheckout } from "../context";
+import { orderActionRoutes, useGetOrder } from "../../order";
+import { Button, EmptyPlaceholder } from "../../../../../components";
+import { Formatter } from "../../../../../utils/formatter";
 
-export const CheckoutDetail = () => {
+export const CheckoutDetails = () => {
   const { orderId } = useParams();
   const { resetCheckout } = useCheckout();
 
@@ -17,8 +16,6 @@ export const CheckoutDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("Order", order);
-
   return (
     <main className="container space-y-6">
       <section className="mt-2">
@@ -27,11 +24,7 @@ export const CheckoutDetail = () => {
 
       <section className="space-y-6">
         {isLoading ? (
-          <div className="grid gap-4 sm:grid-cols-3">
-            <OrderDetailSkeleton />
-            <OrderDetailSkeleton />
-            <OrderDetailSkeleton />
-          </div>
+          <div className="grid gap-4 sm:grid-cols-3">Loading....</div>
         ) : isError ? (
           <EmptyPlaceholder title="Error" description={error.message} />
         ) : (
