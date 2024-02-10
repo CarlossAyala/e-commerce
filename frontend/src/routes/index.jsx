@@ -1,6 +1,6 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Root } from "../layouts";
-import { Signin, Signout, Signup } from "../components";
+import { Signin, Signup } from "../components";
 import { WithLoggedIn, WithLoggedOut } from "../libs/auth";
 import { SellerRoot, sellerRoutes } from "../apps/seller";
 import { CustomerRoot, customerRoutes } from "../apps/customer";
@@ -37,10 +37,6 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <WithLoggedOut component={Signup} />,
-      },
-      {
-        path: "signout",
-        element: <WithLoggedIn component={Signout} />,
       },
     ],
   },

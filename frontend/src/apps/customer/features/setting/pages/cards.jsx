@@ -1,4 +1,5 @@
 import { Card, EmptyPlaceholder } from "../../../../../components";
+import { useDocumentTitle } from "../../../../../hooks";
 import { useGetPaymentMethods } from "../../../../common/payment-method";
 import { CardItem } from "../components/card-item";
 
@@ -10,6 +11,7 @@ export const Cards = () => {
     isError,
     error,
   } = useGetPaymentMethods();
+  useDocumentTitle("Cards");
 
   const isEmpty = isSuccess && cards.length === 0;
 

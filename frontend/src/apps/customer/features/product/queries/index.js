@@ -17,10 +17,17 @@ export const useGetProduct = (productId) => {
 };
 
 export const useGetProducts = (query) => {
-  return useQuery({
+  const values = useQuery({
     queryKey: productKeys.findAll(query),
     queryFn: () => findAll(query),
   });
+
+  return {
+    products: values.data?.rows,
+    count: values.data?.count,
+    isEmpty: values.data?.rows?.length === 0,
+    ...values,
+  };
 };
 
 export const useGetRelatedProducts = (productId) => {

@@ -38,7 +38,7 @@ router.get("/", JWT.verify, async (req, res, next) => {
       limit,
     });
 
-    return res.status(200).json(orders);
+    return res.json(orders);
   } catch (error) {
     next(error);
   }
@@ -49,8 +49,8 @@ router.get(
   JWT.verify,
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
-    const { id: orderId } = req.params;
     const { id: customerId } = req.auth;
+    const { id: orderId } = req.params;
 
     try {
       const customer = await User.model.findByPk(customerId);
@@ -83,9 +83,9 @@ router.get(
 
       return res.json({
         order,
-        paymentMethod,
-        paymentIntent,
         items,
+        paymentIntent,
+        paymentMethod,
       });
     } catch (error) {
       next(error);

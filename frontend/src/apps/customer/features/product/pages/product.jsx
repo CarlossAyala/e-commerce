@@ -12,11 +12,14 @@ import { Formatter } from "../../../../../utils";
 import { AddToCart } from "../components/product/add-to-cart";
 import { AddToBookmark } from "../components/product/add-to-bookmark";
 import { StoreInformation } from "../components/store-information";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const Product = () => {
   const { productId } = useParams();
   const { data: product, isLoading, isError, error } = useGetProduct(productId);
   const history = useAddHistory();
+
+  useDocumentTitle(product?.name ?? "Product");
 
   useEffect(() => {
     history.mutate(productId);

@@ -40,7 +40,9 @@ export const ProductCard = ({ product }) => {
 };
 
 ProductCard.Skeleton = function ProductCardSkeleton({ items = 6 }) {
-  return Array.from({ length: items }).map((_, index) => (
-    <Skeleton key={index} className="h-52 overflow-hidden rounded-md" />
-  ));
+  return new Array(items)
+    .fill("")
+    .map((_, index) => (
+      <Skeleton key={index} className="h-52 overflow-hidden rounded-md" />
+    ));
 };

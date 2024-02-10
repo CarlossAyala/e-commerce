@@ -8,6 +8,7 @@ import {
 import { useGetReview } from "../queries";
 import { ReviewProduct } from "../components/review-product";
 import { ReviewProductForm } from "../components/review-product-form";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const ReviewNew = () => {
   const { reviewId } = useParams();
@@ -18,6 +19,8 @@ export const ReviewNew = () => {
     isError,
     error,
   } = useGetReview(reviewId, "status=pending");
+
+  useDocumentTitle("Create Review");
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">

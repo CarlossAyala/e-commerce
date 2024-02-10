@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+export * from "./use-document-title";
 
 export const useDebounced = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -48,15 +49,4 @@ export const useIsFirstRender = () => {
   }
 
   return isFirst.current;
-};
-
-export const useUpdateEffect = (effect, deps) => {
-  const isFirst = useIsFirstRender();
-
-  useEffect(() => {
-    if (!isFirst) {
-      return effect();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
 };

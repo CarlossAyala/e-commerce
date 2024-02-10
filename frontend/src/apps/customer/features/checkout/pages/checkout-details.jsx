@@ -1,83 +1,147 @@
-import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useCheckout } from "../context";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { orderActionRoutes, useGetOrder } from "../../order";
-import { Button, EmptyPlaceholder } from "../../../../../components";
-import { Formatter } from "../../../../../utils/formatter";
+import {
+  EmptyPlaceholder,
+  Skeleton,
+  buttonVariants,
+} from "../../../../../components";
+import { useCleanUpCheckout } from "../queries";
+import { Formatter } from "../../../../../utils";
+import { OrderProduct } from "../../order";
+import { cn } from "../../../../../libs/utils";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const CheckoutDetails = () => {
   const { orderId } = useParams();
-  const { resetCheckout } = useCheckout();
-
-  const { data: order, isLoading, isError, error } = useGetOrder(orderId);
-
-  useEffect(() => {
-    resetCheckout();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { details, isLoading, isError, error } = useGetOrder(orderId);
+  useCleanUpCheckout();
+  useDocumentTitle("Checkout - Details");
 
   return (
-    <main className="container space-y-6">
-      <section className="mt-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Checkout</h1>
-      </section>
-
-      <section className="space-y-6">
+    <main className="container flex-1 py-4">
+      <section className="mx-auto max-w-md space-y-4">
         {isLoading ? (
-          <div className="grid gap-4 sm:grid-cols-3">Loading....</div>
+          <>
+            <div className="space-y-2">
+              <Skeleton className="mx-auto size-14 rounded-full" />
+              <Skeleton className="mx-auto h-8 w-3/4" />
+            </div>
+
+            <div className="space-y-4 rounded-lg border border-gray-200 p-4 shadow">
+              <div className="space-y-2">
+                <Skeleton className="h-5 w-1/3" />
+                <div className="space-y-1">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="h-5 w-1/3" />
+                <div className="space-y-1">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="h-5 w-1/3" />
+                <div className="space-y-1">
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              </div>
+
+              <div className="space-y-2 border-y border-gray-200 py-4">
+                <OrderProduct.Skeleton />
+                <OrderProduct.Skeleton />
+                <OrderProduct.Skeleton />
+              </div>
+
+              <div className="flex justify-between gap-2">
+                <Skeleton className="h-5 w-1/3" />
+                <Skeleton className="h-5 w-1/3" />
+              </div>
+            </div>
+          </>
         ) : isError ? (
           <EmptyPlaceholder title="Error" description={error.message} />
         ) : (
           <>
-            <dl className="grid gap-4 sm:grid-cols-3">
-              <div>
-                <dt className="text-sm font-semibold leading-6">
-                  Shipping Address
-                </dt>
-                <dd className="mt-1 text-sm font-normal leading-tight text-muted-foreground">
-                  <p>{order.order.street}</p>
-                  <p>
-                    {order.order.province} ({order.order.zipCode}),{" "}
-                    {order.order.city}
-                  </p>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-sm font-semibold leading-6">
-                  Payment Method
-                </dt>
-                <dd className="mt-1 text-sm font-normal leading-tight text-muted-foreground">
-                  <p className="uppercase">
-                    {order.paymentMethod.billing_details.name}
-                  </p>
-                  <p className="capitalize">
-                    <span>{order.paymentMethod.card.brand}</span>
-                    {" - "}
-                    <span>{order.paymentMethod.card.last4}</span>
-                    {" - "}
-                    <span>
-                      {order.paymentMethod.card.exp_month}/
-                      {order.paymentMethod.card.exp_year}
-                    </span>
-                  </p>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-sm font-semibold leading-6">Summary</dt>
-                <dd className="mt-1 text-sm font-normal leading-tight text-muted-foreground">
-                  <p className="text-3xl leading-6">
-                    {Formatter.currency(order.order.total)}
-                  </p>
-                </dd>
-              </div>
-            </dl>
-
             <div>
-              <Button asChild>
-                <Link to={orderActionRoutes.details(orderId)}>
-                  View full details
-                </Link>
-              </Button>
+              <CheckCircleIcon className="mx-auto size-14 text-emerald-600" />
+              <h2 className="text-center text-3xl font-medium">
+                Order placed successfully!
+              </h2>
+            </div>
+
+            <div className="space-y-4 rounded-lg border border-gray-200 p-4 shadow">
+              <div className="space-y-1">
+                <p className="font-medium">Order</p>
+                <ul className="text-gray-600">
+                  <li>ID: {orderId}</li>
+                  <li className="capitalize">
+                    Date: {Formatter.monthAndYearDate(details.order.orderedAt)}
+                  </li>
+                  <li className="capitalize">Status: {details.order.status}</li>
+                </ul>
+              </div>
+
+              <div className="space-y-1">
+                <p className="font-medium">Shipping</p>
+                <ul className="text-gray-600">
+                  <li>{details.order.street}</li>
+                  <li>
+                    {details.order.province} ({details.order.zipCode}),{" "}
+                    {details.order.city}
+                  </li>
+                  <li>Indications: {details.order.indications}</li>
+                </ul>
+              </div>
+
+              <div className="space-y-1">
+                <p className="font-medium">Payment</p>
+                <ul className="text-gray-600">
+                  <li className="capitalize">
+                    {details.paymentMethod.card.brand}{" "}
+                    {details.paymentMethod.card.funding} {" **** "}
+                    {details.paymentMethod.card.last4}
+                  </li>
+                </ul>
+              </div>
+
+              <ul className="border-y border-gray-200 py-4">
+                {details.items.map((item, index) => (
+                  <li key={index} className="py-2">
+                    <OrderProduct item={item} />
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex items-end justify-between font-medium">
+                <p>Total</p>
+                <p className="text-lg">
+                  {Formatter.currency(details.order.total)}
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Link
+                className={cn(buttonVariants({ variant: "default" }), "w-full")}
+                to={orderActionRoutes.details(orderId)}
+              >
+                View full details
+              </Link>
+              <Link
+                className={cn(
+                  buttonVariants({ variant: "secondary" }),
+                  "w-full",
+                )}
+                to="/customer"
+              >
+                Continue Shopping
+              </Link>
             </div>
           </>
         )}

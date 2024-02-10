@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
-import { EmptyPlaceholder, TablePagination } from "../../../../../components";
+import { EmptyPlaceholder, Pagination } from "../../../../../components";
 import { useGetOrders } from "../queries";
-import { useDebounced } from "../../../../../hooks";
+import { useDebounced, useDocumentTitle } from "../../../../../hooks";
 import { OrderPreview } from "../components/order-preview";
 
 //TODO: Add filters by: status, search by product name
@@ -9,15 +9,9 @@ export const Orders = () => {
   const [params] = useSearchParams();
   const debouncedParams = useDebounced(params.toString());
 
-  const {
-    data: orders,
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-  } = useGetOrders(debouncedParams);
-
-  const isEmpty = isSuccess && orders.rows.length === 0;
+  const { orders, isLoading, isError, isEmpty, error } =
+    useGetOrders(debouncedParams);
+  useDocumentTitle("Orders");
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">
@@ -41,12 +35,10 @@ export const Orders = () => {
             description="You don't have any order yet."
           />
         ) : (
-          orders.rows.map((order) => (
-            <OrderPreview key={order.id} order={order} />
-          ))
+          orders.map((order) => <OrderPreview key={order.id} order={order} />)
         )}
 
-        <TablePagination totalRows={orders?.count} />
+        <Pagination totalRows={orders?.count} />
       </section>
     </main>
   );

@@ -118,7 +118,6 @@ const FILTER_TYPES = {
 export const Filters = ({ filters = [], className = "" }) => {
   const [params, setParams] = useSearchParams();
 
-  // TODO
   const handleReset = () => {
     const newParams = new URLSearchParams(params);
     const names = getAllFiltersNames(filters);

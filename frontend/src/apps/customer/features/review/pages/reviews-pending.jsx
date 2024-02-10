@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useDebounced } from "../../../../../hooks";
 import { useGetReviewsCustomer } from "../queries";
-import { EmptyPlaceholder, TablePagination } from "../../../../../components";
+import { EmptyPlaceholder, Pagination } from "../../../../../components";
 import { ReviewPending } from "../components/review-pending";
 
 // TODO: Add search by product name, stars
@@ -37,7 +37,7 @@ export const ReviewsPending = () => {
         ))
       )}
 
-      <TablePagination totalRows={reviews?.count} />
+      <Pagination totalRows={reviews?.count} />
     </section>
   );
 };

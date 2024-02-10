@@ -10,10 +10,13 @@ import {
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { Formatter } from "../../../../../utils";
 import { useGetStore } from "../queries";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const StoreProfile = () => {
   const { slug } = useParams();
   const { data: store, isLoading, isError, error } = useGetStore(slug);
+
+  useDocumentTitle(store?.name ?? "Store");
 
   return (
     <section className="border-b lg:rounded-b-md lg:border-x">

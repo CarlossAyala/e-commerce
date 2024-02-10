@@ -3,14 +3,12 @@ import Signin from "./signin";
 import Signup from "./signup";
 import StatCard from "./stat/stat-card";
 import StatContainer from "./stat/stat-container";
-import TablePagination from "./table/table-pagination";
 import TableEmpty from "./table/table-empty";
 import TableError from "./table/table-error";
 import TableSkeleton from "./table/table-skeleton";
 import { Badge } from "./ui/badge";
 import Mandatory from "./mandatory";
 import Logo from "./logo";
-import Signout from "./signout";
 
 export * from "./ui/table";
 export * from "./ui/dropdown-menu";
@@ -52,18 +50,17 @@ export * from "./slider";
 export * from "./slider-component";
 export * from "./filter";
 export * from "./spinner";
+export * from "./pagination";
 
 export {
   Logo,
   Signin,
   Signup,
-  Signout,
   Badge,
   StatContainer,
   StatCard,
   TableEmpty,
   TableError,
   TableSkeleton,
-  TablePagination,
   Mandatory,
 };

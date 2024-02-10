@@ -1,10 +1,12 @@
 import { EmptyPlaceholder } from "../../../../../components";
+import { useDocumentTitle } from "../../../../../hooks";
 import { CartItem } from "../../../components";
 import { CartSummary } from "../../../components/cart-summary";
 import { useGetCart } from "../queries";
 
 export const Cart = () => {
   const { cart, isLoading, isError, isEmpty, error } = useGetCart();
+  useDocumentTitle("Cart");
 
   return (
     <main className="container flex max-w-6xl flex-1 flex-col space-y-6">
@@ -38,13 +40,15 @@ export const Cart = () => {
         />
       ) : (
         <section className="grid-cols-8 gap-6 md:grid">
-          <ul className="grid divide-y divide-gray-200 rounded-lg border border-gray-200 md:col-span-5">
-            {cart.map((item, index) => (
-              <li key={index}>
-                <CartItem item={item} className="p-4" />
-              </li>
-            ))}
-          </ul>
+          <div className="md:col-span-5">
+            <ul className="divide-y divide-gray-200 rounded-lg border border-gray-200">
+              {cart.map((item, index) => (
+                <li key={index}>
+                  <CartItem item={item} className="p-4" />
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="mt-6 space-y-2 md:col-span-3 md:mt-0">
             <CartSummary />

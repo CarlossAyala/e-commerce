@@ -22,20 +22,18 @@ export const OptionItem = ({ name, value, label }) => {
   };
 
   return (
-    <div>
-      <Label className="mb-0 flex grow items-center gap-2 py-1 font-normal text-foreground">
-        <Checkbox
-          checked={isSelected}
-          onCheckedChange={handleCheckedChange}
-          name={name}
-          value={value}
-          className={cn(
-            "rounded-full shadow-none",
-            !isSelected && "border-black/30",
-          )}
-        />
-        {label}
-      </Label>
-    </div>
+    <Label className="mb-0 flex grow items-center gap-2 py-1 font-normal text-foreground">
+      <Checkbox
+        checked={isSelected}
+        onCheckedChange={handleCheckedChange}
+        name={name}
+        value={value}
+        className={cn(
+          "rounded-full shadow-none",
+          !isSelected && "border-black/30",
+        )}
+      />
+      {label}
+    </Label>
   );
 };

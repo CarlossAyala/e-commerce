@@ -7,9 +7,11 @@ import {
 } from "../../../../../components";
 import { ProfileForm } from "../components/profile-form";
 import { PasswordForm } from "../components/password-form";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const Account = () => {
   const { customer, isLoading, isError, error } = useCustomerAuth();
+  useDocumentTitle("Account");
 
   return (
     <div className="max-w-2xl space-y-10">

@@ -1,8 +1,11 @@
 import { EmptyPlaceholder } from "../../../../../components";
 import { useGetFullCategories } from "../queries";
 import { CategoriesList } from "../components/categories-list";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const Categories = () => {
+  useDocumentTitle("Categories");
+
   const { categories, isLoading, isError, hasContent, error } =
     useGetFullCategories();
 

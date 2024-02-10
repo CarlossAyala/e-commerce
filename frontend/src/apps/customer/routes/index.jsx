@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Bookmarks } from "../features/bookmark";
 import { History } from "../features/history";
 import { Home } from "../features/home";
-import { Product } from "../features/product";
+import { productRoutes } from "../features/product";
 import { addressRoutes } from "../features/address";
 import { Cart } from "../features/cart";
 import { checkoutRoutes } from "../features/checkout";
@@ -33,8 +33,9 @@ export const customerRoutes = [
     element: <Bookmarks />,
   },
   {
-    path: "product/:productId/:slug",
-    element: <Product />,
+    path: "products",
+    element: <Outlet />,
+    children: productRoutes,
   },
   {
     path: "address",

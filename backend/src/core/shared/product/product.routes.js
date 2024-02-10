@@ -17,7 +17,7 @@ router.get("/", async (req, res, next) => {
   try {
     const products = await Product.model.findAndCountAll(qb);
 
-    return res.status(200).json(products);
+    return res.json(products);
   } catch (error) {
     next(error);
   }

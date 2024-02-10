@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import {
   Button,
   EmptyPlaceholder,
-  TablePagination,
+  Pagination,
 } from "../../../../../components";
 import { Formatter } from "../../../../../utils";
 import { useGetStores } from "../queries";
@@ -51,7 +51,7 @@ export const StoresList = () => {
         )}
       </section>
 
-      <TablePagination totalRows={stores?.count} />
+      <Pagination totalRows={stores?.count} />
     </>
   );
 };

@@ -5,10 +5,13 @@ import { Formatter } from "../../../../../utils/formatter";
 import { OrderProduct } from "../components/order-product";
 import { OrderSummary } from "../components/order-summary";
 import { OrderInformation } from "../components/order-information";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const OrderDetails = () => {
   const { orderId } = useParams();
   const { data: order, isLoading, isError, error } = useGetOrder(orderId);
+
+  useDocumentTitle("Order Details");
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">
@@ -98,9 +101,11 @@ export const OrderDetails = () => {
               </div>
             </div>
 
-            <Card className="divide-y divide-black/10">
+            <Card className="divide-y divide-gray-200">
               {order.items.map((item) => (
-                <OrderProduct key={item.id} item={item} />
+                <div key={item.id} className="p-4">
+                  <OrderProduct item={item} />
+                </div>
               ))}
               <OrderSummary order={order} />
             </Card>

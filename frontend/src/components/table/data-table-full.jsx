@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import DataTablePagination from "./data-table-pagination";
+import DataPagination from "./data-table-pagination";
 import DataTableSkeleton from "./data-table-skeleton";
 import DataTableEmpty from "./data-table-empty";
 import DataTableError from "./data-table-error";
@@ -126,7 +126,7 @@ const DataTableFull = ({ query, columns }) => {
           )}
         </>
       )}
-      <DataTablePagination table={table} count={countAllRecords} />
+      <DataPagination table={table} count={countAllRecords} />
     </section>
   );
 };

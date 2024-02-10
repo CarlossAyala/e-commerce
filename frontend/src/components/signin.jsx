@@ -19,12 +19,14 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { useDocumentTitle } from "../hooks";
 
 const Signin = () => {
   const [params] = useSearchParams();
   const { toast } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
+  useDocumentTitle("Sign In");
   const signin = useSignin(params.get("from"));
 
   const from = location.state?.from?.pathname || "/customer";

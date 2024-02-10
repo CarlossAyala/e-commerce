@@ -3,6 +3,7 @@ import { Button, Card, EmptyPlaceholder } from "../../../../../components";
 import { useGetAddresses } from "../queries";
 import { AddressItem } from "../components/address-item";
 import { addressActionRoutes } from "../utils";
+import { useDocumentTitle } from "../../../../../hooks";
 
 const Addresses = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Addresses = () => {
     isSuccess,
     error,
   } = useGetAddresses();
+  useDocumentTitle("Addresses");
 
   const handleNewAddress = () => {
     navigate(addressActionRoutes.new);

@@ -22,7 +22,7 @@ const reducer = (state, action) => {
     case ACTION_TYPES.SET_PAYMENT_METHOD_ID:
       return { ...state, paymentMethodId: action.payload };
     case ACTION_TYPES.RESET:
-      return { ...initialState };
+      return initialState;
     default:
       return state;
   }

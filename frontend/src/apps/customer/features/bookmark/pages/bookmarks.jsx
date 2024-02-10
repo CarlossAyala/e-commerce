@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   EmptyPlaceholder,
-  TablePagination,
+  Pagination,
   useToast,
 } from "../../../../../components";
 import {
@@ -15,7 +15,7 @@ import {
   useGetBookmarks,
   useRemoveBookmark,
 } from "../queries";
-import { useDebounced } from "../../../../../hooks";
+import { useDebounced, useDocumentTitle } from "../../../../../hooks";
 import { ProductCard } from "../../../components";
 
 export const Bookmarks = () => {
@@ -29,6 +29,8 @@ export const Bookmarks = () => {
     isError,
     error,
   } = useGetBookmarks(debouncedParams);
+
+  useDocumentTitle("Bookmarks");
 
   const clearBookmark = useClearBookmark();
   const removeBookmark = useRemoveBookmark();
@@ -97,7 +99,9 @@ export const Bookmarks = () => {
       </section>
 
       {isLoading ? (
-        <ProductCard.Skeleton />
+        <section className="grid grid-cols-products gap-4">
+          <ProductCard.Skeleton />
+        </section>
       ) : isError ? (
         <EmptyPlaceholder
           title={error?.name ?? "Error"}
@@ -109,7 +113,7 @@ export const Bookmarks = () => {
           description="Start browsing products and bookmark them to save them for later"
         />
       ) : (
-        <section className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
+        <section className="grid grid-cols-products gap-4">
           {bookmarks.rows.map((bookmark) => (
             <div key={bookmark.product.id} className="relative">
               <ProductCard product={bookmark.product} />
@@ -127,7 +131,7 @@ export const Bookmarks = () => {
         </section>
       )}
 
-      <TablePagination totalRows={bookmarks?.count} />
+      <Pagination totalRows={bookmarks?.count} />
     </main>
   );
 };

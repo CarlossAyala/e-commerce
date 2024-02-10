@@ -44,7 +44,7 @@ import {
   TableEmpty,
   TableHead,
   TableHeader,
-  TablePagination,
+  Pagination,
   TableRow,
   TableSkeleton,
   Textarea,
@@ -347,7 +347,7 @@ const QuestionProduct = () => {
           </>
         )}
 
-        <TablePagination totalRows={questions.data?.count} />
+        <Pagination totalRows={questions.data?.count} />
       </section>
     </MainContent>
   );

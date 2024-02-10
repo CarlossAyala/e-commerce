@@ -10,7 +10,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TablePagination,
+  Pagination,
   TableRow,
   TableSkeleton,
 } from "../../../../../components";
@@ -134,7 +134,7 @@ export const StoreHistory = () => {
             </Table>
           </>
         )}
-        <TablePagination totalRows={requests?.count} />
+        <Pagination totalRows={requests?.count} />
       </section>
     </main>
   );

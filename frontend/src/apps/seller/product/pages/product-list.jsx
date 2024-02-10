@@ -2,7 +2,7 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { productActionRoutes, useDeleteProduct, useGetProducts } from "..";
 import {
   Badge,
-  TablePagination,
+  Pagination,
   TableEmpty,
   TableError,
   TableSkeleton,
@@ -258,7 +258,7 @@ const ProductList = () => {
           </>
         )}
 
-        <TablePagination totalRows={products.data?.count} />
+        <Pagination totalRows={products.data?.count} />
       </section>
     </MainContent>
   );

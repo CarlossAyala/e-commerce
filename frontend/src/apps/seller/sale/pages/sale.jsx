@@ -9,7 +9,7 @@ import {
   TableEmpty,
   TableHead,
   TableHeader,
-  TablePagination,
+  Pagination,
   TableRow,
   TableSkeleton,
 } from "../../../../components";
@@ -86,7 +86,7 @@ const Sale = () => {
           </Table>
         )}
 
-        <TablePagination totalRows={sales.data?.count} />
+        <Pagination totalRows={sales.data?.count} />
       </section>
     </MainContent>
   );

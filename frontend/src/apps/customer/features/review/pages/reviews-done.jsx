@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useDebounced } from "../../../../../hooks";
 import { useGetReviewsCustomer } from "../queries";
-import { EmptyPlaceholder, TablePagination } from "../../../../../components";
+import { EmptyPlaceholder, Pagination } from "../../../../../components";
 import { ReviewDone } from "../components/review-done";
 
 // TODO: Add search by product name, stars
@@ -40,7 +40,7 @@ export const ReviewsDone = () => {
         ))
       )}
 
-      <TablePagination totalRows={reviews?.count} />
+      <Pagination totalRows={reviews?.count} />
     </section>
   );
 };

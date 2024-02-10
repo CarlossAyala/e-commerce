@@ -1,4 +1,5 @@
 import { Filters } from "../../../../../components";
+import { useDocumentTitle } from "../../../../../hooks";
 import { StoresList } from "../components/stores-list";
 
 const filters = [
@@ -8,6 +9,8 @@ const filters = [
 ];
 
 export const Stores = () => {
+  useDocumentTitle("Stores");
+
   return (
     <main className="container flex-1 space-y-4">
       <section className="mt-2">

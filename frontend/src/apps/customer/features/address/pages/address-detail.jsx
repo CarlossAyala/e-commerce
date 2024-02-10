@@ -30,6 +30,7 @@ import { useGetAddress, useRemoveAddress, useUpdateAddress } from "../queries";
 import { addressDefault, addressInitial, addressSchema } from "../schemas";
 import { clearEmptyValues } from "../../../../../utils";
 import { addressActionRoutes } from "../utils";
+import { useDocumentTitle } from "../../../../../hooks";
 
 const AddressDetail = () => {
   const [modal, setModal] = useState(false);
@@ -37,6 +38,7 @@ const AddressDetail = () => {
   const { addressId } = useParams();
   const { toast } = useToast();
   const navigate = useNavigate();
+  useDocumentTitle("Address Details");
 
   const { data: address, isLoading, isError, error } = useGetAddress(addressId);
   const update = useUpdateAddress();

@@ -7,11 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   EmptyPlaceholder,
-  TablePagination,
+  Pagination,
   useToast,
 } from "../../../../../components";
 import { useClearHistory, useGetHistory, useRemoveHistory } from "../queries";
-import { useDebounced } from "../../../../../hooks";
+import { useDebounced, useDocumentTitle } from "../../../../../hooks";
 import { ProductCard } from "../../../components/";
 
 const groupByDate = (history) => {
@@ -70,6 +70,7 @@ const History = () => {
     isSuccess,
     error,
   } = useGetHistory(debouncedParams);
+  useDocumentTitle("History");
 
   const clearHistory = useClearHistory();
   const removeHistory = useRemoveHistory();
@@ -178,7 +179,7 @@ const History = () => {
         </section>
       )}
 
-      <TablePagination totalRows={history?.count} />
+      <Pagination totalRows={history?.count} />
     </main>
   );
 };

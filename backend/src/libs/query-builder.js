@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 class QueryBuilder {
   constructor(query) {
@@ -11,10 +11,10 @@ class QueryBuilder {
   }
 
   getSortDirection(dir) {
-    return dir === 'ASC' ? 'ASC' : 'DESC';
+    return dir === "ASC" ? "ASC" : "DESC";
   }
   getBooleanValue(bool) {
-    return bool === 'true';
+    return bool === "true";
   }
 
   where(fieldName, value) {
@@ -59,21 +59,21 @@ class QueryBuilder {
     return this;
   }
 
-  whereLike(fieldName, value = '') {
+  whereLike(fieldName, value = "") {
     if (value) {
       this._where[fieldName] = { [Op.substring]: value };
     }
     return this;
   }
 
-  whereNot(fieldName, value = '') {
+  whereNot(fieldName, value = "") {
     if (value) {
       this._where[fieldName] = { [Op.not]: value };
     }
     return this;
   }
 
-  whereBetween(fieldName, [from = 0, to = 0]) {
+  whereBetween(fieldName, [from, to]) {
     const fromValue = +from;
     const toValue = +to;
 
@@ -95,7 +95,7 @@ class QueryBuilder {
     return this;
   }
 
-  orderBy(fieldName, direction = 'ASC') {
+  orderBy(fieldName, direction = "ASC") {
     if (fieldName) {
       this.order.push([fieldName, this.getSortDirection(direction)]);
     }

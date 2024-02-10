@@ -26,7 +26,7 @@ import {
   SkeletonStakedList,
   SkeletonTitle,
   Switch,
-  TablePagination,
+  Pagination,
   Textarea,
   useToast,
 } from "../../../../components";
@@ -539,7 +539,7 @@ const ProductDetail = () => {
                                     )}
                                   </>
                                 )}
-                                <TablePagination
+                                <Pagination
                                   totalRows={categories.data?.count}
                                 />
                               </div>

@@ -83,8 +83,8 @@ export const FilterGroup = ({ headline, groups }) => {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full max-w-52 p-0" align="start">
-        <section className="max-h-56 space-y-2 overflow-auto p-2">
+      <PopoverContent className="w-full min-w-52 p-0" align="start">
+        <section className="flex max-h-56 w-full flex-col space-y-2 overflow-auto p-2">
           {groups.map((group, index) => {
             const FilterGroupItem = GROUP_TYPES[group.filter_type];
 

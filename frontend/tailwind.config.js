@@ -87,6 +87,9 @@ module.exports = {
         roman: "upper-roman",
         circle: "circle",
       },
+      gridTemplateColumns: {
+        products: "repeat(auto-fit, minmax(144px, 1fr))",
+      },
     },
   },
   plugins: [

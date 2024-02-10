@@ -33,7 +33,7 @@ import {
   TableEmpty,
   TableHead,
   TableHeader,
-  TablePagination,
+  Pagination,
   TableRow,
   TableSkeleton,
   useToast,
@@ -284,7 +284,7 @@ const ProductStockAlert = () => {
           </div>
         )}
 
-        <TablePagination totalRows={products.data?.count} />
+        <Pagination totalRows={products.data?.count} />
       </section>
     </MainContent>
   );

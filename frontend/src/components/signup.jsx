@@ -14,11 +14,13 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { useDocumentTitle } from "../hooks";
 
 const Signup = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const signup = useSignup();
+  useDocumentTitle("Sign Up");
 
   const form = useForm({
     resolver: yupResolver(signupSchema),

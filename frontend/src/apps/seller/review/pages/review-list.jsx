@@ -23,7 +23,7 @@ import {
   TableEmpty,
   TableHead,
   TableHeader,
-  TablePagination,
+  Pagination,
   TableRow,
   TableSkeleton,
 } from "../../../../components";
@@ -191,7 +191,7 @@ const ReviewList = () => {
           </>
         )}
 
-        <TablePagination totalRows={reviews.data?.count} />
+        <Pagination totalRows={reviews.data?.count} />
       </section>
     </MainContent>
   );

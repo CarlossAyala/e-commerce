@@ -4,8 +4,7 @@ import { Slider } from "./slider";
 
 const SLIDER_TYPES = {
   product: {
-    containerClassName:
-      "grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4",
+    containerClassName: "grid grid-cols-products gap-4",
     itemWidth: 144,
     renderSlide: (product, index) => (
       <ProductCard key={index} product={product} />

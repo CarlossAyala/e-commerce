@@ -29,11 +29,13 @@ import { useConfirmCheckout } from "../queries";
 import { checkoutActionRoutes } from "../utils";
 import { useCheckout } from "../context";
 import { CartItem } from "../../../components";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const CheckoutReview = () => {
   const { paymentIntentId } = useParams();
   const { toast } = useToast();
   const navigate = useNavigate();
+  useDocumentTitle("Checkout - Review");
 
   const { addressId, paymentMethodId } = useCheckout();
 
@@ -56,7 +58,11 @@ export const CheckoutReview = () => {
   const handleConfirm = (values) => {
     confirmCheckout.mutate(values, {
       onSuccess({ orderId }) {
-        navigate(checkoutActionRoutes.details(orderId));
+        navigate(checkoutActionRoutes.details(orderId), {
+          state: {
+            paymentIntentId,
+          },
+        });
       },
       onError(error) {
         toast({

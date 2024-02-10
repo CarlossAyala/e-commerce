@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
   Switch,
-  TablePagination,
+  Pagination,
   Textarea,
   toast,
 } from "../../../../components";
@@ -402,7 +402,7 @@ const ProductNew = () => {
                               )}
                             </>
                           )}
-                          <TablePagination totalRows={categories.data?.count} />
+                          <Pagination totalRows={categories.data?.count} />
                         </div>
                       </div>
                     </FormItem>

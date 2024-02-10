@@ -4,18 +4,18 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import usePagination from "./hooks/use-pagination";
-import { cn } from "../../libs/utils";
+} from "./ui/select";
+import usePagination from "./table/hooks/use-pagination";
+import { cn } from "../libs/utils";
 
-const TablePagination = ({ totalRows = 0, className = "" }) => {
+export const Pagination = ({ totalRows = 0, className = "" }) => {
   const { page, pageSize, pageSizes, handlePage, handlePageSize } =
     usePagination();
 
@@ -123,5 +123,3 @@ const TablePagination = ({ totalRows = 0, className = "" }) => {
     </section>
   );
 };
-
-export default TablePagination;

@@ -1,10 +1,19 @@
 import { useParams } from "react-router-dom";
 import { Badge, EmptyPlaceholder, Skeleton } from "../../../../../components";
 import { useGetCategory } from "../queries";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const CategoryProfile = () => {
   const { slug } = useParams();
-  const { data: category, isLoading, isError, error } = useGetCategory(slug);
+  const {
+    data: category,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetCategory(slug);
+
+  useDocumentTitle(isSuccess ? category.name : "Category");
 
   return (
     <section className="space-y-2">

@@ -7,10 +7,6 @@ const { faker } = require("@faker-js/faker/locale/es_MX");
 const { User, Store } = require("../models");
 const { slugify } = require("../../../libs");
 
-const slugifyOptions = {
-  lower: true,
-  locale: "la",
-};
 const imageOptions = {
   with: 640,
   height: 480,
@@ -52,7 +48,7 @@ const createRandomStore = (userId) => {
   const description = faker.lorem.lines(1);
   const profile = faker.image.business(...Object.values(imageOptions));
   const official = faker.datatype.boolean();
-  const slug = slugify(`${name}-${id}`, slugifyOptions);
+  const slug = slugify(`${name}-${id}`);
 
   return {
     id,

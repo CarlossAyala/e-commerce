@@ -15,9 +15,9 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TablePagination,
   TableRow,
   TableSkeleton,
+  Pagination,
 } from "../../../../../components";
 import {
   ArchiveBoxXMarkIcon,
@@ -137,7 +137,7 @@ export const Overview = () => {
             </TableBody>
           </Table>
         )}
-        <TablePagination totalRows={requests?.count} />
+        <Pagination totalRows={requests?.count} />
       </section>
     </main>
   );

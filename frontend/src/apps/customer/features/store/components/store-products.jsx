@@ -5,7 +5,7 @@ import { ProductCard } from "../../../components";
 import {
   Button,
   EmptyPlaceholder,
-  TablePagination,
+  Pagination,
 } from "../../../../../components";
 
 export const StoreProducts = () => {
@@ -25,7 +25,7 @@ export const StoreProducts = () => {
   return (
     <>
       {isLoading ? (
-        <section className="grid grid-cols-[repeat(auto-fill,minmax(128px,1fr))] gap-4 px-4 lg:px-0">
+        <section className="grid grid-cols-products gap-4 px-4 lg:px-0">
           <ProductCard.Skeleton />
           <ProductCard.Skeleton />
           <ProductCard.Skeleton />
@@ -41,14 +41,14 @@ export const StoreProducts = () => {
           )}
         </EmptyPlaceholder>
       ) : (
-        <section className="grid grid-cols-[repeat(auto-fill,minmax(128px,1fr))] gap-4 px-4 lg:px-0">
+        <section className="grid grid-cols-products gap-4 px-4 lg:px-0">
           {products.rows.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </section>
       )}
 
-      <TablePagination className="px-4 lg:px-0" totalRows={products?.count} />
+      <Pagination className="px-4 lg:px-0" totalRows={products?.count} />
     </>
   );
 };

@@ -30,12 +30,14 @@ import {
   useGetPaymentMethods,
 } from "../../../../common/payment-method";
 import { useCheckout } from "../context";
+import { useDocumentTitle } from "../../../../../hooks";
 
-export const CheckoutPaymentMethod = () => {
+export const CheckoutPayment = () => {
   const [params, setParams] = useSearchParams();
   const { paymentIntentId } = useParams();
   const { toast } = useToast();
   const navigate = useNavigate();
+  useDocumentTitle("Checkout - Payment Method");
 
   const {
     addressId,

@@ -26,11 +26,13 @@ import { AddressItem } from "../components/address-item";
 import { useGetCart } from "../../cart/queries";
 import { checkoutActionRoutes } from "../utils";
 import { useCheckout } from "../context";
+import { useDocumentTitle } from "../../../../../hooks";
 
 export const CheckoutShipping = () => {
   const { paymentIntentId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  useDocumentTitle("Checkout - Shipping");
 
   const { addressId, updateAddress } = useCheckout();
 

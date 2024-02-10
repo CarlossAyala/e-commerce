@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { CheckPaymentIntent } from "../components/check-payment-intent";
 import {
-  CheckoutPaymentMethod,
+  CheckoutPayment,
   CheckoutReview,
   CheckoutShipping,
   CheckoutDetails,
@@ -27,7 +27,7 @@ export const checkoutRoutes = [
     path: ":paymentIntentId/payment-method",
     element: (
       <CheckPaymentIntent>
-        <CheckoutPaymentMethod />
+        <CheckoutPayment />
       </CheckPaymentIntent>
     ),
   },
@@ -39,7 +39,6 @@ export const checkoutRoutes = [
       </CheckPaymentIntent>
     ),
   },
-  // TODO: Move this to Order page
   {
     path: ":orderId/details",
     element: <CheckoutDetails />,

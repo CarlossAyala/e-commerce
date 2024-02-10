@@ -1,4 +1,5 @@
 import { SliderComponent } from "../../../../components";
+import { useDocumentTitle } from "../../../../hooks";
 import { useCustomerAuth } from "../../../../libs/auth";
 import { useGetHistory } from "../history";
 import { useGetProducts } from "../product";
@@ -6,6 +7,7 @@ import { useGetStores } from "../store";
 
 const Home = () => {
   const { isAuthenticated } = useCustomerAuth();
+  useDocumentTitle("Home");
   const products = useGetProducts("");
   const history = useGetHistory("");
   const stores = useGetStores("");

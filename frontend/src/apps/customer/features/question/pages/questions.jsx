@@ -1,4 +1,5 @@
-import { EmptyPlaceholder, TablePagination } from "../../../../../components";
+import { EmptyPlaceholder, Pagination } from "../../../../../components";
+import { useDocumentTitle } from "../../../../../hooks";
 import { Question } from "../components/question";
 import { useGetCustomerQuestions } from "../queries";
 
@@ -11,6 +12,7 @@ const Questions = () => {
     isSuccess,
     error,
   } = useGetCustomerQuestions();
+  useDocumentTitle("Questions");
 
   const isEmpty = isSuccess && questions.rows.length === 0;
 
@@ -43,7 +45,7 @@ const Questions = () => {
           ))
         )}
 
-        <TablePagination totalRows={questions?.count} />
+        <Pagination totalRows={questions?.count} />
       </section>
     </main>
   );
