@@ -17,7 +17,7 @@ export const CartProduct = ({ item, onProductLinkClick }) => {
       <div className="w-full space-y-1">
         <Link
           onClick={onProductLinkClick}
-          to={productActionRoutes.detail(item.product)}
+          to={productActionRoutes.details(item.product)}
           className="line-clamp-2 font-medium leading-4 text-gray-800"
         >
           {item.product.name}

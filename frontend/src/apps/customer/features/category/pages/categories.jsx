@@ -9,6 +9,8 @@ export const Categories = () => {
   const { categories, isLoading, isError, hasContent, error } =
     useGetFullCategories();
 
+  //TODO: Add filter search
+
   return (
     <main className="container flex-1 space-y-4">
       <section className="mt-4">

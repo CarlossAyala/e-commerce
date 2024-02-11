@@ -16,7 +16,19 @@ router.get("/", async (req, res, next) => {
   try {
     const categories = await Category.model.findAndCountAll(qb);
 
-    return res.status(200).json(categories);
+    return res.json(categories);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/all", async (req, res, next) => {
+  try {
+    const categories = await Category.model.findAll({
+      order: [["name", "ASC"]],
+    });
+
+    return res.json(categories);
   } catch (error) {
     next(error);
   }

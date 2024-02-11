@@ -13,7 +13,7 @@ export const ReviewProduct = ({ className, product }) => {
       />
       <div className="grow">
         <Link
-          to={productActionRoutes.detail(product.id, product.slug)}
+          to={productActionRoutes.details(product.id, product.slug)}
           target="_blank"
           className="line-clamp-1 text-base leading-tight hover:underline"
         >

@@ -1,3 +1,4 @@
 export const productActionRoutes = {
-  detail: ({ id, name }) => `/customer/products/${id}/${name}`,
+  root: (query) => "/customer/products" + (query ? "?" + query : ""),
+  details: ({ id, name }) => `/customer/products/${id}/${name}`,
 };

@@ -33,8 +33,10 @@ export const useGetStores = (query) => {
   });
 
   return {
-    stores: values.data,
-    hasContent: values.isSuccess && values.data.rows.length > 0,
+    stores: values.data?.rows,
+    count: values.data?.count,
+    hasContent: values.data?.rows.length > 0,
+    isEmpty: values.data?.rows.length === 0,
     hasFilters: params.toString() !== "",
     ...values,
   };

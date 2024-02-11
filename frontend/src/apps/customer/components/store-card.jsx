@@ -5,7 +5,7 @@ import { Skeleton } from "../../../components";
 export const StoreCard = ({ store }) => {
   return (
     <Link
-      to={storeActionRoutes.detail(store.slug)}
+      to={storeActionRoutes.details(store.slug)}
       className="block overflow-hidden rounded-md border"
     >
       <img

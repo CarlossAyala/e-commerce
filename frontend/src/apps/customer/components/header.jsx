@@ -5,6 +5,7 @@ import { MainNav } from "./main-nav";
 import { Sidebar } from "./sidebar";
 import { useCustomerAuth } from "../../../libs/auth";
 import { UserCart } from "./user-cart";
+import { SearchNav } from "./search-nav/search-nav";
 
 export const Header = () => {
   const { isAuthenticated, isLoading } = useCustomerAuth();
@@ -15,15 +16,17 @@ export const Header = () => {
       <Logo app="customer" className="sm:-ml-1" />
       <MainNav />
       <div className="ml-auto flex items-center gap-2">
+        <SearchNav />
+
         {isLoading ? (
           <>
-            <Skeleton className="h-9 w-10 " />
             <Skeleton className="size-9 rounded-full" />
+            <Skeleton className="h-9 w-10 " />
           </>
         ) : isAuthenticated ? (
           <>
-            <UserCart />
             <UserNav />
+            <UserCart />
           </>
         ) : (
           <>

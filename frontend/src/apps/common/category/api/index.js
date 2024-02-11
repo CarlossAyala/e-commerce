@@ -14,7 +14,18 @@ export const findOne = async (id) => {
   });
 };
 
-export const findAll = async (query) => {
+export const findAll = async () => {
+  const url = `${ENDPOINT}/all`;
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const findAllAndCount = async (query) => {
   const url = `${ENDPOINT}?${query}`;
 
   return fetcher(url, {

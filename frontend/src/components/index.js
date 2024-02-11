@@ -12,6 +12,7 @@ import Logo from "./logo";
 
 export * from "./ui/table";
 export * from "./ui/dropdown-menu";
+export * from "./ui/dialog";
 export * from "./ui/sheet";
 export * from "./ui/separator";
 export * from "./ui/form";

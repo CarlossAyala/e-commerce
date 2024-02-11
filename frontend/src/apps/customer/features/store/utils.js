@@ -1,4 +1,4 @@
 export const storeActionRoutes = {
-  root: "/customer/stores",
-  detail: (slug) => `/customer/stores/${slug}`,
+  root: (query) => `/customer/stores?${query}`,
+  details: (slug) => `/customer/stores/${slug}`,
 };

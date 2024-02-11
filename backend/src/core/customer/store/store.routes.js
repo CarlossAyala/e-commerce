@@ -6,10 +6,10 @@ const { slugify, QueryBuilder } = require("../../../libs");
 const { validateSchema } = require("../../../middlewares");
 const schemas = require("./store.schema");
 
-// Get All
 router.get("/", async (req, res, next) => {
   const { where, limit, offset } = new QueryBuilder(req.query)
     .whereLike("name", req.query.q)
+    .orderBy("name", "ASC")
     .pagination()
     .build();
 

@@ -15,7 +15,7 @@ export const OrderProduct = ({ item }) => {
       </div>
       <div className="flex grow flex-col justify-center">
         <Link
-          to={productActionRoutes.detail(item.product)}
+          to={productActionRoutes.details(item.product)}
           className="line-clamp-1 leading-tight"
         >
           {item.product.name}

@@ -13,6 +13,7 @@ export const StoresList = () => {
 
   const {
     stores,
+    count,
     isLoading,
     isError,
     hasContent,
@@ -21,7 +22,7 @@ export const StoresList = () => {
     error,
   } = useGetStores(params.toString());
 
-  const groups = isSuccess && Formatter.groupByFirstLetter(stores.rows, "name");
+  const groups = isSuccess && Formatter.groupByFirstLetter(stores, "name");
 
   return (
     <>
@@ -51,7 +52,7 @@ export const StoresList = () => {
         )}
       </section>
 
-      <Pagination totalRows={stores?.count} />
+      <Pagination totalRows={count} />
     </>
   );
 };

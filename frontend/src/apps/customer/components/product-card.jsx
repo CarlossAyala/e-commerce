@@ -7,7 +7,7 @@ import { Skeleton } from "../../../components/ui/skeleton";
 export const ProductCard = ({ product }) => {
   return (
     <Link
-      to={productActionRoutes.detail(product)}
+      to={productActionRoutes.details(product)}
       className="block w-full overflow-hidden rounded-md border border-black/10"
     >
       <div className="h-36 w-full p-2">

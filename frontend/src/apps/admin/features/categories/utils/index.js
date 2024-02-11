@@ -5,7 +5,7 @@ export const categoryTypes = {
 };
 
 export const categoryActionRoutes = {
-  root: "/admin/categories",
+  root: (query) => "/admin/categories" + (query ? "?" + query : ""),
   new: "/admin/categories/new",
   attach: "/admin/categories/attach",
   detach: "/admin/categories/detach",

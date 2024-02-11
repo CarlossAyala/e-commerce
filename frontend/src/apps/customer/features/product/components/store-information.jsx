@@ -28,7 +28,7 @@ export const StoreInformation = () => {
         />
       ) : (
         <Link
-          to={storeActionRoutes.detail(store.name)}
+          to={storeActionRoutes.details(store.slug)}
           className="flex w-full gap-x-2"
         >
           <div className="h-14 w-14 shrink-0 space-y-2 overflow-hidden rounded-md border border-black/10">
