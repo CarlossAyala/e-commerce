@@ -76,7 +76,6 @@ router.get("/session/:id", JWT.verify, async (req, res, next) => {
     if (customer.id !== session.customer) {
       return next(Boom.notFound("Checkout session not found"));
     }
-    console.log("Checkout Session: ", session);
 
     return res.status(200).json({
       id: session.setup_intent.payment_method,

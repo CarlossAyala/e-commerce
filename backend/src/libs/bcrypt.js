@@ -1,5 +1,5 @@
 const _bcrypt = require("bcrypt");
-const { saltRounds } = require("../config");
+const { saltRounds } = require("../config/environments");
 
 const hash = (plain) => {
   return _bcrypt.hash(plain, saltRounds);

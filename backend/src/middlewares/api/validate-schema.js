@@ -7,7 +7,7 @@ const Boom = require("@hapi/boom");
  * @returns {import("express").RequestHandler}
  */
 function validateSchema(schema, property) {
-  return (req, res, next) => {
+  return (req, _res, next) => {
     const data = req[property];
     const { error } = schema.validate(data, { abortEarly: false });
     if (error) {

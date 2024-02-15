@@ -1,6 +1,8 @@
 const User = require("./user.model");
 const Address = require("./address.model");
 
+const RefreshToken = require("./refresh-token.model");
+
 const Roles = require("./roles.model");
 const UsersRoles = require("./users-roles.model");
 
@@ -169,6 +171,8 @@ Review.model.belongsTo(Product.model, {
 module.exports = {
   User,
   Address,
+
+  RefreshToken,
 
   Roles,
   UsersRoles,

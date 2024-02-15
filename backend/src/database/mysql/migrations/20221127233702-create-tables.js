@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const models = require('../models');
+const models = require("../models");
 
 const createModels = Object.values(models);
 const dropModels = [...createModels].reverse();
@@ -16,7 +16,6 @@ module.exports = {
 
   async down(queryInterface) {
     for (const model of dropModels) {
-      console.log(model.tableName);
       await queryInterface.dropTable(model.tableName);
     }
   },

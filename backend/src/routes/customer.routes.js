@@ -2,7 +2,8 @@ const express = require("express");
 const customer = express.Router();
 const API = express.Router();
 
-const { JWT, authentication } = require("../middlewares");
+const { authentication } = require("../middlewares");
+const { JWT } = require("../libs");
 const question = require("../core/customer/question/question.routes");
 const cart = require("../core/customer/cart/cart.routes");
 const bookmark = require("../core/customer/bookmark/bookmark.routes");

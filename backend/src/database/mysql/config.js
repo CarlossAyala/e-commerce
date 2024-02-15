@@ -1,6 +1,6 @@
-const config = require("../../config");
+const environments = require("../../config/environments");
 
-const { database, host, password, user, dialect } = config.db;
+const { database, host, password, user, dialect } = environments.db;
 
 module.exports = {
   development: {

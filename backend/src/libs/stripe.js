@@ -1,4 +1,4 @@
-const config = require("../config");
-const Stripe = require("stripe")(config.stipe.sk_test);
+const { stipe } = require("../config/environments");
+const Stripe = require("stripe")(stipe.sk_test);
 
 module.exports = Stripe;

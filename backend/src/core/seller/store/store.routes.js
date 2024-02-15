@@ -23,9 +23,7 @@ router.get("/", JWT.verify, async (req, res, next) => {
       },
     });
 
-    console.log("Store", store);
-
-    return res.status(200).json(store);
+    return res.json(store);
   } catch (error) {
     next(error);
   }
