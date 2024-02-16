@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
-const Boom = require("@hapi/boom");
+const { unauthorized } = require("../api/http-errors");
 const { Roles, User } = require("../../database/mysql/models");
 
 /**
@@ -27,7 +27,7 @@ const authorization = (roles) => {
         roles.includes(role.name)
       );
       if (!hasPermission) {
-        throw Boom.unauthorized();
+        throw unauthorized();
       }
 
       next();

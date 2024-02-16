@@ -1,4 +1,4 @@
-const Boom = require("@hapi/boom");
+const { badRequest } = require("./http-errors");
 
 /**
  *
@@ -11,7 +11,7 @@ function validateSchema(schema, property) {
     const data = req[property];
     const { error } = schema.validate(data, { abortEarly: false });
     if (error) {
-      return next(Boom.badRequest(error));
+      return next(badRequest(error));
     }
     next();
   };

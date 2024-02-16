@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
-const { badRequest, unauthorized, forbidden } = require("@hapi/boom");
 const { User, RefreshToken } = require("../../database/mysql/models");
 const { bcrypt, Stripe } = require("../../libs");
 const {
@@ -8,8 +7,10 @@ const {
   generateRefreshToken,
   decodeRefreshToken,
 } = require("../../utils");
-const { refreshTokenOptions, clearRefreshTokenOptions } =
-  require("../../config").cookies;
+const { badRequest, unauthorized, forbidden } = require("../../middlewares");
+const { cookies } = require("../../config");
+
+const { refreshTokenOptions, clearRefreshTokenOptions } = cookies;
 
 /**
  * @param {express.Request} req
@@ -119,7 +120,7 @@ const refresh = async (req, res, next) => {
     });
 
     const { userId } = await decodeRefreshToken(refreshToken).catch(() => {
-      throw forbidden("Refresh token is invalid");
+      throw forbidden("You are not authorized to access this resource.");
     });
 
     // detect refresh token reuse
@@ -131,7 +132,7 @@ const refresh = async (req, res, next) => {
         where: { userId },
       });
 
-      throw forbidden("Refresh token is invalid");
+      throw forbidden("You are not authorized to access this resource.");
     }
 
     await token.destroy();
@@ -184,23 +185,11 @@ const logout = async (req, res, next) => {
 /**
  * @param {express.Request} req
  * @param {express.Response} res
- * @param {express.NextFunction} next
  */
-const profile = async (req, res, next) => {
-  const { userId } = req.auth;
+const profile = (req, res) => {
+  const { user } = req;
 
-  try {
-    const user = await User.model.findByPk(userId, {
-      attributes: {
-        exclude: ["password"],
-      },
-    });
-    if (!user) throw badRequest("User not found");
-
-    res.json(user);
-  } catch (error) {
-    next(error);
-  }
+  res.json(user);
 };
 
 module.exports = { signup, signin, refresh, logout, profile };

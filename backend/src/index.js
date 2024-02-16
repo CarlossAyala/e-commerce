@@ -8,9 +8,9 @@ const { port: PORT } = require("./config/environments");
 const { sequelize } = require("./database/mysql");
 const {
   restrictMethods,
-  handlerNotFound,
   handlerError,
   logger,
+  catch404AndForward,
 } = require("./middlewares");
 require("./database/mysql/models");
 
@@ -27,8 +27,7 @@ app.use(logger);
 
 app.use(routes);
 
-app.use(handlerNotFound);
-
+app.use(catch404AndForward);
 app.use(handlerError);
 
 const main = async () => {

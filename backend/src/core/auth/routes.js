@@ -1,8 +1,13 @@
 const express = require("express");
-const router = express.Router();
 const schemas = require("./schemas");
 const controllers = require("./controllers");
-const { validateSchema, validateAccessToken } = require("../../middlewares");
+const {
+  validateSchema,
+  validateAccessToken,
+  authentication,
+} = require("../../middlewares");
+
+const router = express.Router();
 
 router.post(
   "/signup",
@@ -20,8 +25,14 @@ router.post("/refresh", controllers.refresh);
 
 router.post("/logout", controllers.logout);
 
-router.get("/profile", validateAccessToken, controllers.profile);
+router.get(
+  "/profile",
+  validateAccessToken,
+  authentication,
+  controllers.profile
+);
 
+// TODO:
 // router.patch(
 //   "/change-full-name",
 //   JWT.verify,

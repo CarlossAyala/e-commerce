@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
-const { unauthorized, forbidden } = require("@hapi/boom");
+const { unauthorized, forbidden } = require("../api/http-errors");
 const { decodeAccessToken } = require("../../utils");
 
 /**
@@ -28,7 +28,7 @@ const validateAccessToken = async (req, res, next) => {
 
   try {
     const { userId } = await decodeAccessToken(accessToken).catch(() => {
-      throw forbidden("Access token is invalid");
+      throw forbidden("You are not authorized to access this resource.");
     });
     req.auth = { userId };
 

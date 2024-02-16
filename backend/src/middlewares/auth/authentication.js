@@ -1,24 +1,27 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
-const Boom = require("@hapi/boom");
+const { unauthorized } = require("../api/http-errors");
 const { User } = require("../../database/mysql/models");
 
 /**
  * @param {express.Request} req
- * @param {express.Response} res
+ * @param {express.Response} _res
  * @param {express.NextFunction} next
  */
-const authentication = async (req, res, next) => {
-  const { id: userId } = req.auth;
+const authentication = async (req, _res, next) => {
+  const { userId } = req.auth;
 
   try {
-    const account = await User.model.findByPk(userId);
-    if (!account) {
-      throw Boom.unauthorized();
+    const user = await User.model.findByPk(userId, {
+      attributes: {
+        exclude: ["password"],
+      },
+    });
+    if (!user) {
+      throw unauthorized("You are not authorized to access this resource.");
     }
 
-    req.account = account;
-
+    req.user = user;
     next();
   } catch (error) {
     next(error);

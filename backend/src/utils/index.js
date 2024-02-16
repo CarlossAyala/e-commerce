@@ -11,10 +11,10 @@ const generateAccessToken = (userId) => {
       },
       (err, token) => {
         if (err) {
-          return reject(err);
+          reject(err);
+        } else {
+          resolve(token);
         }
-
-        resolve(token);
       }
     );
   });
@@ -30,10 +30,10 @@ const generateRefreshToken = (userId) => {
       },
       (err, token) => {
         if (err) {
-          return reject(err);
+          reject(err);
+        } else {
+          resolve(token);
         }
-
-        resolve(token);
       }
     );
   });
@@ -43,10 +43,10 @@ const decodeAccessToken = (token) => {
   return new Promise((resolve, reject) => {
     verify(token, jwt.access_token.secret, (err, decoded) => {
       if (err) {
-        return reject(err);
+        reject(err);
+      } else {
+        resolve(decoded);
       }
-
-      resolve(decoded);
     });
   });
 };
@@ -55,10 +55,10 @@ const decodeRefreshToken = (token) => {
   return new Promise((resolve, reject) => {
     verify(token, jwt.refresh_token.secret, (err, decoded) => {
       if (err) {
-        return reject(err);
+        reject(err);
+      } else {
+        resolve(decoded);
       }
-
-      resolve(decoded);
     });
   });
 };
