@@ -40,7 +40,7 @@ export const Product = () => {
       ) : isError ? (
         <EmptyPlaceholder
           title={error?.name ?? "Error"}
-          description={error?.message ?? "Uh oh! Something went wrong."}
+          description={error.message}
         />
       ) : (
         <article className="mt-4 flex gap-4">

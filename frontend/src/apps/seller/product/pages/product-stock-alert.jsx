@@ -36,7 +36,6 @@ import {
   Pagination,
   TableRow,
   TableSkeleton,
-  useToast,
 } from "../../../../components";
 import { productActionRoutes } from "../utils";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
@@ -48,7 +47,6 @@ import { Formatter } from "../../../../utils/formatter";
 import { MainContent } from "../../layouts";
 
 const ProductStockAlert = () => {
-  const { toast } = useToast();
   const [params] = useSearchParams();
   const [sheet, setSheet] = useState(false);
   const [productId, setProductId] = useState(null);
@@ -78,7 +76,7 @@ const ProductStockAlert = () => {
       onError(error) {
         toast({
           title: "Product could not be updated",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

@@ -6,7 +6,6 @@ import {
   TableEmpty,
   TableError,
   TableSkeleton,
-  useToast,
 } from "../../../../components";
 import { Button } from "../../../../components/ui/button";
 import {
@@ -39,7 +38,6 @@ import { useDebounced } from "../../../../hooks";
 import { MainContent } from "../../layouts";
 
 const ProductList = () => {
-  const { toast } = useToast();
   const [param, setParams] = useSearchParams();
 
   const [modal, setModal] = useState(false);

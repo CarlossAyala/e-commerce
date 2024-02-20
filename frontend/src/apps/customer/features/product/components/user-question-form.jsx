@@ -14,11 +14,9 @@ import {
   FormLabel,
   FormMessage,
   Textarea,
-  useToast,
 } from "../../../../../components";
 
 export const UserQuestionForm = ({ productId }) => {
-  const { toast } = useToast();
   const create = useCreateQuestion();
 
   const form = useForm({
@@ -40,7 +38,7 @@ export const UserQuestionForm = ({ productId }) => {
         toast({
           variant: "destructive",
           title: "Question could not be created",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

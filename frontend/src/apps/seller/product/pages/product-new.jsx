@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { cn } from "@/libs/utils";
 import {
   Button,
   Card,
@@ -25,19 +27,17 @@ import {
   Switch,
   Pagination,
   Textarea,
-  toast,
 } from "../../../../components";
 import { Input } from "../../../../components/ui/input";
 import { productInitial, productSchema } from "../schemas";
 import { PRODUCT_CONDITIONS, productActionRoutes } from "../utils";
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useGetCategories, useGetCategory } from "../../../common/category";
 import { useDebounced } from "../../../../hooks";
-import clsx from "clsx";
 import { useCreateProduct } from "../queries";
 import { MainContent } from "../../layouts";
 import { clearEmptyValues } from "../../../../utils";
+import { toast } from "sonner";
 
 const ProductNew = () => {
   const [params, setParams] = useSearchParams();
@@ -63,15 +63,11 @@ const ProductNew = () => {
       onSuccess(data) {
         navigate(productActionRoutes.details(data.id));
 
-        toast({
-          description: "Product created successfully",
-        });
+        toast("Product created successfully");
       },
       onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong",
-          description: error?.message ?? "Product could not be created.",
+        toast.message("Product could not be created", {
+          description: error.message,
         });
       },
     });
@@ -371,7 +367,7 @@ const ProductNew = () => {
                                       return (
                                         <FormItem
                                           key={category.id}
-                                          className={clsx(
+                                          className={cn(
                                             "flex items-center gap-x-4 p-4",
                                             isCurrentCategory && "bg-gray-100",
                                           )}

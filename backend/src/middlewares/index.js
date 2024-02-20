@@ -1,16 +1,14 @@
-const validateSchema = require("./api/validate-schema");
-const authentication = require("./auth/authentication");
-const authorization = require("./auth/authorization");
-const restrictMethods = require("./api/restrict-methods");
-const handlerError = require("./api/handler-errors");
-const logger = require("./api/logger");
-const validateAccessToken = require("./auth/validate-access-token");
-const httpErrors = require("./api/http-errors");
+const validateSchema = require("./validate-schema");
+const authentication = require("./authentication");
+const restrictMethods = require("./restrict-methods");
+const handlerError = require("./handler-errors");
+const logger = require("./logger");
+const validateAccessToken = require("./validate-access-token");
+const httpErrors = require("./http-errors");
 
 module.exports = {
   validateSchema,
   authentication,
-  authorization,
   restrictMethods,
   ...handlerError,
   ...httpErrors,

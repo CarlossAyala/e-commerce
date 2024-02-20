@@ -24,7 +24,7 @@ export const StoreInformation = () => {
       ) : isError ? (
         <EmptyPlaceholder
           title={error?.name ?? "Error"}
-          description={error?.message ?? "Uh oh! Something went wrong."}
+          description={error.message}
         />
       ) : (
         <Link

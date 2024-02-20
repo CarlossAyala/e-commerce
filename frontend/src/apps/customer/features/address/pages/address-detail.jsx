@@ -24,19 +24,19 @@ import {
   InputSkeleton,
   Textarea,
   TextareaSkeleton,
-  useToast,
 } from "../../../../../components";
 import { useGetAddress, useRemoveAddress, useUpdateAddress } from "../queries";
 import { addressDefault, addressInitial, addressSchema } from "../schemas";
 import { clearEmptyValues } from "../../../../../utils";
 import { addressActionRoutes } from "../utils";
 import { useDocumentTitle } from "../../../../../hooks";
+import { toast } from "sonner";
 
 const AddressDetail = () => {
   const [modal, setModal] = useState(false);
 
   const { addressId } = useParams();
-  const { toast } = useToast();
+
   const navigate = useNavigate();
   useDocumentTitle("Address Details");
 
@@ -56,15 +56,11 @@ const AddressDetail = () => {
 
     update.mutate([addressId, _values], {
       onSuccess() {
-        toast({
-          description: "Address updated successfully",
-        });
+        toast("Address updated successfully");
         setTimeout(update.reset, 1300);
       },
       onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Address could not be updated",
+        toast.message("Address could not be updated", {
           description: error.message,
         });
       },

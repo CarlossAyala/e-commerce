@@ -11,7 +11,6 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  useToast,
 } from "../../../../components";
 import { useCopyToClipboard } from "../../../../hooks";
 import { productActionRoutes } from "../../product/utils";
@@ -19,7 +18,6 @@ import { MainContent } from "../../layouts";
 
 const SaleDetail = () => {
   const { orderId } = useParams();
-  const { toast } = useToast();
 
   const [, copyToClipboard] = useCopyToClipboard();
 

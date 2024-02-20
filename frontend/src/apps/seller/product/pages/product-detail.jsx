@@ -28,7 +28,6 @@ import {
   Switch,
   Pagination,
   Textarea,
-  useToast,
 } from "../../../../components";
 import { Input } from "../../../../components/ui/input";
 import { productDefault, productInitial, productSchema } from "../schemas";
@@ -48,7 +47,6 @@ import { MainContent } from "../../layouts";
 import { clearEmptyValues } from "../../../../utils";
 
 const ProductDetail = () => {
-  const { toast } = useToast();
   const [params, setParams] = useSearchParams();
   const { productId } = useParams();
   const [search, setSearch] = useState(params.get("q") || "");
@@ -86,7 +84,7 @@ const ProductDetail = () => {
         toast({
           variant: "destructive",
           title: "Product could not be updated",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });
@@ -104,7 +102,7 @@ const ProductDetail = () => {
         toast({
           variant: "destructive",
           title: "Product could not be deleted",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

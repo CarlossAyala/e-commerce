@@ -1,21 +1,16 @@
-'use strict';
+"use strict";
 
-const { v4: uuidv4 } = require('uuid');
-const { faker } = require('@faker-js/faker/locale/es_MX');
-const slugify = require('slugify');
-const { Store, Product, Category } = require('../models');
-
-const slugifyOptions = {
-  lower: true,
-  locale: 'la',
-};
+const { v4: uuidv4 } = require("uuid");
+const { faker } = require("@faker-js/faker/locale/es_MX");
+const { Store, Product, Category } = require("../models");
+const { slugify } = require("../../../libs");
 
 const createRandomProduct = (categoryId, storeId) => {
   const priceOptions = {
     min: 1,
     max: 10_000,
     dec: 2,
-    symbol: '',
+    symbol: "",
   };
   const stockSoldOptions = {
     max: 1_000,
@@ -28,7 +23,7 @@ const createRandomProduct = (categoryId, storeId) => {
   const description = faker.commerce.productDescription();
   const stock = faker.datatype.number(stockSoldOptions);
   const sold = faker.datatype.number(stockSoldOptions);
-  const slug = slugify(name, slugifyOptions);
+  const slug = slugify(name);
   const price = +faker.commerce.price(...Object.values(priceOptions));
   const condition = faker.helpers.arrayElement(productCondition);
 

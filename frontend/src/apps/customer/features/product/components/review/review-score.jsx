@@ -30,7 +30,7 @@ export const ReviewScore = () => {
       ) : isError ? (
         <EmptyPlaceholder
           title={error?.name ?? "Error"}
-          description={error?.message ?? "Uh oh! Something went wrong."}
+          description={error.message}
         />
       ) : (
         <div className="space-y-2">

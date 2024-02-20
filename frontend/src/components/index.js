@@ -6,19 +6,16 @@ import StatContainer from "./stat/stat-container";
 import TableEmpty from "./table/table-empty";
 import TableError from "./table/table-error";
 import TableSkeleton from "./table/table-skeleton";
-import { Badge } from "./ui/badge";
 import Mandatory from "./mandatory";
 import Logo from "./logo";
 
+export * from "./ui/badge";
 export * from "./ui/table";
 export * from "./ui/dropdown-menu";
 export * from "./ui/dialog";
 export * from "./ui/sheet";
 export * from "./ui/separator";
 export * from "./ui/form";
-export * from "./ui/toaster";
-export * from "./ui/toast";
-export * from "./ui/use-toast";
 export * from "./ui/textarea";
 export * from "./ui/switch";
 export * from "./ui/select";
@@ -39,6 +36,7 @@ export * from "./ui/command";
 export * from "./ui/hover-card";
 export * from "./ui/checkbox";
 export * from "./ui/scroll-area";
+export * from "./ui/sonner";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
 export * from "./search";
@@ -57,7 +55,6 @@ export {
   Logo,
   Signin,
   Signup,
-  Badge,
   StatContainer,
   StatCard,
   TableEmpty,

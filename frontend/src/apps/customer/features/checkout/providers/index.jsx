@@ -2,8 +2,8 @@ import { useReducer } from "react";
 import { Outlet } from "react-router-dom";
 import { CheckoutContext } from "../context";
 import { useGetPaymentMethodSession } from "../../../../common/payment-method";
-import { useToast } from "../../../../../components";
 import { useMGetAddress } from "../../address";
+import { toast } from "sonner";
 
 const initialState = {
   addressId: "",
@@ -31,8 +31,6 @@ const reducer = (state, action) => {
 export const CheckoutProvider = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { toast } = useToast();
-
   const getSession = useGetPaymentMethodSession();
   const getAddress = useMGetAddress();
 
@@ -56,9 +54,8 @@ export const CheckoutProvider = () => {
         updatePaymentMethod(newPaymentMethodId);
       },
       onError(error) {
-        toast({
-          title: "Session error",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+        toast.message("Session error", {
+          description: error.message,
         });
       },
     });
@@ -72,7 +69,7 @@ export const CheckoutProvider = () => {
       onError(error) {
         toast({
           title: "Address error",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

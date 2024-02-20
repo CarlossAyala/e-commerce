@@ -4,6 +4,7 @@ import {
   ArrowPathIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -19,33 +20,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Skeleton,
-  useToast,
 } from "../../../../../components";
 import { addressActionRoutes } from "../utils";
 import { useRemoveAddress } from "../queries";
 
 export const AddressItem = ({ address }) => {
   const [alert, setAlert] = useState(false);
-  const { toast } = useToast();
   const navigate = useNavigate();
   const remove = useRemoveAddress();
 
   const handleRemove = () => {
     remove.mutate(address.id, {
       onSuccess() {
-        toast({
-          description: "Address removed",
-        });
+        toast("Address removed");
         setAlert(false);
         remove.reset();
       },
       onError(error) {
         setAlert(false);
         remove.reset();
-        toast({
-          variant: "destructive",
-          title: "Address could not be removed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+        toast.message("Address could not be removed", {
+          description: error.message,
         });
       },
     });

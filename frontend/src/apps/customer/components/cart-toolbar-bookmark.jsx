@@ -1,31 +1,27 @@
 import { ExclamationCircleIcon, HeartIcon } from "@heroicons/react/24/outline";
-import { Button, Spinner, useToast } from "../../../components";
+import { Button, Spinner } from "../../../components";
 import {
   useCreateBookmark,
   useGetBookmark,
   useRemoveBookmark,
 } from "../features/bookmark";
 import { cn } from "../../../libs/utils";
+import { toast } from "sonner";
 
 export const CartToolbarBookmark = ({ item }) => {
-  const { toast } = useToast();
   const { bookmark, isLoading, isError } = useGetBookmark(item.productId);
   const add = useCreateBookmark();
   const remove = useRemoveBookmark();
 
-  const isDisable = isLoading || isError || add.isLoading || remove.isLoading;
   const handleBookmark = () => {
     if (bookmark) {
       remove.mutate(item.productId, {
         onSuccess() {
-          toast({
-            description: "Bookmark removed",
-          });
+          toast("Bookmark removed");
         },
-        onError() {
-          toast({
-            variant: "destructive",
-            description: "Bookmark remove failed",
+        onError(error) {
+          toast.message("Bookmark remove failed", {
+            description: error.message,
           });
         },
         onSettled() {
@@ -51,6 +47,8 @@ export const CartToolbarBookmark = ({ item }) => {
       });
     }
   };
+
+  const isDisable = isLoading || isError || add.isLoading || remove.isLoading;
 
   return (
     <Button

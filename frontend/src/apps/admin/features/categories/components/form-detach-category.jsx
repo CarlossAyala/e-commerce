@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
 import { categoryTypes } from "../utils";
 import { detachCategoryInitial, detachCategorySchema } from "../schemas";
 import {
@@ -19,12 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
   Skeleton,
-  useToast,
 } from "../../../../../components";
 import { useDetachCategory } from "../queries";
 
 export const FormDetachCategory = ({ categories }) => {
-  const { toast } = useToast();
   const detach = useDetachCategory();
 
   const form = useForm({
@@ -36,16 +35,13 @@ export const FormDetachCategory = ({ categories }) => {
   const handleAttach = (values) => {
     detach.mutate(values, {
       onSuccess: () => {
-        toast({
-          description: "Categories detached",
-        });
+        toast("Categories detached");
         form.resetField("categoriesId");
         detach.reset();
       },
       onError(error) {
-        toast({
-          title: "Categories could not be detached",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+        toast.message("Categories could not be detached", {
+          description: error.message,
         });
       },
     });

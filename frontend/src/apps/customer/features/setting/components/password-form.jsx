@@ -8,7 +8,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  useToast,
 } from "../../../../../components";
 import {
   changePasswordInitial,
@@ -19,8 +18,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 export const PasswordForm = () => {
-  const { toast } = useToast();
-
   const updatePassword = useUpdatePassword();
 
   const form = useForm({

@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
-const { unauthorized } = require("../api/http-errors");
-const { User } = require("../../database/mysql/models");
+const { unauthorized } = require("./http-errors");
+const { User } = require("../database/mysql/models");
 
 /**
  * @param {express.Request} req

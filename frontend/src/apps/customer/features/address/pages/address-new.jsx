@@ -13,7 +13,6 @@ import {
   FormMessage,
   Input,
   Textarea,
-  useToast,
 } from "../../../../../components";
 import { addressActionRoutes } from "../utils";
 import { clearEmptyValues } from "../../../../../utils";
@@ -22,7 +21,7 @@ import { useDocumentTitle } from "../../../../../hooks";
 const AddressNew = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { toast } = useToast();
+
   const create = useCreateAddress();
   useDocumentTitle("New Address");
 
@@ -55,7 +54,7 @@ const AddressNew = () => {
       onError(error) {
         toast({
           title: "Address could not be created",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

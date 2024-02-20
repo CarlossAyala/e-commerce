@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
 import { Footer } from "./footer";
 import { Header } from "./header";
 import { Separator } from "../../../components";
@@ -8,7 +8,7 @@ export const CustomerRoot = () => {
     <div className="flex min-h-svh flex-col">
       <Header />
       <Separator />
-      <Outlet />
+      {/* <Outlet /> */}
       <Separator />
       <Footer />
     </div>

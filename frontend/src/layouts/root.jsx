@@ -5,6 +5,12 @@ const Root = () => {
     <div>
       <ul>
         <li>
+          <Link to="/signin">Sign in</Link>
+        </li>
+        <li>
+          <Link to="/signup">Sing up</Link>
+        </li>
+        <li>
           <Link to="/admin">Admin</Link>
         </li>
         <li>

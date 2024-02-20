@@ -15,7 +15,6 @@ import {
   RadioGroup,
   RadioGroupItem,
   Skeleton,
-  useToast,
 } from "../../../../../components";
 import {
   checkoutPaymentMethodDefault,
@@ -35,7 +34,7 @@ import { useDocumentTitle } from "../../../../../hooks";
 export const CheckoutPayment = () => {
   const [params, setParams] = useSearchParams();
   const { paymentIntentId } = useParams();
-  const { toast } = useToast();
+
   const navigate = useNavigate();
   useDocumentTitle("Checkout - Payment Method");
 

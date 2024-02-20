@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { signupInitial, signupSchema, useSignup } from "../libs/auth";
-import { useToast } from "./ui/use-toast";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
+import { signupInitial, signupSchema, useSignup } from "../libs/auth";
 import {
   Form,
   FormControl,
@@ -13,11 +14,9 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useDocumentTitle } from "../hooks";
 
 const Signup = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const signup = useSignup();
   useDocumentTitle("Sign Up");
@@ -31,17 +30,8 @@ const Signup = () => {
   const handleSignup = (values) => {
     signup.mutate(values, {
       onSuccess() {
-        toast({
-          description: "Account created successfully",
-        });
+        toast("Signup successful");
         navigate("/signin");
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Signin failed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
-        });
       },
     });
   };

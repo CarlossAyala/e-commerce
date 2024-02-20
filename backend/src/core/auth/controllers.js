@@ -7,7 +7,12 @@ const {
   generateRefreshToken,
   decodeRefreshToken,
 } = require("../../utils");
-const { badRequest, unauthorized, forbidden } = require("../../middlewares");
+const {
+  badRequest,
+  unauthorized,
+  invalidClient,
+  invalidRequest,
+} = require("../../middlewares");
 const { cookies } = require("../../config");
 
 const { refreshTokenOptions, clearRefreshTokenOptions } = cookies;
@@ -63,10 +68,10 @@ const signin = async (req, res, next) => {
     const user = await User.model.findOne({
       where: { email },
     });
-    if (!user) throw badRequest("Email or Password is incorrect");
+    if (!user) throw invalidClient("Email or Password is incorrect");
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw badRequest("Email or Password is incorrect");
+    if (!isMatch) throw invalidClient("Email or Password is incorrect");
 
     if (refreshToken) {
       const token = await RefreshToken.model.findOne({
@@ -75,7 +80,7 @@ const signin = async (req, res, next) => {
 
       if (!token || token.userId !== user.id) {
         await RefreshToken.model.destroy({
-          where: { userId: user.dataValues.id },
+          where: { userId: user.id },
         });
       } else {
         await token.destroy();
@@ -94,7 +99,9 @@ const signin = async (req, res, next) => {
 
     res.cookie("refreshToken", newRefreshToken, refreshTokenOptions);
 
-    res.json({ accessToken });
+    res.json({
+      accessToken,
+    });
   } catch (error) {
     next(error);
   }
@@ -110,7 +117,7 @@ const refresh = async (req, res, next) => {
 
   try {
     if (!refreshToken) {
-      throw unauthorized("You are not authorized to access this resource.");
+      throw invalidRequest("Missing refresh token in cookies header.");
     }
 
     res.clearCookie("refreshToken", clearRefreshTokenOptions);
@@ -119,9 +126,7 @@ const refresh = async (req, res, next) => {
       where: { token: refreshToken },
     });
 
-    const { userId } = await decodeRefreshToken(refreshToken).catch(() => {
-      throw forbidden("You are not authorized to access this resource.");
-    });
+    const { userId } = await decodeRefreshToken(refreshToken);
 
     // detect refresh token reuse
     if (!token) {
@@ -132,7 +137,7 @@ const refresh = async (req, res, next) => {
         where: { userId },
       });
 
-      throw forbidden("You are not authorized to access this resource.");
+      throw invalidClient("You are not authorized to access this resource.");
     }
 
     await token.destroy();

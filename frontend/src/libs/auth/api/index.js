@@ -4,23 +4,28 @@ import { fetcher } from "../../utils";
 
 const ENDPOINT = API_AUTH;
 
-export const getProfile = async (query) => {
-  const url = `${ENDPOINT}/profile?${query}`;
-  const token = localStorageManager.getToken();
+export const getNewAccessToken = async () => {
+  const url = `${ENDPOINT}/refresh-token`;
 
-  if (!token) return null;
+  return fetcher(url, {
+    method: "POST",
+  });
+};
+
+export const getProfile = async ({ accessToken }) => {
+  const url = `${ENDPOINT}/profile`;
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const signin = async (values, query) => {
-  const url = `${ENDPOINT}/signin?${query}`;
+export const signin = async (values) => {
+  const url = `${ENDPOINT}/signin`;
 
   return fetcher(url, {
     method: "POST",

@@ -9,7 +9,6 @@ import {
   FormMessage,
   Input,
   Textarea,
-  useToast,
 } from "../../../../components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -18,7 +17,6 @@ import { useCreateStore } from "../queries";
 import { MainContent } from "../../layouts";
 
 const StoreNew = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const createStore = useCreateStore();
@@ -45,7 +43,7 @@ const StoreNew = () => {
         toast({
           variant: "destructive",
           title: "Store could not be created",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

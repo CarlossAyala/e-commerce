@@ -48,7 +48,6 @@ import {
   TableRow,
   TableSkeleton,
   Textarea,
-  useToast,
 } from "../../../../components";
 import { productActionRoutes } from "../../product/utils";
 import { Formatter } from "../../../../utils/formatter";
@@ -59,7 +58,6 @@ import { replyInitial, replySchema } from "../schemas";
 import { MainContent } from "../../layouts";
 
 const QuestionProduct = () => {
-  const { toast } = useToast();
   const [params] = useSearchParams();
   const { productId } = useParams();
 
@@ -112,7 +110,7 @@ const QuestionProduct = () => {
         toast({
           variant: "destructive",
           title: "Error reply",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });
@@ -130,7 +128,7 @@ const QuestionProduct = () => {
         toast({
           variant: "destructive",
           title: "Error reject",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

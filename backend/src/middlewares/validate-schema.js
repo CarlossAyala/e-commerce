@@ -9,10 +9,11 @@ const { badRequest } = require("./http-errors");
 function validateSchema(schema, property) {
   return (req, _res, next) => {
     const data = req[property];
-    const { error } = schema.validate(data, { abortEarly: false });
+    const { error, value } = schema.validate(data, { abortEarly: false });
     if (error) {
       return next(badRequest(error));
     }
+    req[property] = value;
     next();
   };
 }

@@ -14,14 +14,11 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  useToast,
 } from "../../../../../components";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 export const ProfileForm = ({ profile }) => {
-  const { toast } = useToast();
-
   const updateProfile = useUpdateProfile();
 
   const form = useForm({

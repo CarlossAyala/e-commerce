@@ -20,7 +20,7 @@ export const Questions = ({ productId }) => {
       ) : isError ? (
         <EmptyPlaceholder
           title={error?.name ?? "Error"}
-          description={error?.message ?? "Uh oh! Something went wrong."}
+          description={error.message}
           className="py-10"
         />
       ) : isEmpty ? (

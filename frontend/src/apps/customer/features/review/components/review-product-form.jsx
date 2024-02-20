@@ -16,7 +16,6 @@ import {
   RadioGroup,
   RadioGroupItem,
   Textarea,
-  useToast,
 } from "../../../../../components";
 import { useCreateReview } from "../queries";
 import { useForm } from "react-hook-form";
@@ -29,7 +28,6 @@ const STARS = [1, 2, 3, 4, 5];
 const RATINGS = ["Poor", "Fair", "Average", "Good", "Excellent"];
 
 export const ReviewProductForm = ({ review, reviewId }) => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const createReview = useCreateReview(reviewId);

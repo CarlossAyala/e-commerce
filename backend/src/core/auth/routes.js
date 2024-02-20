@@ -21,7 +21,7 @@ router.post(
   controllers.signin
 );
 
-router.post("/refresh", controllers.refresh);
+router.post("/refresh-token", controllers.refresh);
 
 router.post("/logout", controllers.logout);
 

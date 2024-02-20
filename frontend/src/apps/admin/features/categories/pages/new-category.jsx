@@ -15,15 +15,13 @@ import {
   RadioGroupItem,
   Separator,
   Textarea,
-  useToast,
 } from "../../../../../components";
 import { newCategoryInitial, newCategorySchema } from "../schemas";
 import { categoryTypes } from "../utils";
 import { useCreateCategory } from "../queries";
+import { toast } from "sonner";
 
 export const NewCategory = () => {
-  const { toast } = useToast();
-
   const form = useForm({
     resolver: yupResolver(newCategorySchema),
     defaultValues: newCategoryInitial,
@@ -36,14 +34,11 @@ export const NewCategory = () => {
     console.log("Values", values);
     create.mutate(values, {
       onSuccess() {
-        toast({
-          description: "Category created successfully",
-        });
+        toast("Category created successfully");
         form.reset();
       },
       onError(error) {
-        toast({
-          title: "Error creating category",
+        toast.message("Error creating category", {
           description: error.message,
         });
       },

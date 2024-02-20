@@ -3,9 +3,6 @@ const Address = require("./address.model");
 
 const RefreshToken = require("./refresh-token.model");
 
-const Roles = require("./roles.model");
-const UsersRoles = require("./users-roles.model");
-
 const Store = require("./store.model");
 const RequestOfficialStore = require("./request-official-store.model");
 
@@ -26,20 +23,6 @@ const Review = require("./review.model");
 
 const Question = require("./question.model");
 const Answer = require("./answer.model");
-
-// Users - Roles
-User.model.belongsToMany(Roles.model, {
-  through: UsersRoles.model,
-  foreignKey: "userId",
-  as: "roles",
-  unique: false,
-});
-Roles.model.belongsToMany(User.model, {
-  through: UsersRoles.model,
-  unique: false,
-  foreignKey: "roleId",
-  as: "users",
-});
 
 // STORE
 Store.model.hasMany(RequestOfficialStore.model, {
@@ -173,9 +156,6 @@ module.exports = {
   Address,
 
   RefreshToken,
-
-  Roles,
-  UsersRoles,
 
   Store,
   RequestOfficialStore,

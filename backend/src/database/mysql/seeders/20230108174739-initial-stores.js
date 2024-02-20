@@ -1,11 +1,11 @@
 "use strict";
 
-const config = require("../../../config");
-const Encrypter = require("../../../middlewares/auth/encrypter");
+const { bcrypt } = require("../../../libs");
 const { v4: uuidv4 } = require("uuid");
 const { faker } = require("@faker-js/faker/locale/es_MX");
 const { User, Store } = require("../models");
 const { slugify } = require("../../../libs");
+const { seller } = require("../../../config/environments");
 
 const imageOptions = {
   with: 640,
@@ -19,7 +19,7 @@ const createRandomUsers = async () => {
   const name = faker.name.firstName(userSex);
   const lastName = faker.name.lastName(userSex);
   const email = `${name}.${id}@gmail.com`;
-  const password = await Encrypter.hash(config.seller.password);
+  const password = await bcrypt.hash(seller.password);
 
   return {
     id,

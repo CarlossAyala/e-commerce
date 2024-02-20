@@ -2,62 +2,49 @@ const express = require("express");
 const router = express.Router();
 const Boom = require("@hapi/boom");
 const schemas = require("./schemas");
+const { JWT, validateSchema, authentication } = require("../../../middlewares");
 const {
-  JWT,
-  validateSchema,
-  authorization,
-  authentication,
-} = require("../../../middlewares");
-const {
-  Roles,
   RequestOfficialStore,
   Store,
 } = require("../../../database/mysql/models");
 const { QueryBuilder } = require("../../../libs");
 
-router.get(
-  "/",
-  JWT.verify,
-  authentication,
-  authorization([Roles.permissions.crud_requests_official_stores]),
-  async (req, res, next) => {
-    const { status } = req.query;
+router.get("/", JWT.verify, authentication, async (req, res, next) => {
+  const { status } = req.query;
 
-    const _status =
-      RequestOfficialStore.enums.status[status] ??
-      RequestOfficialStore.enums.status.process;
+  const _status =
+    RequestOfficialStore.enums.status[status] ??
+    RequestOfficialStore.enums.status.process;
 
-    const { limit, offset, order } = new QueryBuilder(req.query)
-      .orderBy("updatedAt", "DESC")
-      .pagination()
-      .build();
+  const { limit, offset, order } = new QueryBuilder(req.query)
+    .orderBy("updatedAt", "DESC")
+    .pagination()
+    .build();
 
-    try {
-      const stores = await RequestOfficialStore.model.findAndCountAll({
-        where: {
-          status: _status,
-        },
-        include: {
-          model: Store.model,
-          as: "store",
-        },
-        order,
-        limit,
-        offset,
-      });
+  try {
+    const stores = await RequestOfficialStore.model.findAndCountAll({
+      where: {
+        status: _status,
+      },
+      include: {
+        model: Store.model,
+        as: "store",
+      },
+      order,
+      limit,
+      offset,
+    });
 
-      return res.json(stores);
-    } catch (error) {
-      next(error);
-    }
+    return res.json(stores);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 router.get(
   "/:id",
   JWT.verify,
   authentication,
-  authorization([Roles.permissions.crud_requests_official_stores]),
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: requestId } = req.params;
@@ -84,7 +71,6 @@ router.get(
   "/:id/history",
   JWT.verify,
   authentication,
-  authorization([Roles.permissions.crud_requests_official_stores]),
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: storeId } = req.params;
@@ -116,7 +102,6 @@ router.patch(
   "/:id",
   JWT.verify,
   authentication,
-  authorization([Roles.permissions.crud_requests_official_stores]),
   validateSchema(schemas.resourceId, "params"),
   validateSchema(schemas.update, "body"),
   async (req, res, next) => {

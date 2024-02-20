@@ -1,13 +1,7 @@
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signinInitial, signinSchema, useSignin } from "../libs/auth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useToast } from "./ui/use-toast";
 import {
   Form,
   FormControl,
@@ -22,14 +16,11 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useDocumentTitle } from "../hooks";
 
 const Signin = () => {
-  const [params] = useSearchParams();
-  const { toast } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
-  useDocumentTitle("Sign In");
-  const signin = useSignin(params.get("from"));
+  const signin = useSignin();
 
-  const from = location.state?.from?.pathname || "/customer";
+  useDocumentTitle("Sign In");
 
   const form = useForm({
     resolver: yupResolver(signinSchema),
@@ -37,17 +28,13 @@ const Signin = () => {
     mode: "all",
   });
 
+  const from = location.state?.location?.pathname || "/customer";
+
   const handleSignin = (values) => {
     signin.mutate(values, {
       onSuccess() {
-        navigate(from, { replace: true });
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Signin failed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
-        });
+        // navigate(from, { replace: true })s;
+        navigate("/customer");
       },
     });
   };

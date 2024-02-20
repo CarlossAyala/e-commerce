@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
 import { categoryTypes } from "../utils";
 import { attachCategoryInitial, attachCategorySchema } from "../schemas";
 import {
@@ -19,12 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
   Skeleton,
-  useToast,
 } from "../../../../../components";
 import { useAttachCategory } from "../queries";
 
 export const FormAttachCategory = ({ categories }) => {
-  const { toast } = useToast();
   const attach = useAttachCategory();
 
   const form = useForm({
@@ -36,16 +35,13 @@ export const FormAttachCategory = ({ categories }) => {
   const handleAttach = (values) => {
     attach.mutate(values, {
       onSuccess: () => {
-        toast({
-          description: "Category attached",
-        });
+        toast("Category attached");
         form.resetField("categoriesId");
         attach.reset();
       },
       onError(error) {
-        toast({
-          title: "Category could not be attached",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+        toast.message("Category could not be attached", {
+          description: error.message,
         });
       },
     });

@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Button, Skeleton, Spinner, useToast } from "../../../components";
+import { toast } from "sonner";
+import { Button, Skeleton, Spinner } from "../../../components";
 import { useGetCart } from "../features/cart";
 import { useCreateCheckout, checkoutActionRoutes } from "../features/checkout";
 
 export const CartSummary = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const { subTotal, subTotalHidden, subTotalPlusHidden } = useGetCart();
@@ -17,9 +17,7 @@ export const CartSummary = () => {
         navigate(checkoutActionRoutes.shipping(id));
       },
       onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Error generating checkout",
+        toast.message("Error generating checkout", {
           description: error.message,
         });
       },

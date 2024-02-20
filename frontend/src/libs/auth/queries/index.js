@@ -1,39 +1,56 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { localStorageManager } from "../../../utils/local-storage";
 import {
+  getNewAccessToken,
   getProfile,
   signin,
   signup,
   updateFullName,
   updatePassword,
 } from "../api";
-import { getProfileQuery } from "../utils";
+import { SessionStorage } from "@/utils";
 
 export const authKeys = {
   key: ["auth"],
-  profile: (query) => [...authKeys.key, "profile", query],
+  accessToken: () => [...authKeys.key, "access-token"],
+  profile: () => [...authKeys.key, "profile"],
 };
 
-export const useGetProfile = (query) => {
+export const useAccessToken = () => {
+  const attemptSilentAuth = SessionStorage.get("attempt_silent_auth");
+
+  console.log({ attemptSilentAuth });
   return useQuery({
-    queryKey: authKeys.profile(query),
-    queryFn: () => getProfile(query),
+    queryKey: authKeys.accessToken(),
+    queryFn: getNewAccessToken,
+    staleTime: 1000 * 60 * 4.5,
     retry: false,
+    enabled: !attemptSilentAuth,
   });
 };
 
-/**
- * @param {import("../utils.js").Profile} profile
- */
-export const useSignin = (profile) => {
+export const useGetProfile = () => {
+  const { data: accessToken } = useAccessToken();
+
+  return useQuery({
+    queryKey: authKeys.profile(),
+    queryFn: () => getProfile({ accessToken }),
+    retry: false,
+    enabled: !!accessToken,
+  });
+};
+
+export const useSignin = () => {
   const queryClient = useQueryClient();
-  const query = getProfileQuery(profile);
 
   return useMutation({
-    mutationFn: (values) => signin(values, query),
-    onSuccess: ({ token }) => {
-      localStorageManager.setToken(token);
-      queryClient.invalidateQueries(authKeys.key);
+    mutationFn: (values) => signin(values),
+    onSuccess: ({ accessToken }) => {
+      queryClient.setQueryData(authKeys.accessToken(), accessToken);
+      queryClient.invalidateQueries(authKeys.profile());
+    },
+    meta: {
+      title: "Signin",
     },
   });
 };
@@ -41,6 +58,9 @@ export const useSignin = (profile) => {
 export const useSignup = () => {
   return useMutation({
     mutationFn: signup,
+    meta: {
+      title: "Signup",
+    },
   });
 };
 
@@ -75,15 +95,15 @@ export const useSellerAuth = () => {
   };
 };
 
-export const useCustomerAuth = () => {
-  const { data: customer, ...rest } = useGetProfile("from=customer");
+// export const useCustomerAuth = () => {
+//   const { data: customer, ...rest } = useGetProfile();
 
-  return {
-    customer,
-    isAuthenticated: !!customer,
-    ...rest,
-  };
-};
+//   return {
+//     customer,
+//     isAuthenticated: !!customer,
+//     ...rest,
+//   };
+// };
 
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();

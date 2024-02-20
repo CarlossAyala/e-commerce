@@ -24,7 +24,6 @@ import {
   Separator,
   Skeleton,
   Textarea,
-  useToast,
 } from "../../../../../components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -37,11 +36,11 @@ import { useState } from "react";
 import { ArrowPathIcon, FaceFrownIcon } from "@heroicons/react/24/outline";
 import { categoryActionRoutes, categoryTypes } from "../utils";
 import clsx from "clsx";
+import { toast } from "sonner";
 
 export const CategoryDetails = () => {
   const { categoryId } = useParams();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const [modal, setModal] = useState(false);
 
@@ -65,15 +64,11 @@ export const CategoryDetails = () => {
   const handleSave = (values) => {
     update.mutate(values, {
       onSuccess() {
-        toast({
-          description: "Category updated successfully",
-        });
+        toast("Category updated successfully");
       },
       onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Category could not be updated",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+        toast.message("Category could not be updated", {
+          description: error.message,
         });
       },
     });
@@ -91,7 +86,7 @@ export const CategoryDetails = () => {
         toast({
           variant: "destructive",
           title: "Category could not be removed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

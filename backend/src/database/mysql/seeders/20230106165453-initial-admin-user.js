@@ -1,19 +1,19 @@
 "use strict";
 
 const { v4: uuidv4 } = require("uuid");
-const config = require("../../../config");
-const Encrypter = require("../../../middlewares/auth/encrypter");
 const { User } = require("../models");
+const { bcrypt } = require("../../../libs");
+const { admin } = require("../../../config/environments");
 
 const generateUser = async () => {
-  const { name, lastName, email, password } = config.admin;
+  const { name, lastName, email, password } = admin;
 
   return {
     id: uuidv4(),
     name,
     last_name: lastName,
     email,
-    password: await Encrypter.hash(password),
+    password: await bcrypt.hash(password),
     created_at: new Date(),
     updated_at: new Date(),
   };

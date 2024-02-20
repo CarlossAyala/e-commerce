@@ -1,4 +1,4 @@
-import { useCustomerAuth } from "../../../../../libs/auth";
+import { useGetProfile } from "../../../../../libs/auth";
 import {
   ButtonSkeleton,
   EmptyPlaceholder,
@@ -10,7 +10,7 @@ import { PasswordForm } from "../components/password-form";
 import { useDocumentTitle } from "../../../../../hooks";
 
 export const Account = () => {
-  const { customer, isLoading, isError, error } = useCustomerAuth();
+  const { data: customer, isLoading, isError, error } = useGetProfile();
   useDocumentTitle("Account");
 
   return (

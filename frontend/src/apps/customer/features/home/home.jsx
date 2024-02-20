@@ -1,17 +1,18 @@
 import { SliderComponent } from "../../../../components";
 import { useDocumentTitle } from "../../../../hooks";
-import { useCustomerAuth } from "../../../../libs/auth";
+import { useGetProfile } from "../../../../libs/auth";
 import { useGetHistory } from "../history";
 import { useGetProducts } from "../product";
 import { useGetStores } from "../store";
 
 const Home = () => {
-  const { isAuthenticated } = useCustomerAuth();
+  const { data: customer } = useGetProfile();
   useDocumentTitle("Home");
   const products = useGetProducts("");
   const history = useGetHistory("");
   const stores = useGetStores("");
 
+  const isAuthenticated = !!customer;
   const hasHistory = history.data?.rows.length > 0;
 
   return (

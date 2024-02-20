@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import { UserNav } from "./user-nav";
 import { MainNav } from "./main-nav";
 import { Sidebar } from "./sidebar";
-import { useCustomerAuth } from "../../../libs/auth";
+import { useAccessToken, useGetProfile } from "../../../libs/auth";
 import { UserCart } from "./user-cart";
 import { SearchNav } from "./search-nav/search-nav";
 
 export const Header = () => {
-  const { isAuthenticated, isLoading } = useCustomerAuth();
+  const { data: accessToken } = useAccessToken();
+  const { isLoading } = useGetProfile();
+
+  const isAuthenticated = !!accessToken;
 
   return (
     <header className="container flex h-14 items-center">
@@ -18,17 +21,7 @@ export const Header = () => {
       <div className="ml-auto flex items-center gap-2">
         <SearchNav />
 
-        {isLoading ? (
-          <>
-            <Skeleton className="size-9 rounded-full" />
-            <Skeleton className="h-9 w-10 " />
-          </>
-        ) : isAuthenticated ? (
-          <>
-            <UserNav />
-            <UserCart />
-          </>
-        ) : (
+        {!isAuthenticated ? (
           <>
             <Button variant="ghost" size="sm" asChild>
               <Link to="/signin">Sign In</Link>
@@ -36,6 +29,16 @@ export const Header = () => {
             <Button asChild size="sm">
               <Link to="/signup">Sign Up</Link>
             </Button>
+          </>
+        ) : isLoading ? (
+          <>
+            <UserNav />
+            <UserCart />
+          </>
+        ) : (
+          <>
+            <Skeleton className="size-9 rounded-full" />
+            <Skeleton className="h-9 w-10 " />
           </>
         )}
       </div>

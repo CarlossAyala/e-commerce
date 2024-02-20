@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
   EmptyPlaceholder,
   Pagination,
-  useToast,
 } from "../../../../../components";
 import { useClearHistory, useGetHistory, useRemoveHistory } from "../queries";
 import { useDebounced, useDocumentTitle } from "../../../../../hooks";
@@ -60,7 +59,6 @@ const formatDate = (inputDate) => {
 };
 
 const History = () => {
-  const { toast } = useToast();
   const [params] = useSearchParams();
   const debouncedParams = useDebounced(params.toString());
   const {
@@ -86,7 +84,7 @@ const History = () => {
         toast({
           variant: "destructive",
           title: "History could not be cleared",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });
@@ -103,7 +101,7 @@ const History = () => {
         toast({
           variant: "destructive",
           title: "History could not be removed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });
@@ -144,7 +142,7 @@ const History = () => {
       ) : isError ? (
         <EmptyPlaceholder
           title={error?.name ?? "Error"}
-          description={error?.message ?? "Uh oh! Something went wrong."}
+          description={error.message}
         />
       ) : isEmpty ? (
         <EmptyPlaceholder

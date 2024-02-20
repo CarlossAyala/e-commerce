@@ -1,18 +1,18 @@
 import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid";
 import { BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/24/outline";
-import { Skeleton, useToast } from "../../../../../../components";
+import { Skeleton } from "../../../../../../components";
 import {
   useCreateBookmark,
   useGetBookmark,
   useRemoveBookmark,
 } from "../../../bookmark";
+import { toast } from "sonner";
 
 const AddToBookmarkSkeleton = () => {
   return <Skeleton className="h-8 w-32" />;
 };
 
 export const AddToBookmark = ({ productId }) => {
-  const { toast } = useToast();
   const bookmark = useGetBookmark(productId);
   const add = useCreateBookmark();
   const remove = useRemoveBookmark();
@@ -21,14 +21,11 @@ export const AddToBookmark = ({ productId }) => {
     if (bookmark.data) {
       remove.mutate(productId, {
         onSuccess() {
-          toast({
-            description: "Product removed from bookmark",
-          });
+          toast("Product removed from bookmark");
         },
         onError(error) {
-          toast({
-            title: "Product could not be removed from bookmark",
-            description: error?.message ?? "Uh oh! Something went wrong.",
+          toast.message("Product could not be removed from bookmark", {
+            description: error.message,
           });
         },
       });
@@ -36,14 +33,11 @@ export const AddToBookmark = ({ productId }) => {
     } else {
       add.mutate(productId, {
         onSuccess() {
-          toast({
-            description: "Product added to bookmark",
-          });
+          toast("Product added to bookmark");
         },
         onError(error) {
-          toast({
-            title: "Product could not be added to bookmark",
-            description: error?.message ?? "Uh oh! Something went wrong.",
+          toast.message("Product could not be added to bookmark", {
+            description: error.message,
           });
         },
       });

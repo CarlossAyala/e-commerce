@@ -6,47 +6,39 @@ const { Op } = require("sequelize");
 const {
   JWT,
   validateSchema,
-  authorization,
   authentication,
 } = require("../../../middlewares/");
-const { Category, Roles, Product } = require("../../../database/mysql/models");
+const { Category, Product } = require("../../../database/mysql/models");
 const { slugify } = require("../../../libs");
 const sequelize = require("../../../database/mysql/connection");
 
-router.get(
-  "/mixed",
-  JWT.verify,
-  authentication,
-  authorization([Roles.permissions.crud_categories]),
-  async (req, res, next) => {
-    const { main, single } = Category.enums.type;
+router.get("/mixed", JWT.verify, authentication, async (req, res, next) => {
+  const { main, single } = Category.enums.type;
 
-    try {
-      const categories = await Category.model.findAll({
-        where: {
-          [Op.or]: [{ type: main }, { type: single }],
-        },
-        include: {
-          model: Category.model,
-          as: "children",
-          separate: true,
-          order: [["name", "ASC"]],
-        },
+  try {
+    const categories = await Category.model.findAll({
+      where: {
+        [Op.or]: [{ type: main }, { type: single }],
+      },
+      include: {
+        model: Category.model,
+        as: "children",
+        separate: true,
         order: [["name", "ASC"]],
-      });
+      },
+      order: [["name", "ASC"]],
+    });
 
-      return res.status(200).json(categories);
-    } catch (error) {
-      next(error);
-    }
+    return res.status(200).json(categories);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 router.get(
   "/:id",
   JWT.verify,
   authentication,
-  authorization([Roles.permissions.crud_categories]),
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: categoryId } = req.params;
@@ -88,7 +80,6 @@ router.post(
   "/",
   JWT.verify,
   authentication,
-  authorization([Roles.permissions.crud_categories]),
   validateSchema(schemas.create, "body"),
   async (req, res, next) => {
     const { name, description, type } = req.body;
@@ -123,7 +114,6 @@ router.patch(
   "/attach",
   JWT.verify,
   authentication,
-  authorization([Roles.permissions.crud_categories]),
   validateSchema(schemas.attach, "body"),
   async (req, res, next) => {
     const { categoryId, categoriesId } = req.body;
@@ -181,7 +171,6 @@ router.patch(
   "/detach",
   JWT.verify,
   authentication,
-  authorization([Roles.permissions.crud_categories]),
   validateSchema(schemas.detach, "body"),
   async (req, res, next) => {
     const { categoryId, categoriesId } = req.body;
@@ -254,7 +243,6 @@ router.patch(
   "/:id",
   JWT.verify,
   authentication,
-  authorization([Roles.permissions.crud_categories]),
   validateSchema(schemas.resourceId, "params"),
   validateSchema(schemas.update, "body"),
   async (req, res, next) => {
@@ -289,7 +277,6 @@ router.patch(
 router.delete(
   "/:id",
   JWT.verify,
-  authorization([Roles.permissions.crud_categories]),
   validateSchema(schemas.resourceId, "params"),
   async (req, res, next) => {
     const { id: categoryId } = req.params;

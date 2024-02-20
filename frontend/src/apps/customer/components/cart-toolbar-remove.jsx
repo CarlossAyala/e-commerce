@@ -1,22 +1,19 @@
 import { ExclamationCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRemoveFromCart } from "../features/cart";
-import { Button, Spinner, useToast } from "../../../components";
+import { Button, Spinner } from "../../../components";
+import { toast } from "sonner";
 
 export const CartToolbarRemove = ({ item }) => {
-  const { toast } = useToast();
   const { mutate, reset, isLoading, isError } = useRemoveFromCart();
 
   const handleRemove = () => {
     mutate(item.productId, {
       onSuccess() {
-        toast({
-          description: "Cart product removed",
-        });
+        toast("Cart product removed");
       },
-      onError() {
-        toast({
-          variant: "destructive",
-          description: "Cart product remove failed",
+      onError(error) {
+        toast.message("Cart product remove failed", {
+          description: error.message,
         });
       },
       onSettled() {

@@ -13,7 +13,6 @@ import {
   RadioGroup,
   Skeleton,
   Spinner,
-  useToast,
 } from "../../../../../components";
 import {
   checkoutReviewDefault,
@@ -33,7 +32,7 @@ import { useDocumentTitle } from "../../../../../hooks";
 
 export const CheckoutReview = () => {
   const { paymentIntentId } = useParams();
-  const { toast } = useToast();
+
   const navigate = useNavigate();
   useDocumentTitle("Checkout - Review");
 

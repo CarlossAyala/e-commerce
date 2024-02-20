@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
   EmptyPlaceholder,
   Pagination,
-  useToast,
 } from "../../../../../components";
 import {
   useClearBookmark,
@@ -19,7 +18,6 @@ import { useDebounced, useDocumentTitle } from "../../../../../hooks";
 import { ProductCard } from "../../../components";
 
 export const Bookmarks = () => {
-  const { toast } = useToast();
   const [params] = useSearchParams();
   const debouncedParams = useDebounced(params.toString());
   const {
@@ -46,7 +44,7 @@ export const Bookmarks = () => {
         toast({
           variant: "destructive",
           title: "Bookmarks could not be cleared",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });
@@ -63,7 +61,7 @@ export const Bookmarks = () => {
         toast({
           variant: "destructive",
           title: "Bookmark could not be removed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });
@@ -105,7 +103,7 @@ export const Bookmarks = () => {
       ) : isError ? (
         <EmptyPlaceholder
           title={error?.name ?? "Error"}
-          description={error?.message ?? "Uh oh! Something went wrong."}
+          description={error.message}
         />
       ) : isEmpty ? (
         <EmptyPlaceholder

@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "../../../components";
 import { navigation } from "../config";
-import { useCustomerAuth, useSignout } from "../../../libs/auth";
+import { useGetProfile, useSignout } from "../../../libs/auth";
 
 const { orders, history, bookmarks, questions, reviews, settings } = navigation;
 const navs = [orders, history, bookmarks, questions, reviews];
@@ -33,7 +33,8 @@ const getInitials = (fullName) => {
 };
 
 export const UserNav = () => {
-  const { customer } = useCustomerAuth();
+  // const { customer } = useCustomerAuth();
+  const { data: customer } = useGetProfile();
   const signout = useSignout();
 
   const fullName = `${customer?.name} ${customer?.lastName}`;

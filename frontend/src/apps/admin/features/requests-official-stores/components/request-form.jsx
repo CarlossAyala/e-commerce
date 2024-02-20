@@ -18,15 +18,13 @@ import {
   SelectTrigger,
   SelectValue,
   Textarea,
-  useToast,
 } from "../../../../../components";
 import { useUpdateRequestOfficialStore } from "../queries";
 import { requestOfficialStoreStatus } from "../utils";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
 
 export const RequestForm = ({ requestId }) => {
-  const { toast } = useToast();
-
   const updateRequest = useUpdateRequestOfficialStore(requestId);
 
   const form = useForm({
@@ -38,13 +36,10 @@ export const RequestForm = ({ requestId }) => {
   const handleUpdateRequest = (values) => {
     updateRequest.mutate(values, {
       onSuccess() {
-        toast({
-          description: "Request updated successfully",
-        });
+        toast("Request updated successfully");
       },
       onError(error) {
-        toast({
-          title: "Request could not be updated",
+        toast.message("Request could not be updated", {
           description: error.message,
         });
       },

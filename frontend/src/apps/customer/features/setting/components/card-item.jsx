@@ -16,15 +16,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Skeleton,
-  useToast,
 } from "../../../../../components";
 import { useRemovePaymentMethod } from "../../../../common/payment-method";
 import { useState } from "react";
 
 export const CardItem = ({ card }) => {
   const [alert, setAlert] = useState(false);
-
-  const { toast } = useToast();
 
   const remove = useRemovePaymentMethod();
 
@@ -43,7 +40,7 @@ export const CardItem = ({ card }) => {
         toast({
           variant: "destructive",
           title: "Card could not be removed",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });

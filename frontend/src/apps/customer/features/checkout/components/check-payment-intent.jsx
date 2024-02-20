@@ -6,13 +6,12 @@ import {
   EmptyPlaceholder,
   Skeleton,
   Spinner,
-  useToast,
 } from "../../../../../components";
 import { checkoutActionRoutes } from "../utils";
 
 export const CheckPaymentIntent = ({ children }) => {
   const { paymentIntentId } = useParams();
-  const { toast } = useToast();
+
   const navigate = useNavigate();
 
   const { isLoading, isError } = useGetCheckout(paymentIntentId);

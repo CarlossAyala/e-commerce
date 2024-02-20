@@ -20,7 +20,6 @@ import {
   FormMessage,
   Input,
   Textarea,
-  useToast,
 } from "../../../../components";
 import { useState } from "react";
 import { MainContent } from "../../layouts";
@@ -28,7 +27,6 @@ import { MainContent } from "../../layouts";
 const Store = () => {
   const [dialog, setDialog] = useState(false);
 
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const store = useGetStore();
@@ -53,7 +51,7 @@ const Store = () => {
         toast({
           variant: "destructive",
           title: "Store could not be updated",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
       },
     });
@@ -71,7 +69,7 @@ const Store = () => {
         toast({
           variant: "destructive",
           title: "Error deleting store",
-          description: error?.message ?? "Uh oh! Something went wrong.",
+          description: error.message,
         });
         setTimeout(updateStore.reset, 1300);
       },

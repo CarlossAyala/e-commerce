@@ -1,10 +1,7 @@
 export * from "./formatter";
-export * from "./local-storage";
+export * from "./local-storage"; //TODO: delete
+export * from "./storage";
 export * from "./schema";
-
-export const isEven = (num) => {
-  return num % 2 === 0;
-};
 
 export const splitFloat = (num) => {
   const int = Math.floor(+num);
@@ -31,16 +28,4 @@ export const getInitials = (fullName) => {
     .map((word) => word.charAt(0))
     .join("")
     .toUpperCase();
-};
-
-/**
- * @param {Location} location
- * @param {string} path
- * @returns {Boolean}
- */
-export const isCurrentPath = (location, path, basePath) => {
-  if (location.pathname === path) return true;
-  else if (location.pathname.includes(path) && basePath !== path) {
-    return true;
-  }
 };

@@ -8,14 +8,11 @@ import {
   FormItem,
   FormMessage,
   Input,
-  useToast,
 } from "../../../../../../components";
 import { addCartInitial, addCartSchema, useAddCart } from "../../../cart";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 export const AddToCart = ({ product }) => {
-  const { toast } = useToast();
-
   const addToCart = useAddCart();
 
   const form = useForm({
@@ -37,7 +34,7 @@ export const AddToCart = ({ product }) => {
         onError(error) {
           toast({
             title: "Product could not be added to cart",
-            description: error?.message ?? "Uh oh! Something went wrong.",
+            description: error.message,
           });
           addToCart.reset();
         },
