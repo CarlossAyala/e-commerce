@@ -1,6 +1,6 @@
 import { SliderComponent } from "../../../../components";
 import { useDocumentTitle } from "../../../../hooks";
-import { useGetProfile } from "../../../../libs/auth";
+import { useGetProfile } from "../../../../shared/auth";
 import { useGetHistory } from "../history";
 import { useGetProducts } from "../product";
 import { useGetStores } from "../store";

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
-import { signupInitial, signupSchema, useSignup } from "../libs/auth";
+import { signupInitial, signupSchema, useSignup } from "../shared/auth";
 import {
   Form,
   FormControl,

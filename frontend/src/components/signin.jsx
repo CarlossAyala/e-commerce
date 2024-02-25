@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { signinInitial, signinSchema, useSignin } from "../libs/auth";
+import { signinInitial, signinSchema, useSignin } from "../shared/auth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -14,6 +14,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useDocumentTitle } from "../hooks";
+import { APP_NAVIGATION } from "@/configs";
 
 const Signin = () => {
   const location = useLocation();
@@ -28,13 +29,13 @@ const Signin = () => {
     mode: "all",
   });
 
-  const from = location.state?.location?.pathname || "/customer";
+  const from = location.state?.location?.pathname || APP_NAVIGATION.seller.to;
 
   const handleSignin = (values) => {
     signin.mutate(values, {
       onSuccess() {
         // navigate(from, { replace: true })s;
-        navigate("/customer");
+        navigate(from);
       },
     });
   };

@@ -11,11 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../../components";
-import { useAdminAuth } from "../../../libs/auth";
+import { useGetProfile } from "../../../shared/auth";
 import { getInitials } from "../../../utils";
 
 export const UserNav = () => {
-  const { admin } = useAdminAuth();
+  const { data: admin } = useGetProfile();
 
   const fullName = `${admin.name} ${admin.lastName}`;
 

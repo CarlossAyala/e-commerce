@@ -43,7 +43,6 @@ import { useGetCategories, useGetCategory } from "../../../common/category";
 import { useDebounced } from "../../../../hooks";
 import clsx from "clsx";
 import { useDeleteProduct, useGetProduct, useUpdateProduct } from "../queries";
-import { MainContent } from "../../layouts";
 import { clearEmptyValues } from "../../../../utils";
 
 const ProductDetail = () => {
@@ -121,7 +120,7 @@ const ProductDetail = () => {
     categories.isSuccess && categories.data?.rows.length > 0;
 
   return (
-    <MainContent>
+    <main className="container flex-1">
       <section className="pt-3">
         <h1 className="text-2xl font-bold tracking-tight">Product Details</h1>
         <p className="text-muted-foreground">
@@ -616,7 +615,7 @@ const ProductDetail = () => {
           </>
         )}
       </section>
-    </MainContent>
+    </main>
   );
 };
 

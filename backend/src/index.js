@@ -18,7 +18,12 @@ const app = express();
 
 // middlewares
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 app.use(restrictMethods);
 app.use(cookieParser());
 app.use(express.json());

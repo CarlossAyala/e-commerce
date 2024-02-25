@@ -13,12 +13,12 @@ import {
   SheetHeader,
   buttonVariants,
 } from "../../../components";
-import { navigation } from "../config";
+import { CUSTOMER_NAV } from "../config";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "../../../libs/utils";
 import { useState } from "react";
 
-const { home, categories, stores, products } = navigation;
+const { home, categories, stores, products } = CUSTOMER_NAV;
 const items = [
   { ...home, icon: HomeIcon },
   { ...categories, icon: BookOpenIcon },

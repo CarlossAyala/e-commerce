@@ -35,7 +35,6 @@ import { useState } from "react";
 import { useGetCategories, useGetCategory } from "../../../common/category";
 import { useDebounced } from "../../../../hooks";
 import { useCreateProduct } from "../queries";
-import { MainContent } from "../../layouts";
 import { clearEmptyValues } from "../../../../utils";
 import { toast } from "sonner";
 
@@ -91,7 +90,7 @@ const ProductNew = () => {
     categories.isSuccess && categories.data?.rows.length > 0;
 
   return (
-    <MainContent>
+    <main className="container flex-1">
       <section className="pt-3">
         <h1 className="text-2xl font-bold tracking-tight">Product Details</h1>
         <p className="text-muted-foreground">
@@ -448,7 +447,7 @@ const ProductNew = () => {
           </form>
         </Form>
       </section>
-    </MainContent>
+    </main>
   );
 };
 

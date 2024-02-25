@@ -1,9 +1,14 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Root } from "./layouts";
-import { Signin, Signup } from "./components";
-import { SellerRoot, sellerRoutes } from "./apps/seller";
+import {
+  AuthenticatedRoute,
+  RedirectIfAuthenticated,
+  Signin,
+  Signup,
+} from "./components";
 import { CustomerRoot, customerRoutes } from "./apps/customer";
 import { AdminRoot, adminRoutes } from "./apps/admin";
+import { SellerRoot, sellerRoutes } from "./apps/seller";
 
 const router = createBrowserRouter([
   {
@@ -26,12 +31,20 @@ const router = createBrowserRouter([
       },
       {
         path: "seller",
-        element: <SellerRoot />,
+        element: (
+          <AuthenticatedRoute>
+            <SellerRoot />
+          </AuthenticatedRoute>
+        ),
         children: sellerRoutes,
       },
       {
         path: "signin",
-        element: <Signin />,
+        element: (
+          <RedirectIfAuthenticated>
+            <Signin />
+          </RedirectIfAuthenticated>
+        ),
       },
       {
         path: "signup",

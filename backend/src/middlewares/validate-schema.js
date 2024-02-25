@@ -11,7 +11,7 @@ function validateSchema(schema, property) {
     const data = req[property];
     const { error, value } = schema.validate(data, { abortEarly: false });
     if (error) {
-      return next(badRequest(error));
+      return next(badRequest(error.message));
     }
     req[property] = value;
     next();

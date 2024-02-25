@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import { navigation } from "../config";
+import { CUSTOMER_NAV } from "../config";
 import { cn } from "../../../libs/utils";
 
-const { home, categories, stores, products } = navigation;
+const { home, categories, stores, products } = CUSTOMER_NAV;
 const items = [home, categories, products, stores];
 
 export const MainNav = () => {

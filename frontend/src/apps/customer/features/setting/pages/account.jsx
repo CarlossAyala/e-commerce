@@ -1,4 +1,4 @@
-import { useGetProfile } from "../../../../../libs/auth";
+import { useGetProfile } from "../../../../../shared/auth";
 import {
   ButtonSkeleton,
   EmptyPlaceholder,

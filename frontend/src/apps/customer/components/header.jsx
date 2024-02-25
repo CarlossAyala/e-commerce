@@ -1,17 +1,15 @@
-import { Button, Logo, Skeleton } from "../../../components";
 import { Link } from "react-router-dom";
+import { Button, Logo, Skeleton } from "../../../components";
 import { UserNav } from "./user-nav";
 import { MainNav } from "./main-nav";
 import { Sidebar } from "./sidebar";
-import { useAccessToken, useGetProfile } from "../../../libs/auth";
 import { UserCart } from "./user-cart";
 import { SearchNav } from "./search-nav/search-nav";
+import { useAuth, useGetProfile } from "@/shared/auth";
 
 export const Header = () => {
-  const { data: accessToken } = useAccessToken();
+  const { isAuthenticated } = useAuth();
   const { isLoading } = useGetProfile();
-
-  const isAuthenticated = !!accessToken;
 
   return (
     <header className="container flex h-14 items-center">
@@ -32,13 +30,13 @@ export const Header = () => {
           </>
         ) : isLoading ? (
           <>
-            <UserNav />
-            <UserCart />
+            <Skeleton className="size-9 rounded-full" />
+            <Skeleton className="h-9 w-10 " />
           </>
         ) : (
           <>
-            <Skeleton className="size-9 rounded-full" />
-            <Skeleton className="h-9 w-10 " />
+            <UserNav />
+            <UserCart />
           </>
         )}
       </div>

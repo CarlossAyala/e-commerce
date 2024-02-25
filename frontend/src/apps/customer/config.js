@@ -1,4 +1,4 @@
-export const navigation = {
+export const CUSTOMER_NAV = {
   home: {
     name: "Home",
     to: "/customer",

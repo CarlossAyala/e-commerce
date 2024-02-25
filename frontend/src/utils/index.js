@@ -1,5 +1,4 @@
 export * from "./formatter";
-export * from "./local-storage"; //TODO: delete
 export * from "./storage";
 export * from "./schema";
 
@@ -18,14 +17,10 @@ export const clearEmptyValues = (values) => {
   return Object.fromEntries(clearedValues);
 };
 
-/**
- * @param {string} fullName
- * @returns {string} initials
- */
 export const getInitials = (fullName) => {
-  return fullName
-    .split(" ")
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase();
+  const names = fullName.split(" ");
+  const initials = names.map((name) => name[0]);
+  return initials.length > 3
+    ? initials.slice(0, 2).join("").concat("...")
+    : initials.join("");
 };

@@ -1,6 +1,5 @@
 import { API_SELLER } from "../../../../configs";
 import { fetcher } from "../../../../libs/utils";
-import { localStorageManager } from "../../../../utils/local-storage";
 
 const ENDPOINT = `${API_SELLER}/products`;
 

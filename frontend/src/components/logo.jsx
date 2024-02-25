@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { appNavigation } from "../configs";
+import { APP_NAVIGATION } from "../configs";
 import { Button } from "./ui/button";
 import { useSidebarStore } from "../apps/admin/components";
 import { cn } from "../libs/utils";
 
-const { admin, customer, seller } = appNavigation;
+const { admin, customer, seller } = APP_NAVIGATION;
 
 const apps = [admin.to, customer.to, seller.to];
 

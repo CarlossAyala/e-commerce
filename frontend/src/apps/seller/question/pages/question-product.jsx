@@ -55,7 +55,6 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { replyInitial, replySchema } from "../schemas";
-import { MainContent } from "../../layouts";
 
 const QuestionProduct = () => {
   const [params] = useSearchParams();
@@ -140,14 +139,13 @@ const QuestionProduct = () => {
   console.log("form", form);
 
   return (
-    <MainContent>
+    <main className="container flex-1">
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Questions Product</h1>
         <p className="text-muted-foreground">
           Here will appear all product questions.
         </p>
       </section>
-
       <section>
         <h2 className="mb-1 text-sm font-medium leading-tight text-gray-900">
           Product
@@ -173,7 +171,6 @@ const QuestionProduct = () => {
           </Card>
         )}
       </section>
-
       <section className="space-y-4">
         <Search />
 
@@ -347,7 +344,7 @@ const QuestionProduct = () => {
 
         <Pagination totalRows={questions.data?.count} />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

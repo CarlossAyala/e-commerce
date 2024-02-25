@@ -1,8 +1,17 @@
 {
   "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2022",
+    "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@admin/*": ["./src/apps/admin*"],
+      "@seller/*": ["./src/apps/seller*"],
+      "@customer/*": ["./src/apps/customer*"],
+      "@shared/*": ["./src/shared/*"]
     }
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

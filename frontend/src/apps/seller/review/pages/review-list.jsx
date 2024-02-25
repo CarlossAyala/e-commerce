@@ -30,7 +30,6 @@ import {
 import { Formatter } from "../../../../utils/formatter";
 import { useState } from "react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
-import { MainContent } from "../../layouts";
 
 const ReviewList = () => {
   const [reviewId, setReviewId] = useState(null);
@@ -60,7 +59,7 @@ const ReviewList = () => {
   const hasContent = reviews.isSuccess && reviews.data?.rows.length > 0;
 
   return (
-    <MainContent>
+    <main className="container flex-1">
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Reviews Product</h1>
         <p className="text-muted-foreground">Product&apos;s review.</p>
@@ -193,7 +192,7 @@ const ReviewList = () => {
 
         <Pagination totalRows={reviews.data?.count} />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

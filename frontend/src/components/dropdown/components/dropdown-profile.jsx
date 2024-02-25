@@ -7,7 +7,7 @@ import {
 import clsx from "clsx";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { useGetProfile } from "../../../libs/auth";
+import { useGetProfile } from "../../../shared/auth";
 
 const DropdownProfile = () => {
   const user = useGetProfile();

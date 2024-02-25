@@ -23,7 +23,7 @@ router.post(
 
 router.post("/refresh-token", controllers.refresh);
 
-router.post("/logout", controllers.logout);
+router.post("/signout", controllers.signout);
 
 router.get(
   "/profile",

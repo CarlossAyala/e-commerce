@@ -44,7 +44,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { productDefault, productInitial, productSchema } from "../schemas";
 import { Formatter } from "../../../../utils/formatter";
-import { MainContent } from "../../layouts";
 
 const ProductStockAlert = () => {
   const [params] = useSearchParams();
@@ -86,7 +85,7 @@ const ProductStockAlert = () => {
   const hasContent = products.isSuccess && products.data?.rows.length > 0;
 
   return (
-    <MainContent>
+    <main className="container flex-1">
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Stock Alert</h1>
         <p className="text-muted-foreground">
@@ -284,7 +283,7 @@ const ProductStockAlert = () => {
 
         <Pagination totalRows={products.data?.count} />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

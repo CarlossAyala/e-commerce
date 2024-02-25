@@ -14,7 +14,6 @@ import {
 } from "../../../../components";
 import { useCopyToClipboard } from "../../../../hooks";
 import { productActionRoutes } from "../../product/utils";
-import { MainContent } from "../../layouts";
 
 const SaleDetail = () => {
   const { orderId } = useParams();
@@ -42,7 +41,7 @@ const SaleDetail = () => {
   }, 0);
 
   return (
-    <MainContent>
+    <main className="container flex-1">
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Sale detail</h1>
         <p className="text-muted-foreground">This is a sale detail.</p>
@@ -266,7 +265,7 @@ const SaleDetail = () => {
           </>
         )}
       </section>
-    </MainContent>
+    </main>
   );
 };
 

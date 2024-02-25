@@ -13,7 +13,7 @@ import {
   changePasswordInitial,
   changePasswordSchema,
   useUpdatePassword,
-} from "../../../../../libs/auth";
+} from "../../../../../shared/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 

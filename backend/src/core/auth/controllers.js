@@ -163,11 +163,11 @@ const refresh = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const logout = async (req, res, next) => {
-  const { refreshToken, accessToken } = req.cookies;
+const signout = async (req, res, next) => {
+  const { refreshToken } = req.cookies;
 
   try {
-    if (!refreshToken || !accessToken) {
+    if (!refreshToken) {
       throw unauthorized("You are not authorized to access this resource.");
     }
 
@@ -197,4 +197,4 @@ const profile = (req, res) => {
   res.json(user);
 };
 
-module.exports = { signup, signin, refresh, logout, profile };
+module.exports = { signup, signin, refresh, signout, profile };

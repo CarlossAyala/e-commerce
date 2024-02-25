@@ -4,7 +4,7 @@ import {
   changeNameInitial,
   changeNameSchema,
   useUpdateProfile,
-} from "../../../../../libs/auth";
+} from "../../../../../shared/auth";
 import {
   Button,
   Form,

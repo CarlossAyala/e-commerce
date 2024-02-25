@@ -1,6 +1,5 @@
 import { API_SHARED, API_CUSTOMER } from "../../../../../configs";
 import { fetcher } from "../../../../../libs/utils";
-import { localStorageManager } from "../../../../../utils";
 
 const ENDPOINT_COMMON = `${API_SHARED}/reviews`;
 const ENDPOINT_CUSTOMER = `${API_CUSTOMER}/reviews`;

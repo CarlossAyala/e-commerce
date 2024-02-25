@@ -16,7 +16,6 @@ import {
 import { productActionRoutes } from "../../product/utils";
 import { Formatter } from "../../../../utils/formatter";
 import { reviewActionRoutes } from "../utils";
-import { MainContent } from "../../layouts";
 
 const ReviewOverview = () => {
   const [params] = useSearchParams();
@@ -30,7 +29,7 @@ const ReviewOverview = () => {
   const hasContent = reviews.isSuccess && reviews.data?.rows.length > 0;
 
   return (
-    <MainContent>
+    <main className="container flex-1">
       <section className="mt-2">
         <h1 className="text-2xl font-bold tracking-tight">Reviews Overview</h1>
         <p className="text-muted-foreground">Product&apos;s review overview.</p>
@@ -78,7 +77,7 @@ const ReviewOverview = () => {
 
         <Pagination totalRows={reviews.data?.count} />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

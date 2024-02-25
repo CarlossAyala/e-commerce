@@ -35,7 +35,6 @@ import {
 import { useState } from "react";
 import { Input } from "../../../../components/ui/input";
 import { useDebounced } from "../../../../hooks";
-import { MainContent } from "../../layouts";
 
 const ProductList = () => {
   const [param, setParams] = useSearchParams();
@@ -85,7 +84,7 @@ const ProductList = () => {
   };
 
   return (
-    <MainContent>
+    <main className="container flex-1">
       <section className="mt-3">
         <h1 className="text-2xl font-bold tracking-tight">Product List</h1>
         <p className="text-muted-foreground">
@@ -258,7 +257,7 @@ const ProductList = () => {
 
         <Pagination totalRows={products.data?.count} />
       </section>
-    </MainContent>
+    </main>
   );
 };
 

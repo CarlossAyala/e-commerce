@@ -1,5 +1,6 @@
 const express = require("express");
 const auth = require("../core/auth/routes");
+const seller = require("../core/seller/routes");
 // const customerRoutes = require("./customer.routes");
 // const sellerRoutes = require("./seller.routes");
 // const sharedRoutes = require("../core/shared");
@@ -8,6 +9,7 @@ const auth = require("../core/auth/routes");
 const routes = express.Router();
 
 routes.use("/api/auth", auth);
+routes.use("/api/seller", seller);
 // routes.use("/customer", customerRoutes);
 // routes.use("/seller", sellerRoutes);
 // routes.use("/api/shared", sharedRoutes);

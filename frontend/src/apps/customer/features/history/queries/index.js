@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { clear, add, findAll, remove } from "../api";
-import { localStorageManager } from "../../../../../utils";
 
 export const historyKeys = {
   key: ["history"],

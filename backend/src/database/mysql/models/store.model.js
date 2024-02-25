@@ -22,7 +22,10 @@ const modelSchema = {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  slug: DataTypes.STRING,
+  slug: {
+    type: DataTypes.STRING,
+    unique: "slug",
+  },
   sellerId: {
     type: DataTypes.UUID,
     field: "seller_id",
