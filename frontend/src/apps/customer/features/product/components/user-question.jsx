@@ -1,6 +1,6 @@
+import { Badge, Skeleton } from "@/components";
+import { Formatter } from "@/utils";
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
-import { Badge, Skeleton } from "../../../../../components";
-import { Formatter } from "../../../../../utils";
 
 export const UserQuestion = ({ question }) => {
   return (

@@ -1,3 +1,1 @@
-import History from "./history";
-
-export { History };
+export * from "./history";

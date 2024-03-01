@@ -1,13 +1,8 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../../../../components";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components";
 import { ReviewsDone } from "./reviews-done";
 import { ReviewsPending } from "./reviews-pending";
-import { useDocumentTitle } from "../../../../../hooks";
 
 const TABS = {
   PENDING: "pending",
@@ -15,8 +10,8 @@ const TABS = {
 };
 
 export const Reviews = () => {
-  const [params, setParams] = useSearchParams();
   useDocumentTitle("Reviews");
+  const [params, setParams] = useSearchParams();
 
   const tab = Object.values(TABS).includes(params.get("tab"))
     ? params.get("tab")

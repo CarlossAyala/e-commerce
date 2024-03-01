@@ -1,5 +1,5 @@
-import { API_CUSTOMER } from "../../../../../configs";
-import { fetcher } from "../../../../../libs/utils";
+import { API_CUSTOMER } from "@/configs";
+import { fetcher } from "@/libs";
 
 const ENDPOINT = `${API_CUSTOMER}/stores`;
 

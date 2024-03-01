@@ -1,5 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { EllipsisVerticalIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   Button,
   DropdownMenu,
@@ -8,27 +10,23 @@ import {
   DropdownMenuTrigger,
   EmptyPlaceholder,
   Pagination,
-} from "../../../../../components";
+} from "@/components";
 import {
   useClearBookmark,
   useGetBookmarks,
   useRemoveBookmark,
 } from "../queries";
-import { useDebounced, useDocumentTitle } from "../../../../../hooks";
-import { ProductCard } from "../../../components";
+import { ProductCard } from "@/apps/customer/components";
 
 export const Bookmarks = () => {
+  useDocumentTitle("Bookmarks");
   const [params] = useSearchParams();
-  const debouncedParams = useDebounced(params.toString());
   const {
     data: bookmarks,
     isLoading,
-    isSuccess,
     isError,
     error,
-  } = useGetBookmarks(debouncedParams);
-
-  useDocumentTitle("Bookmarks");
+  } = useGetBookmarks(params.toString());
 
   const clearBookmark = useClearBookmark();
   const removeBookmark = useRemoveBookmark();
@@ -36,16 +34,7 @@ export const Bookmarks = () => {
   const handleClear = () => {
     clearBookmark.mutate(null, {
       onSuccess: () => {
-        toast({
-          description: "Bookmark cleared",
-        });
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Bookmarks could not be cleared",
-          description: error.message,
-        });
+        toast("Bookmark cleared");
       },
     });
   };
@@ -53,21 +42,12 @@ export const Bookmarks = () => {
   const handleRemove = (productId) => {
     removeBookmark.mutate(productId, {
       onSuccess: () => {
-        toast({
-          description: "Bookmark removed",
-        });
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Bookmark could not be removed",
-          description: error.message,
-        });
+        toast("Bookmark removed");
       },
     });
   };
 
-  const isEmpty = isSuccess && bookmarks?.rows.length === 0;
+  const isEmpty = bookmarks?.rows.length === 0;
 
   return (
     <main className="container space-y-4">
@@ -101,10 +81,7 @@ export const Bookmarks = () => {
           <ProductCard.Skeleton />
         </section>
       ) : isError ? (
-        <EmptyPlaceholder
-          title={error?.name ?? "Error"}
-          description={error.message}
-        />
+        <EmptyPlaceholder title="Error" description={error.message} />
       ) : isEmpty ? (
         <EmptyPlaceholder
           title="No bookmarks"

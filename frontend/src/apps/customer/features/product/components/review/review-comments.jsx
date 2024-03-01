@@ -1,30 +1,20 @@
 import { useParams } from "react-router-dom";
 import { useGetReviews } from "../../../review";
 import { ReviewComment } from "./review-comment";
-import { EmptyPlaceholder } from "../../../../../../components";
+import { EmptyPlaceholder } from "@/components";
 
 export const ReviewComments = () => {
   const { productId } = useParams();
+  const { data: reviews, isLoading, isError, error } = useGetReviews(productId);
 
-  const {
-    data: reviews,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetReviews(productId);
-
-  const isEmpty = isSuccess && reviews.rows.length === 0;
+  const isEmpty = reviews?.rows.length === 0;
 
   return (
     <div className="space-y-4">
       {isLoading ? (
         <ReviewComment.Skeleton />
       ) : isError ? (
-        <EmptyPlaceholder
-          title={error?.name ?? "Error"}
-          description={error.message}
-        />
+        <EmptyPlaceholder title="Error" description={error.message} />
       ) : isEmpty ? (
         <EmptyPlaceholder
           title="No comments"

@@ -1,20 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
-import { signupInitial, signupSchema, useSignup } from "../shared/auth";
+import { signupInitial, signupSchema, useSignup } from "@/shared/auth";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
+  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { useDocumentTitle } from "../hooks";
+  Input,
+  Spinner,
+} from ".";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -50,6 +50,7 @@ const Signup = () => {
             </Link>
           </p>
         </div>
+
         <Form {...form}>
           <form
             className="grid gap-4"
@@ -125,9 +126,7 @@ const Signup = () => {
               )}
             />
             <Button type="submit" disabled={signup.isLoading}>
-              {signup.isLoading && (
-                <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {signup.isLoading && <Spinner className="mr-2 size-4" />}
               Sign up
             </Button>
           </form>

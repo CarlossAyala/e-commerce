@@ -1,5 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { EllipsisVerticalIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
 import {
   Button,
   DropdownMenu,
@@ -8,10 +9,10 @@ import {
   DropdownMenuTrigger,
   EmptyPlaceholder,
   Pagination,
-} from "../../../../../components";
+} from "@/components";
+import { useDocumentTitle } from "@/shared/hooks";
 import { useClearHistory, useGetHistory, useRemoveHistory } from "../queries";
-import { useDebounced, useDocumentTitle } from "../../../../../hooks";
-import { ProductCard } from "../../../components/";
+import { ProductCard } from "@/apps/customer/components";
 
 const groupByDate = (history) => {
   if (!Array.isArray(history) || history.length === 0) return [];
@@ -58,17 +59,10 @@ const formatDate = (inputDate) => {
   }
 };
 
-const History = () => {
-  const [params] = useSearchParams();
-  const debouncedParams = useDebounced(params.toString());
-  const {
-    data: history,
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-  } = useGetHistory(debouncedParams);
+export const History = () => {
   useDocumentTitle("History");
+  const [params] = useSearchParams();
+  const { data, isLoading, isError, error } = useGetHistory(params.toString());
 
   const clearHistory = useClearHistory();
   const removeHistory = useRemoveHistory();
@@ -76,16 +70,7 @@ const History = () => {
   const handleClear = () => {
     clearHistory.mutate(null, {
       onSuccess: () => {
-        toast({
-          description: "History cleared",
-        });
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "History could not be cleared",
-          description: error.message,
-        });
+        toast("History cleared");
       },
     });
   };
@@ -93,25 +78,16 @@ const History = () => {
   const handleRemove = (productId) => {
     removeHistory.mutate(productId, {
       onSuccess: () => {
-        toast({
-          description: "History removed",
-        });
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "History could not be removed",
-          description: error.message,
-        });
+        toast("History removed");
       },
     });
   };
 
-  const isEmpty = isSuccess && history?.rows.length === 0;
-  const groupedHistory = groupByDate(history?.rows);
+  const isEmpty = data?.rows.length === 0;
+  const groupedHistory = groupByDate(data?.rows);
 
   return (
-    <main className="container space-y-4">
+    <main className="container flex-1 space-y-4">
       <section className="mt-3 flex gap-4">
         <div className="scroll-m-20">
           <h1 className="text-3xl font-semibold tracking-tight">History</h1>
@@ -140,10 +116,7 @@ const History = () => {
       {isLoading ? (
         <ProductCard.Skeleton />
       ) : isError ? (
-        <EmptyPlaceholder
-          title={error?.name ?? "Error"}
-          description={error.message}
-        />
+        <EmptyPlaceholder title="Error" description={error.message} />
       ) : isEmpty ? (
         <EmptyPlaceholder
           title="No history"
@@ -177,9 +150,7 @@ const History = () => {
         </section>
       )}
 
-      <Pagination totalRows={history?.count} />
+      <Pagination totalRows={data?.count} />
     </main>
   );
 };
-
-export default History;

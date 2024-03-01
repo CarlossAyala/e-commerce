@@ -4,13 +4,14 @@ import {
   EmptyPlaceholder,
   Skeleton,
   TextareaSkeleton,
-} from "../../../../../components";
-import { useGetReview } from "../queries";
+} from "@/components";
+import { useDocumentTitle } from "@/shared/hooks";
 import { ReviewProduct } from "../components/review-product";
 import { ReviewProductForm } from "../components/review-product-form";
-import { useDocumentTitle } from "../../../../../hooks";
+import { useGetReview } from "../queries";
 
 export const ReviewNew = () => {
+  useDocumentTitle("Create Review");
   const { reviewId } = useParams();
 
   const {
@@ -19,8 +20,6 @@ export const ReviewNew = () => {
     isError,
     error,
   } = useGetReview(reviewId, "status=pending");
-
-  useDocumentTitle("Create Review");
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">

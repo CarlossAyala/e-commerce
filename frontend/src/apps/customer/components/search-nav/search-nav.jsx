@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { useDebounced } from "../../../../hooks";
-import { SearchCategories } from "./search-categories";
-import { SearchProducts } from "./search-products";
-import { SearchStores } from "./search-stores";
 import {
   Button,
   Dialog,
@@ -11,7 +7,11 @@ import {
   DialogTrigger,
   Input,
   Separator,
-} from "../../../../components";
+} from "@/components";
+import { SearchCategories } from "./search-categories";
+import { SearchProducts } from "./search-products";
+import { SearchStores } from "./search-stores";
+import { useDebounced } from "@/shared/hooks";
 
 export const SearchNav = () => {
   const [search, setSearch] = useState("");

@@ -15,28 +15,28 @@ import {
   RadioGroup,
   RadioGroupItem,
   Skeleton,
-} from "../../../../../components";
+} from "@/components";
 import {
   checkoutPaymentMethodDefault,
   checkoutPaymentMethodInitial,
   checkoutPaymentMethodSchema,
 } from "../schemas";
-import { PaymentMethodItem } from "../components/payment-method-item";
 import { useGetCart } from "../../cart/queries";
+import { PaymentMethodItem } from "../components/payment-method-item";
 import { checkoutActionRoutes } from "../utils";
+import { useCheckout } from "../context";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   useCreatePaymentMethod,
   useGetPaymentMethods,
-} from "../../../../common/payment-method";
-import { useCheckout } from "../context";
-import { useDocumentTitle } from "../../../../../hooks";
+} from "@/apps/common/payment-method";
 
 export const CheckoutPayment = () => {
+  useDocumentTitle("Checkout - Payment Method");
   const [params, setParams] = useSearchParams();
   const { paymentIntentId } = useParams();
 
   const navigate = useNavigate();
-  useDocumentTitle("Checkout - Payment Method");
 
   const {
     addressId,
@@ -69,12 +69,6 @@ export const CheckoutPayment = () => {
       {
         onSuccess(createPaymentMethodUrl) {
           window.location.href = createPaymentMethodUrl;
-        },
-        onError(error) {
-          toast({
-            title: "Error creating payment method",
-            description: error.message,
-          });
         },
       },
     );

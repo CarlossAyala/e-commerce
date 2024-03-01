@@ -1,4 +1,4 @@
-import { Filters } from "../../../../../components";
+import { Filters } from "@/components";
 import { StoreProducts } from "../components/store-products";
 import { StoreProfile } from "../components/store-profile";
 

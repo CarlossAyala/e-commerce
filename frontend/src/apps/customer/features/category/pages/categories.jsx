@@ -1,15 +1,20 @@
-import { EmptyPlaceholder } from "../../../../../components";
-import { useGetFullCategories } from "../queries";
+import { useDocumentTitle } from "@/shared/hooks";
 import { CategoriesList } from "../components/categories-list";
-import { useDocumentTitle } from "../../../../../hooks";
+import { EmptyPlaceholder, Filters } from "@/components";
+import { useGetFullCategories } from "../queries";
+
+const filters = [
+  {
+    filter_type: "search",
+  },
+];
 
 export const Categories = () => {
   useDocumentTitle("Categories");
 
-  const { categories, isLoading, isError, hasContent, error } =
-    useGetFullCategories();
+  const { data, isLoading, isError, error } = useGetFullCategories();
 
-  //TODO: Add filter search
+  const isEmpty = data?.length === 0;
 
   return (
     <main className="container flex-1 space-y-4">
@@ -20,22 +25,22 @@ export const Categories = () => {
         </p>
       </section>
 
-      <section className="space-y-4">
-        {isLoading ? (
-          <CategoriesList.Skeleton />
-        ) : isError ? (
-          <EmptyPlaceholder title="Error" description={error.message} />
-        ) : !hasContent ? (
-          <EmptyPlaceholder
-            title="No results"
-            description="No categories found"
-          />
-        ) : (
-          categories.map((category) => (
-            <CategoriesList key={category.id} category={category} />
-          ))
-        )}
-      </section>
+      <Filters filters={filters} />
+
+      {isLoading ? (
+        <CategoriesList.Skeleton />
+      ) : isError ? (
+        <EmptyPlaceholder title="Error" description={error.message} />
+      ) : isEmpty ? (
+        <EmptyPlaceholder
+          title="No results"
+          description="No categories found"
+        />
+      ) : (
+        data.map((category) => (
+          <CategoriesList key={category.id} category={category} />
+        ))
+      )}
     </main>
   );
 };

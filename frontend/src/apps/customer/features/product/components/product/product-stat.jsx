@@ -1,4 +1,4 @@
-import { ReviewStar, Skeleton } from "../../../../../../components";
+import { ReviewStar, Skeleton } from "@/components";
 import { useGetReviewStats } from "../../../review";
 
 const ProductStat = ({ productId }) => {

@@ -1,12 +1,8 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  EmptyPlaceholder,
-  Filters,
-  Pagination,
-} from "../../../../../components";
-import { useGetProducts } from "../queries";
-import { ProductCard } from "../../../components";
-import { useDocumentTitle } from "../../../../../hooks";
+import { ProductCard } from "@/apps/customer/components";
+import { useGetProducts } from "@/shared/features/product";
+import { useDocumentTitle } from "@/shared/hooks";
+import { EmptyPlaceholder, Filters, Pagination } from "@/components";
 
 const filters = [
   {
@@ -15,11 +11,16 @@ const filters = [
 ];
 
 export const Products = () => {
-  const [params] = useSearchParams();
-  const { products, count, isLoading, isError, error, isEmpty } =
-    useGetProducts(params.toString());
-
   useDocumentTitle("Products");
+  const [params] = useSearchParams();
+  const {
+    data: products,
+    isLoading,
+    isError,
+    error,
+  } = useGetProducts(params.toString());
+
+  const isEmpty = products?.rows.length === 0;
 
   return (
     <main className="container flex-1 space-y-4">
@@ -44,7 +45,7 @@ export const Products = () => {
         <EmptyPlaceholder title="No products" description="No products found" />
       ) : (
         <section className="grid grid-cols-products gap-4">
-          {products.map((product) => (
+          {products.rows.map((product) => (
             <div key={product.id}>
               <ProductCard product={product} />
             </div>
@@ -52,7 +53,7 @@ export const Products = () => {
         </section>
       )}
 
-      <Pagination totalRows={count} />
+      <Pagination totalRows={products?.count} />
     </main>
   );
 };

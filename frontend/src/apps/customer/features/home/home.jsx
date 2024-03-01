@@ -1,18 +1,17 @@
-import { SliderComponent } from "../../../../components";
-import { useDocumentTitle } from "../../../../hooks";
-import { useGetProfile } from "../../../../shared/auth";
+import { useGetProducts } from "@/shared/features/product";
+import { useDocumentTitle } from "@/shared/hooks";
+import { useAuth } from "@/shared/auth";
+import { SliderComponent } from "@/components";
 import { useGetHistory } from "../history";
-import { useGetProducts } from "../product";
 import { useGetStores } from "../store";
 
-const Home = () => {
-  const { data: customer } = useGetProfile();
+export const Home = () => {
   useDocumentTitle("Home");
+  const { isAuthenticated } = useAuth();
   const products = useGetProducts("");
   const history = useGetHistory("");
   const stores = useGetStores("");
 
-  const isAuthenticated = !!customer;
   const hasHistory = history.data?.rows.length > 0;
 
   return (
@@ -41,5 +40,3 @@ const Home = () => {
     </main>
   );
 };
-
-export default Home;

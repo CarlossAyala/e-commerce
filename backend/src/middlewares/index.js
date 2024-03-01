@@ -5,6 +5,7 @@ const handlerError = require("./handler-errors");
 const logger = require("./logger");
 const validateAccessToken = require("./validate-access-token");
 const httpErrors = require("./http-errors");
+const authStore = require("./auth-store");
 
 module.exports = {
   validateSchema,
@@ -14,4 +15,5 @@ module.exports = {
   ...httpErrors,
   logger,
   validateAccessToken,
+  authStore,
 };

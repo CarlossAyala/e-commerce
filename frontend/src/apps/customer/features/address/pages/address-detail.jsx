@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "sonner";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -24,21 +26,19 @@ import {
   InputSkeleton,
   Textarea,
   TextareaSkeleton,
-} from "../../../../../components";
+} from "@/components";
+import { clearEmptyValues } from "@/utils";
 import { useGetAddress, useRemoveAddress, useUpdateAddress } from "../queries";
 import { addressDefault, addressInitial, addressSchema } from "../schemas";
-import { clearEmptyValues } from "../../../../../utils";
 import { addressActionRoutes } from "../utils";
-import { useDocumentTitle } from "../../../../../hooks";
-import { toast } from "sonner";
 
 const AddressDetail = () => {
+  useDocumentTitle("Address Details");
   const [modal, setModal] = useState(false);
 
   const { addressId } = useParams();
 
   const navigate = useNavigate();
-  useDocumentTitle("Address Details");
 
   const { data: address, isLoading, isError, error } = useGetAddress(addressId);
   const update = useUpdateAddress();

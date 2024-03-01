@@ -1,7 +1,7 @@
 import { ExclamationCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useRemoveFromCart } from "../features/cart";
-import { Button, Spinner } from "../../../components";
 import { toast } from "sonner";
+import { useRemoveFromCart } from "../features/cart";
+import { Button, Spinner } from "@/components";
 
 export const CartToolbarRemove = ({ item }) => {
   const { mutate, reset, isLoading, isError } = useRemoveFromCart();

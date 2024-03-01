@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { addressInitial, addressSchema } from "../schemas";
-import { useCreateAddress } from "../queries";
+import { toast } from "sonner";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   Button,
   Form,
@@ -12,18 +12,20 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Spinner,
   Textarea,
-} from "../../../../../components";
+} from "@/components";
+import { clearEmptyValues } from "@/utils";
 import { addressActionRoutes } from "../utils";
-import { clearEmptyValues } from "../../../../../utils";
-import { useDocumentTitle } from "../../../../../hooks";
+import { addressInitial, addressSchema } from "../schemas";
+import { useCreateAddress } from "../queries";
 
 const AddressNew = () => {
+  useDocumentTitle("New Address");
   const location = useLocation();
   const navigate = useNavigate();
 
-  const create = useCreateAddress();
-  useDocumentTitle("New Address");
+  const { mutate, isLoading } = useCreateAddress();
 
   const from = location.state?.from;
 
@@ -40,21 +42,13 @@ const AddressNew = () => {
   const handleSubmit = (values) => {
     const cleanValues = clearEmptyValues(values);
 
-    create.mutate(cleanValues, {
+    mutate(cleanValues, {
       onSuccess(address) {
-        toast({
-          description: "Address created successfully",
-        });
+        toast("Address created successfully");
         navigate(from ?? addressActionRoutes.root, {
           state: {
             addressId: address.id,
           },
-        });
-      },
-      onError(error) {
-        toast({
-          title: "Address could not be created",
-          description: error.message,
         });
       },
     });
@@ -186,7 +180,10 @@ const AddressNew = () => {
               <Button variant="outline" type="button" onClick={handleCancel}>
                 Cancel
               </Button>
-              <Button type="submit">Create</Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading && <Spinner className="mr-2 size-4" />}
+                Create
+              </Button>
             </div>
           </form>
         </Form>

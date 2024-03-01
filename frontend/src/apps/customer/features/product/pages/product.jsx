@@ -1,24 +1,23 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ShareIcon } from "@heroicons/react/24/outline";
-import { useGetProduct } from "../queries";
-import { FAQ } from "../components";
-import { Review } from "../components/review/review";
-import { RelatedProducts } from "../components/related-products";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Badge, EmptyPlaceholder, Skeleton } from "@/components";
+import { Formatter } from "@/utils";
 import { useAddHistory } from "../../history";
-import { Badge, EmptyPlaceholder, Skeleton } from "../../../../../components";
+import { RelatedProducts } from "../components/related-products";
+import { Review } from "../components/review/review";
 import ProductStat from "../components/product/product-stat";
-import { Formatter } from "../../../../../utils";
 import { AddToCart } from "../components/product/add-to-cart";
 import { AddToBookmark } from "../components/product/add-to-bookmark";
 import { StoreInformation } from "../components/store-information";
-import { useDocumentTitle } from "../../../../../hooks";
+import { FAQ } from "../components";
+import { useGetProduct } from "@/shared/features/product";
 
 export const Product = () => {
   const { productId } = useParams();
   const { data: product, isLoading, isError, error } = useGetProduct(productId);
   const history = useAddHistory();
-
   useDocumentTitle(product?.name ?? "Product");
 
   useEffect(() => {
@@ -38,10 +37,7 @@ export const Product = () => {
           <Skeleton className="w-full sm:max-w-sm sm:shrink-0" />
         </article>
       ) : isError ? (
-        <EmptyPlaceholder
-          title={error?.name ?? "Error"}
-          description={error.message}
-        />
+        <EmptyPlaceholder title="Error" description={error.message} />
       ) : (
         <article className="mt-4 flex gap-4">
           <div className="hidden max-h-60 grow place-content-center rounded-md bg-gray-100 sm:grid">

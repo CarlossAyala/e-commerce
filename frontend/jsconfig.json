@@ -5,11 +5,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@admin/*": ["./src/apps/admin*"],
-      "@seller/*": ["./src/apps/seller*"],
-      "@customer/*": ["./src/apps/customer*"],
-      "@shared/*": ["./src/shared/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],

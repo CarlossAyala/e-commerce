@@ -1,10 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import {
-  questionDefault,
-  questionSchema,
-  useCreateQuestion,
-} from "../../question";
+import { toast } from "sonner";
 import {
   Button,
   Form,
@@ -14,10 +10,15 @@ import {
   FormLabel,
   FormMessage,
   Textarea,
-} from "../../../../../components";
+} from "@/components";
+import {
+  questionDefault,
+  questionSchema,
+  useCreateQuestion,
+} from "../../question";
 
 export const UserQuestionForm = ({ productId }) => {
-  const create = useCreateQuestion();
+  const { mutate, isLoading } = useCreateQuestion();
 
   const form = useForm({
     resolver: yupResolver(questionSchema),
@@ -25,28 +26,17 @@ export const UserQuestionForm = ({ productId }) => {
     mode: "all",
   });
 
-  const onSubmit = (values) => {
-    create.mutate([productId, values], {
+  const handleCreate = (values) => {
+    mutate([productId, values], {
       onSuccess() {
-        toast({
-          description: "Question created",
-        });
-        create.reset();
-        form.reset();
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Question could not be created",
-          description: error.message,
-        });
+        toast("Question created");
       },
     });
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-2">
         <FormField
           control={form.control}
           name="question"
@@ -63,7 +53,7 @@ export const UserQuestionForm = ({ productId }) => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={create.isLoading}>
+        <Button type="submit" disabled={isLoading}>
           Ask
         </Button>
       </form>

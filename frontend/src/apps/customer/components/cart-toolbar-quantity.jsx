@@ -1,8 +1,8 @@
-import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { Button, Input } from "../../../components";
 import { useEffect, useState } from "react";
-import { useDebounced } from "../../../hooks";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { useDebounced } from "@/shared/hooks";
 import { useUpdateQuantity } from "../features/cart";
+import { Button, Input } from "@/components";
 
 const MIN_QUANTITY = 1;
 export const CartToolbarQuantity = ({ item }) => {

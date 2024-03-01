@@ -1,14 +1,19 @@
 const express = require("express");
 const controllers = require("./controllers");
 const schemas = require("./schemas");
-const { validateSchema } = require("../../../middlewares");
+const { validateSchema, authStore } = require("../../../middlewares");
 
 const router = express.Router();
 
-router.get("/", controllers.find);
+router.get("/", authStore, controllers.find);
 router.post("/", validateSchema(schemas.create, "body"), controllers.create);
-router.put("/", validateSchema(schemas.update, "body"), controllers.update);
-router.delete("/", controllers.remove);
+router.put(
+  "/",
+  authStore,
+  validateSchema(schemas.update, "body"),
+  controllers.update
+);
+router.delete("/", authStore, controllers.remove);
 
 // Get Store Stats
 // router.get("/stats", JWT.verify, async (req, res, next) => {

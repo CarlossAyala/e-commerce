@@ -3,7 +3,7 @@ import { create, getStore, getStats, remove, update } from "../api";
 import { authKeys, useAuth } from "@/shared/auth";
 
 export const storeKeys = {
-  key: ["store"],
+  key: ["seller/store"],
   current: () => [...storeKeys.key, "current"],
   getStats: () => [...storeKeys.key, "stats"],
 };

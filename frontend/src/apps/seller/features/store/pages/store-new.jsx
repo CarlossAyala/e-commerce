@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "sonner";
 import {
   Button,
   Card,
@@ -19,14 +20,13 @@ import {
 } from "@/components";
 import { storeInitial, storeSchema } from "../schemas";
 import { useCreateStore } from "../queries";
-import { toast } from "sonner";
 import { SELLER_NAV } from "../../../config";
 
 // TODO: Missing profile and front-page
 export const StoreNew = () => {
   const navigate = useNavigate();
 
-  const createStore = useCreateStore();
+  const { mutate, isLoading } = useCreateStore();
 
   const form = useForm({
     resolver: yupResolver(storeSchema),
@@ -35,7 +35,7 @@ export const StoreNew = () => {
   });
 
   const handleCreate = (values) => {
-    createStore.mutate(values, {
+    mutate(values, {
       onSuccess() {
         toast("Store updated successfully");
         navigate(SELLER_NAV.store.to);
@@ -86,11 +86,7 @@ export const StoreNew = () => {
                 )}
               />
 
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={createStore.isLoading}
-              >
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 Create store
               </Button>
             </form>

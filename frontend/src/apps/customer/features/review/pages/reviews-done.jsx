@@ -1,23 +1,20 @@
 import { useSearchParams } from "react-router-dom";
-import { useDebounced } from "../../../../../hooks";
-import { useGetReviewsCustomer } from "../queries";
-import { EmptyPlaceholder, Pagination } from "../../../../../components";
+import { EmptyPlaceholder, Pagination } from "@/components";
 import { ReviewDone } from "../components/review-done";
+import { useGetReviewsCustomer } from "../queries";
 
 // TODO: Add search by product name, stars
 export const ReviewsDone = () => {
   const [params] = useSearchParams("status=done");
-  const debounceParams = useDebounced(params.toString());
 
   const {
     data: reviews,
     isLoading,
     isError,
-    isSuccess,
     error,
-  } = useGetReviewsCustomer(debounceParams);
+  } = useGetReviewsCustomer(params.toString());
 
-  const isEmpty = isSuccess && reviews?.rows.length === 0;
+  const isEmpty = reviews?.rows.length === 0;
 
   return (
     <section className="mt-4 space-y-4">

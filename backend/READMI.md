@@ -4,7 +4,6 @@
 
 - [ ] Write a script that takes .ENV database credentials and create `secrets` folder and files for `docker compose`
 - [ ] Crear un cron para eliminar los refresh token con Dates mayor al tiempo de expiración
-- [ ] Crear un middleware de paginación. (<https://github.com/expressjs/express-paginate>)
 
 ## Running Locally
 

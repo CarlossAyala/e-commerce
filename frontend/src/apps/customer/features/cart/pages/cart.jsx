@@ -1,12 +1,12 @@
-import { EmptyPlaceholder } from "../../../../../components";
-import { useDocumentTitle } from "../../../../../hooks";
-import { CartItem } from "../../../components";
-import { CartSummary } from "../../../components/cart-summary";
+import { useDocumentTitle } from "@/shared/hooks";
 import { useGetCart } from "../queries";
+import { CartItem } from "@/apps/customer/components";
+import { CartSummary } from "@/apps/customer/components/cart-summary";
+import { EmptyPlaceholder } from "@/components";
 
 export const Cart = () => {
-  const { cart, isLoading, isError, isEmpty, error } = useGetCart();
   useDocumentTitle("Cart");
+  const { cart, isLoading, isError, isEmpty, error } = useGetCart();
 
   return (
     <main className="container flex max-w-6xl flex-1 flex-col space-y-6">

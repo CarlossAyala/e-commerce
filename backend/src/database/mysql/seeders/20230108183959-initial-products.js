@@ -22,6 +22,7 @@ const createRandomProduct = (categoryId, storeId) => {
   const name = faker.commerce.product();
   const description = faker.commerce.productDescription();
   const stock = faker.datatype.number(stockSoldOptions);
+  const stockAlert = faker.datatype.number(stockSoldOptions);
   const sold = faker.datatype.number(stockSoldOptions);
   const slug = slugify(name);
   const price = +faker.commerce.price(...Object.values(priceOptions));
@@ -33,6 +34,7 @@ const createRandomProduct = (categoryId, storeId) => {
     description,
     stock,
     sold,
+    stock_alert: stockAlert,
     slug,
     price,
     available: true,

@@ -1,5 +1,5 @@
-import { Filters } from "../../../../../components";
-import { useDocumentTitle } from "../../../../../hooks";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Filters } from "@/components";
 import { StoresList } from "../components/stores-list";
 
 const filters = [

@@ -1,22 +1,21 @@
 import { useParams } from "react-router-dom";
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { CalendarDaysIcon } from "@heroicons/react/24/outline";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   EmptyPlaceholder,
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
   Skeleton,
-} from "../../../../../components";
-import { CalendarDaysIcon } from "@heroicons/react/24/outline";
-import { Formatter } from "../../../../../utils";
+} from "@/components";
+import { Formatter } from "@/utils";
 import { useGetStore } from "../queries";
-import { useDocumentTitle } from "../../../../../hooks";
 
 export const StoreProfile = () => {
+  useDocumentTitle(store?.name ?? "Store");
   const { slug } = useParams();
   const { data: store, isLoading, isError, error } = useGetStore(slug);
-
-  useDocumentTitle(store?.name ?? "Store");
 
   return (
     <section className="border-b lg:rounded-b-md lg:border-x">

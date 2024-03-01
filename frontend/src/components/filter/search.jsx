@@ -1,7 +1,7 @@
+import { useDebounced } from "@/shared/hooks";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useDebounced } from "../../hooks";
-import { Input } from "../ui/input";
+import { Input } from "..";
 
 export const Search = ({
   name = "q",

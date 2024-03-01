@@ -16,11 +16,7 @@ export const authKeys = {
 };
 
 export const useAuth = () => {
-  const {
-    data: accessToken,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: accessToken, isLoading } = useQuery({
     queryKey: authKeys.accessToken(),
     queryFn: async () => {
       const { accessToken } = await getAccessToken();
@@ -29,12 +25,12 @@ export const useAuth = () => {
     },
     retry: false,
     staleTime: 1000 * 60 * 5, // 5m
-    refetchInterval: 1000 * 60 * 4.5, // 4m 30s
+    refetchInterval: 1000 * 60 * 4, // 4m
     refetchIntervalInBackground: true,
   });
 
   return {
-    isAuthenticated: !!accessToken && !isError,
+    isAuthenticated: !!accessToken,
     accessToken,
     isLoading,
   };
@@ -46,8 +42,8 @@ export const useGetProfile = () => {
 
   return useQuery({
     queryKey: authKeys.profile(),
-    queryFn: () => getProfile({ accessToken }),
-    retry: 0,
+    queryFn: () => getProfile(accessToken),
+    enabled: !!accessToken,
   });
 };
 

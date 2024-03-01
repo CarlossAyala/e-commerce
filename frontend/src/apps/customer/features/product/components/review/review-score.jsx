@@ -4,7 +4,7 @@ import {
   ReviewStar,
   ReviewStarGraph,
   Skeleton,
-} from "../../../../../../components";
+} from "@/components";
 import { useGetReviewStats } from "../../../review";
 
 export const ReviewScore = () => {
@@ -22,16 +22,13 @@ export const ReviewScore = () => {
         <div className="space-y-4">
           <Skeleton className="h-10 w-full" />
           <div className="space-y-2">
-            {Array.from({ length: 5 }).map((_, index) => (
+            {new Array(6).fill("").map((_, index) => (
               <Skeleton key={index} className="h-4 w-full" />
             ))}
           </div>
         </div>
       ) : isError ? (
-        <EmptyPlaceholder
-          title={error?.name ?? "Error"}
-          description={error.message}
-        />
+        <EmptyPlaceholder title="Error" description={error.message} />
       ) : (
         <div className="space-y-2">
           <div className="flex items-center gap-4">

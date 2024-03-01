@@ -1,5 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
 import {
   Button,
   Form,
@@ -8,9 +10,8 @@ import {
   FormItem,
   FormMessage,
   Input,
-} from "../../../../../../components";
+} from "@/components";
 import { addCartInitial, addCartSchema, useAddCart } from "../../../cart";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 export const AddToCart = ({ product }) => {
   const addToCart = useAddCart();
@@ -26,16 +27,7 @@ export const AddToCart = ({ product }) => {
       { productId: product.id, quantity },
       {
         onSuccess() {
-          toast({
-            description: "Product added to cart",
-          });
-          addToCart.reset();
-        },
-        onError(error) {
-          toast({
-            title: "Product could not be added to cart",
-            description: error.message,
-          });
+          toast("Product added to cart");
           addToCart.reset();
         },
       },

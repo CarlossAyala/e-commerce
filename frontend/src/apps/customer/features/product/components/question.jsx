@@ -1,6 +1,6 @@
+import { Skeleton } from "@/components";
+import { Formatter } from "@/utils";
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
-import { Skeleton } from "../../../../../components";
-import { Formatter } from "../../../../../utils";
 
 export const Question = ({ question }) => {
   return (
@@ -10,7 +10,7 @@ export const Question = ({ question }) => {
       </p>
       <p className="text-sm leading-tight">{question.question}</p>
       <div className="mt-1 flex items-start gap-x-1 text-muted-foreground">
-        <ChevronDoubleRightIcon className="mt-0.5 h-4 w-4 shrink-0" />
+        <ChevronDoubleRightIcon className="mt-0.5 size-4 shrink-0" />
         <p className="text-sm leading-tight">{question.answer.answer}</p>
       </div>
     </div>
@@ -20,7 +20,7 @@ export const Question = ({ question }) => {
 Question.Skeleton = function QuestionSkeleton() {
   return (
     <div className="space-y-2">
-      {Array.from({ length: 3 }).map((_, index) => (
+      {new Array(3).fill("").map((_, index) => (
         <div key={index} className="space-y-2 rounded-md border p-2">
           <Skeleton className="ml-auto h-4 w-1/4" />
           <Skeleton className="h-4 w-full" />

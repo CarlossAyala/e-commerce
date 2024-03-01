@@ -12,7 +12,7 @@ export const getAccessToken = async () => {
   });
 };
 
-export const getProfile = async ({ accessToken }) => {
+export const getProfile = async (accessToken) => {
   const url = `${ENDPOINT}/profile`;
 
   return fetcher(url, {

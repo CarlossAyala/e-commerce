@@ -1,17 +1,17 @@
-import { useGetProfile } from "../../../../../shared/auth";
+import { useGetProfile } from "@/shared/auth";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   ButtonSkeleton,
   EmptyPlaceholder,
   InputSkeleton,
   Skeleton,
-} from "../../../../../components";
+} from "@/components";
 import { ProfileForm } from "../components/profile-form";
 import { PasswordForm } from "../components/password-form";
-import { useDocumentTitle } from "../../../../../hooks";
 
 export const Account = () => {
-  const { data: customer, isLoading, isError, error } = useGetProfile();
   useDocumentTitle("Account");
+  const { data: customer, isLoading, isError, error } = useGetProfile();
 
   return (
     <div className="max-w-2xl space-y-10">

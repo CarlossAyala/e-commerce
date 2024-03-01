@@ -15,3 +15,5 @@ router.use("/payment-methods", paymentMethods);
 router.use("/stores", stores);
 
 module.exports = router;
+
+// TODO: remove all this

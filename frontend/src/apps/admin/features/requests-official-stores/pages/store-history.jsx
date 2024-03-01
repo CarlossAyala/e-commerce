@@ -1,6 +1,8 @@
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { useGetHistoryRequestsOfficialStore } from "../queries";
-import { useDebounced } from "../../../../../hooks";
+import {
+  ArchiveBoxXMarkIcon,
+  FaceFrownIcon,
+} from "@heroicons/react/24/outline";
 import {
   Badge,
   EmptyPlaceholder,
@@ -13,21 +15,16 @@ import {
   Pagination,
   TableRow,
   TableSkeleton,
-} from "../../../../../components";
-import {
-  ArchiveBoxXMarkIcon,
-  FaceFrownIcon,
-} from "@heroicons/react/24/outline";
-import { Formatter } from "../../../../../utils";
+} from "@/components";
+import { useGetStoreById } from "@/apps/common";
 import { requestOfficialStoreActionRoutes } from "../utils";
-import { useGetStoreById } from "../../../../common";
+import { useGetHistoryRequestsOfficialStore } from "../queries";
 import { StoreDetails } from "../components/store-details";
+import { Formatter } from "@/utils";
 
 export const StoreHistory = () => {
   const { storeId } = useParams();
   const [params] = useSearchParams();
-
-  const debounceParams = useDebounced(params.toString());
 
   const {
     data: requests,
@@ -35,7 +32,7 @@ export const StoreHistory = () => {
     isError,
     error,
     isSuccess,
-  } = useGetHistoryRequestsOfficialStore(storeId, debounceParams);
+  } = useGetHistoryRequestsOfficialStore(storeId, params.toString());
   const store = useGetStoreById(storeId);
 
   const hasRequests = isSuccess && requests.rows.length > 0;

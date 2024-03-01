@@ -88,7 +88,7 @@ module.exports = {
         circle: "circle",
       },
       gridTemplateColumns: {
-        products: "repeat(auto-fit, minmax(144px, 1fr))",
+        products: "repeat(auto-fill, minmax(144px, 1fr))",
       },
     },
   },

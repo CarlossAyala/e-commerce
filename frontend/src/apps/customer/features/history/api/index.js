@@ -1,64 +1,52 @@
-import { API_CUSTOMER } from "../../../../../configs";
-import { fetcher } from "../../../../../libs/utils";
+import { API_CUSTOMER } from "@/configs";
+import { fetcher } from "@/libs";
 
 const ENDPOINT = `${API_CUSTOMER}/history`;
 
-export const findAll = (query) => {
+export const findAll = (query, accessToken) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) throw new Error("Token not found");
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const add = (productId) => {
+export const add = (productId, accessToken) => {
   const url = `${ENDPOINT}/${productId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) throw new Error("Token not found");
 
   return fetcher(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const remove = (productId) => {
+export const remove = (productId, accessToken) => {
   const url = `${ENDPOINT}/${productId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) throw new Error("Token not found");
 
   return fetcher(url, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const clear = () => {
+export const clear = (accessToken) => {
   const url = `${ENDPOINT}/clear`;
-  const token = localStorageManager.getToken();
-
-  if (!token) throw new Error("Token not found");
 
   return fetcher(url, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };

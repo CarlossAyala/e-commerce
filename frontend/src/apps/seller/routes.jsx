@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import { productRoutes } from "./product";
-import { questionRoutes } from "./question";
-import { Store, StoreNew } from "./features/store";
-import { saleRoutes } from "./sale";
-import { reviewRoutes } from "./review";
-import { Dashboard } from "./features/dashboard";
 import { RedirectWithStore, WithStoreRoute } from "./components";
+import { productRoutes } from "./features/product";
+import { Store, StoreNew } from "./features/store";
+import { Dashboard } from "./features/dashboard";
+import { questionRoutes } from "./features/question";
+import { saleRoutes } from "./features/sale";
+import { reviewRoutes } from "./features/review";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -37,7 +37,7 @@ export const sellerRoutes = [
     ),
   },
   {
-    path: "product",
+    path: "products",
     element: (
       <WithStoreRoute>
         <Outlet />
@@ -46,7 +46,7 @@ export const sellerRoutes = [
     children: productRoutes,
   },
   {
-    path: "question",
+    path: "questions",
     element: (
       <WithStoreRoute>
         <Outlet />

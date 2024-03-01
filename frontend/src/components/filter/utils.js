@@ -17,6 +17,9 @@ export const getGroupNames = (groups) => {
 export const getAllFiltersNames = (filters) => {
   const names = filters.map((filter) => {
     switch (filter.filter_type) {
+      case "search": {
+        return "q";
+      }
       case "full-checkbox":
         return filter.name;
       case "full-option":
@@ -91,6 +94,11 @@ export const getFiltersActiveLabels = (params, filters) => {
 
   for (const filter of filters) {
     switch (filter.filter_type) {
+      case "search": {
+        const value = params.get("q");
+        if (value) actives.push("Search");
+        break;
+      }
       case "full-checkbox": {
         const value = params.get(filter.name);
         if (value) actives.push(filter.label);

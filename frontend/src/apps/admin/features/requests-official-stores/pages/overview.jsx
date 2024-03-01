@@ -1,6 +1,9 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { useGetRequestsOfficialStores } from "../queries";
-import { useDebounced } from "../../../../../hooks";
+import {
+  ArchiveBoxXMarkIcon,
+  EllipsisHorizontalIcon,
+  FaceFrownIcon,
+} from "@heroicons/react/24/outline";
 import {
   Badge,
   Button,
@@ -18,30 +21,23 @@ import {
   TableRow,
   TableSkeleton,
   Pagination,
-} from "../../../../../components";
-import {
-  ArchiveBoxXMarkIcon,
-  EllipsisHorizontalIcon,
-  FaceFrownIcon,
-} from "@heroicons/react/24/outline";
-import { Formatter } from "../../../../../utils";
+} from "@/components";
+import { Formatter } from "@/utils";
+import { useGetRequestsOfficialStores } from "../queries";
 import { requestOfficialStoreActionRoutes } from "../utils";
 
 export const Overview = () => {
   const [params] = useSearchParams();
-
-  const debounceParams = useDebounced(params.toString());
 
   const {
     data: requests,
     isLoading,
     isError,
     error,
-    isSuccess,
-  } = useGetRequestsOfficialStores(debounceParams);
+  } = useGetRequestsOfficialStores(params.toString());
 
-  const hasRequests = isSuccess && requests.rows.length > 0;
-  const isEmpty = isSuccess && requests.rows.length === 0;
+  const hasRequests = requests?.rows.length > 0;
+  const isEmpty = requests?.rows.length === 0;
 
   return (
     <main className="space-y-6 overflow-auto p-4">

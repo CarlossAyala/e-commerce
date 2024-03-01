@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useDebounced } from "../../hooks";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { useDebounced } from "@/shared/hooks";
+import { Input, Label } from "..";
 
 export const FilterInput = ({ name, label, placeholder, type }) => {
   const [params, setParams] = useSearchParams();

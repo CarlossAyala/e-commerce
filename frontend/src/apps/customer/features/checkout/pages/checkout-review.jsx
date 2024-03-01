@@ -13,22 +13,22 @@ import {
   RadioGroup,
   Skeleton,
   Spinner,
-} from "../../../../../components";
+} from "@/components";
+import { AddressItem } from "../components/address-item";
+import { useConfirmCheckout } from "../queries";
+import { checkoutActionRoutes } from "../utils";
+import { useCheckout } from "../context";
 import {
   checkoutReviewDefault,
   checkoutReviewInitial,
   checkoutReviewSchema,
 } from "../schemas";
-import { PaymentMethodItem } from "../components/payment-method-item";
-import { useGetCart } from "../../cart";
-import { useGetPaymentMethod } from "../../../../common/payment-method";
+import { useDocumentTitle } from "@/shared/hooks";
+import { useGetPaymentMethod } from "@/apps/common/payment-method";
 import { useGetAddress } from "../../address";
-import { AddressItem } from "../components/address-item";
-import { useConfirmCheckout } from "../queries";
-import { checkoutActionRoutes } from "../utils";
-import { useCheckout } from "../context";
-import { CartItem } from "../../../components";
-import { useDocumentTitle } from "../../../../../hooks";
+import { useGetCart } from "../../cart";
+import { PaymentMethodItem } from "../components/payment-method-item";
+import { CartItem } from "@/apps/customer/components";
 
 export const CheckoutReview = () => {
   const { paymentIntentId } = useParams();
@@ -61,13 +61,6 @@ export const CheckoutReview = () => {
           state: {
             paymentIntentId,
           },
-        });
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Error confirming order",
-          description: error.message,
         });
       },
     });

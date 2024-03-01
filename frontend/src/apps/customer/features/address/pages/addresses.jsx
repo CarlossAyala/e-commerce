@@ -1,27 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { Button, Card, EmptyPlaceholder } from "../../../../../components";
-import { useGetAddresses } from "../queries";
 import { AddressItem } from "../components/address-item";
 import { addressActionRoutes } from "../utils";
-import { useDocumentTitle } from "../../../../../hooks";
+import { useGetAddresses } from "../queries";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Button, Card, EmptyPlaceholder } from "@/components";
 
 const Addresses = () => {
+  useDocumentTitle("Addresses");
   const navigate = useNavigate();
 
-  const {
-    data: addresses,
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-  } = useGetAddresses();
-  useDocumentTitle("Addresses");
+  const { data: addresses, isLoading, isError, error } = useGetAddresses();
 
   const handleNewAddress = () => {
     navigate(addressActionRoutes.new);
   };
 
-  const isEmpty = isSuccess && addresses.length === 0;
+  const isEmpty = addresses?.length === 0;
 
   return (
     <div className="max-w-2xl space-y-4">

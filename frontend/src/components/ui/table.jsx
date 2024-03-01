@@ -1,23 +1,26 @@
-import { forwardRef } from "react";
+import * as React from "react";
+
 import { cn } from "@/libs/utils";
 
-const Table = forwardRef(({ className, ...props }, ref) => (
-  <div className="w-full overflow-auto rounded-md border">
-    <table
-      ref={ref}
-      className={cn("w-full caption-bottom text-sm", className)}
-      {...props}
-    />
+const Table = React.forwardRef(({ className, ...props }, ref) => (
+  <div className="rounded-md border">
+    <div className="relative w-full overflow-auto">
+      <table
+        ref={ref}
+        className={cn("w-full caption-bottom text-sm", className)}
+        {...props}
+      />
+    </div>
   </div>
 ));
 Table.displayName = "Table";
 
-const TableHeader = forwardRef(({ className, ...props }, ref) => (
+const TableHeader = React.forwardRef(({ className, ...props }, ref) => (
   <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
 ));
 TableHeader.displayName = "TableHeader";
 
-const TableBody = forwardRef(({ className, ...props }, ref) => (
+const TableBody = React.forwardRef(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
     className={cn("[&_tr:last-child]:border-0", className)}
@@ -26,16 +29,19 @@ const TableBody = forwardRef(({ className, ...props }, ref) => (
 ));
 TableBody.displayName = "TableBody";
 
-const TableFooter = forwardRef(({ className, ...props }, ref) => (
+const TableFooter = React.forwardRef(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn("bg-primary font-medium text-primary-foreground", className)}
+    className={cn(
+      "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+      className,
+    )}
     {...props}
   />
 ));
 TableFooter.displayName = "TableFooter";
 
-const TableRow = forwardRef(({ className, ...props }, ref) => (
+const TableRow = React.forwardRef(({ className, ...props }, ref) => (
   <tr
     ref={ref}
     className={cn(
@@ -47,11 +53,11 @@ const TableRow = forwardRef(({ className, ...props }, ref) => (
 ));
 TableRow.displayName = "TableRow";
 
-const TableHead = forwardRef(({ className, ...props }, ref) => (
+const TableHead = React.forwardRef(({ className, ...props }, ref) => (
   <th
     ref={ref}
     className={cn(
-      "h-10 px-2 text-left align-middle font-medium uppercase text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+      "h-10 px-2 text-left align-middle font-normal text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
       className,
     )}
     {...props}
@@ -59,7 +65,7 @@ const TableHead = forwardRef(({ className, ...props }, ref) => (
 ));
 TableHead.displayName = "TableHead";
 
-const TableCell = forwardRef(({ className, ...props }, ref) => (
+const TableCell = React.forwardRef(({ className, ...props }, ref) => (
   <td
     ref={ref}
     className={cn(
@@ -71,7 +77,7 @@ const TableCell = forwardRef(({ className, ...props }, ref) => (
 ));
 TableCell.displayName = "TableCell";
 
-const TableCaption = forwardRef(({ className, ...props }, ref) => (
+const TableCaption = React.forwardRef(({ className, ...props }, ref) => (
   <caption
     ref={ref}
     className={cn("mt-4 text-sm text-muted-foreground", className)}

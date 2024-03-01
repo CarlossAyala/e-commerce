@@ -143,6 +143,7 @@ export const Filters = ({ filters = [], className = "" }) => {
 
       {activeFilters.length > 0 && (
         <Button
+          type="button"
           variant="ghost"
           onClick={handleReset}
           className="h-8 px-2 lg:px-3"

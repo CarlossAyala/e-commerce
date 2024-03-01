@@ -1,22 +1,17 @@
 import { Link, useParams } from "react-router-dom";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import { orderActionRoutes, useGetOrder } from "../../order";
-import {
-  EmptyPlaceholder,
-  Skeleton,
-  buttonVariants,
-} from "../../../../../components";
+import { useDocumentTitle } from "@/shared/hooks";
+import { EmptyPlaceholder, Skeleton, buttonVariants } from "@/components";
+import { Formatter } from "@/utils";
+import { cn } from "@/libs";
 import { useCleanUpCheckout } from "../queries";
-import { Formatter } from "../../../../../utils";
-import { OrderProduct } from "../../order";
-import { cn } from "../../../../../libs/utils";
-import { useDocumentTitle } from "../../../../../hooks";
+import { OrderProduct, orderActionRoutes, useGetOrder } from "../../order";
 
 export const CheckoutDetails = () => {
+  useDocumentTitle("Checkout - Details");
   const { orderId } = useParams();
   const { details, isLoading, isError, error } = useGetOrder(orderId);
   useCleanUpCheckout();
-  useDocumentTitle("Checkout - Details");
 
   return (
     <main className="container flex-1 py-4">

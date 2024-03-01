@@ -3,25 +3,24 @@ import { signinInitial, signinSchema, useSignin } from "../shared/auth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  Button,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { useDocumentTitle } from "../hooks";
+  Input,
+  Spinner,
+} from ".";
+import { useDocumentTitle } from "@/shared/hooks";
 import { APP_NAVIGATION } from "@/configs";
 
 const Signin = () => {
+  useDocumentTitle("Sign In");
   const location = useLocation();
   const navigate = useNavigate();
   const signin = useSignin();
-
-  useDocumentTitle("Sign In");
 
   const form = useForm({
     resolver: yupResolver(signinSchema),
@@ -34,8 +33,7 @@ const Signin = () => {
   const handleSignin = (values) => {
     signin.mutate(values, {
       onSuccess() {
-        // navigate(from, { replace: true })s;
-        navigate(from);
+        navigate(from, { replace: true });
       },
     });
   };
@@ -86,9 +84,7 @@ const Signin = () => {
               )}
             />
             <Button type="submit" disabled={signin.isLoading}>
-              {signin.isLoading && (
-                <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {signin.isLoading && <Spinner className="mr-2 size-4" />}
               Sign in
             </Button>
           </form>

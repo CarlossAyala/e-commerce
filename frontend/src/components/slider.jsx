@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useIsFirstRender } from "../hooks";
-import { cn } from "../libs/utils";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import { Skeleton } from "./ui/skeleton";
+import { useIsFirstRender } from "@/shared/hooks";
+import { cn } from "@/libs";
+import { Skeleton } from ".";
 
 function calculateItemsPerPage(containerSize, itemSize, gapSize) {
   return Math.max(

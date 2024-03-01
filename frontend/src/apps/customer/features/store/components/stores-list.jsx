@@ -1,28 +1,20 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  Button,
-  EmptyPlaceholder,
-  Pagination,
-} from "../../../../../components";
-import { Formatter } from "../../../../../utils";
+import { EmptyPlaceholder, Pagination } from "@/components";
+import { Formatter } from "@/utils";
 import { useGetStores } from "../queries";
 import { StoresGroup } from "./stores-group";
 
 export const StoresList = () => {
-  const [params, setParams] = useSearchParams();
-
+  const [params] = useSearchParams();
   const {
-    stores,
-    count,
+    data: stores,
     isLoading,
     isError,
-    hasContent,
-    hasFilters,
-    isSuccess,
     error,
   } = useGetStores(params.toString());
 
-  const groups = isSuccess && Formatter.groupByFirstLetter(stores, "name");
+  const groups = Formatter.groupByFirstLetter(stores?.rows, "name");
+  const isEmpty = groups.length === 0;
 
   return (
     <>
@@ -35,24 +27,14 @@ export const StoresList = () => {
           </>
         ) : isError ? (
           <EmptyPlaceholder title="Error" description={error.message} />
-        ) : !hasContent ? (
-          <EmptyPlaceholder title="No results" description="No stores found.">
-            {hasFilters && (
-              <Button
-                className="mt-4"
-                size="sm"
-                onClick={() => setParams(new URLSearchParams())}
-              >
-                Clear filters
-              </Button>
-            )}
-          </EmptyPlaceholder>
+        ) : isEmpty ? (
+          <EmptyPlaceholder title="No results" description="No stores found." />
         ) : (
           groups.map((group) => <StoresGroup key={group.key} group={group} />)
         )}
       </section>
 
-      <Pagination totalRows={count} />
+      <Pagination totalRows={stores?.count} />
     </>
   );
 };

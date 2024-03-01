@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Separator } from "../../../../../components";
+import { Separator } from "@/components";
 import { SettingsNav } from "../components/settings-nav";
 
 export const Settings = () => {

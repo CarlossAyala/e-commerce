@@ -20,7 +20,7 @@ export const ReviewComment = ({ review }) => {
 ReviewComment.Skeleton = function ReviewCommentSkeleton() {
   return (
     <ol className="space-y-4">
-      {Array.from({ length: 3 }).map((_, index) => (
+      {new Array(3).fill("").map((_, index) => (
         <li key={index} className="space-y-2 rounded border p-2">
           <div className="flex items-center justify-between gap-x-2">
             <Skeleton className="h-4 w-20" />

@@ -1,12 +1,7 @@
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../../../../components";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components";
 import { Questions } from "./questions";
-import { UserQuestionForm } from "./user-question-form";
 import { UserQuestions } from "./user-questions";
+import { UserQuestionForm } from "./user-question-form";
 
 export const FAQ = ({ productId }) => {
   return (

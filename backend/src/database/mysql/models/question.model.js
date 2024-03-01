@@ -10,7 +10,7 @@ const modelOptions = {
   timestamps: false,
 };
 const enums = {
-  states: {
+  status: {
     answered: "answered",
     queue: "queue",
     rejected: "rejected",
@@ -24,10 +24,10 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   question: DataTypes.STRING,
-  states: {
+  status: {
     type: DataTypes.ENUM,
-    values: Object.values(enums.states),
-    defaultValue: enums.states.queue,
+    values: Object.values(enums.status),
+    defaultValue: enums.status.queue,
   },
   customerId: {
     type: DataTypes.UUID,

@@ -1,13 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useGetRequestOfficialStore } from "../queries";
 import { requestOfficialStoreStatus } from "../utils";
+import { StoreDetails } from "../components/store-details";
+import { RequestSkeleton } from "../components/request-skeleton";
+import { EmptyPlaceholder } from "@/components";
+import { Formatter } from "@/utils";
 import { RequestForm } from "../components/request-form";
 import { RequestDetails } from "../components/request-details";
-import { StoreDetails } from "../components/store-details";
-import { Formatter } from "../../../../../utils";
-import { EmptyPlaceholder } from "../../../../../components";
-import { FaceFrownIcon } from "@heroicons/react/24/outline";
-import { RequestSkeleton } from "../components/request-skeleton";
 
 export const Details = () => {
   const { requestId } = useParams();
@@ -16,7 +15,6 @@ export const Details = () => {
     isLoading,
     isError,
     error,
-    isSuccess,
   } = useGetRequestOfficialStore(requestId);
 
   return (
@@ -31,24 +29,14 @@ export const Details = () => {
       </section>
 
       <section className="space-y-6">
-        {isLoading && (
+        {isLoading ? (
           <>
             <StoreDetails.Skeleton />
             <RequestSkeleton />
           </>
-        )}
-        {isError && (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon icon={FaceFrownIcon} />
-            <EmptyPlaceholder.Title>
-              Error fetching request
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              {error.message}
-            </EmptyPlaceholder.Description>
-          </EmptyPlaceholder>
-        )}
-        {isSuccess && (
+        ) : isError ? (
+          <EmptyPlaceholder title="Error" description={error.message} />
+        ) : (
           <>
             <div className="space-y-2">
               <p className="text-sm font-semibold leading-tight">Store</p>

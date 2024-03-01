@@ -1,6 +1,6 @@
+import { Link } from "react-router-dom";
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { storeActionRoutes, useGetStores } from "../../features/store";
-import { Link } from "react-router-dom";
 
 export const SearchStores = ({ search, cleanUp }) => {
   const params = new URLSearchParams({

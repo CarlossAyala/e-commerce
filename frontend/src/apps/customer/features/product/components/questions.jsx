@@ -1,4 +1,4 @@
-import { EmptyPlaceholder } from "../../../../../components";
+import { EmptyPlaceholder } from "@/components";
 import { useGetProductQuestions } from "../../question";
 import { Question } from "./question";
 
@@ -7,11 +7,10 @@ export const Questions = ({ productId }) => {
     data: questions,
     isLoading,
     isError,
-    isSuccess,
     error,
   } = useGetProductQuestions(productId);
 
-  const isEmpty = isSuccess && questions.rows.length === 0;
+  const isEmpty = questions?.rows.length === 0;
 
   return (
     <div className="space-y-4">
@@ -19,7 +18,7 @@ export const Questions = ({ productId }) => {
         <Question.Skeleton />
       ) : isError ? (
         <EmptyPlaceholder
-          title={error?.name ?? "Error"}
+          title="Error"
           description={error.message}
           className="py-10"
         />

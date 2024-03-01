@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { Badge, EmptyPlaceholder, Skeleton } from "../../../../../components";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Badge, EmptyPlaceholder, Skeleton } from "@/components";
 import { useGetCategory } from "../queries";
-import { useDocumentTitle } from "../../../../../hooks";
 
 export const CategoryProfile = () => {
   const { slug } = useParams();

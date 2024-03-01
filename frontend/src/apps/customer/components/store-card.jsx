@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { storeActionRoutes } from "../features/store";
-import { Skeleton } from "../../../components";
+import { Skeleton } from "@/components";
 
 export const StoreCard = ({ store }) => {
   return (

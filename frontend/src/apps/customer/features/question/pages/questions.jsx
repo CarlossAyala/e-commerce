@@ -1,20 +1,19 @@
-import { EmptyPlaceholder, Pagination } from "../../../../../components";
-import { useDocumentTitle } from "../../../../../hooks";
+import { useDocumentTitle } from "@/shared/hooks";
+import { EmptyPlaceholder, Pagination } from "@/components";
 import { Question } from "../components/question";
 import { useGetCustomerQuestions } from "../queries";
 
 //TODO: Add filter by: product name, status
 const Questions = () => {
+  useDocumentTitle("Questions");
   const {
     data: questions,
     isLoading,
     isError,
-    isSuccess,
     error,
   } = useGetCustomerQuestions();
-  useDocumentTitle("Questions");
 
-  const isEmpty = isSuccess && questions.rows.length === 0;
+  const isEmpty = questions?.rows.length === 0;
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">

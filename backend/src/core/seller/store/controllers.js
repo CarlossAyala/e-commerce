@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
 const { Store } = require("../../../database/mysql/models");
-const { notFound, badRequest } = require("../../../middlewares");
+const { badRequest } = require("../../../middlewares");
 const { slugify } = require("../../../libs");
 
 /**
@@ -10,17 +10,9 @@ const { slugify } = require("../../../libs");
  * @param {express.NextFunction} next
  */
 const find = async (req, res, next) => {
-  const { userId } = req.auth;
+  const { store } = req;
 
   try {
-    const store = await Store.model.findOne({
-      where: { sellerId: userId },
-    });
-
-    if (!store) {
-      throw notFound("Store not found");
-    }
-
     res.json(store);
   } catch (error) {
     next(error);
@@ -70,17 +62,11 @@ const create = async (req, res, next) => {
  */
 const update = async (req, res, next) => {
   const { userId } = req.auth;
+  const { store } = req;
   const { name, description } = req.body;
   const slug = slugify(name);
 
   try {
-    const store = await Store.model.findOne({
-      where: {
-        sellerId: userId,
-      },
-    });
-    if (!store) throw badRequest("Store not found");
-
     const storeExist = await Store.model.findOne({
       where: {
         slug,
@@ -109,16 +95,9 @@ const update = async (req, res, next) => {
  * @param {express.NextFunction} next
  */
 const remove = async (req, res, next) => {
-  const { userId } = req.auth;
+  const { store } = req;
 
   try {
-    const store = await Store.model.findOne({
-      where: {
-        sellerId: userId,
-      },
-    });
-    if (!store) throw badRequest("Store not found");
-
     await store.destroy();
 
     res.json({

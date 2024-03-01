@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
-import { Formatter } from "../../../../utils";
-import { productActionRoutes, useGetProducts } from "../../features/product";
+import { productActionRoutes } from "../../features/product";
+import { Formatter } from "@/utils";
+import { useGetProducts } from "@/shared/features/product";
 
 export const SearchProducts = ({ search, cleanUp }) => {
   const params = new URLSearchParams({ q: search }).toString();
 
-  const { products, isLoading, isError, error, isEmpty } =
-    useGetProducts(params);
-  const sliced = products?.slice(0, 5);
-  const hasMore = products?.length > 5;
+  const { data: products, isLoading, isError, error } = useGetProducts(params);
+  const sliced = products?.rows.slice(0, 5);
+  const hasMore = products?.rows.length > 5;
+
+  const isEmpty = products?.rows.length === 0;
 
   return (
     <div className="px-2 pb-2">

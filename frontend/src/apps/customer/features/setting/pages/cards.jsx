@@ -1,19 +1,13 @@
-import { Card, EmptyPlaceholder } from "../../../../../components";
-import { useDocumentTitle } from "../../../../../hooks";
-import { useGetPaymentMethods } from "../../../../common/payment-method";
+import { useDocumentTitle } from "@/shared/hooks";
 import { CardItem } from "../components/card-item";
+import { useGetPaymentMethods } from "@/apps/common/payment-method";
+import { Card, EmptyPlaceholder } from "@/components";
 
 export const Cards = () => {
-  const {
-    data: cards,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetPaymentMethods();
   useDocumentTitle("Cards");
+  const { data: cards, isLoading, isError, error } = useGetPaymentMethods();
 
-  const isEmpty = isSuccess && cards.length === 0;
+  const isEmpty = cards?.length === 0;
 
   return (
     <div className="max-w-2xl space-y-4">

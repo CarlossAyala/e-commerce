@@ -1,6 +1,6 @@
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { Button } from "../../../components";
-import { cn } from "../../../libs/utils";
+import { Button } from "@/components";
+import { cn } from "@/libs";
 import { useUpdateVisibility } from "../features/cart";
 
 export const CartToolbarView = ({ item }) => {

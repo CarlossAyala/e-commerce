@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { Formatter } from "../../../../../utils/formatter";
+import { Badge, Skeleton } from "@/components";
+import { Formatter } from "@/utils";
 import { orderActionRoutes } from "../utils";
-import { Badge, Skeleton } from "../../../../../components";
 import { OrderPreviewImage } from "./order-preview-image";
 
 export const OrderPreview = ({ order }) => {

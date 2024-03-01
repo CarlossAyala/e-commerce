@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Skeleton } from "../../../../../components";
+import { Skeleton } from "@/components";
 import { categoryActionRoutes } from "../utils";
 
 export const CategoriesList = ({ category }) => {

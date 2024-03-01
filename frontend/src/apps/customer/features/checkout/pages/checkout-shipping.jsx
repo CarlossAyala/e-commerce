@@ -15,7 +15,7 @@ import {
   RadioGroup,
   RadioGroupItem,
   Skeleton,
-} from "../../../../../components";
+} from "@/components";
 import { addressActionRoutes, useGetAddresses } from "../../address";
 import {
   checkoutAddressDefault,
@@ -26,13 +26,13 @@ import { AddressItem } from "../components/address-item";
 import { useGetCart } from "../../cart/queries";
 import { checkoutActionRoutes } from "../utils";
 import { useCheckout } from "../context";
-import { useDocumentTitle } from "../../../../../hooks";
+import { useDocumentTitle } from "@/shared/hooks";
 
 export const CheckoutShipping = () => {
+  useDocumentTitle("Checkout - Shipping");
   const { paymentIntentId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  useDocumentTitle("Checkout - Shipping");
 
   const { addressId, updateAddress } = useCheckout();
 

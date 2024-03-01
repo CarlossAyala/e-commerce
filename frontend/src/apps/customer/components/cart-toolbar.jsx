@@ -1,4 +1,4 @@
-import { Skeleton } from "../../../components";
+import { Skeleton } from "@/components";
 import { CartToolbarBookmark } from "./cart-toolbar-bookmark";
 import { CartToolbarQuantity } from "./cart-toolbar-quantity";
 import { CartToolbarRemove } from "./cart-toolbar-remove";

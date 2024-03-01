@@ -1,17 +1,11 @@
 import { useParams, useSearchParams } from "react-router-dom";
-import { useDebounced } from "../../../../../hooks";
+import { ProductCard } from "@/apps/customer/components";
+import { Button, EmptyPlaceholder, Pagination } from "@/components";
 import { useGetStoreProducts } from "../queries";
-import { ProductCard } from "../../../components";
-import {
-  Button,
-  EmptyPlaceholder,
-  Pagination,
-} from "../../../../../components";
 
 export const StoreProducts = () => {
   const { slug } = useParams();
   const [params, setParams] = useSearchParams();
-  const debouncedParams = useDebounced(params.toString());
 
   const {
     data: products,
@@ -20,7 +14,7 @@ export const StoreProducts = () => {
     hasContent,
     hasFilters,
     error,
-  } = useGetStoreProducts(slug, debouncedParams);
+  } = useGetStoreProducts(slug, params.toString());
 
   return (
     <>

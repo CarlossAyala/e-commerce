@@ -1,4 +1,4 @@
-import { EmptyPlaceholder } from "../../../../../components";
+import { EmptyPlaceholder } from "@/components";
 import { useGetProductCustomerQuestions } from "../../question";
 import { UserQuestion } from "./user-question";
 
@@ -7,11 +7,10 @@ export const UserQuestions = ({ productId }) => {
     data: questions,
     isLoading,
     isError,
-    isSuccess,
     error,
   } = useGetProductCustomerQuestions(productId);
 
-  const isEmpty = isSuccess && questions.rows.length === 0;
+  const isEmpty = questions?.rows.length === 0;
 
   // TODO: Load Questions in a modal with infinite scroll
   return (
@@ -20,7 +19,7 @@ export const UserQuestions = ({ productId }) => {
         <UserQuestion.Skeleton />
       ) : isError ? (
         <EmptyPlaceholder
-          title={error?.name ?? "Error"}
+          title="Error"
           description={error.message}
           className="py-10"
         />

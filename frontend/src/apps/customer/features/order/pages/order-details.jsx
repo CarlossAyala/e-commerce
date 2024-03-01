@@ -1,17 +1,17 @@
 import { useParams } from "react-router-dom";
-import { Card, EmptyPlaceholder } from "../../../../../components";
-import { useGetOrder } from "../queries";
-import { Formatter } from "../../../../../utils/formatter";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Formatter } from "@/utils";
+import { Card, EmptyPlaceholder } from "@/components";
 import { OrderProduct } from "../components/order-product";
 import { OrderSummary } from "../components/order-summary";
 import { OrderInformation } from "../components/order-information";
-import { useDocumentTitle } from "../../../../../hooks";
+import { useGetOrder } from "../queries";
 
 export const OrderDetails = () => {
+  useDocumentTitle("Order Details");
+
   const { orderId } = useParams();
   const { data: order, isLoading, isError, error } = useGetOrder(orderId);
-
-  useDocumentTitle("Order Details");
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">

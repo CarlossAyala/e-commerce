@@ -5,7 +5,6 @@ import StatCard from "./stat/stat-card";
 import StatContainer from "./stat/stat-container";
 import TableEmpty from "./table/table-empty";
 import TableError from "./table/table-error";
-import TableSkeleton from "./table/table-skeleton";
 import Mandatory from "./mandatory";
 import Logo from "./logo";
 
@@ -39,7 +38,6 @@ export * from "./ui/scroll-area";
 export * from "./ui/sonner";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
-export * from "./search";
 export * from "./area-chart";
 export * from "./empty-placeholder";
 export * from "./review-star";
@@ -52,6 +50,7 @@ export * from "./spinner";
 export * from "./pagination";
 export * from "./authenticated-route";
 export * from "./redirect-if-authenticated";
+export * from "./table-skeleton";
 
 export {
   Logo,
@@ -61,6 +60,5 @@ export {
   StatCard,
   TableEmpty,
   TableError,
-  TableSkeleton,
   Mandatory,
 };

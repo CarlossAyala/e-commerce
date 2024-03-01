@@ -1,12 +1,17 @@
 import { NavLink, useParams } from "react-router-dom";
-import clsx from "clsx";
+import { EmptyPlaceholder, Skeleton } from "@/components";
+import { cn } from "@/libs";
 import { categoryActionRoutes } from "../utils";
-import { EmptyPlaceholder, Skeleton } from "../../../../../components";
 import { useGetListCategories } from "../queries";
 
 export const CategoryList = () => {
   const { slug } = useParams();
-  const { category, isLoading, isError, error } = useGetListCategories(slug);
+  const {
+    data: category,
+    isLoading,
+    isError,
+    error,
+  } = useGetListCategories(slug);
 
   return (
     <>
@@ -15,11 +20,11 @@ export const CategoryList = () => {
       ) : isError ? (
         <EmptyPlaceholder title="Error" description={error.message} />
       ) : (
-        <div key={category.id} className="space-y-2 px-4 lg:px-0">
+        <div className="space-y-2 px-4 lg:px-0">
           <NavLink
             to={categoryActionRoutes.details(category.slug)}
             className={({ isActive }) =>
-              clsx(
+              cn(
                 "text-lg font-semibold leading-tight hover:text-blue-600",
                 isActive && "uppercase text-blue-600",
               )
@@ -32,7 +37,7 @@ export const CategoryList = () => {
               <li key={child.id} className="text-sm text-muted-foreground">
                 <NavLink
                   className={({ isActive }) =>
-                    clsx(
+                    cn(
                       "inline-block hover:text-blue-600",
                       isActive && "uppercase text-blue-600",
                     )

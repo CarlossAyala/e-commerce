@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/shared/auth";
 import { clear, add, findAll, remove } from "../api";
 
 export const historyKeys = {
@@ -7,42 +8,44 @@ export const historyKeys = {
 };
 
 export const useGetHistory = (query) => {
-  const token = localStorageManager.getToken();
+  const { accessToken } = useAuth();
 
   return useQuery({
     queryKey: historyKeys.finAll(query),
-    queryFn: () => findAll(query),
-    enabled: !!token,
+    queryFn: () => findAll(query, accessToken),
   });
 };
 
 export const useAddHistory = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: add,
+    mutationFn: (productId) => add(productId, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries(historyKeys.key);
+      return queryClient.invalidateQueries(historyKeys.key);
     },
   });
 };
 
 export const useRemoveHistory = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: remove,
+    mutationFn: (productId) => remove(productId, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries(historyKeys.key);
+      return queryClient.invalidateQueries(historyKeys.key);
     },
   });
 };
 
 export const useClearHistory = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: clear,
+    mutationFn: () => clear(accessToken),
     onSuccess: () => {
       queryClient.invalidateQueries(historyKeys.key);
     },
