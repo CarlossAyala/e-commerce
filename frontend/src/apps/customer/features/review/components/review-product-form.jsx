@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "sonner";
 import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
-import {
-  ArrowPathIcon,
-  StarIcon as StarOutline,
-} from "@heroicons/react/24/outline";
+import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
+import { cn } from "@/libs/utils";
 import {
   Button,
   Form,
@@ -15,22 +16,21 @@ import {
   FormMessage,
   RadioGroup,
   RadioGroupItem,
+  Spinner,
   Textarea,
-} from "../../../../../components";
-import { useCreateReview } from "../queries";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { reviewDefault, reviewSchema } from "../schemas";
+} from "@/components";
 import { reviewActionRoutes } from "../utils";
-import { cn } from "../../../../../libs/utils";
+import { reviewDefault, reviewSchema } from "../schemas";
+import { useCreateReview } from "../queries";
 
 const STARS = [1, 2, 3, 4, 5];
 const RATINGS = ["Poor", "Fair", "Average", "Good", "Excellent"];
 
-export const ReviewProductForm = ({ review, reviewId }) => {
+export const ReviewProductForm = () => {
+  const { orderItemId } = useParams();
   const navigate = useNavigate();
 
-  const createReview = useCreateReview(reviewId);
+  const { mutate, isLoading } = useCreateReview(orderItemId);
 
   const form = useForm({
     resolver: yupResolver(reviewSchema),
@@ -39,18 +39,10 @@ export const ReviewProductForm = ({ review, reviewId }) => {
   });
 
   const handleCreate = (values) => {
-    createReview.mutate([review.productId, values], {
+    mutate(values, {
       onSuccess() {
-        toast({
-          description: "Review created successfully",
-        });
-        navigate(reviewActionRoutes.list("tab=done&page=1"));
-      },
-      onError(error) {
-        toast({
-          title: "Review could not be created",
-          description: error.message,
-        });
+        toast("Review created successfully");
+        navigate(reviewActionRoutes.list);
       },
     });
   };
@@ -124,9 +116,7 @@ export const ReviewProductForm = ({ review, reviewId }) => {
         />
 
         <Button type="submit">
-          {createReview.isLoading && (
-            <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
-          )}
+          {isLoading && <Spinner className="mr-2 size-4" />}
           Create
         </Button>
       </form>

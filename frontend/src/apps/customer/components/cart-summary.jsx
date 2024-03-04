@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { Button, Skeleton, Spinner } from "../../../components";
+import { Button, Skeleton, Spinner } from "@/components";
 import { useGetCart } from "../features/cart";
 import { useCreateCheckout, checkoutActionRoutes } from "../features/checkout";
 
@@ -15,11 +14,6 @@ export const CartSummary = () => {
     mutate(null, {
       onSuccess({ id }) {
         navigate(checkoutActionRoutes.shipping(id));
-      },
-      onError(error) {
-        toast.message("Error generating checkout", {
-          description: error.message,
-        });
       },
       onSettled() {
         reset();
@@ -50,7 +44,7 @@ export const CartSummary = () => {
         disabled={isLoading}
         onClick={handleCheckout}
       >
-        {isLoading && <Spinner className="mr-2 h-5 w-5 animate-spin" />}
+        {isLoading && <Spinner className="mr-2 size-4" />}
         Checkout
       </Button>
     </div>

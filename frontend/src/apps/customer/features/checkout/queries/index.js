@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { confirm, create, findOne } from "../api";
-import { useCheckout } from "../context";
+import { useAuth } from "@/shared/auth";
 import { cartKeys } from "../../cart";
+import { useCheckout } from "../context";
+import { confirm, create, findOne } from "../api";
 
 const checkoutKeys = {
-  key: ["checkout"],
+  key: ["customer/checkout"],
   findOne: (paymentIntentId) => [
     ...checkoutKeys.key,
     "find-one",
@@ -15,22 +16,28 @@ const checkoutKeys = {
 };
 
 export const useGetCheckout = (paymentIntentId) => {
+  const { accessToken } = useAuth();
+
   return useQuery({
     queryKey: checkoutKeys.findOne(paymentIntentId),
-    queryFn: () => findOne(paymentIntentId),
+    queryFn: () => findOne(paymentIntentId, accessToken),
     enabled: !!paymentIntentId,
   });
 };
 
 export const useCreateCheckout = () => {
+  const { accessToken } = useAuth();
+
   return useMutation({
-    mutationFn: create,
+    mutationFn: () => create(accessToken),
   });
 };
 
 export const useConfirmCheckout = (paymentIntentId) => {
+  const { accessToken } = useAuth();
+
   return useMutation({
-    mutationFn: (data) => confirm(paymentIntentId, data),
+    mutationFn: (values) => confirm(paymentIntentId, values, accessToken),
   });
 };
 

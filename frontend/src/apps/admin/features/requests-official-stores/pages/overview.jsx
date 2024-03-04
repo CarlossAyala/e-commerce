@@ -20,11 +20,11 @@ import {
   TableHeader,
   TableRow,
   TableSkeleton,
-  Pagination,
 } from "@/components";
 import { Formatter } from "@/utils";
 import { useGetRequestsOfficialStores } from "../queries";
 import { requestOfficialStoreActionRoutes } from "../utils";
+import { Pagination } from "@/shared/components";
 
 export const Overview = () => {
   const [params] = useSearchParams();
@@ -133,7 +133,8 @@ export const Overview = () => {
             </TableBody>
           </Table>
         )}
-        <Pagination totalRows={requests?.count} />
+
+        <Pagination count={requests?.count} />
       </section>
     </main>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 export * from "./use-document-title";
+export * from "./use-pagination";
 
 export const useDebounced = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);

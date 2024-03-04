@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/shared/auth";
 import {
   create,
   findAll,
@@ -8,7 +9,6 @@ import {
   update,
   updateStockAlert,
 } from "../api";
-import { authKeys } from "@/shared/auth";
 
 export const productKeys = {
   key: ["seller/product"],
@@ -20,8 +20,7 @@ export const productKeys = {
 };
 
 export const useGetProduct = (id) => {
-  const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useQuery({
     queryKey: productKeys.findOne(id),
@@ -31,8 +30,7 @@ export const useGetProduct = (id) => {
 };
 
 export const useGetProducts = (query) => {
-  const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useQuery({
     queryKey: productKeys.findAll(query),
@@ -41,8 +39,7 @@ export const useGetProducts = (query) => {
 };
 
 export const useGetStockAlert = (query = "") => {
-  const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useQuery({
     queryKey: productKeys.stockAlert(query),
@@ -52,7 +49,7 @@ export const useGetStockAlert = (query = "") => {
 
 export const useCreateProduct = () => {
   const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (values) => create(values, accessToken),
@@ -69,7 +66,7 @@ export const useCreateProduct = () => {
 
 export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useMutation({
     mutationFn: ({ productId, values }) => {
@@ -85,7 +82,7 @@ export const useUpdateProduct = () => {
 
 export const useUpdateStockAlert = () => {
   const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useMutation({
     mutationFn: ({ productId, values }) => {
@@ -105,7 +102,7 @@ export const useUpdateStockAlert = () => {
 
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (productId) => remove(productId, accessToken),

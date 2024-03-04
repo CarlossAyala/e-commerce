@@ -38,10 +38,32 @@ export const PrivateRoot = () => {
           <p>Questions</p>
           <ul className="list-inside list-disc">
             <li>
-              <Link to="/seller/questions">Overview</Link>
+              <Link to="/seller/qa">Overview</Link>
             </li>
             <li>
-              <Link to="/seller/questions/:productId">:productId</Link>
+              <Link to="/seller/qa/:productId">:productId</Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p>Orders</p>
+          <ul className="list-inside list-disc">
+            <li>
+              <Link to="/seller/orders">Overview</Link>
+            </li>
+            <li>
+              <Link to="/seller/orders/:orderId/detail">:orderId</Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p>Reviews</p>
+          <ul className="list-inside list-disc">
+            <li>
+              <Link to="/seller/reviews">Timeline</Link>
+            </li>
+            <li>
+              <Link to="/seller/reviews/:productId">:productId</Link>
             </li>
           </ul>
         </div>

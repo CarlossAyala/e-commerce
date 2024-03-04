@@ -1,17 +1,17 @@
 import { useParams } from "react-router-dom";
-import { useGetReviews } from "../../../review";
-import { ReviewComment } from "./review-comment";
 import { EmptyPlaceholder } from "@/components";
+import { ReviewComment } from "./review-comment";
 
 export const ReviewComments = () => {
-  const { productId } = useParams();
-  const { data: reviews, isLoading, isError, error } = useGetReviews(productId);
+  // const { productId } = useParams();
+  // const { data: reviews, isLoading, isError, error } = useGetReviews(productId);
 
-  const isEmpty = reviews?.rows.length === 0;
+  // const isEmpty = reviews?.rows.length === 0;
 
   return (
     <div className="space-y-4">
-      {isLoading ? (
+      TODO
+      {/* {isLoading ? (
         <ReviewComment.Skeleton />
       ) : isError ? (
         <EmptyPlaceholder title="Error" description={error.message} />
@@ -24,7 +24,7 @@ export const ReviewComments = () => {
         reviews.rows.map((review) => (
           <ReviewComment key={review.id} review={review} />
         ))
-      )}
+      )} */}
     </div>
   );
 };

@@ -58,7 +58,7 @@ export const OrderDetails = () => {
                   <div className="text-sm leading-tight">
                     <span>Date: </span>
                     <span className="text-muted-foreground">
-                      {Formatter.longDate(order.order.orderedAt)}
+                      {Formatter.fullDate(order.order.orderedAt)}
                     </span>
                   </div>
                 </div>

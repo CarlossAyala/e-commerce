@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { cn } from "@/libs/utils";
+import { Pagination } from "@/shared/components";
 import {
   Button,
   Form,
@@ -21,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
   Switch,
-  Pagination,
   Textarea,
   Input,
   Filters,
@@ -32,11 +32,11 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components";
+import { clearEmptyValues } from "@/utils";
+import { useGetCategories, useGetCategory } from "@/shared/features/category";
 import { productInitial, productSchema } from "../schemas";
 import { PRODUCT_CONDITIONS, productActionRoutes } from "../utils";
 import { useCreateProduct } from "../queries";
-import { clearEmptyValues } from "@/utils";
-import { useGetCategories, useGetCategory } from "@/shared/features/category";
 
 const filters = [
   {
@@ -319,7 +319,7 @@ export const ProductNew = () => {
                           </RadioGroup>
                         </FormControl>
                       )}
-                      <Pagination totalRows={categories.data?.count} />
+                      <Pagination count={categories.data?.count} />
                     </div>
                   </FormItem>
                 )}

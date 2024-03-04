@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "./ui/table";
 
-export const TableSkeleton = () => {
+export const TableSkeleton = ({ action = true }) => {
   return (
     <Table>
       <TableHeader>
@@ -25,7 +25,7 @@ export const TableSkeleton = () => {
           <TableHead>
             <Skeleton className="h-4 w-28" />
           </TableHead>
-          <TableHead>{null}</TableHead>
+          {action && <TableHead>{null}</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -43,9 +43,11 @@ export const TableSkeleton = () => {
             <TableCell>
               <Skeleton className="h-4 w-28 bg-primary/30" />
             </TableCell>
-            <TableCell className="py-4">
-              <Skeleton className="h-4 w-12 bg-indigo-300" />
-            </TableCell>
+            {action && (
+              <TableCell className="py-4">
+                <Skeleton className="h-4 w-12 bg-indigo-300" />
+              </TableCell>
+            )}
           </TableRow>
         ))}
       </TableBody>

@@ -7,7 +7,7 @@ const modelName = "Question";
 const tableName = "questions";
 const modelOptions = {
   tableName,
-  timestamps: false,
+  timestamps: true,
 };
 const enums = {
   status: {
@@ -23,7 +23,7 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  question: DataTypes.STRING,
+  content: DataTypes.STRING,
   status: {
     type: DataTypes.ENUM,
     values: Object.values(enums.status),
@@ -49,6 +49,11 @@ const modelSchema = {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
     field: "created_at",
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    field: "updated_at",
   },
 };
 

@@ -1,6 +1,6 @@
 import { useDocumentTitle } from "@/shared/hooks";
 import { CardItem } from "../components/card-item";
-import { useGetPaymentMethods } from "@/apps/common/payment-method";
+import { useGetPaymentMethods } from "@/shared/features/payment-method";
 import { Card, EmptyPlaceholder } from "@/components";
 
 export const Cards = () => {

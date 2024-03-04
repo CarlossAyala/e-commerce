@@ -1,19 +1,9 @@
 const Joi = require("joi");
 
-const id = Joi.string().guid({
-  version: "uuidv4",
-  separator: "-",
-});
-
 const answer = Joi.object({
-  answer: Joi.string().label("Answer").min(3).max(255).required(),
-});
-
-const resourceId = Joi.object({
-  id: id.required(),
+  content: Joi.string().label("Answer").min(5).max(255).required(),
 });
 
 module.exports = {
-  resourceId,
   answer,
 };

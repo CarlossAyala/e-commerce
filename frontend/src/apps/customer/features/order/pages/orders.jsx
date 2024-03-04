@@ -1,8 +1,9 @@
 import { useSearchParams } from "react-router-dom";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Pagination } from "@/shared/components";
+import { EmptyPlaceholder } from "@/components";
 import { OrderPreview } from "../components/order-preview";
 import { useGetOrders } from "../queries";
-import { useDocumentTitle } from "@/shared/hooks";
-import { EmptyPlaceholder, Pagination } from "@/components";
 
 //TODO: Add filters by: status, search by product name
 export const Orders = () => {
@@ -45,7 +46,7 @@ export const Orders = () => {
           ))
         )}
 
-        <Pagination totalRows={orders?.count} />
+        <Pagination count={orders?.count} />
       </section>
     </main>
   );

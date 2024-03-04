@@ -13,9 +13,9 @@ export const SELLER_NAV = {
     name: "Questions",
     to: "/seller/question",
   },
-  sale: {
-    name: "Sales",
-    to: "/seller/sale",
+  order: {
+    name: "Orders",
+    to: "/seller/orders",
   },
   review: {
     name: "Reviews",
@@ -35,7 +35,7 @@ export const sellerNav = [
   SELLER_NAV.dashboard,
   SELLER_NAV.product,
   SELLER_NAV.question,
-  SELLER_NAV.sale,
+  SELLER_NAV.order,
   SELLER_NAV.review,
   SELLER_NAV.store,
 ];

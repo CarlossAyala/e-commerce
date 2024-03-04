@@ -1,8 +1,8 @@
 import { useDocumentTitle } from "@/shared/hooks";
-import { useGetCart } from "../queries";
 import { CartItem } from "@/apps/customer/components";
 import { CartSummary } from "@/apps/customer/components/cart-summary";
 import { EmptyPlaceholder } from "@/components";
+import { useGetCart } from "../queries";
 
 export const Cart = () => {
   useDocumentTitle("Cart");

@@ -1,91 +1,66 @@
-import { API_CUSTOMER } from "../../../../../configs";
-import { fetcher } from "../../../../../libs/utils";
+import { API_CUSTOMER } from "@/configs";
+import { fetcher } from "@/libs";
 
 const ENDPOINT = `${API_CUSTOMER}/addresses`;
 
-export const findOne = (addressId) => {
+export const findOne = (addressId, accessToken) => {
   const url = `${ENDPOINT}/${addressId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const findAll = (query) => {
-  const url = `${ENDPOINT}?${query}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
+export const findAll = (accessToken) => {
+  const url = `${ENDPOINT}`;
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const create = (values) => {
+export const create = (values, accessToken) => {
   const url = ENDPOINT;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
 
   return fetcher(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(values),
   });
 };
 
-export const update = (addressId, values) => {
+export const update = (addressId, values, accessToken) => {
   const url = `${ENDPOINT}/${addressId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
 
   return fetcher(url, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(values),
   });
 };
 
-export const remove = (addressId) => {
+export const remove = (addressId, accessToken) => {
   const url = `${ENDPOINT}/${addressId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
 
   return fetcher(url, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };

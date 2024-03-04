@@ -7,14 +7,14 @@ export const UserQuestion = ({ question }) => {
     <div className="space-y-1 rounded-md border p-2">
       <div className="flex items-center justify-between">
         <Badge variant="outline" className="py-0 capitalize">
-          {question.states}
+          {question.status}
         </Badge>
         <p className="text-sm text-muted-foreground">
-          {Formatter.longDate(question.createdAt)}
+          {Formatter.fullDate(question.createdAt)}
         </p>
       </div>
       <div>
-        <p className="text-sm leading-tight">{question.question}</p>
+        <p className="text-sm leading-tight">{question.content}</p>
       </div>
       {question.states === "answered" && (
         <div className="flex items-start gap-x-1 text-muted-foreground">
@@ -29,7 +29,7 @@ export const UserQuestion = ({ question }) => {
 UserQuestion.Skeleton = function UserQuestionSkeleton() {
   return (
     <div className="space-y-2">
-      {Array.from({ length: 3 }).map((_, index) => (
+      {new Array(5).fill("").map((_, index) => (
         <div key={index} className="space-y-2 rounded-md border p-2">
           <div className="flex items-center justify-between">
             <Skeleton className="h-4 w-1/4" />

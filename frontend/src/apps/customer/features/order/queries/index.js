@@ -1,35 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
-import { findAll, findOne } from "../api";
+import { findAll, findItem, findOne } from "../api";
+import { parseURLSearchParams } from "@/shared/utils";
+import { useAuth } from "@/shared/auth";
 
 const orderKeys = {
-  key: ["order"],
+  key: ["customer/order"],
   findOne: (orderId) => [...orderKeys.key, "find-one", orderId],
   findAll: (query) => [...orderKeys.key, "find-all", query],
+  findItem: (itemId) => [...orderKeys.key, "find-item", itemId],
 };
 
 export const useGetOrder = (orderId) => {
-  const value = useQuery({
+  const { accessToken } = useAuth();
+
+  return useQuery({
     queryKey: orderKeys.findOne(orderId),
-    queryFn: () => findOne(orderId),
+    queryFn: () => findOne(orderId, accessToken),
     enabled: !!orderId,
   });
-
-  return {
-    details: value.data,
-    ...value,
-  };
 };
 
 export const useGetOrders = (query) => {
-  const values = useQuery({
-    queryKey: orderKeys.findAll(query),
-    queryFn: () => findAll(query),
-  });
+  const { accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
 
-  return {
-    orders: values.data?.rows,
-    count: values.data?.count,
-    isEmpty: values.data?.rows.length === 0,
-    ...values,
-  };
+  return useQuery({
+    queryKey: orderKeys.findAll(_query),
+    queryFn: () => findAll(query, accessToken),
+  });
+};
+
+export const useGetOrderItem = (itemId) => {
+  const { accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: orderKeys.findItem(itemId),
+    queryFn: () => findItem(itemId, accessToken),
+    enabled: !!itemId,
+  });
 };

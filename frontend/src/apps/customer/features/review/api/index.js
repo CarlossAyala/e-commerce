@@ -1,79 +1,40 @@
-import { API_SHARED, API_CUSTOMER } from "../../../../../configs";
-import { fetcher } from "../../../../../libs/utils";
+import { API_CUSTOMER } from "@/configs";
+import { fetcher } from "@/libs";
 
-const ENDPOINT_COMMON = `${API_SHARED}/reviews`;
 const ENDPOINT_CUSTOMER = `${API_CUSTOMER}/reviews`;
 
-export const findOne = (reviewId, query) => {
-  const url = `${ENDPOINT_CUSTOMER}/${reviewId}?${query}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
+export const findAllDone = (query, accessToken) => {
+  const url = `${ENDPOINT_CUSTOMER}/done?${query}`;
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const findAll = (productId, query) => {
-  const url = `${ENDPOINT_COMMON}/product/${productId}?${query}`;
+export const findAllPending = (query, accessToken) => {
+  const url = `${ENDPOINT_CUSTOMER}/pending?${query}`;
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const findAllByCustomer = (query) => {
-  const url = `${ENDPOINT_CUSTOMER}/customer?${query}`;
-
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    return Promise.reject("Unauthorized");
-  }
-
-  return fetcher(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-export const stats = (productId) => {
-  const url = `${ENDPOINT_COMMON}/product/${productId}/stats`;
-
-  return fetcher(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-};
-
-export const create = (reviewId, values) => {
-  const url = `${ENDPOINT_CUSTOMER}/${reviewId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
+export const create = (orderItemId, values, accessToken) => {
+  const url = `${ENDPOINT_CUSTOMER}/${orderItemId}`;
 
   return fetcher(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(values),
   });

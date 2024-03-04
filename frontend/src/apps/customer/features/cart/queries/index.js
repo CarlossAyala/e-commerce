@@ -1,16 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Formatter } from "@/utils";
 import { addToCart, getCart, removeFromCart, updateQuantity } from "../api";
-import { Formatter } from "../../../../../utils";
+import { useAuth } from "@/shared/auth";
 
 export const cartKeys = {
-  key: ["cart"],
+  key: ["customer/cart"],
 };
 
 export const useGetCart = () => {
+  const { accessToken } = useAuth();
+
   const values = useQuery({
     queryKey: cartKeys.key,
     queryFn: async () => {
-      const data = await getCart();
+      const data = await getCart(accessToken);
       const cart = data.map((item) => ({
         ...item,
         product: {
@@ -53,11 +56,14 @@ export const useGetCart = () => {
 
 export const useAddCart = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: ({ productId, quantity }) => addToCart(productId, quantity),
+    mutationFn: ({ productId, quantity }) => {
+      return addToCart(productId, quantity, accessToken);
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: cartKeys.key,
       });
     },
@@ -66,9 +72,10 @@ export const useAddCart = () => {
 
 export const useRemoveFromCart = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: removeFromCart,
+    mutationFn: (productId) => removeFromCart(productId, accessToken),
     onSuccess: (_, productId) => {
       queryClient.setQueryData(cartKeys.key, (oldData) => {
         if (!oldData) return oldData;
@@ -83,10 +90,12 @@ export const useRemoveFromCart = () => {
 
 export const useUpdateQuantity = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: ({ productId, quantity }) =>
-      updateQuantity(productId, quantity),
+    mutationFn: ({ productId, quantity }) => {
+      return updateQuantity(productId, quantity, accessToken);
+    },
     onSuccess: (_, { productId, quantity }) => {
       queryClient.setQueryData(cartKeys.key, (oldData) => {
         if (!oldData) return oldData;

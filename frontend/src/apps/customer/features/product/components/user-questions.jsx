@@ -1,5 +1,5 @@
 import { EmptyPlaceholder } from "@/components";
-import { useGetProductCustomerQuestions } from "../../question";
+import { useGetProductCustomerQuestions } from "../../qa";
 import { UserQuestion } from "./user-question";
 
 export const UserQuestions = ({ productId }) => {

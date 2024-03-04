@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
   Skeleton,
 } from "../../../../../components";
-import { useRemovePaymentMethod } from "../../../../common/payment-method";
+import { useRemovePaymentMethod } from "../../../../../shared/features/payment-method";
 import { useState } from "react";
 
 export const CardItem = ({ card }) => {

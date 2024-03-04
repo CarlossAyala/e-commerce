@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useCreateCheckout, useGetCheckout } from "../queries";
 import {
   Button,
   Card,
   EmptyPlaceholder,
   Skeleton,
   Spinner,
-} from "../../../../../components";
+} from "@/components";
+import { useCreateCheckout, useGetCheckout } from "../queries";
 import { checkoutActionRoutes } from "../utils";
 
 export const CheckPaymentIntent = ({ children }) => {
@@ -21,12 +21,6 @@ export const CheckPaymentIntent = ({ children }) => {
     generatePaymentIntent.mutate(null, {
       onSuccess({ id }) {
         navigate(checkoutActionRoutes.shipping(id));
-      },
-      onError(error) {
-        toast({
-          title: "Error generating checkout",
-          description: error.message,
-        });
       },
     });
   };
@@ -73,7 +67,7 @@ export const CheckPaymentIntent = ({ children }) => {
                 disabled={generatePaymentIntent.isLoading}
               >
                 {generatePaymentIntent.isLoading && (
-                  <Spinner className="mr-2 h-4 w-4 animate-spin" />
+                  <Spinner className="mr-2 size-4" />
                 )}
                 New Checkout
               </Button>

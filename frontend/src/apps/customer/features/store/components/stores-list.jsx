@@ -1,8 +1,9 @@
 import { useSearchParams } from "react-router-dom";
-import { EmptyPlaceholder, Pagination } from "@/components";
+import { EmptyPlaceholder } from "@/components";
 import { Formatter } from "@/utils";
 import { useGetStores } from "../queries";
 import { StoresGroup } from "./stores-group";
+import { Pagination } from "@/shared/components";
 
 export const StoresList = () => {
   const [params] = useSearchParams();
@@ -34,7 +35,7 @@ export const StoresList = () => {
         )}
       </section>
 
-      <Pagination totalRows={stores?.count} />
+      <Pagination count={stores?.count} />
     </>
   );
 };

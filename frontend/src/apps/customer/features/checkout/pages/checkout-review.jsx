@@ -24,17 +24,17 @@ import {
   checkoutReviewSchema,
 } from "../schemas";
 import { useDocumentTitle } from "@/shared/hooks";
-import { useGetPaymentMethod } from "@/apps/common/payment-method";
+import { useGetPaymentMethod } from "@/shared/features/payment-method";
 import { useGetAddress } from "../../address";
 import { useGetCart } from "../../cart";
 import { PaymentMethodItem } from "../components/payment-method-item";
 import { CartItem } from "@/apps/customer/components";
 
 export const CheckoutReview = () => {
+  useDocumentTitle("Checkout - Review");
   const { paymentIntentId } = useParams();
 
   const navigate = useNavigate();
-  useDocumentTitle("Checkout - Review");
 
   const { addressId, paymentMethodId } = useCheckout();
 

@@ -5,10 +5,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { Pagination } from "@/shared/components";
 import {
   Button,
   EmptyPlaceholder,
-  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -133,7 +133,7 @@ export const StockAlertTable = () => {
             </TableBody>
           </Table>
 
-          <Pagination totalRows={data?.count} />
+          <Pagination count={data?.count} />
         </>
       )}
     </>

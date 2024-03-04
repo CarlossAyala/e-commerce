@@ -5,20 +5,20 @@ import {
   ReviewStarGraph,
   Skeleton,
 } from "@/components";
-import { useGetReviewStats } from "../../../review";
+// import { useGetReviewStats } from "../../../review";
 
 export const ReviewScore = () => {
   const { productId } = useParams();
-  const {
-    data: reviews,
-    isLoading,
-    isError,
-    error,
-  } = useGetReviewStats(productId);
+  // const {
+  //   data: reviews,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useGetReviewStats(productId);
 
   return (
     <>
-      {isLoading ? (
+      {/* {isLoading ? (
         <div className="space-y-4">
           <Skeleton className="h-10 w-full" />
           <div className="space-y-2">
@@ -46,7 +46,8 @@ export const ReviewScore = () => {
           </div>
           <ReviewStarGraph ratings={reviews.reviews} />
         </div>
-      )}
+      )} */}
+      <p>TODO</p>
     </>
   );
 };

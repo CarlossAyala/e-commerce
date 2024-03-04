@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   Button,
   Card,
@@ -16,6 +17,7 @@ import {
   RadioGroupItem,
   Skeleton,
 } from "@/components";
+import { useGetCart } from "../../cart/queries";
 import { addressActionRoutes, useGetAddresses } from "../../address";
 import {
   checkoutAddressDefault,
@@ -23,10 +25,8 @@ import {
   checkoutAddressSchema,
 } from "../schemas";
 import { AddressItem } from "../components/address-item";
-import { useGetCart } from "../../cart/queries";
 import { checkoutActionRoutes } from "../utils";
 import { useCheckout } from "../context";
-import { useDocumentTitle } from "@/shared/hooks";
 
 export const CheckoutShipping = () => {
   useDocumentTitle("Checkout - Shipping");
@@ -36,8 +36,13 @@ export const CheckoutShipping = () => {
 
   const { addressId, updateAddress } = useCheckout();
 
-  const { addresses, isLoading, isError, error, refetch, isEmpty } =
-    useGetAddresses();
+  const {
+    data: addresses,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useGetAddresses();
   const cart = useGetCart();
 
   const form = useForm({
@@ -67,6 +72,8 @@ export const CheckoutShipping = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const isEmpty = addresses?.length === 0;
 
   return (
     <main className="container flex max-w-6xl flex-1 flex-col space-y-4">

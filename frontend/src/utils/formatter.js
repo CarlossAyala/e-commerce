@@ -15,15 +15,17 @@ export class Formatter {
     }).format(new Date(date));
   }
 
-  static longDate(date) {
+  static fullDate(date) {
     return new Intl.DateTimeFormat("es-AR", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
       hour: "2-digit",
       minute: "2-digit",
-      hour12: true,
-    }).format(new Date(date));
+      hour12: false,
+    })
+      .format(new Date(date))
+      .replace(",", " -");
   }
 
   static monthAndYearDate(date) {

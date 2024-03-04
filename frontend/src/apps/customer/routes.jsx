@@ -8,11 +8,11 @@ import { Cart } from "./features/cart";
 import { checkoutRoutes } from "./features/checkout";
 import { Settings, settingRoutes } from "./features/setting";
 import { orderRoutes } from "./features/order";
-import { Questions } from "./features/question";
 import { reviewRoutes } from "./features/review";
 import { storeRoutes } from "./features/store";
 import { categoryRoutes } from "./features/category";
 import { CheckoutProvider } from "./features/checkout";
+import { QA } from "./features/qa";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -60,8 +60,8 @@ export const customerRoutes = [
     children: orderRoutes,
   },
   {
-    path: "questions",
-    element: <Questions />,
+    path: "qa",
+    element: <QA />,
   },
   {
     path: "reviews",

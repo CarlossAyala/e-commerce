@@ -10,7 +10,7 @@ const { QueryBuilder } = require("../../../libs");
  * @param {express.NextFunction} next
  * @param {string} categoryId
  */
-const findById = async (req, _res, next, categoryId) => {
+const validateCategoryId = async (req, _res, next, categoryId) => {
   try {
     const category = await Category.model.findByPk(categoryId);
     if (!category) {
@@ -78,7 +78,7 @@ const findOne = async (req, res, next) => {
 };
 
 module.exports = {
-  findById,
+  validateCategoryId,
   findAllAndCount,
   findAll,
   findOne,

@@ -2,7 +2,8 @@ import { useSearchParams } from "react-router-dom";
 import { ProductCard } from "@/apps/customer/components";
 import { useGetProducts } from "@/shared/features/product";
 import { useDocumentTitle } from "@/shared/hooks";
-import { EmptyPlaceholder, Filters, Pagination } from "@/components";
+import { Pagination } from "@/shared/components";
+import { EmptyPlaceholder, Filters } from "@/components";
 
 const filters = [
   {
@@ -53,7 +54,7 @@ export const Products = () => {
         </section>
       )}
 
-      <Pagination totalRows={products?.count} />
+      <Pagination count={products?.count} />
     </main>
   );
 };

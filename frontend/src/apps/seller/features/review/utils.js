@@ -1,5 +1,4 @@
 export const reviewActionRoutes = {
-  overview: "/seller/review",
-  timeline: "/seller/review/timeline",
-  list: (id) => `/seller/review/${id}/list`,
+  timeline: "/seller/reviews/timeline",
+  list: (productId) => `/seller/reviews/${productId}`,
 };

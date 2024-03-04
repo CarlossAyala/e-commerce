@@ -1,5 +1,5 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import {
   Button,
@@ -11,11 +11,7 @@ import {
   FormMessage,
   Textarea,
 } from "@/components";
-import {
-  questionDefault,
-  questionSchema,
-  useCreateQuestion,
-} from "../../question";
+import { questionDefault, questionSchema, useCreateQuestion } from "../../qa";
 
 export const UserQuestionForm = ({ productId }) => {
   const { mutate, isLoading } = useCreateQuestion();
@@ -27,11 +23,15 @@ export const UserQuestionForm = ({ productId }) => {
   });
 
   const handleCreate = (values) => {
-    mutate([productId, values], {
-      onSuccess() {
-        toast("Question created");
+    mutate(
+      { productId, values },
+      {
+        onSuccess() {
+          toast("Question created");
+          form.reset();
+        },
       },
-    });
+    );
   };
 
   return (
@@ -39,10 +39,10 @@ export const UserQuestionForm = ({ productId }) => {
       <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-2">
         <FormField
           control={form.control}
-          name="question"
+          name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Content</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Describe your question here"

@@ -1,8 +1,5 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
-const User = require("./user.model");
-const Product = require("./product.model");
-const OrderItem = require("./order-item.model");
 
 const modelName = "Review";
 const tableName = "reviews";
@@ -10,13 +7,6 @@ const modelOptions = {
   tableName,
   timestamps: true,
 };
-const enums = {
-  status: {
-    done: "done",
-    pending: "pending",
-  },
-};
-
 const modelSchema = {
   id: {
     type: DataTypes.UUID,
@@ -25,34 +15,6 @@ const modelSchema = {
   },
   description: DataTypes.STRING,
   rating: DataTypes.INTEGER,
-  status: {
-    type: DataTypes.ENUM,
-    values: Object.values(enums.status),
-  },
-  orderItemId: {
-    type: DataTypes.UUID,
-    field: "order_item_id",
-    references: {
-      model: OrderItem.model,
-      key: "id",
-    },
-  },
-  customerId: {
-    type: DataTypes.UUID,
-    field: "customer_id",
-    references: {
-      model: User.model,
-      key: "id",
-    },
-  },
-  productId: {
-    type: DataTypes.UUID,
-    field: "product_id",
-    references: {
-      model: Product.model,
-      key: "id",
-    },
-  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
@@ -72,5 +34,4 @@ module.exports = {
   tableName,
   modelSchema,
   modelOptions,
-  enums,
 };

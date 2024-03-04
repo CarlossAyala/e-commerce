@@ -1,38 +1,40 @@
-import { API_CUSTOMER } from "../../../../../configs";
-import { fetcher } from "../../../../../libs/utils";
+import { API_CUSTOMER } from "@/configs";
+import { fetcher } from "@/libs";
 
 const ENDPOINT = `${API_CUSTOMER}/orders`;
 
-export const findOne = (orderId) => {
+export const findOne = (orderId, accessToken) => {
   const url = `${ENDPOINT}/${orderId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("No token found");
-  }
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const findAll = (query) => {
+export const findAll = (query, accessToken) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("No token found");
-  }
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
+export const findItem = (itemId, accessToken) => {
+  const url = `${ENDPOINT}/items/${itemId}`;
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };

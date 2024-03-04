@@ -9,14 +9,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   EmptyPlaceholder,
-  Pagination,
 } from "@/components";
+import { ProductCard } from "@/apps/customer/components";
+import { Pagination } from "@/shared/components";
 import {
   useClearBookmark,
   useGetBookmarks,
   useRemoveBookmark,
 } from "../queries";
-import { ProductCard } from "@/apps/customer/components";
 
 export const Bookmarks = () => {
   useDocumentTitle("Bookmarks");
@@ -106,7 +106,7 @@ export const Bookmarks = () => {
         </section>
       )}
 
-      <Pagination totalRows={bookmarks?.count} />
+      <Pagination count={bookmarks?.count} />
     </main>
   );
 };

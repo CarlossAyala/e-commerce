@@ -16,7 +16,7 @@ const modelSchema = {
     primaryKey: true,
     defaultValue: DataTypes.UUIDV4,
   },
-  answer: DataTypes.STRING,
+  content: DataTypes.STRING,
   employeeId: {
     type: DataTypes.UUID,
     field: "employee_id",

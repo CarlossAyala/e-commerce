@@ -57,7 +57,7 @@ Category.model.belongsTo(Category.model, {
   onDelete: "CASCADE",
 });
 
-// CART-PRODUCT AND PRODUCT
+// CART AND PRODUCT
 CartProduct.model.belongsTo(Product.model, {
   foreignKey: "productId",
   as: "product",
@@ -79,10 +79,25 @@ Order.model.belongsTo(User.model, {
   as: "customer",
 });
 
+// ORDER AND ADDRESS
+Order.model.belongsTo(Address.model, {
+  foreignKey: "addressId",
+  as: "address",
+});
+
 // ORDER-ITEM AND PRODUCT
 OrderItem.model.belongsTo(Product.model, {
   foreignKey: "productId",
   as: "product",
+});
+// REVIEW AND ORDER-ITEM
+Review.model.hasOne(OrderItem.model, {
+  foreignKey: "reviewId",
+  as: "item",
+});
+OrderItem.model.belongsTo(Review.model, {
+  foreignKey: "reviewId",
+  as: "review",
 });
 
 // QUESTIONS AND ANSWERS
@@ -90,13 +105,13 @@ Question.model.hasOne(Answer.model, {
   foreignKey: "questionId",
   as: "answer",
 });
-// QUESTIONS AND ANSWERS
+// QUESTIONS AND CUSTOMERS
 Question.model.belongsTo(User.model, {
   foreignKey: "customerId",
   as: "customer",
 });
 
-// QUESTIONS AND PRODUCTS
+// PRODUCTS AND QUESTIONS
 Product.model.hasMany(Question.model, {
   foreignKey: "productId",
   as: "questions",
@@ -137,16 +152,6 @@ History.model.belongsTo(Product.model, {
 
 // BOOKMARK AND PRODUCT
 Bookmark.model.belongsTo(Product.model, {
-  foreignKey: "productId",
-  as: "product",
-});
-
-// PRODUCT AND REVIEW
-Product.model.hasMany(Review.model, {
-  foreignKey: "productId",
-  as: "reviews",
-});
-Review.model.belongsTo(Product.model, {
   foreignKey: "productId",
   as: "product",
 });

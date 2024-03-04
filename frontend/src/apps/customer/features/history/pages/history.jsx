@@ -8,11 +8,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   EmptyPlaceholder,
-  Pagination,
 } from "@/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import { useClearHistory, useGetHistory, useRemoveHistory } from "../queries";
 import { ProductCard } from "@/apps/customer/components";
+import { Pagination } from "@/shared/components";
 
 const groupByDate = (history) => {
   if (!Array.isArray(history) || history.length === 0) return [];
@@ -150,7 +150,7 @@ export const History = () => {
         </section>
       )}
 
-      <Pagination totalRows={data?.count} />
+      <Pagination count={data?.count} />
     </main>
   );
 };

@@ -104,7 +104,8 @@ export const Product = () => {
 
       <article className="col-span-2">
         <h2 className="text-lg font-semibold leading-snug">Reviews</h2>
-        <Review />
+        {/* <Review /> */}
+        <p>TODO</p>
       </article>
 
       <section className="col-span-2 space-y-2">

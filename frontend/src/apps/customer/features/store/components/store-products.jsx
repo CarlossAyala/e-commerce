@@ -1,7 +1,8 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { ProductCard } from "@/apps/customer/components";
-import { Button, EmptyPlaceholder, Pagination } from "@/components";
+import { Button, EmptyPlaceholder } from "@/components";
 import { useGetStoreProducts } from "../queries";
+import { Pagination } from "@/shared/components";
 
 export const StoreProducts = () => {
   const { slug } = useParams();

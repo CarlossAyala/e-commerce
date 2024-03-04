@@ -3,8 +3,8 @@ import { RedirectWithStore, WithStoreRoute } from "./components";
 import { productRoutes } from "./features/product";
 import { Store, StoreNew } from "./features/store";
 import { Dashboard } from "./features/dashboard";
-import { questionRoutes } from "./features/question";
-import { saleRoutes } from "./features/sale";
+import { qaRoutes } from "./features/qa";
+import { orderRoutes } from "./features/order";
 import { reviewRoutes } from "./features/review";
 
 /**
@@ -46,25 +46,25 @@ export const sellerRoutes = [
     children: productRoutes,
   },
   {
-    path: "questions",
+    path: "qa",
     element: (
       <WithStoreRoute>
         <Outlet />
       </WithStoreRoute>
     ),
-    children: questionRoutes,
+    children: qaRoutes,
   },
   {
-    path: "sale",
+    path: "orders",
     element: (
       <WithStoreRoute>
         <Outlet />
       </WithStoreRoute>
     ),
-    children: saleRoutes,
+    children: orderRoutes,
   },
   {
-    path: "review",
+    path: "reviews",
     element: (
       <WithStoreRoute>
         <Outlet />

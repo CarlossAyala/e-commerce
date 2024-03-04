@@ -28,7 +28,6 @@ import {
   SkeletonStakedList,
   SkeletonTitle,
   Switch,
-  Pagination,
   Textarea,
   Input,
   Filters,
@@ -43,6 +42,7 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components";
+import { Pagination } from "@/shared/components";
 import { useGetCategories, useGetCategory } from "@/shared/features/category";
 import { clearEmptyValues } from "@/utils";
 import { cn } from "@/libs";
@@ -432,7 +432,7 @@ export const ProductDetail = () => {
                                 </RadioGroup>
                               </FormControl>
                             )}
-                            <Pagination totalRows={categories.data?.count} />
+                            <Pagination count={categories.data?.count} />
                           </div>
                         </FormItem>
                       )}

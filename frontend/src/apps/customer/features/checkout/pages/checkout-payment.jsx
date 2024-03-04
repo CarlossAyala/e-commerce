@@ -16,20 +16,21 @@ import {
   RadioGroupItem,
   Skeleton,
 } from "@/components";
+import { useDocumentTitle } from "@/shared/hooks";
+import {
+  useCreatePaymentMethod,
+  useGetPaymentMethods,
+} from "@/shared/features/payment-method";
+import { useGetCart } from "../../cart/queries";
 import {
   checkoutPaymentMethodDefault,
   checkoutPaymentMethodInitial,
   checkoutPaymentMethodSchema,
 } from "../schemas";
-import { useGetCart } from "../../cart/queries";
 import { PaymentMethodItem } from "../components/payment-method-item";
 import { checkoutActionRoutes } from "../utils";
 import { useCheckout } from "../context";
-import { useDocumentTitle } from "@/shared/hooks";
-import {
-  useCreatePaymentMethod,
-  useGetPaymentMethods,
-} from "@/apps/common/payment-method";
+import { clearEmptyValues } from "@/utils";
 
 export const CheckoutPayment = () => {
   useDocumentTitle("Checkout - Payment Method");
@@ -46,8 +47,12 @@ export const CheckoutPayment = () => {
     handleAddressId,
   } = useCheckout();
 
-  const { paymentMethods, isLoading, isError, error, isEmpty } =
-    useGetPaymentMethods();
+  const {
+    data: paymentMethods,
+    isLoading,
+    isError,
+    error,
+  } = useGetPaymentMethods();
 
   const createPaymentMethod = useCreatePaymentMethod();
 
@@ -61,17 +66,13 @@ export const CheckoutPayment = () => {
   });
 
   const handleCreatePaymentMethod = () => {
-    createPaymentMethod.mutate(
-      {
-        paymentIntentId,
-        addressId,
+    const values = clearEmptyValues({ paymentIntentId, addressId });
+
+    createPaymentMethod.mutate(values, {
+      onSuccess(createPaymentMethodUrl) {
+        window.location.href = createPaymentMethodUrl;
       },
-      {
-        onSuccess(createPaymentMethodUrl) {
-          window.location.href = createPaymentMethodUrl;
-        },
-      },
-    );
+    });
   };
 
   const handleNext = (values) => {
@@ -97,6 +98,8 @@ export const CheckoutPayment = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const isEmpty = !paymentMethods?.length;
 
   return (
     <main className="container flex max-w-6xl flex-1 flex-col space-y-4">

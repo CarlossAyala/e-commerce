@@ -1,56 +1,41 @@
-import { API_CUSTOMER } from "../../../../../configs";
-import { fetcher } from "../../../../../libs/utils";
+import { API_CUSTOMER } from "@/configs";
+import { fetcher } from "@/libs";
 
-const ENDPOINT = `${API_CUSTOMER}/checkouts`;
+const ENDPOINT = `${API_CUSTOMER}/checkout`;
 
-export const findOne = (paymentIntentId) => {
+export const findOne = (paymentIntentId, accessToken) => {
   const url = `${ENDPOINT}/${paymentIntentId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("No token found");
-  }
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const create = () => {
+export const create = (accessToken) => {
   const url = ENDPOINT;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
 
   return fetcher(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const confirm = (paymentIntentId, data) => {
+export const confirm = (paymentIntentId, values, accessToken) => {
   const url = `${ENDPOINT}/${paymentIntentId}/confirm`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("No token found");
-  }
 
   return fetcher(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(values),
   });
 };

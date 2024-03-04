@@ -12,7 +12,6 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  Pagination,
   TableRow,
   TableSkeleton,
 } from "@/components";
@@ -21,6 +20,7 @@ import { requestOfficialStoreActionRoutes } from "../utils";
 import { useGetHistoryRequestsOfficialStore } from "../queries";
 import { StoreDetails } from "../components/store-details";
 import { Formatter } from "@/utils";
+import { Pagination } from "@/shared/components";
 
 export const StoreHistory = () => {
   const { storeId } = useParams();
@@ -131,7 +131,7 @@ export const StoreHistory = () => {
             </Table>
           </>
         )}
-        <Pagination totalRows={requests?.count} />
+        <Pagination count={requests?.count} />
       </section>
     </main>
   );

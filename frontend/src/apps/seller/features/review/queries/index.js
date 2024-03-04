@@ -1,17 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  findAllByProductId,
-  findOne,
-  getScore,
-  overview,
-  timeline,
-} from "../api";
+import { parseURLSearchParams } from "@/shared/utils";
+import { useAuth } from "@/shared/auth";
+import { findAllByProductId, getProductAvgRating, findAll } from "../api";
 
 export const reviewKeys = {
   key: ["seller/review"],
-  findOne: (id) => [...reviewKeys.key, "find-one", id],
-  overview: (query) => [...reviewKeys.key, "overview", query],
-  timeline: (query) => [...reviewKeys.key, "timeline", query],
+  findAllKey: () => [...reviewKeys.key, "find-all"],
+  findAll: (query) => [...reviewKeys.findAllKey(), query],
   findAllByProductIdKey: (id) => [
     ...reviewKeys.key,
     "find-all-by-product-id",
@@ -21,43 +16,36 @@ export const reviewKeys = {
     ...reviewKeys.findAllByProductIdKey(id),
     query,
   ],
-  score: (id) => [...reviewKeys.key, "score", id],
+  productAvgRating: (productId) => [...reviewKeys.key, "avg-rating", productId],
 };
 
-export const useGetReview = (reviewId) => {
+export const useGetReviews = (query) => {
+  const { accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: reviewKeys.findOne(reviewId),
-    queryFn: () => findOne(reviewId),
-    enabled: Boolean(reviewId),
+    queryKey: reviewKeys.findAll(_query),
+    queryFn: () => findAll(query, accessToken),
   });
 };
 
-export const useGetReviewOverview = (query = "") => {
+export const useGetReviewsProduct = (productId, query) => {
+  const { accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: reviewKeys.overview(query),
-    queryFn: () => overview(query),
+    queryKey: reviewKeys.findAllByProductId(productId, _query),
+    queryFn: () => findAllByProductId(productId, query, accessToken),
+    enabled: !!productId,
   });
 };
 
-export const useGetReviewTimeline = (query = "") => {
-  return useQuery({
-    queryKey: reviewKeys.timeline(query),
-    queryFn: () => timeline(query),
-  });
-};
+export const useGetReviewAvgRating = (productId) => {
+  const { accessToken } = useAuth();
 
-export const useGetProductReviews = (productId, query = "") => {
   return useQuery({
-    queryKey: reviewKeys.findAllByProductId(productId, query),
-    queryFn: () => findAllByProductId(productId, query),
-    enabled: Boolean(productId),
-  });
-};
-
-export const useGetReviewScore = (productId) => {
-  return useQuery({
-    queryKey: reviewKeys.score(productId),
-    queryFn: () => getScore(productId),
-    enabled: Boolean(productId),
+    queryKey: reviewKeys.productAvgRating(productId),
+    queryFn: () => getProductAvgRating(productId, accessToken),
+    enabled: !!productId,
   });
 };

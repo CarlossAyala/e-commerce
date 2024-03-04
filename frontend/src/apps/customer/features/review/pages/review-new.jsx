@@ -6,20 +6,20 @@ import {
   TextareaSkeleton,
 } from "@/components";
 import { useDocumentTitle } from "@/shared/hooks";
+import { useGetOrderItem } from "../../order";
 import { ReviewProduct } from "../components/review-product";
 import { ReviewProductForm } from "../components/review-product-form";
-import { useGetReview } from "../queries";
 
 export const ReviewNew = () => {
   useDocumentTitle("Create Review");
-  const { reviewId } = useParams();
+  const { orderItemId } = useParams();
 
   const {
     data: review,
     isLoading,
     isError,
     error,
-  } = useGetReview(reviewId, "status=pending");
+  } = useGetOrderItem(orderItemId);
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">
@@ -61,7 +61,7 @@ export const ReviewNew = () => {
                 product={review.product}
               />
             </div>
-            <ReviewProductForm review={review} reviewId={reviewId} />
+            <ReviewProductForm review={review} />
           </>
         )}
       </section>

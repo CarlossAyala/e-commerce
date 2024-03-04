@@ -1,12 +1,13 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
 const User = require("./user.model");
+const Address = require("./address.model");
 
 const modelName = "Order";
 const tableName = "orders";
 const modelOptions = {
   tableName,
-  timestamps: false,
+  timestamps: true,
 };
 const enums = {
   pending: "pending",
@@ -26,26 +27,6 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   total: DataTypes.DECIMAL(10, 2),
-  street: DataTypes.STRING(100),
-  apartmentNumber: {
-    type: DataTypes.STRING(5),
-    field: "apartment_number",
-  },
-  receiverName: {
-    type: DataTypes.STRING(100),
-    field: "receiver_name",
-  },
-  receiverPhone: {
-    type: DataTypes.STRING(20),
-    field: "receiver_phone",
-  },
-  zipCode: {
-    type: DataTypes.STRING(5),
-    field: "zip_code",
-  },
-  province: DataTypes.STRING(50),
-  city: DataTypes.STRING(50),
-  indications: DataTypes.STRING,
   status: {
     type: DataTypes.ENUM,
     values: Object.values(enums),
@@ -59,14 +40,27 @@ const modelSchema = {
       key: "id",
     },
   },
+  addressId: {
+    type: DataTypes.UUID,
+    field: "address_id",
+    references: {
+      model: Address.model,
+      key: "id",
+    },
+  },
   paymentIntentId: {
     type: DataTypes.STRING,
     field: "payment_intent_id",
   },
-  orderedAt: {
+  createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: "ordered_at",
+    field: "created_at",
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    field: "updated_at",
   },
 };
 

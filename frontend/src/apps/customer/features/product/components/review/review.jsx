@@ -7,7 +7,7 @@ export const Review = () => {
       <ReviewScore />
       <div className="col-span-2 space-y-2">
         <h3 className="text-sm font-medium leading-snug">Comments</h3>
-        <ReviewComments />
+        {/* <ReviewComments /> */}
       </div>
     </div>
   );

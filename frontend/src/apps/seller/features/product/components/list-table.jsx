@@ -5,11 +5,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useGetProducts } from "../queries";
-import { Formatter } from "@/utils";
+import { Pagination } from "@/shared/components";
 import {
   EmptyPlaceholder,
-  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -18,6 +16,8 @@ import {
   TableRow,
   TableSkeleton,
 } from "@/components";
+import { Formatter } from "@/utils";
+import { useGetProducts } from "../queries";
 import { ListTableAction } from "./list-table-action";
 
 const { accessor, display } = createColumnHelper();
@@ -121,7 +121,7 @@ export const ListTable = () => {
             </TableBody>
           </Table>
 
-          <Pagination totalRows={data?.count} />
+          <Pagination count={data?.count} />
         </>
       )}
     </>

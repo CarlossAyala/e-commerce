@@ -6,6 +6,7 @@ const logger = require("./logger");
 const validateAccessToken = require("./validate-access-token");
 const httpErrors = require("./http-errors");
 const authStore = require("./auth-store");
+const checkStripeAccount = require("./check-stripe-account");
 
 module.exports = {
   validateSchema,
@@ -16,4 +17,5 @@ module.exports = {
   logger,
   validateAccessToken,
   authStore,
+  checkStripeAccount,
 };

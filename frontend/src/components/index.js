@@ -47,7 +47,6 @@ export * from "./slider";
 export * from "./slider-component";
 export * from "./filter";
 export * from "./spinner";
-export * from "./pagination";
 export * from "./authenticated-route";
 export * from "./redirect-if-authenticated";
 export * from "./table-skeleton";

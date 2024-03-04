@@ -6,12 +6,12 @@ export const Question = ({ question }) => {
   return (
     <div className="rounded-md border p-2">
       <p className="text-right text-sm leading-tight text-muted-foreground">
-        {Formatter.shortDate(new Date())}
+        {Formatter.shortDate(question.createdAt)}
       </p>
-      <p className="text-sm leading-tight">{question.question}</p>
+      <p className="text-sm leading-tight">{question.content}</p>
       <div className="mt-1 flex items-start gap-x-1 text-muted-foreground">
         <ChevronDoubleRightIcon className="mt-0.5 size-4 shrink-0" />
-        <p className="text-sm leading-tight">{question.answer.answer}</p>
+        <p className="text-sm leading-tight">{question.answer.content}</p>
       </div>
     </div>
   );
