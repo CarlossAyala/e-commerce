@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/shared/auth";
 import {
-  findMixed,
+  findAll,
   create,
   attach,
   findOne,
@@ -11,33 +12,38 @@ import {
 
 const categoryKeys = {
   key: ["admin/category"],
-  findMixed: () => [...categoryKeys.key, "find-mixed"],
-  findOne: (id) => [...categoryKeys.key, "find-one", id],
+  findAll: () => [...categoryKeys.key, "find-all"],
+  findOne: (categoryId) => [...categoryKeys.key, "find-one", categoryId],
 };
 
-export const useGetMixCategories = () => {
+export const useGetCategories = () => {
+  const { accessToken } = useAuth();
+
   return useQuery({
-    queryKey: categoryKeys.findMixed(),
-    queryFn: () => findMixed(),
+    queryKey: categoryKeys.findAll(),
+    queryFn: () => findAll(accessToken),
   });
 };
 
-export const useGetCategory = (id) => {
+export const useGetCategory = (categoryId) => {
+  const { accessToken } = useAuth();
+
   return useQuery({
-    queryKey: categoryKeys.findOne(id),
-    queryFn: () => findOne(id),
-    enabled: !!id,
+    queryKey: categoryKeys.findOne(categoryId),
+    queryFn: () => findOne(categoryId, accessToken),
+    enabled: !!categoryId,
   });
 };
 
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: create,
+    mutationFn: (values) => create(values, accessToken),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: categoryKeys.findMixed(),
+        queryKey: categoryKeys.findAll(),
       });
     },
   });
@@ -45,12 +51,15 @@ export const useCreateCategory = () => {
 
 export const useAttachCategory = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: attach,
+    mutationFn: ({ categoryId, values }) => {
+      return attach(categoryId, values, accessToken);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: categoryKeys.findMixed(),
+        queryKey: categoryKeys.findAll(),
       });
     },
   });
@@ -58,15 +67,18 @@ export const useAttachCategory = () => {
 
 export const useDetachCategory = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: detach,
+    mutationFn: ({ categoryId, values }) => {
+      return detach(categoryId, values, accessToken);
+    },
     onSuccess: (_, { categoryId }) => {
       queryClient.invalidateQueries({
         queryKey: categoryKeys.findOne(categoryId),
       });
       queryClient.invalidateQueries({
-        queryKey: categoryKeys.findMixed(),
+        queryKey: categoryKeys.findAll(),
       });
     },
   });
@@ -74,15 +86,16 @@ export const useDetachCategory = () => {
 
 export const useUpdateCategory = (categoryId) => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: (values) => update(categoryId, values),
+    mutationFn: (values) => update(categoryId, values, accessToken),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: categoryKeys.findOne(categoryId),
       });
       queryClient.invalidateQueries({
-        queryKey: categoryKeys.findMixed(),
+        queryKey: categoryKeys.findAll(),
       });
     },
   });
@@ -90,15 +103,16 @@ export const useUpdateCategory = (categoryId) => {
 
 export const useDeleteCategory = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: remove,
+    mutationFn: (categoryId) => remove(categoryId, accessToken),
     onSuccess: (_, categoryId) => {
-      queryClient.removeQueries({
+      queryClient.invalidateQueries({
         queryKey: categoryKeys.findOne(categoryId),
       });
       queryClient.invalidateQueries({
-        queryKey: categoryKeys.findMixed(),
+        queryKey: categoryKeys.findAll(),
       });
     },
   });

@@ -1,10 +1,5 @@
-// import Header from "./header";
 import Signin from "./signin";
 import Signup from "./signup";
-import StatCard from "./stat/stat-card";
-import StatContainer from "./stat/stat-container";
-import TableEmpty from "./table/table-empty";
-import TableError from "./table/table-error";
 import Mandatory from "./mandatory";
 import Logo from "./logo";
 
@@ -38,11 +33,9 @@ export * from "./ui/scroll-area";
 export * from "./ui/sonner";
 export * from "./skeleton/skeleton-section";
 export * from "./skeleton/skeleton-staked-list";
-export * from "./area-chart";
 export * from "./empty-placeholder";
 export * from "./review-star";
 export * from "./review-star-graph";
-export * from "./stat-component";
 export * from "./slider";
 export * from "./slider-component";
 export * from "./filter";
@@ -51,13 +44,4 @@ export * from "./authenticated-route";
 export * from "./redirect-if-authenticated";
 export * from "./table-skeleton";
 
-export {
-  Logo,
-  Signin,
-  Signup,
-  StatContainer,
-  StatCard,
-  TableEmpty,
-  TableError,
-  Mandatory,
-};
+export { Logo, Signin, Signup, Mandatory };

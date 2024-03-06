@@ -28,7 +28,7 @@ const Signin = () => {
     mode: "all",
   });
 
-  const from = location.state?.location?.pathname || APP_NAVIGATION.seller.to;
+  const from = location.state?.location?.pathname || APP_NAVIGATION.admin.to;
 
   const handleSignin = (values) => {
     signin.mutate(values, {

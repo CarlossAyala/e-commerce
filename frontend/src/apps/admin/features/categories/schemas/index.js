@@ -1,8 +1,7 @@
 import { string, object, array } from "yup";
-import { parseString } from "../../../../../utils";
-import { categoryTypes } from "../utils";
+import { parseString } from "@/utils";
 
-const id = string()
+const categoryId = string()
   .label("Category")
   .transform(parseString)
   .uuid()
@@ -22,15 +21,11 @@ const description = string()
   .max(255)
   .default("")
   .required();
-const type = string()
-  .label("Type")
-  .oneOf([categoryTypes.main, categoryTypes.single])
-  .default(categoryTypes.main)
-  .required();
+const type = string().label("Type").default("").required();
 const categoriesId = array()
   .label("Categories")
   .min(1)
-  .of(id)
+  .of(categoryId)
   .default([])
   .required();
 
@@ -40,11 +35,9 @@ export const newCategorySchema = object({
   type,
 });
 export const attachCategorySchema = object({
-  categoryId: id,
   categoriesId,
 });
 export const detachCategorySchema = object({
-  categoryId: id,
   categoriesId,
 });
 export const updateCategorySchema = object({

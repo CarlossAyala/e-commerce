@@ -21,7 +21,11 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <AdminRoot />,
+        element: (
+          <AuthenticatedRoute>
+            <AdminRoot />
+          </AuthenticatedRoute>
+        ),
         children: adminRoutes,
       },
       {
@@ -48,7 +52,11 @@ const router = createBrowserRouter([
       },
       {
         path: "signup",
-        element: <Signup />,
+        element: (
+          <RedirectIfAuthenticated>
+            <Signup />
+          </RedirectIfAuthenticated>
+        ),
       },
     ],
   },

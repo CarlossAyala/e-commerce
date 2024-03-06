@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components";
 import { APP_NAVIGATION } from "@/configs";
-import { getInitials } from "@/utils";
+import { getFullName, getInitials } from "@/utils";
 import { useGetProfile, useSignout } from "@/shared/auth";
 import { CUSTOMER_NAV } from "../config";
 
@@ -34,7 +34,7 @@ export const UserNav = () => {
     });
   };
 
-  const fullName = `${customer.name} ${customer.lastName}`;
+  const fullName = getFullName(customer);
 
   return (
     <DropdownMenu>

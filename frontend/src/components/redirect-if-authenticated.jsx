@@ -6,7 +6,7 @@ export const RedirectIfAuthenticated = ({ redirectTo, children }) => {
   const location = useLocation();
   const { isAuthenticated, isLoading } = useAuth();
 
-  const to = redirectTo || APP_NAVIGATION.seller.to;
+  const to = redirectTo || APP_NAVIGATION.admin.to;
 
   if (isLoading) {
     return <div>Loading...</div>;

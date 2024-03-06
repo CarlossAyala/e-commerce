@@ -1,3 +1,4 @@
+import { useGetProfile } from "@/shared/auth";
 import {
   Avatar,
   AvatarFallback,
@@ -10,39 +11,37 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../components";
-import { useGetProfile } from "../../../shared/auth";
-import { getInitials } from "../../../utils";
+} from "@/components";
+import { getFullName, getInitials } from "@/utils";
 
 export const UserNav = () => {
   const { data: admin } = useGetProfile();
 
-  const fullName = `${admin.name} ${admin.lastName}`;
+  const fullName = getFullName(admin);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="relative h-10 w-10 overflow-hidden rounded-full p-0"
-        >
-          <Avatar className="h-10 w-10">
+        <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+          <Avatar className="h-9 w-9">
             <AvatarImage
               src="https://avatars.githubusercontent.com/u/55491792?s=400&u=443015ea5d9d3fe5e957d83a5ff4105ea8c706a2&v=4"
-              alt={`${fullName} profile`}
+              alt={fullName}
             />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
+            <AvatarFallback className="font-normal">
+              {getInitials(fullName)}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{fullName}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {admin.email}
-            </p>
-          </div>
+        <DropdownMenuLabel className="space-y-1 font-normal">
+          <p className="truncate text-sm font-medium leading-none">
+            {fullName}
+          </p>
+          <p className="truncate text-xs leading-none text-muted-foreground">
+            {admin.email}
+          </p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

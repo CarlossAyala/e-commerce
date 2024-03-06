@@ -1,16 +1,4 @@
-import {
-  ArchiveBoxIcon,
-  BanknotesIcon,
-  ChatBubbleLeftEllipsisIcon,
-  CreditCardIcon,
-} from "@heroicons/react/24/outline";
-import { StatCard, StatContainer } from "@/components";
-import { useGetStoreStats } from "../store";
-import { Formatter } from "@/utils";
-
 export const Dashboard = () => {
-  // const stats = useGetStoreStats();
-
   return (
     <main className="container flex-1">
       <section className="mt-3">
@@ -30,39 +18,6 @@ export const Dashboard = () => {
             Here are some statistics about your store.
           </p>
         </div>
-
-        {/* <StatContainer>
-          <StatCard
-            title="Total Revenue"
-            content={
-              stats.isSuccess ? Formatter.money(stats.data?.revenue) : "Error"
-            }
-            icon={BanknotesIcon}
-            isLoading={stats.isLoading}
-            isSuccess={stats.isSuccess}
-          />
-          <StatCard
-            title="Total Sales"
-            content={stats.isSuccess ? stats.data?.sold : "Error"}
-            icon={CreditCardIcon}
-            isLoading={stats.isLoading}
-            isSuccess={stats.isSuccess}
-          />
-          <StatCard
-            title="In Stock Alert"
-            content={stats.isSuccess ? stats.data?.stockAlert : "Error"}
-            icon={ArchiveBoxIcon}
-            isLoading={stats.isLoading}
-            isSuccess={stats.isSuccess}
-          />
-          <StatCard
-            title="Questions"
-            content={stats.isSuccess ? stats.data?.questions : "Error"}
-            icon={ChatBubbleLeftEllipsisIcon}
-            isLoading={stats.isLoading}
-            isSuccess={stats.isSuccess}
-          />
-        </StatContainer> */}
       </section>
       <section className="space-y-4">
         <div>

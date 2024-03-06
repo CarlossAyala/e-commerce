@@ -1,2 +1,2 @@
 export * from "./user-nav";
-export * from "./sidebar";
+export * from "./admin-root.jsx";
