@@ -21,8 +21,8 @@ export const CheckboxItem = ({ name, value, label }) => {
   };
 
   return (
-    <div>
-      <Label className="mb-0 flex grow items-center gap-2 py-1 font-normal text-foreground">
+    <li>
+      <Label className="mb-0 flex grow items-center gap-2 font-normal text-foreground">
         <Checkbox
           checked={isChecked}
           onCheckedChange={handleCheckedChange}
@@ -32,6 +32,6 @@ export const CheckboxItem = ({ name, value, label }) => {
         />
         {label}
       </Label>
-    </div>
+    </li>
   );
 };

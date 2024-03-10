@@ -1,8 +1,5 @@
 import { object, string } from "yup";
-import { parseString } from "../../../../../utils";
-import { requestOfficialStoreStatus } from "../utils";
-
-const { approved, rejected } = requestOfficialStoreStatus;
+import { parseString } from "@/utils";
 
 const response = string()
   .label("Response")
@@ -14,14 +11,12 @@ const response = string()
 const status = string()
   .label("Action")
   .transform(parseString)
-  .oneOf([approved, rejected])
   .default("")
   .required();
 
-export const requestOfficialStoreSchema = object({
+export const requestVerifySchema = object({
   response,
   status,
 });
 
-export const requestOfficialStoreInitial =
-  requestOfficialStoreSchema.getDefault();
+export const requestVerifyInitial = requestVerifySchema.getDefault();

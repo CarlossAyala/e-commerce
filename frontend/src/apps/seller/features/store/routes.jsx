@@ -1,4 +1,4 @@
-import { RequestsVerify, Store, Stores } from "./pages";
+import { RequestsVerify, Store } from "./pages";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -6,14 +6,10 @@ import { RequestsVerify, Store, Stores } from "./pages";
 export const storeRoutes = [
   {
     index: true,
-    element: <Stores />,
+    element: <Store />,
   },
   {
     path: "requests-verify",
     element: <RequestsVerify />,
-  },
-  {
-    path: ":storeId",
-    element: <Store />,
   },
 ];

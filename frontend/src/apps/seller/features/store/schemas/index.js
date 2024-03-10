@@ -1,5 +1,5 @@
 import { object, string } from "yup";
-import { parseString } from "../../../../../utils/schema";
+import { parseString } from "@/utils";
 
 const name = string()
   .label("Name")
@@ -29,3 +29,8 @@ export const storeDefault = (values) => {
     description: values?.description ?? storeInitial.description,
   };
 };
+
+export const requestVerifySchema = object({
+  description,
+});
+export const requestVerifyInitial = requestVerifySchema.getDefault();

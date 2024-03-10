@@ -1,57 +1,67 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { findAll, findHistory, findOne, update } from "../api";
+import { parseURLSearchParams } from "@/shared/utils";
+import { useAuth } from "@/shared/auth";
+import {
+  findAll,
+  findAllRequestsVerify,
+  findOne,
+  updateRequestVerify,
+} from "../api";
 
-const requestOfficialStoreKeys = {
-  key: ["admin/request-official-store"],
-  findAllKey: () => [...requestOfficialStoreKeys.key, "find-all"],
-  findAll: (query) => [...requestOfficialStoreKeys.findAllKey(), query],
-  findOne: (requestId) => [
-    ...requestOfficialStoreKeys.key,
-    "find-one",
-    requestId,
+const storeKeys = {
+  key: ["admin/stores"],
+  findOne: (storeId) => [...storeKeys.key, "find-one", storeId],
+  findAllKey: () => [...storeKeys.key, "find-all"],
+  findAll: (query) => [...storeKeys.findAllKey(), query],
+  findAllRequestsVerifyKey: () => [
+    ...storeKeys.key,
+    "find-all-requests-verify",
   ],
-  findHistoryKey: (requestId) => [
-    ...requestOfficialStoreKeys.key,
-    "find-history",
-    requestId,
-  ],
-  findHistory: (requestId, query) => [
-    ...requestOfficialStoreKeys.findHistoryKey(requestId),
+  findAllRequestsVerify: (query) => [
+    ...storeKeys.findAllRequestsVerifyKey(),
     query,
   ],
 };
 
-export const useGetRequestsOfficialStores = (query) => {
+export const useGetStores = (query) => {
+  const { accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: requestOfficialStoreKeys.findAll(query),
-    queryFn: () => findAll(query),
+    queryKey: storeKeys.findAll(_query),
+    queryFn: () => findAll(query, accessToken),
   });
 };
 
-export const useGetRequestOfficialStore = (requestId) => {
+export const useGetStore = (storeId) => {
+  const { accessToken } = useAuth();
+
   return useQuery({
-    queryKey: requestOfficialStoreKeys.findOne(requestId),
-    queryFn: () => findOne(requestId),
-    enabled: !!requestId,
+    queryKey: storeKeys.findOne(storeId),
+    queryFn: () => findOne(storeId, accessToken),
+    enabled: !!storeId,
   });
 };
 
-export const useGetHistoryRequestsOfficialStore = (requestId, query) => {
+export const useGetRequestsVerify = (query) => {
+  const { accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: requestOfficialStoreKeys.findHistory(requestId, query),
-    queryFn: () => findHistory(requestId, query),
-    enabled: !!requestId,
+    queryKey: storeKeys.findAllRequestsVerify(_query),
+    queryFn: () => findAllRequestsVerify(query, accessToken),
   });
 };
 
-export const useUpdateRequestOfficialStore = (requestId) => {
+export const useUpdateRequestVerify = (requestId) => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: (data) => update(requestId, data),
+    mutationFn: (values) => updateRequestVerify(requestId, values, accessToken),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: requestOfficialStoreKeys.key,
+        queryKey: storeKeys.key,
       });
     },
   });

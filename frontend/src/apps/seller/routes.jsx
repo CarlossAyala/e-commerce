@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { RedirectWithStore, WithStoreRoute } from "./components";
 import { productRoutes } from "./features/product";
-import { Store, StoreNew } from "./features/store";
+import { StoreNew, storeRoutes } from "./features/store";
 import { Dashboard } from "./features/dashboard";
 import { qaRoutes } from "./features/qa";
 import { orderRoutes } from "./features/order";
@@ -32,9 +32,10 @@ export const sellerRoutes = [
     path: "store",
     element: (
       <WithStoreRoute>
-        <Store />
+        <Outlet />
       </WithStoreRoute>
     ),
+    children: storeRoutes,
   },
   {
     path: "products",

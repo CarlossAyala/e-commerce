@@ -1,72 +1,52 @@
-import { API_ADMIN } from "../../../../../configs";
-import { fetcher } from "../../../../../libs/utils";
+import { API_ADMIN } from "@/configs";
+import { fetcher } from "@/libs";
 
-const ENDPOINT = `${API_ADMIN}/requests-official-stores`;
+const ENDPOINT = `${API_ADMIN}/stores`;
 
-export const findAll = (query) => {
+export const findAll = (query, accessToken) => {
   const url = `${ENDPOINT}?${query}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const findOne = (requestId) => {
-  const url = `${ENDPOINT}/${requestId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
+export const findOne = (storeId, accessToken) => {
+  const url = `${ENDPOINT}/${storeId}`;
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const findHistory = (requestId, query) => {
-  const url = `${ENDPOINT}/${requestId}/history?${query}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
+export const findAllRequestsVerify = (query, accessToken) => {
+  const url = `${ENDPOINT}/requests-verify?${query}`;
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
-export const update = (requestId, body) => {
-  const url = `${ENDPOINT}/${requestId}`;
-  const token = localStorageManager.getToken();
-
-  if (!token) {
-    throw new Error("Token not found");
-  }
+export const updateRequestVerify = (requestId, body, accessToken) => {
+  const url = `${ENDPOINT}/requests-verify/${requestId}`;
 
   return fetcher(url, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(body),
   });

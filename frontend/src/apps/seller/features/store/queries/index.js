@@ -1,11 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { create, getStore, getStats, remove, update } from "../api";
-import { authKeys, useAuth } from "@/shared/auth";
+import { useAuth } from "@/shared/auth";
+import { parseURLSearchParams } from "@/shared/utils";
+import {
+  create,
+  createRequestVerify,
+  getStore,
+  remove,
+  requestsVerify,
+  update,
+} from "../api";
 
 export const storeKeys = {
   key: ["seller/store"],
   current: () => [...storeKeys.key, "current"],
-  getStats: () => [...storeKeys.key, "stats"],
+  requestsVerifyKey: () => [...storeKeys.key, "requests-verify"],
+  requestsVerify: (query) => [...storeKeys.requestsVerifyKey(), query],
 };
 
 export const useGetStore = () => {
@@ -17,16 +26,19 @@ export const useGetStore = () => {
   });
 };
 
-export const useGetStoreStats = () => {
+export const useGetRequestsVerify = (query) => {
+  const { accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: storeKeys.getStats(),
-    queryFn: getStats,
+    queryKey: storeKeys.requestsVerify(_query),
+    queryFn: () => requestsVerify(query, accessToken),
   });
 };
 
 export const useCreateStore = () => {
   const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (values) => create(values, accessToken),
@@ -38,9 +50,23 @@ export const useCreateStore = () => {
   });
 };
 
+export const useCreateRequestVerify = () => {
+  const queryClient = useQueryClient();
+  const { accessToken } = useAuth();
+
+  return useMutation({
+    mutationFn: (values) => createRequestVerify(values, accessToken),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: storeKeys.requestsVerifyKey(),
+      });
+    },
+  });
+};
+
 export const useUpdateStore = () => {
   const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (values) => update(values, accessToken),
@@ -54,7 +80,7 @@ export const useUpdateStore = () => {
 
 export const useDeleteStore = () => {
   const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useMutation({
     mutationFn: () => remove(accessToken),

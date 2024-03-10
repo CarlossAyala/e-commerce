@@ -38,13 +38,13 @@ export const AdminRoot = () => {
           <p>Stores</p>
           <ul className="list-inside list-disc">
             <li>
-              <Link to="/admin/stores">Overview</Link>
+              <Link to="/admin/stores">Stores</Link>
             </li>
             <li>
-              <Link to="/admin/stores/:requestId">:requestId/details</Link>
+              <Link to="/admin/stores/:storeId">:storeID</Link>
             </li>
             <li>
-              <Link to="/admin/stores/:storeId">:storeId/history</Link>
+              <Link to="/admin/stores/requests-verify">requests-verify</Link>
             </li>
           </ul>
         </div>

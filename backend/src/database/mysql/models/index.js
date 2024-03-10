@@ -41,7 +41,7 @@ User.model.hasOne(Store.model, {
 });
 Store.model.belongsTo(User.model, {
   foreignKey: "sellerId",
-  as: "owner",
+  as: "seller",
   onDelete: "CASCADE",
 });
 

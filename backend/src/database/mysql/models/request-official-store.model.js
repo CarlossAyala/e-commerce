@@ -10,7 +10,7 @@ const modelOptions = {
 };
 const enums = {
   status: {
-    process: "in process",
+    queue: "queue",
     approved: "approved",
     rejected: "rejected",
   },

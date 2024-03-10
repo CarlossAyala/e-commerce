@@ -11,6 +11,7 @@ import {
 } from "@/components";
 import { Formatter } from "@/utils";
 import { useGetStore } from "../queries";
+import { PublicStoreProfile } from "@/shared/components";
 
 export const StoreProfile = () => {
   useDocumentTitle(store?.name ?? "Store");
@@ -20,23 +21,12 @@ export const StoreProfile = () => {
   return (
     <section className="border-b lg:rounded-b-md lg:border-x">
       {isLoading ? (
-        <StoreProfile.Skeleton />
+        <PublicStoreProfile.Skeleton />
       ) : isError ? (
         <EmptyPlaceholder title="Error" description={error.message} />
       ) : (
         <>
-          <div className="relative h-60 w-full">
-            <img
-              className="h-full w-full object-cover"
-              src="https://http2.mlstatic.com/D_NQ_NP803724-MLA74136348520_012024-B.webp"
-              alt={`${store.name} Banner`}
-            />
-            <img
-              className="absolute ml-4 h-32 w-32 -translate-y-1/2 rounded-full border-4 border-black/20 object-contain"
-              src="https://http2.mlstatic.com/D_Q_NP_828918-MLA27343044756_052018-T.webp"
-              alt={`${store.name} Profile Picture`}
-            />
-          </div>
+          <PublicStoreProfile store={store} />
           <div className="mt-14 space-y-2 px-4 pb-4 pt-3">
             <div className="flex items-center gap-1">
               <h2 className="text-xl font-bold">{store.name}</h2>

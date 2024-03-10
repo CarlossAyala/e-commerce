@@ -1,5 +1,5 @@
 import { API_SELLER } from "@/configs";
-import { fetcher } from "@/libs/utils";
+import { fetcher } from "@/libs";
 
 const ENDPOINT = `${API_SELLER}/stores`;
 
@@ -15,8 +15,8 @@ export const getStore = async (accessToken) => {
   });
 };
 
-export const getStats = async (accessToken) => {
-  const url = `${ENDPOINT}/stats`;
+export const requestsVerify = async (query, accessToken) => {
+  const url = `${ENDPOINT}/requests-verify?${query}`;
 
   return fetcher(url, {
     method: "GET",
@@ -29,6 +29,19 @@ export const getStats = async (accessToken) => {
 
 export const create = async (values, accessToken) => {
   const url = ENDPOINT;
+
+  return fetcher(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(values),
+  });
+};
+
+export const createRequestVerify = async (values, accessToken) => {
+  const url = `${ENDPOINT}/requests-verify`;
 
   return fetcher(url, {
     method: "POST",
