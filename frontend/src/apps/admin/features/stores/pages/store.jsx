@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { PublicStoreProfile } from "@/shared/components";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   Avatar,
   AvatarFallback,
@@ -20,6 +21,7 @@ import { useGetStore } from "../queries";
 export const Store = () => {
   const { storeId } = useParams();
   const { data: store, isLoading, isError, error } = useGetStore(storeId);
+  useDocumentTitle(store?.name ?? "Store");
 
   return (
     <main className="flex-1 space-y-4 px-6 py-4">

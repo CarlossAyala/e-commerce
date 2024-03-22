@@ -83,6 +83,7 @@ export const RequestsVerify = () => {
     createRequestVerify.mutate(values, {
       onSuccess() {
         toast("Request verify created successfully");
+        setSheet(false);
       },
     });
   };

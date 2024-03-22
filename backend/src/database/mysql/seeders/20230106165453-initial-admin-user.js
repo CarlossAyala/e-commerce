@@ -14,6 +14,7 @@ const generateUser = async () => {
     last_name: lastName,
     email,
     password: await bcrypt.hash(password),
+    is_admin: true,
     created_at: new Date(),
     updated_at: new Date(),
   };

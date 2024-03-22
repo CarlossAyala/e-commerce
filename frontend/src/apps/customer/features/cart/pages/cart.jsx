@@ -6,7 +6,9 @@ import { useGetCart } from "../queries";
 
 export const Cart = () => {
   useDocumentTitle("Cart");
-  const { cart, isLoading, isError, isEmpty, error } = useGetCart();
+  const { data: cart, isLoading, isError, error } = useGetCart();
+
+  const isEmpty = cart?.length === 0;
 
   return (
     <main className="container flex max-w-6xl flex-1 flex-col space-y-6">

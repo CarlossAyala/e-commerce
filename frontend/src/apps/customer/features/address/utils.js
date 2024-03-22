@@ -1,5 +1,5 @@
 export const addressActionRoutes = {
-  root: "/customer/settings/addresses",
-  new: "/customer/settings/addresses/new",
-  detail: (id) => `/customer/settings/addresses/${id}/detail`,
+  root: "/settings/addresses",
+  new: "/settings/addresses/new",
+  detail: (id) => `/settings/addresses/${id}/detail`,
 };

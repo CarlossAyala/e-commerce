@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   Button,
   Checkbox,
@@ -31,6 +32,7 @@ import { useDetachCategory, useGetCategories } from "../queries";
 const { MAIN } = CATEGORY_TYPES;
 
 export const Detach = () => {
+  useDocumentTitle("Detach Category");
   const [open, setOpen] = useState(false);
   const [categoryId, setCategoryId] = useState();
   const { data, isLoading, isError, error } = useGetCategories();

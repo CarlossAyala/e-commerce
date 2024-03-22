@@ -8,36 +8,25 @@ import {
   SheetContent,
   SheetTrigger,
 } from "../../../components";
-import { cartActionsRoutes, useGetCart } from "../features/cart";
+import { calcSubTotal, cartActionsRoutes, useGetCart } from "../features/cart";
 import { CartItem } from "./cart-item";
 
 export const UserCart = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const {
-    cart,
-    quantity,
-    isLoading,
-    isError,
-    error,
-    isEmpty,
-    subTotal,
-    subTotalHidden,
-    subTotalPlusHidden,
-  } = useGetCart();
 
-  const handleCloseModal = () => {
-    setOpen(false);
-  };
+  const { data: cart, isLoading, isError, error } = useGetCart();
+
+  const subTotal = calcSubTotal(cart);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" className="h-9 p-0 px-1">
-          <ShoppingBagIcon className="mr-1 size-5 text-black sm:size-6" />
-          <span className="text-sm font-normal lining-nums text-black">
-            {isLoading ? "--" : isError ? "!" : quantity}
-          </span>
+        <Button variant="ghost" className="h-9 px-1">
+          <ShoppingBagIcon className="mr-1 size-5" />
+          <p className="text-sm font-normal lining-nums">
+            {isLoading ? "--" : isError ? "!" : cart.length}
+          </p>
         </Button>
       </SheetTrigger>
       <SheetContent className="flex h-full w-full flex-col gap-0 bg-white p-0 shadow-xl sm:max-w-sm">
@@ -55,13 +44,13 @@ export const UserCart = () => {
             title="Error"
             description={error.message}
           />
-        ) : isEmpty ? (
+        ) : !cart.length ? (
           <EmptyPlaceholder
             className="flex-1 border-0"
             title="No products"
             description="Your cart is empty"
           >
-            <Button className="mt-4" onClick={handleCloseModal}>
+            <Button className="mt-4" onClick={() => setOpen(false)}>
               Continue Shopping
             </Button>
           </EmptyPlaceholder>
@@ -73,32 +62,21 @@ export const UserCart = () => {
                   <li key={index} className="relative py-4">
                     <CartItem
                       item={item}
-                      onProductLinkClick={handleCloseModal}
+                      onProductLinkClick={() => setOpen(false)}
                     />
                   </li>
                 ))}
               </ul>
             </div>
             <div className="mt-auto border-t border-gray-200 p-4">
-              <div className="space-y-1">
-                <div className="flex items-center justify-between gap-2 font-medium text-gray-900">
-                  <p>Subtotal</p>
-                  <p>{subTotal}</p>
-                </div>
-
-                <div className="flex items-center justify-between gap-2 text-sm text-gray-800">
-                  <p className="leading-4">Hidden</p>
-                  <p className="leading-4">{subTotalHidden}</p>
-                </div>
-                <div className="flex items-center justify-between gap-2 text-sm text-gray-800">
-                  <p className="leading-4">Hidden + Subtotal</p>
-                  <p className="leading-4">{subTotalPlusHidden}</p>
-                </div>
+              <div className="flex items-center justify-between gap-2 font-medium text-gray-900">
+                <p>Subtotal</p>
+                <p>{subTotal}</p>
               </div>
 
               <Button
                 onClick={() => {
-                  handleCloseModal();
+                  setOpen(false);
                   navigate(cartActionsRoutes.root);
                 }}
                 className="mt-4 w-full text-base"
@@ -111,7 +89,7 @@ export const UserCart = () => {
                 <Button
                   variant="link"
                   className="inline-block h-auto w-auto gap-1 p-0"
-                  onClick={handleCloseModal}
+                  onClick={() => setOpen(false)}
                 >
                   Continue Shopping
                 </Button>

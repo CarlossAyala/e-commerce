@@ -5,6 +5,14 @@ export const PrivateRoot = () => {
     <div className="container min-h-svh overflow-y-auto p-0">
       <aside className="fixed inset-y-0 flex w-64 flex-col space-y-4 border p-4">
         <div>
+          <p>Dashboard</p>
+          <ul className="list-inside list-disc">
+            <li>
+              <Link to="/seller">Dashboard</Link>
+            </li>
+          </ul>
+        </div>
+        <div>
           <p>Store</p>
           <ul className="list-inside list-disc">
             <li>

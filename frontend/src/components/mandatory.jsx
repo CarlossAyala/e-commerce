@@ -4,7 +4,7 @@ const Span = ({ children }) => (
   </span>
 );
 
-const Mandatory = ({ required, optional }) => {
+export const Mandatory = ({ required, optional }) => {
   return (
     <>
       {required && <Span>(required)</Span>}
@@ -12,5 +12,3 @@ const Mandatory = ({ required, optional }) => {
     </>
   );
 };
-
-export default Mandatory;

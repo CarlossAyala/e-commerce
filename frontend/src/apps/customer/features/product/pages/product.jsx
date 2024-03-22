@@ -2,26 +2,44 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ShareIcon } from "@heroicons/react/24/outline";
 import { useDocumentTitle } from "@/shared/hooks";
-import { Badge, EmptyPlaceholder, Skeleton } from "@/components";
+import { EmptyState, ProductCondition } from "@/shared/components";
+import { useGetProduct } from "@/shared/features/product";
+import { useAuth } from "@/shared/auth";
+import { Button, Separator, Skeleton } from "@/components";
 import { Formatter } from "@/utils";
 import { useAddHistory } from "../../history";
 import { RelatedProducts } from "../components/related-products";
-import { Review } from "../components/review/review";
-import ProductStat from "../components/product/product-stat";
-import { AddToCart } from "../components/product/add-to-cart";
-import { AddToBookmark } from "../components/product/add-to-bookmark";
-import { StoreInformation } from "../components/store-information";
-import { FAQ } from "../components";
-import { useGetProduct } from "@/shared/features/product";
+import { AddToCart } from "../components/add-to-cart";
+import { Bookmark } from "../components/bookmark";
+import { Store } from "../components/store";
+import { Gallery } from "../components/gallery";
+import { QANew } from "../components/qa-new";
+import { QAList } from "../components/qa-list";
+import { ReviewList } from "../components/review-list";
+import { useGetReviewsStat } from "../../review";
+import { ReviewScore } from "../components/review-score";
+import { ReviewStars } from "../components/review-stars";
+import { ProductCard } from "@/apps/customer/components";
 
+let didInit = false;
 export const Product = () => {
   const { productId } = useParams();
+  const { isAuthenticated } = useAuth();
+
   const { data: product, isLoading, isError, error } = useGetProduct(productId);
-  const history = useAddHistory();
+  const stats = useGetReviewsStat(productId);
+
   useDocumentTitle(product?.name ?? "Product");
 
+  const addHistory = useAddHistory();
+
   useEffect(() => {
-    history.mutate(productId);
+    if (!didInit) {
+      didInit = true;
+      if (isAuthenticated) addHistory.mutate(productId);
+    } else {
+      if (isAuthenticated) addHistory.mutate(productId);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
@@ -30,88 +48,197 @@ export const Product = () => {
   }, [productId]);
 
   return (
-    <main className="container relative space-y-10">
+    <main className="container relative space-y-6">
       {isLoading ? (
-        <article className="mt-4 flex h-60 gap-4">
-          <Skeleton className="hidden grow sm:grid" />
-          <Skeleton className="w-full sm:max-w-sm sm:shrink-0" />
-        </article>
-      ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
-      ) : (
-        <article className="mt-4 flex gap-4">
-          <div className="hidden max-h-60 grow place-content-center rounded-md bg-gray-100 sm:grid">
-            <img
-              className="h-auto w-80 rounded-md object-contain"
-              src="https://http2.mlstatic.com/D_NQ_NP_921008-MLU73192298663_122023-O.webp"
-              alt="TelX"
-            />
-          </div>
+        <>
+          <section className="grid gap-6 md:grid-cols-2">
+            <Gallery.Skeleton />
 
-          <article className="w-full space-y-2 sm:max-w-sm sm:shrink-0">
-            <div className="flex items-start justify-between">
-              <ProductStat productId={product.id} />
-              <Badge variant="outline" className="capitalize">
-                {product.condition}
-              </Badge>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-8 w-full" />
+              </div>
+              <Skeleton className="h-10 w-1/4" />
+
+              <div className="space-y-1">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+              </div>
+
+              <div className="space-y-2">
+                {new Array(4).fill(0).map((_, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
+                    <Skeleton className="h-4 w-1/4" />
+                    <Skeleton className="h-4 w-1/4" />
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid w-full grid-cols-6 gap-2">
+                <Skeleton className="col-span-2 h-10" />
+                <Skeleton className="col-span-4 h-10" />
+              </div>
+
+              <div className="flex justify-between">
+                <Skeleton className="size-9" />
+                <Skeleton className="size-9" />
+              </div>
+
+              <Separator />
+
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-1/4" />
+                <Skeleton className="h-10 w-full" />
+              </div>
             </div>
+          </section>
 
-            <img
-              className="max-h-60 w-full rounded-md object-contain sm:hidden"
-              src="https://http2.mlstatic.com/D_NQ_NP_921008-MLU73192298663_122023-O.webp"
-              alt="TelX"
-            />
+          <Separator />
 
-            <h1 className="text-xl font-medium">{product.name}</h1>
-            <p className="text-sm leading-tight text-muted-foreground">
-              {product.description}
-            </p>
-            <ul className="list-inside list-disc text-sm text-muted-foreground">
-              <li>{product.sold} sold</li>
-              <li>{product.stock} in stock</li>
+          <section className="space-y-4">
+            <h3 className="text-xl leading-snug">Questions and Answers</h3>
+
+            <ul className="space-y-6">
+              {new Array(3).fill(0).map((_, index) => (
+                <div key={index} className="space-y-2">
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              ))}
             </ul>
-            <p className="text-2xl font-bold leading-loose">
-              {Formatter.currency(product.price)}
-            </p>
-            <AddToCart product={product} />
+          </section>
 
-            <div className="flex gap-4">
-              <AddToBookmark productId={product.id} />
+          <Separator />
 
-              {/* TODO: Add share logic */}
-              <button className="flex items-center text-muted-foreground">
-                <ShareIcon className="mr-1 h-5 w-5" />
-                Share
-              </button>
+          <section className="space-y-4">
+            <h3 className="text-xl leading-snug">Reviews</h3>
+
+            <div className="flex flex-col gap-8 sm:flex-row">
+              <ReviewScore />
+              <ReviewList />
             </div>
-          </article>
-        </article>
+          </section>
+
+          <Separator />
+          <section className="space-y-4">
+            <h3 className="text-xl leading-snug">Related Products</h3>
+
+            <ProductCard.Skeleton />
+          </section>
+        </>
+      ) : isError ? (
+        <EmptyState title="Error" description={error.message} />
+      ) : (
+        <>
+          <section className="grid gap-6 md:grid-cols-2">
+            <Gallery />
+            <div className="space-y-4">
+              <div className="space-y-1">
+                {stats.isLoading ? (
+                  <Skeleton className="h-5 w-1/2" />
+                ) : stats.isError ? (
+                  <p className="text-sm text-muted-foreground">
+                    Error loading stats
+                  </p>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <p className="leading-none text-muted-foreground md:text-sm">
+                      {stats.data.average}
+                    </p>
+                    <ReviewStars
+                      rating={stats.data.average}
+                      size="lg"
+                      className="gap-0"
+                    />
+                    <p className="leading-none text-muted-foreground md:text-sm">
+                      ({stats.data.count})
+                    </p>
+                  </div>
+                )}
+
+                <div>
+                  <h2 className="text-3xl font-bold tracking-tight text-primary">
+                    {product.name}
+                  </h2>
+                </div>
+              </div>
+              <div>
+                <p className="text-3xl tracking-tight text-primary">
+                  {Formatter.currency(product.price)}
+                </p>
+              </div>
+              <div>
+                <p className="leading-snug text-muted-foreground">
+                  {product.description}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <p>Condition</p>
+                  <ProductCondition condition={product.condition} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <p>Available</p>
+                  <p className="font-medium">
+                    {product.available ? "Yes" : "No"}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p>Stock</p>
+                  <p className="font-medium">{product.stock}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p>Sold</p>
+                  <p className="font-medium">{product.sold}</p>
+                </div>
+              </div>
+              <AddToCart product={product} />
+              <div className="flex justify-between">
+                <Bookmark product={product} />
+                <Button size="icon" type="button" variant="outline">
+                  <ShareIcon className="size-5" />
+                </Button>
+              </div>
+              <Separator />
+              <Store productId={productId} />
+            </div>
+          </section>
+
+          <Separator />
+
+          <section className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl leading-snug">Questions and Answers</h3>
+              <QANew productId={productId} />
+            </div>
+
+            <QAList productId={productId} />
+          </section>
+
+          <Separator />
+
+          <section className="space-y-4">
+            <h3 className="text-xl leading-snug">Reviews</h3>
+
+            <div className="flex flex-col gap-8 sm:flex-row">
+              <ReviewScore productId={productId} />
+              <ReviewList productId={productId} />
+            </div>
+          </section>
+
+          <Separator />
+
+          <section className="space-y-4">
+            <h3 className="text-xl leading-snug">Related Products</h3>
+
+            <RelatedProducts />
+          </section>
+        </>
       )}
-
-      <article className="col-span-2 space-y-2">
-        <h2 className="text-lg font-semibold leading-snug">
-          Store Information
-        </h2>
-        <StoreInformation />
-      </article>
-
-      <article className="col-span-2 space-y-2">
-        <h2 className="text-lg font-semibold leading-snug">
-          Frequently Asked Questions
-        </h2>
-        <FAQ productId={productId} />
-      </article>
-
-      <article className="col-span-2">
-        <h2 className="text-lg font-semibold leading-snug">Reviews</h2>
-        {/* <Review /> */}
-        <p>TODO</p>
-      </article>
-
-      <section className="col-span-2 space-y-2">
-        <h2 className="text-lg font-semibold leading-snug">Related products</h2>
-        <RelatedProducts />
-      </section>
     </main>
   );
 };

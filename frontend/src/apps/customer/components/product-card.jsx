@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { Formatter } from "../../../utils/formatter";
-import { productActionRoutes } from "../features/product/utils";
-import { Skeleton } from "../../../components/ui/skeleton";
+import { productActionRoutes } from "../features/product";
+import { Formatter } from "@/utils";
+import { Skeleton } from "@/components";
 
 export const ProductCard = ({ product }) => {
   return (
@@ -39,10 +39,12 @@ export const ProductCard = ({ product }) => {
   );
 };
 
-ProductCard.Skeleton = function ProductCardSkeleton({ items = 6 }) {
-  return new Array(items)
-    .fill("")
-    .map((_, index) => (
-      <Skeleton key={index} className="h-52 overflow-hidden rounded-md" />
-    ));
+ProductCard.Skeleton = function ProductCardSkeleton({ count = 3 }) {
+  return (
+    <section className="grid grid-cols-products gap-4">
+      {new Array(count).fill("").map((_, index) => (
+        <Skeleton key={index} className="h-52" />
+      ))}
+    </section>
+  );
 };

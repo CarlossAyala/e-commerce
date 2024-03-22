@@ -46,14 +46,14 @@ export const StoreNew = () => {
   return (
     <main className="container flex max-w-2xl flex-1 flex-col justify-center space-y-4">
       <Card>
-        <CardHeader className="space-y-1">
+        <CardHeader>
           <CardTitle className="text-2xl">Create Store</CardTitle>
           <CardDescription>
             Create a new store and start selling your products.
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="grid gap-4">
+        <CardContent>
           <Form {...form}>
             <form
               className="space-y-4"
@@ -66,7 +66,7 @@ export const StoreNew = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Store name" {...field} />
+                      <Input placeholder="Name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -79,7 +79,7 @@ export const StoreNew = () => {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Describe your store" {...field} />
+                      <Textarea placeholder="Description" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -87,7 +87,7 @@ export const StoreNew = () => {
               />
 
               <Button type="submit" className="w-full" disabled={isLoading}>
-                Create store
+                Create
               </Button>
             </form>
           </Form>

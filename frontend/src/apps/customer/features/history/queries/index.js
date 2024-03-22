@@ -1,17 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/shared/auth";
+import { parseURLSearchParams } from "@/shared/utils";
 import { clear, add, findAll, remove } from "../api";
 
 export const historyKeys = {
-  key: ["history"],
+  key: ["e-commerce/history"],
   finAll: (query) => [...historyKeys.key, "find-all", query],
 };
 
 export const useGetHistory = (query) => {
   const { accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
 
   return useQuery({
-    queryKey: historyKeys.finAll(query),
+    queryKey: historyKeys.finAll(_query),
     queryFn: () => findAll(query, accessToken),
   });
 };

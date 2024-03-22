@@ -14,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   Button,
-  ButtonSkeleton,
   EmptyPlaceholder,
   Form,
   FormControl,
@@ -24,6 +23,7 @@ import {
   FormMessage,
   Input,
   InputSkeleton,
+  Skeleton,
   Textarea,
   TextareaSkeleton,
 } from "@/components";
@@ -110,9 +110,9 @@ const AddressDetail = () => {
             <InputSkeleton />
             <TextareaSkeleton />
             <div className="flex gap-x-4">
-              <ButtonSkeleton />
-              <ButtonSkeleton />
-              <ButtonSkeleton />
+              <Skeleton className="h-9 w-24" />
+              <Skeleton className="h-9 w-24" />
+              <Skeleton className="h-9 w-24" />
             </div>
           </div>
         ) : isError ? (

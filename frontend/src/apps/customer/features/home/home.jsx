@@ -7,6 +7,7 @@ import { useGetStores } from "../store";
 
 export const Home = () => {
   useDocumentTitle("Home");
+
   const { isAuthenticated } = useAuth();
   const products = useGetProducts("");
   const history = useGetHistory("");
@@ -15,7 +16,7 @@ export const Home = () => {
   const hasHistory = history.data?.rows.length > 0;
 
   return (
-    <main className="container flex-1 space-y-6">
+    <main className="container space-y-6">
       <SliderComponent
         className="mt-4"
         type="product"

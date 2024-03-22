@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
+import { parseURLSearchParams } from "@/shared/utils";
 import { findAll, findOne, related } from "../api";
 
 export const productKeys = {
-  key: ["product"],
+  key: ["e-commerce/product"],
   findOne: (productId) => [...productKeys.key, "find-one", productId],
   findAllKey: () => [...productKeys.key, "find-all"],
   findAll: (query) => [...productKeys.findAllKey(), query],
@@ -18,8 +19,10 @@ export const useGetProduct = (productId) => {
 };
 
 export const useGetProducts = (query) => {
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: productKeys.findAll(query),
+    queryKey: productKeys.findAll(_query),
     queryFn: () => findAll(query),
   });
 };

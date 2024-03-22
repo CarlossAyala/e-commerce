@@ -1,19 +1,21 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { APP_NAVIGATION } from "@/configs";
 import { useAuth } from "@/shared/auth";
+import { Spinner } from ".";
 
-export const RedirectIfAuthenticated = ({ redirectTo, children }) => {
+export const RedirectIfAuthenticated = ({ children }) => {
   const location = useLocation();
   const { isAuthenticated, isLoading } = useAuth();
 
-  const to = redirectTo || APP_NAVIGATION.admin.to;
-
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <main className="grid min-h-screen place-content-center">
+        <Spinner className="size-6 text-gray-600" />
+      </main>
+    );
   }
 
   if (isAuthenticated) {
-    return <Navigate to={to} state={{ from: location }} replace />;
+    return <Navigate to="/portal" state={{ from: location }} replace />;
   }
 
   return children ?? <Outlet />;

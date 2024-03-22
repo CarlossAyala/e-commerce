@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
-const { notFound } = require("../middlewares");
+const { notFound } = require("../middlewares/http-errors");
 const { Stripe } = require("../libs");
 
 /**

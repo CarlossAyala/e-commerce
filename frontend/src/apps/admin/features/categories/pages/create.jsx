@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   Button,
   Form,
@@ -21,6 +22,7 @@ import { CATEGORY_TYPES } from "../utils";
 import { useCreateCategory } from "../queries";
 
 export const Create = () => {
+  useDocumentTitle("Create Category");
   const form = useForm({
     resolver: yupResolver(newCategorySchema),
     defaultValues: newCategoryInitial,

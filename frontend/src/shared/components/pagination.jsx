@@ -13,8 +13,9 @@ import {
   SelectValue,
 } from "@/components";
 import { usePagination } from "../hooks";
+import { cn } from "@/libs";
 
-export const Pagination = ({ count = 0 }) => {
+export const Pagination = ({ count = 0, className }) => {
   const { page, pageSize, pageSizes, handlePage, handlePageSize } =
     usePagination();
 
@@ -38,13 +39,9 @@ export const Pagination = ({ count = 0 }) => {
   };
 
   return (
-    <section className="space-y-4">
+    <section className={cn("space-y-4", className)}>
       <div className="flex justify-between">
-        <Select
-          defaultValue={pageSize}
-          value={pageSize}
-          onValueChange={handlePageSize}
-        >
+        <Select value={pageSize} onValueChange={handlePageSize}>
           <SelectTrigger className="w-26 flex h-8 gap-x-1">
             <SelectValue asChild>
               <div>Rows: {pageSize}</div>
@@ -65,24 +62,24 @@ export const Pagination = ({ count = 0 }) => {
 
       <div className="flex items-center justify-between space-x-4 sm:justify-center">
         <Button
+          size="icon"
           type="button"
           variant="outline"
-          className="h-8 w-8 p-0"
           onClick={handleFirstPage}
           disabled={!canPreviousPage}
         >
           <span className="sr-only">Go to first page</span>
-          <ChevronDoubleLeftIcon className="h-4 w-4" />
+          <ChevronDoubleLeftIcon className="size-4" />
         </Button>
         <Button
+          size="icon"
           type="button"
           variant="outline"
-          className="h-8 w-8 p-0"
           onClick={handlePreviousPage}
           disabled={!canPreviousPage}
         >
           <span className="sr-only">Go to previous page</span>
-          <ChevronLeftIcon className="h-4 w-4" />
+          <ChevronLeftIcon className="size-4" />
         </Button>
         <Select defaultValue={page} value={page} onValueChange={handlePage}>
           <SelectTrigger className="w-26 flex h-8 gap-x-1">
@@ -99,24 +96,24 @@ export const Pagination = ({ count = 0 }) => {
           </SelectContent>
         </Select>
         <Button
+          size="icon"
           type="button"
           variant="outline"
-          className="h-8 w-8 p-0"
           onClick={handleNextPage}
           disabled={!canNextPage}
         >
           <span className="sr-only">Go to next page</span>
-          <ChevronRightIcon className="h-4 w-4" />
+          <ChevronRightIcon className="size-4" />
         </Button>
         <Button
+          size="icon"
           type="button"
           variant="outline"
-          className="h-8 w-8 p-0"
           onClick={handleLastPage}
           disabled={!canNextPage}
         >
           <span className="sr-only">Go to last page</span>
-          <ChevronDoubleRightIcon className="h-4 w-4" />
+          <ChevronDoubleRightIcon className="size-4" />
         </Button>
       </div>
     </section>

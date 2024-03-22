@@ -25,8 +25,6 @@ import {
   SelectTrigger,
   SelectValue,
   InputSkeleton,
-  SkeletonStakedList,
-  SkeletonTitle,
   Switch,
   Textarea,
   Input,
@@ -122,14 +120,10 @@ export const ProductDetail = () => {
         {product.isLoading ? (
           <>
             <div className="space-y-4">
-              <SkeletonTitle />
+              <Skeleton className="h-5 w-1/3" />
               <InputSkeleton />
               <InputSkeleton />
               <InputSkeleton />
-            </div>
-            <div className="space-y-4">
-              <SkeletonTitle />
-              <SkeletonStakedList />
             </div>
           </>
         ) : product.isError ? (

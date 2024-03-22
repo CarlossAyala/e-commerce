@@ -3,6 +3,7 @@ import { DataTable, DataTableSkeleton, Pagination } from "@/shared/components";
 import { EmptyPlaceholder, Filters } from "@/components";
 import { requestsVerifyColumns } from "../components/columns";
 import { useGetRequestsVerify } from "../queries";
+import { useDocumentTitle } from "@/shared/hooks";
 
 const filters = [
   {
@@ -35,6 +36,7 @@ const filters = [
 ];
 
 export const RequestsVerify = () => {
+  useDocumentTitle("Requests Verify");
   const [params] = useSearchParams();
   const {
     data: requests,

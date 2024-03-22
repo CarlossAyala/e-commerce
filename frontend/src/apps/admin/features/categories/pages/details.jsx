@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { CategoryType } from "@/shared/components";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -52,6 +53,7 @@ export const Details = () => {
     isError,
     error,
   } = useGetCategory(categoryId);
+  useDocumentTitle(category?.name ?? "Category Details");
 
   const update = useUpdateCategory(categoryId);
   const remove = useDeleteCategory(categoryId);

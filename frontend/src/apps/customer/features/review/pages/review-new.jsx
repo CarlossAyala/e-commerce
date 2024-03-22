@@ -1,10 +1,5 @@
 import { useParams } from "react-router-dom";
-import {
-  ButtonSkeleton,
-  EmptyPlaceholder,
-  Skeleton,
-  TextareaSkeleton,
-} from "@/components";
+import { EmptyPlaceholder, Skeleton, TextareaSkeleton } from "@/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import { useGetOrderItem } from "../../order";
 import { ReviewProduct } from "../components/review-product";
@@ -48,7 +43,7 @@ export const ReviewNew = () => {
 
             <TextareaSkeleton />
 
-            <ButtonSkeleton />
+            <Skeleton className="h-9 w-24" />
           </>
         ) : isError ? (
           <EmptyPlaceholder title="Error" description={error.message} />

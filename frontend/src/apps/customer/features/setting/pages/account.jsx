@@ -1,11 +1,6 @@
 import { useGetProfile } from "@/shared/auth";
 import { useDocumentTitle } from "@/shared/hooks";
-import {
-  ButtonSkeleton,
-  EmptyPlaceholder,
-  InputSkeleton,
-  Skeleton,
-} from "@/components";
+import { EmptyPlaceholder, InputSkeleton, Skeleton } from "@/components";
 import { ProfileForm } from "../components/profile-form";
 import { PasswordForm } from "../components/password-form";
 
@@ -24,7 +19,7 @@ export const Account = () => {
             </div>
             <InputSkeleton />
             <InputSkeleton />
-            <ButtonSkeleton />
+            <Skeleton className="h-9 w-24" />
           </div>
           <div className="space-y-4">
             <div className="space-y-2 sm:col-span-2">
@@ -34,7 +29,7 @@ export const Account = () => {
             <InputSkeleton />
             <InputSkeleton />
             <InputSkeleton />
-            <ButtonSkeleton />
+            <Skeleton className="h-9 w-24" />
           </div>
         </>
       ) : isError ? (

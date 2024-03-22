@@ -1,9 +1,19 @@
 import { useSearchParams } from "react-router-dom";
+import {
+  DocumentIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 import { ProductCard } from "@/apps/customer/components";
 import { useGetProducts } from "@/shared/features/product";
 import { useDocumentTitle } from "@/shared/hooks";
-import { Pagination } from "@/shared/components";
-import { EmptyPlaceholder, Filters } from "@/components";
+import {
+  EmptyState,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+  Pagination,
+} from "@/shared/components";
+import { Filters } from "@/components";
 
 const filters = [
   {
@@ -24,32 +34,34 @@ export const Products = () => {
   const isEmpty = products?.rows.length === 0;
 
   return (
-    <main className="container flex-1 space-y-4">
-      <section className="mt-4">
-        <h2 className="text-2xl font-semibold uppercase tracking-tight">
-          Products
-        </h2>
-        <p className="text-sm text-muted-foreground">
+    <main className="container space-y-4">
+      <PageHeader>
+        <PageHeaderHeading>Products</PageHeaderHeading>
+        <PageHeaderDescription>
           This is a list of all the products.
-        </p>
-      </section>
+        </PageHeaderDescription>
+      </PageHeader>
 
       <Filters filters={filters} />
 
       {isLoading ? (
-        <section className="grid grid-cols-products gap-4">
-          <ProductCard.Skeleton />
-        </section>
+        <ProductCard.Skeleton count={3} />
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState
+          icon={ExclamationTriangleIcon}
+          title="Error"
+          description={error.message}
+        />
       ) : isEmpty ? (
-        <EmptyPlaceholder title="No products" description="No products found" />
+        <EmptyState
+          icon={DocumentIcon}
+          title="No products"
+          description="No products found"
+        />
       ) : (
         <section className="grid grid-cols-products gap-4">
           {products.rows.map((product) => (
-            <div key={product.id}>
-              <ProductCard product={product} />
-            </div>
+            <ProductCard key={product.id} product={product} />
           ))}
         </section>
       )}

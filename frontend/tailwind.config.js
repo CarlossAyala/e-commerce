@@ -11,9 +11,6 @@ module.exports = {
     aspectRatio: false,
   },
   theme: {
-    fontFamily: {
-      sans: ["IBM Plex Sans", "ui-sans-serif", "system-ui"],
-    },
     container: {
       center: true,
       padding: {

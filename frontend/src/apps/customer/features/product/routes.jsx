@@ -9,7 +9,7 @@ export const productRoutes = [
     element: <Products />,
   },
   {
-    path: ":productId/*",
+    path: ":productId/:name",
     element: <Product />,
   },
 ];

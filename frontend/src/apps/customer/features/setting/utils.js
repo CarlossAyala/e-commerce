@@ -1,9 +1,9 @@
 import { addressActionRoutes } from "../address";
 
 export const settingActionRoutes = {
-  base: "/customer/settings",
-  account: "/customer/settings",
-  cards: "/customer/settings/cards",
+  base: "/settings",
+  account: "/settings",
+  cards: "/settings/cards",
   addresses: addressActionRoutes.root,
 };
 

@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
+import { useDocumentTitle } from "@/shared/hooks";
 import { EmptyPlaceholder, Filters, Skeleton } from "@/components";
 import { categoryActionRoutes, CATEGORY_TYPES } from "../utils";
 import { useGetCategories } from "../queries";
@@ -11,6 +12,7 @@ const filters = [
 ];
 
 export const Overview = () => {
+  useDocumentTitle("Categories Overview");
   const [params] = useSearchParams();
   const { data: categories, isLoading, isError, error } = useGetCategories();
 

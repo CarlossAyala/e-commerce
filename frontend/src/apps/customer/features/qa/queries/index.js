@@ -6,9 +6,10 @@ import {
   findAllProduct,
   findAllProductCustomer,
 } from "../api";
+import { parseURLSearchParams } from "@/shared/utils";
 
 const qaKeys = {
-  key: ["customer/question"],
+  key: ["e-commerce/qa"],
   productKey: (productId) => [...qaKeys.key, "product", productId],
   product: (productId, query) => [...qaKeys.productKey(productId), query],
   productCustomerKey: (productId) => [
@@ -25,8 +26,10 @@ const qaKeys = {
 };
 
 export const useGetProductQuestions = (productId, query) => {
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: qaKeys.product(productId, query),
+    queryKey: qaKeys.product(productId, _query),
     queryFn: () => findAllProduct(productId, query),
     enabled: !!productId,
   });

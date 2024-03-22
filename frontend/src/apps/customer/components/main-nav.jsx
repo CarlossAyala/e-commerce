@@ -1,25 +1,23 @@
-import { Link, useLocation } from "react-router-dom";
-import { CUSTOMER_NAV } from "../config";
-import { cn } from "../../../libs/utils";
-
-const { home, categories, stores, products } = CUSTOMER_NAV;
-const items = [home, categories, products, stores];
+import { NavLink } from "react-router-dom";
+import { cn } from "@/libs";
+import { MAIN_NAV } from "../config";
 
 export const MainNav = () => {
-  const { pathname } = useLocation();
   return (
-    <nav className="mx-6 hidden items-center space-x-4 sm:flex">
-      {items.map((nav) => (
-        <Link
+    <nav className="mx-6 hidden items-center gap-x-4 sm:flex">
+      {MAIN_NAV.map((nav) => (
+        <NavLink
           key={nav.name}
           to={nav.to}
-          className={cn(
-            "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-            pathname === nav.to && "text-primary",
-          )}
+          className={({ isActive }) =>
+            cn(
+              "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
+              isActive && "text-primary",
+            )
+          }
         >
           {nav.name}
-        </Link>
+        </NavLink>
       ))}
     </nav>
   );

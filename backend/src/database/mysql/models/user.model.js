@@ -23,9 +23,11 @@ const modelSchema = {
     type: DataTypes.STRING,
     unique: "email",
   },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  password: DataTypes.STRING,
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    field: "is_admin",
   },
   createdAt: {
     type: DataTypes.DATE,

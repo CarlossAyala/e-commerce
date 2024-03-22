@@ -25,7 +25,7 @@ export const getInitials = (fullName) => {
     : initials.join("");
 };
 
-export const getFullName = (user) => {
+export const getFullName = (user = {}) => {
   const { name, lastName } = user;
   return `${name} ${lastName}`;
 };

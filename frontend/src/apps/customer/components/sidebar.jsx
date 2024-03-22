@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Bars3Icon,
   BookOpenIcon,
@@ -5,18 +7,16 @@ import {
   CubeIcon,
   HomeIcon,
 } from "@heroicons/react/24/outline";
+import { Logo } from "@/shared/components";
+import { cn } from "@/libs";
 import {
   Button,
-  Logo,
   Sheet,
   SheetContent,
   SheetHeader,
   buttonVariants,
-} from "../../../components";
+} from "@/components";
 import { CUSTOMER_NAV } from "../config";
-import { Link, useLocation } from "react-router-dom";
-import { cn } from "../../../libs/utils";
-import { useState } from "react";
 
 const { home, categories, stores, products } = CUSTOMER_NAV;
 const items = [

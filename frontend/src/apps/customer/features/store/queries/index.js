@@ -1,40 +1,46 @@
 import { useQuery } from "@tanstack/react-query";
-import { findAll, findByProductId, findByName, products } from "../api";
+import { findAll, findByProductId, findOne, products } from "../api";
+import { parseURLSearchParams } from "@/shared/utils";
 
 const storeKeys = {
-  key: ["store"],
-  findOne: (name) => [...storeKeys.key, "find-one", name],
+  key: ["e-commerce/store"],
+  findOne: (storeId) => [...storeKeys.key, "find-one", storeId],
   findByProductId: (id) => [...storeKeys.key, "find-by-product-id", id],
   findAll: (query) => [...storeKeys.key, "find-all", query],
-  products: (name, query) => [...storeKeys.key, "products", name, query],
+  products: (storeId, query) => [...storeKeys.key, "products", storeId, query],
 };
 
-export const useGetStore = (name) => {
+export const useGetStore = (storeId) => {
   return useQuery({
-    queryKey: storeKeys.findOne(name),
-    queryFn: () => findByName(name),
-    enabled: Boolean(name),
+    queryKey: storeKeys.findOne(storeId),
+    queryFn: () => findOne(storeId),
+    enabled: !!storeId,
   });
 };
+
 export const useGetStoreByProductId = (productId) => {
   return useQuery({
     queryKey: storeKeys.findByProductId(productId),
     queryFn: () => findByProductId(productId),
-    enabled: Boolean(productId),
+    enabled: !!productId,
   });
 };
 
 export const useGetStores = (query) => {
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: storeKeys.findAll(query),
+    queryKey: storeKeys.findAll(_query),
     queryFn: () => findAll(query),
   });
 };
 
-export const useGetStoreProducts = (name, query) => {
+export const useGetStoreProducts = (storeId, query) => {
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: storeKeys.products(name, query),
-    queryFn: () => products(name, query),
-    enabled: Boolean(name),
+    queryKey: storeKeys.products(storeId, _query),
+    queryFn: () => products(storeId, query),
+    enabled: !!storeId,
   });
 };

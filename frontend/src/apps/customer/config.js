@@ -1,54 +1,60 @@
 export const CUSTOMER_NAV = {
   home: {
     name: "Home",
-    to: "/customer",
+    to: "/",
   },
   history: {
     name: "History",
-    to: "/customer/history",
+    to: "/history",
   },
   bookmarks: {
     name: "Bookmarks",
-    to: "/customer/bookmarks",
+    to: "/bookmarks",
   },
   address: {
     name: "Addresses",
-    to: "/customer/addresses",
+    to: "/addresses",
   },
   cart: {
     name: "Cart",
-    to: "/customer/cart",
+    to: "/cart",
   },
   checkout: {
     name: "Checkout",
-    to: "/customer/checkout",
+    to: "/checkout",
   },
   settings: {
     name: "Settings",
-    to: "/customer/settings",
+    to: "/settings",
   },
   orders: {
     name: "Orders",
-    to: "/customer/orders",
+    to: "/orders",
   },
   questions: {
     name: "Questions",
-    to: "/customer/questions",
+    to: "/questions",
   },
   reviews: {
     name: "Reviews",
-    to: "/customer/reviews",
+    to: "/reviews",
   },
   stores: {
     name: "Stores",
-    to: "/customer/stores",
+    to: "/stores",
   },
   categories: {
     name: "Categories",
-    to: "/customer/categories",
+    to: "/categories",
   },
   products: {
     name: "Products",
-    to: "/customer/products",
+    to: "/products",
   },
 };
+export const MAIN_NAV = [
+  CUSTOMER_NAV.home,
+  CUSTOMER_NAV.categories,
+  CUSTOMER_NAV.products,
+  CUSTOMER_NAV.stores,
+];

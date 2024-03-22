@@ -1,10 +1,32 @@
 import { API_CUSTOMER } from "@/configs";
 import { fetcher } from "@/libs";
 
-const ENDPOINT_CUSTOMER = `${API_CUSTOMER}/reviews`;
+const ENDPOINT = `${API_CUSTOMER}/reviews`;
+
+export const findAllByProductId = (productId, query) => {
+  const url = `${ENDPOINT}/product/${productId}?${query}`;
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const stat = (productId) => {
+  const url = `${ENDPOINT}/product/${productId}/stats`;
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
 
 export const findAllDone = (query, accessToken) => {
-  const url = `${ENDPOINT_CUSTOMER}/done?${query}`;
+  const url = `${ENDPOINT}/done?${query}`;
 
   return fetcher(url, {
     method: "GET",
@@ -16,7 +38,7 @@ export const findAllDone = (query, accessToken) => {
 };
 
 export const findAllPending = (query, accessToken) => {
-  const url = `${ENDPOINT_CUSTOMER}/pending?${query}`;
+  const url = `${ENDPOINT}/pending?${query}`;
 
   return fetcher(url, {
     method: "GET",
@@ -28,7 +50,7 @@ export const findAllPending = (query, accessToken) => {
 };
 
 export const create = (orderItemId, values, accessToken) => {
-  const url = `${ENDPOINT_CUSTOMER}/${orderItemId}`;
+  const url = `${ENDPOINT}/${orderItemId}`;
 
   return fetcher(url, {
     method: "POST",

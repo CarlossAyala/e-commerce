@@ -29,10 +29,12 @@ import { cn } from "@/libs";
 import { attachCategoryInitial, attachCategorySchema } from "../schemas";
 import { CATEGORY_TYPES, categoryActionRoutes } from "../utils";
 import { useAttachCategory, useGetCategories } from "../queries";
+import { useDocumentTitle } from "@/shared/hooks";
 
 const { MAIN, SINGLE } = CATEGORY_TYPES;
 
 export const Attach = () => {
+  useDocumentTitle("Attach Category");
   const [open, setOpen] = useState(false);
   const [categoryId, setCategoryId] = useState();
   const attach = useAttachCategory();

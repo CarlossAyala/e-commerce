@@ -13,9 +13,9 @@ export const queryClient = new QueryClient({
       const title = error.meta?.title ?? "Error";
       const description = error.message ?? "Something went wrong";
 
-      toast.message(title, {
-        description,
-      });
+      // toast.message(title, {
+      //   description,
+      // });
     },
   }),
   mutationCache: new MutationCache({

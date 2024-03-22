@@ -1,18 +1,29 @@
 import { useSearchParams } from "react-router-dom";
-import { EllipsisVerticalIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  DocumentIcon,
+  EllipsisVerticalIcon,
+  ExclamationTriangleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { toast } from "sonner";
+import { useDocumentTitle } from "@/shared/hooks";
+import { ProductCard } from "@/apps/customer/components";
+import {
+  EmptyState,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+  Pagination,
+} from "@/shared/components";
 import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  EmptyPlaceholder,
+  Skeleton,
 } from "@/components";
-import { useDocumentTitle } from "@/shared/hooks";
 import { useClearHistory, useGetHistory, useRemoveHistory } from "../queries";
-import { ProductCard } from "@/apps/customer/components";
-import { Pagination } from "@/shared/components";
 
 const groupByDate = (history) => {
   if (!Array.isArray(history) || history.length === 0) return [];
@@ -87,18 +98,19 @@ export const History = () => {
   const groupedHistory = groupByDate(data?.rows);
 
   return (
-    <main className="container flex-1 space-y-4">
-      <section className="mt-3 flex gap-4">
-        <div className="scroll-m-20">
-          <h1 className="text-3xl font-semibold tracking-tight">History</h1>
-          <p className="mt-1 leading-tight text-muted-foreground">
-            Here is the history of products that you viewed.
-          </p>
-        </div>
+    <main className="container space-y-6">
+      <section className="flex justify-between">
+        <PageHeader>
+          <PageHeaderHeading>History</PageHeaderHeading>
+          <PageHeaderDescription>
+            You can view your history here. You can also clear your history.
+          </PageHeaderDescription>
+        </PageHeader>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-auto shrink-0" size="icon">
-              <EllipsisVerticalIcon className="h-5 w-5" />
+            <Button variant="ghost" className="ml-auto" size="icon">
+              <EllipsisVerticalIcon className="size-5" />
               <span className="sr-only">More</span>
             </Button>
           </DropdownMenuTrigger>
@@ -114,13 +126,21 @@ export const History = () => {
       </section>
 
       {isLoading ? (
-        <ProductCard.Skeleton />
+        <section className="space-y-2">
+          <Skeleton className="h-4 w-20" />
+          <ProductCard.Skeleton count={3} />
+        </section>
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState
+          icon={ExclamationTriangleIcon}
+          title="Error"
+          description={error.message}
+        />
       ) : isEmpty ? (
-        <EmptyPlaceholder
+        <EmptyState
+          icon={DocumentIcon}
           title="No history"
-          description="You haven't viewed any product yet"
+          description="No history found"
         />
       ) : (
         <section className="space-y-4">
@@ -129,7 +149,7 @@ export const History = () => {
               <p className="text-sm font-medium capitalize">
                 {formatDate(group.date)}
               </p>
-              <ol className="grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4">
+              <ol className="grid grid-cols-products gap-4">
                 {group.items.map((_history, index) => (
                   <li key={index} className="relative">
                     <ProductCard product={_history.product} />

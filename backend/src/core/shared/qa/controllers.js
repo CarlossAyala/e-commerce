@@ -32,6 +32,7 @@ const findAllProducts = async (req, res, next) => {
 
   const { where, order, limit, offset } = new QueryBuilder(req.query)
     .where("status", Question.enums.status.answered)
+    .whereLike("content", req.query.q)
     .where("productId", productId)
     .orderBy("createdAt", "DESC")
     .pagination()

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
+import { Dashboard } from "./features/dashboard";
 import { categoryRoutes } from "./features/categories";
 import { storeRoutes } from "./features/stores";
-import { Dashboard } from "./features/dashboard";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}

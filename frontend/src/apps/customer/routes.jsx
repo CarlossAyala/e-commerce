@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
+import { AuthenticatedRoute } from "@/components";
 import { Bookmarks } from "./features/bookmark";
 import { History } from "./features/history";
 import { Home } from "./features/home";
 import { productRoutes } from "./features/product";
-import { addressRoutes } from "./features/address";
 import { Cart } from "./features/cart";
 import { checkoutRoutes } from "./features/checkout";
 import { Settings, settingRoutes } from "./features/setting";
@@ -24,21 +24,24 @@ export const customerRoutes = [
   },
   {
     path: "history",
-    element: <History />,
+    element: (
+      <AuthenticatedRoute>
+        <History />
+      </AuthenticatedRoute>
+    ),
   },
   {
     path: "bookmarks",
-    element: <Bookmarks />,
+    element: (
+      <AuthenticatedRoute>
+        <Bookmarks />
+      </AuthenticatedRoute>
+    ),
   },
   {
     path: "products",
     element: <Outlet />,
     children: productRoutes,
-  },
-  {
-    path: "address",
-    element: <Outlet />,
-    children: addressRoutes,
   },
   {
     path: "cart",

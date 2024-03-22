@@ -8,6 +8,7 @@ import {
 import { EmptyPlaceholder, Filters } from "@/components";
 import { storesColumns } from "../components/columns";
 import { useGetStores } from "../queries";
+import { useDocumentTitle } from "@/shared/hooks";
 
 const filters = [
   {
@@ -32,6 +33,7 @@ const filters = [
 ];
 
 export const Stores = () => {
+  useDocumentTitle("Stores");
   const [params] = useSearchParams();
 
   const {

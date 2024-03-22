@@ -1,6 +1,19 @@
 import { useSearchParams } from "react-router-dom";
-import { EllipsisVerticalIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  DocumentIcon,
+  EllipsisVerticalIcon,
+  ExclamationTriangleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { toast } from "sonner";
+import { ProductCard } from "@/apps/customer/components";
+import {
+  EmptyState,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+  Pagination,
+} from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
   Button,
@@ -8,10 +21,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  EmptyPlaceholder,
+  Skeleton,
 } from "@/components";
-import { ProductCard } from "@/apps/customer/components";
-import { Pagination } from "@/shared/components";
 import {
   useClearBookmark,
   useGetBookmarks,
@@ -50,14 +61,15 @@ export const Bookmarks = () => {
   const isEmpty = bookmarks?.rows.length === 0;
 
   return (
-    <main className="container space-y-4">
-      <section className="mt-3 flex gap-4">
-        <div className="scroll-m-20">
-          <h1 className="text-3xl font-semibold tracking-tight">Bookmarks</h1>
-          <p className="mt-1 leading-tight text-muted-foreground">
+    <main className="container space-y-6">
+      <section className="flex justify-between">
+        <PageHeader>
+          <PageHeaderHeading>Bookmarks</PageHeaderHeading>
+          <PageHeaderDescription>
             Bookmarks are saved products you want to see again.
-          </p>
-        </div>
+          </PageHeaderDescription>
+        </PageHeader>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="ml-auto shrink-0" size="icon">
@@ -77,29 +89,36 @@ export const Bookmarks = () => {
       </section>
 
       {isLoading ? (
-        <section className="grid grid-cols-products gap-4">
-          <ProductCard.Skeleton />
+        <section className="space-y-2">
+          <Skeleton className="h-4 w-20" />
+          <ProductCard.Skeleton count={3} />
         </section>
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState
+          icon={ExclamationTriangleIcon}
+          title="Error"
+          description={error.message}
+        />
       ) : isEmpty ? (
-        <EmptyPlaceholder
+        <EmptyState
+          icon={DocumentIcon}
           title="No bookmarks"
-          description="Start browsing products and bookmark them to save them for later"
+          description="No bookmarks found"
         />
       ) : (
         <section className="grid grid-cols-products gap-4">
           {bookmarks.rows.map((bookmark) => (
-            <div key={bookmark.product.id} className="relative">
+            <div key={bookmark.productId} className="relative">
               <ProductCard product={bookmark.product} />
               <Button
                 variant="outline"
                 size="icon"
                 type="button"
-                className="absolute right-2 top-2 bg-white shadow-md"
-                onClick={() => handleRemove(bookmark.product.id)}
+                className="absolute right-2 top-2 bg-background shadow-md backdrop-blur"
+                disabled={removeBookmark.isLoading}
+                onClick={() => handleRemove(bookmark.productId)}
               >
-                <XMarkIcon className="h-4 w-4" />
+                <XMarkIcon className="size-4" />
               </Button>
             </div>
           ))}

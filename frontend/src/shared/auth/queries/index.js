@@ -19,9 +19,9 @@ export const useAuth = () => {
   const { data: accessToken, isLoading } = useQuery({
     queryKey: authKeys.accessToken(),
     queryFn: async () => {
-      const { accessToken } = await getAccessToken();
+      const data = await getAccessToken();
 
-      return accessToken;
+      return data.accessToken;
     },
     retry: false,
     staleTime: 1000 * 60 * 5, // 5m
@@ -37,8 +37,7 @@ export const useAuth = () => {
 };
 
 export const useGetProfile = () => {
-  const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(authKeys.accessToken());
+  const { accessToken } = useAuth();
 
   return useQuery({
     queryKey: authKeys.profile(),

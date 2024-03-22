@@ -73,6 +73,13 @@ class QueryBuilder {
     return this;
   }
 
+  whereNE(fieldName, value = "") {
+    if (value) {
+      this._where[fieldName] = { [Op.ne]: value };
+    }
+    return this;
+  }
+
   whereBetween(fieldName, [from, to]) {
     const fromValue = +from;
     const toValue = +to;

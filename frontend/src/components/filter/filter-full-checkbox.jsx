@@ -99,7 +99,7 @@ export const FilterFullCheckbox = ({
           />
         </section>
 
-        <section className="grid max-h-56 w-full overflow-auto px-2 py-1">
+        <section className="grid max-h-56 w-full gap-2 overflow-auto px-2 py-1">
           {isLoading ? (
             <div className="py-6 text-center text-sm">Loading...</div>
           ) : isError ? (

@@ -3,8 +3,8 @@ import { fetcher } from "@/libs";
 
 const ENDPOINT = `${API_CUSTOMER}/stores`;
 
-export const findByName = (name) => {
-  const url = `${ENDPOINT}/${name}`;
+export const findOne = (storeId) => {
+  const url = `${ENDPOINT}/${storeId}`;
 
   return fetcher(url, {
     method: "GET",
@@ -15,7 +15,7 @@ export const findByName = (name) => {
 };
 
 export const findByProductId = (productId) => {
-  const url = `${ENDPOINT}/${productId}/by-product-id`;
+  const url = `${ENDPOINT}/find-by-product-id/${productId}`;
 
   return fetcher(url, {
     method: "GET",
@@ -36,8 +36,8 @@ export const findAll = (query) => {
   });
 };
 
-export const products = (name, query) => {
-  const url = `${ENDPOINT}/${name}/products?${query}`;
+export const products = (storeId, query) => {
+  const url = `${ENDPOINT}/${storeId}/products?${query}`;
 
   return fetcher(url, {
     method: "GET",
