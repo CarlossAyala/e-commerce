@@ -2,9 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
-import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
-import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
-import { cn } from "@/libs/utils";
+import { StarIcon } from "@heroicons/react/24/solid";
 import {
   Button,
   Form,
@@ -19,11 +17,11 @@ import {
   Spinner,
   Textarea,
 } from "@/components";
+import { cn } from "@/libs";
 import { reviewActionRoutes } from "../utils";
 import { reviewDefault, reviewSchema } from "../schemas";
 import { useCreateReview } from "../queries";
 
-const STARS = [1, 2, 3, 4, 5];
 const RATINGS = ["Poor", "Fair", "Average", "Good", "Excellent"];
 
 export const ReviewProductForm = () => {
@@ -54,45 +52,47 @@ export const ReviewProductForm = () => {
           control={form.control}
           name="rating"
           render={({ field }) => (
-            <FormItem className="space-y-1">
+            <FormItem className="space-y-2">
               <FormLabel>Rating</FormLabel>
               <FormDescription>
                 How would you rate this product?
               </FormDescription>
+
+              <FormMessage />
+
               <RadioGroup
                 onValueChange={field.onChange}
-                defaultValue={field.value}
-                className="flex justify-center gap-x-2"
+                value={field.value}
+                className="flex justify-center gap-2"
               >
-                {STARS.map((star) => (
-                  <FormItem
-                    key={star}
-                    className="flex flex-col items-center justify-center "
-                  >
-                    <FormLabel className="mb-0 rounded-full p-2 hover:bg-neutral-100">
-                      <FormControl>
-                        <RadioGroupItem value={star} className="sr-only" />
-                      </FormControl>
-                      {field.value >= star ? (
-                        <StarSolid className="size-10 text-indigo-500" />
-                      ) : (
-                        <StarOutline className="size-10 text-indigo-500" />
-                      )}
+                {new Array(5).fill(0).map((_, index) => (
+                  <FormItem key={index}>
+                    <FormControl>
+                      <RadioGroupItem className="sr-only" value={index + 1} />
+                    </FormControl>
+                    <FormLabel className="flex flex-col items-center justify-center">
+                      <StarIcon
+                        className={cn(
+                          "size-10",
+                          field.value >= index + 1
+                            ? "text-yellow-400"
+                            : "text-gray-300",
+                        )}
+                      />
+                      <p
+                        className={cn(
+                          "text-center text-sm font-normal",
+                          field.value === index + 1
+                            ? "text-primary"
+                            : "text-muted-foreground",
+                        )}
+                      >
+                        {RATINGS[index]}
+                      </p>
                     </FormLabel>
-                    <span
-                      className={cn(
-                        "text-sm",
-                        star === field.value
-                          ? "text-indigo-600"
-                          : "text-muted-foreground",
-                      )}
-                    >
-                      {RATINGS[star - 1]}
-                    </span>
                   </FormItem>
                 ))}
               </RadioGroup>
-              <FormMessage />
             </FormItem>
           )}
         />

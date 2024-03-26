@@ -6,7 +6,7 @@ export const CustomerRoot = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="flex-1 pb-12 pt-3">
+      <div className="flex-1 pb-12">
         <Outlet />
       </div>
       <Footer />

@@ -1,5 +1,5 @@
-import { API_CUSTOMER } from "../../../../../configs";
-import { fetcher } from "../../../../../libs/utils";
+import { API_CUSTOMER } from "@/configs";
+import { fetcher } from "@/libs";
 
 const ENDPOINT = `${API_CUSTOMER}/categories`;
 
@@ -35,31 +35,23 @@ export const findList = (slug) => {
   });
 };
 
-export const findProductsBestSellers = (slug) => {
-  const url = `${ENDPOINT}/${slug}/products/best-sellers`;
+export const getProductsBestSeller = (slug) => {
+  const url = `${ENDPOINT}/${slug}/products/best-seller`;
 
   return fetcher(url, {
     method: "GET",
   });
 };
 
-export const findProductsTopRated = (slug) => {
-  const url = `${ENDPOINT}/${slug}/products/top-rated`;
+export const getProductsRandom = (slug) => {
+  const url = `${ENDPOINT}/${slug}/products/random`;
 
   return fetcher(url, {
     method: "GET",
   });
 };
 
-export const findProductsRandoms = (slug) => {
-  const url = `${ENDPOINT}/${slug}/products/randoms`;
-
-  return fetcher(url, {
-    method: "GET",
-  });
-};
-
-export const findStores = (slug) => {
+export const getStores = (slug) => {
   const url = `${ENDPOINT}/${slug}/stores`;
 
   return fetcher(url, {

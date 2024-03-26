@@ -1,7 +1,7 @@
-import {
-  ArrowPathIcon,
-  EllipsisHorizontalIcon,
-} from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { toast } from "sonner";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { useRemovePaymentMethod } from "@/shared/features/payment-method";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -16,32 +16,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Skeleton,
-} from "../../../../../components";
-import { useRemovePaymentMethod } from "../../../../../shared/features/payment-method";
-import { useState } from "react";
+  Spinner,
+} from "@/components";
 
 export const CardItem = ({ card }) => {
   const [alert, setAlert] = useState(false);
 
-  const remove = useRemovePaymentMethod();
+  const { mutate, reset, isLoading } = useRemovePaymentMethod();
 
   const handleRemove = () => {
-    remove.mutate(card.id, {
+    mutate(card.id, {
       onSuccess() {
-        toast({
-          description: "Card removed",
-        });
+        toast("Card removed");
         setAlert(false);
-        remove.reset();
-      },
-      onError(error) {
-        setAlert(false);
-        remove.reset();
-        toast({
-          variant: "destructive",
-          title: "Card could not be removed",
-          description: error.message,
-        });
+        reset();
       },
     });
   };
@@ -67,7 +55,7 @@ export const CardItem = ({ card }) => {
           <Button
             variant="outline"
             size="icon"
-            className="h-9 w-9 shrink-0 data-[state=open]:bg-muted"
+            className="shrink-0 data-[state=open]:bg-muted"
           >
             <EllipsisHorizontalIcon className="h-4 w-4" />
             <span className="sr-only">Open menu</span>
@@ -98,11 +86,9 @@ export const CardItem = ({ card }) => {
             <Button
               variant="destructive"
               onClick={handleRemove}
-              disabled={remove.isLoading}
+              disabled={isLoading}
             >
-              {remove.isLoading && (
-                <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {isLoading && <Spinner className="mr-2 size-4" />}
               Remove
             </Button>
           </AlertDialogFooter>
@@ -120,7 +106,7 @@ CardItem.Skeleton = function CardItemSkeleton() {
         <Skeleton className="h-4 w-1/2" />
         <Skeleton className="h-4 w-1/2" />
       </div>
-      <Skeleton className="h-9 w-9 shrink-0" />
+      <Skeleton className="size-9 shrink-0" />
     </div>
   );
 };

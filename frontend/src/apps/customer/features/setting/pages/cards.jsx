@@ -1,13 +1,12 @@
 import { useDocumentTitle } from "@/shared/hooks";
-import { CardItem } from "../components/card-item";
 import { useGetPaymentMethods } from "@/shared/features/payment-method";
-import { Card, EmptyPlaceholder } from "@/components";
+import { EmptyState } from "@/shared/components";
+import { Card } from "@/components";
+import { CardItem } from "../components/card-item";
 
 export const Cards = () => {
   useDocumentTitle("Cards");
   const { data: cards, isLoading, isError, error } = useGetPaymentMethods();
-
-  const isEmpty = cards?.length === 0;
 
   return (
     <div className="max-w-2xl space-y-4">
@@ -24,9 +23,9 @@ export const Cards = () => {
             <CardItem.Skeleton />
           </Card>
         ) : isError ? (
-          <EmptyPlaceholder title={error.name} description={error.message} />
-        ) : isEmpty ? (
-          <EmptyPlaceholder
+          <EmptyState title="Error" description={error.message} />
+        ) : !cards.length ? (
+          <EmptyState
             title="No cards"
             description="You don't have any cards yet."
           />

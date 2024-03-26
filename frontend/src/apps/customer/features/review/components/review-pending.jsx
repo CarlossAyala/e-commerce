@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { ReviewProduct } from "./review-product";
-import { Skeleton } from "../../../../../components";
-import { Formatter } from "../../../../../utils/formatter";
+import { Skeleton } from "@/components";
+import { Formatter } from "@/utils";
 import { reviewActionRoutes } from "../utils";
+import { ReviewProduct } from "./review-product";
 
 export const ReviewPending = ({ review }) => {
   return (

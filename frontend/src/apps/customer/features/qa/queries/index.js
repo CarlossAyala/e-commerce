@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/shared/auth";
+import { parseURLSearchParams } from "@/shared/utils";
 import {
   create,
   findAllCustomer,
   findAllProduct,
   findAllProductCustomer,
 } from "../api";
-import { parseURLSearchParams } from "@/shared/utils";
 
 const qaKeys = {
   key: ["e-commerce/qa"],
@@ -46,9 +46,12 @@ export const useGetProductCustomerQuestions = (productId, query) => {
 };
 
 export const useGetCustomerQuestions = (query) => {
+  const { accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: qaKeys.customer(query),
-    queryFn: () => findAllCustomer(query),
+    queryKey: qaKeys.customer(_query),
+    queryFn: () => findAllCustomer(query, accessToken),
   });
 };
 

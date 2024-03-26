@@ -1,9 +1,8 @@
 import { useSearchParams } from "react-router-dom";
-import { EmptyPlaceholder } from "@/components";
+import { EmptyState, Pagination } from "@/shared/components";
 import { Formatter } from "@/utils";
 import { useGetStores } from "../queries";
 import { StoresGroup } from "./stores-group";
-import { Pagination } from "@/shared/components";
 
 export const StoresList = () => {
   const [params] = useSearchParams();
@@ -15,7 +14,7 @@ export const StoresList = () => {
   } = useGetStores(params.toString());
 
   const groups = Formatter.groupByFirstLetter(stores?.rows, "name");
-  const isEmpty = groups.length === 0;
+  const isEmpty = !groups.length;
 
   return (
     <>
@@ -27,9 +26,9 @@ export const StoresList = () => {
             <StoresGroup.Skeleton />
           </>
         ) : isError ? (
-          <EmptyPlaceholder title="Error" description={error.message} />
+          <EmptyState title="Error" description={error.message} />
         ) : isEmpty ? (
-          <EmptyPlaceholder title="No results" description="No stores found." />
+          <EmptyState title="No results" description="No stores found." />
         ) : (
           groups.map((group) => <StoresGroup key={group.key} group={group} />)
         )}

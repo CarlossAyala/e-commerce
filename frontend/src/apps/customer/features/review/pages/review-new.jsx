@@ -1,6 +1,12 @@
 import { useParams } from "react-router-dom";
-import { EmptyPlaceholder, Skeleton, TextareaSkeleton } from "@/components";
 import { useDocumentTitle } from "@/shared/hooks";
+import {
+  EmptyState,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "@/shared/components";
+import { Skeleton, TextareaSkeleton } from "@/components";
 import { useGetOrderItem } from "../../order";
 import { ReviewProduct } from "../components/review-product";
 import { ReviewProductForm } from "../components/review-product-form";
@@ -18,14 +24,14 @@ export const ReviewNew = () => {
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">
-      <section className="mt-4">
-        <h2 className="text-2xl font-semibold tracking-tight">Create Review</h2>
-        <p className="text-sm text-muted-foreground">
-          Create a review for the product you are reviewing.
-        </p>
-      </section>
+      <PageHeader>
+        <PageHeaderHeading>Create Review</PageHeaderHeading>
+        <PageHeaderDescription>
+          Create a review for this product.
+        </PageHeaderDescription>
+      </PageHeader>
 
-      <section className="space-y-6">
+      <section className="space-y-4">
         {isLoading ? (
           <>
             <div className="space-y-2">
@@ -46,7 +52,7 @@ export const ReviewNew = () => {
             <Skeleton className="h-9 w-24" />
           </>
         ) : isError ? (
-          <EmptyPlaceholder title="Error" description={error.message} />
+          <EmptyState title="Error" description={error.message} />
         ) : (
           <>
             <div className="space-y-2">
@@ -56,6 +62,7 @@ export const ReviewNew = () => {
                 product={review.product}
               />
             </div>
+
             <ReviewProductForm review={review} />
           </>
         )}

@@ -2,7 +2,7 @@ import { cn } from "@/libs";
 
 export const PageHeader = ({ className, children, ...props }) => {
   return (
-    <section className={cn("space-y-1", className)} {...props}>
+    <section className={cn("mt-4 space-y-1", className)} {...props}>
       {children}
     </section>
   );

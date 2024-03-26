@@ -1,10 +1,8 @@
 import { useSearchParams } from "react-router-dom";
-import { Pagination } from "@/shared/components";
-import { EmptyPlaceholder } from "@/components";
+import { EmptyState, Pagination } from "@/shared/components";
 import { ReviewDone } from "../components/review-done";
 import { useGetReviewsDone } from "../queries";
 
-// TODO: Add search by product name, stars
 export const ReviewsDone = () => {
   const [params] = useSearchParams();
 
@@ -17,7 +15,6 @@ export const ReviewsDone = () => {
 
   const isEmpty = reviews?.rows.length === 0;
 
-  console.log("Reviews", reviews);
   return (
     <section className="space-y-2">
       {isLoading ? (
@@ -27,9 +24,9 @@ export const ReviewsDone = () => {
           <ReviewDone.Skeleton />
         </>
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState title="Error" description={error.message} />
       ) : isEmpty ? (
-        <EmptyPlaceholder
+        <EmptyState
           title="No reviews yet"
           description="You can leave your review on any product that you have purchased."
         />

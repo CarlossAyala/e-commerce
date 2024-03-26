@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { Skeleton } from "../../../../../components";
 import { productActionRoutes } from "../../product";
-import { Formatter } from "../../../../../utils/formatter";
+import { Formatter } from "@/utils";
+import { Skeleton } from "@/components";
 
 //TODO: Replace src with product's image
 export const QuestionProduct = ({ product }) => {
   return (
-    <div className="flex gap-2 px-4 py-2">
+    <div className="flex gap-2 p-4">
       <img
         className="size-10 shrink-0 rounded-md border border-black/10 object-contain"
         src="https://http2.mlstatic.com/D_NQ_NP_615787-MLA53225354281_012023-O.webp"
@@ -14,7 +14,7 @@ export const QuestionProduct = ({ product }) => {
       />
       <div className="grow leading-tight">
         <Link
-          to={productActionRoutes.details(product.id, product.slug)}
+          to={productActionRoutes.details(product)}
           target="_blank"
           className="line-clamp-1 text-sm hover:underline"
         >
@@ -34,7 +34,7 @@ export const QuestionProduct = ({ product }) => {
 
 QuestionProduct.Skeleton = function QuestionProductSkeleton() {
   return (
-    <div className="flex gap-2 px-4 py-2">
+    <div className="flex gap-2 p-4">
       <Skeleton className="size-10 shrink-0" />
       <div className="flex grow flex-col justify-between">
         <Skeleton className="h-4 w-full" />

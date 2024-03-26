@@ -39,10 +39,16 @@ const findAllCustomer = async (req, res, next) => {
   try {
     const qa = await Question.model.findAndCountAll({
       where,
-      include: {
-        model: Answer.model,
-        as: "answer",
-      },
+      include: [
+        {
+          model: Answer.model,
+          as: "answer",
+        },
+        {
+          model: Product.model,
+          as: "product",
+        },
+      ],
       order,
       limit,
       offset,

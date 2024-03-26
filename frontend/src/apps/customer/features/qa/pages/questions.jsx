@@ -1,29 +1,36 @@
+import { useSearchParams } from "react-router-dom";
 import { useDocumentTitle } from "@/shared/hooks";
-import { Pagination } from "@/shared/components";
-import { EmptyPlaceholder } from "@/components";
+import {
+  EmptyState,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+  Pagination,
+} from "@/shared/components";
 import { Question } from "../components/question";
 import { useGetCustomerQuestions } from "../queries";
 
 //TODO: Add filter by: product name, status
-export const QA = () => {
+export const Questions = () => {
+  const [param] = useSearchParams();
   useDocumentTitle("Questions");
   const {
     data: questions,
     isLoading,
     isError,
     error,
-  } = useGetCustomerQuestions();
+  } = useGetCustomerQuestions(param.toString());
 
   const isEmpty = questions?.rows.length === 0;
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">
-      <section className="mt-2">
-        <h2 className="tracking-none text-3xl font-bold">Questions</h2>
-        <p className="text-muted-foreground">
+      <PageHeader>
+        <PageHeaderHeading>Questions</PageHeaderHeading>
+        <PageHeaderDescription>
           All questions that you have asked will be displayed here.
-        </p>
-      </section>
+        </PageHeaderDescription>
+      </PageHeader>
 
       <section className="space-y-4">
         {isLoading ? (
@@ -33,9 +40,9 @@ export const QA = () => {
             <Question.Skeleton />
           </>
         ) : isError ? (
-          <EmptyPlaceholder title="Error" description={error.message} />
+          <EmptyState title="Error" description={error.message} />
         ) : isEmpty ? (
-          <EmptyPlaceholder
+          <EmptyState
             title="No questions found"
             description="You haven't asked any questions yet."
           />

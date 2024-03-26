@@ -1,31 +1,29 @@
 import { NavLink } from "react-router-dom";
+import { buttonVariants } from "@/components";
+import { cn } from "@/libs";
 import { settingsNav } from "../utils";
-import { cn } from "../../../../../libs/utils";
-import { buttonVariants } from "../../../../../components";
 
 export const SettingsNav = () => {
   return (
-    <aside className="w-full overflow-x-auto border-y border-black/10 py-2 sm:border-0 sm:p-0">
-      <nav className="flex gap-1 sm:flex-col">
-        {settingsNav.map((nav) => (
-          <NavLink
-            key={nav.name}
-            to={nav.to}
-            end
-            className={({ isActive }) =>
-              cn(
-                buttonVariants({ variant: "ghost" }),
-                "justify-start",
-                isActive
-                  ? "bg-muted hover:bg-muted"
-                  : "hover:bg-transparent hover:underline",
-              )
-            }
-          >
-            {nav.name}
-          </NavLink>
-        ))}
-      </nav>
-    </aside>
+    <nav className="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
+      {settingsNav.map((nav) => (
+        <NavLink
+          key={nav.name}
+          to={nav.to}
+          end
+          className={({ isActive }) =>
+            cn(
+              buttonVariants({ variant: "ghost" }),
+              isActive
+                ? "bg-muted hover:bg-muted"
+                : "hover:bg-transparent hover:underline",
+              "justify-start",
+            )
+          }
+        >
+          {nav.name}
+        </NavLink>
+      ))}
+    </nav>
   );
 };

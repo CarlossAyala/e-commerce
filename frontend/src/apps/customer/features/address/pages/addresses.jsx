@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useDocumentTitle } from "@/shared/hooks";
+import { EmptyState } from "@/shared/components";
+import { Button, Card } from "@/components";
 import { AddressItem } from "../components/address-item";
 import { addressActionRoutes } from "../utils";
 import { useGetAddresses } from "../queries";
-import { useDocumentTitle } from "@/shared/hooks";
-import { Button, Card, EmptyPlaceholder } from "@/components";
 
 const Addresses = () => {
   useDocumentTitle("Addresses");
@@ -14,8 +15,6 @@ const Addresses = () => {
   const handleNewAddress = () => {
     navigate(addressActionRoutes.new);
   };
-
-  const isEmpty = addresses?.length === 0;
 
   return (
     <div className="max-w-2xl space-y-4">
@@ -37,9 +36,9 @@ const Addresses = () => {
             <AddressItem.Skeleton />
           </Card>
         ) : isError ? (
-          <EmptyPlaceholder title={error.name} description={error.message} />
-        ) : isEmpty ? (
-          <EmptyPlaceholder
+          <EmptyState title="Error" description={error.message} />
+        ) : !addresses.length ? (
+          <EmptyState
             title="No addresses"
             description="You don't have any address yet."
           />

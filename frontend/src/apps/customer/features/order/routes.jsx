@@ -1,4 +1,4 @@
-import { OrderDetails, Orders } from "../pages";
+import { OrderDetails, Orders } from "./pages";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}

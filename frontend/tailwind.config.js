@@ -86,6 +86,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         products: "repeat(auto-fill, minmax(144px, 1fr))",
+        stores: "repeat(auto-fill, minmax(144px, 1fr))",
       },
     },
   },

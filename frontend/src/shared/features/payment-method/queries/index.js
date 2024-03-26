@@ -3,7 +3,7 @@ import { useAuth } from "@/shared/auth";
 import { create, findAll, findOne, findSession, remove } from "../api";
 
 export const paymentMethodKeys = {
-  key: ["customer/payment-method"],
+  key: ["e-commerce/payment-method"],
   findOne: (paymentMethodId) => [
     ...paymentMethodKeys.key,
     "find-one",

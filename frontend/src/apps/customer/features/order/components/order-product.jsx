@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
+import { Skeleton } from "@/components";
+import { Formatter } from "@/utils";
 import { productActionRoutes } from "../../product";
-import { Formatter } from "../../../../../utils/formatter";
-import { Skeleton } from "../../../../../components";
 
 export const OrderProduct = ({ item }) => {
   return (
@@ -16,7 +16,7 @@ export const OrderProduct = ({ item }) => {
       <div className="flex grow flex-col justify-center">
         <Link
           to={productActionRoutes.details(item.product)}
-          className="line-clamp-1 leading-tight"
+          className="truncate leading-tight hover:underline"
         >
           {item.product.name}
         </Link>
@@ -34,14 +34,14 @@ export const OrderProduct = ({ item }) => {
 
 OrderProduct.Skeleton = function OrderProductSkeleton() {
   return (
-    <article className="flex gap-4 py-2">
-      <Skeleton className="size-14 shrink-0 rounded-md" />
+    <article className="flex gap-4 p-4">
+      <Skeleton className="size-14 shrink-0" />
       <div className="flex grow flex-col gap-1">
-        <Skeleton className="h-4 w-full rounded-md" />
-        <Skeleton className="h-4 w-1/4 rounded-md" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-1/4" />
         <div className="mt-auto flex justify-between">
-          <Skeleton className="h-4 w-1/3 rounded-md" />
-          <Skeleton className="h-4 w-1/3 rounded-md" />
+          <Skeleton className="h-4 w-1/4" />
+          <Skeleton className="h-4 w-1/4" />
         </div>
       </div>
     </article>

@@ -11,7 +11,7 @@ const apartmentNumber = Joi.string()
   .min(1)
   .max(5)
   .required();
-const indications = Joi.string().label("Indications").max(255);
+const indications = Joi.string().label("Indications").max(255).allow("");
 
 const base = Joi.object({
   name,

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
+import { cn } from "@/libs";
+import { Skeleton } from "@/components";
 import { productActionRoutes } from "../../product";
-import { Skeleton } from "../../../../../components";
-import { cn } from "../../../../../libs/utils";
 
 export const ReviewProduct = ({ className, product }) => {
   return (
@@ -11,15 +11,15 @@ export const ReviewProduct = ({ className, product }) => {
         src="https://http2.mlstatic.com/D_NQ_NP_615787-MLA53225354281_012023-O.webp"
         alt={`Profile ${product.name}`}
       />
-      <div className="grow">
+      <div className="grow text-sm">
         <Link
-          to={productActionRoutes.details(product.id, product.slug)}
+          to={productActionRoutes.details(product)}
           target="_blank"
-          className="line-clamp-1 text-base leading-tight hover:underline"
+          className="truncate font-medium hover:underline"
         >
           {product.name}
         </Link>
-        <p className="line-clamp-2 text-sm leading-tight text-muted-foreground">
+        <p className="line-clamp-2 text-muted-foreground">
           {product.description}
         </p>
       </div>

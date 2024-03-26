@@ -1,4 +1,4 @@
 export const categoryActionRoutes = {
-  root: (query) => "/customer/categories" + (query ? "?" + query : ""),
-  details: (slug) => `/customer/categories/${slug}`,
+  root: (query) => "/categories" + (query ? "?" + query : ""),
+  details: (slug) => `/categories/${slug}`,
 };

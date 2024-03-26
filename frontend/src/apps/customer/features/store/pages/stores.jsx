@@ -1,5 +1,10 @@
 import { useDocumentTitle } from "@/shared/hooks";
 import { Filters } from "@/components";
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "@/shared/components";
 import { StoresList } from "../components/stores-list";
 
 const filters = [
@@ -13,12 +18,12 @@ export const Stores = () => {
 
   return (
     <main className="container flex-1 space-y-4">
-      <section className="mt-2">
-        <h2 className="text-2xl font-semibold tracking-tight">Stores</h2>
-        <p className="text-sm text-muted-foreground">
+      <PageHeader>
+        <PageHeaderHeading>Stores</PageHeaderHeading>
+        <PageHeaderDescription>
           Your favorite brands are already on Fake-Commerce.
-        </p>
-      </section>
+        </PageHeaderDescription>
+      </PageHeader>
 
       <Filters filters={filters} />
 

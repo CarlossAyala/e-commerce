@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { findAll, findByProductId, findOne, products } from "../api";
 import { parseURLSearchParams } from "@/shared/utils";
+import { findAll, findByProductId, findOne, products } from "../api";
 
 const storeKeys = {
   key: ["e-commerce/store"],

@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { create, findAll, findOne, remove, update } from "../api";
 import { useAuth } from "@/shared/auth";
+import { create, findAll, findOne, remove, update } from "../api";
 
 const addressKeys = {
-  key: ["customer/address"],
+  key: ["e-commerce/address"],
   findOne: (addressId) => [...addressKeys.key, "find-one", addressId],
   findAll: () => [...addressKeys.key, "find-all"],
 };
@@ -52,12 +52,12 @@ export const useUpdateAddress = () => {
   const { accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: ({ addressId, address }) => {
-      return update(addressId, address, accessToken);
+    mutationFn: ({ addressId, values }) => {
+      return update(addressId, values, accessToken);
     },
-    onSuccess: async (_, { addressId }) => {
-      await queryClient.invalidateQueries(addressKeys.findOne(addressId));
-      await queryClient.invalidateQueries(addressKeys.findAll());
+    onSuccess: (_, { addressId }) => {
+      queryClient.invalidateQueries(addressKeys.findOne(addressId));
+      queryClient.invalidateQueries(addressKeys.findAll());
     },
   });
 };
@@ -68,9 +68,9 @@ export const useRemoveAddress = () => {
 
   return useMutation({
     mutationFn: (addressId) => remove(addressId, accessToken),
-    onSuccess: async (_, addressId) => {
-      await queryClient.invalidateQueries(addressKeys.findOne(addressId));
-      await queryClient.invalidateQueries(addressKeys.findAll());
+    onSuccess: (_, addressId) => {
+      queryClient.invalidateQueries(addressKeys.findOne(addressId));
+      queryClient.invalidateQueries(addressKeys.findAll());
     },
   });
 };

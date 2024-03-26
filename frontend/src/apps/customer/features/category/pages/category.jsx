@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CategoryProfile } from "../components/category-profile";
 import { CategoryBestSeller } from "../components/category-best-seller";
-import { CategoryRopRated } from "../components/category-top-rated";
-import { CategoryRandoms } from "../components/category-randoms";
+import { CategoryRandom } from "../components/category-random";
 import { CategoryStores } from "../components/category-stores";
 import { CategoryList } from "../components/category-list";
 
-const Category = () => {
+// TODO: Add category banner
+export const Category = () => {
   const { slug } = useParams();
 
   useEffect(() => {
@@ -15,14 +15,12 @@ const Category = () => {
   }, [slug]);
 
   return (
-    <main className="space-y-6 lg:container lg:max-w-5xl">
+    <main className="container space-y-6">
       <CategoryProfile />
 
       <CategoryBestSeller />
 
-      <CategoryRopRated />
-
-      <CategoryRandoms />
+      <CategoryRandom />
 
       <CategoryStores />
 
@@ -30,5 +28,3 @@ const Category = () => {
     </main>
   );
 };
-
-export default Category;

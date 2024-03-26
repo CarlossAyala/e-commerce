@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { storeActionRoutes } from "../features/store";
 import { Skeleton } from "@/components";
+import { storeActionRoutes } from "../features/store";
 
 export const StoreCard = ({ store }) => {
   return (
     <Link
-      to={storeActionRoutes.details(store.slug)}
+      to={storeActionRoutes.details(store)}
       className="block overflow-hidden rounded-md border"
     >
       <img
@@ -14,7 +14,7 @@ export const StoreCard = ({ store }) => {
         alt={`Profile Store ${store.name}`}
       />
       <div className="p-2 text-center">
-        <p className="line-clamp-2 text-sm leading-tight">{store.name}</p>
+        <p className="line-clamp-2 text-sm">{store.name}</p>
       </div>
     </Link>
   );

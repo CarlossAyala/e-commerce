@@ -23,10 +23,6 @@ const findAllDone = async (req, res, next) => {
     .pagination()
     .build();
 
-  const { where: whereProduct } = new QueryBuilder()
-    .whereLike("name", req.query.q)
-    .build();
-
   try {
     const reviews = await Review.model.findAndCountAll({
       include: {
@@ -43,7 +39,6 @@ const findAllDone = async (req, res, next) => {
           {
             model: Product.model,
             as: "product",
-            where: whereProduct,
           },
         ],
       },
@@ -51,6 +46,8 @@ const findAllDone = async (req, res, next) => {
       limit,
       offset,
     });
+
+    console.log("REVIEWS", reviews);
 
     res.json(reviews);
   } catch (error) {

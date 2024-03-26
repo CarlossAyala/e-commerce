@@ -1,49 +1,36 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { ProductCard } from "@/apps/customer/components";
-import { Button, EmptyPlaceholder } from "@/components";
+import { EmptyState, Pagination } from "@/shared/components";
 import { useGetStoreProducts } from "../queries";
-import { Pagination } from "@/shared/components";
 
 export const StoreProducts = () => {
-  const { slug } = useParams();
-  const [params, setParams] = useSearchParams();
+  const { storeId } = useParams();
+  const [params] = useSearchParams();
 
   const {
     data: products,
     isLoading,
     isError,
-    hasContent,
-    hasFilters,
     error,
-  } = useGetStoreProducts(slug, params.toString());
+  } = useGetStoreProducts(storeId, params.toString());
 
   return (
     <>
       {isLoading ? (
-        <section className="grid grid-cols-products gap-4 px-4 lg:px-0">
-          <ProductCard.Skeleton />
-          <ProductCard.Skeleton />
-          <ProductCard.Skeleton />
-        </section>
+        <ProductCard.Skeleton />
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
-      ) : !hasContent ? (
-        <EmptyPlaceholder title="No products" description="No products found.">
-          {hasFilters && (
-            <Button className="mt-4" onClick={() => setParams()} size="sm">
-              Clear filters
-            </Button>
-          )}
-        </EmptyPlaceholder>
+        <EmptyState title="Error" description={error.message} />
+      ) : !products.rows.length ? (
+        <EmptyState title="No products" description="No products found." />
       ) : (
-        <section className="grid grid-cols-products gap-4 px-4 lg:px-0">
+        <section className="grid grid-cols-products gap-4">
           {products.rows.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </section>
       )}
 
-      <Pagination className="px-4 lg:px-0" totalRows={products?.count} />
+      <Pagination count={products?.count} />
     </>
   );
 };

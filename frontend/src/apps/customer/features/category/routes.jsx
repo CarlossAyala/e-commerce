@@ -1,4 +1,4 @@
-import { Categories, Category } from "../pages";
+import { Categories, Category } from "./pages";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}

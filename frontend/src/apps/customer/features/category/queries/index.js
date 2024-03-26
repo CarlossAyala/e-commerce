@@ -1,23 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  findProductsBestSellers,
+  getProductsBestSeller,
   findFull,
   findList,
   findMain,
   findOne,
-  findProductsRandoms,
-  findProductsTopRated,
-  findStores,
+  getProductsRandom,
+  getStores,
 } from "../api";
 
 const categoryKeys = {
-  key: ["category"],
+  key: ["e-commerce/categories"],
   main: () => [...categoryKeys.key, "main"],
   full: () => [...categoryKeys.key, "full"],
   findOne: (slug) => [...categoryKeys.key, "find-one", slug],
   findList: (slug) => [...categoryKeys.key, "find-list", slug],
   bestSeller: (slug) => [...categoryKeys.key, "best-seller", slug],
-  topRated: (slug) => [...categoryKeys.key, "top-rated", slug],
   random: (slug) => [...categoryKeys.key, "random", slug],
   stores: (slug) => [...categoryKeys.key, "stores", slug],
 };
@@ -32,7 +30,7 @@ export const useGetMainCategories = () => {
 export const useGetFullCategories = () => {
   return useQuery({
     queryKey: categoryKeys.full(),
-    queryFn: () => findFull(),
+    queryFn: findFull,
   });
 };
 
@@ -55,23 +53,15 @@ export const useGetListCategories = (slug) => {
 export const useGetBestSellerCategory = (slug) => {
   return useQuery({
     queryKey: categoryKeys.bestSeller(slug),
-    queryFn: () => findProductsBestSellers(slug),
+    queryFn: () => getProductsBestSeller(slug),
     enabled: !!slug,
   });
 };
 
-export const useGetTopRatedCategory = (slug) => {
-  return useQuery({
-    queryKey: categoryKeys.topRated(slug),
-    queryFn: () => findProductsTopRated(slug),
-    enabled: !!slug,
-  });
-};
-
-export const useGetRandomsCategory = (slug) => {
+export const useGetCategoryRandomProducts = (slug) => {
   return useQuery({
     queryKey: categoryKeys.random(slug),
-    queryFn: () => findProductsRandoms(slug),
+    queryFn: () => getProductsRandom(slug),
     enabled: !!slug,
   });
 };
@@ -79,7 +69,7 @@ export const useGetRandomsCategory = (slug) => {
 export const useGetStoresCategory = (slug) => {
   return useQuery({
     queryKey: categoryKeys.stores(slug),
-    queryFn: () => findStores(slug),
+    queryFn: () => getStores(slug),
     enabled: !!slug,
   });
 };

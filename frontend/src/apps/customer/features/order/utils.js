@@ -1,4 +1,4 @@
 export const orderActionRoutes = {
-  list: "/customer/orders",
-  details: (id) => `/customer/orders/${id}/details`,
+  list: "/orders",
+  details: (id) => `/orders/${id}/details`,
 };

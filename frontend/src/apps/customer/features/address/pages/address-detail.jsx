@@ -3,8 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useDocumentTitle } from "@/shared/hooks";
+import { EmptyState } from "@/shared/components";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -14,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   Button,
-  EmptyPlaceholder,
   Form,
   FormControl,
   FormField,
@@ -24,10 +23,10 @@ import {
   Input,
   InputSkeleton,
   Skeleton,
+  Spinner,
   Textarea,
   TextareaSkeleton,
 } from "@/components";
-import { clearEmptyValues } from "@/utils";
 import { useGetAddress, useRemoveAddress, useUpdateAddress } from "../queries";
 import { addressDefault, addressInitial, addressSchema } from "../schemas";
 import { addressActionRoutes } from "../utils";
@@ -52,35 +51,21 @@ const AddressDetail = () => {
   });
 
   const handleUpdate = (values) => {
-    const _values = clearEmptyValues(values);
-
-    update.mutate([addressId, _values], {
-      onSuccess() {
-        toast("Address updated successfully");
-        setTimeout(update.reset, 1300);
+    update.mutate(
+      { addressId, values },
+      {
+        onSuccess() {
+          toast("Address updated successfully");
+        },
       },
-      onError(error) {
-        toast.message("Address could not be updated", {
-          description: error.message,
-        });
-      },
-    });
+    );
   };
 
   const handleRemove = () => {
     remove.mutate(addressId, {
       onSuccess() {
-        toast({
-          description: "Address removed successfully",
-        });
+        toast("Address removed successfully");
         navigate(addressActionRoutes.root);
-      },
-      onError(error) {
-        toast({
-          variant: "destructive",
-          title: "Address could not be removed",
-          description: error.message,
-        });
       },
     });
   };
@@ -109,6 +94,7 @@ const AddressDetail = () => {
             <InputSkeleton />
             <InputSkeleton />
             <TextareaSkeleton />
+
             <div className="flex gap-x-4">
               <Skeleton className="h-9 w-24" />
               <Skeleton className="h-9 w-24" />
@@ -116,7 +102,7 @@ const AddressDetail = () => {
             </div>
           </div>
         ) : isError ? (
-          <EmptyPlaceholder title={error.name} description={error.message} />
+          <EmptyState title="Error" description={error.message} />
         ) : (
           <Form {...form}>
             <form
@@ -230,22 +216,24 @@ const AddressDetail = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex flex-col-reverse gap-2 sm:flex-row">
-                <Button variant="ghost" type="button" onClick={handleCancel}>
-                  Cancel
-                </Button>
-                <Button
-                  variant="destructive"
-                  type="button"
-                  onClick={() => setModal(true)}
-                >
-                  Remove
-                </Button>
+
+              <div className="flex gap-2">
                 <Button
                   type="submit"
                   disabled={update.isLoading || remove.isLoading}
                 >
                   Update
+                </Button>
+                <Button
+                  variant="destructive"
+                  type="button"
+                  onClick={() => setModal(true)}
+                  disabled={update.isLoading || remove.isLoading}
+                >
+                  Remove
+                </Button>
+                <Button variant="ghost" type="button" onClick={handleCancel}>
+                  Cancel
                 </Button>
               </div>
             </form>
@@ -267,9 +255,7 @@ const AddressDetail = () => {
                     onClick={handleRemove}
                     disabled={remove.isLoading}
                   >
-                    {remove.isLoading && (
-                      <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
-                    )}
+                    {remove.isLoading && <Spinner className="mr-2 size-4" />}
                     Remove
                   </Button>
                 </AlertDialogFooter>

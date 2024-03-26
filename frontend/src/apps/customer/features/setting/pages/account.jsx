@@ -1,9 +1,11 @@
 import { useGetProfile } from "@/shared/auth";
 import { useDocumentTitle } from "@/shared/hooks";
-import { EmptyPlaceholder, InputSkeleton, Skeleton } from "@/components";
+import { EmptyState } from "@/shared/components";
+import { InputSkeleton, Skeleton } from "@/components";
 import { ProfileForm } from "../components/profile-form";
 import { PasswordForm } from "../components/password-form";
 
+// TODO: Add profile photo logic
 export const Account = () => {
   useDocumentTitle("Account");
   const { data: customer, isLoading, isError, error } = useGetProfile();
@@ -19,7 +21,7 @@ export const Account = () => {
             </div>
             <InputSkeleton />
             <InputSkeleton />
-            <Skeleton className="h-9 w-24" />
+            <Skeleton className="h-9 w-16" />
           </div>
           <div className="space-y-4">
             <div className="space-y-2 sm:col-span-2">
@@ -29,11 +31,11 @@ export const Account = () => {
             <InputSkeleton />
             <InputSkeleton />
             <InputSkeleton />
-            <Skeleton className="h-9 w-24" />
+            <Skeleton className="h-9 w-16" />
           </div>
         </>
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState title="Error" description={error.message} />
       ) : (
         <>
           <ProfileForm profile={customer} />

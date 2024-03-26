@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ArrowPathIcon,
-  EllipsisHorizontalIcon,
-} from "@heroicons/react/24/outline";
 import { toast } from "sonner";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -20,28 +17,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Skeleton,
-} from "../../../../../components";
+  Spinner,
+} from "@/components";
 import { addressActionRoutes } from "../utils";
 import { useRemoveAddress } from "../queries";
 
 export const AddressItem = ({ address }) => {
   const [alert, setAlert] = useState(false);
   const navigate = useNavigate();
-  const remove = useRemoveAddress();
+  const { mutate, isLoading } = useRemoveAddress();
 
   const handleRemove = () => {
-    remove.mutate(address.id, {
+    mutate(address.id, {
       onSuccess() {
         toast("Address removed");
         setAlert(false);
-        remove.reset();
-      },
-      onError(error) {
-        setAlert(false);
-        remove.reset();
-        toast.message("Address could not be removed", {
-          description: error.message,
-        });
       },
     });
   };
@@ -63,7 +53,7 @@ export const AddressItem = ({ address }) => {
             <Button
               variant="outline"
               size="icon"
-              className="h-9 w-9 shrink-0 data-[state=open]:bg-muted"
+              className="shrink-0 data-[state=open]:bg-muted"
             >
               <EllipsisHorizontalIcon className="h-4 w-4" />
               <span className="sr-only">Open menu</span>
@@ -100,11 +90,9 @@ export const AddressItem = ({ address }) => {
               <Button
                 variant="destructive"
                 onClick={handleRemove}
-                disabled={remove.isLoading}
+                disabled={isLoading}
               >
-                {remove.isLoading && (
-                  <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
-                )}
+                {isLoading && <Spinner className="mr-2 size-4" />}
                 Remove
               </Button>
             </AlertDialogFooter>
@@ -123,7 +111,7 @@ AddressItem.Skeleton = function AddressItemSkeleton() {
         <Skeleton className="h-4 w-1/2" />
         <Skeleton className="h-4 w-1/2" />
       </div>
-      <Skeleton className="h-9 w-9 shrink-0" />
+      <Skeleton className="size-9 shrink-0" />
     </div>
   );
 };

@@ -4,9 +4,7 @@ import { Skeleton } from "@/components";
 export const StoresGroup = ({ group }) => {
   return (
     <div className="space-y-2">
-      <p className="text-2xl font-semibold tabular-nums leading-tight">
-        {group.key}
-      </p>
+      <p className="text-2xl font-semibold">{group.key}</p>
       <div className="grid grid-cols-products gap-4">
         {group.group.map((store) => (
           <StoreCard key={store.id} store={store} />

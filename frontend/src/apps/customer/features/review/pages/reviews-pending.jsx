@@ -1,10 +1,8 @@
 import { useSearchParams } from "react-router-dom";
-import { Pagination } from "@/shared/components";
-import { EmptyPlaceholder } from "@/components";
+import { EmptyState, Pagination } from "@/shared/components";
 import { ReviewPending } from "../components/review-pending";
 import { useGetReviewsPending } from "../queries";
 
-// TODO: Add search by product name, stars
 export const ReviewsPending = () => {
   const [params] = useSearchParams();
 
@@ -18,7 +16,7 @@ export const ReviewsPending = () => {
   const isEmpty = reviews?.rows.length === 0;
 
   return (
-    <section className="space-y-2">
+    <section className="space-y-4">
       {isLoading ? (
         <>
           <ReviewPending.Skeleton />
@@ -26,9 +24,9 @@ export const ReviewsPending = () => {
           <ReviewPending.Skeleton />
         </>
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState title="Error" description={error.message} />
       ) : isEmpty ? (
-        <EmptyPlaceholder title="No reviews" description="You're up to date!" />
+        <EmptyState title="No reviews" description="You're up to date!" />
       ) : (
         reviews.rows.map((review) => (
           <ReviewPending key={review.id} review={review} />

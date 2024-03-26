@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ShareIcon } from "@heroicons/react/24/outline";
+import { ProductCard } from "@/apps/customer/components";
 import { useDocumentTitle } from "@/shared/hooks";
-import { EmptyState, ProductCondition } from "@/shared/components";
+import { EmptyState, ProductCondition, ReviewStars } from "@/shared/components";
 import { useGetProduct } from "@/shared/features/product";
 import { useAuth } from "@/shared/auth";
 import { Button, Separator, Skeleton } from "@/components";
 import { Formatter } from "@/utils";
 import { useAddHistory } from "../../history";
+import { useGetReviewsStat } from "../../review";
 import { RelatedProducts } from "../components/related-products";
 import { AddToCart } from "../components/add-to-cart";
 import { Bookmark } from "../components/bookmark";
@@ -16,10 +18,7 @@ import { Gallery } from "../components/gallery";
 import { QANew } from "../components/qa-new";
 import { QAList } from "../components/qa-list";
 import { ReviewList } from "../components/review-list";
-import { useGetReviewsStat } from "../../review";
 import { ReviewScore } from "../components/review-score";
-import { ReviewStars } from "../components/review-stars";
-import { ProductCard } from "@/apps/customer/components";
 
 let didInit = false;
 export const Product = () => {
@@ -51,7 +50,7 @@ export const Product = () => {
     <main className="container relative space-y-6">
       {isLoading ? (
         <>
-          <section className="grid gap-6 md:grid-cols-2">
+          <section className="mt-4 grid gap-6 md:grid-cols-2">
             <Gallery.Skeleton />
 
             <div className="space-y-4">
@@ -134,7 +133,7 @@ export const Product = () => {
         <EmptyState title="Error" description={error.message} />
       ) : (
         <>
-          <section className="grid gap-6 md:grid-cols-2">
+          <section className="mt-4 grid gap-6 md:grid-cols-2">
             <Gallery />
             <div className="space-y-4">
               <div className="space-y-1">

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { productActionRoutes } from "../features/product";
 import { Formatter } from "@/utils";
 import { Skeleton } from "@/components";
+import { cn } from "@/libs";
 
 export const ProductCard = ({ product }) => {
   return (
@@ -39,11 +40,11 @@ export const ProductCard = ({ product }) => {
   );
 };
 
-ProductCard.Skeleton = function ProductCardSkeleton({ count = 3 }) {
+ProductCard.Skeleton = function ProductCardSkeleton({ count = 3, className }) {
   return (
-    <section className="grid grid-cols-products gap-4">
+    <section className={cn("grid grid-cols-products gap-4", className)}>
       {new Array(count).fill("").map((_, index) => (
-        <Skeleton key={index} className="h-52" />
+        <Skeleton key={index} className="h-56" />
       ))}
     </section>
   );

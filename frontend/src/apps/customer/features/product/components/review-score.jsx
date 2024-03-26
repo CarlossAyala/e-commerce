@@ -1,8 +1,7 @@
 import { StarIcon } from "@heroicons/react/24/solid";
-import { EmptyState } from "@/shared/components";
+import { EmptyState, ReviewStars } from "@/shared/components";
 import { Skeleton } from "@/components";
 import { useGetReviewsStat } from "../../review";
-import { ReviewStars } from "./review-stars";
 
 export const ReviewScore = ({ productId }) => {
   const { data, isLoading, isError, error } = useGetReviewsStat(productId);

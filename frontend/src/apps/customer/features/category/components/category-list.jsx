@@ -1,5 +1,6 @@
 import { NavLink, useParams } from "react-router-dom";
-import { EmptyPlaceholder, Skeleton } from "@/components";
+import { EmptyState } from "@/shared/components";
+import { Skeleton } from "@/components";
 import { cn } from "@/libs";
 import { categoryActionRoutes } from "../utils";
 import { useGetListCategories } from "../queries";
@@ -14,13 +15,13 @@ export const CategoryList = () => {
   } = useGetListCategories(slug);
 
   return (
-    <>
+    <section>
       {isLoading ? (
         <CategoryList.Skeleton />
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState title="Error" description={error.message} />
       ) : (
-        <div className="space-y-2 px-4 lg:px-0">
+        <div className="space-y-2">
           <NavLink
             to={categoryActionRoutes.details(category.slug)}
             className={({ isActive }) =>
@@ -32,40 +33,46 @@ export const CategoryList = () => {
           >
             {category.name}
           </NavLink>
-          <ol className="columns-2 space-y-1 sm:columns-3 md:columns-4">
-            {category.children.map((child) => (
-              <li key={child.id} className="text-sm text-muted-foreground">
-                <NavLink
-                  className={({ isActive }) =>
-                    cn(
-                      "inline-block hover:text-blue-600",
-                      isActive && "uppercase text-blue-600",
-                    )
-                  }
-                  to={categoryActionRoutes.details(child.slug)}
-                >
-                  {child.name}
-                </NavLink>
-              </li>
-            ))}
-          </ol>
+          {!category.children.length ? (
+            <div>
+              <p className="text-sm text-muted-foreground">No subcategories</p>
+            </div>
+          ) : (
+            <ol className="columns-2 space-y-1 sm:columns-3 md:columns-4">
+              {category.children.map((child) => (
+                <li key={child.id} className="text-sm text-muted-foreground">
+                  <NavLink
+                    className={({ isActive }) =>
+                      cn(
+                        "inline-block hover:text-blue-600",
+                        isActive && "uppercase text-blue-600",
+                      )
+                    }
+                    to={categoryActionRoutes.details(child.slug)}
+                  >
+                    {child.name}
+                  </NavLink>
+                </li>
+              ))}
+            </ol>
+          )}
         </div>
       )}
-    </>
+    </section>
   );
 };
 
 CategoryList.Skeleton = function CategoryListSkeleton() {
   return (
-    <div className="space-y-2">
+    <section className="space-y-2">
       <Skeleton className="h-5 w-28" />
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
         <div className="grid gap-2">
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-full" />
         </div>
       </div>
-    </div>
+    </section>
   );
 };

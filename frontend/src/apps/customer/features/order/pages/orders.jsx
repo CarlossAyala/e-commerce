@@ -1,11 +1,15 @@
 import { useSearchParams } from "react-router-dom";
 import { useDocumentTitle } from "@/shared/hooks";
-import { Pagination } from "@/shared/components";
-import { EmptyPlaceholder } from "@/components";
+import {
+  EmptyState,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+  Pagination,
+} from "@/shared/components";
 import { OrderPreview } from "../components/order-preview";
 import { useGetOrders } from "../queries";
 
-//TODO: Add filters by: status, search by product name
 export const Orders = () => {
   useDocumentTitle("Orders");
   const [params] = useSearchParams();
@@ -21,10 +25,12 @@ export const Orders = () => {
 
   return (
     <main className="container max-w-3xl flex-1 space-y-4">
-      <section className="mt-2">
-        <h2 className="tracking-none text-3xl font-bold">Orders</h2>
-        <p className="text-muted-foreground">Manage and view order details.</p>
-      </section>
+      <PageHeader>
+        <PageHeaderHeading>Orders</PageHeaderHeading>
+        <PageHeaderDescription>
+          Manage and view your orders.
+        </PageHeaderDescription>
+      </PageHeader>
 
       <section className="space-y-4">
         {isLoading ? (
@@ -34,9 +40,9 @@ export const Orders = () => {
             <OrderPreview.Skeleton />
           </>
         ) : isError ? (
-          <EmptyPlaceholder title="Error" description={error.message} />
+          <EmptyState title="Error" description={error.message} />
         ) : isEmpty ? (
-          <EmptyPlaceholder
+          <EmptyState
             title="No orders found"
             description="You don't have any order yet."
           />

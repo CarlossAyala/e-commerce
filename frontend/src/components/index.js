@@ -27,8 +27,6 @@ export * from "./ui/checkbox";
 export * from "./ui/scroll-area";
 export * from "./ui/sonner";
 export * from "./empty-placeholder";
-export * from "./review-star";
-export * from "./review-star-graph";
 export * from "./slider";
 export * from "./slider-component";
 export * from "./filter";

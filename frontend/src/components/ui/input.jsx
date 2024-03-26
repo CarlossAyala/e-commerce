@@ -21,7 +21,7 @@ Input.displayName = "Input";
 const InputSkeleton = ({ label = true }) => {
   return (
     <div className="space-y-2">
-      {label && <Skeleton className="h-3.5 w-16" />}
+      {label && <Skeleton className="h-4 w-1/4" />}
       <Skeleton className="h-9 w-full" />
     </div>
   );

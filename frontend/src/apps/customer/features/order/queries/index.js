@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { findAll, findItem, findOne } from "../api";
 import { parseURLSearchParams } from "@/shared/utils";
 import { useAuth } from "@/shared/auth";
+import { findAll, findItem, findOne } from "../api";
 
 const orderKeys = {
-  key: ["customer/order"],
+  key: ["e-commerce/order"],
   findOne: (orderId) => [...orderKeys.key, "find-one", orderId],
   findAll: (query) => [...orderKeys.key, "find-all", query],
   findItem: (itemId) => [...orderKeys.key, "find-item", itemId],

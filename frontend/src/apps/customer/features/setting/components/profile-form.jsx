@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "sonner";
 import {
   changeNameDefault,
-  changeNameInitial,
   changeNameSchema,
   useUpdateProfile,
-} from "../../../../../shared/auth";
+} from "@/shared/auth";
 import {
   Button,
   Form,
@@ -14,31 +15,22 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from "../../../../../components";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
+  Spinner,
+} from "@/components";
 
 export const ProfileForm = ({ profile }) => {
-  const updateProfile = useUpdateProfile();
+  const { mutate, isLoading } = useUpdateProfile();
 
   const form = useForm({
     resolver: yupResolver(changeNameSchema),
-    defaultValues: changeNameInitial,
     values: changeNameDefault(profile),
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleSave = (values) => {
-    updateProfile.mutate(values, {
+    mutate(values, {
       onSuccess() {
-        toast({
-          description: "Profile updated",
-        });
-      },
-      onError(error) {
-        toast({
-          description: error.message,
-        });
+        toast("Profile updated");
       },
     });
   };
@@ -81,14 +73,9 @@ export const ProfileForm = ({ profile }) => {
             )}
           />
         </div>
-        <Button
-          type="submit"
-          className="mt-4"
-          disabled={updateProfile.isLoading}
-        >
-          {updateProfile.isLoading && (
-            <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
-          )}
+
+        <Button type="submit" disabled={isLoading}>
+          {isLoading && <Spinner className="mr-2 size-4" />}
           Save
         </Button>
       </form>

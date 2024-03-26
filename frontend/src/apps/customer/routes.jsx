@@ -12,7 +12,7 @@ import { reviewRoutes } from "./features/review";
 import { storeRoutes } from "./features/store";
 import { categoryRoutes } from "./features/category";
 import { CheckoutProvider } from "./features/checkout";
-import { QA } from "./features/qa";
+import { Questions } from "./features/qa";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -45,30 +45,46 @@ export const customerRoutes = [
   },
   {
     path: "cart",
-    element: <Cart />,
+    element: (
+      <AuthenticatedRoute>
+        <Cart />
+      </AuthenticatedRoute>
+    ),
   },
   {
     path: "checkout",
-    element: <CheckoutProvider />,
+    element: (
+      <AuthenticatedRoute>
+        <CheckoutProvider />
+      </AuthenticatedRoute>
+    ),
     children: checkoutRoutes,
   },
   {
     path: "settings",
-    element: <Settings />,
+    element: (
+      <AuthenticatedRoute>
+        <Settings />
+      </AuthenticatedRoute>
+    ),
     children: settingRoutes,
   },
   {
     path: "orders",
-    element: <Outlet />,
+    element: <AuthenticatedRoute />,
     children: orderRoutes,
   },
   {
-    path: "qa",
-    element: <QA />,
+    path: "questions",
+    element: (
+      <AuthenticatedRoute>
+        <Questions />
+      </AuthenticatedRoute>
+    ),
   },
   {
     path: "reviews",
-    element: <Outlet />,
+    element: <AuthenticatedRoute />,
     children: reviewRoutes,
   },
   {

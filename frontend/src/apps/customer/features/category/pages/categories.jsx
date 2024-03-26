@@ -1,6 +1,13 @@
+import { useSearchParams } from "react-router-dom";
 import { useDocumentTitle } from "@/shared/hooks";
+import {
+  EmptyState,
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading,
+} from "@/shared/components";
+import { Filters } from "@/components";
 import { CategoriesList } from "../components/categories-list";
-import { EmptyPlaceholder, Filters } from "@/components";
 import { useGetFullCategories } from "../queries";
 
 const filters = [
@@ -9,35 +16,63 @@ const filters = [
   },
 ];
 
+// TODO: What to do about SINGLE Categories
+// TODO: Add Categories images in card
 export const Categories = () => {
+  const [params] = useSearchParams();
   useDocumentTitle("Categories");
 
-  const { data, isLoading, isError, error } = useGetFullCategories();
+  const {
+    data: categories,
+    isLoading,
+    isError,
+    error,
+  } = useGetFullCategories();
 
-  const isEmpty = data?.length === 0;
+  const search = params.get("q") || "";
+
+  const filter = categories?.filter((category) => {
+    const children = category.children.some((child) =>
+      child.name.toLowerCase().includes(search.toLowerCase()),
+    );
+    const main = category.name.toLowerCase().includes(search.toLowerCase());
+
+    return children || main;
+  });
+
+  const filtered = filter?.map((category) => {
+    return {
+      ...category,
+      children: category.children.filter((child) =>
+        child.name.toLowerCase().includes(search.toLowerCase()),
+      ),
+    };
+  });
 
   return (
-    <main className="container flex-1 space-y-4">
-      <section className="mt-4">
-        <h2 className="text-2xl font-semibold tracking-tight">Categories</h2>
-        <p className="text-sm text-muted-foreground">
+    <main className="container flex-1 space-y-6">
+      <PageHeader>
+        <PageHeaderHeading>Categories</PageHeaderHeading>
+        <PageHeaderDescription>
           Especially designed for you to find the best products for your needs.
-        </p>
-      </section>
+        </PageHeaderDescription>
+      </PageHeader>
 
       <Filters filters={filters} />
 
       {isLoading ? (
         <CategoriesList.Skeleton />
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
-      ) : isEmpty ? (
-        <EmptyPlaceholder
+        <EmptyState title="Error" description={error.message} />
+      ) : !categories.length ? (
+        <EmptyState title="No results" description="No categories found" />
+      ) : !filtered.length ? (
+        <EmptyState
           title="No results"
-          description="No categories found"
+          description={`No categories match "${search}"`}
         />
       ) : (
-        data.map((category) => (
+        filtered.map((category) => (
           <CategoriesList key={category.id} category={category} />
         ))
       )}
