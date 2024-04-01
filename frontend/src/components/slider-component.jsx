@@ -1,4 +1,4 @@
-import { ProductCard, StoreCard } from "../apps/customer/components";
+import { ProductCard, StoreCard } from "../apps/e-commerce/components";
 import { cn } from "../libs/utils";
 import { Slider } from "./slider";
 

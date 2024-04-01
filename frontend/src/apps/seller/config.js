@@ -1,4 +1,4 @@
-import { CUSTOMER_NAV } from "../customer/config";
+import { CUSTOMER_NAV } from "../e-commerce/config";
 
 export const SELLER_NAV = {
   dashboard: {

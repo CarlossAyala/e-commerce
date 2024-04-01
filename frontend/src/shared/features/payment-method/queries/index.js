@@ -40,6 +40,9 @@ export const useCreatePaymentMethod = () => {
     onSuccess() {
       return queryClient.invalidateQueries(paymentMethodKeys.findAll());
     },
+    meta: {
+      title: "Checkout - Create Payment Method",
+    },
   });
 };
 

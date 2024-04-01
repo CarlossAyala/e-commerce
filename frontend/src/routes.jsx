@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { AuthenticatedRoute, RedirectIfAuthenticated } from "./components";
-import { CustomerRoot, customerRoutes } from "./apps/customer";
+import { CustomerRoot, customerRoutes } from "./apps/e-commerce";
 import { AdminRoot, adminRoutes } from "./apps/admin";
 import { SellerRoot, sellerRoutes } from "./apps/seller";
 import { Portal, Signin, Signup } from "./shared/components";

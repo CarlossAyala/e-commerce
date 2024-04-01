@@ -17,7 +17,7 @@ import { useGetProfile, useSignout } from "@/shared/auth";
 import { getInitials } from "@/utils";
 import { useGetStore } from "../features/store";
 import { customerNav, sellerNav } from "../config";
-import { CUSTOMER_NAV } from "@/apps/customer";
+import { CUSTOMER_NAV } from "@/apps/e-commerce";
 
 export const HeaderUserNav = () => {
   const { data: store } = useGetStore();

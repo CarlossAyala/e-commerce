@@ -4,7 +4,7 @@ export const EmptyState = ({ className, title, description, children }) => {
   return (
     <section
       className={cn(
-        "grid place-content-center gap-6 rounded-md border border-dashed bg-gray-50 px-20 py-12",
+        "flex w-full flex-col items-center justify-center gap-6 rounded-md border border-dashed px-6 py-12 text-center",
         className,
       )}
     >

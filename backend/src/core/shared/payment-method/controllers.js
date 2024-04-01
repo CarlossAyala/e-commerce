@@ -102,16 +102,20 @@ const create = async (req, res, next) => {
   // TODO: Validate those
   const { paymentIntentId, addressId } = req.body;
 
+  const { origin } = req.headers;
   try {
     // TODO: Get Origin from .env
-    const success_url = `${req.headers.origin}/customer/checkout/${paymentIntentId}/payment-method?session_id={CHECKOUT_SESSION_ID}&address_id=${addressId}`;
+    let success_url = `${origin}/checkout/${paymentIntentId}/payment-method?session_id={CHECKOUT_SESSION_ID}`;
+    if (addressId) {
+      success_url = success_url.concat(`&address_id=${addressId}`);
+    }
 
     const session = await Stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "setup",
       customer: customer.id,
       success_url,
-      cancel_url: `${req.headers.origin}/customer/cart`,
+      cancel_url: origin,
     });
 
     res.json(session.url);
