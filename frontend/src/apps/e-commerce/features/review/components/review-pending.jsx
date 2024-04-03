@@ -3,7 +3,7 @@ import { Skeleton } from "@/components";
 import { Formatter } from "@/utils";
 import { reviewActionRoutes } from "../utils";
 import { ReviewProduct } from "./review-product";
-import { orderActionRoutes } from "../../order";
+import { orderActionRoutes } from "../../orders";
 
 export const ReviewPending = ({ review }) => {
   return (

@@ -7,7 +7,7 @@ import {
   PageHeaderHeading,
 } from "@/shared/components";
 import { Skeleton, TextareaSkeleton } from "@/components";
-import { useGetOrderItem } from "../../order";
+import { useGetOrderItem } from "../../orders";
 import { ReviewProduct } from "../components/review-product";
 import { ReviewProductForm } from "../components/review-product-form";
 

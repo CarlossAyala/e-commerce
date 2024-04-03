@@ -1,4 +1,4 @@
-export const CUSTOMER_NAV = {
+export const ECOMMERCE_NAV = {
   home: {
     name: "Home",
     to: "/",
@@ -53,8 +53,8 @@ export const CUSTOMER_NAV = {
   },
 };
 export const MAIN_NAV = [
-  CUSTOMER_NAV.home,
-  CUSTOMER_NAV.categories,
-  CUSTOMER_NAV.products,
-  CUSTOMER_NAV.stores,
+  ECOMMERCE_NAV.home,
+  ECOMMERCE_NAV.categories,
+  ECOMMERCE_NAV.products,
+  ECOMMERCE_NAV.stores,
 ];

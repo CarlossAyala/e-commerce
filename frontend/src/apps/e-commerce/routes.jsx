@@ -6,7 +6,7 @@ import { Home } from "./features/home";
 import { productRoutes } from "./features/product";
 import { checkoutRoutes } from "./features/checkout";
 import { Settings, settingRoutes } from "./features/setting";
-import { orderRoutes } from "./features/order";
+import { orderRoutes } from "./features/orders";
 import { reviewRoutes } from "./features/review";
 import { storeRoutes } from "./features/store";
 import { categoryRoutes } from "./features/category";

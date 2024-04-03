@@ -3,10 +3,16 @@ import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
-import { DataTable, DataTableSkeleton, Pagination } from "@/shared/components";
+import {
+  DataTable,
+  DataTableContent,
+  DataTableSkeleton,
+  EmptyState,
+  PageHeaderHeading,
+  Pagination,
+} from "@/shared/components";
 import {
   Button,
-  EmptyPlaceholder,
   Filters,
   Form,
   FormControl,
@@ -84,6 +90,7 @@ export const RequestsVerify = () => {
       onSuccess() {
         toast("Request verify created successfully");
         setSheet(false);
+        form.reset();
       },
     });
   };
@@ -94,11 +101,9 @@ export const RequestsVerify = () => {
   };
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <section className="flex items-center justify-between gap-2">
-        <h2 className="text-2xl font-bold uppercase tracking-tight">
-          Requests Verify
-        </h2>
+    <main className="flex-1 space-y-4 px-6 pb-10">
+      <section className="mt-4 flex items-center justify-between">
+        <PageHeaderHeading>Requests Verify</PageHeaderHeading>
         {!store.data.official && (
           <Button type="button" onClick={() => setSheet(true)}>
             New Request
@@ -162,12 +167,15 @@ export const RequestsVerify = () => {
       {isLoading ? (
         <DataTableSkeleton />
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState title="Error" description={error.message} />
       ) : !requests.rows.length ? (
-        <EmptyPlaceholder
-          title="No requests"
-          description="No requests found."
-        />
+        <DataTableContent columns={requestsVerifyColumns}>
+          <EmptyState
+            title="No requests"
+            description="There are no requests to verify yet."
+            className="border-none"
+          />
+        </DataTableContent>
       ) : (
         <DataTable data={requests.rows} columns={requestsVerifyColumns} />
       )}

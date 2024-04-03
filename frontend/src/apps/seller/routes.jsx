@@ -1,10 +1,9 @@
-import { Outlet } from "react-router-dom";
 import { RedirectWithStore, WithStoreRoute } from "./components";
-import { productRoutes } from "./features/product";
+import { productRoutes } from "./features/products";
 import { StoreNew, storeRoutes } from "./features/store";
 import { Dashboard } from "./features/dashboard";
 import { qaRoutes } from "./features/qa";
-import { orderRoutes } from "./features/order";
+import { orderRoutes } from "./features/orders";
 import { reviewRoutes } from "./features/review";
 
 /**
@@ -30,47 +29,27 @@ export const sellerRoutes = [
   },
   {
     path: "store",
-    element: (
-      <WithStoreRoute>
-        <Outlet />
-      </WithStoreRoute>
-    ),
+    element: <WithStoreRoute />,
     children: storeRoutes,
   },
   {
     path: "products",
-    element: (
-      <WithStoreRoute>
-        <Outlet />
-      </WithStoreRoute>
-    ),
+    element: <WithStoreRoute />,
     children: productRoutes,
   },
   {
     path: "qa",
-    element: (
-      <WithStoreRoute>
-        <Outlet />
-      </WithStoreRoute>
-    ),
+    element: <WithStoreRoute />,
     children: qaRoutes,
   },
   {
     path: "orders",
-    element: (
-      <WithStoreRoute>
-        <Outlet />
-      </WithStoreRoute>
-    ),
+    element: <WithStoreRoute />,
     children: orderRoutes,
   },
   {
     path: "reviews",
-    element: (
-      <WithStoreRoute>
-        <Outlet />
-      </WithStoreRoute>
-    ),
+    element: <WithStoreRoute />,
     children: reviewRoutes,
   },
 ];

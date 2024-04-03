@@ -15,5 +15,6 @@ export const QUESTION_STATUS = {
 
 export const qaActionRoutes = {
   root: "/seller/qa",
-  product: (productId, query) => `/seller/qa/${productId}${query}`,
+  product: (productId, query) =>
+    `/seller/qa/${productId}${query ? `?${query}` : ""}`,
 };

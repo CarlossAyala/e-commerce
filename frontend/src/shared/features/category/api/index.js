@@ -14,7 +14,7 @@ export const findOne = async (id) => {
   });
 };
 
-export const findAll = async () => {
+export const getAll = async () => {
   const url = `${ENDPOINT}/all`;
 
   return fetcher(url, {
@@ -25,7 +25,7 @@ export const findAll = async () => {
   });
 };
 
-export const findAllAndCount = async (query) => {
+export const findAll = async (query) => {
   const url = `${ENDPOINT}?${query}`;
 
   return fetcher(url, {

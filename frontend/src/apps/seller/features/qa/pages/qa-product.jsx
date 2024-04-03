@@ -1,4 +1,14 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  DataTable,
+  DataTableContent,
+  DataTableSkeleton,
+  EmptyState,
+  PageHeader,
+  PageHeaderHeading,
+  Pagination,
+} from "@/shared/components";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   Card,
   CardDescription,
@@ -6,11 +16,11 @@ import {
   CardTitle,
   Filters,
   Skeleton,
-  EmptyPlaceholder,
 } from "@/components";
-import { productActionRoutes, useGetProduct } from "../../product";
+import { productActionRoutes, useGetProduct } from "../../products";
+import { qaProductColumns } from "../components/columns";
 import { QUESTION_STATUS } from "../utils";
-import { QAProductTable } from "../components/qa-product-table";
+import { useGetQAByProductId } from "../queries";
 
 const filters = [
   {
@@ -28,20 +38,29 @@ const filters = [
 ];
 
 export const QAProduct = () => {
+  const [params] = useSearchParams();
   const { productId } = useParams();
 
   const product = useGetProduct(productId);
+  useDocumentTitle(
+    product.data?.name ? `${product.data?.name} - "QA Product"` : "QA Product",
+  );
+
+  const { data, isLoading, isError, error } = useGetQAByProductId(
+    productId,
+    params.toString(),
+  );
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">
-        Questions & Answers Product
-      </h2>
+    <main className="flex-1 space-y-4 px-6">
+      <PageHeader>
+        <PageHeaderHeading>QA Product</PageHeaderHeading>
+      </PageHeader>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-medium leading-tight text-gray-900">
+        <h3 className="text-sm font-medium leading-tight text-gray-900">
           Product
-        </h2>
+        </h3>
 
         {product.isLoading ? (
           <Card>
@@ -51,29 +70,42 @@ export const QAProduct = () => {
             </CardHeader>
           </Card>
         ) : product.isError ? (
-          <EmptyPlaceholder title="Error" description={product.error.message} />
+          <EmptyState title="Error" description={product.error.message} />
         ) : (
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                <Link
-                  className="truncate"
-                  to={productActionRoutes.details(productId)}
-                >
+          <Link to={productActionRoutes.details(productId)} className="block">
+            <Card>
+              <CardHeader>
+                <CardTitle className="line-clamp-1">
                   {product.data.name}
-                </Link>
-              </CardTitle>
-              <CardDescription className="line-clamp-2">
-                {product.data.description}
-              </CardDescription>
-            </CardHeader>
-          </Card>
+                </CardTitle>
+                <CardDescription className="line-clamp-2">
+                  {product.data.description}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
         )}
       </section>
 
       <Filters filters={filters} />
 
-      <QAProductTable />
+      {isLoading ? (
+        <DataTableSkeleton />
+      ) : isError ? (
+        <EmptyState title="Error" description={error.message} />
+      ) : !data.rows.length ? (
+        <DataTableContent columns={qaProductColumns}>
+          <EmptyState
+            title="No QA"
+            description="Your are up to date!"
+            className="border-none"
+          />
+        </DataTableContent>
+      ) : (
+        <DataTable columns={qaProductColumns} data={data.rows} />
+      )}
+
+      <Pagination count={data?.count} />
     </main>
   );
 };

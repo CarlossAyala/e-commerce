@@ -3,7 +3,7 @@ import { useDocumentTitle } from "@/shared/hooks";
 import { EmptyState } from "@/shared/components";
 import { Separator, Skeleton } from "@/components";
 import { Formatter } from "@/utils";
-import { OrderProduct, orderActionRoutes, useGetOrder } from "../../order";
+import { OrderProduct, orderActionRoutes, useGetOrder } from "../../orders";
 import { useCleanUpCheckout } from "../queries";
 
 export const CheckoutDetails = () => {

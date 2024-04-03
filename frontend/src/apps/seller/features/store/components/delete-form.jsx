@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,8 +13,6 @@ import {
   Spinner,
 } from "@/components";
 import { useDeleteStore } from "../queries";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { SELLER_STORE_NAV } from "../utils";
 
 export const DeleteForm = () => {
@@ -31,24 +31,13 @@ export const DeleteForm = () => {
   };
 
   return (
-    <>
-      <section className="space-y-4">
-        <div className="space-y-1.5">
-          <h2 className="font-medium leading-none tracking-tight">Delete</h2>
-          <p className="text-sm text-muted-foreground">
-            Delete all data related to your store.
-          </p>
-        </div>
-
-        <Button
-          type="button"
-          variant="destructive"
-          onClick={() => setDialog(true)}
-          disabled={isLoading}
-        >
-          Delete
-        </Button>
-      </section>
+    <section className="space-y-4 px-6">
+      <div>
+        <h3 className="text-lg font-medium">Delete Store</h3>
+        <p className="text-sm text-muted-foreground">
+          Delete all data related to your store.
+        </p>
+      </div>
 
       <AlertDialog open={dialog} onOpenChange={setDialog}>
         <AlertDialogContent>
@@ -61,13 +50,26 @@ export const DeleteForm = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button variant="destructive" onClick={handleDelete}>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isLoading}
+            >
               {isLoading && <Spinner className="mr-2 size-4" />}
               Delete
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
+
+      <Button
+        type="button"
+        variant="destructive"
+        onClick={() => setDialog(true)}
+        disabled={isLoading}
+      >
+        Delete
+      </Button>
+    </section>
   );
 };

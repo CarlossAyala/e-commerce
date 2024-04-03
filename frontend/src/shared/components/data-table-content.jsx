@@ -38,7 +38,9 @@ export const DataTableContent = ({ columns, children }) => {
       </TableHeader>
       <TableBody>
         <TableRow>
-          <TableCell colSpan={columns.length}>{children}</TableCell>
+          <TableCell className="p-0" colSpan={columns.length}>
+            {children}
+          </TableCell>
         </TableRow>
       </TableBody>
     </Table>

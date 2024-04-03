@@ -56,6 +56,7 @@ export const RequestsVerifyActions = ({ row }) => {
       onSuccess() {
         toast("Request verify updated successfully");
         setDialog(false);
+        form.reset();
       },
     });
   };

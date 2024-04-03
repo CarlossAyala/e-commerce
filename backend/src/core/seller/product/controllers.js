@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
-const { Sequelize, Op } = require("sequelize");
 const { QueryBuilder, slugify } = require("../../../libs");
 const { Product, Category } = require("../../../database/mysql/models");
 const { notFound } = require("../../../middlewares");
@@ -45,39 +44,6 @@ const findAll = async (req, res, next) => {
     const result = await Product.model.findAndCountAll(qb);
 
     res.json(result);
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
-const stockAlert = async (req, res, next) => {
-  const { store } = req;
-
-  const { where, limit, offset } = new QueryBuilder(req.query)
-    .where("storeId", store.id)
-    .whereLike("name", req.query.q)
-    .pagination()
-    .build();
-
-  try {
-    const products = await Product.model.findAndCountAll({
-      where: {
-        ...where,
-        stock: {
-          [Op.lte]: Sequelize.col("stock_alert"),
-        },
-      },
-      order: [["name", "ASC"]],
-      limit,
-      offset,
-    });
-
-    res.json(products);
   } catch (error) {
     next(error);
   }
@@ -156,27 +122,6 @@ const update = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const updateStockAlert = async (req, res, next) => {
-  const { product } = req;
-  const { stock, stockAlert } = req.body;
-
-  try {
-    await product.update({
-      stock,
-      stockAlert,
-    });
-
-    res.json(product);
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
 const remove = async (req, res, next) => {
   const { product } = req;
 
@@ -194,10 +139,8 @@ const remove = async (req, res, next) => {
 module.exports = {
   findById,
   findAll,
-  stockAlert,
   findOne,
   create,
   update,
-  updateStockAlert,
   remove,
 };

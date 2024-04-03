@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card } from "@/components";
-import { orderActionRoutes } from "../../order";
+import { orderActionRoutes } from "../../orders";
 import { ReviewCustomer } from "./review-customer";
 import { ReviewProduct } from "./review-product";
 
@@ -9,7 +9,7 @@ export const ReviewDone = ({ review }) => {
 
   return (
     <div className="space-y-1">
-      <div className="text-end text-sm">
+      <div className="text-start text-sm">
         <Link
           to={orderActionRoutes.details(orderId)}
           className="font-medium text-blue-600 hover:underline"

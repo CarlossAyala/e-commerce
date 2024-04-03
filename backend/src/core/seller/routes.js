@@ -3,7 +3,7 @@ const { authStore } = require("../../middlewares");
 const stores = require("./store/routes");
 const products = require("./product/routes");
 const qa = require("./qa/routes");
-const orders = require("./order/routes");
+const orders = require("./orders/routes");
 const reviews = require("./review/routes");
 
 router.use("/stores", stores);

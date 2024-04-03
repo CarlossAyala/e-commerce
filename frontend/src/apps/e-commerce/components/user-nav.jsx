@@ -20,10 +20,10 @@ import {
   TooltipTrigger,
 } from "@/components";
 import { getFullName, getInitials } from "@/utils";
-import { CUSTOMER_NAV } from "../config";
+import { ECOMMERCE_NAV } from "../config";
 
 const { orders, history, bookmarks, questions, reviews, settings } =
-  CUSTOMER_NAV;
+  ECOMMERCE_NAV;
 const navs = [orders, history, bookmarks, questions, reviews];
 
 export const UserNav = () => {

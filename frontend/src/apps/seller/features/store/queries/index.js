@@ -43,9 +43,12 @@ export const useCreateStore = () => {
   return useMutation({
     mutationFn: (values) => create(values, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: storeKeys.key,
       });
+    },
+    meta: {
+      title: "Store",
     },
   });
 };
@@ -57,9 +60,12 @@ export const useCreateRequestVerify = () => {
   return useMutation({
     mutationFn: (values) => createRequestVerify(values, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: storeKeys.requestsVerifyKey(),
       });
+    },
+    meta: {
+      title: "Request Official Store",
     },
   });
 };
@@ -71,9 +77,12 @@ export const useUpdateStore = () => {
   return useMutation({
     mutationFn: (values) => update(values, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: storeKeys.current(),
       });
+    },
+    meta: {
+      title: "Store",
     },
   });
 };
@@ -86,9 +95,12 @@ export const useDeleteStore = () => {
     mutationFn: () => remove(accessToken),
     onSuccess: async () => {
       queryClient.setQueryData(storeKeys.current(), null);
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: storeKeys.key,
       });
+    },
+    meta: {
+      title: "Store",
     },
   });
 };

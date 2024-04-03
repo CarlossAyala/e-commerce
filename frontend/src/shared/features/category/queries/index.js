@@ -1,15 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { findOne, findAll, findAllAndCount } from "../api";
+import { parseURLSearchParams } from "@/shared/utils";
+import { findOne, getAll, findAll } from "../api";
 
 const categoryKeys = {
   key: ["category"],
   findOne: (id) => [...categoryKeys.key, "find-one", id],
-  findAll: () => [...categoryKeys.key, "find-all"],
-  findAllAndCount: (query) => [
-    ...categoryKeys.key,
-    "find-all-and-count",
-    query,
-  ],
+  getAll: () => [...categoryKeys.key, "get-all"],
+  findAll: (query) => [...categoryKeys.key, "find-all", query],
 };
 
 export const useGetCategory = (id) => {
@@ -22,14 +19,16 @@ export const useGetCategory = (id) => {
 
 export const useGetAllCategories = () => {
   return useQuery({
-    queryKey: categoryKeys.findAll(),
-    queryFn: findAll,
+    queryKey: categoryKeys.getAll(),
+    queryFn: getAll,
   });
 };
 
-export const useGetCategories = (query = "") => {
+export const useGetCategories = (query) => {
+  const _query = parseURLSearchParams(query);
+
   return useQuery({
-    queryKey: categoryKeys.findAllAndCount(query),
-    queryFn: () => findAllAndCount(query),
+    queryKey: categoryKeys.findAll(_query),
+    queryFn: () => findAll(query),
   });
 };

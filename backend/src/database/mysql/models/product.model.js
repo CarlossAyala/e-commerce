@@ -25,18 +25,8 @@ const modelSchema = {
   },
   name: DataTypes.STRING,
   description: DataTypes.STRING,
-  stock: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    defaultValue: 0,
-  },
-  stockAlert: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    field: "stock_alert",
-  },
-  sold: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    defaultValue: 0,
-  },
+  stock: DataTypes.INTEGER.UNSIGNED,
+  sold: DataTypes.INTEGER.UNSIGNED,
   slug: DataTypes.STRING,
   price: DataTypes.DECIMAL(10, 2),
   available: DataTypes.BOOLEAN,

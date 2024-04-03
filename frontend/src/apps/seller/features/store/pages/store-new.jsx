@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
+import { SELLER_NAV } from "@/apps/seller/config";
 import {
   Button,
   Card,
@@ -16,11 +17,11 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Spinner,
   Textarea,
 } from "@/components";
 import { storeInitial, storeSchema } from "../schemas";
 import { useCreateStore } from "../queries";
-import { SELLER_NAV } from "../../../config";
 
 // TODO: Missing profile and front-page
 export const StoreNew = () => {
@@ -31,20 +32,20 @@ export const StoreNew = () => {
   const form = useForm({
     resolver: yupResolver(storeSchema),
     defaultValues: storeInitial,
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleCreate = (values) => {
     mutate(values, {
       onSuccess() {
-        toast("Store updated successfully");
+        toast("Store created");
         navigate(SELLER_NAV.store.to);
       },
     });
   };
 
   return (
-    <main className="container flex max-w-2xl flex-1 flex-col justify-center space-y-4">
+    <main className="container flex max-w-2xl flex-1 flex-col justify-center">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Create Store</CardTitle>
@@ -87,6 +88,7 @@ export const StoreNew = () => {
               />
 
               <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading && <Spinner className="mr-2 size-4" />}
                 Create
               </Button>
             </form>

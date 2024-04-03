@@ -1,6 +1,18 @@
+import { useSearchParams } from "react-router-dom";
+import {
+  DataTable,
+  DataTableContent,
+  DataTableSkeleton,
+  EmptyState,
+  PageHeader,
+  PageHeaderHeading,
+  Pagination,
+} from "@/shared/components";
+import { useDocumentTitle } from "@/shared/hooks";
 import { Filters } from "@/components";
-import { QAOverviewTable } from "../components/qa-overview-table";
+import { qaOverviewColumns } from "../components/columns";
 import { QUESTION_STATUS } from "../utils";
+import { useGetQA } from "../queries";
 
 const filters = [
   {
@@ -18,15 +30,35 @@ const filters = [
 ];
 
 export const QAOverview = () => {
+  useDocumentTitle("QA Overview");
+  const [params] = useSearchParams();
+  const { data, isLoading, isError, error } = useGetQA(params.toString());
+
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">
-        QA Overview
-      </h2>
+    <main className="flex-1 space-y-4 px-6">
+      <PageHeader>
+        <PageHeaderHeading>QA Overview</PageHeaderHeading>
+      </PageHeader>
 
       <Filters filters={filters} />
 
-      <QAOverviewTable />
+      {isLoading ? (
+        <DataTableSkeleton />
+      ) : isError ? (
+        <EmptyState title="Error" description={error.message} />
+      ) : !data.rows.length ? (
+        <DataTableContent columns={qaOverviewColumns}>
+          <EmptyState
+            title="No QA"
+            description="Your are up to date!"
+            className="border-none"
+          />
+        </DataTableContent>
+      ) : (
+        <DataTable columns={qaOverviewColumns} data={data.rows} />
+      )}
+
+      <Pagination count={data?.count} />
     </main>
   );
 };

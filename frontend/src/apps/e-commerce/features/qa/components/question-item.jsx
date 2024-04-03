@@ -15,7 +15,7 @@ export const QuestionItem = ({ question }) => {
       </div>
 
       {isQueue ? (
-        <p className="text-sm italic text-muted-foreground">Not answered yet</p>
+        <p className="text-sm text-muted-foreground">Not answered yet</p>
       ) : isRejected ? (
         <div className="space-y-1">
           <p className="text-xs text-muted-foreground">

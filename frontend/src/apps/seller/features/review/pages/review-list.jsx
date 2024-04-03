@@ -1,21 +1,24 @@
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  DataTable,
+  DataTableSkeleton,
+  EmptyState,
+  PageHeader,
+  PageHeaderHeading,
+  Pagination,
+  ReviewStars,
+} from "@/shared/components";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-  EmptyPlaceholder,
   Filters,
   Skeleton,
 } from "@/components";
-import {
-  DataTable,
-  DataTableContent,
-  DataTableSkeleton,
-  Pagination,
-} from "@/shared/components";
-import { useGetProduct } from "../../product";
-import { reviewListColumns } from "../components";
+import { useDocumentTitle } from "@/shared/hooks";
+import { productActionRoutes, useGetProduct } from "../../products";
+import { reviewListColumns } from "../components/columns";
 import { useGetReviewAvgRating, useGetReviewsProduct } from "../queries";
 
 const filters = [
@@ -24,42 +27,51 @@ const filters = [
   },
 ];
 
+// TODO: Insert graph about Stars equal to ecommerce/product
 export const ReviewList = () => {
-  const { productId } = useParams();
   const [params] = useSearchParams();
+  const { productId } = useParams();
 
   const product = useGetProduct(productId);
+  useDocumentTitle(
+    product.data?.name ? `${product.data.name} - Reviews` : "Reviews",
+  );
+
   const rating = useGetReviewAvgRating(productId);
   const reviews = useGetReviewsProduct(productId, params.toString());
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">
-        Reviews Product
-      </h2>
+    <main className="flex-1 space-y-6 px-6">
+      <PageHeader>
+        <PageHeaderHeading>Reviews Product</PageHeaderHeading>
+      </PageHeader>
 
       <section className="space-y-1">
         <h3 className="font-medium">Product</h3>
 
         {product.isLoading ? (
-          <Card className="max-w-sm space-y-2 p-4">
-            <Skeleton className="h-5 w-1/2" />
+          <Card className="space-y-2 p-4">
+            <Skeleton className="h-4 w-1/2" />
             <div className="space-y-1">
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-full" />
             </div>
           </Card>
         ) : product.isError ? (
-          <EmptyPlaceholder title="Error" description={product.error.message} />
+          <EmptyState title="Error" description={product.error.message} />
         ) : (
-          <Card className="max-w-sm">
-            <CardHeader className="space-y-0">
-              <CardTitle className="truncate">{product.data.name}</CardTitle>
-              <CardDescription className="line-clamp-2">
-                {product.data.description}
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          <Link to={productActionRoutes.details(productId)} className="block">
+            <Card>
+              <CardHeader className="space-y-0">
+                <CardTitle className="line-clamp-1">
+                  {product.data.name}
+                </CardTitle>
+                <CardDescription className="line-clamp-2">
+                  {product.data.description}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
         )}
       </section>
 
@@ -67,14 +79,29 @@ export const ReviewList = () => {
         <h3 className="font-medium">Average Rating</h3>
 
         {rating.isLoading ? (
-          <Skeleton className="h-5 w-20" />
+          <div className="flex w-full max-w-xs gap-2">
+            <Skeleton className="h-10 w-24 shrink-0" />
+            <div className="grow space-y-1">
+              <Skeleton className="h-5 w-full" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          </div>
         ) : rating.isError ? (
-          <EmptyPlaceholder title="Error" description={rating.error.message} />
+          <EmptyState title="Error" description={rating.error.message} />
         ) : (
-          <p className="text-muted-foreground">
-            {Number(rating.data.rating).toFixed(2)} ({rating.data.count}{" "}
-            reviews)
-          </p>
+          <div className="flex items-center gap-2">
+            <div>
+              <p className="text-5xl font-semibold">
+                {Number(rating.data.rating).toFixed(1)}
+              </p>
+            </div>
+            <div className="grow space-y-1">
+              <ReviewStars rating={rating.data.rating} size="xl" />
+              <p className="text-sm leading-3 text-muted-foreground">
+                {rating.data.count} reviews
+              </p>
+            </div>
+          </div>
         )}
       </section>
 
@@ -86,13 +113,7 @@ export const ReviewList = () => {
         {reviews.isLoading ? (
           <DataTableSkeleton />
         ) : reviews.isError ? (
-          <EmptyPlaceholder title="Error" description={reviews.error.message} />
-        ) : !reviews.data?.rows.length ? (
-          <DataTableContent columns={reviewListColumns}>
-            <div className="grid h-44 place-content-center">
-              <p>No reviews found</p>
-            </div>
-          </DataTableContent>
+          <EmptyState title="Error" description={reviews.error.message} />
         ) : (
           <DataTable data={reviews.data.rows} columns={reviewListColumns} />
         )}

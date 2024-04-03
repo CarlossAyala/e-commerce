@@ -1,9 +1,8 @@
+import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Formatter } from "@/utils";
-import { ReviewListTableAction } from "./review-list-table-action";
-import { productActionRoutes } from "../../product";
-import { Link } from "react-router-dom";
-import { ReviewTimelineTableAction } from "./review-timeline-table-action";
+import { productActionRoutes } from "../../products";
+import { ReviewListAction, ReviewTimelineAction } from "./actions";
 
 const { accessor, display } = createColumnHelper();
 
@@ -17,7 +16,7 @@ export const reviewTimelineColumns = [
         <div className="flex">
           <Link
             to={productActionRoutes.details(productId)}
-            className="max-w-xs truncate font-medium"
+            className="max-w-xs truncate font-medium hover:underline"
           >
             {info.getValue()}
           </Link>
@@ -39,13 +38,15 @@ export const reviewTimelineColumns = [
   }),
   accessor("createdAt", {
     header: () => "Created At",
-    cell: (info) => {
-      return Formatter.shortDate(info.getValue());
-    },
+    cell: (info) => (
+      <span className="text-muted-foreground">
+        {Formatter.shortDate(info.getValue())}
+      </span>
+    ),
   }),
   display({
     id: "actions",
-    cell: (info) => <ReviewTimelineTableAction row={info.row} />,
+    cell: (info) => <ReviewTimelineAction review={info.row.original} />,
   }),
 ];
 
@@ -64,12 +65,14 @@ export const reviewListColumns = [
   }),
   accessor("createdAt", {
     header: () => "Created At",
-    cell: (info) => {
-      return Formatter.shortDate(info.getValue());
-    },
+    cell: (info) => (
+      <span className="text-muted-foreground">
+        {Formatter.shortDate(info.getValue())}
+      </span>
+    ),
   }),
   display({
     id: "actions",
-    cell: (info) => <ReviewListTableAction row={info.row} />,
+    cell: (info) => <ReviewListAction review={info.row.original} />,
   }),
 ];

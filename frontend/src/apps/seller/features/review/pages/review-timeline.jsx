@@ -1,12 +1,16 @@
 import { useSearchParams } from "react-router-dom";
-import { EmptyPlaceholder, Filters } from "@/components";
 import {
   DataTable,
   DataTableContent,
   DataTableSkeleton,
+  EmptyState,
+  PageHeader,
+  PageHeaderHeading,
   Pagination,
 } from "@/shared/components";
-import { reviewTimelineColumns } from "../components";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Filters } from "@/components";
+import { reviewTimelineColumns } from "../components/columns";
 import { useGetReviews } from "../queries";
 
 const filters = [
@@ -16,32 +20,36 @@ const filters = [
 ];
 
 export const ReviewTimeline = () => {
+  useDocumentTitle("Review Timeline");
   const [params] = useSearchParams();
 
-  const reviews = useGetReviews(params.toString());
+  const { data, isLoading, isError, error } = useGetReviews(params.toString());
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">
-        Reviews Timeline
-      </h2>
+    <main className="flex-1 space-y-4 px-6">
+      <PageHeader>
+        <PageHeaderHeading>Reviews Timeline</PageHeaderHeading>
+      </PageHeader>
 
       <Filters filters={filters} />
 
-      {reviews.isLoading ? (
+      {isLoading ? (
         <DataTableSkeleton />
-      ) : reviews.isError ? (
-        <EmptyPlaceholder title="Error" description={reviews.error.message} />
-      ) : !reviews.data?.rows.length ? (
+      ) : isError ? (
+        <EmptyState title="Error" description={error.message} />
+      ) : !data.rows.length ? (
         <DataTableContent columns={reviewTimelineColumns}>
-          <div className="grid h-44 place-content-center">
-            <p>No reviews found</p>
-          </div>
+          <EmptyState
+            title="No reviews"
+            description="No reviews found"
+            className="border-none"
+          />
         </DataTableContent>
       ) : (
-        <DataTable data={reviews.data.rows} columns={reviewTimelineColumns} />
+        <DataTable data={data.rows} columns={reviewTimelineColumns} />
       )}
-      <Pagination count={reviews.data?.count} />
+
+      <Pagination count={data?.count} />
     </main>
   );
 };

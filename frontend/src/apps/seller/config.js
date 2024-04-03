@@ -1,4 +1,4 @@
-import { CUSTOMER_NAV } from "../e-commerce/config";
+import { ECOMMERCE_NAV } from "../e-commerce/config";
 
 export const SELLER_NAV = {
   dashboard: {
@@ -43,6 +43,6 @@ export const sellerNav = [
 export const customerNav = [
   {
     name: "Back to customers",
-    to: CUSTOMER_NAV.home.to,
+    to: ECOMMERCE_NAV.home.to,
   },
 ];

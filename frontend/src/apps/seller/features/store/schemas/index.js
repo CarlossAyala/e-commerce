@@ -23,12 +23,10 @@ export const storeSchema = object({
 
 export const storeInitial = storeSchema.getDefault();
 
-export const storeDefault = (values) => {
-  return {
-    name: values?.name ?? storeInitial.name,
-    description: values?.description ?? storeInitial.description,
-  };
-};
+export const storeDefault = (values) => ({
+  name: values?.name ?? storeInitial.name,
+  description: values?.description ?? storeInitial.description,
+});
 
 export const requestVerifySchema = object({
   description,

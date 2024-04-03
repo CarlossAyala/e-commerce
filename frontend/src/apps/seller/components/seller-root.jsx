@@ -1,9 +1,9 @@
 import { useGetStore } from "../features/store";
-import { PrivateRoot } from "./private-root";
-import { PublicRoot } from "./public-root";
+import { StoreRoot } from "./store-root";
+import { WithoutStoreRoot } from "./without-store-root";
 
 export const SellerRoot = () => {
   const { data: store } = useGetStore();
 
-  return store ? <PrivateRoot /> : <PublicRoot />;
+  return store ? <StoreRoot /> : <WithoutStoreRoot />;
 };

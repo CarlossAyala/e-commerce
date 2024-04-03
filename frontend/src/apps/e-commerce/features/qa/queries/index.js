@@ -32,12 +32,12 @@ export const useGetProductQuestions = (productId, query) => {
     queryKey: qaKeys.product(productId, _query),
     queryFn: () => findAllProduct(productId, query),
     enabled: !!productId,
+    keepPreviousData: true,
   });
 };
 
 export const useGetProductCustomerQuestions = (productId, query) => {
   const { accessToken } = useAuth();
-  console.log({ accessToken });
 
   return useQuery({
     queryKey: qaKeys.productCustomer(productId, query),

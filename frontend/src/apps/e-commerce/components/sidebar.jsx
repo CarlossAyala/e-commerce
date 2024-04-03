@@ -16,9 +16,9 @@ import {
   SheetHeader,
   buttonVariants,
 } from "@/components";
-import { CUSTOMER_NAV } from "../config";
+import { ECOMMERCE_NAV } from "../config";
 
-const { home, categories, stores, products } = CUSTOMER_NAV;
+const { home, categories, stores, products } = ECOMMERCE_NAV;
 const items = [
   { ...home, icon: HomeIcon },
   { ...categories, icon: BookOpenIcon },

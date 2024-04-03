@@ -142,7 +142,7 @@ const createRequestVerify = async (req, res, next) => {
       },
     });
     if (_request) {
-      throw badRequest("There is already a request for this store");
+      throw badRequest("There is already a request in Queue");
     }
 
     const request = await RequestOfficialStore.model.create({

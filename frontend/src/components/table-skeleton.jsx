@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "./ui/table";
 
+// TODO: DELETE
 export const TableSkeleton = ({ action = true }) => {
   return (
     <Table>

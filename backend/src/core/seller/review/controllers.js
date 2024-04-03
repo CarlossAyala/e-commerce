@@ -42,11 +42,12 @@ const validateProductId = async (req, _res, next, productId) => {
  */
 const findAll = async (req, res, next) => {
   const { store } = req;
-  const { where, limit, offset } = new QueryBuilder(req.query)
+
+  const { where: whereProduct } = new QueryBuilder(req.query)
     .where("storeId", store.id)
     .whereLike("name", req.query.q)
-    .pagination()
     .build();
+  const { limit, offset } = new QueryBuilder(req.query).pagination().build();
 
   try {
     const reviews = await Review.model.findAndCountAll({
@@ -56,8 +57,9 @@ const findAll = async (req, res, next) => {
         include: {
           model: Product.model,
           as: "product",
-          where,
+          where: whereProduct,
         },
+        required: true,
       },
       order: [["createdAt", "DESC"]],
       limit,
@@ -97,6 +99,7 @@ const findAllByProductId = async (req, res, next) => {
             id: productId,
           },
         },
+        required: true,
       },
       order: [["createdAt", "DESC"]],
       limit,
@@ -134,6 +137,7 @@ const avgRatingByProductId = async (req, res, next) => {
             id: productId,
           },
         },
+        required: true,
       },
       group: ["item.product_id"],
     });

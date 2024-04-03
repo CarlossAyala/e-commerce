@@ -16,13 +16,11 @@ export const ReviewsDone = () => {
   const isEmpty = reviews?.rows.length === 0;
 
   return (
-    <section className="space-y-2">
+    <section className="space-y-4">
       {isLoading ? (
-        <>
-          <ReviewDone.Skeleton />
-          <ReviewDone.Skeleton />
-          <ReviewDone.Skeleton />
-        </>
+        new Array(3)
+          .fill(null)
+          .map((_, index) => <ReviewDone.Skeleton key={index} />)
       ) : isError ? (
         <EmptyState title="Error" description={error.message} />
       ) : isEmpty ? (

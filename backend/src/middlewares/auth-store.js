@@ -18,8 +18,8 @@ const authStore = async (req, _res, next) => {
     if (!store) {
       throw badRequest("You are not authorized to perform this action");
     }
-    req.store = store;
 
+    req.store = store;
     next();
   } catch (error) {
     next(error);
