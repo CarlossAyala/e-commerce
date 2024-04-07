@@ -3,8 +3,13 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
-import { useGetCategories, useGetCategory } from "@/shared/features/category";
-import { EmptyState, PageHeaderHeading, Pagination } from "@/shared/components";
+import { useGetCategories, useGetCategory } from "@/shared/features/categories";
+import {
+  EmptyState,
+  PageHeaderHeading,
+  Pagination,
+  Spinner,
+} from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
   AlertDialog,
@@ -40,7 +45,6 @@ import {
   SelectValue,
   Separator,
   Skeleton,
-  Spinner,
   Switch,
   SwitchSkeleton,
   Textarea,

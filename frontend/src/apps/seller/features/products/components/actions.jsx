@@ -16,10 +16,10 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  Spinner,
 } from "@/components";
 import { productActionRoutes } from "../utils";
 import { useDeleteProduct } from "../queries";
+import { Spinner } from "@/shared/components";
 
 export const ProductListAction = ({ product }) => {
   const [dialog, setDialog] = useState(false);

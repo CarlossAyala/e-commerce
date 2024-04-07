@@ -5,7 +5,7 @@ export const Dashboard = () => {
   useDocumentTitle("Dashboard");
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
+    <main className="flex-1 space-y-4 px-6 pb-10">
       <h2 className="text-2xl font-bold uppercase tracking-tight">Dashboard</h2>
 
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

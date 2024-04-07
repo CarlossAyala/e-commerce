@@ -14,13 +14,13 @@ import {
   FormMessage,
   RadioGroup,
   RadioGroupItem,
-  Spinner,
   Textarea,
 } from "@/components";
 import { cn } from "@/libs";
 import { reviewActionRoutes } from "../utils";
 import { reviewDefault, reviewSchema } from "../schemas";
 import { useCreateReview } from "../queries";
+import { Spinner } from "@/shared/components";
 
 const RATINGS = ["Poor", "Fair", "Average", "Good", "Excellent"];
 

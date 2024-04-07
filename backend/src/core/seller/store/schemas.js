@@ -17,12 +17,7 @@ const update = Joi.object({
   description,
 });
 
-const createRequestVerify = Joi.object({
-  description,
-});
-
 module.exports = {
   create,
   update,
-  createRequestVerify,
 };

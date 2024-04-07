@@ -9,22 +9,10 @@ const {
 
 const router = express.Router();
 
-router.post(
-  "/signup",
-  validateSchema(schemas.signup, "body"),
-  controllers.signup
-);
-
-router.post(
-  "/signin",
-  validateSchema(schemas.signin, "body"),
-  controllers.signin
-);
-
+router.post("/signup", validateSchema(schemas.signup), controllers.signup);
+router.post("/signin", validateSchema(schemas.signin), controllers.signin);
 router.post("/refresh-token", controllers.refresh);
-
 router.post("/signout", controllers.signout);
-
 router.get(
   "/profile",
   validateAccessToken,

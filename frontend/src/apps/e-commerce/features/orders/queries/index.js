@@ -11,7 +11,7 @@ const orderKeys = {
 };
 
 export const useGetOrder = (orderId) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: orderKeys.findOne(orderId),
@@ -21,7 +21,7 @@ export const useGetOrder = (orderId) => {
 };
 
 export const useGetOrders = (query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -31,7 +31,7 @@ export const useGetOrders = (query) => {
 };
 
 export const useGetOrderItem = (itemId) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: orderKeys.findItem(itemId),

@@ -12,6 +12,7 @@ import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
+  Spinner,
 } from "@/shared/components";
 import {
   Button,
@@ -24,7 +25,6 @@ import {
   FormMessage,
   RadioGroup,
   RadioGroupItem,
-  Spinner,
 } from "@/components";
 import { Formatter, clearEmptyValues } from "@/utils";
 import { useGetCart } from "../../cart/queries";

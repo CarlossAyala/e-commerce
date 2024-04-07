@@ -16,14 +16,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Spinner,
   Textarea,
 } from "@/components";
 import { questionDefault, questionSchema, useCreateQuestion } from "../../qa";
+import { Spinner } from "@/shared/components";
 
 export const QANew = ({ productId }) => {
   const [dialog, setDialog] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { data } = useAuth();
+  const isAuthenticated = !!data;
 
   const { mutate, isLoading } = useCreateQuestion();
 

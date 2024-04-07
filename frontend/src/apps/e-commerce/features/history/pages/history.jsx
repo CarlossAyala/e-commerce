@@ -1,19 +1,14 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  DocumentIcon,
-  EllipsisVerticalIcon,
-  ExclamationTriangleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
-import { useDocumentTitle } from "@/shared/hooks";
 import { ProductCard } from "@/apps/e-commerce/components";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   EmptyState,
-  PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
   Pagination,
+  Spinner,
 } from "@/shared/components";
 import {
   Button,
@@ -26,9 +21,7 @@ import {
 import { useClearHistory, useGetHistory, useRemoveHistory } from "../queries";
 
 const groupByDate = (history) => {
-  if (!Array.isArray(history) || history.length === 0) return [];
-
-  const group = new Map();
+  const dates = new Map();
 
   for (const _history of history) {
     const date = new Date(_history.lastSeenAt);
@@ -36,15 +29,15 @@ const groupByDate = (history) => {
     date.setDate(1);
 
     const ISODate = date.toISOString();
-    const key = group.get(ISODate) ?? {
+    const key = dates.get(ISODate) ?? {
       date: ISODate,
       items: [],
     };
     key.items.push(_history);
-    group.set(ISODate, key);
+    dates.set(ISODate, key);
   }
 
-  return Array.from(group.values());
+  return Array.from(dates.values());
 };
 
 const formatDate = (inputDate) => {
@@ -94,31 +87,32 @@ export const History = () => {
     });
   };
 
-  const isEmpty = data?.rows.length === 0;
-  const groupedHistory = groupByDate(data?.rows);
+  const isEmpty = !data?.rows.length;
+  const groupedHistory = groupByDate(data?.rows ?? []);
 
   return (
-    <main className="container space-y-6">
-      <section className="flex justify-between">
-        <PageHeader>
+    <main className="container flex-1 space-y-4 pb-10">
+      <section className="mt-4 flex justify-between gap-4">
+        <div>
           <PageHeaderHeading>History</PageHeaderHeading>
           <PageHeaderDescription>
             You can view your history here. You can also clear your history.
           </PageHeaderDescription>
-        </PageHeader>
+        </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-auto" size="icon">
-              <EllipsisVerticalIcon className="size-5" />
+            <Button variant="outline" size="icon" className="ml-auto shrink-0">
+              <EllipsisVerticalIcon className="size-4" />
               <span className="sr-only">More</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-44">
             <DropdownMenuItem
               onSelect={handleClear}
-              disabled={isLoading || isEmpty || isError}
+              disabled={isLoading || isEmpty}
             >
+              {isLoading && <Spinner className="size-4" />}
               Clear history
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -128,27 +122,22 @@ export const History = () => {
       {isLoading ? (
         <section className="space-y-2">
           <Skeleton className="h-4 w-20" />
-          <ProductCard.Skeleton count={3} />
+          <ProductCard.Skeleton />
         </section>
       ) : isError ? (
-        <EmptyState
-          icon={ExclamationTriangleIcon}
-          title="Error"
-          description={error.message}
-        />
+        <EmptyState title="Error" description={error.message} />
       ) : isEmpty ? (
         <EmptyState
-          icon={DocumentIcon}
           title="No history"
-          description="No history found"
+          description="You have not viewed any products yet"
         />
       ) : (
         <section className="space-y-4">
           {groupedHistory.map((group) => (
-            <div key={group.date} className="space-y-1">
-              <p className="text-sm font-medium capitalize">
-                {formatDate(group.date)}
-              </p>
+            <div key={group.date} className="space-y-2">
+              <div>
+                <p className="text-sm font-medium">{formatDate(group.date)}</p>
+              </div>
               <ol className="grid grid-cols-products gap-4">
                 {group.items.map((_history, index) => (
                   <li key={index} className="relative">
@@ -157,10 +146,10 @@ export const History = () => {
                       variant="outline"
                       size="icon"
                       type="button"
-                      className="absolute right-2 top-2 bg-white shadow-md"
+                      className="absolute right-2 top-2 bg-background"
                       onClick={() => handleRemove(_history.product.id)}
                     >
-                      <XMarkIcon className="h-4 w-4" />
+                      <XMarkIcon className="size-4" />
                     </Button>
                   </li>
                 ))}

@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { AuthenticatedRoute } from "@/components";
+import { AuthenticatedRoute } from "@/shared/components";
 import { Bookmarks } from "./features/bookmark";
 import { History } from "./features/history";
 import { Home } from "./features/home";

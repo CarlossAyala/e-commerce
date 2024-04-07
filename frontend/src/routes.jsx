@@ -1,9 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { AuthenticatedRoute, RedirectIfAuthenticated } from "./components";
+import {
+  AuthenticatedRoute,
+  RedirectIfAuthenticated,
+  Signin,
+  Signup,
+} from "./shared/components";
 import { CustomerRoot, customerRoutes } from "./apps/e-commerce";
 import { AdminRoot, adminRoutes } from "./apps/admin";
 import { SellerRoot, sellerRoutes } from "./apps/seller";
-import { Portal, Signin, Signup } from "./shared/components";
 
 const router = createBrowserRouter([
   {
@@ -28,14 +32,6 @@ const router = createBrowserRouter([
       </AuthenticatedRoute>
     ),
     children: sellerRoutes,
-  },
-  {
-    path: "/portal",
-    element: (
-      <AuthenticatedRoute>
-        <Portal />
-      </AuthenticatedRoute>
-    ),
   },
   {
     path: "/signin",

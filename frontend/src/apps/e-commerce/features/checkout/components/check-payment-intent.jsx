@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { EmptyState } from "@/shared/components";
-import { Button, Card, Skeleton, Spinner } from "@/components";
+import { EmptyState, Spinner } from "@/shared/components";
+import { Button, Card, Skeleton } from "@/components";
 import { useCreatePaymentIntent, useGetPaymentIntent } from "../queries";
 import { checkoutActionRoutes } from "../utils";
 

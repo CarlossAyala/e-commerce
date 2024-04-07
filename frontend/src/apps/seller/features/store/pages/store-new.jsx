@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { SELLER_NAV } from "@/apps/seller/config";
+import { Spinner } from "@/shared/components";
 import {
   Button,
   Card,
@@ -17,7 +18,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Spinner,
   Textarea,
 } from "@/components";
 import { storeInitial, storeSchema } from "../schemas";

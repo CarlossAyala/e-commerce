@@ -2,6 +2,7 @@ import { useAuth } from "@/shared/auth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
+import { Spinner } from "@/shared/components";
 import {
   Button,
   Form,
@@ -10,12 +11,13 @@ import {
   FormItem,
   FormMessage,
   Input,
-  Spinner,
 } from "@/components";
 import { addToCartInitial, addToCartSchema, useAddCart } from "../../cart";
 
 export const AddToCart = ({ product }) => {
-  const { isAuthenticated } = useAuth();
+  const { data, isLoading } = useAuth();
+  const isAuthenticated = !!data;
+
   const addToCart = useAddCart();
 
   const form = useForm({
@@ -42,63 +44,56 @@ export const AddToCart = ({ product }) => {
 
   const hasStock = product.stock > 0;
 
-  return (
-    <>
-      {!product.available ? (
-        <Button size="lg" type="button" className="w-full" disabled>
-          Not available
-        </Button>
-      ) : !hasStock ? (
-        <Button size="lg" type="button" className="w-full" disabled>
-          Out of stock
-        </Button>
-      ) : (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleAddToCart)}
-            className="w-full"
+  return !product.available ? (
+    <Button size="lg" type="button" className="w-full" disabled>
+      Not available
+    </Button>
+  ) : !hasStock ? (
+    <Button size="lg" type="button" className="w-full" disabled>
+      Out of stock
+    </Button>
+  ) : (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleAddToCart)} className="w-full">
+        <div className="grid w-full grid-cols-6 gap-2">
+          <FormField
+            control={form.control}
+            name="quantity"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Qty"
+                    className="h-10"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <Button
+            size="lg"
+            type="submit"
+            className="col-span-4"
+            disabled={addToCart.isLoading || isLoading}
           >
-            <div className="grid w-full grid-cols-6 gap-2">
-              <FormField
-                control={form.control}
-                name="quantity"
-                render={({ field }) => (
-                  <FormItem className="col-span-2">
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Qty"
-                        className="h-10"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+            {addToCart.isLoading && <Spinner className="mr-2 size-4" />}
+            Add to cart
+          </Button>
+        </div>
 
-              <Button
-                size="lg"
-                type="submit"
-                className="col-span-4"
-                disabled={addToCart.isLoading}
-              >
-                {addToCart.isLoading && <Spinner className="mr-2 size-5" />}
-                Add to cart
-              </Button>
-            </div>
-
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={() => (
-                <FormItem>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
-      )}
-    </>
+        <FormField
+          control={form.control}
+          name="quantity"
+          render={() => (
+            <FormItem>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   );
 };

@@ -1,8 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  DocumentIcon,
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
 import { ProductCard } from "@/apps/e-commerce/components";
 import { useGetProducts } from "@/shared/features/product";
 import { useDocumentTitle } from "@/shared/hooks";
@@ -34,7 +30,7 @@ export const Products = () => {
   const isEmpty = products?.rows.length === 0;
 
   return (
-    <main className="container space-y-4">
+    <main className="container flex-1 space-y-4 pb-10">
       <PageHeader>
         <PageHeaderHeading>Products</PageHeaderHeading>
         <PageHeaderDescription>
@@ -45,19 +41,11 @@ export const Products = () => {
       <Filters filters={filters} />
 
       {isLoading ? (
-        <ProductCard.Skeleton count={3} />
+        <ProductCard.Skeleton />
       ) : isError ? (
-        <EmptyState
-          icon={ExclamationTriangleIcon}
-          title="Error"
-          description={error.message}
-        />
+        <EmptyState title="Error" description={error.message} />
       ) : isEmpty ? (
-        <EmptyState
-          icon={DocumentIcon}
-          title="No products"
-          description="No products found"
-        />
+        <EmptyState title="No products" description="No products found" />
       ) : (
         <section className="grid grid-cols-products gap-4">
           {products.rows.map((product) => (

@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useDocumentTitle } from "@/shared/hooks";
-import { EmptyPlaceholder, Filters, Skeleton } from "@/components";
+import { EmptyState, PageHeader, PageHeaderHeading } from "@/shared/components";
+import { Filters, Skeleton } from "@/components";
 import { categoryActionRoutes, CATEGORY_TYPES } from "../utils";
 import { useGetCategories } from "../queries";
 
@@ -16,18 +17,17 @@ export const Overview = () => {
   const [params] = useSearchParams();
   const { data: categories, isLoading, isError, error } = useGetCategories();
 
-  const param = params.get("q") || "";
+  const search = params.get("q") || "";
 
-  const main = categories?.filter((category) => category.type === MAIN) ?? [];
-  const single =
-    categories?.filter((category) => category.type === SINGLE) ?? [];
+  const main = categories?.filter((category) => category.type === MAIN);
+  const single = categories?.filter((category) => category.type === SINGLE);
 
   const filteredMain = main
-    .filter((category) => {
-      const parent = category.name.toLowerCase().includes(param.toLowerCase());
-      const children = category.children.some((child) =>
-        child.name.toLowerCase().includes(param.toLowerCase()),
-      );
+    ?.filter((category) => {
+      const parent = category.name.toLowerCase().includes(search.toLowerCase());
+      const children = category.children.some((child) => {
+        return child.name.toLowerCase().includes(search.toLowerCase());
+      });
 
       return children || parent;
     })
@@ -35,19 +35,19 @@ export const Overview = () => {
       return {
         ...category,
         children: category.children.filter((child) =>
-          child.name.toLowerCase().includes(param.toLowerCase()),
+          child.name.toLowerCase().includes(search.toLowerCase()),
         ),
       };
     });
-  const filteredSingle = single.filter((category) =>
-    category.name.toLowerCase().includes(param.toLowerCase()),
+  const filteredSingle = single?.filter((category) =>
+    category.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">
-        Categories Overview
-      </h2>
+    <main className="flex-1 space-y-4 px-6 pb-10">
+      <PageHeader>
+        <PageHeaderHeading>Categories Overview</PageHeaderHeading>
+      </PageHeader>
 
       <Filters filters={filters} />
 
@@ -70,15 +70,13 @@ export const Overview = () => {
               <h3 className="font-semibold uppercase">Main Categories</h3>
 
               <div className="space-y-8">
-                {new Array(3).fill(0).map((_, parentIndex) => (
-                  <div key={parentIndex} className="space-y-2">
-                    <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
-                      <Skeleton className="h-4" />
-                    </div>
+                {new Array(3).fill(0).map((_, i) => (
+                  <div key={i} className="space-y-2">
+                    <Skeleton className="h-4 w-1/4" />
 
                     <ul className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
-                      {new Array(12).fill(0).map((_, childrenIndex) => (
-                        <li key={childrenIndex}>
+                      {new Array(12).fill(0).map((_, ii) => (
+                        <li key={ii}>
                           <Skeleton className="h-4 w-full" />
                         </li>
                       ))}
@@ -89,13 +87,13 @@ export const Overview = () => {
             </div>
           </>
         ) : isError ? (
-          <EmptyPlaceholder title="Error" description={error.message} />
+          <EmptyState title="Error" description={error.message} />
         ) : (
           <>
             <div>
-              <h3 className="font-semibold uppercase">Single Categories</h3>
+              <h3 className="font-semibold">Single Categories</h3>
 
-              {filteredSingle.length > 0 ? (
+              {filteredSingle.length ? (
                 <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                   {filteredSingle.map((category) => (
                     <li key={category.id}>
@@ -108,20 +106,26 @@ export const Overview = () => {
                     </li>
                   ))}
                 </ul>
-              ) : filteredSingle.length === 0 && param ? (
-                <p className="text-sm text-muted-foreground">No results</p>
+              ) : !filteredSingle.length && search ? (
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    No results for single categories.
+                  </p>
+                </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  No single categories found.
-                </p>
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    No single categories found.
+                  </p>
+                </div>
               )}
             </div>
 
             <div>
-              <h3 className="font-semibold uppercase">Main Categories</h3>
+              <h3 className="font-semibold">Main Categories</h3>
 
               <div className="space-y-4">
-                {filteredMain.length > 0 ? (
+                {filteredMain.length ? (
                   filteredMain.map((category) => (
                     <div key={category.id}>
                       <Link
@@ -131,9 +135,10 @@ export const Overview = () => {
                       >
                         {category.name}
                       </Link>
-                      <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        {category.children.length > 0 ? (
-                          category.children.map((children) => (
+
+                      {category.children.length ? (
+                        <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                          {category.children.map((children) => (
                             <li key={children.id}>
                               <Link
                                 to={categoryActionRoutes.details(children.id)}
@@ -142,29 +147,33 @@ export const Overview = () => {
                                 {children.name}
                               </Link>
                             </li>
-                          ))
-                        ) : category.children.length === 0 && param ? (
-                          <li>
-                            <p className="text-sm text-muted-foreground">
-                              No results for sub-categories
-                            </p>
-                          </li>
-                        ) : (
-                          <li>
-                            <p className="text-sm text-muted-foreground">
-                              No sub-categories found.
-                            </p>
-                          </li>
-                        )}
-                      </ul>
+                          ))}
+                        </ul>
+                      ) : !category.children.length && search ? (
+                        <div>
+                          <p className="text-sm text-muted-foreground">
+                            No results for sub-categories
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-sm text-muted-foreground">
+                            No sub-categories found.
+                          </p>
+                        </div>
+                      )}
                     </div>
                   ))
-                ) : filteredMain.length === 0 && param ? (
-                  <p className="text-sm text-muted-foreground">No results</p>
+                ) : !filteredMain.length && search ? (
+                  <div>
+                    <p className="text-sm text-muted-foreground">No results</p>
+                  </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    No main categories found.
-                  </p>
+                  <div>
+                    <p className="text-sm text-muted-foreground">
+                      No main categories found.
+                    </p>
+                  </div>
                 )}
               </div>
             </div>

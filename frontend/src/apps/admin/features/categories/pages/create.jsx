@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { useDocumentTitle } from "@/shared/hooks";
+import { PageHeader, PageHeaderHeading, Spinner } from "@/shared/components";
 import {
   Button,
   Form,
@@ -14,7 +15,6 @@ import {
   Input,
   RadioGroup,
   RadioGroupItem,
-  Spinner,
   Textarea,
 } from "@/components";
 import { newCategoryInitial, newCategorySchema } from "../schemas";
@@ -26,7 +26,7 @@ export const Create = () => {
   const form = useForm({
     resolver: yupResolver(newCategorySchema),
     defaultValues: newCategoryInitial,
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const { mutate, isLoading } = useCreateCategory();
@@ -41,20 +41,18 @@ export const Create = () => {
   };
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">
-        New Category
-      </h2>
+    <main className="flex-1 space-y-4 px-6 pb-10">
+      <PageHeader>
+        <PageHeaderHeading>New Category</PageHeaderHeading>
+      </PageHeader>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleCreate)} className="space-y-4">
-          <div className="h-64 overflow-hidden rounded-md">
-            <img
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1679967488699-f159404b5c5c?auto=format&fit=crop&q=80&w=1528&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Future alt"
-            />
-          </div>
+          <img
+            className="h-64 w-full rounded-md object-cover"
+            src="https://images.unsplash.com/photo-1679967488699-f159404b5c5c?auto=format&fit=crop&q=80&w=1528&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Future alt"
+          />
 
           <FormField
             control={form.control}
@@ -93,22 +91,21 @@ export const Create = () => {
                   <RadioGroup
                     onValueChange={field.onChange}
                     value={field.value}
-                    className="space-y-1"
                   >
-                    <FormItem className="flex items-center space-x-2">
+                    <FormItem className="flex gap-2">
                       <FormControl>
                         <RadioGroupItem value={CATEGORY_TYPES.MAIN} />
                       </FormControl>
-                      <FormLabel className="m-0 capitalize">
+                      <FormLabel className="m-0 capitalize leading-4">
                         {CATEGORY_TYPES.MAIN}
                       </FormLabel>
                     </FormItem>
-                    <FormItem className="flex items-start space-x-2">
+                    <FormItem className="flex gap-2">
                       <FormControl>
                         <RadioGroupItem value={CATEGORY_TYPES.SINGLE} />
                       </FormControl>
                       <div>
-                        <FormLabel className="m-0 capitalize">
+                        <FormLabel className="m-0 capitalize leading-4">
                           {CATEGORY_TYPES.SINGLE}
                         </FormLabel>
                         <FormDescription>

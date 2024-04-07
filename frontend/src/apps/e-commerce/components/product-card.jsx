@@ -1,9 +1,8 @@
-import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { productActionRoutes } from "../features/product";
-import { Formatter } from "@/utils";
 import { Skeleton } from "@/components";
+import { Formatter } from "@/utils";
 import { cn } from "@/libs";
+import { productActionRoutes } from "../features/product";
 
 export const ProductCard = ({ product }) => {
   return (
@@ -23,7 +22,7 @@ export const ProductCard = ({ product }) => {
           {Formatter.currency(product.price)}
         </p>
         <p
-          className={clsx(
+          className={cn(
             "rounded-md text-sm font-semibold capitalize leading-snug",
             product.condition === "new" && "text-green-700",
             product.condition === "used" && "text-violet-700",

@@ -3,7 +3,13 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
-import { CategoryType } from "@/shared/components";
+import {
+  CategoryType,
+  EmptyState,
+  PageHeader,
+  PageHeaderHeading,
+  Spinner,
+} from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
   AlertDialog,
@@ -14,7 +20,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   Button,
-  EmptyPlaceholder,
   Form,
   FormControl,
   FormField,
@@ -23,7 +28,6 @@ import {
   FormMessage,
   Input,
   Skeleton,
-  Spinner,
   Textarea,
 } from "@/components";
 import {
@@ -62,7 +66,7 @@ export const Details = () => {
     resolver: yupResolver(updateCategorySchema),
     defaultValues: updateCategoryInitial,
     values: updateCategoryDefault(category),
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleSave = (values) => {
@@ -83,10 +87,10 @@ export const Details = () => {
   };
 
   return (
-    <main className="flex-1 space-y-6 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">
-        Category Details
-      </h2>
+    <main className="flex-1 space-y-6 px-6 pb-10">
+      <PageHeader>
+        <PageHeaderHeading>Category Details</PageHeaderHeading>
+      </PageHeader>
 
       <section className="space-y-4">
         {isLoading ? (
@@ -123,20 +127,18 @@ export const Details = () => {
             </section>
           </>
         ) : isError ? (
-          <EmptyPlaceholder title="Error" description={error.message} />
+          <EmptyState title="Error" description={error.message} />
         ) : (
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSave)}
               className="space-y-4"
             >
-              <div className="h-64 overflow-hidden rounded-md">
-                <img
-                  className="h-full w-full object-cover"
-                  src="https://images.unsplash.com/photo-1679967488699-f159404b5c5c?auto=format&fit=crop&q=80&w=1528&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt={category.name}
-                />
-              </div>
+              <img
+                className="h-64 w-full rounded-md object-cover"
+                src="https://images.unsplash.com/photo-1679967488699-f159404b5c5c?auto=format&fit=crop&q=80&w=1528&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt={category.name}
+              />
 
               <FormField
                 control={form.control}
@@ -164,24 +166,25 @@ export const Details = () => {
                   </FormItem>
                 )}
               />
-              <div className="space-y-1">
-                <p className="text-sm font-medium">Type</p>
-                <p className="text-sm capitalize text-muted-foreground">
+
+              <div className="space-y-1 text-sm">
+                <p className="font-medium">Type</p>
+                <p className="capitalize text-muted-foreground">
                   <CategoryType type={category.type} />
                 </p>
               </div>
 
               {category.type === MAIN && (
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">Sub-categories</p>
+                <div className="space-y-1 text-sm">
+                  <p className="font-medium">Sub-categories</p>
 
-                  {category.children.length > 0 ? (
-                    <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {category.children.length ? (
+                    <ul className="grid grid-cols-2 gap-x-4 gap-y-1 md:grid-cols-3 lg:grid-cols-4">
                       {category.children.map((children) => (
                         <li key={children.id}>
                           <Link
                             to={categoryActionRoutes.details(children.id)}
-                            className="truncate text-sm hover:text-blue-600"
+                            className="hover:text-blue-600"
                           >
                             {children.name}
                           </Link>
@@ -189,19 +192,19 @@ export const Details = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-sm text-muted-foreground">
-                      No sub-categories
-                    </p>
+                    <div>
+                      <p className="text-muted-foreground">No sub-categories</p>
+                    </div>
                   )}
                 </div>
               )}
               {category.type === SUB && (
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Parent Category</p>
+                <div className="space-y-2 text-sm">
+                  <p className="font-medium">Parent Category</p>
 
                   <Link
                     to={categoryActionRoutes.details(category.parent.id)}
-                    className="truncate text-sm leading-tight hover:text-blue-600"
+                    className="hover:text-blue-600"
                   >
                     {category.parent.name}
                   </Link>

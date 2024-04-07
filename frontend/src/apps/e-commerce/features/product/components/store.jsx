@@ -14,8 +14,8 @@ export const Store = ({ productId }) => {
         <div className="flex gap-2">
           <Skeleton className="size-12 shrink-0" />
           <div className="grow space-y-2">
-            <Skeleton className="h-5 w-1/3" />
-            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-5 w-1/2" />
+            <Skeleton className="h-4 w-full" />
           </div>
         </div>
       ) : isError ? (
@@ -31,9 +31,9 @@ export const Store = ({ productId }) => {
           </div>
           <div className="grow">
             <h4 className="truncate font-medium">{data.name}</h4>
-            {data.official && (
-              <p className="text-sm text-muted-foreground">Official Store</p>
-            )}
+            <p className="line-clamp-1 text-sm text-muted-foreground">
+              {data.description}
+            </p>
           </div>
         </Link>
       )}

@@ -1,6 +1,12 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  BuildingStorefrontIcon,
+  CubeIcon,
+  WrenchIcon,
+} from "@heroicons/react/24/outline";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
   Button,
@@ -11,23 +17,47 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Spinner,
-} from "../../components";
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components";
 import { signinInitial, signinSchema, useSignin } from "../auth";
+import { getCurrentApp } from "../utils";
+import { Spinner } from ".";
+
+const APPS = [
+  { label: "E-commerce", value: "/", Icon: BuildingStorefrontIcon },
+  { label: "Seller", value: "/seller", Icon: CubeIcon },
+  { label: "Admin", value: "/admin", Icon: WrenchIcon },
+];
 
 export const Signin = () => {
-  const signin = useSignin();
-
   useDocumentTitle("Sign In");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from.pathname;
+  const { app, to, originalTo } = getCurrentApp(from);
+  const [redirectTo, setRedirectTo] = useState(to);
+
+  const signin = useSignin(
+    to !== redirectTo ? getCurrentApp(redirectTo).app : app,
+  );
 
   const form = useForm({
     resolver: yupResolver(signinSchema),
     defaultValues: signinInitial,
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleSignin = (values) => {
-    signin.mutate(values);
+    signin.mutate(values, {
+      onSuccess() {
+        navigate(to !== redirectTo ? redirectTo : originalTo, {
+          replace: true,
+        });
+      },
+    });
   };
 
   return (
@@ -42,6 +72,29 @@ export const Signin = () => {
               Enter your email below to sign in to your account.
             </p>
           </div>
+
+          <RadioGroup
+            value={redirectTo}
+            onValueChange={(value) => setRedirectTo(value)}
+            className="grid grid-cols-3 gap-4"
+          >
+            {APPS.map((item) => (
+              <div key={item.value}>
+                <RadioGroupItem
+                  value={item.value}
+                  id={item.value}
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor={item.value}
+                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                >
+                  <item.Icon className="mb-2 size-6" />
+                  {item.label}
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
 
           <Form {...form}>
             <form

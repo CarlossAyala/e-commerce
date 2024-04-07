@@ -3,8 +3,8 @@ import { fetcher } from "@/libs";
 
 const ENDPOINT = API_AUTH;
 
-export const getAccessToken = async () => {
-  const url = `${ENDPOINT}/refresh-token`;
+export const getAccessToken = (app) => {
+  const url = `${ENDPOINT}/refresh-token?app=${app}`;
 
   return fetcher(url, {
     method: "POST",
@@ -12,7 +12,7 @@ export const getAccessToken = async () => {
   });
 };
 
-export const getProfile = async (accessToken) => {
+export const getProfile = (accessToken) => {
   const url = `${ENDPOINT}/profile`;
 
   return fetcher(url, {
@@ -24,8 +24,8 @@ export const getProfile = async (accessToken) => {
   });
 };
 
-export const signin = async (values) => {
-  const url = `${ENDPOINT}/signin`;
+export const signin = (app, values) => {
+  const url = `${ENDPOINT}/signin?app=${app}`;
 
   return fetcher(url, {
     method: "POST",
@@ -37,7 +37,7 @@ export const signin = async (values) => {
   });
 };
 
-export const signup = async (values) => {
+export const signup = (values) => {
   const url = `${ENDPOINT}/signup`;
 
   return fetcher(url, {
@@ -49,7 +49,7 @@ export const signup = async (values) => {
   });
 };
 
-export const signout = async () => {
+export const signout = () => {
   const url = `${ENDPOINT}/signout`;
 
   return fetcher(url, {
@@ -58,6 +58,7 @@ export const signout = async () => {
   });
 };
 
+// TODO: Check this
 export const updateFullName = (data, accessToken) => {
   const url = `${ENDPOINT}/change-full-name`;
 
@@ -75,6 +76,7 @@ export const updateFullName = (data, accessToken) => {
   });
 };
 
+// TODO: Check this
 export const updatePassword = (data, accessToken) => {
   const url = `${ENDPOINT}/change-password`;
 

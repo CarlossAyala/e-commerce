@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/shared/auth";
 import { Logo } from "@/shared/components";
-import { Button, Skeleton } from "@/components";
+import { Skeleton, buttonVariants } from "@/components";
 import { UserNav } from "./user-nav";
 import { MainNav } from "./main-nav";
 import { Sidebar } from "./sidebar";
@@ -9,10 +9,11 @@ import { Search } from "./search";
 import { UserCart } from "./user-cart";
 
 export const Header = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { data, isLoading } = useAuth();
+  const isAuthenticated = !!data;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 border-b bg-white">
       <div className="container flex h-14 items-center">
         <Sidebar />
         <Logo />
@@ -32,12 +33,15 @@ export const Header = () => {
             </>
           ) : (
             <>
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/signin">Sign In</Link>
-              </Button>
-              <Button size="sm" asChild>
-                <Link to="/signup">Sign Up</Link>
-              </Button>
+              <Link
+                className={buttonVariants({ variant: "ghost", size: "sm" })}
+                to="/signin"
+              >
+                Sign In
+              </Link>
+              <Link className={buttonVariants({ size: "sm" })} to="/signup">
+                Sign Up
+              </Link>
             </>
           )}
         </div>

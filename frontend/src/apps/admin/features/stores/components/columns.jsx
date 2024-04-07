@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
-import { RequestVerifyStatus } from "@/shared/components";
 import { storeActionRoutes } from "../utils";
-import { RequestsVerifyActions } from "./requests-verify-actions";
 
 const { accessor, display } = createColumnHelper();
 
@@ -28,10 +26,6 @@ export const storesColumns = [
       </div>
     ),
   }),
-  accessor("official", {
-    header: () => "Official",
-    cell: (info) => (info.getValue() ? "Yes" : "No"),
-  }),
   display({
     id: "actions",
     cell: (info) => (
@@ -42,34 +36,5 @@ export const storesColumns = [
         View
       </Link>
     ),
-  }),
-];
-
-export const requestsVerifyColumns = [
-  accessor("store.name", {
-    header: () => "Store",
-    cell: (info) => (
-      <div className="flex">
-        <span className="max-w-xs truncate py-1 font-medium">
-          {info.getValue()}
-        </span>
-      </div>
-    ),
-  }),
-  accessor("description", {
-    header: () => "Content",
-    cell: (info) => (
-      <div className="flex">
-        <span className="max-w-md truncate">{info.getValue()}</span>
-      </div>
-    ),
-  }),
-  accessor("status", {
-    header: () => "Status",
-    cell: (info) => <RequestVerifyStatus status={info.getValue()} />,
-  }),
-  display({
-    id: "actions",
-    cell: (info) => <RequestsVerifyActions row={info.row} />,
   }),
 ];

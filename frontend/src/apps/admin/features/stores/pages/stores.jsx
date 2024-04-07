@@ -3,32 +3,19 @@ import {
   DataTable,
   DataTableContent,
   DataTableSkeleton,
+  EmptyState,
+  PageHeader,
+  PageHeaderHeading,
   Pagination,
 } from "@/shared/components";
-import { EmptyPlaceholder, Filters } from "@/components";
+import { useDocumentTitle } from "@/shared/hooks";
+import { Filters } from "@/components";
 import { storesColumns } from "../components/columns";
 import { useGetStores } from "../queries";
-import { useDocumentTitle } from "@/shared/hooks";
 
 const filters = [
   {
     filter_type: "search",
-  },
-  {
-    filter_type: "group",
-    headline: "Official",
-    groups: [
-      {
-        filter_type: "switch",
-        items: [
-          {
-            name: "official",
-            label: "Official",
-            value: "yes",
-          },
-        ],
-      },
-    ],
   },
 ];
 
@@ -44,20 +31,23 @@ export const Stores = () => {
   } = useGetStores(params.toString());
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">Stores</h2>
+    <main className="flex-1 space-y-4 px-6 pb-10">
+      <PageHeader>
+        <PageHeaderHeading>Stores</PageHeaderHeading>
+      </PageHeader>
 
       <Filters filters={filters} />
 
       {isLoading ? (
         <DataTableSkeleton />
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState title="Error" description={error.message} />
       ) : !stores.rows.length ? (
         <DataTableContent columns={storesColumns}>
-          <div className="grid h-44 place-content-center">
-            <p>No stores found</p>
-          </div>
+          <EmptyState
+            title="No stores found"
+            description="There're no stores yet."
+          />
         </DataTableContent>
       ) : (
         <DataTable data={stores.rows} columns={storesColumns} />

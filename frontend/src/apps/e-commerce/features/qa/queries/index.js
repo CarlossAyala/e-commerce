@@ -37,7 +37,7 @@ export const useGetProductQuestions = (productId, query) => {
 };
 
 export const useGetProductCustomerQuestions = (productId, query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: qaKeys.productCustomer(productId, query),
@@ -46,7 +46,7 @@ export const useGetProductCustomerQuestions = (productId, query) => {
 };
 
 export const useGetCustomerQuestions = (query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -57,7 +57,7 @@ export const useGetCustomerQuestions = (query) => {
 
 export const useCreateQuestion = () => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: ({ productId, values }) => {

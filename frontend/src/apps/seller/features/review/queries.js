@@ -20,7 +20,7 @@ export const reviewKeys = {
 };
 
 export const useGetReviews = (query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -30,7 +30,7 @@ export const useGetReviews = (query) => {
 };
 
 export const useGetReviewsProduct = (productId, query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -41,7 +41,7 @@ export const useGetReviewsProduct = (productId, query) => {
 };
 
 export const useGetReviewAvgRating = (productId) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: reviewKeys.productAvgRating(productId),

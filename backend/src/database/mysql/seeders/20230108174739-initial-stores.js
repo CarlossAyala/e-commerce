@@ -15,16 +15,15 @@ const imageOptions = {
 
 const createRandomUsers = async () => {
   const id = uuidv4();
-  const userSex = faker.name.sex();
-  const name = faker.name.firstName(userSex);
-  const lastName = faker.name.lastName(userSex);
+  const name = faker.name.firstName();
+  const last_name = faker.name.lastName();
   const email = `${name}.${id}@gmail.com`;
   const password = await bcrypt.hash(seller.password);
 
   return {
     id,
     name,
-    last_name: lastName,
+    last_name,
     email,
     password,
     created_at: new Date(),
@@ -47,7 +46,6 @@ const createRandomStore = (userId) => {
   const name = faker.company.name();
   const description = faker.lorem.lines(1);
   const profile = faker.image.business(...Object.values(imageOptions));
-  const official = faker.datatype.boolean();
   const slug = slugify(`${name}-${id}`);
 
   return {
@@ -55,7 +53,6 @@ const createRandomStore = (userId) => {
     name,
     description,
     profile,
-    official,
     slug,
     seller_id: userId,
     created_at: new Date(),

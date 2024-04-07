@@ -6,6 +6,7 @@ import { DeleteForm } from "../components/delete-form";
 
 export const Store = () => {
   useDocumentTitle("Store");
+
   return (
     <main className="flex-1 space-y-6 pb-10">
       <PageHeader className="px-6">

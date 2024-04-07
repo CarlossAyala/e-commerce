@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 
 export const AdminRoot = () => {
   return (
-    <div className="container min-h-svh overflow-y-auto p-0">
+    <div className="container flex min-h-svh flex-col overflow-y-auto p-0">
       <aside className="fixed inset-y-0 flex w-64 flex-col space-y-4 border p-4">
         <div>
           <p>Dashboard</p>
@@ -43,13 +43,10 @@ export const AdminRoot = () => {
             <li>
               <Link to="/admin/stores/:storeId">:storeID</Link>
             </li>
-            <li>
-              <Link to="/admin/stores/requests-verify">requests-verify</Link>
-            </li>
           </ul>
         </div>
       </aside>
-      <div className="pl-64">
+      <div className="flex-1 pl-64">
         <Outlet />
       </div>
     </div>

@@ -8,6 +8,7 @@ import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
+  Spinner,
 } from "@/shared/components";
 import {
   Button,
@@ -18,7 +19,6 @@ import {
   FormItem,
   FormMessage,
   RadioGroup,
-  Spinner,
 } from "@/components";
 import { Formatter } from "@/utils";
 import { useGetAddress } from "../../address";

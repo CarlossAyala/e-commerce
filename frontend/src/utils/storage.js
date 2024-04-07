@@ -33,21 +33,3 @@ export const SessionStorage = {
     sessionStorage.removeItem(key);
   },
 };
-
-// export class MemoryStorage {
-//   create() {
-//     const storage = new Map();
-
-//     const get = (key) => storage.get(key);
-//     const set = (key, value) => storage.set(key, value);
-//     const remove = (key) => storage.delete(key);
-//     const clear = () => storage.clear();
-
-//     return {
-//       get,
-//       set,
-//       remove,
-//       clear,
-//     };
-//   }
-// }

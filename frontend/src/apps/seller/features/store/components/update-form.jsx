@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Spinner } from "@/shared/components";
 import {
   Button,
   Form,
@@ -10,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Spinner,
   Textarea,
 } from "@/components";
 import { storeDefault, storeInitial, storeSchema } from "../schemas";

@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
-import { EmptyState } from "@/shared/components";
+import { EmptyState, Spinner } from "@/shared/components";
 import {
   Button,
   Sheet,
   SheetContent,
   SheetTrigger,
   Skeleton,
-  Spinner,
 } from "@/components";
 import { Formatter } from "@/utils";
 import {
@@ -45,12 +44,18 @@ export const UserCart = () => {
         <Button variant="ghost" className="h-9 px-1">
           <ShoppingBagIcon className="mr-1 size-5" />
           <p className="text-sm font-normal lining-nums">
-            {isLoading ? "-" : isError ? "!" : cart.length}
+            {isLoading ? (
+              <Spinner className="size-3.5" />
+            ) : isError ? (
+              "!"
+            ) : (
+              cart.length
+            )}
           </p>
         </Button>
       </SheetTrigger>
       <SheetContent className="flex h-full w-full flex-col gap-0 bg-white p-0 shadow-xl sm:max-w-sm">
-        <div className="space-y-1 px-4 pt-4">
+        <div className="px-4 pt-4">
           <h2 className="text-lg font-medium text-gray-900">Shopping Cart</h2>
         </div>
 
@@ -74,19 +79,17 @@ export const UserCart = () => {
           </div>
         ) : isError ? (
           <EmptyState
-            className="flex-1 border-0 bg-transparent"
+            className="flex-1 border-0"
             title="Error"
             description={error.message}
           />
         ) : !cart.length ? (
           <EmptyState
-            className="flex-1 border-0 bg-transparent"
+            className="flex-1 border-0"
             title="No products"
             description="Explore and shop for your favorite items."
           >
-            <Button className="mt-4" onClick={() => setOpen(false)}>
-              Explore
-            </Button>
+            <Button onClick={() => setOpen(false)}>Explore</Button>
           </EmptyState>
         ) : (
           <div className="flex flex-1 flex-col justify-between overflow-y-auto">

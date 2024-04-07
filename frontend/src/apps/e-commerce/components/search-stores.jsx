@@ -6,10 +6,10 @@ export const SearchStores = ({ search, cleanUp }) => {
   const params = new URLSearchParams({
     q: search,
   }).toString();
-  const { stores, isLoading, isError, isEmpty, error } = useGetStores(params);
+  const { data: stores, isLoading, isError, error } = useGetStores(params);
 
-  const sliced = stores?.slice(0, 5);
-  const hasMore = stores?.length > 5;
+  const sliced = stores?.rows.slice(0, 5);
+  const hasMore = stores?.rows.length > 5;
 
   return (
     <div className="px-2 pb-2">
@@ -21,7 +21,7 @@ export const SearchStores = ({ search, cleanUp }) => {
           <li className="px-2">Loading...</li>
         ) : isError ? (
           <li className="px-2">{error.message}</li>
-        ) : isEmpty ? (
+        ) : !stores.rows.length ? (
           <li className="px-2">No results found</li>
         ) : (
           <>
@@ -29,7 +29,7 @@ export const SearchStores = ({ search, cleanUp }) => {
               <li key={store.id}>
                 <Link
                   onClick={cleanUp}
-                  to={storeActionRoutes.details(store.slug)}
+                  to={storeActionRoutes.details(store)}
                   className="relative flex cursor-default select-none items-center rounded-md px-2 py-1.5 hover:bg-accent hover:text-accent-foreground"
                 >
                   <div className="flex items-center gap-2">

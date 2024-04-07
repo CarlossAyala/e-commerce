@@ -14,6 +14,7 @@ import {
 } from "@/components";
 import { getFullName, getInitials } from "@/utils";
 
+// TODO: Check if this would be used
 export const UserNav = () => {
   const { data: admin } = useGetProfile();
 
@@ -22,8 +23,8 @@ export const UserNav = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-          <Avatar className="h-9 w-9">
+        <Button variant="ghost" size="icon" className="relative rounded-full">
+          <Avatar>
             <AvatarImage
               src="https://avatars.githubusercontent.com/u/55491792?s=400&u=443015ea5d9d3fe5e957d83a5ff4105ea8c706a2&v=4"
               alt={fullName}

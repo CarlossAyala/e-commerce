@@ -4,7 +4,6 @@ const Address = require("./address.model");
 const RefreshToken = require("./refresh-token.model");
 
 const Store = require("./store.model");
-const RequestOfficialStore = require("./request-official-store.model");
 
 const Category = require("./category.model");
 
@@ -25,15 +24,6 @@ const Question = require("./question.model");
 const Answer = require("./answer.model");
 
 // STORE
-Store.model.hasMany(RequestOfficialStore.model, {
-  foreignKey: "storeId",
-  as: "requests",
-  onDelete: "CASCADE",
-});
-RequestOfficialStore.model.belongsTo(Store.model, {
-  as: "store",
-  onDelete: "CASCADE",
-});
 User.model.hasOne(Store.model, {
   foreignKey: "sellerId",
   as: "store",
@@ -163,7 +153,6 @@ module.exports = {
   RefreshToken,
 
   Store,
-  RequestOfficialStore,
 
   Category,
 

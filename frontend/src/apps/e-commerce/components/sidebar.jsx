@@ -26,6 +26,7 @@ const items = [
   { ...stores, icon: BuildingStorefrontIcon },
 ];
 
+// TODO: Check
 export const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();

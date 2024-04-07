@@ -1,5 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Spinner } from "@/components";
+import { Spinner } from "@/shared/components";
 import { useRemoveFromCart } from "../features/cart";
 
 export const CartItemRemove = ({ productId }) => {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { useRemovePaymentMethod } from "@/shared/features/payment-method";
+import { Spinner } from "@/shared/components";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -16,7 +17,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Skeleton,
-  Spinner,
 } from "@/components";
 
 export const CardItem = ({ card }) => {

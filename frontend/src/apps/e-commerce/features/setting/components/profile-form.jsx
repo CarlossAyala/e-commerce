@@ -6,6 +6,7 @@ import {
   changeNameSchema,
   useUpdateProfile,
 } from "@/shared/auth";
+import { Spinner } from "@/shared/components";
 import {
   Button,
   Form,
@@ -15,7 +16,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Spinner,
 } from "@/components";
 
 export const ProfileForm = ({ profile }) => {

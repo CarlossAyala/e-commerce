@@ -14,9 +14,9 @@ export const StoreProfile = () => {
         <PublicStoreProfile.Skeleton />
       ) : isError ? (
         <EmptyState
+          className="mt-4"
           title="Error"
           description={error.message}
-          className="mt-4"
         />
       ) : (
         <PublicStoreProfile store={store} />

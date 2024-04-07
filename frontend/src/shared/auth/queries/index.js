@@ -8,51 +8,48 @@ import {
   updateFullName,
   updatePassword,
 } from "../api";
+import { getCurrentApp } from "@/shared/utils";
+import { useLocation } from "react-router-dom";
 
 export const authKeys = {
-  key: ["auth"],
-  accessToken: () => [...authKeys.key, "access-token"],
-  profile: () => [...authKeys.key, "profile"],
+  key: (app) => ["auth/".concat(app)],
+  accessToken: (app) => [...authKeys.key(app), "access-token"],
+  profile: (app) => [...authKeys.key(app), "profile"],
 };
 
-export const useAuth = () => {
-  const { data: accessToken, isLoading } = useQuery({
-    queryKey: authKeys.accessToken(),
-    queryFn: async () => {
-      const data = await getAccessToken();
+export const useAuth = (input) => {
+  const location = useLocation();
+  const { app } = getCurrentApp(input ?? location.pathname);
 
-      return data.accessToken;
-    },
+  return useQuery({
+    queryKey: authKeys.accessToken(app),
+    queryFn: () => getAccessToken(app),
     retry: false,
     staleTime: 1000 * 60 * 5, // 5m
     refetchInterval: 1000 * 60 * 4, // 4m
     refetchIntervalInBackground: true,
   });
-
-  return {
-    isAuthenticated: !!accessToken,
-    accessToken,
-    isLoading,
-  };
 };
 
 export const useGetProfile = () => {
-  const { accessToken } = useAuth();
+  const location = useLocation();
+  const { app } = getCurrentApp(location.pathname);
+  const { data: accessToken } = useAuth();
 
   return useQuery({
-    queryKey: authKeys.profile(),
+    queryKey: authKeys.profile(app),
     queryFn: () => getProfile(accessToken),
     enabled: !!accessToken,
   });
 };
 
-export const useSignin = () => {
+export const useSignin = (app) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (values) => signin(values),
+    mutationFn: (values) => signin(app, values),
     onSuccess: ({ accessToken }) => {
-      queryClient.setQueriesData(authKeys.accessToken(), accessToken);
+      queryClient.setQueriesData(authKeys.accessToken(app), accessToken);
     },
     meta: {
       title: "Signin",
@@ -71,11 +68,13 @@ export const useSignup = () => {
 
 export const useSignout = () => {
   const queryClient = useQueryClient();
+  const location = useLocation();
+  const { app } = getCurrentApp(location.pathname);
 
   return useMutation({
     mutationFn: signout,
     onSuccess: () => {
-      queryClient.setQueriesData(authKeys.accessToken(), null);
+      queryClient.setQueriesData(authKeys.accessToken(app), null);
     },
     meta: {
       title: "Signout",

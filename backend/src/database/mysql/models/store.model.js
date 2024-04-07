@@ -18,10 +18,6 @@ const modelSchema = {
   name: DataTypes.STRING,
   description: DataTypes.STRING,
   profile: DataTypes.STRING,
-  official: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
   slug: {
     type: DataTypes.STRING,
     unique: "slug",

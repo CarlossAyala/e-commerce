@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useGetAllCategories } from "@/shared/features/category";
+import { useGetCategories } from "@/shared/features/categories";
 import { categoryActionRoutes } from "../features/category";
 
 export const SearchCategories = ({ search, cleanUp }) => {
-  const { categories, isLoading, isError, error } = useGetAllCategories();
+  const { data: categories, isLoading, isError, error } = useGetCategories();
   const filtered = categories?.filter((category) => {
     return category.name.toLowerCase().includes(search.toLowerCase());
   });

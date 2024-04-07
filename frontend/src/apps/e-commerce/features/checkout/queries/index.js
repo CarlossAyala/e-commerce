@@ -16,7 +16,7 @@ const checkoutKeys = {
 };
 
 export const useGetPaymentIntent = (paymentIntentId) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: checkoutKeys.findPaymentIntent(paymentIntentId),
@@ -26,7 +26,7 @@ export const useGetPaymentIntent = (paymentIntentId) => {
 };
 
 export const useCreatePaymentIntent = () => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: () => create(accessToken),
@@ -37,7 +37,7 @@ export const useCreatePaymentIntent = () => {
 };
 
 export const useConfirmPaymentIntent = (paymentIntentId) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (values) => confirm(paymentIntentId, values, accessToken),

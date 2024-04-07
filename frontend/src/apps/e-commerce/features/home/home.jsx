@@ -8,7 +8,8 @@ import { useGetStores } from "../store";
 export const Home = () => {
   useDocumentTitle("Home");
 
-  const { isAuthenticated } = useAuth();
+  const { data } = useAuth();
+  const isAuthenticated = !!data;
   const products = useGetProducts("");
   const history = useGetHistory("");
   const stores = useGetStores("");

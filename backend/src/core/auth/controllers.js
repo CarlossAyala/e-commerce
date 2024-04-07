@@ -13,9 +13,20 @@ const {
   invalidClient,
   invalidRequest,
 } = require("../../middlewares");
-const { cookies } = require("../../config");
+const {
+  refreshTokenOptions,
+  clearRefreshTokenOptions,
+} = require("../../config/cookies");
 
-const { refreshTokenOptions, clearRefreshTokenOptions } = cookies;
+const getCookieName = (app) => {
+  const APPS = {
+    ecommerce: "ecommerce-refresh-token",
+    admin: "admin-refresh-token",
+    seller: "seller-refresh-token",
+  };
+
+  return APPS[app] ?? APPS["ecommerce"];
+};
 
 /**
  * @param {express.Request} req
@@ -61,7 +72,7 @@ const signup = async (req, res, next) => {
  * @param {express.NextFunction} next
  */
 const signin = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
+  const { app } = req.query;
   const { email, password } = req.body;
 
   try {
@@ -73,20 +84,8 @@ const signin = async (req, res, next) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw invalidClient("Email or Password is incorrect");
 
-    if (refreshToken) {
-      const token = await RefreshToken.model.findOne({
-        where: { token: refreshToken },
-      });
-
-      if (!token || token.userId !== user.id) {
-        await RefreshToken.model.destroy({
-          where: { userId: user.id },
-        });
-      } else {
-        await token.destroy();
-      }
-
-      res.clearCookie("refreshToken", clearRefreshTokenOptions);
+    if (app === "admin" && !user.isAdmin) {
+      throw invalidClient("You are not authorized to access this resource.");
     }
 
     const newRefreshToken = await generateRefreshToken(user.dataValues.id);
@@ -97,7 +96,8 @@ const signin = async (req, res, next) => {
       userId: user.dataValues.id,
     });
 
-    res.cookie("refreshToken", newRefreshToken, refreshTokenOptions);
+    const cookieName = getCookieName(app);
+    res.cookie(cookieName, newRefreshToken, refreshTokenOptions);
 
     res.json({
       accessToken,
@@ -113,14 +113,16 @@ const signin = async (req, res, next) => {
  * @param {express.NextFunction} next
  */
 const refresh = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
+  const { app } = req.query;
+  const cookieName = getCookieName(app);
+  const refreshToken = req.cookies[cookieName];
 
   try {
     if (!refreshToken) {
       throw invalidRequest("Missing refresh token in cookies header.");
     }
 
-    res.clearCookie("refreshToken", clearRefreshTokenOptions);
+    res.clearCookie(cookieName, clearRefreshTokenOptions);
 
     const token = await RefreshToken.model.findOne({
       where: { token: refreshToken },
@@ -150,9 +152,9 @@ const refresh = async (req, res, next) => {
       userId,
     });
 
-    res.cookie("refreshToken", newRefreshToken, refreshTokenOptions);
+    res.cookie(cookieName, newRefreshToken, refreshTokenOptions);
 
-    res.json({ accessToken });
+    res.json(accessToken);
   } catch (error) {
     next(error);
   }
@@ -164,7 +166,9 @@ const refresh = async (req, res, next) => {
  * @param {express.NextFunction} next
  */
 const signout = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
+  const { app } = req.query;
+  const cookieName = getCookieName(app);
+  const refreshToken = req.cookies[cookieName];
 
   try {
     if (!refreshToken) {
@@ -177,7 +181,7 @@ const signout = async (req, res, next) => {
 
     await token.destroy();
 
-    res.clearCookie("refreshToken", clearRefreshTokenOptions);
+    res.clearCookie(cookieName, clearRefreshTokenOptions);
 
     res.json({
       message: "Logout successfully",

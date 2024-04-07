@@ -13,8 +13,8 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Spinner,
 } from "../../components";
+import { Spinner } from ".";
 
 export const Signup = () => {
   const navigate = useNavigate();

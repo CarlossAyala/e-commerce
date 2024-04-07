@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
-import { QAStatus } from "@/shared/components";
+import { QAStatus, Spinner } from "@/shared/components";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -30,7 +30,6 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  Spinner,
   Textarea,
 } from "@/components";
 import { Formatter } from "@/utils";

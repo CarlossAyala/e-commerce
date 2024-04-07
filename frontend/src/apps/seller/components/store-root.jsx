@@ -21,9 +21,6 @@ export const StoreRoot = () => {
             <li>
               <Link to="/seller/store">Profile</Link>
             </li>
-            <li>
-              <Link to="/seller/store/requests-verify">Requests Verify</Link>
-            </li>
           </ul>
         </div>
         <div>

@@ -11,7 +11,7 @@ export const productKeys = {
 };
 
 export const useGetProduct = (id) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: productKeys.findOne(id),
@@ -21,7 +21,7 @@ export const useGetProduct = (id) => {
 };
 
 export const useGetProducts = (query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -32,7 +32,7 @@ export const useGetProducts = (query) => {
 
 export const useCreateProduct = () => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (values) => create(values, accessToken),
@@ -49,7 +49,7 @@ export const useCreateProduct = () => {
 
 export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: ({ productId, values }) => {
@@ -68,7 +68,7 @@ export const useUpdateProduct = () => {
 
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (productId) => remove(productId, accessToken),

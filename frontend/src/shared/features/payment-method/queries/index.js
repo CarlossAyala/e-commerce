@@ -13,7 +13,7 @@ export const paymentMethodKeys = {
 };
 
 export const useGetPaymentMethod = (paymentMethodId) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: paymentMethodKeys.findOne(paymentMethodId),
@@ -23,7 +23,7 @@ export const useGetPaymentMethod = (paymentMethodId) => {
 };
 
 export const useGetPaymentMethods = () => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: paymentMethodKeys.findAll(),
@@ -33,7 +33,7 @@ export const useGetPaymentMethods = () => {
 
 export const useCreatePaymentMethod = () => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (values) => create(values, accessToken),
@@ -47,7 +47,7 @@ export const useCreatePaymentMethod = () => {
 };
 
 export const useGetPaymentMethodSession = () => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (sessionId) => findSession(sessionId, accessToken),
@@ -56,7 +56,7 @@ export const useGetPaymentMethodSession = () => {
 
 export const useRemovePaymentMethod = () => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (paymentMethodId) => remove(paymentMethodId, accessToken),

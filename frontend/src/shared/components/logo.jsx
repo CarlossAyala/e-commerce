@@ -1,26 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/libs";
-
-const getCurrentApp = () => {
-  const { pathname } = new URL(window.location.href);
-
-  if (pathname.startsWith("/admin")) {
-    return { label: "Admin", to: "/admin" };
-  } else if (pathname.startsWith("/seller")) {
-    return { label: "Seller", to: "/seller" };
-  } else {
-    return { label: "E-Commerce", to: "/" };
-  }
-};
+import { getCurrentApp } from "../utils";
 
 export const Logo = ({ className }) => {
-  const { label, to } = getCurrentApp();
+  const location = useLocation();
+  const { label, to } = getCurrentApp(location.pathname);
 
   return (
     <Link
       to={to}
       className={cn(
-        "inline-flex flex-col space-y-1.5 rounded-sm p-1",
+        "inline-flex flex-col space-y-1 rounded-sm p-1 text-sm",
         className,
       )}
     >

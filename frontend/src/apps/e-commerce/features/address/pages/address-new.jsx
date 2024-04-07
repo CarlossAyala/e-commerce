@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useDocumentTitle } from "@/shared/hooks";
+import { Spinner } from "@/shared/components";
 import {
   Button,
   Form,
@@ -12,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Spinner,
   Textarea,
 } from "@/components";
 import { clearEmptyValues } from "@/utils";
@@ -20,7 +20,7 @@ import { addressActionRoutes } from "../utils";
 import { addressInitial, addressSchema } from "../schemas";
 import { useCreateAddress } from "../queries";
 
-const AddressNew = () => {
+export const AddressNew = () => {
   useDocumentTitle("New Address");
   const location = useLocation();
   const navigate = useNavigate();
@@ -187,5 +187,3 @@ const AddressNew = () => {
     </div>
   );
 };
-
-export default AddressNew;

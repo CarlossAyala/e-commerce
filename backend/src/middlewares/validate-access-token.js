@@ -24,8 +24,8 @@ const validateAccessToken = async (req, _res, next) => {
 
   try {
     const { userId } = await decodeAccessToken(accessToken);
-    req.auth = { userId };
 
+    req.auth = { userId };
     next();
   } catch (error) {
     next(error);

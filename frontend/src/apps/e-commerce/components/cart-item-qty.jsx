@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useDebounced } from "@/shared/hooks";
-import { Spinner } from "@/components";
 import { useUpdateQuantity } from "../features/cart";
+import { Spinner } from "@/shared/components";
 
 export const CartItemQty = ({ item }) => {
   const [qty, setQty] = useState(item.quantity);

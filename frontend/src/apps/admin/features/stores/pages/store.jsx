@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
-import { PublicStoreProfile } from "@/shared/components";
+import { CalendarIcon } from "@heroicons/react/24/outline";
+import { EmptyState, PageHeader, PageHeaderHeading } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
   Avatar,
@@ -11,11 +12,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  EmptyPlaceholder,
   Separator,
   Skeleton,
 } from "@/components";
-import { getInitials } from "@/utils";
+import { Formatter, getInitials } from "@/utils";
 import { useGetStore } from "../queries";
 
 export const Store = () => {
@@ -24,12 +24,24 @@ export const Store = () => {
   useDocumentTitle(store?.name ?? "Store");
 
   return (
-    <main className="flex-1 space-y-4 px-6 py-4">
-      <h2 className="text-2xl font-bold uppercase tracking-tight">Store</h2>
+    <main className="flex-1 space-y-4 px-6 pb-10">
+      <PageHeader>
+        <PageHeaderHeading>Store</PageHeaderHeading>
+      </PageHeader>
 
       {isLoading ? (
         <>
-          <PublicStoreProfile.Skeleton />
+          <section className="overflow-hidden rounded-md border">
+            <div className="relative h-64">
+              <Skeleton className="h-full w-full rounded-none" />
+              <div className="absolute ml-4 size-32 -translate-y-20 rounded-full border border-gray-200 bg-gray-100" />
+            </div>
+            <div className="mt-10 space-y-2 p-4">
+              <Skeleton className="h-5 w-1/3" />
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="h-4 w-1/2" />
+            </div>
+          </section>
 
           <Separator />
 
@@ -48,10 +60,34 @@ export const Store = () => {
           </Card>
         </>
       ) : isError ? (
-        <EmptyPlaceholder title="Error" description={error.message} />
+        <EmptyState title="Error" description={error.message} />
       ) : (
         <>
-          <PublicStoreProfile store={store} />
+          <section className="overflow-hidden rounded-md border">
+            <div className="relative h-64">
+              <img
+                className="h-full w-full object-cover"
+                src="https://http2.mlstatic.com/D_NQ_NP803724-MLA74136348520_012024-B.webp"
+              />
+              <img
+                className="absolute ml-4 size-32 -translate-y-20 rounded-full border object-contain"
+                src="https://http2.mlstatic.com/D_Q_NP_828918-MLA27343044756_052018-T.webp"
+              />
+            </div>
+
+            <div className="mt-9 p-4">
+              <div>
+                <h3 className="text-xl font-semibold">{store.name}</h3>
+              </div>
+              <p className="text-sm">{store.description}</p>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <CalendarIcon className="size-4" />
+                <p className="text-sm leading-none">
+                  Created at {Formatter.monthAndYearDate(store.createdAt)}
+                </p>
+              </div>
+            </div>
+          </section>
 
           <Separator />
 

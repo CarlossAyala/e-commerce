@@ -11,7 +11,7 @@ export const MainNav = () => {
           to={nav.to}
           className={({ isActive }) =>
             cn(
-              "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
+              "text-sm font-medium text-muted-foreground hover:text-primary",
               isActive && "text-primary",
             )
           }

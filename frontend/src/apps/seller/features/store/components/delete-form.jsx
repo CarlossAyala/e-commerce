@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { Spinner } from "@/shared/components";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,7 +11,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   Button,
-  Spinner,
 } from "@/components";
 import { useDeleteStore } from "../queries";
 import { SELLER_STORE_NAV } from "../utils";

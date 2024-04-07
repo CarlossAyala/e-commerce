@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Spinner } from "@/components";
+import { Spinner } from "@/shared/components";
 import { useGetStore } from "../features/store";
 import { SELLER_NAV } from "../config";
 

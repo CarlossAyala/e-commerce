@@ -10,7 +10,7 @@ export const orderKeys = {
 };
 
 export const useGetOrder = (id) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: orderKeys.findOne(id),
@@ -20,7 +20,7 @@ export const useGetOrder = (id) => {
 };
 
 export const useGetOrders = (query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({

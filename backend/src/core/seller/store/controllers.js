@@ -1,11 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 const express = require("express");
-const {
-  Store,
-  RequestOfficialStore,
-} = require("../../../database/mysql/models");
+const { Store } = require("../../../database/mysql/models");
 const { badRequest } = require("../../../middlewares");
-const { slugify, QueryBuilder } = require("../../../libs");
+const { slugify } = require("../../../libs");
 
 /**
  * @param {express.Request} req
@@ -17,35 +14,6 @@ const find = async (req, res, next) => {
 
   try {
     res.json(store);
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
-const findRequestsVerify = async (req, res, next) => {
-  const { store } = req;
-
-  let { status } = req.query;
-  if (status && !Array.isArray(status)) {
-    status = [status];
-  }
-
-  const qb = new QueryBuilder(req.query)
-    .where("storeId", store.id)
-    .whereIn("status", status)
-    .orderBy("createdAt", "DESC")
-    .pagination()
-    .build();
-
-  try {
-    const requests = await RequestOfficialStore.model.findAndCountAll(qb);
-
-    res.json(requests);
   } catch (error) {
     next(error);
   }
@@ -126,42 +94,6 @@ const update = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const createRequestVerify = async (req, res, next) => {
-  const { store } = req;
-  const { description } = req.body;
-  const { queue } = RequestOfficialStore.enums.status;
-
-  try {
-    if (store.official) {
-      throw badRequest("Store already official");
-    }
-    const _request = await RequestOfficialStore.model.findOne({
-      where: {
-        storeId: store.id,
-        status: queue,
-      },
-    });
-    if (_request) {
-      throw badRequest("There is already a request in Queue");
-    }
-
-    const request = await RequestOfficialStore.model.create({
-      storeId: store.id,
-      description,
-      status: queue,
-    });
-
-    res.json(request);
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
 const remove = async (req, res, next) => {
   const { store } = req;
 
@@ -178,9 +110,7 @@ const remove = async (req, res, next) => {
 
 module.exports = {
   find,
-  findRequestsVerify,
   create,
   update,
-  createRequestVerify,
   remove,
 };

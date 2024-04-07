@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { Spinner } from "@/shared/components";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -17,7 +18,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Skeleton,
-  Spinner,
 } from "@/components";
 import { addressActionRoutes } from "../utils";
 import { useRemoveAddress } from "../queries";

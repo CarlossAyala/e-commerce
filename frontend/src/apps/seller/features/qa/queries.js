@@ -19,7 +19,7 @@ export const qaKeys = {
 };
 
 export const useGetQuestion = (questionId) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useQuery({
     queryKey: qaKeys.findOne(questionId),
@@ -29,7 +29,7 @@ export const useGetQuestion = (questionId) => {
 };
 
 export const useGetQA = (query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -39,7 +39,7 @@ export const useGetQA = (query) => {
 };
 
 export const useGetQAByProductId = (productId, query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -51,7 +51,7 @@ export const useGetQAByProductId = (productId, query) => {
 
 export const useReplyQuestion = () => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: ({ questionId, values }) => {
@@ -70,7 +70,7 @@ export const useReplyQuestion = () => {
 
 export const useRejectQuestion = () => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (questionId) => reject(questionId, accessToken),

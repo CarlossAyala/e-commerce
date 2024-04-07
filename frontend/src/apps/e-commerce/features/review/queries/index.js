@@ -44,7 +44,7 @@ export const useGetReviewsStat = (productId) => {
 };
 
 export const useGetReviewsDone = (query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -54,7 +54,7 @@ export const useGetReviewsDone = (query) => {
 };
 
 export const useGetReviewsPending = (query) => {
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
   const _query = parseURLSearchParams(query);
 
   return useQuery({
@@ -65,7 +65,7 @@ export const useGetReviewsPending = (query) => {
 
 export const useCreateReview = (orderItemId) => {
   const queryClient = useQueryClient();
-  const { accessToken } = useAuth();
+  const { data: accessToken } = useAuth();
 
   return useMutation({
     mutationFn: (values) => create(orderItemId, values, accessToken),

@@ -2,17 +2,16 @@ import { Logo } from "@/shared/components";
 
 export const Footer = () => {
   return (
-    <footer className="border-t py-4">
-      <div className="container space-y-4">
+    <footer className="border-t py-8">
+      <section className="container flex items-center justify-between">
         <Logo />
 
-        <section className="text-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} <strong>Fake-Commerce</strong>.
-            All rights reserved.
+        <div>
+          <p className="text-center text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} Legger
           </p>
-        </section>
-      </div>
+        </div>
+      </section>
     </footer>
   );
 };

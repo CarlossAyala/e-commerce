@@ -1,18 +1,13 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  DocumentIcon,
-  EllipsisVerticalIcon,
-  ExclamationTriangleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
 import { ProductCard } from "@/apps/e-commerce/components";
 import {
   EmptyState,
-  PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
   Pagination,
+  Spinner,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
@@ -61,27 +56,28 @@ export const Bookmarks = () => {
   const isEmpty = bookmarks?.rows.length === 0;
 
   return (
-    <main className="container space-y-6">
-      <section className="flex justify-between">
-        <PageHeader>
+    <main className="container flex-1 space-y-4 pb-10">
+      <section className="mt-4 flex justify-between gap-4">
+        <div>
           <PageHeaderHeading>Bookmarks</PageHeaderHeading>
           <PageHeaderDescription>
             Bookmarks are saved products you want to see again.
           </PageHeaderDescription>
-        </PageHeader>
+        </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-auto shrink-0" size="icon">
-              <EllipsisVerticalIcon className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="ml-auto shrink-0">
+              <EllipsisVerticalIcon className="size-4" />
               <span className="sr-only">More</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-44">
             <DropdownMenuItem
               onSelect={handleClear}
-              disabled={isLoading || isEmpty || isError}
+              disabled={isLoading || isEmpty}
             >
+              {isLoading && <Spinner className="size-4" />}
               Clear bookmarks
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -94,17 +90,9 @@ export const Bookmarks = () => {
           <ProductCard.Skeleton count={3} />
         </section>
       ) : isError ? (
-        <EmptyState
-          icon={ExclamationTriangleIcon}
-          title="Error"
-          description={error.message}
-        />
+        <EmptyState title="Error" description={error.message} />
       ) : isEmpty ? (
-        <EmptyState
-          icon={DocumentIcon}
-          title="No bookmarks"
-          description="No bookmarks found"
-        />
+        <EmptyState title="No bookmarks" description="No bookmarks yet" />
       ) : (
         <section className="grid grid-cols-products gap-4">
           {bookmarks.rows.map((bookmark) => (
@@ -114,7 +102,7 @@ export const Bookmarks = () => {
                 variant="outline"
                 size="icon"
                 type="button"
-                className="absolute right-2 top-2 bg-background shadow-md backdrop-blur"
+                className="absolute right-2 top-2 bg-background"
                 disabled={removeBookmark.isLoading}
                 onClick={() => handleRemove(bookmark.productId)}
               >

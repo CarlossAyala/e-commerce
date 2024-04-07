@@ -1,6 +1,6 @@
 import { RedirectWithStore, WithStoreRoute } from "./components";
 import { productRoutes } from "./features/products";
-import { StoreNew, storeRoutes } from "./features/store";
+import { Store, StoreNew } from "./features/store";
 import { Dashboard } from "./features/dashboard";
 import { qaRoutes } from "./features/qa";
 import { orderRoutes } from "./features/orders";
@@ -29,8 +29,11 @@ export const sellerRoutes = [
   },
   {
     path: "store",
-    element: <WithStoreRoute />,
-    children: storeRoutes,
+    element: (
+      <WithStoreRoute>
+        <Store />
+      </WithStoreRoute>
+    ),
   },
   {
     path: "products",

@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ShareIcon } from "@heroicons/react/24/outline";
 import { ProductCard } from "@/apps/e-commerce/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import { EmptyState, ProductCondition, ReviewStars } from "@/shared/components";
 import { useGetProduct } from "@/shared/features/product";
 import { useAuth } from "@/shared/auth";
-import { Button, Separator, Skeleton } from "@/components";
+import { Separator, Skeleton } from "@/components";
 import { Formatter } from "@/utils";
 import { useAddHistory } from "../../history";
 import { useGetReviewsStat } from "../../review";
@@ -19,11 +18,12 @@ import { QANew } from "../components/qa-new";
 import { QAList } from "../components/qa-list";
 import { ReviewList } from "../components/review-list";
 import { ReviewScore } from "../components/review-score";
+import { ShareProduct } from "../components/share-product";
 
-let didInit = false;
 export const Product = () => {
   const { productId } = useParams();
-  const { isAuthenticated } = useAuth();
+  const auth = useAuth();
+  const isAuthenticated = !!auth.data;
 
   const { data: product, isLoading, isError, error } = useGetProduct(productId);
   const stats = useGetReviewsStat(productId);
@@ -33,21 +33,18 @@ export const Product = () => {
   const addHistory = useAddHistory();
 
   useEffect(() => {
-    if (!didInit) {
-      didInit = true;
-      if (isAuthenticated) addHistory.mutate(productId);
-    } else {
-      if (isAuthenticated) addHistory.mutate(productId);
-    }
+    if (!isAuthenticated) return;
+
+    addHistory.mutate(productId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productId]);
+  }, [productId, isAuthenticated, auth.isLoading]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [productId]);
 
   return (
-    <main className="container relative space-y-6">
+    <main className="container relative flex-1 space-y-6 pb-10">
       {isLoading ? (
         <>
           <section className="mt-4 grid gap-6 md:grid-cols-2">
@@ -140,9 +137,9 @@ export const Product = () => {
                 {stats.isLoading ? (
                   <Skeleton className="h-5 w-1/2" />
                 ) : stats.isError ? (
-                  <p className="text-sm text-muted-foreground">
-                    Error loading stats
-                  </p>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Error stats</p>
+                  </div>
                 ) : (
                   <div className="flex items-center gap-2">
                     <p className="leading-none text-muted-foreground md:text-sm">
@@ -160,13 +157,13 @@ export const Product = () => {
                 )}
 
                 <div>
-                  <h2 className="text-3xl font-bold tracking-tight text-primary">
+                  <h2 className="text-3xl font-bold text-primary">
                     {product.name}
                   </h2>
                 </div>
               </div>
               <div>
-                <p className="text-3xl tracking-tight text-primary">
+                <p className="text-3xl text-primary">
                   {Formatter.currency(product.price)}
                 </p>
               </div>
@@ -175,7 +172,7 @@ export const Product = () => {
                   {product.description}
                 </p>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 text-sm">
                 <div className="flex items-center justify-between">
                   <p>Condition</p>
                   <ProductCondition condition={product.condition} />
@@ -198,10 +195,7 @@ export const Product = () => {
               <AddToCart product={product} />
               <div className="flex justify-between">
                 <Bookmark product={product} />
-                {/* TODO: Add copy behavior */}
-                <Button size="icon" type="button" variant="outline">
-                  <ShareIcon className="size-5" />
-                </Button>
+                <ShareProduct product={product} />
               </div>
               <Separator />
               <Store productId={productId} />

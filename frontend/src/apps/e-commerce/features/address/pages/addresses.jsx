@@ -6,7 +6,7 @@ import { AddressItem } from "../components/address-item";
 import { addressActionRoutes } from "../utils";
 import { useGetAddresses } from "../queries";
 
-const Addresses = () => {
+export const Addresses = () => {
   useDocumentTitle("Addresses");
   const navigate = useNavigate();
 
@@ -53,5 +53,3 @@ const Addresses = () => {
     </div>
   );
 };
-
-export default Addresses;
