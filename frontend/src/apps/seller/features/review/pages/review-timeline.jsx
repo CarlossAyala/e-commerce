@@ -6,7 +6,7 @@ import {
   EmptyState,
   PageHeader,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import { Filters } from "@/components";
@@ -49,7 +49,7 @@ export const ReviewTimeline = () => {
         <DataTable data={data.rows} columns={reviewTimelineColumns} />
       )}
 
-      <Pagination count={data?.count} />
+      <URLPagination count={data?.count} />
     </main>
   );
 };

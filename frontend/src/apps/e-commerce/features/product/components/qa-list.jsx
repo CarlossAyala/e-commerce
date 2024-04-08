@@ -1,64 +1,69 @@
-import { Fragment, useState } from "react";
-import { useDebounced } from "@/shared/hooks";
+import { useState } from "react";
 import { EmptyState } from "@/shared/components";
 import { Input, Skeleton } from "@/components";
 import { useGetProductQuestions } from "../../qa";
+import { useDebounced } from "@/shared/hooks";
+import { cn } from "@/libs";
 
 // TODO: Add pagination
 export const QAList = ({ productId }) => {
-  const [search, setSearch] = useState("");
-  const debounce = useDebounced(search);
+  const [params, setParams] = useState(new URLSearchParams());
+  const debounce = useDebounced(params.toString());
 
-  const {
-    data: questions,
-    isLoading,
-    isError,
-    error,
-  } = useGetProductQuestions(productId, `q=${debounce}`);
+  const { data, isLoading, isError, error } = useGetProductQuestions(
+    productId,
+    debounce,
+  );
 
-  const hasQuestions = questions?.rows.length > 0;
+  const handleSearchChange = (e) => {
+    const newParams = new URLSearchParams(params);
+    newParams.set("q", e.target.value);
+    setParams(newParams);
+  };
+
+  const search = params.get("q") || "";
 
   return (
-    <>
+    <div className="space-y-4">
       <Input
         className="max-w-md"
         placeholder="Find what you want to know"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleSearchChange}
       />
       <h4 className="font-medium">Last made</h4>
 
       {isLoading ? (
-        <dl>
-          {new Array(3).fill("").map((_, index) => (
-            <Fragment key={index}>
-              <Skeleton className="mt-6 h-4" />
-              <Skeleton className="mt-2 h-4" />
-            </Fragment>
-          ))}
-        </dl>
+        <div className="space-y-4">
+          <Skeleton className="h-4 w-1/4" />
+
+          <div className="space-y-4">
+            {new Array(3).fill("").map((_, index) => (
+              <div key={index} className="space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+              </div>
+            ))}
+          </div>
+        </div>
       ) : isError ? (
         <EmptyState title="Error" description={error.message} />
-      ) : hasQuestions ? (
-        <dl className="text-sm">
-          {questions.rows.map((question) => (
-            <Fragment key={question.id}>
-              <dt className="mt-4 font-medium text-primary">
-                {question.content}
-              </dt>
-              <dd className="mt-2 text-muted-foreground">
+      ) : !data.rows.length ? (
+        <div>
+          <p className="text-sm text-muted-foreground">No questions found</p>
+        </div>
+      ) : (
+        <dl className={cn("space-y-4 text-sm", isLoading && "opacity-50")}>
+          {data.rows.map((question) => (
+            <div key={question.id}>
+              <dt className="font-medium text-primary">{question.content}</dt>
+              <dd className="text-muted-foreground">
                 {question.answer.content}
               </dd>
-            </Fragment>
+            </div>
           ))}
         </dl>
-      ) : !hasQuestions && search ? (
-        <p className="text-sm text-muted-foreground">
-          No questions found for <strong>{search}</strong>.
-        </p>
-      ) : (
-        <p className="text-sm text-muted-foreground">No Q&A yet.</p>
       )}
-    </>
+    </div>
   );
 };

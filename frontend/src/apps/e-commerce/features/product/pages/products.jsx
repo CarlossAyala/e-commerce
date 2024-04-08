@@ -7,7 +7,7 @@ import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
 } from "@/shared/components";
 import { Filters } from "@/components";
 
@@ -54,7 +54,7 @@ export const Products = () => {
         </section>
       )}
 
-      <Pagination count={products?.count} />
+      <URLPagination count={products?.count} />
     </main>
   );
 };

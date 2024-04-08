@@ -6,7 +6,7 @@ import {
   EmptyState,
   PageHeaderDescription,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
   Spinner,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
@@ -113,7 +113,7 @@ export const Bookmarks = () => {
         </section>
       )}
 
-      <Pagination count={bookmarks?.count} />
+      <URLPagination count={bookmarks?.count} />
     </main>
   );
 };

@@ -6,7 +6,7 @@ import {
   EmptyState,
   PageHeader,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import { Filters } from "@/components";
@@ -58,7 +58,7 @@ export const QAOverview = () => {
         <DataTable columns={qaOverviewColumns} data={data.rows} />
       )}
 
-      <Pagination count={data?.count} />
+      <URLPagination count={data?.count} />
     </main>
   );
 };

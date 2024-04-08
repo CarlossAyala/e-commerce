@@ -12,10 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components";
-import { usePagination } from "../hooks";
 import { cn } from "@/libs";
+import { usePagination } from "../hooks";
 
-export const Pagination = ({ count = 0, className }) => {
+export const URLPagination = ({ count = 0, className }) => {
   const { page, pageSize, pageSizes, handlePage, handlePageSize } =
     usePagination();
 

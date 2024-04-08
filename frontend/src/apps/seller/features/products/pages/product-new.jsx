@@ -6,8 +6,9 @@ import { useGetCategories, useGetCategory } from "@/shared/features/categories";
 import {
   EmptyState,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
   Spinner,
+  LocalPagination,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
@@ -78,7 +79,7 @@ export const ProductNew = () => {
     });
   };
 
-  const isEmpty = categories.data?.rows.length === 0;
+  const isEmpty = categories.data?.length === 0;
 
   return (
     <main className="flex-1 space-y-4 pb-10">
@@ -279,12 +280,12 @@ export const ProductNew = () => {
                         />
                       ) : (
                         <FormControl>
-                          <RadioGroup
+                          {/* <RadioGroup
                             onValueChange={field.onChange}
                             value={field.value}
                           >
                             <Card className="divide-y overflow-hidden">
-                              {categories.data.rows.map((category) => {
+                              {categories.data.map((category) => {
                                 const isCurrentCategory =
                                   field.value === category.id;
 
@@ -311,13 +312,11 @@ export const ProductNew = () => {
                                 );
                               })}
                             </Card>
-                          </RadioGroup>
+                          </RadioGroup> */}
                         </FormControl>
                       )}
-                      <Pagination
-                        count={categories.data?.count}
-                        className="space-y-2"
-                      />
+
+                      <LocalPagination />
                     </div>
                   </FormItem>
                 )}

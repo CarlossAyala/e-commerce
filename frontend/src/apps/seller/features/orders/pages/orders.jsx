@@ -7,7 +7,7 @@ import {
   EmptyState,
   PageHeader,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
 } from "@/shared/components";
 import { Filters } from "@/components";
 import { ordersColumns } from "../components/columns";
@@ -49,7 +49,7 @@ export const Orders = () => {
         <DataTable columns={ordersColumns} data={data.rows} />
       )}
 
-      <Pagination count={data?.count} />
+      <URLPagination count={data?.count} />
     </main>
   );
 };

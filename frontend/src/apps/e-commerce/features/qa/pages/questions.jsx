@@ -5,7 +5,7 @@ import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
 } from "@/shared/components";
 import { Question } from "../components/question";
 import { useGetCustomerQuestions } from "../queries";
@@ -52,7 +52,7 @@ export const Questions = () => {
           ))
         )}
 
-        <Pagination count={questions?.count} />
+        <URLPagination count={questions?.count} />
       </section>
     </main>
   );

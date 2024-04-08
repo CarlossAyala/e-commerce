@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { EmptyState, Pagination } from "@/shared/components";
+import { EmptyState, URLPagination } from "@/shared/components";
 import { ReviewDone } from "../components/review-done";
 import { useGetReviewsDone } from "../queries";
 
@@ -34,7 +34,7 @@ export const ReviewsDone = () => {
         ))
       )}
 
-      <Pagination count={reviews?.count} />
+      <URLPagination count={reviews?.count} />
     </section>
   );
 };

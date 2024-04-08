@@ -61,7 +61,7 @@ export const Bookmark = ({ product }) => {
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom" align="center">
-          Share product
+          Bookmark product
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -1,6 +1,6 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { ProductCard } from "@/apps/e-commerce/components";
-import { EmptyState, Pagination } from "@/shared/components";
+import { EmptyState, URLPagination } from "@/shared/components";
 import { useGetStoreProducts } from "../queries";
 
 export const StoreProducts = () => {
@@ -30,7 +30,7 @@ export const StoreProducts = () => {
         </section>
       )}
 
-      <Pagination count={products?.count} />
+      <URLPagination count={products?.count} />
     </>
   );
 };

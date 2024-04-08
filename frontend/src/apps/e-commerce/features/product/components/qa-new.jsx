@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { useAuth } from "@/shared/auth";
+import { Spinner } from "@/shared/components";
 import {
   Button,
   Dialog,
@@ -19,7 +20,6 @@ import {
   Textarea,
 } from "@/components";
 import { questionDefault, questionSchema, useCreateQuestion } from "../../qa";
-import { Spinner } from "@/shared/components";
 
 export const QANew = ({ productId }) => {
   const [dialog, setDialog] = useState(false);
@@ -31,7 +31,7 @@ export const QANew = ({ productId }) => {
   const form = useForm({
     resolver: yupResolver(questionSchema),
     defaultValues: questionDefault,
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleCreate = (values) => {
@@ -47,18 +47,13 @@ export const QANew = ({ productId }) => {
     );
   };
 
-  const handleOpen = () => {
-    if (!isAuthenticated) {
-      alert("You need to be logged in to ask about this product.");
-      return;
-    } else {
-      setDialog(true);
-    }
-  };
-
   return (
     <>
-      <Button type="button" onClick={handleOpen}>
+      <Button
+        type="button"
+        disabled={!isAuthenticated}
+        onClick={() => setDialog(true)}
+      >
         Ask
       </Button>
 

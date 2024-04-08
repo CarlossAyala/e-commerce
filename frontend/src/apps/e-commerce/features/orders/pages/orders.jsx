@@ -5,7 +5,7 @@ import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
 } from "@/shared/components";
 import { OrderPreview } from "../components/order-preview";
 import { useGetOrders } from "../queries";
@@ -52,7 +52,7 @@ export const Orders = () => {
           ))
         )}
 
-        <Pagination count={orders?.count} />
+        <URLPagination count={orders?.count} />
       </section>
     </main>
   );

@@ -7,7 +7,7 @@ import { useGetCategories, useGetCategory } from "@/shared/features/categories";
 import {
   EmptyState,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
   Spinner,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
@@ -486,7 +486,7 @@ export const ProductDetails = () => {
                             </RadioGroup>
                           </FormControl>
                         )}
-                        <Pagination
+                        <URLPagination
                           count={categories.data?.count}
                           className="space-y-2"
                         />

@@ -21,8 +21,11 @@ export const Store = ({ productId }) => {
       ) : isError ? (
         <EmptyState title="Error" description={error.message} />
       ) : (
-        <Link to={storeActionRoutes.details(data)} className="flex gap-2">
-          <div className="size-12 shrink-0 overflow-hidden rounded-md border border-border/40">
+        <Link
+          to={storeActionRoutes.details(data)}
+          className="flex items-center gap-2"
+        >
+          <div className="size-12 shrink-0 overflow-hidden rounded-md border">
             <img
               src="https://http2.mlstatic.com/D_NQ_NP_950925-MLA74959243323_032024-G.jpg"
               alt="Profile"
@@ -30,7 +33,7 @@ export const Store = ({ productId }) => {
             />
           </div>
           <div className="grow">
-            <h4 className="truncate font-medium">{data.name}</h4>
+            <h4 className="line-clamp-1 font-medium">{data.name}</h4>
             <p className="line-clamp-1 text-sm text-muted-foreground">
               {data.description}
             </p>

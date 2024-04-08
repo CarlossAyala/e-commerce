@@ -7,7 +7,7 @@ import {
   EmptyState,
   PageHeaderDescription,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
   Spinner,
 } from "@/shared/components";
 import {
@@ -159,7 +159,7 @@ export const History = () => {
         </section>
       )}
 
-      <Pagination count={data?.count} />
+      <URLPagination count={data?.count} />
     </main>
   );
 };

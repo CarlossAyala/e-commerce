@@ -5,7 +5,7 @@ import {
   EmptyState,
   PageHeader,
   PageHeaderHeading,
-  Pagination,
+  URLPagination,
   ReviewStars,
 } from "@/shared/components";
 import {
@@ -118,7 +118,7 @@ export const ReviewList = () => {
           <DataTable data={reviews.data.rows} columns={reviewListColumns} />
         )}
 
-        <Pagination count={reviews.data?.count} />
+        <URLPagination count={reviews.data?.count} />
       </section>
     </main>
   );

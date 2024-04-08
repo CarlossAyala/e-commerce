@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { EmptyState, Pagination } from "@/shared/components";
+import { EmptyState, URLPagination } from "@/shared/components";
 import { Formatter } from "@/utils";
 import { useGetStores } from "../queries";
 import { StoresGroup } from "./stores-group";
@@ -34,7 +34,7 @@ export const StoresList = () => {
         )}
       </section>
 
-      <Pagination count={stores?.count} />
+      <URLPagination count={stores?.count} />
     </>
   );
 };
