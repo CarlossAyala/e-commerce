@@ -1,0 +1,34 @@
+services:
+  db:
+    image: mysql
+    container_name: db
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=caching_sha2_password
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./src/database/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_USER_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+
+  adminer:
+    image: adminer
+    container_name: db-gui
+    restart: always
+    ports:
+      - 8080:8080
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --maxmemory-policy noeviction
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./src/database/redis/data:/data
