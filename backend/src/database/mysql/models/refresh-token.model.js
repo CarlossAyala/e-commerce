@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const User = require("./user.model");
-const sequelize = require("../connection");
+import { DataTypes } from "sequelize";
+import User from "./user.model.js";
+import { sequelize } from "../connection.js";
 
 const modelName = "RefreshToken";
 const tableName = "refresh_tokens";
@@ -33,9 +33,10 @@ const modelSchema = {
 
 const model = sequelize.define(modelName, modelSchema, modelOptions);
 
-module.exports = {
+export default {
   model,
+  modelName,
   tableName,
-  modelSchema,
   modelOptions,
+  modelSchema,
 };

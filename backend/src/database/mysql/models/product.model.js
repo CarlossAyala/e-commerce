@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const Category = require("./category.model");
-const Store = require("./store.model");
-const sequelize = require("../connection");
+import { DataTypes } from "sequelize";
+import Category from "./category.model.js";
+import Store from "./store.model.js";
+import { sequelize } from "../connection.js";
 
 const modelName = "Product";
 const tableName = "products";
@@ -64,10 +64,11 @@ const modelSchema = {
 
 const model = sequelize.define(modelName, modelSchema, modelOptions);
 
-module.exports = {
+export default {
   model,
+  modelName,
   tableName,
-  modelSchema,
   modelOptions,
   enums,
+  modelSchema,
 };

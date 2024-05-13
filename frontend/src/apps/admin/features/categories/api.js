@@ -33,10 +33,9 @@ export const create = (values, accessToken) => {
   return fetcher(url, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify(values),
+    body: values,
   });
 };
 
@@ -66,16 +65,15 @@ export const detach = (categoryId, values, accessToken) => {
   });
 };
 
-export const update = (categoryId, values, accessToken) => {
+export const update = (categoryId, formData, accessToken) => {
   const url = `${ENDPOINT}/${categoryId}`;
 
   return fetcher(url, {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify(values),
+    body: formData,
   });
 };
 
@@ -84,6 +82,18 @@ export const remove = (categoryId, accessToken) => {
 
   return fetcher(url, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
+export const count = (accessToken) => {
+  const url = `${ENDPOINT}/count`;
+
+  return fetcher(url, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,

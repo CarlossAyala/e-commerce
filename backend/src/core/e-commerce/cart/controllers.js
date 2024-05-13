@@ -1,7 +1,11 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { CartProduct, Product } = require("../../../database/mysql/models");
-const { notFound } = require("../../../middlewares");
+import express from "express";
+import {
+  CartProduct,
+  Product,
+  ProductImage,
+} from "../../../database/mysql/models/index.js";
+import { notFound } from "../../../middlewares/index.js";
 
 /**
  * @param {express.Request} req
@@ -9,7 +13,7 @@ const { notFound } = require("../../../middlewares");
  * @param {express.NextFunction} next
  * @param {string} productId
  */
-const validateProductId = async (req, _res, next, productId) => {
+export const validateProductId = async (req, _res, next, productId) => {
   try {
     const product = await Product.model.findByPk(productId);
     if (!product) throw notFound("Product not found");
@@ -26,7 +30,7 @@ const validateProductId = async (req, _res, next, productId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAll = async (req, res, next) => {
+export const findAll = async (req, res, next) => {
   const { userId: customerId } = req.auth;
 
   try {
@@ -37,6 +41,13 @@ const findAll = async (req, res, next) => {
       include: {
         model: Product.model,
         as: "product",
+        include: {
+          model: ProductImage.model,
+          as: "gallery",
+          separate: true,
+          order: [["order", "ASC"]],
+          required: false,
+        },
       },
       order: [["createdAt", "ASC"]],
     });
@@ -52,7 +63,7 @@ const findAll = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const create = async (req, res, next) => {
+export const create = async (req, res, next) => {
   const { userId: customerId } = req.auth;
   const { productId } = req.params;
   const { quantity } = req.body;
@@ -86,7 +97,7 @@ const create = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const update = async (req, res, next) => {
+export const update = async (req, res, next) => {
   const { userId: customerId } = req.auth;
   const { productId } = req.params;
   const { quantity } = req.body;
@@ -114,7 +125,7 @@ const update = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const remove = async (req, res, next) => {
+export const remove = async (req, res, next) => {
   const { userId: customerId } = req.auth;
   const { productId } = req.params;
 
@@ -132,12 +143,4 @@ const remove = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  validateProductId,
-  findAll,
-  create,
-  update,
-  remove,
 };

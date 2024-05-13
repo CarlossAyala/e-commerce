@@ -1,13 +1,13 @@
-const express = require("express");
-const schemas = require("./schemas");
-const controllers = require("./controllers");
-const {
+import { Router } from "express";
+import {
   validateSchema,
   validateAccessToken,
   authentication,
-} = require("../../middlewares");
+} from "../../middlewares/index.js";
+import schemas from "./schemas.js";
+import controllers from "./controllers.js";
 
-const router = express.Router();
+const router = Router();
 
 router.post("/signup", validateSchema(schemas.signup), controllers.signup);
 router.post("/signin", validateSchema(schemas.signin), controllers.signin);
@@ -20,7 +20,7 @@ router.get(
   controllers.profile
 );
 
-// TODO:
+// TODO: Check this
 // router.patch(
 //   "/change-full-name",
 //   JWT.verify,
@@ -79,4 +79,4 @@ router.get(
 //   }
 // );
 
-module.exports = router;
+export default router;

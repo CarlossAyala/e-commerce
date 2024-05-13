@@ -1,14 +1,14 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { notFound } = require("../middlewares/http-errors");
-const { Stripe } = require("../libs");
+import express from "express";
+import { notFound } from "../middlewares/http-errors.js";
+import { Stripe } from "../libs/index.js";
 
 /**
  * @param {express.Request} req
  * @param {express.Response} _res
  * @param {express.NextFunction} next
  */
-const checkStripeAccount = async (req, _res, next) => {
+export const checkStripeAccount = async (req, _res, next) => {
   const { user } = req;
   const { email } = user;
 
@@ -26,5 +26,3 @@ const checkStripeAccount = async (req, _res, next) => {
     next(error);
   }
 };
-
-module.exports = checkStripeAccount;

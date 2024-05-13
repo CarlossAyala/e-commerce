@@ -10,7 +10,7 @@ export const Logo = ({ className }) => {
     <Link
       to={to}
       className={cn(
-        "inline-flex flex-col space-y-1 rounded-sm p-1 text-sm",
+        "inline-flex w-max flex-col space-y-1 rounded-sm p-1 text-sm sm:-mx-1",
         className,
       )}
     >

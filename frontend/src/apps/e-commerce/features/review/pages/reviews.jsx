@@ -23,7 +23,7 @@ export const Reviews = () => {
     : TABS.DONE;
 
   return (
-    <main className="container max-w-3xl flex-1 space-y-4">
+    <main className="container max-w-3xl flex-1 space-y-4 pb-10">
       <PageHeader>
         <PageHeaderHeading>Reviews</PageHeaderHeading>
         <PageHeaderDescription>

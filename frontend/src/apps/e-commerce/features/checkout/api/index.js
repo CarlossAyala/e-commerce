@@ -1,7 +1,7 @@
-import { API_E_COMMERCE } from "@/configs";
+import { API_ECOMMERCE } from "@/configs";
 import { fetcher } from "@/libs";
 
-const ENDPOINT = `${API_E_COMMERCE}/checkout`;
+const ENDPOINT = `${API_ECOMMERCE}/checkout`;
 
 export const findOne = (paymentIntentId, accessToken) => {
   const url = `${ENDPOINT}/${paymentIntentId}`;

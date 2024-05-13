@@ -1,4 +1,4 @@
-const { badRequest } = require("./http-errors");
+import { badRequest } from "./http-errors.js";
 
 /**
  *
@@ -6,7 +6,7 @@ const { badRequest } = require("./http-errors");
  * @param {"params"|"body"|"query"} property "body" as default
  * @returns {import("express").RequestHandler}
  */
-function validateSchema(schema, property = "body") {
+export function validateSchema(schema, property = "body") {
   return (req, _res, next) => {
     const data = req[property];
     const { error, value } = schema.validate(data, { abortEarly: false });
@@ -17,5 +17,3 @@ function validateSchema(schema, property = "body") {
     next();
   };
 }
-
-module.exports = validateSchema;

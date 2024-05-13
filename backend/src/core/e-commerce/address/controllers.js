@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { Address } = require("../../../database/mysql/models");
-const { notFound } = require("../../../middlewares");
+import express from "express";
+import { Address } from "../../../database/mysql/models/index.js";
+import { notFound } from "../../../middlewares/index.js";
 
 /**
  * @param {express.Request} req
@@ -9,7 +9,7 @@ const { notFound } = require("../../../middlewares");
  * @param {express.NextFunction} next
  * @param {string} addressId
  */
-const validateAddressId = async (req, _res, next, addressId) => {
+export const validateAddressId = async (req, _res, next, addressId) => {
   const { userId } = req.auth;
 
   try {
@@ -30,7 +30,7 @@ const validateAddressId = async (req, _res, next, addressId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAll = async (req, res, next) => {
+export const findAll = async (req, res, next) => {
   const { userId } = req.auth;
 
   try {
@@ -52,7 +52,7 @@ const findAll = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findOne = async (req, res, next) => {
+export const findOne = async (req, res, next) => {
   const { address } = req;
 
   try {
@@ -67,7 +67,7 @@ const findOne = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const create = async (req, res, next) => {
+export const create = async (req, res, next) => {
   const { userId } = req.auth;
   const { body } = req;
 
@@ -88,7 +88,7 @@ const create = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const update = async (req, res, next) => {
+export const update = async (req, res, next) => {
   const { address } = req;
   const { body } = req;
 
@@ -106,7 +106,7 @@ const update = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const remove = async (req, res, next) => {
+export const remove = async (req, res, next) => {
   const { address } = req;
 
   try {
@@ -116,13 +116,4 @@ const remove = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  validateAddressId,
-  findAll,
-  findOne,
-  create,
-  update,
-  remove,
 };

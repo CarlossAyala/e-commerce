@@ -21,7 +21,7 @@ export const CheckPaymentIntent = ({ children }) => {
   };
 
   return isLoading ? (
-    <main className="container max-w-6xl flex-1 space-y-4">
+    <main className="container max-w-6xl flex-1 space-y-4 pb-10">
       <section className="mt-4 space-y-2">
         <Skeleton className="h-8 w-3/4 sm:w-1/2" />
         <Skeleton className="h-5 w-full" />
@@ -44,10 +44,11 @@ export const CheckPaymentIntent = ({ children }) => {
       </section>
     </main>
   ) : isError ? (
-    <main className="container grid max-w-6xl flex-1 place-content-center gap-4">
+    <main className="container grid max-w-6xl flex-1 place-content-center gap-4 pb-10">
       <EmptyState
         title="Session expired"
         description="For security reasons, your session has expired. Please start a new checkout."
+        className="mt-4"
       >
         <div className="mx-auto">
           <Button

@@ -1,11 +1,11 @@
-const express = require("express");
-const controllers = require("./controllers");
+import { Router } from "express";
+import controllers from "./controllers.js";
 
-const router = express.Router();
+const router = Router();
 
 router.param("categoryId", controllers.validateCategoryId);
 
 router.get("/", controllers.findAll);
 router.get("/:categoryId", controllers.findOne);
 
-module.exports = router;
+export default router;

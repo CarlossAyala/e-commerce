@@ -1,15 +1,15 @@
 "use strict";
 
-const { v4: uuidv4 } = require("uuid");
-const { User } = require("../models");
-const { bcrypt } = require("../../../libs");
-const { admin } = require("../../../config/environments");
+import crypto from "crypto";
+import { User } from "../models";
+import { bcrypt } from "../../../libs/index.js";
+import { admin } from "../../../config/environments";
 
 const generateUser = async () => {
   const { name, lastName, email, password } = admin;
 
   return {
-    id: uuidv4(),
+    id: crypto.randomUUID(),
     name,
     last_name: lastName,
     email,
@@ -20,7 +20,7 @@ const generateUser = async () => {
   };
 };
 
-module.exports = {
+export default {
   async up(queryInterface) {
     try {
       const user = await generateUser();

@@ -1,20 +1,21 @@
-const router = require("express").Router();
-const {
+import { Router } from "express";
+import {
   authentication,
   validateAccessToken,
   checkStripeAccount,
-} = require("../../middlewares");
-const qa = require("./qa/routes");
-const cart = require("./cart/routes");
-const checkout = require("./checkout/routes");
-const address = require("./address/routes");
-const review = require("./review/routes");
-const history = require("./history/routes");
-const bookmarks = require("./bookmark/routes");
-const stores = require("./stores/routes");
-const orders = require("./orders/routes");
-const categories = require("./categories/routes");
+} from "../../middlewares/index.js";
+import qa from "./qa/routes.js";
+import cart from "./cart/routes.js";
+import checkout from "./checkout/routes.js";
+import address from "./address/routes.js";
+import review from "./review/routes.js";
+import history from "./history/routes.js";
+import bookmarks from "./bookmark/routes.js";
+import stores from "./stores/routes.js";
+import orders from "./orders/routes.js";
+import categories from "./categories/routes.js";
 
+const router = Router();
 const auth = [validateAccessToken, authentication];
 
 router.use("/qa", auth, qa);
@@ -28,4 +29,4 @@ router.use("/bookmarks", auth, bookmarks);
 router.use("/stores", stores);
 router.use("/categories", categories);
 
-module.exports = router;
+export default router;

@@ -10,7 +10,7 @@ export const clearEmptyValues = (values) => {
   return Object.fromEntries(clearedValues);
 };
 
-export const getInitials = (fullName) => {
+export const getInitials = (fullName = "") => {
   const names = fullName.split(" ");
   const initials = names.map((name) => name[0]);
   return initials.length > 3

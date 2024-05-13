@@ -24,6 +24,7 @@ export const useGetProducts = (query) => {
   return useQuery({
     queryKey: productKeys.findAll(_query),
     queryFn: () => findAll(query),
+    keepPreviousData: true,
   });
 };
 

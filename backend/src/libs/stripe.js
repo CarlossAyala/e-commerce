@@ -1,4 +1,4 @@
-const { stipe } = require("../config/environments");
-const Stripe = require("stripe")(stipe.sk_test);
+import stripe from "stripe";
+import envs from "../config/environments.js";
 
-module.exports = Stripe;
+export const Stripe = stripe(envs.stripe.sk_test);

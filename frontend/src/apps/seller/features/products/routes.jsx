@@ -1,4 +1,4 @@
-import { ProductDetails, ProductList, ProductNew } from "./pages";
+import { Details, List, Create } from "./pages";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -6,14 +6,14 @@ import { ProductDetails, ProductList, ProductNew } from "./pages";
 export const productRoutes = [
   {
     index: true,
-    element: <ProductList />,
+    element: <List />,
   },
   {
     path: "new",
-    element: <ProductNew />,
+    element: <Create />,
   },
   {
     path: ":productId/details",
-    element: <ProductDetails />,
+    element: <Details />,
   },
 ];

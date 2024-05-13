@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { ECOMMERCE_NAV } from "@/apps/e-commerce";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useGetProfile, useSignout } from "@/shared/auth";
+import { Spinner } from "@/shared/components";
 import {
   Avatar,
   AvatarFallback,
@@ -9,73 +8,73 @@ import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  Skeleton,
 } from "@/components";
 import { getInitials } from "@/utils";
-import { useGetStore } from "../features/store";
-import { customerNav, sellerNav } from "../config";
 
 export const UserNav = () => {
-  const { data: store } = useGetStore();
-  const { data: customer } = useGetProfile();
-  const signout = useSignout();
-  const navigate = useNavigate();
+  const { data: customer, isLoading, isError, error } = useGetProfile();
 
-  const handleSignout = () => {
-    signout.mutate(null, {
-      onSuccess: () => {
-        navigate(ECOMMERCE_NAV.home.to);
-      },
-    });
+  const signout = useSignout();
+
+  const handleSignout = (e) => {
+    e.preventDefault();
+    signout.mutate(null);
   };
 
-  const fullName = `${customer?.name} ${customer?.lastName}`;
+  const initials = getInitials(`${customer?.name} ${customer?.lastName}`);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-          <Avatar className="h-9 w-9">
-            <AvatarImage src={null} alt={fullName} />
-            <AvatarFallback className="font-normal">
-              {getInitials(fullName)}
-            </AvatarFallback>
-          </Avatar>
+        <Button
+          variant="outline"
+          size="icon"
+          className="overflow-hidden rounded-full"
+        >
+          {isLoading ? (
+            <Skeleton className="size-full" />
+          ) : isError ? (
+            <ExclamationTriangleIcon className="size-4" />
+          ) : (
+            <Avatar>
+              <AvatarImage src="/avatars/01.png" alt="@ShadCN" />
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+          )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-52" align="end" forceMount>
-        <DropdownMenuLabel className="space-y-1 font-normal">
-          <p className="truncate text-sm font-medium leading-none">
-            {fullName}
-          </p>
-          <p className="truncate text-xs leading-none text-muted-foreground">
-            {customer?.email}
-          </p>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {store ? (
-          <DropdownMenuGroup>
-            {sellerNav.map((nav, index) => (
-              <DropdownMenuItem asChild key={index}>
-                <Link to={nav.to}>{nav.name}</Link>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuGroup>
+      <DropdownMenuContent className="w-56" align="end" forceMount>
+        {isLoading ? (
+          <div className="space-y-1 p-1">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-3 w-full" />
+          </div>
+        ) : isError ? (
+          <DropdownMenuLabel className="font-normal">
+            <p className="line-clamp-2 text-center text-sm text-muted-foreground">
+              {error.message}
+            </p>
+          </DropdownMenuLabel>
         ) : (
-          <DropdownMenuGroup>
-            {customerNav.map((nav, index) => (
-              <DropdownMenuItem asChild key={index}>
-                <Link to={nav.to}>{nav.name}</Link>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuGroup>
+          <DropdownMenuLabel className="space-y-1 font-normal">
+            <p className="text-sm font-medium leading-none">
+              {customer.name} {customer.lastName}
+            </p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {customer.email}
+            </p>
+          </DropdownMenuLabel>
         )}
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={handleSignout}>Log out</DropdownMenuItem>
+        <DropdownMenuItem onSelect={handleSignout} disabled={signout.isLoading}>
+          {signout.isLoading && <Spinner className="mr-2 size-4" />}
+          Log out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

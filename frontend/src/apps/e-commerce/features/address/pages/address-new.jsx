@@ -32,7 +32,7 @@ export const AddressNew = () => {
   const form = useForm({
     resolver: yupResolver(addressSchema),
     defaultValues: addressInitial,
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleCancel = () => {

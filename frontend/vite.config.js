@@ -17,11 +17,4 @@ export default defineConfig({
     host: true,
     port: 3000,
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        includePaths: ["node_modules"],
-      },
-    },
-  },
 });

@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { Stripe } = require("../../../libs");
-const { notFound } = require("../../../middlewares");
+import express from "express";
+import { Stripe } from "../../../libs/index.js";
+import { notFound } from "../../../middlewares/index.js";
 
 /**
  * @param {express.Request} req
@@ -9,7 +9,12 @@ const { notFound } = require("../../../middlewares");
  * @param {express.NextFunction} next
  * @param {string} paymentMethodId
  */
-const validatePaymentMethodId = async (req, _res, next, paymentMethodId) => {
+export const validatePaymentMethodId = async (
+  req,
+  _res,
+  next,
+  paymentMethodId
+) => {
   const { customer } = req.stripe;
 
   try {
@@ -35,7 +40,7 @@ const validatePaymentMethodId = async (req, _res, next, paymentMethodId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAll = async (req, res, next) => {
+export const findAll = async (req, res, next) => {
   const { customer } = req.stripe;
 
   try {
@@ -57,7 +62,7 @@ const findAll = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findOne = async (req, res, next) => {
+export const findOne = async (req, res, next) => {
   const { paymentMethod } = req;
 
   try {
@@ -72,7 +77,7 @@ const findOne = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findSession = async (req, res, next) => {
+export const findSession = async (req, res, next) => {
   const { customer } = req.stripe;
   const { sessionId } = req.params;
 
@@ -97,7 +102,7 @@ const findSession = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const create = async (req, res, next) => {
+export const create = async (req, res, next) => {
   const { customer } = req.stripe;
   // TODO: Validate those
   const { paymentIntentId, addressId } = req.body;
@@ -129,7 +134,7 @@ const create = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const remove = async (req, res, next) => {
+export const remove = async (req, res, next) => {
   const { paymentMethodId } = req.params;
 
   try {
@@ -139,13 +144,4 @@ const remove = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  validatePaymentMethodId,
-  findAll,
-  findOne,
-  findSession,
-  create,
-  remove,
 };

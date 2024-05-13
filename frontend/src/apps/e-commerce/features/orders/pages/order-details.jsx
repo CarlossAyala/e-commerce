@@ -36,8 +36,6 @@ export const OrderDetails = () => {
           <div className="space-y-2">
             <Skeleton className="h-4 w-1/3" />
             <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -78,16 +76,8 @@ export const OrderDetails = () => {
               <dt className="font-medium text-primary">Details</dt>
               <dd className="text-muted-foreground">
                 <div className="flex justify-between">
-                  <p>Status</p>
-                  <p className="capitalize text-primary">{data.order.status}</p>
-                </div>
-                <div className="flex justify-between">
                   <p>Placed</p>
-                  <p>{Formatter.fullDate(data.order.createdAt)}</p>
-                </div>
-                <div className="flex justify-between">
-                  <p>Last updated</p>
-                  <p>{Formatter.fullDate(data.order.updatedAt)}</p>
+                  <p>{Formatter.shortDate(data.order.createdAt)}</p>
                 </div>
               </dd>
             </div>

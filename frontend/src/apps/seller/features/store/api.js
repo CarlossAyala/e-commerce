@@ -28,16 +28,15 @@ export const create = async (values, accessToken) => {
   });
 };
 
-export const update = async (values, accessToken) => {
+export const update = async (formData, accessToken) => {
   const url = ENDPOINT;
 
   return fetcher(url, {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify(values),
+    body: formData,
   });
 };
 
@@ -46,6 +45,18 @@ export const remove = async (accessToken) => {
 
   return fetcher(url, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
+export const earnings = (accessToken) => {
+  const url = `${ENDPOINT}/earnings`;
+
+  return fetcher(url, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,

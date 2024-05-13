@@ -1,12 +1,10 @@
-const { Sequelize } = require("sequelize");
-const environments = require("../../config/environments");
+import { Sequelize } from "sequelize";
+import env from "../../config/environments.js";
 
-const { database, user, password, host, dialect, port } = environments.db;
+const { database, user, password, host, dialect, port } = env.db;
 
-const sequelize = new Sequelize(database, user, password, {
+export const sequelize = new Sequelize(database, user, password, {
   host,
   dialect,
   port,
 });
-
-module.exports = sequelize;

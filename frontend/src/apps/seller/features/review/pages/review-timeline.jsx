@@ -26,7 +26,7 @@ export const ReviewTimeline = () => {
   const { data, isLoading, isError, error } = useGetReviews(params.toString());
 
   return (
-    <main className="flex-1 space-y-4 px-6">
+    <main className="flex-1 space-y-4 px-4 tablet:px-6">
       <PageHeader>
         <PageHeaderHeading>Reviews Timeline</PageHeaderHeading>
       </PageHeader>

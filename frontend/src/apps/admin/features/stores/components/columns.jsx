@@ -2,16 +2,19 @@ import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
 import { storeActionRoutes } from "../utils";
 
-const { accessor, display } = createColumnHelper();
+const { accessor } = createColumnHelper();
 
 export const storesColumns = [
   accessor("name", {
     header: () => "Name",
     cell: (info) => (
       <div className="flex">
-        <span className="max-w-xs truncate py-1 font-medium">
+        <Link
+          to={storeActionRoutes.store(info.row.original.id)}
+          className="max-w-xs truncate py-1 font-medium"
+        >
           {info.getValue()}
-        </span>
+        </Link>
       </div>
     ),
   }),
@@ -24,17 +27,6 @@ export const storesColumns = [
           {info.row.original.seller.email}
         </p>
       </div>
-    ),
-  }),
-  display({
-    id: "actions",
-    cell: (info) => (
-      <Link
-        className="font-medium hover:underline"
-        to={storeActionRoutes.store(info.row.original.id)}
-      >
-        View
-      </Link>
     ),
   }),
 ];

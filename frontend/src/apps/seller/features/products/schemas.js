@@ -1,4 +1,4 @@
-import { string, number, object, boolean } from "yup";
+import { string, number, object, boolean, array } from "yup";
 import { parseNumber, parseString } from "@/utils";
 import { PRODUCT_CONDITIONS } from "./utils";
 
@@ -39,8 +39,9 @@ const categoryId = string()
   .label("Category")
   .default("")
   .required();
+const gallery = array().label("Gallery").default([]);
 
-export const productSchema = object({
+export const createSchema = object({
   name,
   description,
   stock,
@@ -48,8 +49,22 @@ export const productSchema = object({
   available,
   condition,
   categoryId,
+  gallery,
 });
-export const productInitial = productSchema.getDefault();
+export const productInitial = createSchema.getDefault();
+
+export const updateSchema = object({
+  name,
+  description,
+  stock,
+  price,
+  available,
+  condition,
+  categoryId,
+  currentGallery: gallery,
+  nextGallery: gallery,
+});
+
 export const productDefault = (values = {}) => ({
   name: values.name ?? "",
   description: values.description ?? "",
@@ -58,4 +73,6 @@ export const productDefault = (values = {}) => ({
   available: values.available ?? "",
   condition: values.condition ?? "",
   categoryId: values.categoryId ?? "",
+  currentGallery: values.gallery ?? [],
+  nextGallery: [],
 });

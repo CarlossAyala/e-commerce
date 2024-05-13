@@ -1,9 +1,9 @@
-const express = require("express");
-const { validateSchema } = require("../../../middlewares");
-const controllers = require("./controllers");
-const schemas = require("./schemas");
+import { Router } from "express";
+import { validateSchema } from "../../../middlewares/index.js";
+import controllers from "./controllers.js";
+import schemas from "./schemas.js";
 
-const router = express.Router();
+const router = Router();
 
 router.param("paymentIntentId", controllers.validatePaymentIntentId);
 
@@ -15,4 +15,4 @@ router.post(
   controllers.confirmPaymentIntent
 );
 
-module.exports = router;
+export default router;

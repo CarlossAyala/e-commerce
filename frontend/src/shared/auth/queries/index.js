@@ -1,4 +1,8 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import ms from "ms";
+import { getCurrentApp } from "@/shared/utils";
 import {
   getAccessToken,
   getProfile,
@@ -8,8 +12,6 @@ import {
   updateFullName,
   updatePassword,
 } from "../api";
-import { getCurrentApp } from "@/shared/utils";
-import { useLocation } from "react-router-dom";
 
 export const authKeys = {
   key: (app) => ["auth/".concat(app)],
@@ -19,16 +21,28 @@ export const authKeys = {
 
 export const useAuth = (input) => {
   const location = useLocation();
+  const queryClient = useQueryClient();
+
   const { app } = getCurrentApp(input ?? location.pathname);
 
-  return useQuery({
+  const query = useQuery({
     queryKey: authKeys.accessToken(app),
     queryFn: () => getAccessToken(app),
     retry: false,
-    staleTime: 1000 * 60 * 5, // 5m
-    refetchInterval: 1000 * 60 * 4, // 4m
+    refetchInterval: ms("4m"),
     refetchIntervalInBackground: true,
   });
+
+  useEffect(() => {
+    if (query.isError) {
+      console.log("SOMETHING GOES WRONG", query.error);
+      queryClient.setQueriesData(authKeys.accessToken(app), null);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query.isError]);
+
+  return query;
 };
 
 export const useGetProfile = () => {
@@ -72,7 +86,7 @@ export const useSignout = () => {
   const { app } = getCurrentApp(location.pathname);
 
   return useMutation({
-    mutationFn: signout,
+    mutationFn: () => signout(app),
     onSuccess: () => {
       queryClient.setQueriesData(authKeys.accessToken(app), null);
     },
@@ -82,51 +96,28 @@ export const useSignout = () => {
   });
 };
 
-// export const useAdminAuth = () => {
-//   const { data: admin, isLoading, ...rest } = useGetProfile("from=admin");
-
-//   return {
-//     admin,
-//     isLoading,
-//     isAuthenticated: !!admin,
-//     ...rest,
-//   };
-// };
-
-// export const useSellerAuth = () => {
-//   const { data: seller, isLoading, ...rest } = useGetProfile("from=seller");
-
-//   return {
-//     seller,
-//     isLoading,
-//     isAuthenticated: !!seller,
-//     ...rest,
-//   };
-// };
-
-// export const useCustomerAuth = () => {
-//   const { data: customer, ...rest } = useGetProfile();
-
-//   return {
-//     customer,
-//     isAuthenticated: !!customer,
-//     ...rest,
-//   };
-// };
-
 export const useUpdateProfile = () => {
+  const { data: accessToken } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: updateFullName,
+    mutationFn: (data) => updateFullName(data, accessToken),
     onSuccess: () => {
       queryClient.invalidateQueries(authKeys.key);
+    },
+    meta: {
+      title: "Account",
     },
   });
 };
 
 export const useUpdatePassword = () => {
+  const { data: accessToken } = useAuth();
+
   return useMutation({
-    mutationFn: updatePassword,
+    mutationFn: (data) => updatePassword(data, accessToken),
+    meta: {
+      title: "Account",
+    },
   });
 };

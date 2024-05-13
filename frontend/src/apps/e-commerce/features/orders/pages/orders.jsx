@@ -21,8 +21,6 @@ export const Orders = () => {
     error,
   } = useGetOrders(params.toString());
 
-  const isEmpty = orders?.rows.length === 0;
-
   return (
     <main className="container max-w-3xl flex-1 space-y-4 pb-10">
       <PageHeader>
@@ -41,7 +39,7 @@ export const Orders = () => {
           </>
         ) : isError ? (
           <EmptyState title="Error" description={error.message} />
-        ) : isEmpty ? (
+        ) : !orders.rows.length ? (
           <EmptyState
             title="No orders found"
             description="You don't have any order yet."

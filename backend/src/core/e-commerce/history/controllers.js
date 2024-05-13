@@ -1,14 +1,18 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { QueryBuilder } = require("../../../libs");
-const { History, Product } = require("../../../database/mysql/models");
+import express from "express";
+import { QueryBuilder } from "../../../libs/index.js";
+import {
+  History,
+  Product,
+  ProductImage,
+} from "../../../database/mysql/models/index.js";
 
 /**
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAll = async (req, res, next) => {
+export const findAll = async (req, res, next) => {
   const { userId } = req.auth;
   const { order, limit, offset } = new QueryBuilder(req.query)
     .orderBy("lastSeenAt", "DESC")
@@ -23,6 +27,13 @@ const findAll = async (req, res, next) => {
       include: {
         model: Product.model,
         as: "product",
+        include: {
+          model: ProductImage.model,
+          as: "gallery",
+          separate: true,
+          order: [["order", "ASC"]],
+          required: false,
+        },
       },
       order,
       limit,
@@ -40,7 +51,7 @@ const findAll = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const create = async (req, res, next) => {
+export const create = async (req, res, next) => {
   const { userId } = req.auth;
   const { productId } = req.params;
 
@@ -74,7 +85,7 @@ const create = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const clear = async (req, res, next) => {
+export const clear = async (req, res, next) => {
   const { userId } = req.auth;
 
   try {
@@ -95,7 +106,7 @@ const clear = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const remove = async (req, res, next) => {
+export const remove = async (req, res, next) => {
   const { userId } = req.auth;
   const { productId } = req.params;
 
@@ -111,11 +122,4 @@ const remove = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  findAll,
-  create,
-  clear,
-  remove,
 };

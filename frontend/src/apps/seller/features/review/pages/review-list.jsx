@@ -33,15 +33,13 @@ export const ReviewList = () => {
   const { productId } = useParams();
 
   const product = useGetProduct(productId);
-  useDocumentTitle(
-    product.data?.name ? `${product.data.name} - Reviews` : "Reviews",
-  );
-
   const rating = useGetReviewAvgRating(productId);
   const reviews = useGetReviewsProduct(productId, params.toString());
 
+  useDocumentTitle(product.data?.name);
+
   return (
-    <main className="flex-1 space-y-6 px-6">
+    <main className="flex-1 space-y-4 px-4 tablet:px-6">
       <PageHeader>
         <PageHeaderHeading>Reviews Product</PageHeaderHeading>
       </PageHeader>
@@ -105,7 +103,7 @@ export const ReviewList = () => {
         )}
       </section>
 
-      <section className="space-y-2">
+      <section className="space-y-4">
         <h3 className="font-medium">Reviews</h3>
 
         <Filters filters={filters} />
@@ -114,6 +112,8 @@ export const ReviewList = () => {
           <DataTableSkeleton />
         ) : reviews.isError ? (
           <EmptyState title="Error" description={reviews.error.message} />
+        ) : !reviews.data.rows.length ? (
+          <EmptyState title="No reviews" description="No reviews to show" />
         ) : (
           <DataTable data={reviews.data.rows} columns={reviewListColumns} />
         )}

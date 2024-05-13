@@ -84,9 +84,10 @@ module.exports = {
         roman: "upper-roman",
         circle: "circle",
       },
-      gridTemplateColumns: {
-        products: "repeat(auto-fill, minmax(144px, 1fr))",
-        stores: "repeat(auto-fill, minmax(144px, 1fr))",
+      screens: {
+        tablet: "640px",
+        laptop: "1024px",
+        desktop: "1280px",
       },
     },
   },

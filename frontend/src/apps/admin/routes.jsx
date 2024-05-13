@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { NotFound } from "@/shared/components";
 import { Dashboard } from "./features/dashboard";
 import { categoryRoutes } from "./features/categories";
 import { storeRoutes } from "./features/stores";
@@ -20,5 +21,9 @@ export const adminRoutes = [
     path: "stores",
     element: <Outlet />,
     children: storeRoutes,
+  },
+  {
+    path: "*",
+    element: <NotFound className="flex-1" />,
   },
 ];

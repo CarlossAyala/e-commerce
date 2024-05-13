@@ -1,4 +1,12 @@
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { toast } from "sonner";
+import {
+  changePasswordInitial,
+  changePasswordSchema,
+  useUpdatePassword,
+} from "@/shared/auth";
 import {
   Button,
   Form,
@@ -8,14 +16,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from "../../../../../components";
-import {
-  changePasswordInitial,
-  changePasswordSchema,
-  useUpdatePassword,
-} from "../../../../../shared/auth";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
+} from "@/components";
 
 export const PasswordForm = () => {
   const updatePassword = useUpdatePassword();
@@ -23,22 +24,14 @@ export const PasswordForm = () => {
   const form = useForm({
     resolver: yupResolver(changePasswordSchema),
     defaultValues: changePasswordInitial,
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleSave = (values) => {
     updatePassword.mutate(values, {
       onSuccess() {
-        toast({
-          description: "Password updated",
-        });
+        toast("Password updated");
         form.reset();
-      },
-      onError(error) {
-        toast({
-          title: "Error updating password",
-          description: error.message,
-        });
       },
     });
   };
@@ -101,15 +94,11 @@ export const PasswordForm = () => {
           )}
         />
 
-        <Button
-          type="submit"
-          className="mt-4"
-          disabled={updatePassword.isLoading}
-        >
+        <Button type="submit" disabled={updatePassword.isLoading}>
           {updatePassword.isLoading && (
-            <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
+            <ArrowPathIcon className="mr-2 size-4" />
           )}
-          Save
+          Update
         </Button>
       </form>
     </Form>

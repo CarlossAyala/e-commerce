@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
-import { SELLER_NAV } from "@/apps/seller/config";
 import { Spinner } from "@/shared/components";
 import {
   Button,
@@ -20,18 +19,17 @@ import {
   Input,
   Textarea,
 } from "@/components";
-import { storeInitial, storeSchema } from "../schemas";
+import { createSchema, createInitial } from "../schemas";
 import { useCreateStore } from "../queries";
 
-// TODO: Missing profile and front-page
 export const StoreNew = () => {
   const navigate = useNavigate();
 
   const { mutate, isLoading } = useCreateStore();
 
   const form = useForm({
-    resolver: yupResolver(storeSchema),
-    defaultValues: storeInitial,
+    resolver: yupResolver(createSchema),
+    defaultValues: createInitial,
     mode: "onSubmit",
   });
 
@@ -39,14 +37,14 @@ export const StoreNew = () => {
     mutate(values, {
       onSuccess() {
         toast("Store created");
-        navigate(SELLER_NAV.store.to);
+        navigate("/seller");
       },
     });
   };
 
   return (
-    <main className="container flex max-w-2xl flex-1 flex-col justify-center">
-      <Card>
+    <main className="container flex max-w-2xl flex-1 flex-col justify-center px-4 tablet:px-6">
+      <Card className="my-4">
         <CardHeader>
           <CardTitle className="text-2xl">Create Store</CardTitle>
           <CardDescription>

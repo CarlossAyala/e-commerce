@@ -3,15 +3,15 @@ import { AuthenticatedRoute } from "@/shared/components";
 import { Bookmarks } from "./features/bookmark";
 import { History } from "./features/history";
 import { Home } from "./features/home";
-import { productRoutes } from "./features/product";
+import { productRoutes } from "./features/products";
 import { checkoutRoutes } from "./features/checkout";
 import { Settings, settingRoutes } from "./features/setting";
 import { orderRoutes } from "./features/orders";
 import { reviewRoutes } from "./features/review";
-import { storeRoutes } from "./features/store";
-import { categoryRoutes } from "./features/category";
+import { storeRoutes } from "./features/stores";
+import { categoryRoutes } from "./features/categories";
 import { CheckoutProvider } from "./features/checkout";
-import { Questions } from "./features/qa";
+import { Questions } from "./features/questions";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}

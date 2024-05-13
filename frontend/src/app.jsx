@@ -1,11 +1,15 @@
 import { Providers } from "./providers";
 import { Routes } from "./routes";
+import { BreakpointIndicator } from "./shared/components";
 
 function App() {
   return (
-    <Providers>
-      <Routes />
-    </Providers>
+    <>
+      <BreakpointIndicator />
+      <Providers>
+        <Routes />
+      </Providers>
+    </>
   );
 }
 

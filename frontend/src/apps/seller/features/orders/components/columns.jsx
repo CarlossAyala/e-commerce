@@ -1,16 +1,21 @@
 import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
-import { OrderStatus } from "@/shared/components";
-import { buttonVariants } from "@/components";
 import { Formatter } from "@/utils";
 import { orderActionRoutes } from "../utils";
 
-const { accessor, display } = createColumnHelper();
+const { accessor } = createColumnHelper();
 
 export const ordersColumns = [
   accessor("id", {
     header: () => "ID",
-    cell: (info) => <span className="font-medium">{info.getValue()}</span>,
+    cell: (info) => (
+      <Link
+        to={orderActionRoutes.details(info.getValue())}
+        className="font-medium"
+      >
+        {info.getValue()}
+      </Link>
+    ),
   }),
   accessor("customer.id", {
     header: () => "Customer",
@@ -26,23 +31,8 @@ export const ordersColumns = [
       );
     },
   }),
-  accessor("status", {
-    header: () => "Status",
-    cell: (info) => <OrderStatus status={info.getValue()} />,
-  }),
   accessor("total", {
     header: () => "Total",
     cell: (info) => Formatter.currency(info.getValue()),
-  }),
-  display({
-    id: "actions",
-    cell: (info) => (
-      <Link
-        className={buttonVariants({ variant: "link" })}
-        to={orderActionRoutes.details(info.row.original.id)}
-      >
-        View
-      </Link>
-    ),
   }),
 ];

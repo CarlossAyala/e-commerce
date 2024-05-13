@@ -1,23 +1,29 @@
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const cookieParser = require("cookie-parser");
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
+import path from "path";
 
-const routes = require("./routes");
-const { port: PORT } = require("./config/environments");
-const { sequelize } = require("./database/mysql");
-const {
+import routes from "./routes.js";
+import env from "./config/environments.js";
+import { sequelize } from "./database/mysql/index.js";
+import {
   restrictMethods,
   handlerError,
   logger,
   catch404AndForward,
-} = require("./middlewares");
-require("./database/mysql/models");
+} from "./middlewares/index.js";
+import("./jobs/index.js");
+
+// TODO: Check what to do with this
+import "./database/mysql/models/index.js";
 
 const app = express();
+const { port: PORT } = env;
 
 // middlewares
 app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(
   cors({
     credentials: true,
@@ -29,6 +35,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(routes);
 

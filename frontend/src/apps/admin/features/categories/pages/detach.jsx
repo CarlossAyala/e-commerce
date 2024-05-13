@@ -29,11 +29,8 @@ import {
   Skeleton,
 } from "@/components";
 import { cn } from "@/libs";
-import { CATEGORY_TYPES } from "../utils";
 import { detachCategoryInitial, detachCategorySchema } from "../schemas";
 import { useDetachCategory, useGetCategories } from "../queries";
-
-const { MAIN } = CATEGORY_TYPES;
 
 export const Detach = () => {
   useDocumentTitle("Detach Category");
@@ -60,9 +57,7 @@ export const Detach = () => {
     );
   };
 
-  const mainCategories = categories?.filter(
-    (category) => category.type === MAIN,
-  );
+  const mains = categories?.filter((category) => !category.parentId);
 
   const category = categories?.find((category) => category.id === categoryId);
 
@@ -115,7 +110,7 @@ export const Detach = () => {
                     className="w-80 grow-0 justify-between"
                   >
                     {categoryId ? category.name : "Select a category..."}
-                    <ChevronUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    <ChevronUpDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 {categoryId && (
@@ -133,7 +128,7 @@ export const Detach = () => {
                   <CommandInput placeholder="Search..." />
                   <CommandEmpty>No categories found.</CommandEmpty>
                   <CommandGroup className="max-h-64 overflow-auto">
-                    {mainCategories.map((_category) => (
+                    {mains.map((_category) => (
                       <CommandItem
                         key={_category.id}
                         value={_category.name}

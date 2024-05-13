@@ -1,14 +1,14 @@
-const express = require("express");
-const controllers = require("./controllers");
-const schemas = require("./schemas");
-const {
+import { Router } from "express";
+import controllers from "./controllers.js";
+import schemas from "./schemas.js";
+import {
   validateAccessToken,
   authentication,
   checkStripeAccount,
   validateSchema,
-} = require("../../../middlewares");
+} from "../../../middlewares/index.js";
 
-const router = express.Router();
+const router = Router();
 const auth = [validateAccessToken, authentication, checkStripeAccount];
 
 router.use(auth);
@@ -20,4 +20,4 @@ router.get("/session/:sessionId", controllers.findSession);
 router.post("/", validateSchema(schemas.create, "body"), controllers.create);
 router.delete("/:paymentMethodId", controllers.remove);
 
-module.exports = router;
+export default router;

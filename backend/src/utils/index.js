@@ -1,8 +1,11 @@
-const { sign, verify } = require("jsonwebtoken");
-const { jwt } = require("../config/environments");
-const { invalidToken, invalidRequest } = require("../middlewares/http-errors");
+import jose from "jsonwebtoken";
+import env from "../config/environments.js";
+import { invalidToken, invalidRequest } from "../middlewares/http-errors.js";
 
-const generateAccessToken = (userId) => {
+const { sign, verify } = jose;
+const { jwt } = env;
+
+export const generateAccessToken = (userId) => {
   return new Promise((resolve, reject) => {
     sign(
       { userId },
@@ -21,7 +24,7 @@ const generateAccessToken = (userId) => {
   });
 };
 
-const generateRefreshToken = (userId) => {
+export const generateRefreshToken = (userId) => {
   return new Promise((resolve, reject) => {
     sign(
       { userId },
@@ -40,7 +43,7 @@ const generateRefreshToken = (userId) => {
   });
 };
 
-const decodeAccessToken = (token) => {
+export const decodeAccessToken = (token) => {
   return new Promise((resolve, reject) => {
     verify(token, jwt.access_token.secret, (err, decoded) => {
       if (err) {
@@ -58,7 +61,7 @@ const decodeAccessToken = (token) => {
   });
 };
 
-const decodeRefreshToken = (token) => {
+export const decodeRefreshToken = (token) => {
   return new Promise((resolve, reject) => {
     verify(token, jwt.refresh_token.secret, (err, decoded) => {
       if (err) {
@@ -74,11 +77,4 @@ const decodeRefreshToken = (token) => {
       }
     });
   });
-};
-
-module.exports = {
-  generateRefreshToken,
-  generateAccessToken,
-  decodeRefreshToken,
-  decodeAccessToken,
 };

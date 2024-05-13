@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useGetCategories } from "@/shared/features/categories";
-import { categoryActionRoutes } from "../features/category";
+import { categoryActionRoutes } from "../features/categories";
 
 export const SearchCategories = ({ search, cleanUp }) => {
   const { data: categories, isLoading, isError, error } = useGetCategories();

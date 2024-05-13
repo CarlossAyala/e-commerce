@@ -1,8 +1,12 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { Product, Question, Answer } = require("../../../database/mysql/models");
-const { notFound } = require("../../../middlewares");
-const { QueryBuilder } = require("../../../libs");
+import express from "express";
+import {
+  Product,
+  Question,
+  Answer,
+} from "../../../database/mysql/models/index.js";
+import { notFound } from "../../../middlewares/index.js";
+import { QueryBuilder } from "../../../libs/index.js";
 
 /**
  * @param {express.Request} req
@@ -10,7 +14,7 @@ const { QueryBuilder } = require("../../../libs");
  * @param {express.NextFunction} next
  * @param {string} productId
  */
-const validateProductId = async (req, _res, next, productId) => {
+export const validateProductId = async (req, _res, next, productId) => {
   try {
     const product = await Product.model.findByPk(productId);
     if (!product) throw notFound("Product not found");
@@ -27,7 +31,7 @@ const validateProductId = async (req, _res, next, productId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAllProducts = async (req, res, next) => {
+export const findAllProducts = async (req, res, next) => {
   const { productId } = req.params;
 
   const { where, order, limit, offset } = new QueryBuilder(req.query)
@@ -55,5 +59,3 @@ const findAllProducts = async (req, res, next) => {
     next(error);
   }
 };
-
-module.exports = { findAllProducts, validateProductId };

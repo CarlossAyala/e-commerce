@@ -1,48 +1,45 @@
-import { ECOMMERCE_NAV } from "../e-commerce/config";
+import {
+  BuildingStorefrontIcon,
+  ChatBubbleLeftRightIcon,
+  ClipboardIcon,
+  CubeIcon,
+  QuestionMarkCircleIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 
-export const SELLER_NAV = {
-  dashboard: {
+export const SIDE_NAV = [
+  {
     name: "Dashboard",
+    icon: SparklesIcon,
     to: "/seller",
   },
-  product: {
-    name: "Product",
-    to: "/seller/product",
-  },
-  question: {
-    name: "Questions",
-    to: "/seller/question",
-  },
-  order: {
-    name: "Orders",
-    to: "/seller/orders",
-  },
-  review: {
-    name: "Reviews",
-    to: "/seller/review",
-  },
-  store: {
+  {
     name: "Store",
+    icon: BuildingStorefrontIcon,
     to: "/seller/store",
   },
-  createStore: {
-    name: "Create Store",
-    to: "/seller/create",
-  },
-};
-
-export const sellerNav = [
-  SELLER_NAV.dashboard,
-  SELLER_NAV.product,
-  SELLER_NAV.question,
-  SELLER_NAV.order,
-  SELLER_NAV.review,
-  SELLER_NAV.store,
-];
-
-export const customerNav = [
   {
-    name: "Back to customers",
-    to: ECOMMERCE_NAV.home.to,
+    name: "Product",
+    icon: CubeIcon,
+    to: "/seller/products",
+    subNav: [
+      { name: "List", to: "/seller/products" },
+      { name: "Create", to: "/seller/products/new" },
+    ],
+  },
+  {
+    name: "Questions",
+    icon: QuestionMarkCircleIcon,
+    to: "/seller/questions",
+  },
+  {
+    name: "Orders",
+    icon: ClipboardIcon,
+    to: "/seller/orders",
+  },
+  {
+    name: "Reviews",
+    icon: ChatBubbleLeftRightIcon,
+    to: "/seller/reviews",
   },
 ];

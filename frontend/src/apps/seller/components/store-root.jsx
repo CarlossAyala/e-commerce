@@ -1,79 +1,13 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { Aside } from "./aside";
+import { Header } from "./header";
 
 export const StoreRoot = () => {
   return (
-    <div className="container min-h-svh overflow-y-auto p-0">
-      <aside className="fixed inset-y-0 flex w-64 flex-col space-y-4 border p-4">
-        <div>
-          <p>Dashboard</p>
-          <ul className="list-inside list-disc">
-            <li>
-              <Link to="/seller">Dashboard</Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <p>Store</p>
-          <ul className="list-inside list-disc">
-            <li>
-              <Link to="/seller/create">Create</Link>
-            </li>
-            <li>
-              <Link to="/seller/store">Profile</Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <p>Product</p>
-          <ul className="list-inside list-disc">
-            <li>
-              <Link to="/seller/products">List</Link>
-            </li>
-            <li>
-              <Link to="/seller/products/new">New</Link>
-            </li>
-            <li>
-              <Link to="/seller/products/:productId/details">
-                Product :id Details
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <p>Questions</p>
-          <ul className="list-inside list-disc">
-            <li>
-              <Link to="/seller/qa">Overview</Link>
-            </li>
-            <li>
-              <Link to="/seller/qa/:productId">:productId</Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <p>Orders</p>
-          <ul className="list-inside list-disc">
-            <li>
-              <Link to="/seller/orders">Overview</Link>
-            </li>
-            <li>
-              <Link to="/seller/orders/:orderId/details">:orderId</Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <p>Reviews</p>
-          <ul className="list-inside list-disc">
-            <li>
-              <Link to="/seller/reviews">Timeline</Link>
-            </li>
-            <li>
-              <Link to="/seller/reviews/:productId">:productId</Link>
-            </li>
-          </ul>
-        </div>
-      </aside>
-      <div className="ml-64">
+    <div className="relative h-svh bg-background">
+      <Aside />
+      <div className="flex h-full flex-col tablet:pl-64">
+        <Header />
         <Outlet />
       </div>
     </div>

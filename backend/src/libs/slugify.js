@@ -1,11 +1,8 @@
-const slug = require("slugify");
+import slug from "slugify";
+
 const slugOptions = {
   lower: true,
   locale: "la",
 };
 
-const slugify = (str) => {
-  return slug(str, slugOptions);
-};
-
-module.exports = slugify;
+export const slugify = (str) => slug(str, slugOptions);

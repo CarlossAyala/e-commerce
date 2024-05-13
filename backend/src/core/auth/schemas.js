@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const name = Joi.string().label("Name").min(3).max(255).required();
 const lastName = Joi.string().label("Last name").min(3).max(255).required();
@@ -32,9 +32,9 @@ const changePassword = Joi.object({
   ),
 });
 
-module.exports = {
-  signin,
+export default {
   signup,
+  signin,
   changeName,
   changePassword,
 };

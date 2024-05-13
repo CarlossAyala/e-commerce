@@ -1,11 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/shared/auth";
-import { getAll, create, attach, findOne, update, remove, detach } from "./api";
+import {
+  getAll,
+  create,
+  attach,
+  findOne,
+  update,
+  remove,
+  detach,
+  count,
+} from "./api";
 
 const categoryKeys = {
-  key: ["admin/category"],
+  key: ["admin/categories"],
   getAll: () => [...categoryKeys.key, "get-all"],
   findOne: (categoryId) => [...categoryKeys.key, "find-one", categoryId],
+  count: () => [...categoryKeys.key, "count"],
 };
 
 export const useGetCategories = () => {
@@ -34,9 +44,12 @@ export const useCreateCategory = () => {
   return useMutation({
     mutationFn: (values) => create(values, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: categoryKeys.getAll(),
       });
+    },
+    meta: {
+      title: "Category",
     },
   });
 };
@@ -50,9 +63,12 @@ export const useAttachCategory = () => {
       return attach(categoryId, values, accessToken);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: categoryKeys.getAll(),
       });
+    },
+    meta: {
+      title: "Category",
     },
   });
 };
@@ -73,6 +89,9 @@ export const useDetachCategory = () => {
         queryKey: categoryKeys.getAll(),
       });
     },
+    meta: {
+      title: "Category",
+    },
   });
 };
 
@@ -81,7 +100,7 @@ export const useUpdateCategory = (categoryId) => {
   const { data: accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: (values) => update(categoryId, values, accessToken),
+    mutationFn: (formData) => update(categoryId, formData, accessToken),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: categoryKeys.findOne(categoryId),
@@ -89,6 +108,9 @@ export const useUpdateCategory = (categoryId) => {
       queryClient.invalidateQueries({
         queryKey: categoryKeys.getAll(),
       });
+    },
+    meta: {
+      title: "Category",
     },
   });
 };
@@ -107,5 +129,17 @@ export const useDeleteCategory = () => {
         queryKey: categoryKeys.getAll(),
       });
     },
+    meta: {
+      title: "Category",
+    },
+  });
+};
+
+export const useGetCategoriesCount = () => {
+  const { data: accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: categoryKeys.count(),
+    queryFn: () => count(accessToken),
   });
 };

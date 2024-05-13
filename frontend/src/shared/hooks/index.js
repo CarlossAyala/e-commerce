@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 export * from "./use-document-title";
-export * from "./use-pagination";
+export * from "./use-local-search-params";
+
+//TODO: Get those into a individual file
 
 export const useDebounced = (value, delay = 500) => {
   const [debouncedValue, setDebouncedValue] = useState(value);

@@ -1,21 +1,22 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { Op, Sequelize } = require("sequelize");
-const { notFound } = require("../../../middlewares");
-const { QueryBuilder } = require("../../../libs");
-const {
+import express from "express";
+import { Op, Sequelize } from "sequelize";
+import { notFound } from "../../../middlewares/index.js";
+import { QueryBuilder } from "../../../libs/index.js";
+import {
   Review,
   OrderItem,
   Order,
   Product,
-} = require("../../../database/mysql/models");
+  ProductImage,
+} from "../../../database/mysql/models/index.js";
 
 /**
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAllDone = async (req, res, next) => {
+export const findAllDone = async (req, res, next) => {
   const { userId } = req.auth;
 
   const { order, limit, offset } = new QueryBuilder(req.query)
@@ -39,6 +40,13 @@ const findAllDone = async (req, res, next) => {
           {
             model: Product.model,
             as: "product",
+            include: {
+              model: ProductImage.model,
+              as: "gallery",
+              separate: true,
+              order: [["order", "ASC"]],
+              required: false,
+            },
           },
         ],
       },
@@ -58,7 +66,7 @@ const findAllDone = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAllPending = async (req, res, next) => {
+export const findAllPending = async (req, res, next) => {
   const { userId } = req.auth;
 
   const { where: whereProduct } = new QueryBuilder()
@@ -89,6 +97,13 @@ const findAllPending = async (req, res, next) => {
           model: Product.model,
           as: "product",
           where: whereProduct,
+          include: {
+            model: ProductImage.model,
+            as: "gallery",
+            separate: true,
+            order: [["order", "ASC"]],
+            required: false,
+          },
         },
       ],
       order,
@@ -107,7 +122,7 @@ const findAllPending = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const create = async (req, res, next) => {
+export const create = async (req, res, next) => {
   const { userId } = req.auth;
   const { orderItemId } = req.params;
   const { body } = req;
@@ -143,7 +158,7 @@ const create = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAllByProductId = async (req, res, next) => {
+export const findAllByProductId = async (req, res, next) => {
   const { productId } = req.params;
   const { limit, offset } = new QueryBuilder(req.query).pagination().build();
 
@@ -171,7 +186,7 @@ const findAllByProductId = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const productStats = async (req, res, next) => {
+export const productStats = async (req, res, next) => {
   const { productId } = req.params;
 
   try {
@@ -234,12 +249,4 @@ const productStats = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  findAllDone,
-  findAllPending,
-  create,
-  findAllByProductId,
-  productStats,
 };

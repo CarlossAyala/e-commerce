@@ -1,15 +1,16 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { Stripe } = require("../../../libs");
-const { badRequest, notFound } = require("../../../middlewares");
-const {
+import express from "express";
+import { Stripe } from "../../../libs/index.js";
+import { badRequest, notFound } from "../../../middlewares/index.js";
+import {
   CartProduct,
   Product,
   Address,
   Order,
   OrderItem,
-} = require("../../../database/mysql/models");
-const { sequelize } = require("../../../database/mysql");
+} from "../../../database/mysql/models/index.js";
+import { sequelize } from "../../../database/mysql/index.js";
+import { sendOrderPlacedEmail } from "../../../jobs/order-placed/index.js";
 
 /**
  * @param {express.Request} req
@@ -17,7 +18,12 @@ const { sequelize } = require("../../../database/mysql");
  * @param {express.NextFunction} next
  * @param {string} paymentIntentId
  */
-const validatePaymentIntentId = async (req, _res, next, paymentIntentId) => {
+export const validatePaymentIntentId = async (
+  req,
+  _res,
+  next,
+  paymentIntentId
+) => {
   const { customer } = req.stripe;
 
   try {
@@ -38,7 +44,7 @@ const validatePaymentIntentId = async (req, _res, next, paymentIntentId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findPaymentIntent = async (req, res, next) => {
+export const findPaymentIntent = async (req, res, next) => {
   const { paymentIntent } = req;
 
   // https://stripe.com/docs/payments/paymentintents/lifecycle
@@ -64,7 +70,7 @@ const findPaymentIntent = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const createPaymentIntent = async (req, res, next) => {
+export const createPaymentIntent = async (req, res, next) => {
   const { userId: customerId } = req.auth;
   const { customer } = req.stripe;
 
@@ -109,7 +115,7 @@ const createPaymentIntent = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const confirmPaymentIntent = async (req, res, next) => {
+export const confirmPaymentIntent = async (req, res, next) => {
   const { userId: customerId } = req.auth;
   const { customer } = req.stripe;
   const { paymentIntent } = req;
@@ -221,6 +227,8 @@ const confirmPaymentIntent = async (req, res, next) => {
           return order;
         });
 
+        await sendOrderPlacedEmail({ hi: "world" });
+
         res.json(result);
         break;
       }
@@ -231,11 +239,4 @@ const confirmPaymentIntent = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  validatePaymentIntentId,
-  findPaymentIntent,
-  createPaymentIntent,
-  confirmPaymentIntent,
 };

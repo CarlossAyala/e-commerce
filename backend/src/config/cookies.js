@@ -1,24 +1,22 @@
+import ms from "ms";
+import environments from "./environments.js";
+
 /**
  * @type {import("express").CookieOptions}
  */
-const refreshTokenOptions = {
+export const refreshTokenOptions = {
   httpOnly: true,
   sameSite: "none",
   secure: true,
-  maxAge: 24 * 60 * 60 * 1000, // 1d
-  expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1d
+  maxAge: ms(environments.jwt.refresh_token.expire),
+  expires: new Date(Date.now() + ms(environments.jwt.refresh_token.expire)),
 };
 
 /**
  * @type {import("express").CookieOptions}
  */
-const clearRefreshTokenOptions = {
+export const clearRefreshTokenOptions = {
   httpOnly: true,
   sameSite: "none",
   secure: true,
-};
-
-module.exports = {
-  refreshTokenOptions,
-  clearRefreshTokenOptions,
 };

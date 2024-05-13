@@ -1,14 +1,14 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { unauthorized } = require("./http-errors");
-const { User } = require("../database/mysql/models");
+import express from "express";
+import { unauthorized } from "./http-errors.js";
+import { User } from "../database/mysql/models/index.js";
 
 /**
  * @param {express.Request} req
  * @param {express.Response} _res
  * @param {express.NextFunction} next
  */
-const authentication = async (req, _res, next) => {
+export const authentication = async (req, _res, next) => {
   const { userId } = req.auth;
 
   try {
@@ -27,5 +27,3 @@ const authentication = async (req, _res, next) => {
     next(error);
   }
 };
-
-module.exports = authentication;

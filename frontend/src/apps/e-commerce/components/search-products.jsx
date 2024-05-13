@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { productActionRoutes } from "../features/product";
+import { productActionRoutes } from "../features/products";
 import { Formatter } from "@/utils";
 import { useGetProducts } from "@/shared/features/product";
 

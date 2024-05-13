@@ -1,20 +1,16 @@
 "use strict";
 
-const { bcrypt } = require("../../../libs");
-const { v4: uuidv4 } = require("uuid");
-const { faker } = require("@faker-js/faker/locale/es_MX");
-const { User, Store } = require("../models");
-const { slugify } = require("../../../libs");
-const { seller } = require("../../../config/environments");
+import crypto from "crypto";
+import { faker } from "@faker-js/faker";
+import { bcrypt } from "../../../libs/index.js";
+import { User, Store } from "../models";
+import { slugify } from "../../../libs/index.js";
+import env from "../../../config/environments";
 
-const imageOptions = {
-  with: 640,
-  height: 480,
-  randomize: true,
-};
+const { seller } = env;
 
 const createRandomUsers = async () => {
-  const id = uuidv4();
+  const id = crypto.randomUUID();
   const name = faker.name.firstName();
   const last_name = faker.name.lastName();
   const email = `${name}.${id}@gmail.com`;
@@ -42,17 +38,15 @@ const generateNUsers = async (n = 1) => {
 };
 
 const createRandomStore = (userId) => {
-  const id = uuidv4();
+  const id = crypto.randomUUID();
   const name = faker.company.name();
   const description = faker.lorem.lines(1);
-  const profile = faker.image.business(...Object.values(imageOptions));
   const slug = slugify(`${name}-${id}`);
 
   return {
     id,
     name,
     description,
-    profile,
     slug,
     seller_id: userId,
     created_at: new Date(),
@@ -71,7 +65,7 @@ const generateStores = (owners) => {
   return stores;
 };
 
-module.exports = {
+export default {
   async up(queryInterface) {
     try {
       /*

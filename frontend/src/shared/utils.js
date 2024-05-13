@@ -48,3 +48,33 @@ export const getCurrentApp = (pathname) => {
     };
   }
 };
+
+export const ITEMS_PER_PAGE = new Array(10).fill(0).map((_, i) => (i + 1) * 10);
+
+export const paginateArray = ({ data, limit, page }) => {
+  const count = data?.length;
+  const start = Math.min(limit * (page - 1), count);
+  const end = Math.min(page * limit, count);
+
+  return data?.slice(start, end);
+};
+
+const IMAGE_TYPES = [
+  "image/apng",
+  "image/bmp",
+  "image/gif",
+  "image/jpeg",
+  "image/pjpeg",
+  "image/png",
+  "image/svg+xml",
+  "image/tiff",
+  "image/webp",
+  "image/x-icon",
+];
+
+export const validFileType = (file) => {
+  return IMAGE_TYPES.includes(file.type);
+};
+export const validFileSize = (file) => {
+  return file.size <= 2_000_000;
+};

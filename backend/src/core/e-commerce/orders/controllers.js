@@ -1,13 +1,14 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const {
+import express from "express";
+import {
   Order,
   OrderItem,
   Product,
   Address,
-} = require("../../../database/mysql/models");
-const { notFound } = require("../../../middlewares");
-const { QueryBuilder, Stripe } = require("../../../libs");
+  ProductImage,
+} from "../../../database/mysql/models/index.js";
+import { notFound } from "../../../middlewares/index.js";
+import { QueryBuilder, Stripe } from "../../../libs/index.js";
 
 /**
  * @param {express.Request} req
@@ -15,7 +16,7 @@ const { QueryBuilder, Stripe } = require("../../../libs");
  * @param {express.NextFunction} next
  * @param {string} orderId
  */
-const validateOrderId = async (req, _res, next, orderId) => {
+export const validateOrderId = async (req, _res, next, orderId) => {
   const { userId } = req.auth;
 
   try {
@@ -39,7 +40,7 @@ const validateOrderId = async (req, _res, next, orderId) => {
  * @param {express.NextFunction} next
  * @param {string} itemId
  */
-const validateItemId = async (req, _res, next, itemId) => {
+export const validateItemId = async (req, _res, next, itemId) => {
   const { userId } = req.auth;
 
   try {
@@ -55,6 +56,13 @@ const validateItemId = async (req, _res, next, itemId) => {
         {
           model: Product.model,
           as: "product",
+          include: {
+            model: ProductImage.model,
+            as: "gallery",
+            separate: true,
+            order: [["order", "ASC"]],
+            required: false,
+          },
         },
       ],
     });
@@ -74,7 +82,7 @@ const validateItemId = async (req, _res, next, itemId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAll = async (req, res, next) => {
+export const findAll = async (req, res, next) => {
   const { userId } = req.auth;
   const qb = new QueryBuilder(req.query)
     .where("customerId", userId)
@@ -92,6 +100,13 @@ const findAll = async (req, res, next) => {
           include: {
             model: Product.model,
             as: "product",
+            include: {
+              model: ProductImage.model,
+              as: "gallery",
+              order: [["order", "ASC"]],
+              separate: true,
+              required: false,
+            },
           },
         },
         {
@@ -113,7 +128,7 @@ const findAll = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findOne = async (req, res, next) => {
+export const findOne = async (req, res, next) => {
   const { order } = req;
 
   try {
@@ -128,6 +143,13 @@ const findOne = async (req, res, next) => {
       include: {
         model: Product.model,
         as: "product",
+        include: {
+          model: ProductImage.model,
+          as: "gallery",
+          order: [["order", "ASC"]],
+          separate: true,
+          required: false,
+        },
       },
     });
 
@@ -156,7 +178,7 @@ const findOne = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findItem = async (req, res, next) => {
+export const findItem = async (req, res, next) => {
   const { item } = req;
 
   try {
@@ -164,12 +186,4 @@ const findItem = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  validateOrderId,
-  validateItemId,
-  findAll,
-  findOne,
-  findItem,
 };

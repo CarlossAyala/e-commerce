@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { CalendarIcon } from "@heroicons/react/24/outline";
+import placeholder from "@/assets/images/placeholder-image.jpg";
 import { EmptyState, PageHeader, PageHeaderHeading } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
@@ -12,6 +12,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
   Separator,
   Skeleton,
 } from "@/components";
@@ -31,15 +36,22 @@ export const Store = () => {
 
       {isLoading ? (
         <>
-          <section className="overflow-hidden rounded-md border">
-            <div className="relative h-64">
-              <Skeleton className="h-full w-full rounded-none" />
-              <div className="absolute ml-4 size-32 -translate-y-20 rounded-full border border-gray-200 bg-gray-100" />
+          <section>
+            <div className="relative">
+              <Carousel>
+                <CarouselContent>
+                  <CarouselItem>
+                    <Skeleton className="aspect-h-9 aspect-w-16 sm:aspect-h-6 lg:aspect-h-4" />
+                  </CarouselItem>
+                </CarouselContent>
+              </Carousel>
+              <div className="absolute bottom-0 left-4 size-36 translate-y-1/2 overflow-hidden rounded-full border">
+                <div className="size-full bg-gray-200"></div>
+              </div>
             </div>
-            <div className="mt-10 space-y-2 p-4">
-              <Skeleton className="h-5 w-1/3" />
-              <Skeleton className="h-4 w-1/2" />
-              <Skeleton className="h-4 w-1/2" />
+            <div className="mt-20 space-y-2 px-4 xl:px-0">
+              <Skeleton className="h-6 w-1/2" />
+              <Skeleton className="h-5 w-full" />
             </div>
           </section>
 
@@ -63,33 +75,51 @@ export const Store = () => {
         <EmptyState title="Error" description={error.message} />
       ) : (
         <>
-          <section className="overflow-hidden rounded-md border">
-            <div className="relative h-64">
-              <img
-                className="h-full w-full object-cover"
-                src="https://http2.mlstatic.com/D_NQ_NP803724-MLA74136348520_012024-B.webp"
-              />
-              <img
-                className="absolute ml-4 size-32 -translate-y-20 rounded-full border object-contain"
-                src="https://http2.mlstatic.com/D_Q_NP_828918-MLA27343044756_052018-T.webp"
-              />
+          <section>
+            <div className="relative">
+              <Carousel>
+                <CarouselContent>
+                  {store.gallery.length ? (
+                    store.gallery.map((image) => (
+                      <CarouselItem key={image.id}>
+                        <div className="aspect-h-9 aspect-w-16 overflow-hidden rounded-md border sm:aspect-h-6 lg:aspect-h-4">
+                          <img
+                            src={image.url}
+                            alt="Banner"
+                            className="size-full object-cover object-center"
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))
+                  ) : (
+                    <CarouselItem>
+                      <div className="aspect-h-9 aspect-w-16 overflow-hidden rounded-md border sm:aspect-h-6 lg:aspect-h-4">
+                        <img src={placeholder} alt="No banner" />
+                      </div>
+                    </CarouselItem>
+                  )}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+              <div className="absolute bottom-0 left-4 size-36 translate-y-1/2 overflow-hidden rounded-full border">
+                <img
+                  src={store.url ?? placeholder}
+                  alt="Profile"
+                  className="size-full object-cover object-center"
+                />
+              </div>
             </div>
-
-            <div className="mt-9 p-4">
-              <div>
-                <h3 className="text-xl font-semibold">{store.name}</h3>
-              </div>
-              <p className="text-sm">{store.description}</p>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <CalendarIcon className="size-4" />
-                <p className="text-sm leading-none">
-                  Created at {Formatter.monthAndYearDate(store.createdAt)}
-                </p>
-              </div>
+            <div className="mt-16 px-4 pt-2 xl:px-0">
+              <h2 className="text-xl font-semibold md:text-2xl">
+                {store.name}
+              </h2>
+              <p>{store.description}</p>
+              <p className="text-sm text-muted-foreground">
+                Created at {Formatter.monthAndYearDate(store.createdAt)}
+              </p>
             </div>
           </section>
-
-          <Separator />
 
           <Card>
             <CardHeader>
@@ -99,7 +129,7 @@ export const Store = () => {
             <CardContent>
               <div className="flex items-center justify-between space-x-4">
                 <div className="flex items-center space-x-4">
-                  <Avatar>
+                  <Avatar className="rounded-full border">
                     <AvatarImage src={null} />
                     <AvatarFallback>
                       {getInitials(

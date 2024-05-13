@@ -1,5 +1,1 @@
-const sequelize = require("./connection");
-
-module.exports = {
-  sequelize,
-};
+export * from "./connection.js";

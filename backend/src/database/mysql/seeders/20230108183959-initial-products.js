@@ -1,9 +1,9 @@
 "use strict";
 
-const { v4: uuidv4 } = require("uuid");
-const { faker } = require("@faker-js/faker/locale/es_MX");
-const { Store, Product, Category } = require("../models");
-const { slugify } = require("../../../libs");
+import crypto from "crypto";
+import { faker } from "@faker-js/faker";
+import { slugify } from "../../../libs/index.js";
+import { Store, Product, Category } from "../models";
 
 const createRandomProduct = (categoryId, storeId) => {
   const priceOptions = {
@@ -28,7 +28,7 @@ const createRandomProduct = (categoryId, storeId) => {
   const condition = faker.helpers.arrayElement(productCondition);
 
   return {
-    id: uuidv4(),
+    id: crypto.randomUUID(),
     name,
     description,
     stock,
@@ -74,7 +74,7 @@ const generateProductPerCategory = (categories, stores) => {
   return products;
 };
 
-module.exports = {
+export default {
   async up(queryInterface) {
     try {
       // Get business

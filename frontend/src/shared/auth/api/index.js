@@ -49,8 +49,8 @@ export const signup = (values) => {
   });
 };
 
-export const signout = () => {
-  const url = `${ENDPOINT}/signout`;
+export const signout = (app) => {
+  const url = `${ENDPOINT}/signout?app=${app}`;
 
   return fetcher(url, {
     method: "POST",

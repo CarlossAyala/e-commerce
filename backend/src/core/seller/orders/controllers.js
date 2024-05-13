@@ -1,14 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { notFound } = require("../../../middlewares");
-const { QueryBuilder, Stripe } = require("../../../libs");
-const {
+import express from "express";
+import { notFound } from "../../../middlewares/index.js";
+import { Op } from "sequelize";
+import { QueryBuilder, Stripe } from "../../../libs/index.js";
+import {
   Order,
   OrderItem,
   Product,
   User,
   Address,
-} = require("../../../database/mysql/models");
+} from "../../../database/mysql/models/index.js";
 
 /**
  * @param {express.Request} req
@@ -16,7 +17,7 @@ const {
  * @param {express.NextFunction} next
  * @param {string} orderId
  */
-const validateOrderId = async (req, _res, next, orderId) => {
+export const validateOrderId = async (req, _res, next, orderId) => {
   const { store } = req;
 
   try {
@@ -59,7 +60,7 @@ const validateOrderId = async (req, _res, next, orderId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAll = async (req, res, next) => {
+export const findAll = async (req, res, next) => {
   const { store } = req;
   const { where, order, limit, offset } = new QueryBuilder(req.query)
     .whereLike("id", req.query.q)
@@ -111,7 +112,7 @@ const findAll = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findOne = async (req, res, next) => {
+export const findOne = async (req, res, next) => {
   const { order, items } = req;
 
   try {
@@ -139,8 +140,57 @@ const findOne = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  validateOrderId,
-  findAll,
-  findOne,
+/**
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ */
+export const findLatest = async (req, res, next) => {
+  const { store } = req;
+
+  const currentDate = new Date();
+  const firstDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  );
+  const lastDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
+  );
+
+  try {
+    const orders = await Order.model.findAndCountAll({
+      where: {
+        createdAt: {
+          [Op.between]: [firstDayOfMonth, lastDayOfMonth],
+        },
+      },
+      include: [
+        {
+          model: OrderItem.model,
+          as: "items",
+          include: {
+            model: Product.model,
+            as: "product",
+            attributes: [],
+            where: {
+              storeId: store.id,
+            },
+          },
+        },
+        {
+          model: User.model,
+          as: "customer",
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+      limit: 5,
+    });
+
+    res.json(orders);
+  } catch (error) {
+    next(error);
+  }
 };

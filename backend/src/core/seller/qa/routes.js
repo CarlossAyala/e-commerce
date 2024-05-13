@@ -1,9 +1,9 @@
-const express = require("express");
-const controllers = require("./controllers");
-const schemas = require("./schemas");
-const { validateSchema } = require("../../../middlewares");
+import { Router } from "express";
+import controllers from "./controllers.js";
+import schemas from "./schemas.js";
+import { validateSchema } from "../../../middlewares/index.js";
 
-const router = express.Router();
+const router = Router();
 
 router.param("questionId", controllers.validateQuestionId);
 router.param("productId", controllers.validateProductId);
@@ -18,4 +18,4 @@ router.post(
 );
 router.patch("/:questionId", controllers.reject);
 
-module.exports = router;
+export default router;

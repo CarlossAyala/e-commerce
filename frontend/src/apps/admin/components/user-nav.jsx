@@ -1,4 +1,5 @@
-import { useGetProfile } from "@/shared/auth";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { useGetProfile, useSignout } from "@/shared/auth";
 import {
   Avatar,
   AvatarFallback,
@@ -6,52 +7,72 @@ import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  Skeleton,
 } from "@/components";
 import { getFullName, getInitials } from "@/utils";
+import { Spinner } from "@/shared/components";
 
-// TODO: Check if this would be used
 export const UserNav = () => {
-  const { data: admin } = useGetProfile();
+  const { data: admin, isLoading, isError, error } = useGetProfile();
+
+  const signout = useSignout();
+
+  const handleSignout = (e) => {
+    e.preventDefault();
+    signout.mutate(null);
+  };
 
   const fullName = getFullName(admin);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative rounded-full">
-          <Avatar>
-            <AvatarImage
-              src="https://avatars.githubusercontent.com/u/55491792?s=400&u=443015ea5d9d3fe5e957d83a5ff4105ea8c706a2&v=4"
-              alt={fullName}
-            />
-            <AvatarFallback className="font-normal">
-              {getInitials(fullName)}
-            </AvatarFallback>
-          </Avatar>
+        <Button
+          variant="outline"
+          size="icon"
+          className="overflow-hidden rounded-full"
+        >
+          {isLoading ? (
+            <Skeleton className="size-full" />
+          ) : isError ? (
+            <ExclamationTriangleIcon className="size-4" />
+          ) : (
+            <Avatar>
+              <AvatarImage src="/avatars/01.png" alt="@ShadCN" />
+              <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
+            </Avatar>
+          )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="space-y-1 font-normal">
-          <p className="truncate text-sm font-medium leading-none">
-            {fullName}
-          </p>
-          <p className="truncate text-xs leading-none text-muted-foreground">
-            {admin.email}
-          </p>
-        </DropdownMenuLabel>
+      <DropdownMenuContent className="w-56">
+        {isLoading ? (
+          <div className="space-y-1 p-1">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-3 w-full" />
+          </div>
+        ) : isError ? (
+          <DropdownMenuLabel className="font-normal">
+            <p className="line-clamp-2 text-center text-sm text-muted-foreground">
+              {error.message}
+            </p>
+          </DropdownMenuLabel>
+        ) : (
+          <DropdownMenuLabel className="space-y-1 font-normal">
+            <p className="text-sm font-medium leading-none">{fullName}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {admin.email}
+            </p>
+          </DropdownMenuLabel>
+        )}
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem onSelect={handleSignout} disabled={signout.isLoading}>
+          {signout.isLoading && <Spinner className="mr-2 size-4" />}
+          Log out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -88,7 +88,7 @@ export const History = () => {
   };
 
   const isEmpty = !data?.rows.length;
-  const groupedHistory = groupByDate(data?.rows ?? []);
+  const groups = groupByDate(data?.rows ?? []);
 
   return (
     <main className="container flex-1 space-y-4 pb-10">
@@ -122,7 +122,10 @@ export const History = () => {
       {isLoading ? (
         <section className="space-y-2">
           <Skeleton className="h-4 w-20" />
-          <ProductCard.Skeleton />
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
+            <ProductCard.Skeleton />
+            <ProductCard.Skeleton />
+          </div>
         </section>
       ) : isError ? (
         <EmptyState title="Error" description={error.message} />
@@ -133,12 +136,12 @@ export const History = () => {
         />
       ) : (
         <section className="space-y-4">
-          {groupedHistory.map((group) => (
+          {groups.map((group) => (
             <div key={group.date} className="space-y-2">
               <div>
                 <p className="text-sm font-medium">{formatDate(group.date)}</p>
               </div>
-              <ol className="grid grid-cols-products gap-4">
+              <ol className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
                 {group.items.map((_history, index) => (
                   <li key={index} className="relative">
                     <ProductCard product={_history.product} />

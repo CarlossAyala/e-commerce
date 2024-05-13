@@ -1,3 +1,3 @@
 export * from "./queries";
-export * from "./schemas";
+export * from "./schemas.js";
 export * from "./utils";

@@ -23,7 +23,7 @@ export const ReviewNew = () => {
   } = useGetOrderItem(orderItemId);
 
   return (
-    <main className="container max-w-3xl flex-1 space-y-4">
+    <main className="container max-w-3xl flex-1 space-y-4 pb-10">
       <PageHeader>
         <PageHeaderHeading>Create Review</PageHeaderHeading>
         <PageHeaderDescription>
@@ -36,7 +36,7 @@ export const ReviewNew = () => {
           <>
             <div className="space-y-2">
               <Skeleton className="h-4 w-1/4" />
-              <ReviewProduct.Skeleton className="rounded-md border border-black/10" />
+              <ReviewProduct.Skeleton className="rounded-md border" />
             </div>
 
             <div className="space-y-4">
@@ -58,7 +58,7 @@ export const ReviewNew = () => {
             <div className="space-y-2">
               <h3 className="text-sm font-medium leading-tight">Product</h3>
               <ReviewProduct
-                className="rounded-md border border-black/10"
+                className="rounded-md border"
                 product={review.product}
               />
             </div>

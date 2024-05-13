@@ -36,6 +36,7 @@ ReviewPending.Skeleton = function ReviewPendingSkeleton() {
       <div className="flex justify-between">
         <Skeleton className="h-4 w-1/4" />
         <Skeleton className="h-4 w-1/4" />
+        <Skeleton className="h-4 w-1/4" />
       </div>
       <ReviewProduct.Skeleton className="rounded-md border" />
     </div>

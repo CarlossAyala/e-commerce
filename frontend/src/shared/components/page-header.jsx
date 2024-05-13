@@ -11,7 +11,7 @@ export const PageHeader = ({ className, children, ...props }) => {
 export const PageHeaderHeading = ({ className, ...props }) => {
   return (
     <h2
-      className={cn("text-3xl font-bold tracking-tight", className)}
+      className={cn("text-2xl font-bold tracking-tight md:text-3xl", className)}
       {...props}
     />
   );
@@ -19,6 +19,9 @@ export const PageHeaderHeading = ({ className, ...props }) => {
 
 export const PageHeaderDescription = ({ className, ...props }) => {
   return (
-    <p className={cn("text-lg text-muted-foreground", className)} {...props} />
+    <p
+      className={cn("text-muted-foreground md:text-lg", className)}
+      {...props}
+    />
   );
 };

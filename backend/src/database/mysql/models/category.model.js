@@ -1,18 +1,13 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../connection");
+import { DataTypes } from "sequelize";
+import { sequelize } from "../connection.js";
 
 const modelName = "Category";
+
 const tableName = "categories";
+
 const modelOptions = {
   tableName,
   timestamps: true,
-};
-const enums = {
-  type: {
-    main: "main",
-    sub: "sub",
-    single: "single",
-  },
 };
 
 const modelSchema = {
@@ -27,10 +22,6 @@ const modelSchema = {
   slug: {
     type: DataTypes.STRING,
     unique: "slug",
-  },
-  type: {
-    type: DataTypes.ENUM,
-    values: Object.values(enums.type),
   },
   parentId: {
     type: DataTypes.UUID,
@@ -50,10 +41,10 @@ const modelSchema = {
 
 const model = sequelize.define(modelName, modelSchema, modelOptions);
 
-module.exports = {
+export default {
   model,
+  modelName,
   tableName,
-  modelSchema,
   modelOptions,
-  enums,
+  modelSchema,
 };

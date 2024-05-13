@@ -1,23 +1,13 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../connection");
-const User = require("./user.model");
-const Address = require("./address.model");
+import { DataTypes } from "sequelize";
+import { sequelize } from "../connection.js";
+import User from "./user.model.js";
+import Address from "./address.model.js";
 
 const modelName = "Order";
 const tableName = "orders";
 const modelOptions = {
   tableName,
   timestamps: true,
-};
-const enums = {
-  pending: "pending",
-  process: "in process",
-  shipped: "shipped",
-  delivered: "delivered",
-  cancelled: "cancelled",
-  return: "return",
-  refunded: "refunded",
-  completed: "completed",
 };
 
 const modelSchema = {
@@ -27,11 +17,6 @@ const modelSchema = {
     defaultValue: DataTypes.UUIDV4,
   },
   total: DataTypes.DECIMAL(10, 2),
-  status: {
-    type: DataTypes.ENUM,
-    values: Object.values(enums),
-    defaultValue: enums.pending,
-  },
   customerId: {
     type: DataTypes.UUID,
     field: "customer_id",
@@ -66,10 +51,10 @@ const modelSchema = {
 
 const model = sequelize.define(modelName, modelSchema, modelOptions);
 
-module.exports = {
+export default {
   model,
+  modelName,
   tableName,
-  modelSchema,
   modelOptions,
-  enums,
+  modelSchema,
 };

@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { parseURLSearchParams } from "@/shared/utils";
 import { useAuth } from "@/shared/auth";
-import { findAll, findOne } from "./api";
+import { findAll, findOne, latestOrders } from "./api";
 
 export const orderKeys = {
   key: ["seller/orders"],
   findOne: (orderId) => [...orderKeys.key, "find-one", orderId],
   findAll: (query) => [...orderKeys.key, "find-all", query],
+  findLatestOrders: () => [...orderKeys.key, "find-latest-orders"],
+  growthStats: (query) => [...orderKeys.key, "growth-stats", query],
 };
 
 export const useGetOrder = (id) => {
@@ -26,5 +28,14 @@ export const useGetOrders = (query) => {
   return useQuery({
     queryKey: orderKeys.findAll(_query),
     queryFn: () => findAll(query, accessToken),
+  });
+};
+
+export const useGetLatestOrders = () => {
+  const { data: accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: orderKeys.findLatestOrders(),
+    queryFn: () => latestOrders(accessToken),
   });
 };

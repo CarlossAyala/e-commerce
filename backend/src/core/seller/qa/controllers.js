@@ -1,9 +1,13 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { Question, Product, Answer } = require("../../../database/mysql/models");
-const { QueryBuilder } = require("../../../libs");
-const { notFound, badRequest } = require("../../../middlewares");
-const sequelize = require("../../../database/mysql/connection");
+import express from "express";
+import {
+  Question,
+  Product,
+  Answer,
+} from "../../../database/mysql/models/index.js";
+import { QueryBuilder } from "../../../libs/index.js";
+import { notFound, badRequest } from "../../../middlewares/index.js";
+import sequelize from "../../../database/mysql/connection.js";
 
 /**
  * @param {express.Request} req
@@ -11,7 +15,7 @@ const sequelize = require("../../../database/mysql/connection");
  * @param {express.NextFunction} next
  * @param {string} questionId
  */
-const validateQuestionId = async (req, _res, next, questionId) => {
+export const validateQuestionId = async (req, _res, next, questionId) => {
   const { store } = req;
 
   try {
@@ -42,7 +46,7 @@ const validateQuestionId = async (req, _res, next, questionId) => {
  * @param {express.NextFunction} next
  * @param {string} productId
  */
-const validateProductId = async (req, _res, next, productId) => {
+export const validateProductId = async (req, _res, next, productId) => {
   const { store } = req;
 
   try {
@@ -66,7 +70,7 @@ const validateProductId = async (req, _res, next, productId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAll = async (req, res, next) => {
+export const findAll = async (req, res, next) => {
   const { store } = req;
 
   let { status } = req.query;
@@ -115,7 +119,7 @@ const findAll = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findOne = async (req, res, next) => {
+export const findOne = async (req, res, next) => {
   const { question } = req.params;
 
   try {
@@ -130,7 +134,7 @@ const findOne = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAllByProductId = async (req, res, next) => {
+export const findAllByProductId = async (req, res, next) => {
   const { productId } = req.params;
 
   let { status } = req.query;
@@ -178,7 +182,7 @@ const findAllByProductId = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const answer = async (req, res, next) => {
+export const answer = async (req, res, next) => {
   const { userId } = req.auth;
   const { question } = req;
   const { content } = req.body;
@@ -222,7 +226,7 @@ const answer = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const reject = async (req, res, next) => {
+export const reject = async (req, res, next) => {
   const { question } = req;
 
   try {
@@ -240,14 +244,4 @@ const reject = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  validateQuestionId,
-  validateProductId,
-  findAll,
-  findOne,
-  findAllByProductId,
-  answer,
-  reject,
 };

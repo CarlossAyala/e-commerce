@@ -16,7 +16,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  Skeleton,
 } from "@/components";
 import {
   useClearBookmark,
@@ -67,8 +66,8 @@ export const Bookmarks = () => {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="ml-auto shrink-0">
-              <EllipsisVerticalIcon className="size-4" />
+            <Button variant="outline" size="icon" className="ml-auto shrink-0">
+              <EllipsisVerticalIcon className="size-5" />
               <span className="sr-only">More</span>
             </Button>
           </DropdownMenuTrigger>
@@ -85,16 +84,16 @@ export const Bookmarks = () => {
       </section>
 
       {isLoading ? (
-        <section className="space-y-2">
-          <Skeleton className="h-4 w-20" />
-          <ProductCard.Skeleton count={3} />
+        <section className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
+          <ProductCard.Skeleton />
+          <ProductCard.Skeleton />
         </section>
       ) : isError ? (
         <EmptyState title="Error" description={error.message} />
       ) : isEmpty ? (
         <EmptyState title="No bookmarks" description="No bookmarks yet" />
       ) : (
-        <section className="grid grid-cols-products gap-4">
+        <section className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
           {bookmarks.rows.map((bookmark) => (
             <div key={bookmark.productId} className="relative">
               <ProductCard product={bookmark.product} />

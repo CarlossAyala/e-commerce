@@ -1,13 +1,11 @@
-/* eslint-disable no-undef */
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 //TODO: Add schema validation
-
-module.exports = {
+export default {
   env: process.env.NODE_ENV,
   port: process.env.PORT || 3002,
   saltRounds: Number(process.env.AUTH_SALT),
-  pixels: process.env.API_KEY_PIXELS, //TODO: Implement
   db: {
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
@@ -35,7 +33,21 @@ module.exports = {
   seller: {
     password: process.env.SELLER_PASSWORD,
   },
-  stipe: {
+  stripe: {
     sk_test: process.env.STRIPE_SK_TEST,
+  },
+  cloudinary: {
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  },
+  resend: {
+    api_key: process.env.RESEND_API_KEY,
+  },
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    // TODO: Password?
+    // password: process.env.REDIS_PASSWORD,
   },
 };

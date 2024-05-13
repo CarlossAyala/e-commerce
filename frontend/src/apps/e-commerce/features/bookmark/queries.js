@@ -40,6 +40,9 @@ export const useCreateBookmark = () => {
       queryClient.invalidateQueries(bookmarkKeys.findOne(productId));
       queryClient.invalidateQueries(bookmarkKeys.findAllKey());
     },
+    meta: {
+      title: "Bookmark",
+    },
   });
 };
 
@@ -53,6 +56,9 @@ export const useRemoveBookmark = () => {
       queryClient.invalidateQueries(bookmarkKeys.findOne(productId));
       queryClient.invalidateQueries(bookmarkKeys.findAllKey());
     },
+    meta: {
+      title: "Bookmark",
+    },
   });
 };
 
@@ -64,6 +70,9 @@ export const useClearBookmark = () => {
     mutationFn: () => clear(accessToken),
     onSuccess: () => {
       return queryClient.invalidateQueries(bookmarkKeys.key);
+    },
+    meta: {
+      title: "Bookmark",
     },
   });
 };

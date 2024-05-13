@@ -1,13 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/shared/auth";
 import { parseURLSearchParams } from "@/shared/utils";
-import { findAll, findOne } from "./api";
+import { count, findAll, findOne, growthStats } from "./api";
 
 const storeKeys = {
   key: ["admin/stores"],
   findOne: (storeId) => [...storeKeys.key, "find-one", storeId],
   findAllKey: () => [...storeKeys.key, "find-all"],
   findAll: (query) => [...storeKeys.findAllKey(), query],
+  count: () => [...storeKeys.key, "count"],
+  growthStats: (query) => [...storeKeys.key, "growth-stats", query],
 };
 
 export const useGetStores = (query) => {
@@ -27,5 +29,24 @@ export const useGetStore = (storeId) => {
     queryKey: storeKeys.findOne(storeId),
     queryFn: () => findOne(storeId, accessToken),
     enabled: !!storeId,
+  });
+};
+
+export const useGetStoresCount = () => {
+  const { data: accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: storeKeys.count(),
+    queryFn: () => count(accessToken),
+  });
+};
+
+export const useGetStoresGrowthStats = (query) => {
+  const { data: accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
+
+  return useQuery({
+    queryKey: storeKeys.growthStats(_query),
+    queryFn: () => growthStats(query, accessToken),
   });
 };

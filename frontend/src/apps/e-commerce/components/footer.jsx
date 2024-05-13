@@ -8,7 +8,7 @@ export const Footer = () => {
 
         <div>
           <p className="text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Legger
+            &copy; {new Date().getFullYear()} - Carlos Ayala
           </p>
         </div>
       </section>

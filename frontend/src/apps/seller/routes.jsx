@@ -1,10 +1,11 @@
-import { RedirectWithStore, WithStoreRoute } from "./components";
+import { NotFound } from "@/shared/components";
 import { productRoutes } from "./features/products";
 import { Store, StoreNew } from "./features/store";
 import { Dashboard } from "./features/dashboard";
-import { qaRoutes } from "./features/qa";
+import { questionRoutes } from "./features/questions";
 import { orderRoutes } from "./features/orders";
 import { reviewRoutes } from "./features/review";
+import { RedirectWithStore, WithStoreRoute } from "./components";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -41,9 +42,9 @@ export const sellerRoutes = [
     children: productRoutes,
   },
   {
-    path: "qa",
+    path: "questions",
     element: <WithStoreRoute />,
-    children: qaRoutes,
+    children: questionRoutes,
   },
   {
     path: "orders",
@@ -54,5 +55,9 @@ export const sellerRoutes = [
     path: "reviews",
     element: <WithStoreRoute />,
     children: reviewRoutes,
+  },
+  {
+    path: "*",
+    element: <NotFound className="flex-1" />,
   },
 ];

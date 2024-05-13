@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { StarIcon } from "@heroicons/react/24/solid";
+import { Spinner } from "@/shared/components";
 import {
   Button,
   Form,
@@ -20,7 +21,6 @@ import { cn } from "@/libs";
 import { reviewActionRoutes } from "../utils";
 import { reviewDefault, reviewSchema } from "../schemas";
 import { useCreateReview } from "../queries";
-import { Spinner } from "@/shared/components";
 
 const RATINGS = ["Poor", "Fair", "Average", "Good", "Excellent"];
 
@@ -33,7 +33,7 @@ export const ReviewProductForm = () => {
   const form = useForm({
     resolver: yupResolver(reviewSchema),
     defaultValues: reviewDefault,
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleCreate = (values) => {

@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   AuthenticatedRoute,
-  RedirectIfAuthenticated,
+  NotFound,
   Signin,
   Signup,
 } from "./shared/components";
@@ -35,19 +35,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/signin",
-    element: (
-      <RedirectIfAuthenticated>
-        <Signin />
-      </RedirectIfAuthenticated>
-    ),
+    element: <Signin />,
   },
   {
     path: "/signup",
-    element: (
-      <RedirectIfAuthenticated>
-        <Signup />
-      </RedirectIfAuthenticated>
-    ),
+    element: <Signup />,
+  },
+  {
+    path: "*",
+    element: <NotFound className="h-svh" />,
   },
 ]);
 

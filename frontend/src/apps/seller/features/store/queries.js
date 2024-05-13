@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/shared/auth";
-import { create, getStore, remove, update } from "./api";
+import { create, earnings, getStore, remove, update } from "./api";
 
 export const storeKeys = {
   key: ["seller/store"],
   current: () => [...storeKeys.key, "current"],
+  earnings: () => [...storeKeys.key, "earnings"],
 };
 
 export const useGetStore = () => {
@@ -38,7 +39,7 @@ export const useUpdateStore = () => {
   const { data: accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: (values) => update(values, accessToken),
+    mutationFn: (formData) => update(formData, accessToken),
     onSuccess: () => {
       return queryClient.invalidateQueries({
         queryKey: storeKeys.current(),
@@ -62,5 +63,14 @@ export const useDeleteStore = () => {
     meta: {
       title: "Store",
     },
+  });
+};
+
+export const useGetStoreEarnings = () => {
+  const { data: accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: storeKeys.earnings(),
+    queryFn: () => earnings(accessToken),
   });
 };

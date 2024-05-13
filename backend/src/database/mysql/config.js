@@ -1,8 +1,8 @@
-const environments = require("../../config/environments");
+import env from "../../config/environments";
 
-const { database, host, password, user, dialect } = environments.db;
+const { database, host, password, user, dialect } = env.db;
 
-module.exports = {
+export default {
   development: {
     username: user,
     password,

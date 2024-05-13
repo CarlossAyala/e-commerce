@@ -4,7 +4,7 @@ import { fetcher } from "@/libs";
 const ENDPOINT = `${API_SELLER}/reviews`;
 
 export const findAll = async (query, accessToken) => {
-  const url = `${ENDPOINT}/${query}`;
+  const url = `${ENDPOINT}/?${query}`;
 
   return fetcher(url, {
     method: "GET",

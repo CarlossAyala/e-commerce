@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Card } from "@/components";
+import { Card, Skeleton } from "@/components";
 import { orderActionRoutes } from "../../orders";
 import { ReviewCustomer } from "./review-customer";
 import { ReviewProduct } from "./review-product";
@@ -27,9 +27,12 @@ export const ReviewDone = ({ review }) => {
 
 ReviewDone.Skeleton = function ReviewDoneSkeleton() {
   return (
-    <Card className="divide-y">
-      <ReviewProduct.Skeleton />
-      <ReviewCustomer.Skeleton />
-    </Card>
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-1/4" />
+      <Card className="divide-y">
+        <ReviewProduct.Skeleton />
+        <ReviewCustomer.Skeleton />
+      </Card>
+    </div>
   );
 };

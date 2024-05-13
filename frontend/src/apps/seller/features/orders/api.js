@@ -26,3 +26,15 @@ export const findAll = (query, accessToken) => {
     },
   });
 };
+
+export const latestOrders = (accessToken) => {
+  const url = `${ENDPOINT}/latest`;
+
+  return fetcher(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

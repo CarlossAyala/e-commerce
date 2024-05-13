@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const name = Joi.string().label("Name").min(3).max(100).required();
 const phone = Joi.string().label("Phone").min(6).max(20).required();
@@ -24,7 +24,7 @@ const base = Joi.object({
   indications,
 });
 
-module.exports = {
+export default {
   create: base,
   update: base,
 };

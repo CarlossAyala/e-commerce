@@ -1,14 +1,14 @@
-const express = require("express");
-const controllers = require("./controllers");
-const schemas = require("./schemas");
-const {
+import { Router } from "express";
+import controllers from "./controllers.js";
+import schemas from "./schemas.js";
+import {
   validateSchema,
   authentication,
   validateAccessToken,
-} = require("../../../middlewares");
+} from "../../../middlewares/index.js";
 
+const router = Router();
 const auth = [validateAccessToken, authentication];
-const router = express.Router();
 
 router.get("/done", auth, controllers.findAllDone);
 router.get("/pending", auth, controllers.findAllPending);
@@ -21,4 +21,4 @@ router.post(
   controllers.create
 );
 
-module.exports = router;
+export default router;

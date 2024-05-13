@@ -40,6 +40,9 @@ export const useRemoveHistory = () => {
     onSuccess: () => {
       return queryClient.invalidateQueries(historyKeys.key);
     },
+    meta: {
+      title: "History",
+    },
   });
 };
 
@@ -51,6 +54,9 @@ export const useClearHistory = () => {
     mutationFn: () => clear(accessToken),
     onSuccess: () => {
       return queryClient.invalidateQueries(historyKeys.key);
+    },
+    meta: {
+      title: "History",
     },
   });
 };

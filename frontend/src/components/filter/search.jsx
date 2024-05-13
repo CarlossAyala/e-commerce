@@ -38,14 +38,12 @@ export const Search = ({
   }, [paramValue]);
 
   return (
-    <div className="w-full sm:max-w-sm">
-      <Input
-        type={type}
-        className="h-8"
-        placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
-      />
-    </div>
+    <Input
+      type={type}
+      className="h-9 sm:max-w-sm"
+      placeholder={placeholder}
+      value={value}
+      onChange={handleChange}
+    />
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   Bars3Icon,
   BookOpenIcon,
@@ -9,13 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Logo } from "@/shared/components";
 import { cn } from "@/libs";
-import {
-  Button,
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  buttonVariants,
-} from "@/components";
+import { Button, Sheet, SheetContent, SheetHeader } from "@/components";
 import { ECOMMERCE_NAV } from "../config";
 
 const { home, categories, stores, products } = ECOMMERCE_NAV;
@@ -26,10 +20,8 @@ const items = [
   { ...stores, icon: BuildingStorefrontIcon },
 ];
 
-// TODO: Check
 export const Sidebar = () => {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
 
   return (
     <>
@@ -37,34 +29,33 @@ export const Sidebar = () => {
         onClick={() => setOpen(true)}
         variant="ghost"
         size="icon"
-        className="-ml-2 mr-2 sm:hidden"
+        className="-ml-2 sm:hidden"
       >
         <Bars3Icon className="size-5 text-black" />
         <span className="sr-only">Open sidebar</span>
       </Button>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="left" className="py-2">
-          <SheetHeader className="mb-2">
-            <Logo />
+        <SheetContent side="left" className="p-0">
+          <SheetHeader className="p-4 text-start">
+            <Logo className="-mx-1" />
           </SheetHeader>
-          <nav className="-ml-1 grid gap-1">
+          <nav className="grid px-2 text-sm font-medium">
             {items.map((link, index) => (
-              <Link
+              <NavLink
                 key={index}
                 to={link.to}
-                className={cn(
-                  buttonVariants({
-                    variant: pathname === link.to ? "default" : "ghost",
-                    size: "lg",
-                  }),
-                  "justify-start px-3",
-                )}
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-2 rounded-lg p-2 text-muted-foreground transition-all",
+                    isActive ? "bg-primary text-white" : "hover:text-primary",
+                  )
+                }
                 onClick={() => setOpen(false)}
               >
-                <link.icon className="mr-2 h-4 w-4" />
+                <link.icon className="size-4 stroke-2" />
                 {link.name}
-              </Link>
+              </NavLink>
             ))}
           </nav>
         </SheetContent>

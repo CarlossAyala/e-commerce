@@ -3,7 +3,7 @@ import { cn } from "@/libs";
 export const Spinner = ({ className }) => {
   return (
     <svg
-      className={cn("animate-spin", className)}
+      className={cn("animate-spin text-muted-foreground", className)}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

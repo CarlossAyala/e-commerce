@@ -1,12 +1,14 @@
-const router = require("express").Router();
-const categories = require("./categories/routes");
-const product = require("./product/routes");
-const qa = require("./qa/routes");
-const paymentMethod = require("./payment-method/routes");
+import { Router } from "express";
+import categories from "./categories/routes.js";
+import product from "./products/routes.js";
+import qa from "./qa/routes.js";
+import paymentMethod from "./payment-method/routes.js";
+
+const router = Router();
 
 router.use("/categories", categories);
 router.use("/products", product);
 router.use("/qa", qa);
 router.use("/payment-methods", paymentMethod);
 
-module.exports = router;
+export default router;

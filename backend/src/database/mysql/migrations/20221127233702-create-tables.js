@@ -1,11 +1,11 @@
 "use strict";
 
-const models = require("../models");
+import models from "../models";
 
 const createModels = Object.values(models);
 const dropModels = [...createModels].reverse();
 
-module.exports = {
+export default {
   async up(queryInterface) {
     Promise.all(
       createModels.map(({ tableName, modelSchema, modelOptions }) =>

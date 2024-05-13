@@ -10,7 +10,7 @@ export const AuthenticatedRoute = ({ children }) => {
   if (isLoading) {
     return (
       <main className="grid min-h-screen place-content-center">
-        <Spinner className="size-6 text-gray-600" />
+        <Spinner className="size-6 text-muted-foreground" />
       </main>
     );
   }

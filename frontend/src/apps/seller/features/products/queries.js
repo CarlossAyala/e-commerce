@@ -1,13 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/shared/auth";
 import { parseURLSearchParams } from "@/shared/utils";
-import { create, findAll, findOne, remove, update } from "./api";
+import {
+  create,
+  findAll,
+  findOne,
+  remove,
+  update,
+  getCount,
+  getCountStatus,
+  growthStats,
+} from "./api";
 
 export const productKeys = {
   key: ["seller/product"],
   findOne: (id) => [...productKeys.key, "find-one", id],
   findAllKey: () => [...productKeys.key, "find-all"],
   findAll: (query) => [...productKeys.findAllKey(), query],
+  count: () => [...productKeys.key, "count"],
+  countStatus: () => [...productKeys.key, "count-status"],
+  growthStats: (query) => [...productKeys.key, "growth-stats", query],
 };
 
 export const useGetProduct = (id) => {
@@ -35,9 +47,9 @@ export const useCreateProduct = () => {
   const { data: accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: (values) => create(values, accessToken),
+    mutationFn: (formData) => create(formData, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: productKeys.findAllKey(),
       });
     },
@@ -47,13 +59,13 @@ export const useCreateProduct = () => {
   });
 };
 
-export const useUpdateProduct = () => {
+export const useUpdateProduct = (productId) => {
   const queryClient = useQueryClient();
   const { data: accessToken } = useAuth();
 
   return useMutation({
-    mutationFn: ({ productId, values }) => {
-      return update(productId, values, accessToken);
+    mutationFn: (formData) => {
+      return update(productId, formData, accessToken);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -83,5 +95,33 @@ export const useDeleteProduct = () => {
     meta: {
       title: "Product",
     },
+  });
+};
+
+export const useGetProductCount = () => {
+  const { data: accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: productKeys.count(),
+    queryFn: () => getCount(accessToken),
+  });
+};
+
+export const useGetProductCountStatus = () => {
+  const { data: accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: productKeys.countStatus(),
+    queryFn: () => getCountStatus(accessToken),
+  });
+};
+
+export const useGetProductsGrowthStats = (query) => {
+  const { data: accessToken } = useAuth();
+  const _query = parseURLSearchParams(query);
+
+  return useQuery({
+    queryKey: productKeys.growthStats(_query),
+    queryFn: () => growthStats(query, accessToken),
   });
 };

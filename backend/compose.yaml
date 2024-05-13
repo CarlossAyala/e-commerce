@@ -1,6 +1,3 @@
-# Use root/example as user/password credentials
-version: "3.1"
-
 services:
   db:
     image: mysql
@@ -10,7 +7,7 @@ services:
     command: --default-authentication-plugin=caching_sha2_password
     restart: always
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
     volumes:
       - ./src/database/mysql/data:/var/lib/mysql
     environment:
@@ -25,3 +22,13 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --maxmemory-policy noeviction
+    restart: always
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - ./src/database/redis/data:/data

@@ -46,7 +46,7 @@ export const AddressDetails = () => {
     resolver: yupResolver(addressSchema),
     defaultValues: addressInitial,
     values: addressDefault(address),
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleUpdate = (values) => {

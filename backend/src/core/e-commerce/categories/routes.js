@@ -1,15 +1,10 @@
-const express = require("express");
-const controllers = require("./controllers");
+import { Router } from "express";
+import controllers from "./controllers.js";
 
-const router = express.Router();
+const router = Router();
 
-router.param("slug", controllers.validateCategorySlug);
-router.get("/main", controllers.getAllMain);
-router.get("/full", controllers.getAllFull);
-router.get("/:slug", controllers.getCategoryBySlug);
-router.get("/:slug/list", controllers.getCategoryListBySlug);
-router.get("/:slug/products/best-seller", controllers.getBestSeller);
-router.get("/:slug/products/random", controllers.getRandomProducts);
-router.get("/:slug/stores", controllers.getStores);
+router.param("categoryId", controllers.validateCategoryId);
 
-module.exports = router;
+router.get("/:categoryId/products/randoms", controllers.getRandoms);
+
+export default router;

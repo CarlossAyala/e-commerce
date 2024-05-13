@@ -1,14 +1,14 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const { invalidRequest } = require("./http-errors");
-const { decodeAccessToken } = require("../utils");
+import express from "express";
+import { invalidRequest } from "./http-errors.js";
+import { decodeAccessToken } from "../utils/index.js";
 
 /**
  * @param {express.Request} req
  * @param {express.Response} _res
  * @param {express.NextFunction} next
  */
-const validateAccessToken = async (req, _res, next) => {
+export const validateAccessToken = async (req, _res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -31,5 +31,3 @@ const validateAccessToken = async (req, _res, next) => {
     next(error);
   }
 };
-
-module.exports = validateAccessToken;

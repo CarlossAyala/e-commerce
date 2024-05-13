@@ -61,8 +61,8 @@ export const Signin = () => {
   };
 
   return (
-    <main className="container min-h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div className="flex h-full items-center lg:p-8">
+    <main className="container flex h-svh flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="flex h-full flex-1 items-center lg:p-8">
         <div className="mx-auto w-full max-w-sm space-y-6">
           <div className="space-y-2 text-center">
             <h2 className="text-2xl font-medium tracking-tight">

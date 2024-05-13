@@ -1,4 +1,4 @@
-import { object, string } from "yup";
+import { array, mixed, object, string } from "yup";
 import { parseString } from "@/utils";
 
 const name = string()
@@ -16,19 +16,29 @@ const description = string()
   .default("")
   .required();
 
-export const storeSchema = object({
+export const createSchema = object({
   name,
   description,
 });
-
-export const storeInitial = storeSchema.getDefault();
-
-export const storeDefault = (values) => ({
-  name: values?.name ?? storeInitial.name,
-  description: values?.description ?? storeInitial.description,
+export const createInitial = createSchema.getDefault();
+export const createDefault = (values) => ({
+  name: values?.name ?? createInitial.name,
+  description: values?.description ?? createInitial.description,
 });
 
-export const requestVerifySchema = object({
+export const updateSchema = object({
+  name,
   description,
+  profile: string().label("Profile").default(""),
+  nextProfile: mixed().label("Profile").default(""),
+  gallery: array().default([]),
+  nextGallery: array().default([]),
 });
-export const requestVerifyInitial = requestVerifySchema.getDefault();
+export const updateDefault = (values) => ({
+  name: values?.name ?? updateSchema.getDefault().name,
+  description: values?.description ?? updateSchema.getDefault().description,
+  profile: values?.url ?? updateSchema.getDefault().profile,
+  nextProfile: updateSchema.getDefault().nextProfile,
+  gallery: values?.gallery ?? updateSchema.getDefault().gallery,
+  nextGallery: updateSchema.getDefault().nextGallery,
+});

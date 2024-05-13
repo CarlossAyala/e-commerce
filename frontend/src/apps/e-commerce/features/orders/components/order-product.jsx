@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
+import placeholder from "@/assets/images/placeholder-image.jpg";
 import { Skeleton } from "@/components";
 import { Formatter } from "@/utils";
-import { productActionRoutes } from "../../product";
+import { productActionRoutes } from "../../products";
 
 export const OrderProduct = ({ item }) => {
   const subTotal = +item.product.price * item.quantity;
+  const image = item.product.gallery.length
+    ? item.product.gallery[0].url
+    : placeholder;
 
   return (
     <Link to={productActionRoutes.details(item.product)}>
       <article className="flex gap-3">
         <img
-          src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg"
-          alt="Alt"
+          src={image}
+          alt="Product image"
           className="size-16 rounded-lg border object-cover object-center"
         />
         <div className="grow">

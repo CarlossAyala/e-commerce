@@ -26,6 +26,5 @@ export * from "./ui/hover-card";
 export * from "./ui/checkbox";
 export * from "./ui/scroll-area";
 export * from "./ui/sonner";
-export * from "./slider";
-export * from "./slider-component";
 export * from "./filter";
+export * from "./ui/carousel";

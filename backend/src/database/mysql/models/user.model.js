@@ -1,5 +1,5 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../connection");
+import { DataTypes } from "sequelize";
+import { sequelize } from "../connection.js";
 
 const modelName = "User";
 const tableName = "users";
@@ -43,9 +43,10 @@ const modelSchema = {
 
 const model = sequelize.define(modelName, modelSchema, modelOptions);
 
-module.exports = {
+export default {
   model,
+  modelName,
   tableName,
-  modelSchema,
   modelOptions,
+  modelSchema,
 };

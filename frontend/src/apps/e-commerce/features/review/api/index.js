@@ -1,7 +1,7 @@
-import { API_E_COMMERCE } from "@/configs";
+import { API_ECOMMERCE } from "@/configs";
 import { fetcher } from "@/libs";
 
-const ENDPOINT = `${API_E_COMMERCE}/reviews`;
+const ENDPOINT = `${API_ECOMMERCE}/reviews`;
 
 export const findAllByProductId = (productId, query) => {
   const url = `${ENDPOINT}/product/${productId}?${query}`;

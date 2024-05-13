@@ -1,9 +1,5 @@
-const Joi = require("joi");
+import Joi from "joi";
 
-const answer = Joi.object({
+export const answer = Joi.object({
   content: Joi.string().label("Answer").min(5).max(255).required(),
 });
-
-module.exports = {
-  answer,
-};

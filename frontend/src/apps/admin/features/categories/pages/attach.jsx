@@ -31,16 +31,13 @@ import {
 } from "@/components";
 import { cn } from "@/libs";
 import { attachCategoryInitial, attachCategorySchema } from "../schemas";
-import { CATEGORY_TYPES } from "../utils";
 import { useAttachCategory, useGetCategories } from "../queries";
-
-const { MAIN, SINGLE } = CATEGORY_TYPES;
 
 export const Attach = () => {
   useDocumentTitle("Attach Category");
+
   const [open, setOpen] = useState(false);
   const [categoryId, setCategoryId] = useState();
-  const attach = useAttachCategory();
 
   const { data: categories, isLoading, isError, error } = useGetCategories();
 
@@ -49,6 +46,8 @@ export const Attach = () => {
     defaultValues: attachCategoryInitial,
     mode: "onSubmit",
   });
+
+  const attach = useAttachCategory();
 
   const handleAttach = (values) => {
     attach.mutate(
@@ -64,20 +63,8 @@ export const Attach = () => {
 
   const category = categories?.find((category) => category.id === categoryId);
 
-  const hasMainCategories = categories?.some(
-    (category) => category.type === MAIN,
-  );
-
-  const mainCategories = categories?.filter(
-    (category) => category.type === MAIN,
-  );
-  const singleCategories = categories?.filter(
-    (category) => category.type === SINGLE,
-  );
-
-  const othersMainCategories = mainCategories?.filter(
-    (category) => category.id !== categoryId,
-  );
+  const main = categories?.filter((category) => !category.parentId);
+  const rest = categories?.filter((category) => category.id !== categoryId);
 
   return (
     <main className="flex-1 space-y-4 px-6 pb-10">
@@ -111,7 +98,7 @@ export const Attach = () => {
             title="No categories"
             description="No categories to attach"
           />
-        ) : !hasMainCategories ? (
+        ) : !rest.length ? (
           <EmptyState
             title="No categories"
             description="No main categories to attach"
@@ -129,7 +116,7 @@ export const Attach = () => {
                     className="w-80 grow-0 justify-between"
                   >
                     {categoryId ? category.name : "Select a category..."}
-                    <ChevronUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    <ChevronUpDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 {categoryId && (
@@ -147,7 +134,7 @@ export const Attach = () => {
                   <CommandInput placeholder="Search..." />
                   <CommandEmpty>No categories found.</CommandEmpty>
                   <CommandGroup className="max-h-64 overflow-auto">
-                    {mainCategories.map((_category) => (
+                    {main.map((_category) => (
                       <CommandItem
                         key={_category.id}
                         value={_category.name}
@@ -194,171 +181,139 @@ export const Attach = () => {
               </section>
             )}
 
-            <Separator />
+            {categoryId && (
+              <>
+                <Separator />
 
-            {!categoryId ? (
-              <EmptyState
-                title="No category selected"
-                description="Please select a category to attach"
-              />
-            ) : (
-              <Form {...form}>
-                <form
-                  id="category-attach"
-                  onSubmit={form.handleSubmit(handleAttach)}
-                  className="space-y-4"
-                >
-                  <FormField
-                    control={form.control}
-                    name="categoriesId"
-                    render={() => (
-                      <FormItem className="space-y-2">
-                        <h3 className="font-medium">Single Categories</h3>
+                <Form {...form}>
+                  <form
+                    id="category-attach"
+                    onSubmit={form.handleSubmit(handleAttach)}
+                    className="space-y-4"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="categoriesId"
+                      render={() => (
+                        <FormItem>
+                          <h3 className="font-medium">Main Categories</h3>
 
-                        {singleCategories.length ? (
-                          <>
-                            <FormMessage />
-                            <div className="grid grid-cols-2 gap-x-4 gap-y-2 md:grid-cols-3 lg:grid-cols-4">
-                              {singleCategories.map((_category) => (
-                                <FormField
-                                  key={_category.id}
-                                  control={form.control}
-                                  name="categoriesId"
-                                  render={({ field }) => {
-                                    return (
-                                      <FormItem
-                                        key={_category.id}
-                                        className="flex items-center space-x-2 space-y-0"
-                                      >
-                                        <FormControl>
-                                          <Checkbox
-                                            checked={field.value.some(
-                                              (_categoryId) =>
-                                                _categoryId === _category.id,
-                                            )}
-                                            onCheckedChange={(checked) => {
-                                              return checked
-                                                ? field.onChange([
-                                                    ...field.value,
+                          {rest.length ? (
+                            <>
+                              <FormMessage className="m-0 mb-1" />
+                              <ul className="mt-2 space-y-4">
+                                {rest.map((_category) => (
+                                  <li key={_category.id} className="space-y-2">
+                                    <FormField
+                                      control={form.control}
+                                      name="categoriesId"
+                                      render={({ field }) => {
+                                        return (
+                                          <FormItem className="flex items-center space-x-2 space-y-0">
+                                            <FormControl>
+                                              <Checkbox
+                                                checked={field.value.some(
+                                                  (_categoryId) =>
+                                                    _categoryId ===
                                                     _category.id,
-                                                  ])
-                                                : field.onChange(
-                                                    field.value.filter(
-                                                      (value) =>
-                                                        value !== _category.id,
-                                                    ),
-                                                  );
-                                            }}
-                                          />
-                                        </FormControl>
-                                        <FormLabel className="font-normal leading-4">
-                                          {_category.name}
-                                        </FormLabel>
-                                      </FormItem>
-                                    );
-                                  }}
-                                />
-                              ))}
-                            </div>
-                          </>
-                        ) : (
-                          <div>
-                            <p className="text-sm text-muted-foreground">
-                              No single categories to attach
-                            </p>
-                          </div>
-                        )}
-                      </FormItem>
-                    )}
-                  />
+                                                )}
+                                                onCheckedChange={(checked) => {
+                                                  return checked
+                                                    ? field.onChange([
+                                                        ...field.value,
+                                                        _category.id,
+                                                      ])
+                                                    : field.onChange(
+                                                        field.value.filter(
+                                                          (value) =>
+                                                            value !==
+                                                            _category.id,
+                                                        ),
+                                                      );
+                                                }}
+                                              />
+                                            </FormControl>
+                                            <FormLabel className="text-sm font-medium uppercase leading-4">
+                                              {_category.name}
+                                            </FormLabel>
+                                          </FormItem>
+                                        );
+                                      }}
+                                    />
 
-                  <FormField
-                    control={form.control}
-                    name="categoriesId"
-                    render={() => (
-                      <FormItem className="space-y-2">
-                        <h3 className="font-medium">Main Categories</h3>
-
-                        {othersMainCategories.length ? (
-                          <>
-                            <FormMessage />
-                            <ul className="space-y-4">
-                              {othersMainCategories.map((_category) => (
-                                <li key={_category.id} className="space-y-2">
-                                  <h4 className="text-sm font-medium">
-                                    {_category.name}
-                                  </h4>
-
-                                  {_category.children.length ? (
-                                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 md:grid-cols-3 lg:grid-cols-4">
-                                      {_category.children.map((subCategory) => (
-                                        <FormField
-                                          key={subCategory.id}
-                                          control={form.control}
-                                          name="categoriesId"
-                                          render={({ field }) => {
-                                            return (
-                                              <FormItem
-                                                key={subCategory.id}
-                                                className="flex items-center space-x-2 space-y-0"
-                                              >
-                                                <FormControl>
-                                                  <Checkbox
-                                                    checked={field.value?.some(
-                                                      (_categoryId) =>
-                                                        _categoryId ===
-                                                        subCategory.id,
-                                                    )}
-                                                    onCheckedChange={(
-                                                      checked,
-                                                    ) => {
-                                                      return checked
-                                                        ? field.onChange([
-                                                            ...field.value,
+                                    {_category.children.length ? (
+                                      <div className="grid grid-cols-2 gap-x-4 gap-y-2 md:grid-cols-3 lg:grid-cols-4">
+                                        {_category.children.map(
+                                          (subCategory) => (
+                                            <FormField
+                                              key={subCategory.id}
+                                              control={form.control}
+                                              name="categoriesId"
+                                              render={({ field }) => {
+                                                return (
+                                                  <FormItem
+                                                    key={subCategory.id}
+                                                    className="flex items-center space-x-2 space-y-0"
+                                                  >
+                                                    <FormControl>
+                                                      <Checkbox
+                                                        checked={field.value?.some(
+                                                          (_categoryId) =>
+                                                            _categoryId ===
                                                             subCategory.id,
-                                                          ])
-                                                        : field.onChange(
-                                                            field.value.filter(
-                                                              (value) =>
-                                                                value !==
+                                                        )}
+                                                        onCheckedChange={(
+                                                          checked,
+                                                        ) => {
+                                                          return checked
+                                                            ? field.onChange([
+                                                                ...field.value,
                                                                 subCategory.id,
-                                                            ),
-                                                          );
-                                                    }}
-                                                  />
-                                                </FormControl>
-                                                <FormLabel className="font-normal leading-4">
-                                                  {subCategory.name}
-                                                </FormLabel>
-                                              </FormItem>
-                                            );
-                                          }}
-                                        />
-                                      ))}
-                                    </div>
-                                  ) : (
-                                    <div>
-                                      <p className="text-sm text-muted-foreground">
-                                        No subcategories
-                                      </p>
-                                    </div>
-                                  )}
-                                </li>
-                              ))}
-                            </ul>
-                          </>
-                        ) : (
-                          <div>
-                            <p className="text-sm text-muted-foreground">
-                              No main categories to attach
-                            </p>
-                          </div>
-                        )}
-                      </FormItem>
-                    )}
-                  />
-                </form>
-              </Form>
+                                                              ])
+                                                            : field.onChange(
+                                                                field.value.filter(
+                                                                  (value) =>
+                                                                    value !==
+                                                                    subCategory.id,
+                                                                ),
+                                                              );
+                                                        }}
+                                                      />
+                                                    </FormControl>
+                                                    <FormLabel className="font-normal leading-4">
+                                                      {subCategory.name}
+                                                    </FormLabel>
+                                                  </FormItem>
+                                                );
+                                              }}
+                                            />
+                                          ),
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <div>
+                                        <p className="text-sm text-muted-foreground">
+                                          No subcategories
+                                        </p>
+                                      </div>
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            </>
+                          ) : (
+                            <div>
+                              <p className="text-sm text-muted-foreground">
+                                No main categories to attach
+                              </p>
+                            </div>
+                          )}
+                        </FormItem>
+                      )}
+                    />
+                  </form>
+                </Form>
+              </>
             )}
           </>
         )}

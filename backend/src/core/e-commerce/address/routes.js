@@ -1,9 +1,9 @@
-const express = require("express");
-const controllers = require("./controllers");
-const schemas = require("./schemas");
-const { validateSchema } = require("../../../middlewares");
+import { Router } from "express";
+import controllers from "./controllers.js";
+import schemas from "./schemas.js";
+import { validateSchema } from "../../../middlewares/index.js";
 
-const router = express.Router();
+const router = Router();
 
 router.param("addressId", controllers.validateAddressId);
 
@@ -17,4 +17,4 @@ router.put(
 );
 router.delete("/:addressId", controllers.remove);
 
-module.exports = router;
+export default router;

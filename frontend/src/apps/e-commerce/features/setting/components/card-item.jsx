@@ -22,14 +22,13 @@ import {
 export const CardItem = ({ card }) => {
   const [alert, setAlert] = useState(false);
 
-  const { mutate, reset, isLoading } = useRemovePaymentMethod();
+  const { mutate, isLoading } = useRemovePaymentMethod();
 
   const handleRemove = () => {
     mutate(card.id, {
       onSuccess() {
         toast("Card removed");
         setAlert(false);
-        reset();
       },
     });
   };

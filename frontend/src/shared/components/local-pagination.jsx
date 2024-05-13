@@ -3,6 +3,8 @@ import {
   CheckIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
 } from "@heroicons/react/24/outline";
 import {
   Button,
@@ -14,62 +16,83 @@ import {
   PopoverTrigger,
 } from "@/components";
 import { cn } from "@/libs";
+import { ITEMS_PER_PAGE } from "../utils";
 
-const ITEMS_PER_PAGE = new Array(10).fill(0).map((_, i) => (i + 1) * 10);
-const DEFAULT_ITEM_PER_PAGE = 10;
-
-const DUMMY_DATA = new Array(103).fill(0).map((_, i) => i + 1);
-
-export const LocalPagination = ({ data = DUMMY_DATA }) => {
-  const count = data.length;
-
+export const LocalPagination = ({ count = 0, params, setParams }) => {
   const [itemsPopover, setItemsPopover] = useState(false);
   const [pagePopover, setPagePopover] = useState(false);
 
-  const [params, setParams] = useState(
-    new URLSearchParams({ items: DEFAULT_ITEM_PER_PAGE, page: 1 }),
-  );
-
-  const items = params.get("items");
   const page = params.get("page");
+  const items = params.get("limit");
 
-  const leftRows = Math.min(items * (page - 1) + 1, count);
-  const rightRows = Math.min(page * items, count);
+  const leftItems = Math.min(items * (page - 1) + 1, count);
+  const rightItems = Math.min(page * items, count);
 
-  const totalRows = Math.max(Math.ceil(count / items), 1);
+  const totalPages = Math.max(Math.ceil(count / items), 1);
+
+  const canGoForward = page < totalPages;
+  const canGoBackward = page > 1;
+
+  const handleNext = () => {
+    const newParams = new URLSearchParams(params);
+    newParams.set("page", +page + 1);
+    setParams(newParams);
+  };
+  const handlePrev = () => {
+    const newParams = new URLSearchParams(params);
+    newParams.set("page", +page - 1);
+    setParams(newParams);
+  };
+  const handleFirst = () => {
+    const newParams = new URLSearchParams(params);
+    newParams.set("page", 1);
+    setParams(newParams);
+  };
+  const handleLast = () => {
+    const newParams = new URLSearchParams(params);
+    newParams.set("page", totalPages);
+    setParams(newParams);
+  };
+  const handleItems = (items) => {
+    const newParams = new URLSearchParams(params);
+    newParams.set("limit", items);
+    newParams.set("page", 1);
+    setParams(newParams);
+  };
+  const handleGoTo = (page) => {
+    const newParams = new URLSearchParams(params);
+    newParams.set("page", page);
+    setParams(newParams);
+  };
 
   return (
-    <div>
-      Params: {params.toString()}
-      <section className="flex justify-between gap-2">
+    <section className="space-y-2">
+      <div className="flex justify-between gap-2">
         <Popover open={itemsPopover} onOpenChange={setItemsPopover}>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="w-24 p-2">
+            <Button variant="outline" type="button" className="w-24 p-2">
               Items {items}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-24 p-0">
             <Command>
               <CommandGroup className="max-h-48 overflow-y-auto">
-                {ITEMS_PER_PAGE.map((row) => (
+                {ITEMS_PER_PAGE.map((item) => (
                   <CommandItem
-                    key={row}
-                    value={row}
-                    onSelect={(_row) => {
-                      const newParams = new URLSearchParams(params);
-                      newParams.set("items", _row);
-                      setParams(newParams);
-
+                    key={item}
+                    value={item}
+                    onSelect={(value) => {
+                      handleItems(value);
                       setItemsPopover(false);
                     }}
                   >
                     <CheckIcon
                       className={cn(
                         "mr-2 size-4",
-                        items == row ? "opacity-100" : "opacity-0",
+                        items == item ? "opacity-100" : "opacity-0",
                       )}
                     />
-                    {row}
+                    {item}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -77,33 +100,21 @@ export const LocalPagination = ({ data = DUMMY_DATA }) => {
           </PopoverContent>
         </Popover>
 
-        <div className="flex h-9 items-center text-sm text-muted-foreground">
-          <p>
-            <span>
-              {leftRows}-{rightRows}
-            </span>
-            <span> of </span>
-            <span>{count}</span>
-          </p>
-        </div>
-
         <Popover open={pagePopover} onOpenChange={setPagePopover}>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="w-24 p-2">
+            <Button variant="outline" type="button" className="w-24 p-2">
               Page {page}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="p-0">
             <Command>
               <CommandGroup className="max-h-48 overflow-y-auto">
-                {new Array(totalRows).fill(0).map((_, i) => (
+                {new Array(totalPages).fill(0).map((_, i) => (
                   <CommandItem
                     key={i}
                     value={i + 1}
-                    onSelect={(_row) => {
-                      const newParams = new URLSearchParams(params);
-                      newParams.set("page", _row);
-                      setParams(newParams);
+                    onSelect={(pageValue) => {
+                      handleGoTo(pageValue);
 
                       setPagePopover(false);
                     }}
@@ -121,16 +132,61 @@ export const LocalPagination = ({ data = DUMMY_DATA }) => {
             </Command>
           </PopoverContent>
         </Popover>
+      </div>
 
+      <div className="flex items-center justify-between gap-2">
         <div className="flex gap-2">
-          <Button size="icon" variant="outline">
+          <Button
+            size="icon"
+            type="button"
+            variant="outline"
+            onClick={handleFirst}
+            disabled={!canGoBackward}
+          >
+            <ChevronDoubleLeftIcon className="size-4" />
+          </Button>
+          <Button
+            size="icon"
+            type="button"
+            variant="outline"
+            onClick={handlePrev}
+            disabled={!canGoBackward}
+          >
             <ChevronLeftIcon className="size-4" />
           </Button>
-          <Button size="icon" variant="outline">
+        </div>
+
+        <div className="flex h-9 items-center text-sm text-muted-foreground">
+          <p>
+            <span>
+              {leftItems}-{rightItems}
+            </span>
+            <span> of </span>
+            <span>{count}</span>
+          </p>
+        </div>
+
+        <div className="flex gap-2">
+          <Button
+            size="icon"
+            type="button"
+            variant="outline"
+            onClick={handleNext}
+            disabled={!canGoForward}
+          >
             <ChevronRightIcon className="size-4" />
           </Button>
+          <Button
+            size="icon"
+            type="button"
+            variant="outline"
+            onClick={handleLast}
+            disabled={!canGoForward}
+          >
+            <ChevronDoubleRightIcon className="size-4" />
+          </Button>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };

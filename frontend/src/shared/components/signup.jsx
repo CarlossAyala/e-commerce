@@ -24,7 +24,7 @@ export const Signup = () => {
   const form = useForm({
     resolver: yupResolver(signupSchema),
     defaultValues: signupInitial,
-    mode: "all",
+    mode: "onSubmit",
   });
 
   const handleSignup = (values) => {
@@ -37,7 +37,7 @@ export const Signup = () => {
   };
 
   return (
-    <main className="container min-h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <main className="container flex h-svh flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="hidden h-full bg-zinc-900 lg:block" />
       <div className="flex h-full items-center lg:p-8">
         <div className="mx-auto w-full max-w-md space-y-6">

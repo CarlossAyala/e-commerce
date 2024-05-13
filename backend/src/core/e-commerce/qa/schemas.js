@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const id = Joi.string().guid({
   version: "uuidv4",
@@ -7,15 +7,10 @@ const id = Joi.string().guid({
 
 const content = Joi.string().min(5).max(255).label("Content").required();
 
-const create = Joi.object({
+export const create = Joi.object({
   content,
 });
 
-const resourceId = Joi.object({
+export const resourceId = Joi.object({
   id: id.required(),
 });
-
-module.exports = {
-  resourceId,
-  create,
-};

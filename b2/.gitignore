@@ -8,8 +8,9 @@ node_modules
 .env.production.local
 .env.local
 
-# TODO: Add mysql and redis cache
-# TODO: Add logs
+# databases
+/src/database/mysql/data/*
+/src/database/redis/data/*
 
 # Logs
 logs

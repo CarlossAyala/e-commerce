@@ -1,13 +1,13 @@
 // eslint-disable-next-line no-unused-vars
-const express = require("express");
-const Sequelize = require("sequelize");
-const { QueryBuilder } = require("../../../libs");
-const {
+import express from "express";
+import Sequelize from "sequelize";
+import { QueryBuilder } from "../../../libs/index.js";
+import {
   Review,
   OrderItem,
   Product,
-} = require("../../../database/mysql/models");
-const { notFound } = require("../../../middlewares");
+} from "../../../database/mysql/models/index.js";
+import { notFound } from "../../../middlewares/index.js";
 
 /**
  * @param {express.Request} req
@@ -15,7 +15,7 @@ const { notFound } = require("../../../middlewares");
  * @param {express.NextFunction} next
  * @param {string} productId
  */
-const validateProductId = async (req, _res, next, productId) => {
+export const validateProductId = async (req, _res, next, productId) => {
   const { store } = req;
 
   try {
@@ -40,7 +40,7 @@ const validateProductId = async (req, _res, next, productId) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAll = async (req, res, next) => {
+export const findAll = async (req, res, next) => {
   const { store } = req;
 
   const { where: whereProduct } = new QueryBuilder(req.query)
@@ -77,7 +77,7 @@ const findAll = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const findAllByProductId = async (req, res, next) => {
+export const findAllByProductId = async (req, res, next) => {
   const { productId } = req.params;
 
   const { limit, offset } = new QueryBuilder(req.query).pagination().build();
@@ -117,7 +117,7 @@ const findAllByProductId = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const avgRatingByProductId = async (req, res, next) => {
+export const avgRatingByProductId = async (req, res, next) => {
   const { productId } = req.params;
 
   try {
@@ -146,11 +146,4 @@ const avgRatingByProductId = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-module.exports = {
-  validateProductId,
-  findAll,
-  findAllByProductId,
-  avgRatingByProductId,
 };

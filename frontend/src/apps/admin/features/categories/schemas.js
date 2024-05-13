@@ -8,18 +8,18 @@ const description = string()
   .max(255)
   .default("")
   .required();
-const type = string().label("Type").default("").required();
 const categoriesId = array()
   .label("Categories")
   .min(1)
   .of(categoryId)
   .default([])
   .required();
+const gallery = array().default([]);
 
 export const newCategorySchema = object({
   name,
   description,
-  type,
+  gallery,
 });
 export const attachCategorySchema = object({
   categoriesId,
@@ -30,6 +30,8 @@ export const detachCategorySchema = object({
 export const updateCategorySchema = object({
   name,
   description,
+  currentGallery: gallery,
+  nextGallery: gallery,
 });
 
 export const newCategoryInitial = newCategorySchema.getDefault();
@@ -40,4 +42,6 @@ export const updateCategoryInitial = updateCategorySchema.getDefault();
 export const updateCategoryDefault = (values) => ({
   name: values?.name ?? updateCategoryInitial.name,
   description: values?.description ?? updateCategoryInitial.description,
+  currentGallery: values?.gallery ?? updateCategoryInitial.currentGallery,
+  nextGallery: updateCategoryInitial.currentGallery,
 });

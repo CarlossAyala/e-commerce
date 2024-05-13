@@ -129,5 +129,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# docker mysql
+# databases 
 /src/database/mysql/data/*
+/src/database/redis/data/*
+
+/public

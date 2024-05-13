@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../connection");
-const User = require("./user.model");
+import { DataTypes } from "sequelize";
+import { sequelize } from "../connection.js";
+import User from "./user.model.js";
 
 const modelName = "Store";
 const tableName = "stores";
@@ -17,7 +17,11 @@ const modelSchema = {
   },
   name: DataTypes.STRING,
   description: DataTypes.STRING,
-  profile: DataTypes.STRING,
+  url: DataTypes.STRING,
+  publicId: {
+    type: DataTypes.STRING,
+    field: "public_id",
+  },
   slug: {
     type: DataTypes.STRING,
     unique: "slug",
@@ -44,9 +48,10 @@ const modelSchema = {
 
 const model = sequelize.define(modelName, modelSchema, modelOptions);
 
-module.exports = {
+export default {
   model,
+  modelName,
   tableName,
-  modelSchema,
   modelOptions,
+  modelSchema,
 };

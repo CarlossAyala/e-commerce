@@ -6,8 +6,12 @@
   "license": "ISC",
   "description": "",
   "scripts": {
-    "start": "node ./src",
-    "dev": "nodemon --inspect --trace-warnings ./src ",
+    "start": "node src/index",
+    "dev": "nodemon --inspect --trace-warnings src/index",
+    "email:dev": "email dev --dir src/emails --port 3002",
+    "email:build": "email build --dir src/emails",
+    "email:start": "email start --dir src/emails --port 3002",
+    "email:export": "email export --outDir src/emails --dir src/emails",
     "db:create": "sequelize db:create",
     "db:drop": "sequelize db:drop",
     "migrate:generate": "sequelize-cli migration:generate --name",
@@ -17,29 +21,36 @@
     "seed:generate": "sequelize-cli seed:generate --name",
     "seed:up": "sequelize-cli db:seed:all",
     "seed:undo": "sequelize-cli db:seed:undo",
-    "seed:undo:all": "sequelize-cli db:seed:undo:all",
-    "commit": "cz"
+    "seed:undo:all": "sequelize-cli db:seed:undo:all"
   },
   "dependencies": {
+    "@react-email/components": "0.0.17",
     "bcrypt": "^5.0.1",
+    "bullmq": "^5.7.8",
+    "cloudinary": "^2.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.2",
     "helmet": "^6.0.0",
+    "ioredis": "^5.4.1",
     "joi": "^17.6.0",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
-    "mysql2": "^2.3.3",
+    "ms": "^2.1.3",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.4",
+    "nanoid": "^5.0.7",
+    "react-email": "2.1.2",
+    "resend": "^3.2.0",
     "rotating-file-stream": "^3.2.1",
     "sequelize": "^6.25.8",
     "slugify": "^1.6.5",
-    "stripe": "^12.9.0",
-    "uuid": "^9.0.0"
+    "stripe": "^12.9.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "eslint": "^8.23.1",
+    "eslint": "^9.2.0",
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.5.2"
   }

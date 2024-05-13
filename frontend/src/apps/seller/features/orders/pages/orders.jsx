@@ -26,7 +26,7 @@ export const Orders = () => {
   const { data, isLoading, isError, error } = useGetOrders(params.toString());
 
   return (
-    <main className="flex-1 space-y-4 px-6">
+    <main className="flex-1 space-y-4 px-4 tablet:px-6">
       <PageHeader>
         <PageHeaderHeading>Orders Overview</PageHeaderHeading>
       </PageHeader>

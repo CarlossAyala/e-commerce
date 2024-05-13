@@ -1,6 +1,6 @@
-const { Op } = require("sequelize");
+import { Op } from "sequelize";
 
-class QueryBuilder {
+export class QueryBuilder {
   constructor(query) {
     this.filters = {};
     this._where = {};
@@ -149,5 +149,3 @@ class QueryBuilder {
     };
   }
 }
-
-module.exports = QueryBuilder;

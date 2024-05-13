@@ -11,7 +11,7 @@ export const OrderDetails = () => {
   const { data, isLoading, isError, error } = useGetOrder(orderId);
 
   return (
-    <main className="mx-auto max-w-2xl flex-1 space-y-6 px-6">
+    <main className="mx-auto w-full max-w-2xl flex-1 space-y-4 px-4 tablet:px-6">
       <PageHeader>
         <PageHeaderHeading className="text-center">
           Order Details
@@ -19,7 +19,7 @@ export const OrderDetails = () => {
       </PageHeader>
 
       {isLoading ? (
-        <section className="space-y-6">
+        <section className="space-y-4">
           <div className="space-y-2">
             <Skeleton className="h-4 w-1/4" />
             <Skeleton className="h-4 w-1/2" />
@@ -27,8 +27,6 @@ export const OrderDetails = () => {
 
           <div className="space-y-2">
             <Skeleton className="h-4 w-1/3" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-full" />
           </div>
 
@@ -70,16 +68,8 @@ export const OrderDetails = () => {
               <dt className="font-medium text-primary">Details</dt>
               <dd className="text-muted-foreground">
                 <div className="flex justify-between">
-                  <p>Status</p>
-                  <p className="capitalize text-primary">{data.order.status}</p>
-                </div>
-                <div className="flex justify-between">
                   <p>Placed</p>
                   <p>{Formatter.fullDate(data.order.createdAt)}</p>
-                </div>
-                <div className="flex justify-between">
-                  <p>Last updated</p>
-                  <p>{Formatter.fullDate(data.order.updatedAt)}</p>
                 </div>
               </dd>
             </div>
