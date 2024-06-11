@@ -1,7 +1,7 @@
 import { API_SELLER } from "@/configs";
 import { fetcher } from "@/libs";
 
-const ENDPOINT = `${API_SELLER}/qa`;
+const ENDPOINT = `${API_SELLER}/questions`;
 
 export const findOne = async (questionId, accessToken) => {
   const url = `${ENDPOINT}/${questionId}`;

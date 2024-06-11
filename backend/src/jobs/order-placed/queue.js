@@ -1,16 +1,11 @@
-import { Queue } from "bullmq";
-import { connection } from "../config.js";
-import { JOBS } from "../constants.js";
+const { Queue } = require("bullmq");
+const { connection } = require("../config");
+const { JOBS } = require("../constants");
 
-const queue = new Queue(JOBS.CUSTOMER_ORDER_PLACED, {
-  connection,
-});
+const queue = new Queue(JOBS.ORDER_PLACED, { connection });
 
-const sendOrderPlacedEmail = async (data) => {
-  await queue.add(JOBS.CUSTOMER_ORDER_PLACED, data, {
-    removeOnComplete: true,
-    removeOnFail: true,
-  });
+const sendEmail = async (data) => {
+  await queue.add(JOBS.ORDER_PLACED, data);
 };
 
-export { queue, sendOrderPlacedEmail };
+module.exports = { sendEmail };

@@ -88,7 +88,7 @@ export const QAProductAction = ({ qa }) => {
           <DropdownMenuItem onSelect={() => setViewSheet(true)}>
             View
           </DropdownMenuItem>
-          {qa.status === "queue" && (
+          {qa.status === "pending" && (
             <>
               <DropdownMenuItem onSelect={() => setReplaySheet(true)}>
                 Reply
@@ -126,7 +126,7 @@ export const QAProductAction = ({ qa }) => {
             </div>
           </SheetHeader>
 
-          {qa.status !== "queue" && (
+          {qa.status !== "pending" && (
             <SheetHeader className="space-y-2">
               <SheetTitle className="uppercase">Answer</SheetTitle>
 
@@ -134,12 +134,12 @@ export const QAProductAction = ({ qa }) => {
                 <>
                   <div className="text-sm">
                     <h3 className="font-medium">Content</h3>
-                    <p className="text-muted-foreground">{qa.answer.content}</p>
+                    <p className="text-muted-foreground">{qa.answer}</p>
                   </div>
                   <div className="text-sm">
                     <h3 className="font-medium">Created At</h3>
                     <p className="text-muted-foreground">
-                      {Formatter.fullDate(qa.answer.createdAt)}
+                      {Formatter.fullDate(qa.updatedAt)}
                     </p>
                   </div>
                 </>
@@ -180,7 +180,7 @@ export const QAProductAction = ({ qa }) => {
             >
               <FormField
                 control={form.control}
-                name="content"
+                name="answer"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Answer</FormLabel>

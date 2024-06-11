@@ -15,7 +15,7 @@ import { Bookmark } from "../components/bookmark";
 import { Store } from "../components/store";
 import { Gallery } from "../components/gallery";
 import { QANew } from "../components/qa-new";
-import { QAList } from "../components/qa-list";
+import { Questions } from "../components/questions";
 import { ReviewList } from "../components/review-list";
 import { ReviewScore } from "../components/review-score";
 import { ShareProduct } from "../components/share-product";
@@ -214,7 +214,7 @@ export const Product = () => {
               <QANew productId={productId} />
             </div>
 
-            <QAList productId={productId} />
+            <Questions productId={productId} />
           </section>
 
           <Separator />

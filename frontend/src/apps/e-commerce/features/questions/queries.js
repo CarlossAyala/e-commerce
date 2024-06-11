@@ -1,26 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/shared/auth";
 import { parseURLSearchParams } from "@/shared/utils";
-import {
-  create,
-  findAllCustomer,
-  findAllProduct,
-  findAllProductCustomer,
-} from "./api";
+import { create, findAllCustomer, findAllProduct } from "./api";
 
 const qaKeys = {
-  key: ["e-commerce/qa"],
+  key: ["e-commerce/questions"],
   productKey: (productId) => [...qaKeys.key, "product", productId],
   product: (productId, query) => [...qaKeys.productKey(productId), query],
-  productCustomerKey: (productId) => [
-    ...qaKeys.key,
-    "product-customer",
-    productId,
-  ],
-  productCustomer: (productId, query) => [
-    ...qaKeys.productCustomerKey(productId),
-    query,
-  ],
   customerKey: () => [...qaKeys.key, "customer"],
   customer: (query) => [...qaKeys.customerKey(), query],
 };
@@ -33,15 +19,6 @@ export const useGetProductQuestions = (productId, query) => {
     queryFn: () => findAllProduct(productId, query),
     enabled: !!productId,
     keepPreviousData: true,
-  });
-};
-
-export const useGetProductCustomerQuestions = (productId, query) => {
-  const { data: accessToken } = useAuth();
-
-  return useQuery({
-    queryKey: qaKeys.productCustomer(productId, query),
-    queryFn: () => findAllProductCustomer(productId, query, accessToken),
   });
 };
 
@@ -63,12 +40,9 @@ export const useCreateQuestion = () => {
     mutationFn: ({ productId, values }) => {
       return create(productId, values, accessToken);
     },
-    onSuccess: async (_, { productId }) => {
-      await queryClient.invalidateQueries({
+    onSuccess: (_, { productId }) => {
+      return queryClient.invalidateQueries({
         queryKey: qaKeys.customerKey(),
-      });
-      await queryClient.invalidateQueries({
-        queryKey: qaKeys.productCustomerKey(productId),
       });
     },
   });

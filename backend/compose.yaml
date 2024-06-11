@@ -7,9 +7,9 @@ services:
     command: --default-authentication-plugin=caching_sha2_password
     restart: always
     ports:
-      - "${DB_PORT}:3306"
+      - "3306:3306"
     volumes:
-      - ./src/database/mysql/data:/var/lib/mysql
+      - ./src/db/mysql/data:/var/lib/mysql
     environment:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_USER_PASSWORD}
@@ -29,6 +29,6 @@ services:
     command: redis-server --maxmemory-policy noeviction
     restart: always
     ports:
-      - "${REDIS_PORT}:6379"
+      - "6379:6379"
     volumes:
-      - ./src/database/redis/data:/data
+      - ./src/db/redis/data:/data

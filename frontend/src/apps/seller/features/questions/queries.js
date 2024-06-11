@@ -4,7 +4,7 @@ import { parseURLSearchParams } from "@/shared/utils";
 import { findAll, findAllByProductId, findOne, reject, reply } from "./api";
 
 export const qaKeys = {
-  key: ["seller/qa"],
+  key: ["seller/questions"],
   findOne: (questionId) => [...qaKeys.key, "find-one", questionId],
   findAll: (query) => [...qaKeys.key, "find-all", query],
   findAllByProductIdKey: (productId) => [

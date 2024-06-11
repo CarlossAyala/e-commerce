@@ -2,7 +2,7 @@ import { Skeleton } from "@/components";
 import { Formatter } from "@/utils";
 
 export const QuestionItem = ({ question }) => {
-  const isQueue = question.status === "queue";
+  const isPending = question.status === "pending";
   const isRejected = question.status === "rejected";
 
   return (
@@ -14,7 +14,7 @@ export const QuestionItem = ({ question }) => {
         <p className="text-sm font-medium">{question.content}</p>
       </div>
 
-      {isQueue ? (
+      {isPending ? (
         <p className="text-sm text-muted-foreground">Not answered yet</p>
       ) : isRejected ? (
         <div className="space-y-1">
@@ -28,7 +28,7 @@ export const QuestionItem = ({ question }) => {
           <p className="text-xs text-muted-foreground">
             {Formatter.fullDate(question.createdAt)}
           </p>
-          <p className="text-sm">{question.answer.content}</p>
+          <p className="text-sm">{question.answer}</p>
         </div>
       )}
     </div>

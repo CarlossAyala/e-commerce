@@ -1,7 +1,7 @@
-import IORedis from "ioredis";
+const IORedis = require("ioredis");
 
 const connection = new IORedis({
   maxRetriesPerRequest: null,
 });
 
-export { connection };
+module.exports = { connection };

@@ -1,34 +1,22 @@
 import { API_ECOMMERCE, API_SHARED } from "@/configs";
 import { fetcher } from "@/libs";
 
-const CUSTOMER_QA = `${API_ECOMMERCE}/qa`;
-const SHARED_QA = `${API_SHARED}/qa`;
+const CUSTOMER_QUESTIONS = `${API_ECOMMERCE}/questions`;
+const SHARED_QUESTIONS = `${API_SHARED}/questions`;
 
 export const findAllProduct = (productId, query) => {
-  const url = `${SHARED_QA}/product/${productId}?${query}`;
+  const url = `${SHARED_QUESTIONS}/product/${productId}?${query}`;
 
   return fetcher(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    },
-  });
-};
-
-export const findAllProductCustomer = (productId, query, accessToken) => {
-  const url = `${CUSTOMER_QA}/product/${productId}/customer?${query}`;
-
-  return fetcher(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
 
 export const findAllCustomer = (query, accessToken) => {
-  const url = `${CUSTOMER_QA}/customer?${query}`;
+  const url = `${CUSTOMER_QUESTIONS}/customer?${query}`;
 
   return fetcher(url, {
     method: "GET",
@@ -40,7 +28,7 @@ export const findAllCustomer = (query, accessToken) => {
 };
 
 export const create = (productId, values, accessToken) => {
-  const url = `${CUSTOMER_QA}/${productId}`;
+  const url = `${CUSTOMER_QUESTIONS}/${productId}`;
 
   return fetcher(url, {
     method: "POST",

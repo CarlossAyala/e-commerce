@@ -1,23 +1,19 @@
-import { Worker } from "bullmq";
-import { connection } from "../config.js";
-import { JOBS } from "../constants.js";
+const { Worker } = require("bullmq");
+const { JOBS } = require("../constants");
+const { connection } = require("../config");
 
-const worker = new Worker(
-  JOBS.CUSTOMER_ORDER_PLACED,
-  __dirname + "/processor.js",
-  {
-    connection,
-  }
-);
+const worker = new Worker(JOBS.ORDER_PLACED, __dirname + "/processor.js", {
+  connection,
+});
 
 worker.on("completed", (job) => {
-  console.log("job completed", job);
+  console.log("job completed", JOBS.ORDER_PLACED, job);
 });
 worker.on("failed", (job, err) => {
-  console.log("job failed", job, "error", err);
+  console.log("job failed", JOBS.ORDER_PLACED, job, "error", err);
 });
 worker.on("error", (err) => {
-  console.log("error", err);
+  console.log("job error", JOBS.ORDER_PLACED, err);
 });
 
-export { worker };
+module.exports = worker;

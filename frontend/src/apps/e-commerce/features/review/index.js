@@ -1,5 +1,5 @@
 export * from "./queries";
 export * from "./pages";
 export * from "./routes";
-export * from "./schemas.js";
+export * from "./schemas";
 export * from "./utils";

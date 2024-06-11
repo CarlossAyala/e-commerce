@@ -1,2 +1,2 @@
-import "./order-placed";
-// require("./order-placed");
+require("./welcome-email");
+require("./order-placed");

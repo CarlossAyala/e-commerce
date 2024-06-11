@@ -1,7 +1,7 @@
 import { object, string } from "yup";
 import { parseString } from "@/utils";
 
-const content = string()
+const answer = string()
   .label("Answer")
   .transform(parseString)
   .min(5)
@@ -10,7 +10,7 @@ const content = string()
   .required();
 
 export const replySchema = object({
-  content,
+  answer,
 });
 
 export const replyInitial = replySchema.getDefault();
