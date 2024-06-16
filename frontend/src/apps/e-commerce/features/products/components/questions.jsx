@@ -5,7 +5,6 @@ import { useGetProductQuestions } from "../../questions";
 import { useDebounced } from "@/shared/hooks";
 import { cn } from "@/libs";
 
-// TODO: Add pagination
 export const Questions = ({ productId }) => {
   const [params, setParams] = useState(new URLSearchParams());
   const debounce = useDebounced(params.toString());

@@ -27,7 +27,6 @@ const filters = [
   },
 ];
 
-// TODO: Insert graph about Stars equal to ecommerce/product
 export const ReviewList = () => {
   const [params] = useSearchParams();
   const { productId } = useParams();

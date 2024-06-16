@@ -5,7 +5,6 @@ import { Formatter } from "@/utils";
 import { OrderProduct } from "../components/order-product";
 import { useGetOrder } from "../queries";
 
-// TODO: Add feature to change order status
 export const OrderDetails = () => {
   const { orderId } = useParams();
   const { data, isLoading, isError, error } = useGetOrder(orderId);

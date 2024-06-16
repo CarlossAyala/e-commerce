@@ -1,7 +1,6 @@
 import { EmptyState, ReviewItem } from "@/shared/components";
 import { useGetReviews } from "../../review";
 
-// TODO: Add pagination
 export const ReviewList = ({ productId }) => {
   const { data, isLoading, isError, error } = useGetReviews(productId, "");
 
