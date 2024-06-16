@@ -1,5 +1,5 @@
 const ms = require("ms");
-const { jwt } = require("../config");
+const { jwt, node_env } = require("../config");
 
 const APPS = {
   ecommerce: "ecommerce-refresh-token",
@@ -23,7 +23,7 @@ const getRefreshTokenConfig = () => {
 const clearRefreshToken = {
   httpOnly: true,
   sameSite: "none",
-  secure: true,
+  secure: node_env === "production",
 };
 
 module.exports = {

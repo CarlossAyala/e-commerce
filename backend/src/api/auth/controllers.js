@@ -41,12 +41,6 @@ const signin = async (req, res, next) => {
     const newRefreshToken = generateRefreshToken(user.id);
     const accessToken = generateAccessToken(user.id);
 
-    const RefreshTokenModel = sequelize.model("RefreshToken");
-    await RefreshTokenModel.create({
-      token: newRefreshToken,
-      userId: user.id,
-    });
-
     const cookieName = getCookieName(app);
     const refreshTokenConfig = getRefreshTokenConfig(app);
     res.cookie(cookieName, newRefreshToken, refreshTokenConfig);
@@ -108,16 +102,10 @@ const signout = async (req, res, next) => {
   const cookieName = getCookieName(app);
   const refreshToken = req.cookies[cookieName];
 
-  if (!refreshToken) {
-    return next(new BadRequest("Missing refresh token in cookies header."));
-  }
-
   try {
-    const RefreshToken = sequelize.model("RefreshToken");
-
-    await RefreshToken.destroy({
-      where: { token: refreshToken },
-    });
+    if (!refreshToken) {
+      throw new BadRequest("Missing refresh token in cookies header.");
+    }
 
     res.clearCookie(cookieName, clearRefreshToken);
 
@@ -134,40 +122,17 @@ const refreshToken = async (req, res, next) => {
   const cookieName = getCookieName(app);
   const refreshToken = req.cookies[cookieName];
 
-  if (!refreshToken) {
-    return next(new BadRequest("Missing refresh token in cookies header."));
-  }
-
   try {
+    if (!refreshToken) {
+      throw new BadRequest("Missing refresh token in cookies header.");
+    }
+
     res.clearCookie(cookieName, clearRefreshToken);
-
-    const RefreshTokenModel = sequelize.model("RefreshToken");
-
-    const token = await RefreshTokenModel.findOne({
-      where: { token: refreshToken },
-    });
 
     const { userId } = verifyRefreshToken(refreshToken);
 
-    if (!token) {
-      await RefreshTokenModel.destroy({
-        where: { userId },
-      });
-
-      return next(
-        new Unauthorized("You are not authorized to access this resource.")
-      );
-    }
-
-    await token.destroy();
-
     const accessToken = generateAccessToken(userId);
     const newRefreshToken = generateRefreshToken(userId);
-
-    await RefreshTokenModel.create({
-      token: newRefreshToken,
-      userId,
-    });
 
     const refreshTokenConfig = getRefreshTokenConfig();
     res.cookie(cookieName, newRefreshToken, refreshTokenConfig);
