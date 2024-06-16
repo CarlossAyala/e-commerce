@@ -1,11 +1,10 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-//TODO: Add schema validation
-module.exports = {
+const config = {
   node_env: process.env.NODE_ENV || "development",
   port: process.env.PORT || 3002,
-  saltRounds: +process.env.AUTH_SALT,
+  salt_rounds: process.env.AUTH_SALT,
   db: {
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
@@ -54,3 +53,5 @@ module.exports = {
     level: process.env.LOGGER_LEVEL,
   },
 };
+
+module.exports = config;

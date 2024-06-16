@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
-const { saltRounds } = require("../config");
+const config = require("../config");
 
 const encrypt = (input) => {
-  return bcrypt.hash(input, saltRounds);
+  return bcrypt.hash(input, config.salt_rounds);
 };
 
 const compare = (plain, encrypted) => {
