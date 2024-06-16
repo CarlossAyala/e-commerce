@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import { EmptyState } from "@/shared/components";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
   Card,
   CardContent,
   CardDescription,
@@ -11,10 +8,9 @@ import {
   CardTitle,
   Skeleton,
 } from "@/components";
-import { Formatter, getInitials } from "@/utils";
+import { Formatter, getFullName, getInitials } from "@/utils";
 import { orderActionRoutes, useGetLatestOrders } from "../../orders";
 
-// TODO: Add profile user photo
 export const RecentSales = () => {
   const { data: orders, isLoading, isError, error } = useGetLatestOrders();
 
@@ -56,20 +52,15 @@ export const RecentSales = () => {
               className="block"
             >
               <div className="flex items-center gap-4">
-                <Avatar className="border">
-                  <AvatarImage src="/avatars/01.png" alt="User avatar" />
-                  <AvatarFallback className="text-sm leading-none">
-                    {getInitials(
-                      `${order.customer.name} ${order.customer.lastName}`,
-                    )}
-                  </AvatarFallback>
-                </Avatar>
+                <div className="flex size-10 items-center justify-center rounded-full bg-muted">
+                  {getInitials(getFullName(order.user))}
+                </div>
                 <div className="text-sm">
                   <p className="line-clamp-1 font-medium">
-                    {order.customer.name} {order.customer.lastName}
+                    {order.user.name} {order.user.lastName}
                   </p>
                   <p className="line-clamp-1 text-muted-foreground">
-                    {order.customer.email}
+                    {order.user.email}
                   </p>
                 </div>
                 <div className="ml-auto font-medium">

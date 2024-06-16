@@ -1,6 +1,5 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { APIError } from "@/utils/errors";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -16,10 +15,9 @@ export const fetcher = async (input, init) => {
   const response = await fetch(input, init);
 
   if (!response.ok) {
-    const { error, message } = await response.json();
-
-    throw new APIError(error, message, response.status);
+    const info = await response.json();
+    throw new Error(info?.message ?? response.statusText);
   }
 
-  return response.json();
+  return await response.json();
 };

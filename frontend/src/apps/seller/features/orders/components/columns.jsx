@@ -17,10 +17,10 @@ export const ordersColumns = [
       </Link>
     ),
   }),
-  accessor("customer.id", {
+  accessor("user.id", {
     header: () => "Customer",
     cell: (info) => {
-      const customer = info.row.original.customer;
+      const customer = info.row.original.user;
       const fullName = `${customer.name} ${customer.lastName}`;
 
       return (

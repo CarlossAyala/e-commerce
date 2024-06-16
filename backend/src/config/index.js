@@ -50,4 +50,7 @@ module.exports = {
     // password: process.env.REDIS_PASSWORD,
   },
   client_url: process.env.CLIENT_URL,
+  logger: {
+    level: process.env.LOGGER_LEVEL,
+  },
 };

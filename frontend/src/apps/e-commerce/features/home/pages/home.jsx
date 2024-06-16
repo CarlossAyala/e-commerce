@@ -28,6 +28,8 @@ export const Home = () => {
             title="Something went wrong!"
             description="Please try again later"
           />
+        ) : !products.data?.rows?.length ? (
+          <EmptyState title="No products" description="No products found" />
         ) : (
           <ProductsCarousel products={products.data?.rows} />
         )}
@@ -43,6 +45,8 @@ export const Home = () => {
             title="Something went wrong!"
             description="Please try again later"
           />
+        ) : !stores.data?.rows?.length ? (
+          <EmptyState title="No stores" description="No stores found" />
         ) : (
           <StoresCarousel stores={stores.data?.rows} />
         )}
@@ -58,12 +62,10 @@ export const Home = () => {
             title="Something went wrong!"
             description="Please try again later"
           />
+        ) : !categories.data?.length ? (
+          <EmptyState title="No categories" description="No categories found" />
         ) : (
-          <CategoriesCarousel
-            categories={categories.data.filter(
-              (category) => !category.parentId,
-            )}
-          />
+          <CategoriesCarousel categories={categories.data} />
         )}
       </section>
     </main>

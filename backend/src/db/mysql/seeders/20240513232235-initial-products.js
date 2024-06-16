@@ -1,5 +1,7 @@
 "use strict";
 
+const ms = require("ms");
+const { getRandomIntByRange } = require("../../../utils");
 const { generateRandomProduct } = require("../utils");
 
 /** @type {import('sequelize-cli').Migration} */
@@ -29,6 +31,7 @@ module.exports = {
         generateRandomProduct({
           storeId,
           categoriesIds,
+          createdAt: new Date(Date.now() - getRandomIntByRange(0, ms("1y"))),
         })
       );
       allProducts.push(products);

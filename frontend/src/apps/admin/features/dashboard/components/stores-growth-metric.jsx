@@ -1,8 +1,8 @@
 import { useState } from "react";
 import {
-  Bar,
-  BarChart,
   CartesianGrid,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -22,6 +22,7 @@ import {
 } from "@/components";
 import { useGetStoresGrowthStats } from "../../stores";
 import { INTERVALS, formatDateMetric } from "../utils";
+import { Formatter } from "@/utils";
 
 export const StoresGrowthMetric = () => {
   const [params, setParams] = useState(
@@ -74,7 +75,7 @@ export const StoresGrowthMetric = () => {
         ) : (
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
+              <LineChart
                 data={stats}
                 margin={{
                   top: 5,
@@ -88,15 +89,21 @@ export const StoresGrowthMetric = () => {
                   content={({ active, payload }) => {
                     if (active && payload?.length) {
                       const [item] = payload;
+                      const [year, month, day] = item.payload.date.split("-");
+                      const date = new Date(year, +month - 1, day);
 
                       return (
                         <section className="rounded-lg border bg-background p-2 shadow-sm">
                           <div>
                             <p className="text-sm uppercase text-muted-foreground">
-                              Stores
+                              Users{" "}
+                              <span className="font-bold">+ {item.value}</span>
                             </p>
-                            <p className="font-bold text-muted-foreground">
-                              + {item.value}
+                            <p className="text-sm uppercase text-muted-foreground">
+                              Date{" "}
+                              <span className="font-bold">
+                                {Formatter.shortDate(date)}
+                              </span>
                             </p>
                           </div>
                         </section>
@@ -106,12 +113,13 @@ export const StoresGrowthMetric = () => {
                     return null;
                   }}
                 />
-                <Bar
+                <Line
+                  type="monotone"
+                  strokeWidth={2}
                   dataKey="count"
-                  radius={[4, 4, 0, 0]}
-                  barSize={30}
-                  fill="currentColor"
-                  className="fill-primary"
+                  activeDot={{
+                    r: 6,
+                  }}
                 />
                 <YAxis
                   tickLine={false}
@@ -130,7 +138,7 @@ export const StoresGrowthMetric = () => {
                   tickMargin={10}
                   className="text-xs"
                 />
-              </BarChart>
+              </LineChart>
             </ResponsiveContainer>
           </div>
         )}

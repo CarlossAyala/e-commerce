@@ -2,9 +2,6 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useGetProfile, useSignout } from "@/shared/auth";
 import { Spinner } from "@/shared/components";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
   Button,
   DropdownMenu,
   DropdownMenuContent,
@@ -48,10 +45,9 @@ export const Header = () => {
               ) : isError ? (
                 <ExclamationTriangleIcon className="size-4" />
               ) : (
-                <Avatar>
-                  <AvatarImage src="/avatars/01.png" alt="@ShadCN" />
-                  <AvatarFallback>{initial}</AvatarFallback>
-                </Avatar>
+                <div className="flex size-full items-center justify-center rounded-full">
+                  {initial}
+                </div>
               )}
             </Button>
           </DropdownMenuTrigger>

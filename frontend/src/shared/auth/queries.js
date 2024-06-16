@@ -19,23 +19,22 @@ export const authKeys = {
   profile: (app) => [...authKeys.key(app), "profile"],
 };
 
-export const useAuth = (input) => {
+export const useAuth = (pathname) => {
   const location = useLocation();
   const queryClient = useQueryClient();
 
-  const { app } = getCurrentApp(input ?? location.pathname);
+  const { app } = getCurrentApp(pathname ?? location.pathname);
 
   const query = useQuery({
     queryKey: authKeys.accessToken(app),
     queryFn: () => getAccessToken(app),
     retry: false,
-    refetchInterval: ms("4m"),
+    refetchInterval: ms("1h"),
     refetchIntervalInBackground: true,
   });
 
   useEffect(() => {
     if (query.isError) {
-      console.log("SOMETHING GOES WRONG", query.error);
       queryClient.setQueriesData(authKeys.accessToken(app), null);
     }
 

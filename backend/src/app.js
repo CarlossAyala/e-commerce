@@ -8,6 +8,7 @@ const { NotFound } = require("./utils/http-errors");
 const sequelize = require("./db/mysql");
 const routes = require("./api/routes");
 const { port, node_env, client_url } = require("./config");
+const logger = require("./utils/logger");
 
 const app = express();
 
@@ -18,28 +19,33 @@ app.use(
   cors({
     credentials: true,
     origin: client_url,
-  })
+  }),
 );
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public")));
-// TODO: Add logger (ex: winston)
 
 app.use(routes);
 
 app.use((_req, _res, next) => {
   next(new NotFound());
 });
+app.use((err, _req, _res, next) => {
+  err.status = err.status || 500;
+  err.message = err.message || "Internal Server Error";
+  next(err);
+});
 app.use((err, _req, res, _next) => {
+  logger.error(err);
   if (node_env === "development") {
     console.log(err);
-    res.status(err.status || 500).json({
+    res.status(err.status).json({
       message: err.message,
       stack: err.stack,
     });
   } else {
-    res.status(err.status || 500).json({
+    res.status(err.status).json({
       message: err.message,
     });
   }
@@ -47,9 +53,8 @@ app.use((err, _req, res, _next) => {
 
 const startServer = async () => {
   try {
-    console.log("Starting server...");
+    console.log("Starting");
 
-    console.log("Connecting to database...");
     await sequelize.authenticate();
     console.log("Database connected");
 
@@ -57,7 +62,8 @@ const startServer = async () => {
     console.log("Server running on port", port);
   } catch (error) {
     console.error("Server failed to start", error);
-    process.exit(1); // TODO: Try to restart the server
+    logger.error(error);
+    process.exitCode = 1;
   }
 };
 

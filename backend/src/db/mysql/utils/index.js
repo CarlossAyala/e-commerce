@@ -17,7 +17,7 @@ const generateRandomUser = async (input = {}) => {
     email,
     password,
     isAdmin,
-    createdAt: new Date(),
+    createdAt: input.createdAt ?? new Date(),
     updatedAt: new Date(),
   };
 };
@@ -38,7 +38,7 @@ const generateRandomCategory = (input = {}) => {
   };
 };
 
-const generateRandomStore = ({ userId }) => {
+const generateRandomStore = ({ userId, createdAt }) => {
   const id = crypto.randomUUID();
   const name = faker.company.name();
   const description = faker.lorem.paragraph();
@@ -50,12 +50,12 @@ const generateRandomStore = ({ userId }) => {
     description,
     slug,
     userId,
-    createdAt: new Date(),
+    createdAt: createdAt ?? new Date(),
     updatedAt: new Date(),
   };
 };
 
-const generateRandomProduct = ({ storeId, categoriesIds }) => {
+const generateRandomProduct = ({ storeId, categoriesIds, createdAt }) => {
   const id = crypto.randomUUID();
   const name = faker.commerce.productName();
   const description = faker.lorem.paragraph();
@@ -79,7 +79,7 @@ const generateRandomProduct = ({ storeId, categoriesIds }) => {
     condition,
     categoryId,
     storeId,
-    createdAt: new Date(),
+    createdAt: createdAt ?? new Date(),
     updatedAt: new Date(),
   };
 };

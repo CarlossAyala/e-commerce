@@ -5,7 +5,7 @@ const { generateRandomUser } = require("../utils");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     /**
      * Add seed commands here.
      *
@@ -25,7 +25,7 @@ module.exports = {
     await queryInterface.bulkInsert("Users", [user]);
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     /**
      * Add commands to revert seed here.
      *

@@ -4,6 +4,5 @@ Decidí crear un E-Commerce desde 0 con el fin de aprender y ver que conocimient
 
 ## TODO
 
-- [ ] Add photo to users account
-- [ ] useAuth bug persist
 - [ ] check express best security practices
+- [ ] check backend error handling

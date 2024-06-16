@@ -22,6 +22,7 @@ import {
 } from "@/components";
 import { useGetProductsGrowthStats } from "../../products";
 import { INTERVALS, formatDateMetric } from "../utils";
+import { Formatter } from "@/utils";
 
 export const ProductsMetric = () => {
   const [params, setParams] = useState(
@@ -95,13 +96,23 @@ export const ProductsMetric = () => {
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload?.length) {
+                      const [year, month, day] =
+                        payload[0].payload.date.split("-");
+                      const date = new Date(year, +month - 1, day);
+
                       return (
                         <div className="rounded-lg border bg-background p-2 shadow-sm">
                           <p className="text-sm uppercase text-muted-foreground">
-                            Products
+                            Products{" "}
+                            <span className="font-bold">
+                              +{payload[0].value}
+                            </span>
                           </p>
-                          <p className="font-bold text-muted-foreground">
-                            + {payload[0].value}
+                          <p className="text-sm uppercase text-muted-foreground">
+                            Date{" "}
+                            <span className="font-bold">
+                              {Formatter.shortDate(date)}
+                            </span>
                           </p>
                         </div>
                       );

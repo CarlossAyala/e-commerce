@@ -1,10 +1,12 @@
 "use strict";
 
+const ms = require("ms");
 const { generateRandomStore } = require("../utils");
+const { getRandomIntByRange } = require("../../../utils");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     /**
      * Add seed commands here.
      *
@@ -18,12 +20,15 @@ module.exports = {
       "SELECT id FROM Users"
     );
     const stores = users.map(({ id: userId }) =>
-      generateRandomStore({ userId })
+      generateRandomStore({
+        userId,
+        createdAt: new Date(Date.now() - getRandomIntByRange(0, ms("1y"))),
+      })
     );
     await queryInterface.bulkInsert("Stores", stores);
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     /**
      * Add commands to revert seed here.
      *

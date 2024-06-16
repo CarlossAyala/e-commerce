@@ -3,9 +3,6 @@ import placeholder from "@/assets/images/placeholder-image.jpg";
 import { EmptyState, PageHeader, PageHeaderHeading } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
   Badge,
   Card,
   CardContent,
@@ -20,7 +17,7 @@ import {
   Separator,
   Skeleton,
 } from "@/components";
-import { Formatter, getInitials } from "@/utils";
+import { Formatter, getFullName, getInitials } from "@/utils";
 import { useGetStore } from "../queries";
 
 export const Store = () => {
@@ -129,14 +126,9 @@ export const Store = () => {
             <CardContent>
               <div className="flex items-center justify-between space-x-4">
                 <div className="flex items-center space-x-4">
-                  <Avatar className="rounded-full border">
-                    <AvatarImage src={null} />
-                    <AvatarFallback>
-                      {getInitials(
-                        `${store.seller.name} ${store.seller.lastName}`,
-                      )}
-                    </AvatarFallback>
-                  </Avatar>
+                  <div className="flex size-full items-center justify-center rounded-full">
+                    {getInitials(getFullName(store.seller))}
+                  </div>
                   <div className="text-sm">
                     <p className="font-medium">
                       {`${store.seller.name} ${store.seller.lastName}`}

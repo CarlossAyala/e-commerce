@@ -22,6 +22,7 @@ import {
 } from "@/components";
 import { useGetUsersGrowthStats } from "../../users";
 import { INTERVALS, formatDateMetric } from "../utils";
+import { Formatter } from "@/utils";
 
 export const UsersGrowthMetric = () => {
   const [params, setParams] = useState(
@@ -88,15 +89,21 @@ export const UsersGrowthMetric = () => {
                   content={({ active, payload }) => {
                     if (active && payload?.length) {
                       const [item] = payload;
+                      const [year, month, day] = item.payload.date.split("-");
+                      const date = new Date(year, +month - 1, day);
 
                       return (
                         <section className="rounded-lg border bg-background p-2 shadow-sm">
                           <div>
                             <p className="text-sm uppercase text-muted-foreground">
-                              Users
+                              Users{" "}
+                              <span className="font-bold">+ {item.value}</span>
                             </p>
-                            <p className="font-bold text-muted-foreground">
-                              + {item.value}
+                            <p className="text-sm uppercase text-muted-foreground">
+                              Date{" "}
+                              <span className="font-bold">
+                                {Formatter.shortDate(date)}
+                              </span>
                             </p>
                           </div>
                         </section>
