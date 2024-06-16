@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import {
-  changeNameDefault,
+  changeProfileDefault,
   changeNameSchema,
   useUpdateProfile,
 } from "@/shared/auth";
@@ -23,7 +23,7 @@ export const ProfileForm = ({ profile }) => {
 
   const form = useForm({
     resolver: yupResolver(changeNameSchema),
-    values: changeNameDefault(profile),
+    values: changeProfileDefault(profile),
     mode: "onSubmit",
   });
 

@@ -5,7 +5,6 @@ import { InputSkeleton, Skeleton } from "@/components";
 import { ProfileForm } from "../components/profile-form";
 import { PasswordForm } from "../components/password-form";
 
-// TODO: Add profile photo logic
 export const Account = () => {
   useDocumentTitle("Account");
   const { data: customer, isLoading, isError, error } = useGetProfile();

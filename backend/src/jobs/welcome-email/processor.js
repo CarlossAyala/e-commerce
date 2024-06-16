@@ -5,7 +5,7 @@ const handlebars = require("handlebars");
 const resend = require("../../services/resend");
 const { InternalServerError } = require("../../utils/http-errors");
 
-// TODO: Replace data
+// TODO: Check email sender
 module.exports = async (job) => {
   const templatePath = path.join(__dirname, "template.hbs");
   const template = fs.readFileSync(templatePath, "utf-8");
@@ -15,8 +15,7 @@ module.exports = async (job) => {
 
   const { data, error } = resend.emails.send({
     from: "Legger E-Commerce <onboarding@resend.dev>",
-    // to: job.data.email,
-    to: "infocarlosayala@gmail.com",
+    to: job.data.email,
     subject: "Welcome to Legger E-Commerce",
     headers: {
       "X-Entity-Ref-ID": crypto.randomUUID(),

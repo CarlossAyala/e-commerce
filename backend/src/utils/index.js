@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const logger = require("./logger");
 
 const getRandomIntByRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -50,8 +51,6 @@ const envSchema = Joi.object({
   redis: Joi.object({
     host: Joi.string().hostname().required(),
     port: Joi.number().port().required(),
-    // TODO: Password?
-    // password: Joi.string().required(),
   }).required(),
   client_url: Joi.string().required(),
   logger: Joi.object({
@@ -62,10 +61,11 @@ const envSchema = Joi.object({
 });
 
 const validateEnv = (env) => {
-  const { error } = envSchema.validate(env, { abortEarly: false });
+  const { error, value } = envSchema.validate(env, { abortEarly: false });
   if (error) {
     throw new Error(error);
   }
+  return value;
 };
 
 module.exports = {

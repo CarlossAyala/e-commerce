@@ -14,7 +14,7 @@ const authenticate = async (req, _res, next) => {
   const accessToken = authorization.split(" ")[1];
   if (!accessToken) {
     return next(
-      new BadRequest("Missing access token in authorization header.")
+      new BadRequest("Missing access token in authorization header."),
     );
   }
 
@@ -27,8 +27,6 @@ const authenticate = async (req, _res, next) => {
     if (!user) {
       throw new Unauthorized("You are not authorized to access this resource.");
     }
-
-    delete user.password;
 
     req.auth = { userId };
     req.user = user;

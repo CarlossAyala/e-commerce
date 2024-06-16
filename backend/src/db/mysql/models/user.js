@@ -19,11 +19,6 @@ module.exports = (sequelize) => {
         foreignKey: "userId",
         as: "cart",
       });
-      // User.hasMany(models.Bookmark);
-      // User.hasMany(models.History);
-      // User.hasMany(models.Order);
-      // User.hasMany(models.Review);
-      // User.hasMany(models.Question);
     }
   }
   User.init(

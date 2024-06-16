@@ -8,17 +8,27 @@ const router = Router();
 router.post(
   "/signin",
   middlewares.schemaValidator(schemas.signin),
-  controllers.signin
+  controllers.signin,
 );
 router.post(
   "/signup",
   middlewares.schemaValidator(schemas.signup),
-  controllers.signup
+  controllers.signup,
 );
 router.post("/signout", controllers.signout);
 router.post("/refresh-token", controllers.refreshToken);
 router.get("/profile", middlewares.authenticate, controllers.profile);
-
-// TODO: Add routes for update profile, change password, etc.
+router.put(
+  "/profile",
+  middlewares.authenticate,
+  middlewares.schemaValidator(schemas.updateProfile),
+  controllers.updateProfile,
+);
+router.patch(
+  "/password",
+  middlewares.authenticate,
+  middlewares.schemaValidator(schemas.changePassword),
+  controllers.changePassword,
+);
 
 module.exports = router;

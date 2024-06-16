@@ -147,7 +147,66 @@ const profile = async (req, res, next) => {
   const { user } = req;
 
   try {
+    delete user.password;
+
     res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateProfile = async (req, res, next) => {
+  const { user } = req;
+
+  try {
+    const { name, lastName } = req.body;
+    await UserModel.update(
+      {
+        name,
+        lastName,
+      },
+      {
+        where: {
+          id: user.id,
+        },
+      },
+    );
+
+    res.json({
+      message: "Profile updated successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const changePassword = async (req, res, next) => {
+  const { user } = req;
+
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    const isMatch = await encrypter.compare(oldPassword, user.password);
+    if (!isMatch) {
+      throw new BadRequest("Current password is incorrect");
+    }
+
+    const hashedPassword = await encrypter.encrypt(newPassword);
+
+    await UserModel.update(
+      {
+        password: hashedPassword,
+      },
+      {
+        where: {
+          id: user.id,
+        },
+      },
+    );
+
+    res.json({
+      message: "Password changed successfully",
+    });
   } catch (error) {
     next(error);
   }
@@ -159,4 +218,6 @@ module.exports = {
   signout,
   refreshToken,
   profile,
+  updateProfile,
+  changePassword,
 };

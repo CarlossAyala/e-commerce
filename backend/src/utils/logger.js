@@ -1,11 +1,10 @@
 const { createLogger, format, transports } = require("winston");
 require("winston-daily-rotate-file");
-const config = require("../config");
 
 const { combine, timestamp, json, errors } = format;
 
 const logger = createLogger({
-  level: config.logger.level || "debug",
+  level: "debug",
   format: combine(errors({ stack: true }), timestamp(), json()),
   transports: [
     new transports.DailyRotateFile({

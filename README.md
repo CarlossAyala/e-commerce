@@ -5,4 +5,4 @@ Decidí crear un E-Commerce desde 0 con el fin de aprender y ver que conocimient
 ## TODO
 
 - [ ] check express best security practices
-- [ ] check backend error handling
+- [ ] update backend and frontend readme

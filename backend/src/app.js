@@ -8,8 +8,8 @@ const { NotFound } = require("./utils/http-errors");
 const logger = require("./utils/logger");
 const sequelize = require("./db/mysql");
 const routes = require("./api/routes");
-const { validateEnv } = require("./utils");
 const config = require("./config");
+const Joi = require("joi");
 
 const app = express();
 
@@ -42,6 +42,12 @@ app.use((err, _req, _res, next) => {
   logger.error(err);
   next(err);
 });
+app.use((err, _req, _res, next) => {
+  if (err instanceof Joi.ValidationError) {
+    err.message = err.details.map((detail) => detail.message).join(", ");
+  }
+  next(err);
+});
 app.use((err, _req, res, _next) => {
   if (config.node_env === "development") {
     console.log(err);
@@ -59,9 +65,6 @@ app.use((err, _req, res, _next) => {
 const startServer = async () => {
   try {
     console.log("Starting");
-
-    validateEnv(config);
-    console.log("Environment validated");
 
     await sequelize.authenticate();
     console.log("Database connected");

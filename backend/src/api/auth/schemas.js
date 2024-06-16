@@ -19,7 +19,7 @@ const signin = Joi.object({
   password,
 });
 
-const changeName = Joi.object({
+const updateProfile = Joi.object({
   name,
   lastName,
 });
@@ -28,13 +28,13 @@ const changePassword = Joi.object({
   oldPassword: password.label("Old password"),
   newPassword: password.label("New password"),
   confirmPassword: confirmPassword.valid(
-    Joi.ref("newPassword", { render: true })
+    Joi.ref("newPassword", { render: true }),
   ),
 });
 
 module.exports = {
   signup,
   signin,
-  changeName,
+  updateProfile,
   changePassword,
 };

@@ -7,7 +7,7 @@ const validatePaymentMethodId = async (req, _res, next, paymentMethodId) => {
   try {
     const paymentMethod = await Stripe.customers.retrievePaymentMethod(
       customer.id,
-      paymentMethodId
+      paymentMethodId,
     );
     if (!paymentMethod) {
       throw new NotFound("Payment not found");
@@ -20,7 +20,6 @@ const validatePaymentMethodId = async (req, _res, next, paymentMethodId) => {
   }
 };
 
-// TODO: Add pagination
 const findAll = async (req, res, next) => {
   const { customer } = req.stripe;
 
@@ -29,7 +28,7 @@ const findAll = async (req, res, next) => {
       customer.id,
       {
         type: "card",
-      }
+      },
     );
 
     res.json(paymentMethods);
@@ -70,12 +69,10 @@ const findSession = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   const { customer } = req.stripe;
-  // TODO: Validate those
   const { paymentIntentId, addressId } = req.body;
 
   const { origin } = req.headers;
   try {
-    // TODO: Get Origin from .env
     let success_url = `${origin}/checkout/${paymentIntentId}/payment-method?session_id={CHECKOUT_SESSION_ID}`;
     if (addressId) {
       success_url = success_url.concat(`&address_id=${addressId}`);

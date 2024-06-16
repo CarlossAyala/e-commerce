@@ -58,16 +58,11 @@ export const signout = (app) => {
   });
 };
 
-// TODO: Check this
-export const updateFullName = (data, accessToken) => {
-  const url = `${ENDPOINT}/change-full-name`;
-
-  if (!accessToken) {
-    throw new Error("Token not found");
-  }
+export const updateProfile = (data, accessToken) => {
+  const url = `${ENDPOINT}/profile`;
 
   return fetcher(url, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
@@ -76,13 +71,8 @@ export const updateFullName = (data, accessToken) => {
   });
 };
 
-// TODO: Check this
 export const updatePassword = (data, accessToken) => {
-  const url = `${ENDPOINT}/change-password`;
-
-  if (!accessToken) {
-    throw new Error("Token not found");
-  }
+  const url = `${ENDPOINT}/password`;
 
   return fetcher(url, {
     method: "PATCH",

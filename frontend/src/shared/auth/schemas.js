@@ -53,7 +53,7 @@ export const changeNameSchema = object({
   lastName,
 });
 export const changePasswordSchema = object({
-  oldPassword: password.label("Old password"),
+  oldPassword: password.label("Current password"),
   newPassword: password.label("New password"),
   confirmPassword: confirmPassword.oneOf(
     [ref("newPassword")],
@@ -63,10 +63,10 @@ export const changePasswordSchema = object({
 
 export const signupInitial = signupSchema.getDefault();
 export const signinInitial = signinSchema.getDefault();
-export const changeNameInitial = changeNameSchema.getDefault();
+export const changeProfileInitial = changeNameSchema.getDefault();
 export const changePasswordInitial = changePasswordSchema.getDefault();
 
-export const changeNameDefault = (value) => ({
-  name: value?.name ?? changeNameInitial.name,
-  lastName: value?.lastName ?? changeNameInitial.lastName,
+export const changeProfileDefault = (value) => ({
+  name: value?.name ?? changeProfileInitial.name,
+  lastName: value?.lastName ?? changeProfileInitial.lastName,
 });

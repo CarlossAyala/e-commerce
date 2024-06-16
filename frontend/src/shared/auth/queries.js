@@ -9,12 +9,12 @@ import {
   signin,
   signout,
   signup,
-  updateFullName,
+  updateProfile,
   updatePassword,
 } from "./api";
 
 export const authKeys = {
-  key: (app) => ["auth/".concat(app)],
+  key: (app) => ["auth", app],
   accessToken: (app) => [...authKeys.key(app), "access-token"],
   profile: (app) => [...authKeys.key(app), "profile"],
 };
@@ -98,11 +98,12 @@ export const useSignout = () => {
 export const useUpdateProfile = () => {
   const { data: accessToken } = useAuth();
   const queryClient = useQueryClient();
+  const { app } = getCurrentApp();
 
   return useMutation({
-    mutationFn: (data) => updateFullName(data, accessToken),
+    mutationFn: (data) => updateProfile(data, accessToken),
     onSuccess: () => {
-      queryClient.invalidateQueries(authKeys.key);
+      return queryClient.invalidateQueries(authKeys.profile(app));
     },
     meta: {
       title: "Account",
@@ -112,9 +113,14 @@ export const useUpdateProfile = () => {
 
 export const useUpdatePassword = () => {
   const { data: accessToken } = useAuth();
+  const queryClient = useQueryClient();
+  const { app } = getCurrentApp();
 
   return useMutation({
     mutationFn: (data) => updatePassword(data, accessToken),
+    onSuccess: () => {
+      return queryClient.invalidateQueries(authKeys.accessToken(app));
+    },
     meta: {
       title: "Account",
     },
