@@ -21,7 +21,7 @@ export const SideNav = () => {
                 className={cn(
                   "flex items-center gap-2 rounded-md px-3 py-2 font-normal",
                   location.pathname.includes(item.to)
-                    ? "data-[state=closed]:bg-primary data-[state=closed]:text-white"
+                    ? "data-[state=closed]:bg-foreground data-[state=closed]:text-secondary"
                     : "data-[state=closed]:hover:text-primary",
                 )}
               >
@@ -39,7 +39,7 @@ export const SideNav = () => {
                       cn(
                         "rounded-md px-3 py-2",
                         isActive
-                          ? "bg-primary text-white"
+                          ? "bg-foreground text-secondary"
                           : "hover:text-primary",
                       )
                     }
@@ -59,7 +59,9 @@ export const SideNav = () => {
             className={({ isActive }) =>
               cn(
                 "flex items-center gap-2 rounded-md px-3 py-2",
-                isActive ? "bg-primary text-white" : "hover:text-primary",
+                isActive
+                  ? "bg-foreground text-secondary"
+                  : "hover:text-primary",
               )
             }
           >

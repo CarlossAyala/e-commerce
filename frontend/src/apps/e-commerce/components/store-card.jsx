@@ -17,7 +17,9 @@ export const StoreCard = ({ store }) => {
           />
         </div>
         <div>
-          <p className="line-clamp-1 text-center text-sm">{store.name}</p>
+          <p className="line-clamp-1 text-center text-sm text-primary">
+            {store.name}
+          </p>
         </div>
       </article>
     </Link>

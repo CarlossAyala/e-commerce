@@ -54,9 +54,9 @@ export const UserCart = () => {
           </p>
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex h-full w-full flex-col gap-0 bg-white p-0 shadow-xl sm:max-w-sm">
+      <SheetContent className="flex h-full w-full flex-col gap-0 p-0 shadow-xl sm:max-w-sm">
         <div className="px-4 pt-4">
-          <h2 className="text-lg font-medium text-gray-900">Shopping Cart</h2>
+          <h2 className="text-lg font-medium text-primary">Shopping Cart</h2>
         </div>
 
         {isLoading ? (
@@ -101,7 +101,7 @@ export const UserCart = () => {
               ))}
             </ul>
 
-            <div className="sticky bottom-0 space-y-2 border-t bg-white p-4">
+            <div className="sticky bottom-0 space-y-2 border-t bg-background p-4">
               <div className="flex items-center justify-between gap-2 font-medium text-primary">
                 <p>Subtotal</p>
                 <p>{Formatter.currency(subTotal)}</p>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import placeholderImage from "@/assets/images/placeholder-image.jpg";
 import { storeActionRoutes, useGetStores } from "../features/stores";
 
 export const SearchStores = ({ search, cleanUp }) => {
@@ -33,21 +33,15 @@ export const SearchStores = ({ search, cleanUp }) => {
                   className="relative flex cursor-default select-none items-center rounded-md px-2 py-1.5 hover:bg-accent hover:text-accent-foreground"
                 >
                   <div className="flex items-center gap-2">
-                    <div className="size-8 overflow-hidden rounded-full border border-gray-200">
+                    <div className="size-8 overflow-hidden rounded-full">
                       <img
                         className="size-full object-contain"
-                        src="https://http2.mlstatic.com/storage/official-stores-images/xiaomi/logo20230203114458.jpg"
-                        alt="Alt"
+                        src={store.url ?? placeholderImage}
+                        alt={store.name}
                       />
                     </div>
-                    <div className="flex gap-1">
+                    <div>
                       <p>{store.name}</p>
-                      {store.official && (
-                        <CheckBadgeIcon
-                          title="Official Store"
-                          className="h-4 w-4 text-accent-foreground"
-                        />
-                      )}
                     </div>
                   </div>
                 </Link>

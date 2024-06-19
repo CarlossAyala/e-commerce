@@ -16,3 +16,4 @@ export * from "./spinner";
 export * from "./authenticated-route";
 export * from "./breakpoint-indicator";
 export * from "./not-found";
+export * from "./theme-provider";

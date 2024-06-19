@@ -53,7 +53,7 @@ export const CartItemQty = ({ item }) => {
           </button>
           <input
             type="text"
-            className="h-7 w-14 text-center"
+            className="h-7 w-14 bg-transparent text-center"
             value={qty}
             onChange={handleChange}
           />

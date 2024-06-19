@@ -8,7 +8,7 @@ const ProductGalleryModel = sequelize.model("ProductGallery");
 const findAll = async (req, res, next) => {
   const { userId } = req.auth;
   const { order, limit, offset } = new QueryBuilder(req.query)
-    .orderBy("lastSeenAt", "DESC")
+    .orderBy("createdAt", "DESC")
     .pagination()
     .build();
 
@@ -59,7 +59,7 @@ const create = async (req, res, next) => {
 
       res.json({ message: "History created" });
     } else {
-      await history.update({ lastSeenAt: new Date() });
+      await history.update({ createdAt: new Date() });
 
       res.json({ message: "History updated" });
     }

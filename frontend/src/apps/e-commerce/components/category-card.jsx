@@ -20,7 +20,7 @@ export const CategoryCard = ({ category }) => {
         </div>
         <div className="aspect-h-9 aspect-w-16 absolute inset-0 rounded-md bg-gradient-to-t from-primary"></div>
         <div className="absolute inset-x-2 bottom-2">
-          <p className="line-clamp-1 text-left text-sm font-medium text-white group-hover:line-clamp-none">
+          <p className="line-clamp-1 text-left text-sm font-medium text-primary-foreground group-hover:line-clamp-none">
             {category.name}
           </p>
         </div>

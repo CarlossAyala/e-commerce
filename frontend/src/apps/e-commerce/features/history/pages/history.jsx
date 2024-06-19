@@ -24,7 +24,7 @@ const groupByDate = (history) => {
   const dates = new Map();
 
   for (const _history of history) {
-    const date = new Date(_history.lastSeenAt);
+    const date = new Date(_history.createdAt);
     date.setHours(0, 0, 0, 0);
     date.setDate(1);
 

@@ -13,7 +13,7 @@ export const Header = () => {
   const isAuthenticated = !!data;
 
   return (
-    <header className="sticky top-0 z-50 shrink-0 border-b bg-white">
+    <header className="sticky top-0 z-50 shrink-0 border-b bg-background">
       <div className="container flex h-14 items-center">
         <Sidebar />
         <Logo />

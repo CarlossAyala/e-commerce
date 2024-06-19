@@ -9,18 +9,19 @@ router.get(
   "/",
   middlewares.authenticate,
   middlewares.authenticateStore,
-  controllers.find
+  controllers.find,
 );
 router.get(
   "/earnings",
   middlewares.authenticate,
   middlewares.authenticateStore,
-  controllers.getEarnings
+  controllers.getEarnings,
 );
 router.post(
   "/",
+  middlewares.authenticate,
   middlewares.schemaValidator(schemas.create),
-  controllers.create
+  controllers.create,
 );
 router.put(
   "/",
@@ -31,13 +32,13 @@ router.put(
     { name: "nextGallery", maxCount: 10 },
   ]),
   middlewares.schemaValidator(schemas.update),
-  controllers.update
+  controllers.update,
 );
 router.delete(
   "/",
   middlewares.authenticate,
   middlewares.authenticateStore,
-  controllers.remove
+  controllers.remove,
 );
 
 module.exports = router;

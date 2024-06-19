@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import placeholderImage from "@/assets/images/placeholder-image.jpg";
 import { productActionRoutes } from "../features/products";
 import { Formatter } from "@/utils";
 import { useGetProducts } from "@/shared/features/product";
@@ -34,11 +35,11 @@ export const SearchProducts = ({ search, cleanUp }) => {
                   className="relative flex cursor-default select-none items-center rounded-md px-2 py-1.5 hover:bg-accent hover:text-accent-foreground"
                 >
                   <div className="flex items-center gap-2">
-                    <div className="size-9 shrink-0 overflow-hidden rounded-md border border-gray-200">
+                    <div className="size-9 shrink-0 overflow-hidden rounded-md">
                       <img
                         className="size-full object-contain"
-                        src="https://http2.mlstatic.com/D_Q_NP_2X_959277-MLU72641778671_112023-T.webp"
-                        alt="Alt"
+                        src={product.url ?? placeholderImage}
+                        alt={product.name}
                       />
                     </div>
                     <div>

@@ -52,9 +52,9 @@ export const ReviewScore = ({ productId }) => {
               {data.levels.map(({ rating, percentage }) => (
                 <li key={rating} className="flex items-center gap-4">
                   <div className="relative h-2 grow">
-                    <span className="absolute inset-0 h-full rounded-full bg-gray-200" />
+                    <span className="absolute inset-0 h-full rounded-full bg-muted" />
                     <span
-                      className="absolute inset-0 h-full rounded-full bg-gray-500"
+                      className="absolute inset-0 h-full rounded-full bg-muted-foreground"
                       style={{
                         width: `${percentage}%`,
                       }}
@@ -62,7 +62,7 @@ export const ReviewScore = ({ productId }) => {
                   </div>
                   <div className="flex items-center gap-1">
                     <p className="text-muted-foreground">{rating}</p>
-                    <StarIcon className="size-4 shrink-0 text-gray-300" />
+                    <StarIcon className="size-4 shrink-0 text-yellow-400" />
                   </div>
                 </li>
               ))}
