@@ -11,7 +11,7 @@ export const ProductCard = ({ product }) => {
 
   return (
     <Link to={productActionRoutes.details(product)}>
-      <article className="w-full overflow-hidden rounded-md border">
+      <article className="size-full overflow-hidden rounded-md border">
         <div className="aspect-h-1 aspect-w-1">
           <img
             src={image}
@@ -20,10 +20,10 @@ export const ProductCard = ({ product }) => {
           />
         </div>
         <div className="border-t p-2">
-          <h3 className="line-clamp-2 text-sm text-primary">{product.name}</h3>
           <p className="font-semibold text-primary">
             {Formatter.currency(product.price)}
           </p>
+          <h3 className="line-clamp-2 text-sm text-primary">{product.name}</h3>
         </div>
       </article>
     </Link>
@@ -32,7 +32,7 @@ export const ProductCard = ({ product }) => {
 
 ProductCard.Skeleton = function ProductCardSkeleton() {
   return (
-    <article className="w-full overflow-hidden rounded-md border">
+    <article className="size-full overflow-hidden rounded-md border">
       <Skeleton className="aspect-h-1 aspect-w-1 w-full rounded-none" />
       <div className="space-y-2 border-t p-2">
         <Skeleton className="h-4 w-full" />
