@@ -3,6 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { BreakpointIndicator, ThemeProvider } from "./shared/components";
 import { Toaster } from "./components";
 import { queryClient } from "./libs";
+import { MODE } from "./configs";
 
 export const Providers = ({ children }) => {
   return (
@@ -13,7 +14,10 @@ export const Providers = ({ children }) => {
         {children}
 
         <Toaster />
-        <ReactQueryDevtools position="bottom-left" initialIsOpen={false} />
+
+        {MODE === "development" && (
+          <ReactQueryDevtools position="bottom-left" initialIsOpen={false} />
+        )}
       </QueryClientProvider>
     </ThemeProvider>
   );
