@@ -1,9 +1,10 @@
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import placeholder from "@/assets/images/placeholder-image.jpg";
 import { ProductCard } from "@/apps/e-commerce/components";
 import { EmptyState, URLPagination } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import {
+  Button,
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -14,6 +15,8 @@ import {
 } from "@/components";
 import { Formatter } from "@/utils";
 import { useGetStore, useGetStoreProducts } from "../queries";
+import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "@/shared/auth";
 
 const filters = [
   {
@@ -24,11 +27,22 @@ const filters = [
 export const Store = () => {
   const { storeId } = useParams();
   const [params] = useSearchParams();
+  const { data } = useAuth();
+  const navigate = useNavigate();
 
   const store = useGetStore(storeId);
   const products = useGetStoreProducts(storeId, params.toString());
 
   useDocumentTitle(store.data?.name);
+
+  const handleSendMessage = () => {
+    const isAuthenticated = !!data;
+    if (isAuthenticated) {
+      navigate(`/chats/${storeId}`);
+    } else {
+      alert("Please sign in to chat");
+    }
+  };
 
   return (
     <main className="flex-1 space-y-4 pb-10">
@@ -60,41 +74,51 @@ export const Store = () => {
         </section>
       ) : (
         <section className="desktop:container">
-          <div className="relative">
-            <Carousel>
-              <CarouselContent>
-                {store.data.gallery.length ? (
-                  store.data.gallery.map((image) => (
-                    <CarouselItem key={image.id}>
-                      <div className="aspect-h-9 aspect-w-16 sm:aspect-h-4 sm:aspect-w-10 lg:aspect-h-4 lg:aspect-w-14">
-                        <img
-                          src={image.url}
-                          alt="Banner"
-                          className="size-full object-cover object-center"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))
-                ) : (
-                  <CarouselItem>
+          <Carousel>
+            <CarouselContent>
+              {store.data.gallery.length ? (
+                store.data.gallery.map((image) => (
+                  <CarouselItem key={image.id}>
                     <div className="aspect-h-9 aspect-w-16 sm:aspect-h-4 sm:aspect-w-10 lg:aspect-h-4 lg:aspect-w-14">
-                      <img src={placeholder} alt="No banner" />
+                      <img
+                        src={image.url}
+                        alt="Banner"
+                        className="size-full object-cover object-center"
+                      />
                     </div>
                   </CarouselItem>
-                )}
-              </CarouselContent>
-              <CarouselPrevious className="left-2" />
-              <CarouselNext className="right-2" />
-            </Carousel>
-            <div className="absolute bottom-0 left-4 size-36 translate-y-1/2 overflow-hidden rounded-full border">
+                ))
+              ) : (
+                <CarouselItem>
+                  <div className="aspect-h-9 aspect-w-16 sm:aspect-h-4 sm:aspect-w-10 lg:aspect-h-4 lg:aspect-w-14">
+                    <img src={placeholder} alt="No banner" />
+                  </div>
+                </CarouselItem>
+              )}
+            </CarouselContent>
+            <CarouselPrevious className="left-2" />
+            <CarouselNext className="right-2" />
+          </Carousel>
+          <div className="relative flex items-start justify-between px-4 pt-2">
+            <div className="-mt-16 size-36 overflow-hidden rounded-full border">
               <img
                 src={store.data.url ?? placeholder}
                 alt="Profile"
                 className="size-full object-cover object-center"
               />
             </div>
+            <div className="flex gap-2">
+              <Button
+                size="icon"
+                variant="outline"
+                className="rounded-full"
+                onClick={handleSendMessage}
+              >
+                <EnvelopeIcon className="size-5" />
+              </Button>
+            </div>
           </div>
-          <div className="mt-16 px-4 pt-2 xl:px-0">
+          <div className="mt-2 px-4 xl:px-0">
             <h2 className="text-xl font-semibold md:text-2xl">
               {store.data.name}
             </h2>

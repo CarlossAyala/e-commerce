@@ -10,6 +10,7 @@ const bookmarks = require("./bookmarks/routes");
 const stores = require("./stores/routes");
 const orders = require("./orders/routes");
 const categories = require("./categories/routes");
+const chats = require("./chats/routes");
 
 const router = Router();
 
@@ -19,7 +20,7 @@ router.use(
   "/checkout",
   middlewares.authenticate,
   middlewares.attachStripeAccount,
-  checkout
+  checkout,
 );
 router.use("/addresses", middlewares.authenticate, addresses);
 router.use("/reviews", reviews);
@@ -28,5 +29,6 @@ router.use("/history", middlewares.authenticate, history);
 router.use("/bookmarks", middlewares.authenticate, bookmarks);
 router.use("/stores", stores);
 router.use("/categories", categories);
+router.use("/chats", middlewares.authenticate, chats);
 
 module.exports = router;

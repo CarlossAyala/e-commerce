@@ -9,7 +9,14 @@ import prettier from "eslint-config-prettier";
  * @type {import("eslint").Linter.FlatConfig[]}
  */
 export default [
-  { languageOptions: { globals: globals.browser } },
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        Intl: true,
+      },
+    },
+  },
   pluginJs.configs.recommended,
   {
     plugins: {

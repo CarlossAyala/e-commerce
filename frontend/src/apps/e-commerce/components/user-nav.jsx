@@ -16,9 +16,9 @@ import {
 import { getFullName, getInitials } from "@/utils";
 import { ECOMMERCE_NAV } from "../config";
 
-const { orders, history, bookmarks, questions, reviews, settings } =
+const { orders, history, bookmarks, questions, reviews, settings, chats } =
   ECOMMERCE_NAV;
-const navs = [orders, history, bookmarks, questions, reviews];
+const navs = [orders, history, bookmarks, questions, reviews, chats];
 
 export const UserNav = () => {
   const signout = useSignout();

@@ -50,6 +50,7 @@
     "mysql2": "^3.9.7",
     "resend": "^3.2.0",
     "sequelize": "^6.37.3",
+    "socket.io": "^4.7.5",
     "stripe": "^15.5.0",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"

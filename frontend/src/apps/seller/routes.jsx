@@ -6,6 +6,7 @@ import { questionRoutes } from "./features/questions";
 import { orderRoutes } from "./features/orders";
 import { reviewRoutes } from "./features/review";
 import { RedirectWithStore, WithStoreRoute } from "./components";
+import { Chats, chatRoutes } from "./features/chats";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -55,6 +56,15 @@ export const sellerRoutes = [
     path: "reviews",
     element: <WithStoreRoute />,
     children: reviewRoutes,
+  },
+  {
+    path: "chats",
+    element: (
+      <WithStoreRoute>
+        <Chats />
+      </WithStoreRoute>
+    ),
+    children: chatRoutes,
   },
   {
     path: "*",

@@ -1,5 +1,5 @@
 {
   "editor.suggest.showWords": false,
   "eslint.workingDirectories": ["backend", "frontend"],
-  "cSpell.words": ["compat", "embla"]
+  "cSpell.words": ["compat", "embla", "navs"]
 }

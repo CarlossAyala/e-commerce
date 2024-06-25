@@ -34,10 +34,9 @@ export const useAuth = (pathname) => {
   });
 
   useEffect(() => {
-    if (query.isError) {
-      queryClient.setQueriesData(authKeys.accessToken(app), null);
-    }
-
+    // if (query.isError) {
+    //   queryClient.setQueriesData(authKeys.accessToken(app), null);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.isError]);
 

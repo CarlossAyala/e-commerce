@@ -1,10 +1,11 @@
 import {
   BuildingStorefrontIcon,
-  ChatBubbleLeftRightIcon,
+  ChatBubbleBottomCenterIcon,
   ClipboardIcon,
   CubeIcon,
   QuestionMarkCircleIcon,
   SparklesIcon,
+  StarIcon,
 } from "@heroicons/react/24/outline";
 
 export const SIDE_NAV = [
@@ -39,7 +40,12 @@ export const SIDE_NAV = [
   },
   {
     name: "Reviews",
-    icon: ChatBubbleLeftRightIcon,
+    icon: StarIcon,
     to: "/seller/reviews",
+  },
+  {
+    name: "Chats",
+    icon: ChatBubbleBottomCenterIcon,
+    to: "/seller/chats",
   },
 ];

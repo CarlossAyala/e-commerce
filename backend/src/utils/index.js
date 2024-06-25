@@ -51,7 +51,11 @@ const envSchema = Joi.object({
     host: Joi.string().hostname().required(),
     port: Joi.number().port().required(),
   }).required(),
-  client_url: Joi.string().required(),
+  client_url: Joi.string().when("node_env", {
+    is: "production",
+    then: Joi.string().required(),
+    otherwise: Joi.string().default("http://localhost:3000"),
+  }),
   logger: Joi.object({
     level: Joi.string()
       .valid("error", "warn", "info", "http", "verbose", "debug", "silly")

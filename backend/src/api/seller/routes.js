@@ -5,6 +5,7 @@ const products = require("./products/routes");
 const questions = require("./questions/routes");
 const orders = require("./orders/routes");
 const reviews = require("./review/routes");
+const chats = require("./chats/routes");
 
 const router = Router();
 
@@ -13,25 +14,32 @@ router.use(
   "/products",
   middlewares.authenticate,
   middlewares.authenticateStore,
-  products
+  products,
 );
 router.use(
   "/questions",
   middlewares.authenticate,
   middlewares.authenticateStore,
-  questions
+  questions,
 );
 router.use(
   "/orders",
   middlewares.authenticate,
   middlewares.authenticateStore,
-  orders
+  orders,
 );
 router.use(
   "/reviews",
   middlewares.authenticate,
   middlewares.authenticateStore,
-  reviews
+  reviews,
+);
+
+router.use(
+  "/chats",
+  middlewares.authenticate,
+  middlewares.authenticateStore,
+  chats,
 );
 
 module.exports = router;

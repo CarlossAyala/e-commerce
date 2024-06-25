@@ -51,6 +51,10 @@ export const ECOMMERCE_NAV = {
     name: "Products",
     to: "/products",
   },
+  chats: {
+    name: "Chats",
+    to: "/chats",
+  },
 };
 export const MAIN_NAV = [
   ECOMMERCE_NAV.home,

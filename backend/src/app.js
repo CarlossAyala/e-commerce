@@ -1,17 +1,26 @@
 const express = require("express");
+const { createServer } = require("node:http");
+const { Server } = require("socket.io");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const Joi = require("joi");
 const { NotFound } = require("./utils/http-errors");
 const logger = require("./utils/logger");
 const sequelize = require("./db/mysql");
 const routes = require("./api/routes");
 const config = require("./config");
-const Joi = require("joi");
+const socket = require("./socket");
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: config.client_url,
+  },
+});
 
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -69,7 +78,10 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log("Database connected");
 
-    app.listen(config.port);
+    socket.initialize(io);
+    console.log("Socket initialized");
+
+    server.listen(config.port);
     console.log("Server running on port", config.port);
   } catch (error) {
     console.error("Server failed to start", error);
