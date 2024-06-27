@@ -1,60 +1,15 @@
-import { useEffect } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 import { MagnifyingGlassMinusIcon } from "@heroicons/react/24/outline";
 import { Input, Skeleton } from "@/components";
-import { cn, socket } from "@/libs";
+import { cn } from "@/libs";
 import { getInitials } from "@/utils";
 import { formatDate } from "../utils";
-import { chatKeys, useGetChats } from "../queries";
-import { useGetStore } from "../../store";
+import { useGetChats } from "../queries";
 
 export const Chats = () => {
   const { chatId } = useParams();
-  const store = useGetStore();
-  const queryClient = useQueryClient();
+
   const chats = useGetChats();
-
-  useEffect(() => {
-    if (!store.isSuccess) return;
-    const { id: storeId } = store.data;
-
-    socket.connect();
-
-    socket.emit("chat:join", storeId);
-
-    socket.on("chat:message:new", (message) => {
-      queryClient.setQueryData(
-        chatKeys.messages(String(message.chatId)),
-        (oldData) => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            messages: [...oldData.messages, message],
-          };
-        },
-      );
-      queryClient.setQueryData(chatKeys.chats(), (oldData) => {
-        if (!oldData) return oldData;
-        return oldData.map((chat) => {
-          if (chat.id === message.chatId) {
-            return {
-              ...chat,
-              messages: [message],
-              updatedAt: new Date().toISOString(),
-            };
-          }
-          return chat;
-        });
-      });
-    });
-
-    return () => {
-      socket.off("chat:message:new");
-      socket.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store.isSuccess]);
 
   const orderedChats = chats.data?.sort((a, b) => {
     const aDate = new Date(
@@ -67,8 +22,8 @@ export const Chats = () => {
   });
 
   return (
-    <main className="flex flex-1 overflow-y-auto">
-      <section className="flex shrink-0 basis-1/3 flex-col px-4 py-4 tablet:px-6">
+    <main className="grid size-full grid-cols-6 overflow-y-auto">
+      <section className="col-span-2 px-4 py-4 tablet:px-6">
         <div className="flex shrink-0 items-center">
           <h2 className="text-xl font-semibold text-primary">Chats</h2>
         </div>
@@ -107,7 +62,7 @@ export const Chats = () => {
                   chatId === String(chat.id) && "bg-muted",
                 )}
               >
-                <div className="flex size-9 items-center justify-center rounded-full border border-primary bg-primary">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-primary bg-primary">
                   <p className="text-sm text-primary-foreground">
                     {getInitials(
                       `${chat.customer.name} ${chat.customer.lastName}`,
@@ -141,7 +96,7 @@ export const Chats = () => {
           )}
         </div>
       </section>
-      <section className="grow overflow-y-auto border-l">
+      <section className="col-span-4 overflow-y-auto border-l">
         <Outlet />
       </section>
     </main>

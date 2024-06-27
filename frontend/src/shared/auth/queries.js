@@ -21,19 +21,18 @@ export const authKeys = {
 
 export const useAuth = (pathname) => {
   const location = useLocation();
-  const queryClient = useQueryClient();
 
   const { app } = getCurrentApp(pathname ?? location.pathname);
 
   const query = useQuery({
     queryKey: authKeys.accessToken(app),
     queryFn: () => getAccessToken(app),
-    retry: false,
     refetchInterval: ms("1h"),
     refetchIntervalInBackground: true,
   });
 
   useEffect(() => {
+    // TODO: Fix this
     // if (query.isError) {
     //   queryClient.setQueriesData(authKeys.accessToken(app), null);
     // }
@@ -81,12 +80,18 @@ export const useSignup = () => {
 export const useSignout = () => {
   const queryClient = useQueryClient();
   const location = useLocation();
+
   const { app } = getCurrentApp(location.pathname);
 
   return useMutation({
     mutationFn: () => signout(app),
     onSuccess: () => {
-      queryClient.setQueriesData(authKeys.accessToken(app), null);
+      queryClient.removeQueries({
+        queryKey: [authKeys.key(app)],
+      });
+      queryClient.removeQueries({
+        queryKey: [app],
+      });
     },
     meta: {
       title: "Signout",

@@ -13,16 +13,18 @@ import {
   Input,
   Skeleton,
 } from "@/components";
-import { cn, socket } from "@/libs";
+import { cn } from "@/libs";
 import { getInitials } from "@/utils";
 import { formatDate } from "../utils";
 import { useGetChats, useGetMessages, useSendMessage } from "../queries";
 import { createSchema, messageInitial } from "../schemas";
+import { useSocket } from "@/shared/socket";
 
 export const Chat = () => {
   const { chatId } = useParams();
   const navigate = useNavigate();
 
+  const { socket } = useSocket();
   const chats = useGetChats();
   const messages = useGetMessages(chatId);
   const sendMessage = useSendMessage(chatId);
@@ -42,7 +44,11 @@ export const Chat = () => {
     sendMessage.mutate(values, {
       onSuccess(message) {
         form.reset();
-        socket.emit("chat:message:send", chat.customerId, message);
+        socket.emit("chat:message:send", {
+          customerId: chat.customerId,
+          from: "store",
+          ...message,
+        });
       },
     });
   };
@@ -60,7 +66,7 @@ export const Chat = () => {
   // focus on the input when the storeId changes
   useEffect(() => {
     inputRef.current.focus();
-  }, [chatId]);
+  }, [chatId, messages.isSuccess]);
 
   // close the chat when the user presses the escape key
   useEffect(() => {
@@ -76,7 +82,7 @@ export const Chat = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const orderedMessages = messages.data?.messages?.sort((a, b) => {
+  const orderedMessages = messages.data?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
@@ -134,6 +140,8 @@ export const Chat = () => {
               className="border-none"
             />
           </div>
+        ) : !messages.data.length ? (
+          <div className="flex h-full"></div>
         ) : (
           orderedMessages.map((message, index) => (
             <div key={index}>
@@ -145,7 +153,7 @@ export const Chat = () => {
                     : "bg-primary text-primary-foreground",
                 )}
               >
-                <p>{message.text}</p>
+                <p className="break-all">{message.text}</p>
               </div>
               <div className="mt-1">
                 <p

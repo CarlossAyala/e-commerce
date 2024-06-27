@@ -1,18 +1,33 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { SocketProvider } from "./shared/socket";
 import {
   AuthenticatedRoute,
   NotFound,
   Signin,
   Signup,
 } from "./shared/components";
-import { CustomerRoot, customerRoutes } from "./apps/e-commerce";
+import {
+  CustomerRoot,
+  SocketEventHandler as EcommerceSocketEventHandler,
+  customerRoutes,
+} from "./apps/e-commerce";
 import { AdminRoot, adminRoutes } from "./apps/admin";
-import { SellerRoot, sellerRoutes } from "./apps/seller";
+import {
+  SellerRoot,
+  SocketEventHandler as StoreSocketEventHandler,
+  sellerRoutes,
+} from "./apps/seller";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <CustomerRoot />,
+    element: (
+      <SocketProvider>
+        <EcommerceSocketEventHandler>
+          <CustomerRoot />
+        </EcommerceSocketEventHandler>
+      </SocketProvider>
+    ),
     children: customerRoutes,
   },
   {
@@ -28,7 +43,11 @@ const router = createBrowserRouter([
     path: "/seller",
     element: (
       <AuthenticatedRoute>
-        <SellerRoot />
+        <SocketProvider>
+          <StoreSocketEventHandler>
+            <SellerRoot />
+          </StoreSocketEventHandler>
+        </SocketProvider>
       </AuthenticatedRoute>
     ),
     children: sellerRoutes,

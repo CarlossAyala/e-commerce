@@ -10,3 +10,4 @@ export * from "./product-card-row";
 export * from "./products-carousel";
 export * from "./stores-carousel";
 export * from "./categories-carousel";
+export * from "./socket-event-handler";

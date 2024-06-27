@@ -28,7 +28,7 @@ export const BreakpointIndicator = () => {
   return (
     <div
       className={cn(
-        "fixed left-1/2 top-2 z-[9999] flex -translate-x-1/2 items-center justify-center rounded bg-black px-2 py-1 font-mono text-xs leading-3 text-primary-foreground transition",
+        "fixed left-1/2 top-2 z-[9999] flex -translate-x-1/2 items-center justify-center rounded bg-primary px-2 py-1 font-mono text-xs leading-3 text-primary-foreground transition",
         show ? "opacity-100" : "opacity-0",
       )}
     >

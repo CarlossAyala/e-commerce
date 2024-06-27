@@ -4,7 +4,7 @@ import { useAuth } from "@/shared/auth";
 import { findAll, findItem, findOne } from "../api";
 
 const orderKeys = {
-  key: ["e-commerce/order"],
+  key: ["ecommerce/order"],
   findOne: (orderId) => [...orderKeys.key, "find-one", orderId],
   findAll: (query) => [...orderKeys.key, "find-all", query],
   findItem: (itemId) => [...orderKeys.key, "find-item", itemId],

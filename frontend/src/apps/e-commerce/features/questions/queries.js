@@ -4,7 +4,7 @@ import { parseURLSearchParams } from "@/shared/utils";
 import { create, findAllCustomer, findAllProduct } from "./api";
 
 const qaKeys = {
-  key: ["e-commerce/questions"],
+  key: ["ecommerce/questions"],
   productKey: (productId) => [...qaKeys.key, "product", productId],
   product: (productId, query) => [...qaKeys.productKey(productId), query],
   customerKey: () => [...qaKeys.key, "customer"],

@@ -3,7 +3,7 @@ import { useAuth } from "@/shared/auth";
 import { create, findAll, findOne, remove, update } from "./api";
 
 const addressKeys = {
-  key: ["e-commerce/address"],
+  key: ["ecommerce/address"],
   findOne: (addressId) => [...addressKeys.key, "find-one", addressId],
   findAll: () => [...addressKeys.key, "find-all"],
 };

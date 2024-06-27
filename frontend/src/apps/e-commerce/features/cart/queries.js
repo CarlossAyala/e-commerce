@@ -3,7 +3,7 @@ import { useAuth } from "@/shared/auth";
 import { addToCart, getCart, removeFromCart, updateQuantity } from "./api";
 
 export const cartKeys = {
-  key: ["e-commerce/cart"],
+  key: ["ecommerce/cart"],
 };
 
 export const useGetCart = () => {

@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import { useSocket } from "@/shared/socket";
 import { EmptyState, Spinner } from "@/shared/components";
 import {
   Avatar,
@@ -16,16 +18,17 @@ import {
   Input,
   Skeleton,
 } from "@/components";
-import { cn, socket } from "@/libs";
+import { cn } from "@/libs";
 import { getInitials } from "@/utils";
 import { useGetStore } from "../../stores";
 import { formatDate } from "../utils";
-import { useGetMessages, useSendMessage } from "../queries";
+import { chatKeys, useGetMessages, useSendMessage } from "../queries";
 import { createSchema, messageInitial } from "../schemas";
 
 export const Chat = () => {
   const { storeId } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const store = useGetStore(storeId);
   const messages = useGetMessages(storeId);
@@ -37,6 +40,8 @@ export const Chat = () => {
     mode: "onSubmit",
   });
 
+  const { socket } = useSocket();
+
   const inputRef = useRef();
   const containerMessagesRef = useRef();
 
@@ -45,10 +50,28 @@ export const Chat = () => {
       onSuccess(message) {
         form.reset();
         inputRef.current.focus();
-        socket.emit("chat:message:send", storeId, message);
+        socket.emit("chat:message:send", {
+          storeId,
+          from: "customer",
+          ...message,
+        });
       },
     });
   };
+
+  useEffect(() => {
+    if (!store.isSuccess) return;
+
+    const checkChats = async () => {
+      const chats = await queryClient.getQueryData(chatKeys.chats());
+      const chat = chats?.find((chat) => chat.storeId === storeId);
+      if (!chat) {
+        await queryClient.invalidateQueries(chatKeys.chats());
+      }
+    };
+
+    checkChats();
+  }, [queryClient, storeId, store.isSuccess]);
 
   // scroll to bottom of messages
   useEffect(() => {
@@ -63,7 +86,7 @@ export const Chat = () => {
   // focus on the input when the storeId changes
   useEffect(() => {
     inputRef.current.focus();
-  }, [storeId]);
+  }, [storeId, messages.isSuccess]);
 
   // close the chat when the user presses the escape key
   useEffect(() => {
@@ -79,7 +102,7 @@ export const Chat = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const orderedMessages = messages.data?.messages?.sort((a, b) => {
+  const orderedMessages = messages.data?.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
@@ -131,7 +154,7 @@ export const Chat = () => {
               className="border-none"
             />
           </div>
-        ) : !messages.data.messages.length ? (
+        ) : !messages.data.length ? (
           <div className="flex h-full"></div>
         ) : (
           orderedMessages.map((message, index) => (
@@ -144,7 +167,7 @@ export const Chat = () => {
                     : "bg-primary text-primary-foreground",
                 )}
               >
-                <p>{message.text}</p>
+                <p className="break-all">{message.text}</p>
               </div>
               <div className="mt-1">
                 <p

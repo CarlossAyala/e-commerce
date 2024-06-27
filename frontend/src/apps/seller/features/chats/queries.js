@@ -42,32 +42,10 @@ export const useGetMessages = (chatId) => {
 
 export const useSendMessage = (chatId) => {
   const { data: accessToken } = useAuth();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: chatKeys.messages(chatId),
     mutationFn: (values) => createMessage(accessToken, chatId, values),
-    onSuccess: (message) => {
-      queryClient.setQueryData(chatKeys.messages(chatId), (oldData) => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-          messages: [...oldData.messages, message],
-        };
-      });
-      queryClient.setQueryData(chatKeys.chats(), (oldData) => {
-        if (!oldData) return oldData;
-        return oldData.map((chat) => {
-          if (String(chat.id) === chatId) {
-            return {
-              ...chat,
-              messages: [message],
-              updatedAt: new Date().toISOString(),
-            };
-          }
-          return chat;
-        });
-      });
-    },
   });
 };

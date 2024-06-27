@@ -4,7 +4,7 @@ import { parseURLSearchParams } from "@/shared/utils";
 import { clear, create, findAll, findOne, remove } from "./api";
 
 const bookmarkKeys = {
-  key: ["e-commerce/bookmark"],
+  key: ["ecommerce/bookmark"],
   findOne: (id) => [...bookmarkKeys.key, "find-one", id],
   findAllKey: () => [...bookmarkKeys.key, "find-all"],
   findAll: (query) => [...bookmarkKeys.key, "find-all", query],

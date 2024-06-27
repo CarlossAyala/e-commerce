@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { randoms } from "./api";
 
 const categoryKeys = {
-  key: ["e-commerce/categories"],
+  key: ["ecommerce/categories"],
   randoms: (categoryId) => [...categoryKeys.key, "randoms", categoryId],
 };
 

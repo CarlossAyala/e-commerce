@@ -7,7 +7,7 @@ import { confirm, create, findOne } from "../api";
 import { useCheckout } from "../context";
 
 const checkoutKeys = {
-  key: ["e-commerce/checkout"],
+  key: ["ecommerce/checkout"],
   findPaymentIntent: (paymentIntentId) => [
     ...checkoutKeys.key,
     "find-payment-intent",

@@ -10,7 +10,7 @@ import {
 } from "../api";
 
 export const reviewKeys = {
-  key: ["e-commerce/review"],
+  key: ["ecommerce/review"],
   findAllDoneKey: () => [...reviewKeys.key, "find-all-done"],
   findAllDone: (query) => [...reviewKeys.findAllDoneKey(), query],
   findAllPendingKey: () => [...reviewKeys.key, "find-all-pending"],

@@ -10,7 +10,5 @@ export const useDocumentTitle = (title) => {
     const { label } = getCurrentApp(location.pathname);
 
     document.title = `${title} | Legger x ${label}`;
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title]);
+  }, [location.pathname, title]);
 };

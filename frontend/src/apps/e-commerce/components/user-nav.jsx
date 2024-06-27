@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { useSocket } from "@/shared/socket";
 import { Spinner } from "@/shared/components";
 import { useGetProfile, useSignout } from "@/shared/auth";
 import {
@@ -15,6 +16,7 @@ import {
 } from "@/components";
 import { getFullName, getInitials } from "@/utils";
 import { ECOMMERCE_NAV } from "../config";
+import { cn } from "@/libs";
 
 const { orders, history, bookmarks, questions, reviews, settings, chats } =
   ECOMMERCE_NAV;
@@ -22,8 +24,8 @@ const navs = [orders, history, bookmarks, questions, reviews, chats];
 
 export const UserNav = () => {
   const signout = useSignout();
-
   const { data: customer, isLoading, isError, error } = useGetProfile();
+  const { socket } = useSocket();
 
   const handleSignout = () => {
     signout.mutate(null);
@@ -34,13 +36,9 @@ export const UserNav = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="overflow-hidden rounded-full"
-        >
+        <Button variant="outline" size="icon" className="relative rounded-full">
           {isLoading ? (
-            <Skeleton className="size-full" />
+            <Skeleton className="size-full rounded-full" />
           ) : isError ? (
             <ExclamationTriangleIcon className="size-4" />
           ) : (
@@ -48,6 +46,16 @@ export const UserNav = () => {
               {getInitials(fullName)}
             </div>
           )}
+          <div
+            className={cn(
+              "absolute bottom-0 right-0 size-2 -translate-x-1/3 rounded-full",
+              socket.connected
+                ? "bg-green-600"
+                : socket.disconnected
+                  ? "bg-orange-600"
+                  : "bg-primary",
+            )}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-52" align="end" forceMount>

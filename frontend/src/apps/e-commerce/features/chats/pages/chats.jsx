@@ -1,8 +1,6 @@
-import { useEffect } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 import { MagnifyingGlassMinusIcon } from "@heroicons/react/24/outline";
-import { useGetProfile } from "@/shared/auth";
+import { useDocumentTitle } from "@/shared/hooks";
 import {
   Avatar,
   AvatarFallback,
@@ -10,64 +8,16 @@ import {
   Input,
   Skeleton,
 } from "@/components";
-import { cn, socket } from "@/libs";
+import { cn } from "@/libs";
 import { getInitials } from "@/utils";
 import { formatDate } from "../utils";
-import { chatKeys, useGetChats } from "../queries";
+import { useGetChats } from "../queries";
 
 export const Chats = () => {
   const { storeId } = useParams();
-  const queryClient = useQueryClient();
-  const profile = useGetProfile();
+
+  useDocumentTitle("Chats");
   const chats = useGetChats();
-
-  useEffect(() => {
-    if (!profile.isSuccess) return;
-    const { id: customerId } = profile.data;
-
-    socket.connect();
-
-    socket.emit("chat:join", customerId);
-
-    socket.on("chat:message:new", (message) => {
-      console.log("e-commerce on chat:message:new", message);
-
-      const chat = queryClient
-        .getQueryData(chatKeys.chats())
-        ?.find((chat) => chat.storeId === storeId);
-      queryClient.setQueryData(chatKeys.messages(storeId), (oldData) => {
-        console.log(
-          "e-commerce on chat:message:new messages() oldData",
-          oldData,
-        );
-        if (!oldData) return oldData;
-        return {
-          ...chat,
-          messages: [...oldData.messages, message],
-        };
-      });
-      queryClient.setQueryData(chatKeys.chats(), (oldData) => {
-        console.log("e-commerce on chat:message:new chats() oldData", oldData);
-        if (!oldData) return oldData;
-        return oldData.map((chat) => {
-          if (chat.storeId === storeId) {
-            return {
-              ...chat,
-              messages: [message],
-              updatedAt: new Date().toISOString(),
-            };
-          }
-          return chat;
-        });
-      });
-    });
-
-    return () => {
-      socket.off("chat:message:new");
-      socket.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile.isSuccess]);
 
   const orderedChats = chats.data?.sort((a, b) => {
     const aDate = new Date(
@@ -81,9 +31,9 @@ export const Chats = () => {
 
   return (
     <main className="container flex min-h-[calc(100vh-56px)] flex-1 overflow-y-auto">
-      <div className="my-6 flex w-full rounded-md border">
-        <section className="flex shrink-0 basis-1/3 flex-col px-4 pb-4">
-          <div className="mt-4 flex shrink-0 items-center">
+      <div className="my-6 grid w-full grid-cols-6 rounded-md border">
+        <section className="col-span-2 flex flex-col px-4 pb-4">
+          <div className="mt-4 flex shrink-0 items-center justify-between">
             <h2 className="text-xl font-semibold text-primary">Chats</h2>
           </div>
           <div className="relative my-4">
@@ -154,7 +104,7 @@ export const Chats = () => {
             )}
           </div>
         </section>
-        <section className="grow overflow-y-auto border-l">
+        <section className="col-span-4 overflow-y-auto border-l">
           <Outlet />
         </section>
       </div>

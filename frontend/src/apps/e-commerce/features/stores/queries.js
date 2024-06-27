@@ -3,7 +3,7 @@ import { parseURLSearchParams } from "@/shared/utils";
 import { findAll, findByProductId, findOne, products } from "./api";
 
 const storeKeys = {
-  key: ["e-commerce/stores"],
+  key: ["ecommerce/stores"],
   findOne: (storeId) => [...storeKeys.key, "find-one", storeId],
   findByProductId: (id) => [...storeKeys.key, "find-by-product-id", id],
   findAll: (query) => [...storeKeys.key, "find-all", query],

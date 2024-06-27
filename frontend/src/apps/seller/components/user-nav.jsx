@@ -1,4 +1,5 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { useSocket } from "@/shared/socket";
 import { useGetProfile, useSignout } from "@/shared/auth";
 import { Spinner } from "@/shared/components";
 import {
@@ -12,11 +13,12 @@ import {
   Skeleton,
 } from "@/components";
 import { getInitials } from "@/utils";
+import { cn } from "@/libs";
 
 export const UserNav = () => {
   const { data: customer, isLoading, isError, error } = useGetProfile();
-
   const signout = useSignout();
+  const { socket } = useSocket();
 
   const handleSignout = (e) => {
     e.preventDefault();
@@ -28,13 +30,9 @@ export const UserNav = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="overflow-hidden rounded-full"
-        >
+        <Button variant="outline" size="icon" className="relative rounded-full">
           {isLoading ? (
-            <Skeleton className="size-full" />
+            <Skeleton className="size-full rounded-full" />
           ) : isError ? (
             <ExclamationTriangleIcon className="size-4" />
           ) : (
@@ -42,6 +40,13 @@ export const UserNav = () => {
               {initials}
             </div>
           )}
+          <div
+            className={cn(
+              "absolute bottom-0 right-0 h-2 w-2 -translate-x-1/3 rounded-full",
+              socket.connected && "bg-green-600",
+              socket.disconnected && "bg-orange-600",
+            )}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>

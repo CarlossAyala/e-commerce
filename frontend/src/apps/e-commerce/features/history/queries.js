@@ -4,7 +4,7 @@ import { parseURLSearchParams } from "@/shared/utils";
 import { clear, add, findAll, remove } from "./api";
 
 export const historyKeys = {
-  key: ["e-commerce/history"],
+  key: ["ecommerce/history"],
   finAll: (query) => [...historyKeys.key, "find-all", query],
 };
 
