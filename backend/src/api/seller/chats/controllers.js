@@ -70,7 +70,7 @@ const findAllMessages = async (req, res, next) => {
       order: [["id", "DESC"]],
     });
 
-    res.json({ chat, messages });
+    res.json(messages);
   } catch (error) {
     next(error);
   }

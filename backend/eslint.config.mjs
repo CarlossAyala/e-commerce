@@ -17,6 +17,7 @@ export default [
           vars: "all",
           args: "all",
           caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
           ignoreRestSiblings: false,
           reportUsedIgnorePattern: false,
           varsIgnorePattern: "^_",
