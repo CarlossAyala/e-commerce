@@ -1,4 +1,0 @@
-npm run frontend:format
-npm run frontend:lint
-npm run backend:format
-npm run backend:lint
