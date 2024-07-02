@@ -26,14 +26,14 @@ export const SIDE_NAV = [
     icon: Square3Stack3DIcon,
     subItems: [
       { name: "Overview", to: NAVS.CATEGORIES.to },
-      { name: "Create", to: NAVS.CATEGORIES.to + "/create" },
+      { name: "Create", to: `${NAVS.CATEGORIES.to}/create` },
       {
         name: "Attach",
-        to: NAVS.CATEGORIES.to + "/attach",
+        to: `${NAVS.CATEGORIES.to}/attach`,
       },
       {
         name: "Detach",
-        to: NAVS.CATEGORIES.to + "/detach",
+        to: `${NAVS.CATEGORIES.to}/detach`,
       },
     ],
   },

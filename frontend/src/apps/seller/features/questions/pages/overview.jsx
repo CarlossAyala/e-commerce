@@ -9,7 +9,7 @@ import {
   URLPagination,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
-import { Filters } from "@/components";
+import { Filters } from "@/shared/components";
 import { qaOverviewColumns } from "../components/columns";
 import { QUESTION_STATUS } from "../utils";
 import { useGetQA } from "../queries";

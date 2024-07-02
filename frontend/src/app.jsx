@@ -1,12 +1,5 @@
 import { Providers } from "./providers";
-import { Routes } from "./routes";
 
-function App() {
-  return (
-    <Providers>
-      <Routes />
-    </Providers>
-  );
-}
-
-export default App;
+export const App = () => {
+  return <Providers />;
+};

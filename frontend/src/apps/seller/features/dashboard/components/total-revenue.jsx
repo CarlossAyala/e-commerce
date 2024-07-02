@@ -1,13 +1,13 @@
+import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
+import { Formatter } from "@/shared/utils";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   Skeleton,
-} from "@/components";
+} from "@/shared/components";
 import { useGetStoreEarnings } from "../../store";
-import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
-import { Formatter } from "@/utils";
 
 export const TotalRevenue = () => {
   const { data: earnings, isLoading, isError, error } = useGetStoreEarnings();

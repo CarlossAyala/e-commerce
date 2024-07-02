@@ -1,5 +1,5 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { useGetProfile, useSignout } from "@/shared/auth";
+import { useGetProfile, useSignout } from "@/features/auth";
 import {
   Button,
   DropdownMenu,
@@ -9,9 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Skeleton,
-} from "@/components";
-import { getFullName, getInitials } from "@/utils";
+} from "@/shared/components";
 import { Spinner } from "@/shared/components";
+import { getFullName, getInitials } from "@/shared/utils";
 
 export const UserNav = () => {
   const { data: admin, isLoading, isError, error } = useGetProfile();

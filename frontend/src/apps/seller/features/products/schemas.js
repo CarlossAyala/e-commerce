@@ -1,5 +1,5 @@
 import { string, number, object, boolean, array } from "yup";
-import { parseNumber, parseString } from "@/utils";
+import { parseNumber, parseString } from "@/shared/utils";
 import { PRODUCT_CONDITIONS } from "./utils";
 
 const name = string()

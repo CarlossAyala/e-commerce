@@ -12,12 +12,12 @@ router.get("/:addressId", controllers.findOne);
 router.post(
   "/",
   middlewares.schemaValidator(schemas.create),
-  controllers.create
+  controllers.create,
 );
 router.put(
   "/:addressId",
   middlewares.schemaValidator(schemas.update),
-  controllers.update
+  controllers.update,
 );
 router.delete("/:addressId", controllers.remove);
 

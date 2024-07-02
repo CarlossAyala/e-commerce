@@ -209,8 +209,8 @@ const productStats = async (req, res, next) => {
       ? Number(
           result.reduce(
             (acc, curr) => acc + curr.rating * curr.rating_count,
-            0
-          ) / count
+            0,
+          ) / count,
         ).toFixed(1)
       : 0;
 

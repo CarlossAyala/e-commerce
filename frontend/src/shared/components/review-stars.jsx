@@ -1,5 +1,5 @@
 import { StarIcon } from "@heroicons/react/24/solid";
-import { cn } from "@/libs";
+import { cn } from "../utils";
 
 const SIZES_STARS = {
   xs: "size-2",
@@ -21,7 +21,7 @@ export const ReviewStars = ({ rating, className, size = "md" }) => {
       {new Array(fullStars).fill(0).map((_, index) => (
         <StarIcon
           key={index}
-          className={cn("shrink-0 text-yellow-400", sizeClass)}
+          className={cn("shrink-0 text-primary", sizeClass)}
         />
       ))}
       {hasHalfStar && (
@@ -33,14 +33,14 @@ export const ReviewStars = ({ rating, className, size = "md" }) => {
               width: `${(rating % 1) * 100}%`,
             }}
           >
-            <StarIcon className={cn("text-yellow-400", sizeClass)} />
+            <StarIcon className={cn("text-primary", sizeClass)} />
           </div>
         </div>
       )}
       {new Array(emptyStars).fill(0).map((_, index) => (
         <StarIcon
           key={index}
-          className={cn("shrink-0 text-gray-300", sizeClass)}
+          className={cn("shrink-0 text-muted", sizeClass)}
         />
       ))}
     </div>

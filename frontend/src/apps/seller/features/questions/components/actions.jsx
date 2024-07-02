@@ -31,8 +31,8 @@ import {
   SheetHeader,
   SheetTitle,
   Textarea,
-} from "@/components";
-import { Formatter } from "@/utils";
+} from "@/shared/components";
+import { Formatter } from "@/shared/utils";
 import { replyInitial, replySchema } from "../schemas";
 import { useRejectQuestion, useReplyQuestion } from "../queries";
 

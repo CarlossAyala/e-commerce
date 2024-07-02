@@ -31,7 +31,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -57,7 +57,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -83,7 +83,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -109,7 +109,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -135,7 +135,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -161,7 +161,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],

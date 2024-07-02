@@ -12,7 +12,7 @@ router.post("/", controllers.createPaymentIntent);
 router.post(
   "/:paymentIntentId/confirm",
   middlewares.schemaValidator(schemas.confirmPaymentIntent),
-  controllers.confirmPaymentIntent
+  controllers.confirmPaymentIntent,
 );
 
 module.exports = router;

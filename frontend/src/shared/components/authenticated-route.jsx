@@ -1,10 +1,12 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "@/shared/auth";
+import { useAuth } from "@/features/auth";
 import { Spinner } from ".";
 
 export const AuthenticatedRoute = ({ children }) => {
   const location = useLocation();
+
   const { data, isLoading } = useAuth();
+
   const isAuthenticated = !!data;
 
   if (isLoading) {

@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useDocumentTitle } from "@/shared/hooks";
 import { EmptyState, PageHeader, PageHeaderHeading } from "@/shared/components";
-import { Filters, Skeleton } from "@/components";
+import { Filters, Skeleton } from "@/shared/components";
 import { categoryActionRoutes } from "../utils";
 import { useGetCategories } from "../queries";
 

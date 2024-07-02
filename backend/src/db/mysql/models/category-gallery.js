@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       sequelize,
       modelName: "CategoryGallery",
       tableName: "CategoryGallery",
-    }
+    },
   );
   return CategoryGallery;
 };

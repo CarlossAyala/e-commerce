@@ -26,7 +26,7 @@ import {
   Input,
   Separator,
   Textarea,
-} from "@/components";
+} from "@/shared/components";
 import { newCategoryInitial, newCategorySchema } from "../schemas";
 import { categoryActionRoutes } from "../utils";
 import { useCreateCategory } from "../queries";
@@ -163,6 +163,7 @@ export const Create = () => {
                         className="aspect-h-9 aspect-w-16 overflow-hidden rounded-md border sm:aspect-h-6 lg:aspect-h-4"
                       >
                         <img
+                          alt="Category Profile"
                           src={URL.createObjectURL(file)}
                           className="size-full object-cover"
                         />
@@ -191,6 +192,7 @@ export const Create = () => {
                   className="group aspect-h-9 aspect-w-16 relative overflow-hidden rounded-md border"
                 >
                   <img
+                    alt="Category Profile"
                     src={URL.createObjectURL(item)}
                     className="size-full object-cover"
                   />

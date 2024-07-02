@@ -1,0 +1,73 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/features/auth";
+import { createQueryKey } from "@/shared/utils";
+import { cartKeys } from "../../cart";
+import { confirm, create, findOne } from "../api";
+import { useCheckout } from "../context";
+
+const checkoutKeys = {
+  key: createQueryKey({
+    prefix: "ecommerce",
+    entity: "checkout",
+    config: {
+      removeOnSignout: true,
+    },
+  }),
+  findPaymentIntent: (paymentIntentId) => [
+    ...checkoutKeys.key,
+    "find-payment-intent",
+    paymentIntentId,
+  ],
+};
+
+export const useGetPaymentIntent = (paymentIntentId) => {
+  const { data: accessToken } = useAuth();
+
+  return useQuery({
+    queryKey: checkoutKeys.findPaymentIntent(paymentIntentId),
+    queryFn: () => findOne(paymentIntentId, accessToken),
+    enabled: !!paymentIntentId,
+  });
+};
+
+export const useCreatePaymentIntent = () => {
+  const { data: accessToken } = useAuth();
+
+  return useMutation({
+    mutationFn: () => create(accessToken),
+    meta: {
+      title: "Checkout",
+    },
+  });
+};
+
+export const useConfirmPaymentIntent = (paymentIntentId) => {
+  const { data: accessToken } = useAuth();
+
+  return useMutation({
+    mutationFn: (values) => confirm(paymentIntentId, values, accessToken),
+    meta: {
+      title: "Checkout",
+    },
+  });
+};
+
+export const useCleanUpCheckout = () => {
+  const location = useLocation();
+  const queryClient = useQueryClient();
+  const { resetCheckout } = useCheckout();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    const { state } = location;
+    if (state?.paymentIntentId) {
+      resetCheckout();
+      queryClient.removeQueries(
+        checkoutKeys.findPaymentIntent(state.paymentIntentId),
+      );
+      queryClient.invalidateQueries(cartKeys.key);
+    }
+  }, [location.state?.paymentIntentId]);
+};

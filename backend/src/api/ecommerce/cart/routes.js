@@ -11,12 +11,12 @@ router.get("/", controllers.findAll);
 router.post(
   "/:productId",
   middlewares.schemaValidator(schemas.create),
-  controllers.create
+  controllers.create,
 );
 router.patch(
   "/:productId",
   middlewares.schemaValidator(schemas.update),
-  controllers.update
+  controllers.update,
 );
 router.delete("/:productId", controllers.remove);
 

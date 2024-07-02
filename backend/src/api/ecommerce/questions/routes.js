@@ -11,7 +11,7 @@ router.get("/customer", controllers.findAllCustomer);
 router.post(
   "/:productId",
   middlewares.schemaValidator(schemas.create),
-  controllers.create
+  controllers.create,
 );
 
 module.exports = router;

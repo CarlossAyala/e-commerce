@@ -28,7 +28,7 @@ const verifyRefreshToken = (token) => {
     (err, decoded) => {
       if (err) throw new Unauthorized();
       return decoded;
-    }
+    },
   );
 };
 

@@ -14,7 +14,7 @@ router.get("/product/:productId", controllers.findAllByProductId);
 router.post(
   "/:questionId",
   middlewares.schemaValidator(schemas.answer, "body"),
-  controllers.answer
+  controllers.answer,
 );
 router.patch("/:questionId", controllers.reject);
 

@@ -19,9 +19,11 @@ module.exports = (sequelize) => {
         primaryKey: true,
       },
       text: DataTypes.STRING,
+      sender: {
+        type: DataTypes.ENUM,
+        values: ["customer", "store"],
+      },
       chatId: DataTypes.INTEGER,
-      customerId: DataTypes.UUID,
-      storeId: DataTypes.UUID,
     },
     {
       sequelize,

@@ -27,10 +27,10 @@ import {
   PopoverContent,
   PopoverTrigger,
   Skeleton,
-} from "@/components";
-import { cn } from "@/libs";
+} from "@/shared/components";
 import { detachCategoryInitial, detachCategorySchema } from "../schemas";
 import { useDetachCategory, useGetCategories } from "../queries";
+import { cn } from "@/shared/utils";
 
 export const Detach = () => {
   useDocumentTitle("Detach Category");

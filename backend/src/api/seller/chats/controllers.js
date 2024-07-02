@@ -60,12 +60,12 @@ const findAll = async (req, res, next) => {
 };
 
 const findAllMessages = async (req, res, next) => {
-  const { chat } = req;
+  const { id: chatId } = req.chat;
 
   try {
     const messages = await MessageModel.findAll({
       where: {
-        chatId: chat.id,
+        chatId,
       },
       order: [["id", "DESC"]],
     });
@@ -77,15 +77,14 @@ const findAllMessages = async (req, res, next) => {
 };
 
 const create = async (req, res, next) => {
-  const { store } = req;
-  const { chat } = req;
+  const { id: chatId } = req.chat;
   const { text } = req.body;
 
   try {
     const message = await MessageModel.create({
-      chatId: chat.id,
-      storeId: store.id,
       text,
+      sender: "store",
+      chatId,
     });
 
     res.json(message);

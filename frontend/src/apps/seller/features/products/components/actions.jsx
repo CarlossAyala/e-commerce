@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   Button,
-} from "@/components";
+} from "@/shared/components";
 import { useDeleteProduct } from "../queries";
 
 export const ProductListAction = ({ product }) => {

@@ -5,9 +5,13 @@
  */
 const handler = (io, socket) => {
   socket.on("chat:message:send", (message) => {
-    io.to(message.customerId)
-      .to(message.storeId)
-      .emit("chat:message:new", message);
+    const { userId, store } = socket.auth;
+
+    const from = message.sender === "customer" ? userId : store.id;
+    const to =
+      message.sender === "customer" ? message.storeId : message.customerId;
+
+    io.to(from).to(to).emit("chat:message:new", message);
   });
 };
 

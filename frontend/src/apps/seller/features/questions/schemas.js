@@ -1,5 +1,5 @@
 import { object, string } from "yup";
-import { parseString } from "@/utils";
+import { parseString } from "@/shared/utils";
 
 const answer = string()
   .label("Answer")

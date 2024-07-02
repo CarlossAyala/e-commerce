@@ -37,7 +37,7 @@ const validateOrderId = async (req, _res, next, orderId) => {
 
     order.total = items.reduce(
       (acum, item) => acum + item.quantity * +item.price,
-      0
+      0,
     );
 
     req.order = order;
@@ -85,7 +85,7 @@ const findAll = async (req, res, next) => {
     for (const order of orders.rows) {
       order.total = order.items.reduce(
         (acum, item) => acum + item.quantity * +item.price,
-        0
+        0,
       );
     }
 
@@ -104,11 +104,11 @@ const findOne = async (req, res, next) => {
     });
 
     const paymentIntent = await Stripe.paymentIntents.retrieve(
-      order.paymentIntentId
+      order.paymentIntentId,
     );
 
     const paymentMethod = await Stripe.paymentMethods.retrieve(
-      paymentIntent.payment_method
+      paymentIntent.payment_method,
     );
 
     res.json({
@@ -130,12 +130,12 @@ const findLatest = async (req, res, next) => {
   const firstDayOfMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth(),
-    1
+    1,
   );
   const lastDayOfMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 1,
-    0
+    0,
   );
 
   try {

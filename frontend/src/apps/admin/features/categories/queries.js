@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/shared/auth";
+import { useAuth } from "@/features/auth";
+import { createQueryKey } from "@/shared/utils";
 import {
   getAll,
   create,
@@ -12,7 +13,10 @@ import {
 } from "./api";
 
 const categoryKeys = {
-  key: ["admin/categories"],
+  key: createQueryKey({
+    prefix: "admin",
+    entity: "categories",
+  }),
   getAll: () => [...categoryKeys.key, "get-all"],
   findOne: (categoryId) => [...categoryKeys.key, "find-one", categoryId],
   count: () => [...categoryKeys.key, "count"],

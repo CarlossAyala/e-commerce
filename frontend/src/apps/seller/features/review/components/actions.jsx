@@ -14,8 +14,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components";
-import { Formatter } from "@/utils";
+} from "@/shared/components";
+import { Formatter } from "@/shared/utils";
 import { reviewActionRoutes } from "../utils";
 
 export const ReviewTimelineAction = ({ review }) => {

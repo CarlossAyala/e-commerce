@@ -1,5 +1,5 @@
 import { array, mixed, object, string } from "yup";
-import { parseString } from "@/utils";
+import { parseString } from "@/shared/utils";
 
 const name = string()
   .label("Name")

@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       sequelize,
       modelName: "ProductGallery",
       tableName: "ProductGallery",
-    }
+    },
   );
   return ProductGallery;
 };

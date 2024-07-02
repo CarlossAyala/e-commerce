@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Separator } from "@/components";
+import { Separator } from "@/shared/components";
 import { WithoutStoreHeader } from "./without-store-header";
 
 export const WithoutStoreRoot = () => {

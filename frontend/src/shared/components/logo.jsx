@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { cn } from "@/libs";
-import { getCurrentApp } from "../utils";
+import { cn, getCurrentApp } from "../utils";
 
 export const Logo = ({ className }) => {
   const location = useLocation();

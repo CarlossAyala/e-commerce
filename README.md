@@ -2,41 +2,51 @@
 
 This repository contains a demonstration project of an e-commerce application developed with Vite/React for the front-end and Node/Express for the back-end. The goal is to showcase my (poor) skills by building a web application.
 
-## Project Structure
+## Features
 
-The project is organized into the following directories:
+The application includes the following features:
 
-### frontend
+- User authentication
+- Product catalog management
+- Order management
+- Payment processing
+- Inventory management
+- Category management
+- Email notifications
+- Light/Dark mode
 
-This is organized to follow the [Screaming Architecture or Group by Features](https://profy.dev/article/react-folder-structure) folder structure:
+## Technologies Used
 
-- `/src/apps/<admin|e-commerce|seller>`: Contains the React components for the different parts of the each application.
-- `/src/assets`: Contains the static assets for the entire application.
-- `/src/components`: Temporary components that are used across the different applications. Need to be moved to `/src/shared`.
-- `/src/configs`: Contains the configuration files for the different applications.
-- `/src/libs`: Contains the shared libraries used across the different applications.
-- `/src/shared`: Contains the shared contexts, components, hooks, utils, etc, used across the different applications.
-- `/src/utils`: Contains the utility functions used across the different applications. Maybe move to `/src/shared`.
-- `/src/providers`: Contains the providers for the different contexts used across the different applications.
-- `/src/routes`: Contains the routes for the different applications.
-- `/src/app.js`: Place to call the routes and providers for the application.
-- `/src/main.js`: The entry point for the application.
-  
-### backend
+The application is built using the following technologies:
 
-This do not follow any specific folder structure, i think, it's just a simple Node/Express application.
+### Frontend
 
-- `/logs`: Contains the logs about the application.
-- `/public`: Contains the static assets for the entire application.
-- `/src/api<admin|auth|e-commerce|seller|shared>`: Each API endpoint is a folder with the controllers, middlewares and routes and schemas.
-- `/src/api/routes.js`: The entry point for the API routes configuration.
-- `/src/config`: Contains the environment variables and configuration used by the application.
-- `/src/db`: Contains the databases used by the application.
-- `/src/jobs`: Contains the background jobs used by the application.
-- `/src/middlewares`: Contains the middlewares used by the application.
-- `/src/services`: Contains the services used by the application.
-- `/src/utils`: Contains the utility functions used by the application.
-- `/src/app.js`: The entry point for the application.
+- Vite
+- React
+- ReactQuery
+- Tailwind CSS
+- ShadCN
+- Yup
+- Heroicons
+- React Hook Form
+
+### Backend
+
+- Node.js
+- Express
+- Docker
+- MySQL
+- Redis
+- Resend
+- BullMQ
+- Cloudinary
+- Joi
+- JsonWebToken
+- Multer
+- Sequelize
+- Stripe
+- Winston
+- Handlebars
 
 ## Getting Started
 
@@ -135,52 +145,6 @@ npm run dev
 # Start the production server
 npm run start
 ```
-
-## Features
-
-The application includes the following features:
-
-- User authentication
-- Product catalog management
-- Order management
-- Payment processing
-- Inventory management
-- Category management
-- Email notifications
-- Light/Dark mode
-
-## Technologies Used
-
-The application is built using the following technologies:
-
-### Frontend
-
-- Vite
-- React
-- ReactQuery
-- Tailwind CSS
-- ShadCN
-- Yup
-- Heroicons
-- React Hook Form
-
-### Backend
-
-- Node.js
-- Express
-- Docker
-- MySQL
-- Redis
-- Resend
-- BullMQ
-- Cloudinary
-- Joi
-- JsonWebToken
-- Multer
-- Sequelize
-- Stripe
-- Winston
-- Handlebars
 
 ## Contact
 

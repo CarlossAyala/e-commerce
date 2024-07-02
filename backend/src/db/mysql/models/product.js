@@ -49,7 +49,7 @@ module.exports = (sequelize) => {
       sequelize,
       modelName: "Product",
       tableName: "Products",
-    }
+    },
   );
   return Product;
 };

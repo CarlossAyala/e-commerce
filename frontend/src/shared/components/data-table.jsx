@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components";
+} from ".";
 
 export const DataTable = ({ data, columns }) => {
   const table = useReactTable({

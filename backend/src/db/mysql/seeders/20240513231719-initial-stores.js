@@ -17,13 +17,13 @@ module.exports = {
      * }], {});
      */
     const [users] = await queryInterface.sequelize.query(
-      "SELECT id FROM Users"
+      "SELECT id FROM Users",
     );
     const stores = users.map(({ id: userId }) =>
       generateRandomStore({
         userId,
         createdAt: new Date(Date.now() - getRandomIntByRange(0, ms("1y"))),
-      })
+      }),
     );
     await queryInterface.bulkInsert("Stores", stores);
   },

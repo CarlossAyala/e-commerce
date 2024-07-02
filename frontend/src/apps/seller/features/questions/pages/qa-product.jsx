@@ -16,7 +16,7 @@ import {
   CardTitle,
   Filters,
   Skeleton,
-} from "@/components";
+} from "@/shared/components";
 import { productActionRoutes, useGetProduct } from "../../products";
 import { qaProductColumns } from "../components/columns";
 import { QUESTION_STATUS } from "../utils";
@@ -56,9 +56,7 @@ export const QAProduct = () => {
       </PageHeader>
 
       <section className="space-y-2">
-        <h3 className="text-sm font-medium leading-tight text-primary">
-          Product
-        </h3>
+        <h3 className="text-sm font-medium leading-tight">Product</h3>
 
         {product.isLoading ? (
           <Card>

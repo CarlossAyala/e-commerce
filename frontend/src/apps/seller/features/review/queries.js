@@ -1,10 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { parseURLSearchParams } from "@/shared/utils";
-import { useAuth } from "@/shared/auth";
+import { createQueryKey, parseURLSearchParams } from "@/shared/utils";
+import { useAuth } from "@/features/auth";
 import { findAllByProductId, getProductAvgRating, findAll } from "./api";
 
 export const reviewKeys = {
-  key: ["seller/review"],
+  key: createQueryKey({
+    prefix: "seller",
+    entity: "reviews",
+    config: {
+      removeOnSignout: true,
+    },
+  }),
   findAllKey: () => [...reviewKeys.key, "find-all"],
   findAll: (query) => [...reviewKeys.findAllKey(), query],
   findAllByProductIdKey: (id) => [

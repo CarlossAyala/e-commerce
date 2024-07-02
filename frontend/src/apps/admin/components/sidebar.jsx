@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { Button, Sheet, SheetContent } from "@/components";
+import { Button, Sheet, SheetContent } from "@/shared/components";
 import { LogoAdmin } from "./logo-admin";
 import { SideNav } from "./side-nav";
 

@@ -9,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import { EmptyState } from "@/shared/components";
+import { Formatter } from "@/shared/utils";
 import {
   Card,
   CardContent,
@@ -19,10 +20,9 @@ import {
   Tabs,
   TabsList,
   TabsTrigger,
-} from "@/components";
+} from "@/shared/components";
 import { useGetUsersGrowthStats } from "../../users";
 import { INTERVALS, formatDateMetric } from "../utils";
-import { Formatter } from "@/utils";
 
 export const UsersGrowthMetric = () => {
   const [params, setParams] = useState(

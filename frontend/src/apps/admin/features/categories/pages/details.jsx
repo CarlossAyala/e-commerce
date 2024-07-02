@@ -42,7 +42,7 @@ import {
   Skeleton,
   Textarea,
   TextareaSkeleton,
-} from "@/components";
+} from "@/shared/components";
 import {
   updateCategoryDefault,
   updateCategoryInitial,
@@ -285,6 +285,7 @@ export const Details = () => {
                         <CarouselItem key={index}>
                           <div className="aspect-h-9 aspect-w-16 overflow-hidden rounded-md border sm:aspect-h-6 lg:aspect-h-4">
                             <img
+                              alt="Category Profile"
                               src={
                                 item instanceof File
                                   ? URL.createObjectURL(item)
@@ -315,6 +316,7 @@ export const Details = () => {
                       className="group aspect-h-9 aspect-w-16 relative overflow-hidden rounded-md border"
                     >
                       <img
+                        alt="Category Profile"
                         src={
                           item instanceof File
                             ? URL.createObjectURL(item)

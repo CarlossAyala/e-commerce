@@ -1,4 +1,4 @@
-import { cn } from "@/libs";
+import { cn } from "../utils";
 
 export const EmptyState = ({ className, title, description, children }) => {
   return (

@@ -1,5 +1,5 @@
 import { API_ADMIN } from "@/configs";
-import { fetcher } from "@/libs";
+import { fetcher } from "@/shared/utils";
 
 const ENDPOINT = `${API_ADMIN}/products`;
 

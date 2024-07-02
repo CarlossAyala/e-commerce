@@ -11,28 +11,14 @@ module.exports = {
       text: {
         type: Sequelize.STRING,
       },
+      sender: {
+        type: Sequelize.ENUM,
+        values: ["customer", "store"],
+      },
       chatId: {
         type: Sequelize.INTEGER,
         references: {
           model: "Chats",
-          key: "id",
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      },
-      customerId: {
-        type: Sequelize.UUID,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      },
-      storeId: {
-        type: Sequelize.UUID,
-        references: {
-          model: "Stores",
           key: "id",
         },
         onDelete: "CASCADE",

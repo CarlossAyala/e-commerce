@@ -7,6 +7,8 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
+
+import { ITEMS_PER_PAGE, cn } from "../utils";
 import {
   Button,
   Command,
@@ -15,19 +17,17 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components";
-import { cn } from "@/libs";
-import { ITEMS_PER_PAGE } from "../utils";
+} from ".";
 
 const getPage = (page) => {
-  if (isNaN(page)) return 1;
-  else if (+page < 1) return 1;
+  if (Number.isNaN(page)) return 1;
+  if (+page < 1) return 1;
 
   return +page;
 };
 const getItemPerPage = (item) => {
-  if (isNaN(item)) return ITEMS_PER_PAGE[0];
-  else if (!ITEMS_PER_PAGE.includes(+item)) return ITEMS_PER_PAGE[0];
+  if (Number.isNaN(item)) return ITEMS_PER_PAGE[0];
+  if (!ITEMS_PER_PAGE.includes(+item)) return ITEMS_PER_PAGE[0];
 
   return +item;
 };
@@ -52,6 +52,7 @@ export const URLPagination = ({ count = 0 }) => {
   const canGoForward = page < totalPages;
   const canGoBackward = page > 1;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const PAGES = useMemo(
     () =>
       new Array(totalPages).fill(0).map((_, i) => (
@@ -67,7 +68,7 @@ export const URLPagination = ({ count = 0 }) => {
           <CheckIcon
             className={cn(
               "mr-2 size-4",
-              page == i + 1 ? "opacity-100" : "opacity-0",
+              +page === i + 1 ? "opacity-100" : "opacity-0",
             )}
           />
           {i + 1}
@@ -109,13 +110,14 @@ export const URLPagination = ({ count = 0 }) => {
     setParams(newParams);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (paramPage != page) {
+    if (+paramPage !== page) {
       const newParams = new URLSearchParams(params);
       newParams.set("page", page);
       setParams(newParams);
     }
-    if (paramItems != items) {
+    if (+paramItems !== items) {
       const newParams = new URLSearchParams(params);
       newParams.set("limit", items);
       setParams(newParams);
@@ -147,7 +149,7 @@ export const URLPagination = ({ count = 0 }) => {
                     <CheckIcon
                       className={cn(
                         "mr-2 size-4",
-                        items == item ? "opacity-100" : "opacity-0",
+                        items === item ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {item}

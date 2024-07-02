@@ -1,9 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/shared/auth";
+import { useAuth } from "@/features/auth";
+import { createQueryKey } from "@/shared/utils";
 import { count } from "./api";
 
 const productKeys = {
-  key: ["admin/products"],
+  key: createQueryKey({
+    prefix: "admin",
+    entity: "products",
+  }),
   count: () => [...productKeys.key, "count"],
 };
 

@@ -1,7 +1,6 @@
 import { StarIcon } from "@heroicons/react/24/solid";
-import { Skeleton } from "@/components";
-import { cn } from "@/libs";
-import { Formatter } from "@/utils";
+import { Formatter, cn } from "../utils";
+import { Skeleton } from ".";
 
 export const ReviewItem = ({ review }) => {
   return (

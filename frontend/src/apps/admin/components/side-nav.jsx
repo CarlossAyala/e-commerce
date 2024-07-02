@@ -4,8 +4,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components";
-import { cn } from "@/libs";
+} from "@/shared/components";
+import { cn } from "@/shared/utils";
 import { SIDE_NAV } from "../config";
 
 export const SideNav = () => {
@@ -22,7 +22,7 @@ export const SideNav = () => {
                   "flex items-center gap-2 rounded-md px-3 py-2 font-normal",
                   location.pathname.includes(item.to)
                     ? "data-[state=closed]:bg-foreground data-[state=closed]:text-secondary"
-                    : "data-[state=closed]:hover:text-primary",
+                    : "data-[state=closed]:hover:",
                 )}
               >
                 <div className="flex items-center">
@@ -38,9 +38,7 @@ export const SideNav = () => {
                     className={({ isActive }) =>
                       cn(
                         "rounded-md px-3 py-2",
-                        isActive
-                          ? "bg-foreground text-secondary"
-                          : "hover:text-primary",
+                        isActive ? "bg-foreground text-secondary" : "hover:",
                       )
                     }
                     end
@@ -59,9 +57,7 @@ export const SideNav = () => {
             className={({ isActive }) =>
               cn(
                 "flex items-center gap-2 rounded-md px-3 py-2",
-                isActive
-                  ? "bg-foreground text-secondary"
-                  : "hover:text-primary",
+                isActive ? "bg-foreground text-secondary" : "hover:",
               )
             }
           >

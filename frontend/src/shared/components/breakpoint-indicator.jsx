@@ -1,17 +1,17 @@
-import { cn } from "@/libs";
 import { useEffect, useState } from "react";
+import { cn } from "../utils";
 
 export const BreakpointIndicator = () => {
   const [show, setShow] = useState(false);
   let timeoutId;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const handleResize = () => {
       clearTimeout(timeoutId);
 
       setShow(true);
 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       timeoutId = setTimeout(() => setShow(false), 1500);
     };
 
@@ -22,8 +22,6 @@ export const BreakpointIndicator = () => {
       clearTimeout(timeoutId);
     };
   }, []);
-
-  if (import.meta.env.PROD) return null;
 
   return (
     <div

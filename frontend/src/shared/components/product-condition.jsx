@@ -1,5 +1,5 @@
-import { Badge } from "@/components";
-import { cn } from "@/libs";
+import { Badge } from ".";
+import { cn } from "../utils";
 
 const CONDITION = {
   new: "New",

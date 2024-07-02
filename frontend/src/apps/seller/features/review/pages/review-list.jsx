@@ -15,7 +15,7 @@ import {
   CardTitle,
   Filters,
   Skeleton,
-} from "@/components";
+} from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import { productActionRoutes, useGetProduct } from "../../products";
 import { reviewListColumns } from "../components/columns";

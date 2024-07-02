@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { EmptyState, PageHeader, PageHeaderHeading } from "@/shared/components";
-import { Skeleton } from "@/components";
-import { Formatter } from "@/utils";
+import { Formatter } from "@/shared/utils";
+import { Skeleton } from "@/shared/components";
 import { OrderProduct } from "../components/order-product";
 import { useGetOrder } from "../queries";
 
@@ -58,13 +58,13 @@ export const OrderDetails = () => {
       ) : (
         <section className="space-y-4">
           <dl className="space-y-1 text-sm font-medium">
-            <dt className="text-primary">Tracking ID</dt>
+            <dt className=" ">Tracking ID</dt>
             <dd className="text-indigo-600">{data.order.id}</dd>
           </dl>
 
           <dl className="text-sm">
             <div className="space-y-2">
-              <dt className="font-medium text-primary">Details</dt>
+              <dt className="font-medium">Details</dt>
               <dd className="text-muted-foreground">
                 <div className="flex justify-between">
                   <p>Placed</p>
@@ -76,7 +76,7 @@ export const OrderDetails = () => {
 
           <dl className="grid grid-cols-2 gap-4 text-sm">
             <div className="space-y-2">
-              <dt className="font-medium text-primary">Shipping Address</dt>
+              <dt className="font-medium">Shipping Address</dt>
               <dd className="text-muted-foreground">
                 <address className="not-italic">
                   <p>{data.address.street}</p>
@@ -90,7 +90,7 @@ export const OrderDetails = () => {
             </div>
 
             <div className="space-y-2">
-              <dt className="font-medium text-primary">Payment Information</dt>
+              <dt className="font-medium">Payment Information</dt>
               <dd className="text-muted-foreground">
                 <p className="capitalize">{data.paymentMethod.card.brand}</p>
                 <p>Ending with {data.paymentMethod.card.last4}</p>
@@ -102,7 +102,7 @@ export const OrderDetails = () => {
             </div>
           </dl>
 
-          <ul role="list" className="divide-y border-y">
+          <ul className="divide-y border-y">
             {data.items.map((item) => (
               <li key={item.productId} className="py-4">
                 <OrderProduct item={item} />
@@ -110,7 +110,7 @@ export const OrderDetails = () => {
             ))}
           </ul>
 
-          <dl className="flex justify-between text-base font-medium text-primary">
+          <dl className="flex justify-between text-base font-medium">
             <dt>Total</dt>
             <dd>{Formatter.currency(data.order.total)}</dd>
           </dl>

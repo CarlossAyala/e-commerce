@@ -10,13 +10,13 @@ module.exports = {
     const users = await Promise.all(
       new Array(100).fill(0).map(() => {
         const createdAt = new Date(
-          Date.now() - getRandomIntByRange(0, ms("1y"))
+          Date.now() - getRandomIntByRange(0, ms("1y")),
         );
 
         return generateRandomUser({
           createdAt,
         });
-      })
+      }),
     );
     await queryInterface.bulkInsert("Users", users);
   },

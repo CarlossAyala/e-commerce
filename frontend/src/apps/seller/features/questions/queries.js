@@ -1,10 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/shared/auth";
-import { parseURLSearchParams } from "@/shared/utils";
+import { useAuth } from "@/features/auth";
+import { createQueryKey, parseURLSearchParams } from "@/shared/utils";
 import { findAll, findAllByProductId, findOne, reject, reply } from "./api";
 
 export const qaKeys = {
-  key: ["seller/questions"],
+  key: createQueryKey({
+    prefix: "seller",
+    entity: "questions",
+    config: {
+      removeOnSignout: true,
+    },
+  }),
   findOne: (questionId) => [...qaKeys.key, "find-one", questionId],
   findAll: (query) => [...qaKeys.key, "find-all", query],
   findAllByProductIdKey: (productId) => [

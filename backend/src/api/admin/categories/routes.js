@@ -14,23 +14,23 @@ router.post(
   "/",
   middlewares.upload.array("gallery", 10),
   middlewares.schemaValidator(schemas.create),
-  controllers.create
+  controllers.create,
 );
 router.put(
   "/:categoryId",
   middlewares.upload.array("nextGallery", 10),
   middlewares.schemaValidator(schemas.update),
-  controllers.update
+  controllers.update,
 );
 router.patch(
   "/:categoryId/attach",
   middlewares.schemaValidator(schemas.categoryIds),
-  controllers.attach
+  controllers.attach,
 );
 router.patch(
   "/:categoryId/detach",
   middlewares.schemaValidator(schemas.categoryIds),
-  controllers.detach
+  controllers.detach,
 );
 router.delete("/:categoryId", controllers.remove);
 

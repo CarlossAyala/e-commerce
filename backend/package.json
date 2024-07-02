@@ -11,8 +11,9 @@
   "description": "",
   "scripts": {
     "dev": "nodemon --inspect --trace-warnings src/app.js",
-    "prettier": "npx prettier . --write",
-    "eslint": "npx eslint .",
+    "format": "npx prettier . --write",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix",
     "db:create": "npx sequelize-cli db:create",
     "db:drop": "npx sequelize-cli db:drop",
     "migrate:up": "npx sequelize-cli db:migrate",

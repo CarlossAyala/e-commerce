@@ -7,8 +7,9 @@ import {
   ChevronUpDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useDocumentTitle } from "@/shared/hooks";
 import { EmptyState, PageHeaderHeading, Spinner } from "@/shared/components";
+import { useDocumentTitle } from "@/shared/hooks";
+import { cn } from "@/shared/utils";
 import {
   Button,
   Checkbox,
@@ -28,8 +29,7 @@ import {
   PopoverTrigger,
   Separator,
   Skeleton,
-} from "@/components";
-import { cn } from "@/libs";
+} from "@/shared/components";
 import { attachCategoryInitial, attachCategorySchema } from "../schemas";
 import { useAttachCategory, useGetCategories } from "../queries";
 

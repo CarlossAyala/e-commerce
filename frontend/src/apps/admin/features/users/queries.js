@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/shared/auth";
+import { useAuth } from "@/features/auth";
+import { createQueryKey, parseURLSearchParams } from "@/shared/utils";
 import { count, growthStats } from "./api";
-import { parseURLSearchParams } from "@/shared/utils";
 
 const userKeys = {
-  key: ["admin/users"],
+  key: createQueryKey({
+    prefix: "admin",
+    entity: "users",
+  }),
   count: () => [...userKeys.key, "count"],
   growthStats: (query) => [...userKeys.key, "growth-stats", query],
 };

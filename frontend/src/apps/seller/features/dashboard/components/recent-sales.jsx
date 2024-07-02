@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { EmptyState } from "@/shared/components";
+import { Formatter, getFullName, getInitials } from "@/shared/utils";
 import {
   Card,
   CardContent,
@@ -7,8 +8,7 @@ import {
   CardHeader,
   CardTitle,
   Skeleton,
-} from "@/components";
-import { Formatter, getFullName, getInitials } from "@/utils";
+} from "@/shared/components";
 import { orderActionRoutes, useGetLatestOrders } from "../../orders";
 
 export const RecentSales = () => {

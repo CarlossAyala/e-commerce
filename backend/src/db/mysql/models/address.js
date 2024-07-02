@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
       sequelize,
       modelName: "Address",
       tableName: "Addresses",
-    }
+    },
   );
   return Address;
 };

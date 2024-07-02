@@ -9,7 +9,7 @@ import {
   URLPagination,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
-import { Filters } from "@/components";
+import { Filters } from "@/shared/components";
 import { storesColumns } from "../components/columns";
 import { useGetStores } from "../queries";
 

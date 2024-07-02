@@ -125,7 +125,7 @@ const update = async (req, res, next) => {
       await Promise.all(
         imagesToDelete.map((image) => {
           return cloudinary.uploader.destroy(image.publicId);
-        })
+        }),
       );
     }
 
@@ -138,7 +138,7 @@ const update = async (req, res, next) => {
           return image.update({
             order: index,
           });
-        })
+        }),
       );
     }
     if (nextGallery?.length) {
@@ -153,7 +153,7 @@ const update = async (req, res, next) => {
               { fetch_format: "auto" },
             ],
           });
-        })
+        }),
       );
       await StoreGalleryModel.bulkCreate(
         result.map((image, index) => ({
@@ -161,7 +161,7 @@ const update = async (req, res, next) => {
           url: image.secure_url,
           order: index + galleryToUpdate.length,
           storeId: store.id,
-        }))
+        })),
       );
       await Promise.all(nextGallery.map((file) => unlink(file.path)));
     }
@@ -180,7 +180,7 @@ const remove = async (req, res, next) => {
       await Promise.all(
         store.gallery.map((image) => {
           return cloudinary.uploader.destroy(image.publicId);
-        })
+        }),
       );
       await StoreGalleryModel.destroy({
         where: {
@@ -210,12 +210,12 @@ const getEarnings = async (req, res, next) => {
   const firstDayOfMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth(),
-    1
+    1,
   );
   const lastDayOfMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 1,
-    0
+    0,
   );
 
   try {

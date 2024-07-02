@@ -7,7 +7,7 @@ import {
   PhotoIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useGetCategories } from "@/shared/features/categories";
+import { useGetCategories } from "@/features/categories";
 import {
   EmptyState,
   Spinner,
@@ -15,7 +15,13 @@ import {
   PageHeaderHeading,
 } from "@/shared/components";
 import { useDocumentTitle, useLocalSearchParams } from "@/shared/hooks";
-import { paginateArray, validFileSize, validFileType } from "@/shared/utils";
+import {
+  clearEmptyValues,
+  cn,
+  paginateArray,
+  validFileSize,
+  validFileType,
+} from "@/shared/utils";
 import {
   Button,
   Form,
@@ -46,9 +52,7 @@ import {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "@/components";
-import { clearEmptyValues } from "@/utils";
-import { cn } from "@/libs";
+} from "@/shared/components";
 import { productInitial, createSchema } from "../schemas";
 import { PRODUCT_CONDITIONS, productActionRoutes } from "../utils";
 import { useCreateProduct } from "../queries";
@@ -99,9 +103,9 @@ export const Create = () => {
 
     for (const key in cleanValues) {
       if (key === "gallery") {
-        cleanValues[key].forEach((file) => {
+        for (const file of cleanValues[key]) {
           formData.append("gallery", file);
-        });
+        }
       } else {
         formData.append(key, cleanValues[key]);
       }
@@ -344,7 +348,7 @@ export const Create = () => {
                                       key={category.id}
                                       className={cn(
                                         "flex items-start gap-4 p-4",
-                                        isCurrentCategory && "bg-gray-100",
+                                        isCurrentCategory && "bg-muted",
                                       )}
                                     >
                                       <FormControl>
@@ -413,6 +417,7 @@ export const Create = () => {
                             className="group aspect-h-1 aspect-w-1 relative w-full overflow-hidden rounded-md border"
                           >
                             <img
+                              alt="Product Profile"
                               src={URL.createObjectURL(file)}
                               className="size-full object-cover"
                             />
@@ -442,6 +447,7 @@ export const Create = () => {
                       className="group aspect-h-1 aspect-w-1 relative w-full overflow-hidden rounded-md border"
                     >
                       <img
+                        alt="Product Profile"
                         src={URL.createObjectURL(item)}
                         className="size-full object-cover"
                       />

@@ -158,7 +158,7 @@ const create = async (req, res, next) => {
         url:
           req.protocol + "://" + req.get("host") + "/images/" + file.filename,
         categoryId: category.id,
-      }))
+      })),
     );
 
     res.status(201).json(category);
@@ -198,7 +198,7 @@ const update = async (req, res, next) => {
       },
     });
     const galleryToDelete = gallery.filter(
-      (image) => !currentGallery.includes(image.id)
+      (image) => !currentGallery.includes(image.id),
     );
     if (galleryToDelete.length) {
       await Promise.all(
@@ -206,10 +206,10 @@ const update = async (req, res, next) => {
           const filePath = path.join(
             __dirname,
             "../../../../public/images",
-            image.filename
+            image.filename,
           );
           return unlink(filePath);
-        })
+        }),
       );
       await CategoryGalleryModel.destroy({
         where: {
@@ -221,7 +221,7 @@ const update = async (req, res, next) => {
     }
 
     const galleryToUpdate = gallery.filter((image) =>
-      currentGallery.includes(image.id)
+      currentGallery.includes(image.id),
     );
     if (galleryToUpdate.length) {
       await Promise.all(
@@ -229,7 +229,7 @@ const update = async (req, res, next) => {
           return image.update({
             order: index,
           });
-        })
+        }),
       );
     }
 
@@ -241,7 +241,7 @@ const update = async (req, res, next) => {
           url:
             req.protocol + "://" + req.get("host") + "/images/" + file.filename,
           categoryId: category.id,
-        }))
+        })),
       );
     }
 
@@ -276,7 +276,7 @@ const attach = async (req, res, next) => {
       });
       if (hasSubCategories) {
         throw new BadRequest(
-          `${_category.name} need be without any sub-category`
+          `${_category.name} need be without any sub-category`,
         );
       }
     }
@@ -291,7 +291,7 @@ const attach = async (req, res, next) => {
             [Op.in]: categoriesId,
           },
         },
-      }
+      },
     );
 
     res.json({ message: "Categories attached successfully" });
@@ -320,7 +320,7 @@ const detach = async (req, res, next) => {
     for (const _category of categories) {
       if (_category.parentId !== category.id) {
         throw new BadRequest(
-          `${_category.name} category is not a sub category of ${category.name}`
+          `${_category.name} category is not a sub category of ${category.name}`,
         );
       }
     }
@@ -335,7 +335,7 @@ const detach = async (req, res, next) => {
             [Op.in]: categoriesId,
           },
         },
-      }
+      },
     );
 
     res.json({ message: "Categories detached successfully" });
@@ -370,10 +370,10 @@ const remove = async (req, res, next) => {
           const filePath = path.join(
             __dirname,
             "../../../../public/images",
-            image.filename
+            image.filename,
           );
           return unlink(filePath);
-        })
+        }),
       );
       await CategoryGalleryModel.destroy({
         where: {
@@ -390,7 +390,7 @@ const remove = async (req, res, next) => {
         where: {
           categoryId: category.id,
         },
-      }
+      },
     );
 
     await CategoryModel.destroy({

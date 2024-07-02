@@ -14,9 +14,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components";
-import { cn } from "@/libs";
-import { ITEMS_PER_PAGE } from "../utils";
+} from ".";
+import { ITEMS_PER_PAGE, cn } from "../utils";
 
 export const LocalPagination = ({ count = 0, params, setParams }) => {
   const [itemsPopover, setItemsPopover] = useState(false);
@@ -89,7 +88,7 @@ export const LocalPagination = ({ count = 0, params, setParams }) => {
                     <CheckIcon
                       className={cn(
                         "mr-2 size-4",
-                        items == item ? "opacity-100" : "opacity-0",
+                        +items === item ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {item}
@@ -122,7 +121,7 @@ export const LocalPagination = ({ count = 0, params, setParams }) => {
                     <CheckIcon
                       className={cn(
                         "mr-2 size-4",
-                        page == i + 1 ? "opacity-100" : "opacity-0",
+                        +page === i + 1 ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {i + 1}

@@ -1,8 +1,11 @@
 import { Outlet } from "react-router-dom";
+import { useSocketEventHandler } from "../features/chats";
 import { Aside } from "./aside";
 import { Header } from "./header";
 
 export const StoreRoot = () => {
+  useSocketEventHandler();
+
   return (
     <div className="relative h-svh bg-background">
       <Aside />

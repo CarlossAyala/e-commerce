@@ -1,8 +1,8 @@
-import { buttonVariants } from "@/components";
+import { buttonVariants } from "@/shared/components";
 import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
 import { QAStatus } from "@/shared/components";
-import { Formatter } from "@/utils";
+import { Formatter } from "@/shared/utils";
 import { productActionRoutes } from "../../products";
 import { questionActionRoutes } from "../utils";
 import { QAProductAction } from "./actions";

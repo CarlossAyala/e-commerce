@@ -40,7 +40,7 @@ module.exports = (sequelize) => {
       sequelize,
       modelName: "Order",
       tableName: "Orders",
-    }
+    },
   );
   return Order;
 };

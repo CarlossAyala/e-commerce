@@ -9,7 +9,7 @@ import {
   PageHeaderHeading,
   URLPagination,
 } from "@/shared/components";
-import { Filters } from "@/components";
+import { Filters } from "@/shared/components";
 import { ordersColumns } from "../components/columns";
 import { useGetOrders } from "../queries";
 

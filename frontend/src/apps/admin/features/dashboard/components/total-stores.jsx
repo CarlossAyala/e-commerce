@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
   Skeleton,
-} from "@/components";
+} from "@/shared/components";
 import { useGetStoresCount } from "../../stores";
 
 export const TotalStores = () => {

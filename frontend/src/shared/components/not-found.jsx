@@ -1,7 +1,6 @@
-import { cn } from "@/libs";
-import { getCurrentApp } from "../utils";
 import { Link, useLocation } from "react-router-dom";
-import { buttonVariants } from "@/components";
+import { buttonVariants } from ".";
+import { cn, getCurrentApp } from "../utils";
 
 export const NotFound = ({ className }) => {
   const location = useLocation();
@@ -15,7 +14,7 @@ export const NotFound = ({ className }) => {
       )}
     >
       <div className="flex flex-col items-center justify-center px-4 text-center sm:flex-row">
-        <h1 className="text-3xl font-extrabold tracking-tight text-primary sm:mr-6 sm:border-r sm:pr-6">
+        <h1 className="text-3xl font-extrabold tracking-tight sm:mr-6 sm:border-r sm:pr-6">
           404
         </h1>
         <h2 className="mt-2 text-lg text-muted-foreground sm:mt-0">

@@ -30,7 +30,7 @@ import {
   Separator,
   Textarea,
   buttonVariants,
-} from "@/components";
+} from "@/shared/components";
 import { useDeleteStore, useGetStore, useUpdateStore } from "../queries";
 import { updateDefault, updateSchema } from "../schemas";
 import {
@@ -266,6 +266,7 @@ export const Store = () => {
                       className="group aspect-h-4 aspect-w-14 relative w-full overflow-hidden rounded-md border"
                     >
                       <img
+                        alt="Profile"
                         src={
                           item instanceof File
                             ? URL.createObjectURL(item)
@@ -296,6 +297,7 @@ export const Store = () => {
                 className="group aspect-h-8 aspect-w-14 relative w-full overflow-hidden rounded-md border"
               >
                 <img
+                  alt="Profile"
                   src={
                     item instanceof File ? URL.createObjectURL(item) : item.url
                   }

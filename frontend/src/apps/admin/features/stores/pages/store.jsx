@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import placeholder from "@/assets/images/placeholder-image.jpg";
 import { EmptyState, PageHeader, PageHeaderHeading } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
+import { Formatter, getFullName, getInitials } from "@/shared/utils";
 import {
   Badge,
   Card,
@@ -16,8 +17,7 @@ import {
   CarouselPrevious,
   Separator,
   Skeleton,
-} from "@/components";
-import { Formatter, getFullName, getInitials } from "@/utils";
+} from "@/shared/components";
 import { useGetStore } from "../queries";
 
 export const Store = () => {
@@ -43,7 +43,7 @@ export const Store = () => {
                 </CarouselContent>
               </Carousel>
               <div className="absolute bottom-0 left-4 size-36 translate-y-1/2 overflow-hidden rounded-full border">
-                <div className="size-full bg-gray-200"></div>
+                <div className="size-full bg-gray-200" />
               </div>
             </div>
             <div className="mt-20 space-y-2 px-4 xl:px-0">

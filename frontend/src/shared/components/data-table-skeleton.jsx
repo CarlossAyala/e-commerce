@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components";
+} from ".";
 
 export const DataTableSkeleton = ({ actions = true }) => {
   return (

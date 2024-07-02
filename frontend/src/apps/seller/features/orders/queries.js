@@ -1,10 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { parseURLSearchParams } from "@/shared/utils";
-import { useAuth } from "@/shared/auth";
+import { createQueryKey, parseURLSearchParams } from "@/shared/utils";
+import { useAuth } from "@/features/auth";
 import { findAll, findOne, latestOrders } from "./api";
 
 export const orderKeys = {
-  key: ["seller/orders"],
+  key: createQueryKey({
+    prefix: "seller",
+    entity: "orders",
+    config: {
+      removeOnSignout: true,
+    },
+  }),
   findOne: (orderId) => [...orderKeys.key, "find-one", orderId],
   findAll: (query) => [...orderKeys.key, "find-all", query],
   findLatestOrders: () => [...orderKeys.key, "find-latest-orders"],

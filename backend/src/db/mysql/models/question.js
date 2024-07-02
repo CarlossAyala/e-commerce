@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
       sequelize,
       modelName: "Question",
       tableName: "Questions",
-    }
+    },
   );
   return Question;
 };

@@ -20,8 +20,8 @@ import {
   Label,
   RadioGroup,
   RadioGroupItem,
-} from "@/components";
-import { signinInitial, signinSchema, useSignin } from "../auth";
+} from ".";
+import { signinInitial, signinSchema, useSignin } from "../../features/auth";
 import { getCurrentApp } from "../utils";
 import { Spinner } from ".";
 
@@ -61,93 +61,86 @@ export const Signin = () => {
   };
 
   return (
-    <main className="container flex h-svh flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div className="flex h-full flex-1 items-center lg:p-8">
-        <div className="mx-auto w-full max-w-sm space-y-6">
-          <div className="space-y-2 text-center">
-            <h2 className="text-2xl font-medium tracking-tight">
-              Sign In to your account
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              Enter your email below to sign in to your account.
-            </p>
-          </div>
+    <main className="container flex h-svh items-center justify-center">
+      <div className="mx-auto w-full max-w-sm space-y-6">
+        <div className="space-y-2 text-center">
+          <h2 className="text-2xl font-medium tracking-tight">
+            Sign In to your account
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Enter your email below to sign in to your account.
+          </p>
+        </div>
 
-          <RadioGroup
-            value={redirectTo}
-            onValueChange={(value) => setRedirectTo(value)}
-            className="grid grid-cols-3 gap-4"
+        <RadioGroup
+          value={redirectTo}
+          onValueChange={(value) => setRedirectTo(value)}
+          className="grid grid-cols-2 gap-4 tablet:grid-cols-3"
+        >
+          {APPS.map((item) => (
+            <div key={item.value}>
+              <RadioGroupItem
+                value={item.value}
+                id={item.value}
+                className="peer sr-only"
+              />
+              <Label
+                htmlFor={item.value}
+                className="m-0 flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <item.Icon className="mb-2 size-6" />
+                {item.label}
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
+
+        <Form {...form}>
+          <form
+            className="grid gap-4"
+            onSubmit={form.handleSubmit(handleSignin)}
           >
-            {APPS.map((item) => (
-              <div key={item.value}>
-                <RadioGroupItem
-                  value={item.value}
-                  id={item.value}
-                  className="peer sr-only"
-                />
-                <Label
-                  htmlFor={item.value}
-                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                >
-                  <item.Icon className="mb-2 size-6" />
-                  {item.label}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-
-          <Form {...form}>
-            <form
-              className="grid gap-4"
-              onSubmit={form.handleSubmit(handleSignin)}
-            >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="Email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={signin.isLoading}>
-                {signin.isLoading && <Spinner className="mr-2 size-4" />}
-                Sign In
-              </Button>
-            </form>
-          </Form>
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground">
-              {"Don't have an account? "}
-              <Link to="/signup" className="font-medium text-primary">
-                Sign Up
-              </Link>
-            </p>
-          </div>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="Email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="Password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={signin.isLoading}>
+              {signin.isLoading && <Spinner className="mr-2 size-4" />}
+              Sign In
+            </Button>
+          </form>
+        </Form>
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground">
+            {"Don't have an account? "}
+            <Link to="/signup" className="font-medium text-primary">
+              Sign Up
+            </Link>
+          </p>
         </div>
       </div>
-      <div className="hidden h-full bg-zinc-900 lg:block" />
     </main>
   );
 };

@@ -76,10 +76,9 @@ const attachStore = async (socket, next) => {
  */
 const clientJoinRoom = (socket, next) => {
   const { userId, store } = socket.auth;
-  const storeId = store?.id;
   const { entity } = socket.handshake.auth;
 
-  if (entity === "seller") socket.join(storeId);
+  if (entity === "seller") socket.join(store.id);
   else socket.join(userId);
 
   next();

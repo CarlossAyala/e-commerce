@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/shared/auth";
-import { parseURLSearchParams } from "@/shared/utils";
+import { useAuth } from "@/features/auth";
+import { createQueryKey, parseURLSearchParams } from "@/shared/utils";
 import {
   create,
   findAll,
@@ -13,7 +13,13 @@ import {
 } from "./api";
 
 export const productKeys = {
-  key: ["seller/product"],
+  key: createQueryKey({
+    prefix: "seller",
+    entity: "products",
+    config: {
+      removeOnSignout: true,
+    },
+  }),
   findOne: (id) => [...productKeys.key, "find-one", id],
   findAllKey: () => [...productKeys.key, "find-all"],
   findAll: (query) => [...productKeys.findAllKey(), query],

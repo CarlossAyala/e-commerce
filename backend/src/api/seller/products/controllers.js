@@ -100,7 +100,7 @@ const create = async (req, res, next) => {
             { fetch_format: "auto" },
           ],
         });
-      })
+      }),
     );
 
     await ProductGalleryModel.bulkCreate(
@@ -109,7 +109,7 @@ const create = async (req, res, next) => {
         url: image.secure_url,
         order: index,
         productId: product.id,
-      }))
+      })),
     );
 
     await Promise.all(gallery.map((file) => unlink(file.path)));
@@ -146,7 +146,7 @@ const update = async (req, res, next) => {
 
     const galleryIds = gallery.map((image) => image.id);
     const galleryToDelete = galleryIds.filter(
-      (id) => !currentGallery.includes(id)
+      (id) => !currentGallery.includes(id),
     );
     if (galleryToDelete.length) {
       await ProductGalleryModel.destroy({
@@ -160,12 +160,12 @@ const update = async (req, res, next) => {
       await Promise.all(
         gallery
           .filter((image) => galleryToDelete.includes(image.id))
-          .map((image) => cloudinary.uploader.destroy(image.publicId))
+          .map((image) => cloudinary.uploader.destroy(image.publicId)),
       );
     }
 
     const galleryToUpdate = gallery.filter((image) =>
-      currentGallery.includes(image.id)
+      currentGallery.includes(image.id),
     );
     if (galleryToUpdate.length) {
       await Promise.all(
@@ -173,7 +173,7 @@ const update = async (req, res, next) => {
           return image.update({
             order: index,
           });
-        })
+        }),
       );
     }
 
@@ -189,7 +189,7 @@ const update = async (req, res, next) => {
               { fetch_format: "auto" },
             ],
           });
-        })
+        }),
       );
 
       await ProductGalleryModel.bulkCreate(
@@ -198,7 +198,7 @@ const update = async (req, res, next) => {
           url: image.secure_url,
           order: index + galleryToUpdate.length,
           productId: product.id,
-        }))
+        })),
       );
       await Promise.all(newGallery.map((file) => unlink(file.path)));
     }
@@ -219,7 +219,7 @@ const remove = async (req, res, next) => {
       },
     });
     await Promise.all(
-      images.map((image) => cloudinary.uploader.destroy(image.publicId))
+      images.map((image) => cloudinary.uploader.destroy(image.publicId)),
     );
 
     await ProductGalleryModel.destroy({
@@ -272,7 +272,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -299,7 +299,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -326,7 +326,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -353,7 +353,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -380,7 +380,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],
@@ -407,7 +407,7 @@ const getGrowthStats = async (req, res, next) => {
               Sequelize.fn(
                 "date_format",
                 Sequelize.col("createdAt"),
-                "%Y-%m-%d"
+                "%Y-%m-%d",
               ),
               "date",
             ],

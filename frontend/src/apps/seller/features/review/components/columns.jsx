@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Formatter } from "@/utils";
+import { Formatter } from "@/shared/utils";
 import { productActionRoutes } from "../../products";
 import { ReviewListAction, ReviewTimelineAction } from "./actions";
 

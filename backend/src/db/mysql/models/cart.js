@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
       sequelize,
       modelName: "Cart",
       tableName: "Carts",
-    }
+    },
   );
   return Cart;
 };

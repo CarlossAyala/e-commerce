@@ -1,5 +1,5 @@
-import { Badge } from "@/components";
-import { cn } from "@/libs";
+import { cn } from "../utils";
+import { Badge } from ".";
 
 const STATUS = {
   pending: "Pending",

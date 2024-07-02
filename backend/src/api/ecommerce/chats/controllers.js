@@ -26,6 +26,27 @@ const attachChat = async (req, _res, next) => {
   const { storeId } = req.params;
 
   try {
+    const chat = await ChatModel.findOne({
+      where: {
+        customerId,
+        storeId,
+      },
+      raw: true,
+    });
+
+    req.chat = chat;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+const findOrCreateChat = async (req, _res, next) => {
+  const { userId: customerId } = req.auth;
+  const { storeId } = req.params;
+
+  try {
     const [chat] = await ChatModel.findOrCreate({
       where: {
         customerId,
@@ -46,7 +67,7 @@ const attachChat = async (req, _res, next) => {
   }
 };
 
-const findAll = async (req, res, next) => {
+const findAllChats = async (req, res, next) => {
   const { userId: customerId } = req.auth;
 
   try {
@@ -81,6 +102,11 @@ const findAllMessages = async (req, res, next) => {
   const { chat } = req;
 
   try {
+    if (!chat) {
+      res.json([]);
+      return;
+    }
+
     const messages = await MessageModel.findAll({
       where: {
         chatId: chat.id,
@@ -95,15 +121,14 @@ const findAllMessages = async (req, res, next) => {
 };
 
 const create = async (req, res, next) => {
-  const { userId: customerId } = req.auth;
-  const { chat } = req;
+  const { id: chatId } = req.chat;
   const { text } = req.body;
 
   try {
     const message = await MessageModel.create({
-      chatId: chat.id,
-      customerId,
+      chatId,
       text,
+      sender: "customer",
     });
 
     res.json(message);
@@ -114,8 +139,9 @@ const create = async (req, res, next) => {
 
 module.exports = {
   validateStoreId,
+  findOrCreateChat,
   attachChat,
-  findAll,
+  findAllChats,
   findAllMessages,
   create,
 };

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { cn } from "@/libs";
+import { cn } from "@/shared/utils";
 
 export const LogoSeller = ({ className }) => {
   return (

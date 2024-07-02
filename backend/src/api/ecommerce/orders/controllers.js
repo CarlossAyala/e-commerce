@@ -131,11 +131,11 @@ const findOne = async (req, res, next) => {
     });
 
     const paymentIntent = await Stripe.paymentIntents.retrieve(
-      order.paymentIntentId
+      order.paymentIntentId,
     );
 
     const paymentMethod = await Stripe.paymentMethods.retrieve(
-      paymentIntent.payment_method
+      paymentIntent.payment_method,
     );
 
     res.json({

@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
   Skeleton,
-} from "@/components";
+} from "@/shared/components";
 import { useGetProductCount } from "../../products";
 
 export const ProductsCount = () => {

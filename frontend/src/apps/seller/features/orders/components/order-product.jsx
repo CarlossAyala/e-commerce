@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Skeleton } from "@/components";
-import { Formatter } from "@/utils";
+import { Skeleton } from "@/shared/components";
+import { Formatter } from "@/shared/utils";
 import { productActionRoutes } from "../../products";
 
 export const OrderProduct = ({ item }) => {
@@ -15,9 +15,7 @@ export const OrderProduct = ({ item }) => {
           className="size-16 rounded-lg border object-cover object-center"
         />
         <div className="grow">
-          <h3 className="line-clamp-1 text-base text-primary">
-            {item.product.name}
-          </h3>
+          <h3 className="line-clamp-1 text-base">{item.product.name}</h3>
           <div>
             <p className="text-xs text-muted-foreground">
               UP {Formatter.currency(item.product.price)}

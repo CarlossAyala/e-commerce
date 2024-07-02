@@ -15,7 +15,7 @@ router.get("/session/:sessionId", controllers.findSession);
 router.post(
   "/",
   middlewares.schemaValidator(schemas.create),
-  controllers.create
+  controllers.create,
 );
 router.delete("/:paymentMethodId", controllers.remove);
 

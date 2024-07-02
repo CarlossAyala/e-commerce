@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/shared/auth";
-import { parseURLSearchParams } from "@/shared/utils";
+import { useAuth } from "@/features/auth";
+import { createQueryKey, parseURLSearchParams } from "@/shared/utils";
 import { count, findAll, findOne, growthStats } from "./api";
 
 const storeKeys = {
-  key: ["admin/stores"],
+  key: createQueryKey({
+    prefix: "admin",
+    entity: "stores",
+  }),
   findOne: (storeId) => [...storeKeys.key, "find-one", storeId],
   findAllKey: () => [...storeKeys.key, "find-all"],
   findAll: (query) => [...storeKeys.findAllKey(), query],

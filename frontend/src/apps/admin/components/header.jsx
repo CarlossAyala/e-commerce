@@ -1,6 +1,7 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { useGetProfile, useSignout } from "@/shared/auth";
+import { useGetProfile, useSignout } from "@/features/auth";
 import { Spinner } from "@/shared/components";
+import { getInitials } from "@/shared/utils";
 import {
   Button,
   DropdownMenu,
@@ -10,8 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Skeleton,
-} from "@/components";
-import { getInitials } from "@/utils";
+} from "@/shared/components";
 import { Sidebar } from "./sidebar";
 import { LogoAdmin } from "./logo-admin";
 

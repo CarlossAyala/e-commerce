@@ -8,7 +8,7 @@ import {
   PhotoIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useGetCategories } from "@/shared/features/categories";
+import { useGetCategories } from "@/features/categories";
 import {
   EmptyState,
   PageHeaderHeading,
@@ -16,7 +16,12 @@ import {
   LocalPagination,
 } from "@/shared/components";
 import { useDocumentTitle, useLocalSearchParams } from "@/shared/hooks";
-import { paginateArray, validFileSize, validFileType } from "@/shared/utils";
+import {
+  cn,
+  paginateArray,
+  validFileSize,
+  validFileType,
+} from "@/shared/utils";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -59,8 +64,7 @@ import {
   SwitchSkeleton,
   Textarea,
   TextareaSkeleton,
-} from "@/components";
-import { cn } from "@/libs";
+} from "@/shared/components";
 import { useDeleteProduct, useGetProduct, useUpdateProduct } from "../queries";
 import { productDefault, updateSchema } from "../schemas";
 import { PRODUCT_CONDITIONS, productActionRoutes } from "../utils";
@@ -527,7 +531,7 @@ export const Details = () => {
                                         key={category.id}
                                         className={cn(
                                           "flex gap-x-4 p-4",
-                                          _isNewCategory && "bg-gray-100",
+                                          _isNewCategory && "bg-muted",
                                         )}
                                       >
                                         <FormControl>
@@ -541,7 +545,7 @@ export const Details = () => {
                                             {category.description}
                                           </FormDescription>
                                           {isCurrentCategory && (
-                                            <Badge variant="outline">
+                                            <Badge variant="secondary">
                                               Current
                                             </Badge>
                                           )}
@@ -597,6 +601,7 @@ export const Details = () => {
                                 className="group aspect-h-1 aspect-w-1 relative w-full overflow-hidden rounded-md border"
                               >
                                 <img
+                                  alt="Product Profile"
                                   src={
                                     item instanceof File
                                       ? URL.createObjectURL(item)
@@ -630,6 +635,7 @@ export const Details = () => {
                           className="group aspect-h-1 aspect-w-1 relative w-full overflow-hidden rounded-md border"
                         >
                           <img
+                            alt="Product Profile"
                             src={
                               item instanceof File
                                 ? URL.createObjectURL(item)

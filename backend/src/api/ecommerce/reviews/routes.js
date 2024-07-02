@@ -13,7 +13,7 @@ router.post(
   "/:orderItemId",
   middlewares.authenticate,
   middlewares.schemaValidator(schemas.create, "body"),
-  controllers.create
+  controllers.create,
 );
 
 module.exports = router;

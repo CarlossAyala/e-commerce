@@ -1,9 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/shared/auth";
+import { useAuth } from "@/features/auth";
+import { createQueryKey } from "@/shared/utils";
 import { create, earnings, getStore, remove, update } from "./api";
 
 export const storeKeys = {
-  key: ["seller/store"],
+  key: createQueryKey({
+    prefix: "seller",
+    entity: "store",
+    config: {
+      removeOnSignout: true,
+    },
+  }),
   current: () => [...storeKeys.key, "current"],
   earnings: () => [...storeKeys.key, "earnings"],
 };

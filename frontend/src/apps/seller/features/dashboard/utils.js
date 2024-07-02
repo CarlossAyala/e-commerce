@@ -30,11 +30,10 @@ export const formatDateMetric = (inputDate, interval) => {
     return new Date(inputDate).toLocaleDateString("en-US", {
       weekday: "long",
     });
-  } else {
-    return new Date(inputDate).toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "short",
-      year: "2-digit",
-    });
   }
+  return new Date(inputDate).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "2-digit",
+  });
 };

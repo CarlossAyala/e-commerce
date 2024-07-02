@@ -1,10 +1,17 @@
 import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/shared/auth";
+import { useAuth } from "@/features/auth";
+import { createQueryKey } from "@/shared/utils";
 import { findAllChats, findAllMessages, createMessage } from "./api";
 
 export const chatKeys = {
-  key: ["seller/chats"],
+  key: createQueryKey({
+    prefix: "seller",
+    entity: "chats",
+    config: {
+      removeOnSignout: true,
+    },
+  }),
   chats: () => [...chatKeys.key, "all"],
   messages: (chatId) => [...chatKeys.key, chatId, "messages"],
 };
@@ -15,7 +22,7 @@ export const useGetChats = () => {
   return useQuery({
     queryKey: chatKeys.chats(),
     queryFn: () => findAllChats(accessToken),
-    staleTime: Infinity,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 };
 
@@ -27,14 +34,14 @@ export const useGetMessages = (chatId) => {
     queryKey: chatKeys.messages(chatId),
     queryFn: () => findAllMessages(accessToken, chatId),
     enabled: !!chatId,
-    staleTime: Infinity,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!query.isSuccess) return;
 
     queryClient.invalidateQueries(chatKeys.chats());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.isSuccess]);
 
   return query;

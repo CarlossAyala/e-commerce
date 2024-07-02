@@ -16,13 +16,13 @@ router.post(
   "/",
   middlewares.upload.array("gallery", 10),
   middlewares.schemaValidator(schemas.create),
-  controllers.create
+  controllers.create,
 );
 router.put(
   "/:productId",
   middlewares.upload.array("nextGallery", 10),
   middlewares.schemaValidator(schemas.update),
-  controllers.update
+  controllers.update,
 );
 router.delete("/:productId", controllers.remove);
 

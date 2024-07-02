@@ -18,7 +18,7 @@ import {
   FormMessage,
   Input,
   Textarea,
-} from "@/components";
+} from "@/shared/components";
 import { createSchema, createInitial } from "../schemas";
 import { useCreateStore } from "../queries";
 

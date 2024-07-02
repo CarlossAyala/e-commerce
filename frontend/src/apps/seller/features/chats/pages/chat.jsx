@@ -2,8 +2,10 @@ import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { EmptyState, Spinner } from "@/shared/components";
+import { useSocket } from "@/features/socket";
+import { cn, getInitials } from "@/shared/utils";
 import {
   Button,
   Form,
@@ -12,13 +14,10 @@ import {
   FormItem,
   Input,
   Skeleton,
-} from "@/components";
-import { cn } from "@/libs";
-import { getInitials } from "@/utils";
+} from "@/shared/components";
 import { formatDate } from "../utils";
 import { useGetChats, useGetMessages, useSendMessage } from "../queries";
 import { createSchema, messageInitial } from "../schemas";
-import { useSocket } from "@/shared/socket";
 
 export const Chat = () => {
   const { chatId } = useParams();
@@ -46,13 +45,17 @@ export const Chat = () => {
         form.reset();
         socket.emit("chat:message:send", {
           customerId: chat.customerId,
-          from: "store",
           ...message,
         });
       },
     });
   };
 
+  const handleCloseChat = () => {
+    navigate("/seller/chats");
+  };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (messages.isSuccess) {
       containerMessagesRef.current.scrollTo(
@@ -64,15 +67,17 @@ export const Chat = () => {
   }, [messages.isSuccess, chatId, sendMessage.isSuccess]);
 
   // focus on the input when the storeId changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     inputRef.current.focus();
   }, [chatId, messages.isSuccess]);
 
   // close the chat when the user presses the escape key
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        navigate("/seller/chats");
+        handleCloseChat();
       }
     };
     document.addEventListener("keydown", handleKeyDown);
@@ -88,42 +93,48 @@ export const Chat = () => {
 
   return (
     <div className="flex h-full flex-col overflow-y-auto">
-      {chats.isLoading ? (
-        <>
-          <div className="h-14 items-center gap-2 border-b px-4">
+      <section className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b px-4">
+        <Button size="icon" variant="ghost" onClick={handleCloseChat}>
+          <ArrowLeftIcon className="size-5" />
+        </Button>
+
+        {chats.isLoading ? (
+          <>
             <Skeleton className="size-9 shrink-0 rounded-full" />
             <div className="grow space-y-2">
               <Skeleton className="h-4 w-1/2" />
               <Skeleton className="h-4 w-full" />
             </div>
-          </div>
-        </>
-      ) : chats.isError ? (
-        <div className="flex h-14 items-center gap-2 border-b px-4">
-          <p className="text-sm text-muted-foreground">Something went wrong!</p>
-        </div>
-      ) : !chat ? (
-        <div className="flex h-14 items-center gap-2 border-b px-4">
-          <p className="text-sm text-muted-foreground">Chat not found</p>
-        </div>
-      ) : (
-        <div className="flex h-14 items-center gap-2 border-b px-4">
-          <div className="flex size-9 items-center justify-center rounded-full border">
-            {getInitials(`${chat.customer.name} ${chat.customer.lastName}`)}
-          </div>
+          </>
+        ) : chats.isError ? (
           <div>
-            <p className="line-clamp-1 font-medium">{`${chat.customer.name} ${chat.customer.lastName}`}</p>
-            <p className="line-clamp-1 text-sm text-muted-foreground">
-              {chat.customer.email}
+            <p className="text-sm text-muted-foreground">
+              Something went wrong!
             </p>
           </div>
-        </div>
-      )}
+        ) : !chat ? (
+          <div>
+            <p className="text-sm text-muted-foreground">Chat not found</p>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <div className="flex size-9 items-center justify-center rounded-full border">
+              {getInitials(`${chat.customer.name} ${chat.customer.lastName}`)}
+            </div>
+            <div>
+              <p className="line-clamp-1 font-medium leading-5">{`${chat.customer.name} ${chat.customer.lastName}`}</p>
+              <p className="line-clamp-1 text-sm leading-4 text-muted-foreground">
+                {chat.customer.email}
+              </p>
+            </div>
+          </div>
+        )}
+      </section>
 
-      <div
+      <section
         ref={containerMessagesRef}
         className={cn(
-          "flex w-full flex-1 space-y-4 overflow-y-auto px-4 pt-3",
+          "my-2 flex w-full flex-1 gap-4 overflow-y-auto px-4",
           messages.isSuccess ? "flex-col-reverse" : "flex-col",
         )}
       >
@@ -141,14 +152,14 @@ export const Chat = () => {
             />
           </div>
         ) : !messages.data.length ? (
-          <div className="flex h-full"></div>
+          <div className="flex h-full" />
         ) : (
           orderedMessages.map((message, index) => (
             <div key={index}>
               <div
                 className={cn(
                   "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
-                  message.storeId
+                  message.sender === "store"
                     ? "ml-auto bg-muted"
                     : "bg-primary text-primary-foreground",
                 )}
@@ -159,7 +170,7 @@ export const Chat = () => {
                 <p
                   className={cn(
                     "text-xs text-muted-foreground",
-                    message.storeId ? "text-right" : "text-left",
+                    message.sender === "store" ? "text-right" : "text-left",
                   )}
                 >
                   {formatDate(message.createdAt)}
@@ -168,9 +179,9 @@ export const Chat = () => {
             </div>
           ))
         )}
-      </div>
+      </section>
 
-      <section className="flex items-center px-4 py-3">
+      <section className="flex items-center px-4 pb-4">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}

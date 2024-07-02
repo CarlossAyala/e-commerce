@@ -71,7 +71,7 @@ const createPaymentIntent = async (req, res, next) => {
 
     const amount = cart.reduce(
       (acc, item) => acc + item.quantity * +item.product.price,
-      0
+      0,
     );
 
     const paymentIntent = await Stripe.paymentIntents.create({
@@ -103,7 +103,7 @@ const confirmPaymentIntent = async (req, res, next) => {
 
     const paymentMethod = await Stripe.customers.retrievePaymentMethod(
       customer.id,
-      paymentMethodId
+      paymentMethodId,
     );
     if (!paymentMethod) {
       throw new NotFound("PaymentMethod not found");
@@ -133,7 +133,7 @@ const confirmPaymentIntent = async (req, res, next) => {
 
     const amount = cart.reduce(
       (acc, item) => acc + item.quantity * +item.product.price,
-      0
+      0,
     );
 
     await Stripe.paymentIntents.update(paymentIntent.id, {
@@ -157,7 +157,7 @@ const confirmPaymentIntent = async (req, res, next) => {
             },
             {
               transaction: t,
-            }
+            },
           );
 
           const items = cart.map((item) => ({
@@ -178,7 +178,7 @@ const confirmPaymentIntent = async (req, res, next) => {
                 {
                   where: { id: item.productId },
                   transaction: t,
-                }
+                },
               );
             }),
             ...cart.map((item) => {
@@ -187,7 +187,7 @@ const confirmPaymentIntent = async (req, res, next) => {
                 {
                   where: { id: item.productId },
                   transaction: t,
-                }
+                },
               );
             }),
           ]);
