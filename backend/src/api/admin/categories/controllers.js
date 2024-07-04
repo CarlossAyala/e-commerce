@@ -5,6 +5,7 @@ const sequelize = require("../../../db/mysql");
 const { NotFound, BadRequest } = require("../../../utils/http-errors");
 const slugify = require("../../../utils/slugify");
 
+const ProductModel = sequelize.model("Product");
 const CategoryModel = sequelize.model("Category");
 const CategoryGalleryModel = sequelize.model("CategoryGallery");
 
@@ -66,7 +67,7 @@ const getAll = async (_req, res, next) => {
   }
 };
 
-const getCount = async (req, res, next) => {
+const getCount = async (_req, res, next) => {
   try {
     const count = await CategoryModel.count();
 
@@ -382,7 +383,7 @@ const remove = async (req, res, next) => {
       });
     }
 
-    await Product.model.update(
+    await ProductModel.update(
       {
         categoryId: null,
       },

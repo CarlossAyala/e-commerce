@@ -32,14 +32,13 @@ export const Product = () => {
 
   const addToHistory = useAddHistory();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!isAuthenticated) return;
 
     addToHistory.mutate(productId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId, isAuthenticated]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [productId]);

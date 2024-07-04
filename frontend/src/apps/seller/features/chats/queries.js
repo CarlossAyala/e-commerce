@@ -37,11 +37,11 @@ export const useGetMessages = (chatId) => {
     staleTime: Number.POSITIVE_INFINITY,
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!query.isSuccess) return;
 
     queryClient.invalidateQueries(chatKeys.chats());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.isSuccess]);
 
   return query;

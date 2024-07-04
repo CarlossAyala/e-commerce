@@ -40,7 +40,7 @@ const validateCategoryId = async (req, _res, next, categoryId) => {
   }
 };
 
-const findAll = async (req, res, next) => {
+const findAll = async (_req, res, next) => {
   try {
     const categories = await CategoryModel.findAll({
       where: {

@@ -5,13 +5,13 @@ export const BreakpointIndicator = () => {
   const [show, setShow] = useState(false);
   let timeoutId;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const handleResize = () => {
       clearTimeout(timeoutId);
 
       setShow(true);
 
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       timeoutId = setTimeout(() => setShow(false), 1500);
     };
 

@@ -29,12 +29,11 @@ export const Search = ({
     }
 
     setParams(newParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedText]);
 
   useEffect(() => {
     if (!paramValue) setValue("");
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramValue]);
 
   return (

@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "husky": "^9.0.11"
+  },
+  "scripts": {
+    "frontend:format": "cd frontend && npm run format",
+    "frontend:lint": "cd frontend && npm run lint",
+    "backend:format": "cd backend && npm run format",
+    "backend:lint": "cd backend && npm run lint",
+    "prepare": "husky"
+  }
+}

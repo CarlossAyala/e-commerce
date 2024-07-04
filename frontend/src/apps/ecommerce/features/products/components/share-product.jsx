@@ -25,7 +25,6 @@ export const ShareProduct = ({ product }) => {
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setTimeout(() => {
       setHasCopied(false);

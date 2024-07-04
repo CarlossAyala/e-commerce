@@ -27,7 +27,6 @@ export const CartItemQty = ({ item }) => {
     setQty(qty + 1);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!debounce) return;
     if (debounce === item.quantity) return;

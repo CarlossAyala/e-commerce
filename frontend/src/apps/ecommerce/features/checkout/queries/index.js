@@ -59,7 +59,6 @@ export const useCleanUpCheckout = () => {
   const queryClient = useQueryClient();
   const { resetCheckout } = useCheckout();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const { state } = location;
     if (state?.paymentIntentId) {
@@ -69,5 +68,6 @@ export const useCleanUpCheckout = () => {
       );
       queryClient.invalidateQueries(cartKeys.key);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state?.paymentIntentId]);
 };

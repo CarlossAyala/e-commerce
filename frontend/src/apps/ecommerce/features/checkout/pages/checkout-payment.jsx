@@ -93,7 +93,7 @@ export const CheckoutPayment = () => {
 
   const session_id = params.get("session_id");
   const address_id = params.get("address_id");
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     if (session_id) {
       handleSessionId(session_id);
@@ -104,6 +104,7 @@ export const CheckoutPayment = () => {
     if (address_id || session_id) {
       setParams(new URLSearchParams());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session_id, addressId]);
 
   const isEmpty = !paymentMethods?.length;

@@ -89,7 +89,7 @@ const update = async (req, res, next) => {
       },
     });
 
-    if (!item) throw notFound("Item not found");
+    if (!item) throw new NotFound("Item not found");
 
     await item.update({ quantity });
 

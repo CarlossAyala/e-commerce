@@ -13,7 +13,6 @@ export const FilterInput = ({ name, label, placeholder, type }) => {
     setValue(e.target.value);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const newParams = new URLSearchParams(params);
 
@@ -23,6 +22,7 @@ export const FilterInput = ({ name, label, placeholder, type }) => {
       newParams.delete(name);
     }
     setParams(newParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedText]);
 
   return (

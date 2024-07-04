@@ -23,7 +23,6 @@ export const Category = () => {
 
   useDocumentTitle(category.data?.name);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     scrollTo(0, 0);
   }, [categoryId]);

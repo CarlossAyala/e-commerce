@@ -52,7 +52,6 @@ export const URLPagination = ({ count = 0 }) => {
   const canGoForward = page < totalPages;
   const canGoBackward = page > 1;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const PAGES = useMemo(
     () =>
       new Array(totalPages).fill(0).map((_, i) => (
@@ -110,7 +109,6 @@ export const URLPagination = ({ count = 0 }) => {
     setParams(newParams);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (+paramPage !== page) {
       const newParams = new URLSearchParams(params);

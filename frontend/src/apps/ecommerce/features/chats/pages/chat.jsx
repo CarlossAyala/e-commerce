@@ -77,7 +77,7 @@ export const Chat = () => {
   }, [queryClient, storeId, store.isSuccess]);
 
   // scroll to bottom of messages
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     if (messages.isSuccess) {
       containerMessagesRef.current.scrollTo(
@@ -88,13 +88,13 @@ export const Chat = () => {
   }, [messages.isSuccess, sendMessage.isSuccess]);
 
   // focus on the input when the storeId changes
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     inputRef.current.focus();
   }, [storeId, messages.isSuccess]);
 
   // close the chat when the user presses the escape key
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {

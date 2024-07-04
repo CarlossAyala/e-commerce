@@ -1,3 +1,4 @@
+const { Sequelize } = require("sequelize");
 const sequelize = require("../../../db/mysql");
 const { NotFound } = require("../../../utils/http-errors");
 const QueryBuilder = require("../../../utils/query-builder");

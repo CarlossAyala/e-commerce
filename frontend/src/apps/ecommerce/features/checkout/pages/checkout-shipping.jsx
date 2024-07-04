@@ -69,11 +69,12 @@ export const CheckoutShipping = () => {
   };
 
   const newAddressId = location.state?.addressId;
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     if (newAddressId) {
       updateAddress(newAddressId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newAddressId]);
 
   const isEmpty = addresses?.length === 0;

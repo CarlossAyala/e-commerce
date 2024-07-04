@@ -40,7 +40,6 @@ export const useAuth = (pathname) => {
     refetchIntervalInBackground: true,
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!query.isError) return;
     const { status } = query.error;
@@ -48,6 +47,7 @@ export const useAuth = (pathname) => {
     if ([401, 403].includes(status)) {
       queryClient.invalidateQueries(authKeys.key(app));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.isError]);
 
   return query;
