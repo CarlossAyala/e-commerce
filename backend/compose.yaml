@@ -1,7 +1,7 @@
 services:
-  db:
+  mysql:
     image: mysql
-    container_name: db
+    container_name: mysql
     # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
     # (this is just an example, not intended to be a production configuration)
     command: --default-authentication-plugin=caching_sha2_password
@@ -9,19 +9,26 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./src/db/mysql/data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     environment:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_USER_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
-
-  adminer:
-    image: adminer
-    container_name: db-gui
-    restart: always
-    ports:
-      - 8080:8080
+    healthcheck:
+      # https://dev.mysql.com/doc/refman/8.0/en/testing-server.html
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "version",
+          "-u",
+          "${DB_USER}",
+          "-p${DB_USER_PASSWORD}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:latest
@@ -31,4 +38,27 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./src/db/redis/data:/data
+      - redis-data:/data
+
+  adminer:
+    image: adminer
+    container_name: db-gui
+    restart: always
+    ports:
+      - 8080:8080
+
+  server:
+    container_name: node-app
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3001:3001
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql-data:
+  redis-data:
