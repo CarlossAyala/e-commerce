@@ -51,10 +51,11 @@ services:
     container_name: node-app
     build:
       context: .
-    environment:
-      NODE_ENV: production
+      target: ${ENVIRONMENT}
+    volumes:
+      - .:/home/node/app
     ports:
-      - 3001:3001
+      - ${PORT}:${PORT}
     depends_on:
       mysql:
         condition: service_healthy

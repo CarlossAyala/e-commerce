@@ -1,12 +1,23 @@
 const dotenv = require("dotenv");
-const { validateEnv } = require("../utils");
+const { envSchema } = require("../utils");
+require("./types");
+
 dotenv.config();
 
-let config;
+/**
+ * Environment variables
+ * @typedef {Object} validation
+ * @property {import("joi").ValidationError} error - Error object
+ * @property {import("./types").Env} value - Validated environment variables
+ */
 
-try {
-  config = validateEnv({
-    node_env: process.env.NODE_ENV,
+/**
+ * Validate environment variables
+ * @type {validation} Validation result
+ */
+const { error, value: config } = envSchema.validate(
+  {
+    node_env: process.env.ENVIRONMENT,
     port: process.env.PORT,
     salt_rounds: process.env.AUTH_SALT,
     db: {
@@ -54,10 +65,13 @@ try {
     logger: {
       level: process.env.LOGGER_LEVEL,
     },
-  });
-} catch (error) {
-  console.log("Error in config", error);
-  process.exit(1);
+  },
+  { abortEarly: false },
+);
+
+if (error) {
+  const messages = error.details.map((err) => err.message);
+  throw new Error("Error in environment variables: " + messages.join(", "));
 }
 
 module.exports = config;

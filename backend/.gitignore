@@ -16,4 +16,4 @@ node_modules
 logs
 
 #
-public
+public/images/*

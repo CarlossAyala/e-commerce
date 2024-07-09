@@ -10,7 +10,7 @@
   "license": "ISC",
   "description": "",
   "scripts": {
-    "dev": "nodemon --inspect --trace-warnings src/app.js",
+    "dev": "nodemon --trace-warnings src/app.js",
     "format": "npx prettier . --write",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
