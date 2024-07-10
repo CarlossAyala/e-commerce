@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  checks:
+    name: Run format and lint checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies in root
+        run: npm ci
+
+      - name: Install dependencies in frontend
+        working-directory: frontend
+        run: npm ci
+
+      - name: Install dependencies in backend
+        working-directory: backend
+        run: npm ci
+
+      - name: Run format and lint checks
+        run: npm run check
