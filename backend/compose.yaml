@@ -45,7 +45,7 @@ services:
     container_name: db-gui
     restart: always
     ports:
-      - 8080:8080
+      - 3010:8080
 
   server:
     container_name: node-app
@@ -53,7 +53,7 @@ services:
       context: .
       target: ${ENVIRONMENT}
     volumes:
-      - .:/usr/backend
+      - ./src:/usr/backend/src
     ports:
       - ${PORT}:${PORT}
     depends_on:
