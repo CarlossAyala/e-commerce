@@ -7,6 +7,10 @@ const ecommerce = require("./ecommerce/routes");
 
 const routes = Router();
 
+routes.get("/", (_req, res) => {
+  res.send("Hello World!");
+});
+
 routes.use("/api/auth", auth);
 routes.use("/api/admin", admin);
 routes.use("/api/shared", shared);

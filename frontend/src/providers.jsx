@@ -5,16 +5,15 @@ import { ThemeProvider } from "./features/theme";
 import { BreakpointIndicator, Toaster } from "./shared/components";
 import { queryClient } from "./shared/libs";
 import { router } from "./configs/router";
-import { MODE } from "./configs";
 
 export const Providers = ({ children }) => {
   return (
     <ThemeProvider>
-      {MODE === "development" && <BreakpointIndicator />}
+      {import.meta.env.MODE === "development" && <BreakpointIndicator />}
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router}>{children}</RouterProvider>
         <Toaster />
-        {MODE === "development" && (
+        {import.meta.env.MODE === "development" && (
           <ReactQueryDevtools position="bottom-left" initialIsOpen={false} />
         )}
       </QueryClientProvider>

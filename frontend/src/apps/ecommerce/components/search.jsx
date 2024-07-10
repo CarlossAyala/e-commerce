@@ -49,7 +49,7 @@ export const Search = () => {
 
       <DialogContent
         closeIcon={false}
-        className="top-4 flex max-h-[75vh] max-w-lg translate-y-0 flex-col gap-0 overflow-hidden p-0 sm:top-20 sm:rounded-md md:top-24 lg:top-[10vh]"
+        className="top-4 mx-1 flex max-h-[75vh] max-w-lg translate-y-0 flex-col gap-0 overflow-hidden p-0 sm:top-20 sm:rounded-md md:top-24 lg:top-[10vh]"
       >
         <div className="flex items-center border-b px-3">
           <MagnifyingGlassIcon className="mr-2 size-5 shrink-0 opacity-50" />
