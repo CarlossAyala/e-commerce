@@ -9,8 +9,8 @@ node_modules
 .env.local
 
 # databases
-/src/db/mysql/data/*
-/src/db/redis/data/*
+mysql-data
+redis-data
 
 # Logs
 logs

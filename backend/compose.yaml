@@ -9,7 +9,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
     environment:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_USER_PASSWORD}
@@ -38,7 +38,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis-data:/data
+      - ./redis-data:/data
 
   adminer:
     image: adminer
@@ -53,13 +53,9 @@ services:
       context: .
       target: ${ENVIRONMENT}
     volumes:
-      - .:/home/node/app
+      - .:/usr/backend
     ports:
       - ${PORT}:${PORT}
     depends_on:
       mysql:
         condition: service_healthy
-
-volumes:
-  mysql-data:
-  redis-data:

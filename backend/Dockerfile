@@ -3,7 +3,7 @@
 ARG NODE_VERSION=20
 
 FROM node:${NODE_VERSION} as base
-WORKDIR /home/node/app
+WORKDIR /usr/backend
 EXPOSE ${PORT}
 
 FROM base as development
