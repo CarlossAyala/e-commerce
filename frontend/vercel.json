@@ -5,10 +5,6 @@
       "destination": "http://18.228.250.196/api/:path*"
     },
     {
-      "source": "/socket.io/:path*",
-      "destination": "http://18.228.250.196/socket.io/:path*"
-    },
-    {
       "source": "/(.*)",
       "destination": "/"
     }
