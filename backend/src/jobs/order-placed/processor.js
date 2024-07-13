@@ -7,6 +7,7 @@ const { InternalServerError } = require("../../utils/http-errors");
 const sequelize = require("../../db/mysql");
 const Stripe = require("../../services/stripe");
 const Formatter = require("../../utils/formatter");
+const config = require("../../config");
 
 const UserModel = sequelize.model("User");
 const StoreModel = sequelize.model("Store");
@@ -86,10 +87,11 @@ module.exports = async (job) => {
     address,
     order,
     paymentMethod,
+    clientUrl: config.client_url,
   });
   const customerEmail = await resend.emails.send({
     from: "Legger E-Commerce <onboarding@resend.dev>",
-    to: "infocarlosayala@gmail.com",
+    to: customer.email,
     subject: "Order Placed",
     headers: {
       "X-Entity-Ref-ID": crypto.randomUUID(),
@@ -100,7 +102,6 @@ module.exports = async (job) => {
     throw new InternalServerError(customerEmail.error);
   }
 
-  // each product in the order has different stores
   const stores = new Map(items.map((item) => [item.product.storeId, []]));
   for (const item of items) {
     const store = item.product.storeId;
@@ -109,8 +110,10 @@ module.exports = async (job) => {
   await Promise.all(
     Array.from(stores.entries()).map(async ([storeId, items]) => {
       const store = await StoreModel.findByPk(storeId, { raw: true });
-      // TODO: _seller is not used
-      const _seller = await UserModel.findByPk(store.userId, { raw: true });
+      const seller = await UserModel.findByPk(store.userId, { raw: true });
+      if (seller.isFromSeed) {
+        return;
+      }
 
       const total = items.reduce(
         (acc, item) => acc + +item.price * item.quantity,
@@ -127,10 +130,11 @@ module.exports = async (job) => {
           total: Formatter.currency(total),
           createdAt: order.createdAt,
         },
+        clientUrl: config.client_url,
       });
       const sellerEmail = await resend.emails.send({
         from: "Legger Seller <onboarding@resend.dev>",
-        to: "infocarlosayala@gmail.com",
+        to: seller.email,
         subject: "New order placed",
         headers: {
           "X-Entity-Ref-ID": crypto.randomUUID(),

@@ -10,10 +10,6 @@ module.exports = (sequelize) => {
      */
     static associate(_models) {
       // define association here
-      // CategoryGallery.belongsTo(models.Category, {
-      //   foreignKey: "categoryId",
-      //   as: "category",
-      // });
     }
   }
   CategoryGallery.init(
@@ -23,7 +19,7 @@ module.exports = (sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      filename: DataTypes.STRING,
+      publicId: DataTypes.STRING,
       order: DataTypes.INTEGER,
       url: DataTypes.STRING,
       categoryId: DataTypes.UUID,

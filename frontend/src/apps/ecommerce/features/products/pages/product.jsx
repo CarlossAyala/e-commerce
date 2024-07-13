@@ -3,9 +3,15 @@ import { useParams } from "react-router-dom";
 import { ProductsCarousel } from "@/apps/ecommerce/components";
 import { useGetProduct } from "@/features/products";
 import { useDocumentTitle } from "@/shared/hooks";
-import { EmptyState, ProductCondition, ReviewStars } from "@/shared/components";
+import {
+  EmptyState,
+  ProductCondition,
+  ReviewStars,
+  Separator,
+  Skeleton,
+} from "@/shared/components";
 import { useAuth } from "@/features/auth";
-import { Separator, Skeleton } from "@/shared/components";
+import { Formatter } from "@/shared/utils";
 import { useAddHistory } from "../../history";
 import { useGetReviewsStat } from "../../review";
 import { RelatedProducts } from "../components/related-products";
@@ -18,7 +24,6 @@ import { Questions } from "../components/questions";
 import { ReviewList } from "../components/review-list";
 import { ReviewScore } from "../components/review-score";
 import { ShareProduct } from "../components/share-product";
-import { Formatter } from "@/shared/utils";
 
 export const Product = () => {
   const { productId } = useParams();

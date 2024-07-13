@@ -20,12 +20,12 @@ const { error, value: config } = envSchema.validate(
     node_env: process.env.ENVIRONMENT,
     port: process.env.PORT,
     salt_rounds: process.env.AUTH_SALT,
-    db: {
-      database: process.env.DB_DATABASE,
-      user: process.env.DB_USER,
-      password: process.env.DB_USER_PASSWORD,
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
+    mysql: {
+      database: process.env.MYSQL_DATABASE,
+      user: process.env.MYSQL_USER,
+      password: process.env.MYSQL_USER_PASSWORD,
+      host: process.env.MYSQL_HOST,
+      port: process.env.MYSQL_PORT,
     },
     jwt: {
       access_token: {
@@ -68,7 +68,6 @@ const { error, value: config } = envSchema.validate(
   },
   { abortEarly: false },
 );
-
 if (error) {
   const messages = error.details.map((err) => err.message);
   throw new Error("Error in environment variables: " + messages.join(", "));

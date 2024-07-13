@@ -1,10 +1,10 @@
-const { db } = require("../../../config");
+const { mysql } = require("../../../config");
 
-const { database, user, password, host, port } = db;
+const { database, user: username, password, host, port } = mysql;
 
 module.exports = {
   development: {
-    username: user,
+    username,
     password,
     database,
     host,
@@ -13,7 +13,7 @@ module.exports = {
     seederStorage: "sequelize",
   },
   test: {
-    username: user,
+    username,
     password,
     database,
     host,
@@ -22,7 +22,7 @@ module.exports = {
     seederStorage: "sequelize",
   },
   production: {
-    username: user,
+    username,
     password,
     database,
     host,

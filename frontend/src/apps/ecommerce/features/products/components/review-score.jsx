@@ -54,7 +54,7 @@ export const ReviewScore = ({ productId }) => {
                   <div className="relative h-2 grow">
                     <span className="absolute inset-0 h-full rounded-full bg-muted" />
                     <span
-                      className="absolute inset-0 h-full rounded-full bg-muted-foreground"
+                      className="absolute inset-0 h-full rounded-full bg-primary"
                       style={{
                         width: `${percentage}%`,
                       }}
@@ -62,7 +62,7 @@ export const ReviewScore = ({ productId }) => {
                   </div>
                   <div className="flex items-center gap-1">
                     <p className="text-muted-foreground">{rating}</p>
-                    <StarIcon className="size-4 shrink-0 text-yellow-400" />
+                    <StarIcon className="size-4 shrink-0 text-primary" />
                   </div>
                 </li>
               ))}

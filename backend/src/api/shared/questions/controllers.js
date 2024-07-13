@@ -22,23 +22,30 @@ const validateProductId = async (req, _res, next, productId) => {
 const findAllProducts = async (req, res, next) => {
   const { productId } = req.params;
 
-  const { where, order, limit, offset } = new QueryBuilder(req.query)
+  const { where, order, limit, offset, page } = new QueryBuilder(req.query)
     .where("status", "answered")
-    .whereLike("content", req.query.q)
+    .whereLike("content", req.query?.q)
     .where("productId", productId)
-    .orderBy("createdAt", "DESC")
-    .pagination()
+    .orderBy("id", "DESC")
     .build();
 
   try {
-    const qa = await QuestionModel.findAndCountAll({
+    const { rows, count } = await QuestionModel.findAndCountAll({
       where,
-      order,
-      limit,
       offset,
+      limit,
+      order,
     });
 
-    res.json(qa);
+    const hasNextPage = offset + limit < count;
+    const nextPage = hasNextPage ? page + 1 : null;
+
+    res.json({
+      rows,
+      count,
+      hasNextPage,
+      nextPage,
+    });
   } catch (error) {
     next(error);
   }

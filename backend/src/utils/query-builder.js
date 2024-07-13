@@ -5,8 +5,6 @@ class QueryBuilder {
     this.filters = {};
     this._where = {};
     this.order = [];
-    this._limit = null;
-    this._offset = null;
     this.params = query;
   }
 
@@ -31,49 +29,49 @@ class QueryBuilder {
     return this;
   }
 
-  whereGT(fieldName, value = 0) {
+  whereGT(fieldName, value) {
     if (+value) {
       this._where[fieldName] = { [Op.gt]: +value };
     }
     return this;
   }
 
-  whereGTE(fieldName, value = 0) {
+  whereGTE(fieldName, value) {
     if (+value) {
       this._where[fieldName] = { [Op.gte]: +value };
     }
     return this;
   }
 
-  whereLT(fieldName, value = 0) {
+  whereLT(fieldName, value) {
     if (+value) {
       this._where[fieldName] = { [Op.lt]: +value };
     }
     return this;
   }
 
-  whereLTE(fieldName, value = 0) {
+  whereLTE(fieldName, value) {
     if (+value) {
       this._where[fieldName] = { [Op.lte]: +value };
     }
     return this;
   }
 
-  whereLike(fieldName, value = "") {
+  whereLike(fieldName, value) {
     if (value) {
       this._where[fieldName] = { [Op.substring]: value };
     }
     return this;
   }
 
-  whereNot(fieldName, value = "") {
+  whereNot(fieldName, value) {
     if (value) {
       this._where[fieldName] = { [Op.not]: value };
     }
     return this;
   }
 
-  whereNE(fieldName, value = "") {
+  whereNE(fieldName, value) {
     if (value) {
       this._where[fieldName] = { [Op.ne]: value };
     }
@@ -81,16 +79,10 @@ class QueryBuilder {
   }
 
   whereBetween(fieldName, [from, to]) {
-    const fromValue = +from;
-    const toValue = +to;
+    if (!from || !to) return this;
 
-    if (fromValue && toValue) {
-      this._where[fieldName] = { [Op.between]: [fromValue, toValue] };
-    } else if (fromValue) {
-      this._where[fieldName] = { [Op.gte]: fromValue };
-    } else if (toValue) {
-      this._where[fieldName] = { [Op.lte]: toValue };
-    }
+    this._where[fieldName] = { [Op.between]: [+from, +to] };
+
     return this;
   }
 
@@ -109,34 +101,36 @@ class QueryBuilder {
     return this;
   }
 
-  limit(item = 10) {
-    const MIN_LIMIT = 10;
-    let item_peer_page = +item;
-
-    if (item_peer_page < MIN_LIMIT || !Number.isInteger(item_peer_page)) {
-      item_peer_page = MIN_LIMIT;
+  get page() {
+    const MIN_PAGE = 1;
+    const { page: _page = MIN_PAGE } = this.params ?? {};
+    if (+_page < MIN_PAGE || !Number.isInteger(+_page)) {
+      return MIN_PAGE;
     }
 
-    this._limit = item_peer_page;
+    return +_page;
   }
 
-  offset(page = 1) {
-    const MIN_OFFSET = 1;
-    let offset = +page;
-
-    if (offset < MIN_OFFSET || !Number.isInteger(offset)) {
-      offset = MIN_OFFSET;
+  get limit() {
+    const MIN_LIMIT = 10;
+    const { limit: _limit = MIN_LIMIT } = this.params ?? {};
+    const LIMITS = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    if (
+      +_limit < MIN_LIMIT ||
+      !Number.isInteger(+_limit) ||
+      !LIMITS.includes(+_limit)
+    ) {
+      return MIN_LIMIT;
     }
 
-    this._offset = (offset - 1) * this._limit;
+    return +_limit;
+  }
+
+  get offset() {
+    return (this.page - 1) * this.limit;
   }
 
   pagination() {
-    const { limit, page } = this.params;
-
-    this.limit(limit);
-    this.offset(page);
-
     return this;
   }
 
@@ -144,8 +138,9 @@ class QueryBuilder {
     return {
       where: this._where,
       order: this.order,
-      limit: this._limit,
-      offset: this._offset,
+      limit: this.limit,
+      offset: this.offset,
+      page: this.page,
     };
   }
 }

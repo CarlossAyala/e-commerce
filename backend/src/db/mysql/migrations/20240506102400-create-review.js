@@ -4,8 +4,8 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Reviews", {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
       },
       description: {

@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { createQueryKey, parseURLSearchParams } from "@/shared/utils";
 import { useAuth } from "@/features/auth";
 import {
@@ -7,7 +12,7 @@ import {
   findAllDone,
   findAllPending,
   stat,
-} from "../api";
+} from "./api";
 
 export const reviewKeys = {
   key: createQueryKey({
@@ -33,12 +38,24 @@ export const reviewKeys = {
   stats: (productId) => [...reviewKeys.key, "stats", productId],
 };
 
-export const useGetReviews = (productId, query) => {
-  const _query = parseURLSearchParams(query);
-
+export const useGetReviews = (productId) => {
   return useQuery({
-    queryKey: reviewKeys.findAllByProductId(productId, _query),
-    queryFn: () => findAllByProductId(productId, query),
+    queryKey: reviewKeys.findAllByProductId(productId, "page=1"),
+    queryFn: () => findAllByProductId(productId, "page=1"),
+    enabled: !!productId,
+  });
+};
+
+export const useGetReviewsInfiniteScroll = (productId) => {
+  return useInfiniteQuery({
+    queryKey: reviewKeys.findAllByProductId(productId, "infinite"),
+    queryFn: ({ pageParam = 1 }) => {
+      const params = new URLSearchParams({
+        page: pageParam,
+      });
+      return findAllByProductId(productId, params.toString());
+    },
+    getNextPageParam: (lastPage) => lastPage?.nextPage,
   });
 };
 

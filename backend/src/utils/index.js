@@ -8,7 +8,7 @@ const envSchema = Joi.object({
   node_env: Joi.string().valid("development", "production", "test"),
   port: Joi.number().port().default(3001),
   salt_rounds: Joi.number().required(),
-  db: Joi.object({
+  mysql: Joi.object({
     database: Joi.string().required(),
     user: Joi.string().required(),
     password: Joi.string().required(),

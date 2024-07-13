@@ -14,9 +14,6 @@ module.exports = {
       description: {
         type: Sequelize.STRING,
       },
-      image: {
-        type: Sequelize.STRING,
-      },
       slug: {
         type: Sequelize.STRING,
         unique: "slug",

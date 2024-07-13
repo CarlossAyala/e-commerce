@@ -17,9 +17,10 @@ module.exports = {
      */
 
     const user = await generateRandomUser({
-      isAdmin: true,
       email: admin.email,
       password: admin.password,
+      isAdmin: true,
+      isFromSeed: true,
     });
 
     await queryInterface.bulkInsert("Users", [user]);
@@ -32,6 +33,12 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Users", null, {});
+    await queryInterface.bulkDelete(
+      "Users",
+      {
+        email: admin.email,
+      },
+      {},
+    );
   },
 };

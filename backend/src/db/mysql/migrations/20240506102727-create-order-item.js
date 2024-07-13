@@ -33,7 +33,7 @@ module.exports = {
         onUpdate: "CASCADE",
       },
       reviewId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "Reviews",
           key: "id",

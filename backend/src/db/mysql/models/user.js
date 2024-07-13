@@ -36,6 +36,7 @@ module.exports = (sequelize) => {
       },
       password: DataTypes.STRING,
       isAdmin: DataTypes.BOOLEAN,
+      isFromSeed: DataTypes.BOOLEAN,
     },
     {
       sequelize,

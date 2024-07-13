@@ -22,10 +22,6 @@ module.exports = (sequelize) => {
         foreignKey: "categoryId",
         as: "gallery",
       });
-      // Category.hasMany(models.Product, {
-      //   foreignKey: "categoryId",
-      //   as: "products",
-      // });
     }
   }
   Category.init(
@@ -37,7 +33,6 @@ module.exports = (sequelize) => {
       },
       name: DataTypes.STRING,
       description: DataTypes.STRING,
-      image: DataTypes.STRING,
       slug: {
         type: DataTypes.STRING,
         unique: "slug",

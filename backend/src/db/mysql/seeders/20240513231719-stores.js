@@ -17,7 +17,7 @@ module.exports = {
      * }], {});
      */
     const [users] = await queryInterface.sequelize.query(
-      "SELECT id FROM Users",
+      "SELECT id FROM Users WHERE isFromSeed = true",
     );
     const stores = users.map(({ id: userId }) =>
       generateRandomStore({

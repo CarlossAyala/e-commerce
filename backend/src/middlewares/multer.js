@@ -28,10 +28,8 @@ const storage = multer.diskStorage({
     }
     cb(null, imagesDir);
   },
-  filename: (_req, file, cb) => {
-    const uuid = crypto.randomUUID();
-    const extension = path.extname(file.originalname);
-    const fileName = uuid + extension;
+  filename: (_req, _file, cb) => {
+    const fileName = crypto.randomUUID();
     cb(null, fileName);
   },
 });

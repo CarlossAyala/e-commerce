@@ -200,6 +200,7 @@ const update = async (req, res, next) => {
           productId: product.id,
         })),
       );
+
       await Promise.all(newGallery.map((file) => unlink(file.path)));
     }
 

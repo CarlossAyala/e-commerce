@@ -35,8 +35,6 @@ const DialogContent = React.forwardRef(
           className,
         )}
         {...props}
-        aria-describedby="lorem-ipsum"
-        Description="lorem-ipsum"
       >
         {children}
         {closeIcon && (

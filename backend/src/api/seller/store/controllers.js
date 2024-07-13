@@ -94,7 +94,7 @@ const update = async (req, res, next) => {
         resource_type: "image",
         public_id: filename,
         transformation: [
-          { width: 250, height: 250, crop: "fill" },
+          { width: 120, height: 120, crop: "scale" },
           { quality: "auto" },
           { fetch_format: "auto" },
         ],
@@ -148,7 +148,7 @@ const update = async (req, res, next) => {
             resource_type: "image",
             public_id: file.filename,
             transformation: [
-              { width: 1600, height: 350, crop: "fill" },
+              { width: 810, height: 172, crop: "limit" },
               { quality: "auto" },
               { fetch_format: "auto" },
             ],

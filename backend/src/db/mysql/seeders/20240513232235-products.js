@@ -22,20 +22,17 @@ module.exports = {
       "SELECT id FROM Stores",
     );
     const storesIds = stores.map((store) => store.id);
-    const allProducts = [];
-
-    for (const storeId of storesIds) {
-      const products = new Array(15).fill(0).map(() =>
-        generateRandomProduct({
+    const products = storesIds.flatMap((storeId) => {
+      return new Array(10).fill(0).map(() => {
+        return generateRandomProduct({
           storeId,
           categoriesIds,
           createdAt: new Date(Date.now() - getRandomIntByRange(0, ms("1y"))),
-        }),
-      );
-      allProducts.push(products);
-    }
+        });
+      });
+    });
 
-    await queryInterface.bulkInsert("Products", allProducts.flat());
+    await queryInterface.bulkInsert("Products", products);
   },
 
   async down(queryInterface) {

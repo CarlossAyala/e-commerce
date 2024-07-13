@@ -23,7 +23,9 @@ module.exports = {
       },
       isAdmin: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
+      },
+      isFromSeed: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,

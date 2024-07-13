@@ -4,12 +4,12 @@
  * @property {string} node_env - Node environment
  * @property {number} port - Port number
  * @property {number} salt_rounds - Number of rounds for password hashing
- * @property {Object} db - Database configuration
- * @property {string} db.database - Database name
- * @property {string} db.user - Database user
- * @property {string} db.password - Database password
- * @property {string} db.host - Database host
- * @property {number} db.port - Database port
+ * @property {Object} mysql - Database configuration
+ * @property {string} mysql.database - Database name
+ * @property {string} mysql.user - Database user
+ * @property {string} mysql.password - Database password
+ * @property {string} mysql.host - Database host
+ * @property {number} mysql.port - Database port
  * @property {Object} jwt - JWT configuration
  * @property {Object} jwt.access_token - Access token configuration
  * @property {string} jwt.access_token.secret - Access token secret

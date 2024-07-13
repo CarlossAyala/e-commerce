@@ -35,7 +35,7 @@ module.exports = (sequelize) => {
       price: DataTypes.DECIMAL(10, 2),
       orderId: DataTypes.UUID,
       productId: DataTypes.UUID,
-      reviewId: DataTypes.UUID,
+      reviewId: DataTypes.INTEGER,
     },
     {
       sequelize,

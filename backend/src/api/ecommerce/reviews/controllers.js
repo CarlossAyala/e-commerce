@@ -138,22 +138,30 @@ const create = async (req, res, next) => {
 
 const findAllByProductId = async (req, res, next) => {
   const { productId } = req.params;
-  const { limit, offset } = new QueryBuilder(req.query).pagination().build();
+  const { limit, offset, page } = new QueryBuilder(req.query).build();
 
   try {
-    const reviews = await ReviewModel.findAndCountAll({
+    const { rows, count } = await ReviewModel.findAndCountAll({
       include: {
         model: OrderItemModel,
         as: "item",
         attributes: [],
         where: { productId },
       },
-      order: [["createdAt", "DESC"]],
+      order: [["id", "DESC"]],
       limit,
       offset,
     });
 
-    res.json(reviews);
+    const hasNextPage = offset + limit < count;
+    const nextPage = hasNextPage ? page + 1 : null;
+
+    res.json({
+      rows,
+      count,
+      hasNextPage,
+      nextPage,
+    });
   } catch (error) {
     next(error);
   }

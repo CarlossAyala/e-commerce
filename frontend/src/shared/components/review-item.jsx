@@ -12,7 +12,9 @@ export const ReviewItem = ({ review }) => {
               key={index}
               className={cn(
                 "size-4 shrink-0",
-                index < review.rating ? "text-yellow-400" : "text-gray-300",
+                index < review.rating
+                  ? "text-primary"
+                  : "text-muted-foreground",
               )}
             />
           ))}

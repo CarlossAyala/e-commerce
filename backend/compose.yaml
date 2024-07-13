@@ -7,14 +7,14 @@ services:
     # command: --default-authentication-plugin=caching_sha2_password
     restart: always
     ports:
-      - "3306:3306"
+      - "${MYSQL_PORT}:3306"
     volumes:
-      - ./mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     environment:
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_USER_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     healthcheck:
       # https://dev.mysql.com/doc/refman/8.0/en/testing-server.html
       test:
@@ -23,8 +23,8 @@ services:
           "mysqladmin",
           "version",
           "-u",
-          "${DB_USER}",
-          "-p${DB_USER_PASSWORD}",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD}",
         ]
       interval: 5s
       timeout: 5s
@@ -36,19 +36,19 @@ services:
     command: redis-server --maxmemory-policy noeviction
     restart: always
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:6379"
     volumes:
-      - ./redis-data:/data
+      - redis-data:/data
 
   adminer:
     image: adminer
-    container_name: db-gui
+    container_name: mysql-gui
     restart: always
     ports:
-      - 3010:8080
+      - 3002:8080
 
   server:
-    container_name: node-app
+    container_name: server
     build:
       context: .
       target: ${ENVIRONMENT}
@@ -59,3 +59,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+
+volumes:
+  mysql-data:
+  redis-data:

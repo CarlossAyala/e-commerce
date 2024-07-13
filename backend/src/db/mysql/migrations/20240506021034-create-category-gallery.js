@@ -8,7 +8,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
-      filename: {
+      publicId: {
         type: Sequelize.STRING,
       },
       order: {

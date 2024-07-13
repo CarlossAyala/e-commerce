@@ -1,9 +1,9 @@
-const path = require("path");
 const { unlink } = require("node:fs/promises");
 const { Op } = require("sequelize");
 const sequelize = require("../../../db/mysql");
 const { NotFound, BadRequest } = require("../../../utils/http-errors");
 const slugify = require("../../../utils/slugify");
+const cloudinary = require("../../../services/cloudinary");
 
 const ProductModel = sequelize.model("Product");
 const CategoryModel = sequelize.model("Category");
@@ -152,15 +152,30 @@ const create = async (req, res, next) => {
       description,
       slug,
     });
+
+    const images = await Promise.all(
+      gallery.map((file) => {
+        return cloudinary.uploader.upload(file.path, {
+          resource_type: "auto",
+          public_id: file.filename,
+          transformation: [
+            { width: 810, height: 172, crop: "limit" },
+            { quality: "auto" },
+            { fetch_format: "auto" },
+          ],
+        });
+      }),
+    );
     await CategoryGalleryModel.bulkCreate(
-      gallery.map((file, index) => ({
-        filename: file.filename,
+      images.map((image, index) => ({
+        publicId: image.public_id,
+        url: image.secure_url,
         order: index,
-        url:
-          req.protocol + "://" + req.get("host") + "/images/" + file.filename,
         categoryId: category.id,
       })),
     );
+
+    await Promise.all(gallery.map((file) => unlink(file.path)));
 
     res.status(201).json(category);
   } catch (error) {
@@ -171,7 +186,7 @@ const create = async (req, res, next) => {
 const update = async (req, res, next) => {
   const { category } = req;
   const { name, description, currentGallery } = req.body;
-  const newGallery = req.files;
+  const nextGallery = req.files;
 
   const slug = slugify(name);
 
@@ -197,53 +212,71 @@ const update = async (req, res, next) => {
       where: {
         categoryId: category.id,
       },
+      raw: true,
     });
-    const galleryToDelete = gallery.filter(
+    const imagesToDelete = gallery.filter(
       (image) => !currentGallery.includes(image.id),
     );
-    if (galleryToDelete.length) {
+    if (imagesToDelete.length) {
       await Promise.all(
-        galleryToDelete.map((image) => {
-          const filePath = path.join(
-            __dirname,
-            "../../../../public/images",
-            image.filename,
-          );
-          return unlink(filePath);
-        }),
+        imagesToDelete.map((image) =>
+          cloudinary.uploader.destroy(image.publicId),
+        ),
       );
       await CategoryGalleryModel.destroy({
         where: {
           id: {
-            [Op.in]: galleryToDelete.map((image) => image.id),
+            [Op.in]: imagesToDelete.map((image) => image.id),
           },
         },
       });
     }
 
-    const galleryToUpdate = gallery.filter((image) =>
+    const imagesToUpdate = gallery.filter((image) =>
       currentGallery.includes(image.id),
     );
-    if (galleryToUpdate.length) {
+    if (imagesToUpdate.length) {
       await Promise.all(
-        galleryToUpdate.map((image, index) => {
-          return image.update({
-            order: index,
-          });
+        imagesToUpdate.map((image, index) => {
+          return CategoryGalleryModel.update(
+            {
+              order: index,
+            },
+            {
+              where: {
+                id: image.id,
+              },
+            },
+          );
         }),
       );
     }
 
-    if (newGallery.length) {
+    if (nextGallery.length) {
+      const images = await Promise.all(
+        nextGallery.map((file) => {
+          return cloudinary.uploader.upload(file.path, {
+            resource_type: "auto",
+            public_id: file.filename,
+            transformation: [
+              { width: 810, height: 172, crop: "limit" },
+              { quality: "auto" },
+              { fetch_format: "auto" },
+            ],
+          });
+        }),
+      );
+
       await CategoryGalleryModel.bulkCreate(
-        newGallery.map((file, index) => ({
-          filename: file.filename,
-          order: galleryToUpdate.length + index,
-          url:
-            req.protocol + "://" + req.get("host") + "/images/" + file.filename,
+        images.map((image, index) => ({
+          publicId: image.public_id,
+          url: image.secure_url,
+          order: index + imagesToUpdate.length,
           categoryId: category.id,
         })),
       );
+
+      await Promise.all(nextGallery.map((file) => unlink(file.path)));
     }
 
     res.json(category);
@@ -364,17 +397,11 @@ const remove = async (req, res, next) => {
       where: {
         categoryId: category.id,
       },
+      raw: true,
     });
     if (gallery.length) {
       await Promise.all(
-        gallery.map((image) => {
-          const filePath = path.join(
-            __dirname,
-            "../../../../public/images",
-            image.filename,
-          );
-          return unlink(filePath);
-        }),
+        gallery.map((image) => cloudinary.uploader.destroy(image.publicId)),
       );
       await CategoryGalleryModel.destroy({
         where: {

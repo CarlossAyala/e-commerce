@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useAuth } from "@/features/auth";
 import { createQueryKey, parseURLSearchParams } from "@/shared/utils";
 import { create, findAllCustomer, findAllProduct } from "./api";
@@ -17,14 +22,23 @@ const qaKeys = {
   customer: (query) => [...qaKeys.customerKey(), query],
 };
 
-export const useGetProductQuestions = (productId, query) => {
-  const _query = parseURLSearchParams(query);
-
+export const useGetProductQuestions = (productId) => {
   return useQuery({
-    queryKey: qaKeys.product(productId, _query),
-    queryFn: () => findAllProduct(productId, query),
-    enabled: !!productId,
-    keepPreviousData: true,
+    queryKey: qaKeys.product(productId, "page=1&limit=10"),
+    queryFn: () => findAllProduct(productId, "page=1&limit=10"),
+  });
+};
+
+export const useGetProductQuestionsInfiniteScroll = (productId, query) => {
+  const _query = parseURLSearchParams(query);
+  return useInfiniteQuery({
+    queryKey: qaKeys.product(productId, _query, "infinite"),
+    queryFn: ({ pageParam = 1 }) => {
+      const params = new URLSearchParams(query);
+      params.set("page", pageParam);
+      return findAllProduct(productId, params.toString());
+    },
+    getNextPageParam: (lastPage) => lastPage?.nextPage,
   });
 };
 

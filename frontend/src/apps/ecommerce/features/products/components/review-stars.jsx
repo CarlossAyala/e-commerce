@@ -26,14 +26,14 @@ export const ReviewStars = ({ rating, className, size = "md" }) => {
       ))}
       {hasHalfStar && (
         <div className={cn("relative", sizeClass)}>
-          <StarIcon className="absolute inset-0 size-full text-gray-300" />
+          <StarIcon className="absolute inset-0 size-full text-muted-foreground" />
           <div
             className="absolute inset-0 size-full overflow-hidden"
             style={{
               width: `${(rating % 1) * 100}%`,
             }}
           >
-            <StarIcon className={cn("text-yellow-400", sizeClass)} />
+            <StarIcon className={cn("text-primary", sizeClass)} />
           </div>
         </div>
       )}

@@ -13,6 +13,7 @@ const sequelize = require("./db/mysql");
 const routes = require("./api/routes");
 const config = require("./config");
 const socket = require("./socket");
+require("./jobs");
 
 const app = express();
 const server = createServer(app);
