@@ -1,4 +1,4 @@
-import { ReviewList, ReviewTimeline } from "./pages";
+import { ReviewsOverview, ReviewsProduct } from "./pages";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -6,10 +6,10 @@ import { ReviewList, ReviewTimeline } from "./pages";
 export const reviewRoutes = [
   {
     index: true,
-    element: <ReviewTimeline />,
+    element: <ReviewsOverview />,
   },
   {
     path: ":productId",
-    element: <ReviewList />,
+    element: <ReviewsProduct />,
   },
 ];

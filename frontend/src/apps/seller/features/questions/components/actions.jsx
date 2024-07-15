@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "sonner";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
-import { QAStatus, Spinner } from "@/shared/components";
 import {
+  QAStatus,
+  Spinner,
   AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
@@ -31,15 +32,14 @@ import {
   SheetHeader,
   SheetTitle,
   Textarea,
+  SheetDescription,
 } from "@/shared/components";
 import { Formatter } from "@/shared/utils";
 import { replyInitial, replySchema } from "../schemas";
 import { useRejectQuestion, useReplyQuestion } from "../queries";
 
 export const QAProductAction = ({ qa }) => {
-  const [viewSheet, setViewSheet] = useState(false);
-  const [replaySheet, setReplaySheet] = useState(false);
-  const [rejectSheet, setRejectSheet] = useState(false);
+  const [modal, setModal] = useState("");
 
   const reject = useRejectQuestion();
   const reply = useReplyQuestion();
@@ -56,7 +56,7 @@ export const QAProductAction = ({ qa }) => {
       {
         onSuccess() {
           toast("Reply successfully");
-          setReplaySheet(false);
+          setModal("");
         },
       },
     );
@@ -66,36 +66,37 @@ export const QAProductAction = ({ qa }) => {
     reject.mutate(qa.id, {
       onSuccess() {
         toast("Reject successfully");
-        setRejectSheet(false);
+        setModal("");
       },
     });
   };
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={modal === "menu"} onOpenChange={() => setModal("")}>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="icon"
             className="data-[state=open]:bg-muted"
+            onClick={() => setModal("menu")}
           >
             <span className="sr-only">Open menu</span>
             <EllipsisHorizontalIcon className="size-5" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
-          <DropdownMenuItem onSelect={() => setViewSheet(true)}>
+          <DropdownMenuItem onSelect={() => setModal("view")}>
             View
           </DropdownMenuItem>
           {qa.status === "pending" && (
             <>
-              <DropdownMenuItem onSelect={() => setReplaySheet(true)}>
+              <DropdownMenuItem onSelect={() => setModal("reply")}>
                 Reply
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onSelect={() => setRejectSheet(true)}
+                onSelect={() => setModal("reject")}
                 className="text-red-600 hover:text-red-600 focus:text-red-600"
               >
                 Reject
@@ -105,10 +106,13 @@ export const QAProductAction = ({ qa }) => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Sheet open={viewSheet} onOpenChange={setViewSheet}>
-        <SheetContent className="space-y-4">
-          <SheetHeader className="space-y-2">
+      <Sheet open={modal === "view"} onOpenChange={() => setModal("")}>
+        <SheetContent className="space-y-4 p-4">
+          <SheetHeader>
             <SheetTitle className="uppercase">Question</SheetTitle>
+            <SheetDescription className="text-sm">
+              About this question
+            </SheetDescription>
 
             <div className="text-sm">
               <h3 className="font-medium">Status</h3>
@@ -162,10 +166,13 @@ export const QAProductAction = ({ qa }) => {
         </SheetContent>
       </Sheet>
 
-      <Sheet open={replaySheet} onOpenChange={setReplaySheet}>
+      <Sheet open={modal === "reply"} onOpenChange={() => setModal("")}>
         <SheetContent className="space-y-4">
           <SheetHeader>
             <SheetTitle className="uppercase">Reply Question</SheetTitle>
+            <SheetDescription className="text-sm">
+              About this question
+            </SheetDescription>
           </SheetHeader>
 
           <div className="text-sm">
@@ -209,7 +216,7 @@ export const QAProductAction = ({ qa }) => {
         </SheetContent>
       </Sheet>
 
-      <AlertDialog open={rejectSheet} onOpenChange={setRejectSheet}>
+      <AlertDialog open={modal === "reject"} onOpenChange={() => setModal("")}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

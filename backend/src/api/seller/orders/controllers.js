@@ -7,6 +7,7 @@ const Stripe = require("../../../services/stripe");
 const OrderModel = sequelize.model("Order");
 const OrderItemModel = sequelize.model("OrderItem");
 const ProductModel = sequelize.model("Product");
+const ProductGalleryModel = sequelize.model("ProductGallery");
 const UserModel = sequelize.model("User");
 const AddressModel = sequelize.model("Address");
 
@@ -28,6 +29,13 @@ const validateOrderId = async (req, _res, next, orderId) => {
       include: {
         model: ProductModel,
         as: "product",
+        include: {
+          model: ProductGalleryModel,
+          as: "gallery",
+          order: [["order", "ASC"]],
+          separate: true,
+          required: false,
+        },
       },
     });
     const items = _items.filter((item) => item.product.storeId === store.id);
@@ -103,13 +111,20 @@ const findOne = async (req, res, next) => {
       raw: true,
     });
 
-    const paymentIntent = await Stripe.paymentIntents.retrieve(
-      order.paymentIntentId,
-    );
+    const paymentIntent = order.paymentIntentId
+      ? await Stripe.paymentIntents.retrieve(order.paymentIntentId)
+      : null;
 
-    const paymentMethod = await Stripe.paymentMethods.retrieve(
-      paymentIntent.payment_method,
-    );
+    const paymentMethod = paymentIntent
+      ? await Stripe.paymentMethods.retrieve(paymentIntent.payment_method)
+      : {
+          card: {
+            brand: "Visa (Test)",
+            last4: "4242",
+            exp_month: "12",
+            exp_year: new Date().getFullYear() + 1,
+          },
+        };
 
     res.json({
       order,

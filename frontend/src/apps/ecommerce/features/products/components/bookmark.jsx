@@ -50,13 +50,13 @@ export const Bookmark = ({ product }) => {
           >
             <span className="sr-only">Bookmark product</span>
             {!isAuthenticated ? (
-              <OutlineBookmarkIcon className="size-5" />
+              <OutlineBookmarkIcon className="size-5 text-primary" />
             ) : bookmark.isLoading ? (
               <Spinner className="size-5" />
             ) : bookmark.data ? (
-              <SolidBookmarkIcon className="size-5" />
+              <SolidBookmarkIcon className="size-5 text-primary" />
             ) : (
-              <OutlineBookmarkIcon className="size-5" />
+              <OutlineBookmarkIcon className="size-5 text-primary" />
             )}
           </Button>
         </TooltipTrigger>

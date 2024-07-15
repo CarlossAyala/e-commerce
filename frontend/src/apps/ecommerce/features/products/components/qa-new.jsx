@@ -60,13 +60,13 @@ export const QANew = ({ productId }) => {
       </Button>
 
       <Dialog open={dialog} onOpenChange={setDialog}>
-        <DialogContent>
+        <DialogContent className="p-4">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleCreate)}
               className="space-y-4 sm:max-w-md"
             >
-              <DialogHeader>
+              <DialogHeader className="text-start">
                 <DialogTitle>New Question</DialogTitle>
                 <DialogDescription>
                   Ask a question about this product.

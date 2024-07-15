@@ -129,7 +129,10 @@ const generateRandomProduct = ({ storeId, categoriesIds, createdAt }) => {
   const description = faker.lorem.paragraph();
   const stock = 100;
   const sold = 0;
-  const price = faker.commerce.price();
+  const price = faker.commerce.price({
+    min: 10,
+    max: 250,
+  });
   const slug = slugify([id, name].join("").toLowerCase());
   const available = stock > 0;
   const condition = "new";
@@ -202,6 +205,31 @@ const generateRandomQuestion = ({ id, status, userId, productId }) => {
   };
 };
 
+/**
+ * @typedef {object} Review
+ * @property {number} id
+ * @property {string} description
+ * @property {number} rating
+ * @property {Date} createdAt
+ * @property {Date} updatedAt
+ */
+
+/**
+ * @param {Review} review
+ */
+const generateRandomReview = ({ id }) => {
+  return {
+    id,
+    description: faker.lorem.sentence(),
+    rating: faker.number.int({
+      min: 1,
+      max: 5,
+    }),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+};
+
 module.exports = {
   generateRandomUser,
   generateRandomCategory,
@@ -209,4 +237,5 @@ module.exports = {
   generateRandomProduct,
   generateCoverImage,
   generateRandomQuestion,
+  generateRandomReview,
 };

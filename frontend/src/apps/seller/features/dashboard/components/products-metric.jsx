@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { EmptyState } from "@/shared/components";
 import { Formatter } from "@/shared/utils";
 import {
   Card,
@@ -20,6 +19,7 @@ import {
   Tabs,
   TabsList,
   TabsTrigger,
+  EmptyState,
 } from "@/shared/components";
 import { useGetProductsGrowthStats } from "../../products";
 import { INTERVALS, formatDateMetric } from "../utils";
@@ -39,7 +39,7 @@ export const ProductsMetric = () => {
   } = useGetProductsGrowthStats(params.toString());
 
   return (
-    <Card className="col-span-4">
+    <Card className="md:col-span-4">
       <CardHeader>
         <CardTitle>Products Growth</CardTitle>
         <CardDescription>
@@ -88,7 +88,7 @@ export const ProductsMetric = () => {
                 margin={{
                   top: 5,
                   right: 10,
-                  left: 10,
+                  left: 0,
                   bottom: 0,
                 }}
               >

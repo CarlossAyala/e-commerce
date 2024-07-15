@@ -7,10 +7,10 @@ import {
   PageHeader,
   PageHeaderHeading,
   URLPagination,
+  Filters,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
-import { Filters } from "@/shared/components";
-import { reviewTimelineColumns } from "../components/columns";
+import { overviewColumns } from "../components/columns";
 import { useGetReviews } from "../queries";
 
 const filters = [
@@ -19,8 +19,8 @@ const filters = [
   },
 ];
 
-export const ReviewTimeline = () => {
-  useDocumentTitle("Review Timeline");
+export const ReviewsOverview = () => {
+  useDocumentTitle("Reviews");
   const [params] = useSearchParams();
 
   const { data, isLoading, isError, error } = useGetReviews(params.toString());
@@ -28,7 +28,7 @@ export const ReviewTimeline = () => {
   return (
     <main className="flex-1 space-y-4 px-4 tablet:px-6">
       <PageHeader>
-        <PageHeaderHeading>Reviews Timeline</PageHeaderHeading>
+        <PageHeaderHeading>Reviews</PageHeaderHeading>
       </PageHeader>
 
       <Filters filters={filters} />
@@ -38,7 +38,7 @@ export const ReviewTimeline = () => {
       ) : isError ? (
         <EmptyState title="Error" description={error.message} />
       ) : !data.rows.length ? (
-        <DataTableContent columns={reviewTimelineColumns}>
+        <DataTableContent columns={overviewColumns}>
           <EmptyState
             title="No reviews"
             description="No reviews found"
@@ -46,7 +46,7 @@ export const ReviewTimeline = () => {
           />
         </DataTableContent>
       ) : (
-        <DataTable data={data.rows} columns={reviewTimelineColumns} />
+        <DataTable data={data.rows} columns={overviewColumns} />
       )}
 
       <URLPagination count={data?.count} />

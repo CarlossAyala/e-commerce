@@ -10,42 +10,49 @@ import {
 
 export const SIDE_NAV = [
   {
-    name: "Dashboard",
+    label: "Dashboard",
     icon: SparklesIcon,
     to: "/seller",
+    name: "dashboard",
   },
   {
-    name: "Store",
+    label: "Store",
     icon: BuildingStorefrontIcon,
     to: "/seller/store",
+    name: "store",
   },
   {
-    name: "Product",
+    label: "Product",
     icon: CubeIcon,
     to: "/seller/products",
+    name: "products",
     subNav: [
-      { name: "List", to: "/seller/products" },
-      { name: "Create", to: "/seller/products/new" },
+      { label: "List", to: "/seller/products" },
+      { label: "Create", to: "/seller/products/new" },
     ],
   },
   {
-    name: "Questions",
+    label: "Questions",
     icon: QuestionMarkCircleIcon,
     to: "/seller/questions",
+    name: "questions",
   },
   {
-    name: "Orders",
+    label: "Orders",
     icon: ClipboardIcon,
     to: "/seller/orders",
+    name: "orders",
   },
   {
-    name: "Reviews",
+    label: "Reviews",
     icon: StarIcon,
     to: "/seller/reviews",
+    name: "reviews",
   },
   {
-    name: "Chats",
+    label: "Chats",
     icon: ChatBubbleBottomCenterIcon,
     to: "/seller/chats",
+    name: "chats",
   },
 ];

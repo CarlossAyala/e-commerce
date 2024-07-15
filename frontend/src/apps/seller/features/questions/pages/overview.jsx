@@ -7,9 +7,9 @@ import {
   PageHeader,
   PageHeaderHeading,
   URLPagination,
+  Filters,
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
-import { Filters } from "@/shared/components";
 import { qaOverviewColumns } from "../components/columns";
 import { QUESTION_STATUS } from "../utils";
 import { useGetQA } from "../queries";
@@ -30,14 +30,14 @@ const filters = [
 ];
 
 export const Overview = () => {
-  useDocumentTitle("Questions Overview");
+  useDocumentTitle("Questions");
   const [params] = useSearchParams();
   const { data, isLoading, isError, error } = useGetQA(params.toString());
 
   return (
     <main className="flex-1 space-y-4 px-4 tablet:px-6">
       <PageHeader>
-        <PageHeaderHeading>QA Overview</PageHeaderHeading>
+        <PageHeaderHeading>Questions</PageHeaderHeading>
       </PageHeader>
 
       <Filters filters={filters} />

@@ -227,7 +227,6 @@ export const Chat = () => {
               type="submit"
               size="icon"
               disabled={!messages.isSuccess || sendMessage.isLoading}
-              className="text-primary-foreground"
             >
               {sendMessage.isLoading ? (
                 <Spinner className="size-5" />

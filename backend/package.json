@@ -16,11 +16,11 @@
     "lint:fix": "npx eslint . --fix",
     "db:create": "npx sequelize-cli db:create",
     "db:drop": "npx sequelize-cli db:drop",
-    "migrate:up": "npx sequelize-cli db:migrate",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "migrate:up": "npx sequelize-cli db:migrate --debug",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo --debug",
     "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
-    "seed:up": "npx sequelize-cli db:seed:all",
-    "seed:undo": "npx sequelize-cli db:seed:undo",
+    "seed:up": "npx sequelize-cli db:seed:all --debug",
+    "seed:undo": "npx sequelize-cli db:seed:undo --debug",
     "seed:undo:all": "npx sequelize-cli db:seed:undo:all"
   },
   "devDependencies": {

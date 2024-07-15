@@ -130,13 +130,20 @@ const findOne = async (req, res, next) => {
       },
     });
 
-    const paymentIntent = await Stripe.paymentIntents.retrieve(
-      order.paymentIntentId,
-    );
+    const paymentIntent = order.paymentIntentId
+      ? await Stripe.paymentIntents.retrieve(order.paymentIntentId)
+      : null;
 
-    const paymentMethod = await Stripe.paymentMethods.retrieve(
-      paymentIntent.payment_method,
-    );
+    const paymentMethod = paymentIntent
+      ? await Stripe.paymentMethods.retrieve(paymentIntent.payment_method)
+      : {
+          card: {
+            brand: "Visa (Test)",
+            last4: "4242",
+            exp_month: "12",
+            exp_year: new Date().getFullYear() + 1,
+          },
+        };
 
     res.json({
       order,

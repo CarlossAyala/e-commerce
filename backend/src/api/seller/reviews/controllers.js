@@ -27,11 +27,37 @@ const validateProductId = async (req, _res, next, productId) => {
   }
 };
 
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
+// const findAll = async (req, res, next) => {
+//   const { store } = req;
+
+//   const { where: whereProduct } = new QueryBuilder(req.query)
+//     .where("storeId", store.id)
+//     .whereLike("name", req.query.q)
+//     .build();
+//   const { limit, offset } = new QueryBuilder(req.query).pagination().build();
+
+//   try {
+//     const reviews = await ReviewModel.findAndCountAll({
+//       include: {
+//         model: OrderItemModel,
+//         as: "item",
+//         include: {
+//           model: ProductModel,
+//           as: "product",
+//           where: whereProduct,
+//         },
+//         required: true,
+//       },
+//       order: [["createdAt", "DESC"]],
+//       limit,
+//       offset,
+//     });
+
+//     res.json(reviews);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 const findAll = async (req, res, next) => {
   const { store } = req;
 
@@ -39,36 +65,57 @@ const findAll = async (req, res, next) => {
     .where("storeId", store.id)
     .whereLike("name", req.query.q)
     .build();
-  const { limit, offset } = new QueryBuilder(req.query).pagination().build();
+  const { limit, offset, order } = new QueryBuilder(req.query)
+    .orderBy("name", "ASC")
+    .build();
 
   try {
-    const reviews = await ReviewModel.findAndCountAll({
-      include: {
-        model: OrderItemModel,
-        as: "item",
-        include: {
-          model: ProductModel,
-          as: "product",
-          where: whereProduct,
-        },
-        required: true,
-      },
-      order: [["createdAt", "DESC"]],
+    const products = await ProductModel.findAndCountAll({
+      where: whereProduct,
       limit,
       offset,
+      order,
+      raw: true,
     });
 
-    res.json(reviews);
+    const reviews = await Promise.all(
+      products.rows.map(async (product) => {
+        const { rows, count } = await ReviewModel.findAndCountAll({
+          attributes: [
+            [Sequelize.fn("AVG", Sequelize.col("rating")), "rating"],
+          ],
+          include: {
+            model: OrderItemModel,
+            as: "item",
+            attributes: [],
+            include: {
+              model: ProductModel,
+              as: "product",
+              attributes: [],
+              where: {
+                id: product.id,
+              },
+            },
+            required: true,
+          },
+          raw: true,
+        });
+
+        const rating = Number(rows[0]?.rating ?? 0).toFixed(1);
+
+        return { ...product, rating, count };
+      }),
+    );
+
+    res.json({
+      rows: reviews,
+      count: products.count,
+    });
   } catch (error) {
     next(error);
   }
 };
 
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
 const findAllByProductId = async (req, res, next) => {
   const { productId } = req.params;
 
@@ -104,11 +151,6 @@ const findAllByProductId = async (req, res, next) => {
   }
 };
 
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
 const avgRatingByProductId = async (req, res, next) => {
   const { productId } = req.params;
 
@@ -131,7 +173,7 @@ const avgRatingByProductId = async (req, res, next) => {
         },
         required: true,
       },
-      group: ["item.product_id"],
+      group: ["item.productId"],
     });
 
     res.json(result);

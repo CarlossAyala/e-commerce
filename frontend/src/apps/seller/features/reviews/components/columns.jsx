@@ -1,21 +1,22 @@
 import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Formatter } from "@/shared/utils";
+import { cn, Formatter } from "@/shared/utils";
+import { buttonVariants } from "@/shared/components";
 import { productActionRoutes } from "../../products";
-import { ReviewListAction, ReviewTimelineAction } from "./actions";
+import { ReviewListAction } from "./actions";
 
 const { accessor, display } = createColumnHelper();
 
-export const reviewTimelineColumns = [
-  accessor("item.product.name", {
+export const overviewColumns = [
+  accessor("name", {
     header: () => "Product",
     cell: (info) => {
-      const productId = info.row.original.item.product.id;
+      const product = info.row.original;
 
       return (
         <div className="flex">
           <Link
-            to={productActionRoutes.details(productId)}
+            to={productActionRoutes.details(product.id)}
             className="max-w-xs truncate font-medium hover:underline"
           >
             {info.getValue()}
@@ -24,33 +25,38 @@ export const reviewTimelineColumns = [
       );
     },
   }),
-  accessor("description", {
-    header: () => "Content",
-    cell: (info) => (
-      <div className="flex">
-        <span className="max-w-md truncate font-medium">{info.getValue()}</span>
-      </div>
-    ),
-  }),
   accessor("rating", {
     header: () => "Rating",
-    cell: (info) => <span className="font-medium">{info.getValue()}</span>,
-  }),
-  accessor("createdAt", {
-    header: () => "Created At",
-    cell: (info) => (
-      <span className="text-muted-foreground">
-        {Formatter.shortDate(info.getValue())}
-      </span>
-    ),
+    cell: (info) => {
+      const review = info.row.original;
+
+      return (
+        <p className="font-medium">
+          <span>
+            {review.rating} ({review.count})
+          </span>
+        </p>
+      );
+    },
   }),
   display({
     id: "actions",
-    cell: (info) => <ReviewTimelineAction review={info.row.original} />,
+    cell: (info) => (
+      <Link
+        to={`/seller/reviews/${info.row.original.id}`}
+        className={cn(
+          buttonVariants({
+            variant: "link",
+          }),
+        )}
+      >
+        Overview
+      </Link>
+    ),
   }),
 ];
 
-export const reviewListColumns = [
+export const productsColumns = [
   accessor("description", {
     header: () => "Content",
     cell: (info) => (

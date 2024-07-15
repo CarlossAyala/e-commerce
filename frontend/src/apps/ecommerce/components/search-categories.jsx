@@ -32,7 +32,7 @@ export const SearchCategories = ({ search, cleanUp }) => {
                 <Link
                   className="relative line-clamp-2 flex cursor-default select-none items-center rounded-md p-2 text-accent-foreground hover:bg-accent"
                   onClick={cleanUp}
-                  to={categoryActionRoutes.details(category.slug)}
+                  to={categoryActionRoutes.details(category.id)}
                 >
                   <p>{category.name}</p>
                 </Link>

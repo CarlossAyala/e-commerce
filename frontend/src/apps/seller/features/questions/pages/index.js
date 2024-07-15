@@ -1,2 +1,2 @@
 export * from "./overview";
-export * from "./qa-product";
+export * from "./questions-product";

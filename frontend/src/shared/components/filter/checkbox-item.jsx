@@ -27,7 +27,7 @@ export const CheckboxItem = ({ name, value, label }) => {
           onCheckedChange={handleCheckedChange}
           name={name}
           value={value}
-          className={cn("shadow-none", !isChecked && "border-black/30")}
+          className={cn("shadow-none", !isChecked && "border")}
         />
         {label}
       </Label>

@@ -4,8 +4,8 @@ export const QUESTION_STATUS = {
     label: "Answered",
   },
   queue: {
-    value: "queue",
-    label: "Queue",
+    value: "pending",
+    label: "Pending",
   },
   rejected: {
     value: "rejected",

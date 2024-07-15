@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { Button, Sheet, SheetContent } from "@/shared/components";
+import {
+  Button,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from "@/shared/components";
 import { LogoAdmin } from "./logo-admin";
 import { SideNav } from "./side-nav";
 
@@ -20,6 +26,8 @@ export const Sidebar = () => {
       </Button>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="left" className="w-64 p-0">
+          <SheetTitle className="sr-only">Sidebar</SheetTitle>
+          <SheetDescription className="sr-only">Sidebar</SheetDescription>
           <div className="flex items-center px-6 pt-4">
             <LogoAdmin />
           </div>

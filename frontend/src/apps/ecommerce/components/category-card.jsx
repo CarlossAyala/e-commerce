@@ -18,9 +18,9 @@ export const CategoryCard = ({ category }) => {
             className="size-full object-cover object-center"
           />
         </div>
-        <div className="aspect-h-9 aspect-w-16 absolute inset-0 rounded-md bg-gradient-to-t from-primary" />
+        <div className="aspect-h-9 aspect-w-16 absolute inset-0 rounded-md bg-gradient-to-t from-secondary-foreground" />
         <div className="absolute inset-x-2 bottom-2">
-          <p className="line-clamp-1 text-left text-sm font-medium text-primary-foreground group-hover:line-clamp-none">
+          <p className="line-clamp-1 text-left text-sm font-medium text-secondary group-hover:line-clamp-none">
             {category.name}
           </p>
         </div>

@@ -4,7 +4,7 @@ import { Store, StoreNew } from "./features/store";
 import { Dashboard } from "./features/dashboard";
 import { questionRoutes } from "./features/questions";
 import { orderRoutes } from "./features/orders";
-import { reviewRoutes } from "./features/review";
+import { reviewRoutes } from "./features/reviews";
 import { RedirectWithStore, WithStoreRoute } from "./components";
 import { Chats, chatRoutes } from "./features/chats";
 

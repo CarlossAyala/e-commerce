@@ -15,7 +15,7 @@ export const RecentSales = () => {
   const { data: orders, isLoading, isError, error } = useGetLatestOrders();
 
   return (
-    <Card className="col-span-3 flex flex-col">
+    <Card className="flex flex-col md:col-span-3">
       <CardHeader className="shrink-0">
         <CardTitle>Recent Sales</CardTitle>
         <CardDescription>Recent sales in this month</CardDescription>

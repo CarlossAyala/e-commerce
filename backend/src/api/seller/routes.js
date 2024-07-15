@@ -4,7 +4,7 @@ const stores = require("./store/routes");
 const products = require("./products/routes");
 const questions = require("./questions/routes");
 const orders = require("./orders/routes");
-const reviews = require("./review/routes");
+const reviews = require("./reviews/routes");
 const chats = require("./chats/routes");
 
 const router = Router();

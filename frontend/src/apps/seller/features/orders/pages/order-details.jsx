@@ -59,7 +59,7 @@ export const OrderDetails = () => {
         <section className="space-y-4">
           <dl className="space-y-1 text-sm font-medium">
             <dt className=" ">Tracking ID</dt>
-            <dd className="text-indigo-600">{data.order.id}</dd>
+            <dd className="text-primary">{data.order.id}</dd>
           </dl>
 
           <dl className="text-sm">

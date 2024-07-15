@@ -1,4 +1,4 @@
-import { Overview, QAProduct } from "./pages";
+import { Overview, QuestionsProduct } from "./pages";
 
 /**
  * @type {import("react-router-dom").RouteObject[]}
@@ -10,6 +10,6 @@ export const questionRoutes = [
   },
   {
     path: ":productId",
-    element: <QAProduct />,
+    element: <QuestionsProduct />,
   },
 ];

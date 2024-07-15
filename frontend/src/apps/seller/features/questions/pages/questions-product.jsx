@@ -37,7 +37,7 @@ const filters = [
   },
 ];
 
-export const QAProduct = () => {
+export const QuestionsProduct = () => {
   const [params] = useSearchParams();
   const { productId } = useParams();
 
@@ -52,7 +52,7 @@ export const QAProduct = () => {
   return (
     <main className="flex-1 space-y-4 px-4 tablet:px-6">
       <PageHeader>
-        <PageHeaderHeading>QA Product</PageHeaderHeading>
+        <PageHeaderHeading>Questions Product</PageHeaderHeading>
       </PageHeader>
 
       <section className="space-y-2">

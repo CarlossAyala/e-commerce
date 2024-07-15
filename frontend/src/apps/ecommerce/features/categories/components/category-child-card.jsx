@@ -15,9 +15,9 @@ export const CategoryChildCard = ({ category }) => {
             className="w-full object-cover object-center"
           />
         </div>
-        <div className="absolute inset-0 overflow-hidden rounded-md bg-gradient-to-t from-foreground" />
+        <div className="absolute inset-0 overflow-hidden rounded-md bg-gradient-to-t from-secondary-foreground" />
         <div className="absolute inset-x-2 bottom-1">
-          <h3 className="line-clamp-1 text-sm font-medium leading-4 text-background tablet:text-base">
+          <h3 className="line-clamp-1 text-sm font-medium leading-4 text-secondary tablet:text-base">
             {category.name}
           </h3>
         </div>

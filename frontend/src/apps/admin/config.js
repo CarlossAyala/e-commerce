@@ -6,16 +6,19 @@ import {
 
 export const NAVS = {
   DASHBOARD: {
-    name: "Dashboard",
+    label: "Dashboard",
     to: "/admin",
+    name: "dashboard",
   },
   CATEGORIES: {
-    name: "Categories",
+    label: "Categories",
     to: "/admin/categories",
+    name: "categories",
   },
   STORES: {
-    name: "Stores",
+    label: "Stores",
     to: "/admin/stores",
+    name: "stores",
   },
 };
 
@@ -25,14 +28,14 @@ export const SIDE_NAV = [
     ...NAVS.CATEGORIES,
     icon: Square3Stack3DIcon,
     subItems: [
-      { name: "Overview", to: NAVS.CATEGORIES.to },
-      { name: "Create", to: `${NAVS.CATEGORIES.to}/create` },
+      { label: "Overview", to: NAVS.CATEGORIES.to },
+      { label: "Create", to: `${NAVS.CATEGORIES.to}/create` },
       {
-        name: "Attach",
+        label: "Attach",
         to: `${NAVS.CATEGORIES.to}/attach`,
       },
       {
-        name: "Detach",
+        label: "Detach",
         to: `${NAVS.CATEGORIES.to}/detach`,
       },
     ],

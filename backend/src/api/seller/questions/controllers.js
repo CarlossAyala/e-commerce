@@ -117,7 +117,6 @@ const findAllByProductId = async (req, res, next) => {
 
   const { limit, offset, order } = new QueryBuilder(req.query)
     .orderBy("createdAt", "DESC")
-    .pagination()
     .build();
 
   const { where } = new QueryBuilder(req.query)

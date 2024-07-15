@@ -9,6 +9,7 @@ router.use(middlewares.authenticate);
 router.use(middlewares.attachStripeAccount);
 
 router.param("paymentMethodId", controllers.validatePaymentMethodId);
+
 router.get("/", controllers.findAll);
 router.get("/:paymentMethodId", controllers.findOne);
 router.get("/session/:sessionId", controllers.findSession);

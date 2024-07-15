@@ -7,8 +7,6 @@ import {
   PageHeaderHeading,
   URLPagination,
   ReviewStars,
-} from "@/shared/components";
-import {
   Card,
   CardDescription,
   CardHeader,
@@ -18,7 +16,7 @@ import {
 } from "@/shared/components";
 import { useDocumentTitle } from "@/shared/hooks";
 import { productActionRoutes, useGetProduct } from "../../products";
-import { reviewListColumns } from "../components/columns";
+import { productsColumns } from "../components/columns";
 import { useGetReviewAvgRating, useGetReviewsProduct } from "../queries";
 
 const filters = [
@@ -27,7 +25,7 @@ const filters = [
   },
 ];
 
-export const ReviewList = () => {
+export const ReviewsProduct = () => {
   const [params] = useSearchParams();
   const { productId } = useParams();
 
@@ -114,7 +112,7 @@ export const ReviewList = () => {
         ) : !reviews.data.rows.length ? (
           <EmptyState title="No reviews" description="No reviews to show" />
         ) : (
-          <DataTable data={reviews.data.rows} columns={reviewListColumns} />
+          <DataTable data={reviews.data.rows} columns={productsColumns} />
         )}
 
         <URLPagination count={reviews.data?.count} />
